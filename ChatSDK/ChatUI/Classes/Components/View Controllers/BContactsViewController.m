@@ -14,9 +14,6 @@
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
 
-#import "BCustomSearchViewController.h"
-#import "BPhonebookManager.h"
-
 #define bCellIdentifier @"bCellIdentifier"
 
 @interface BContactsViewController ()

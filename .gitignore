@@ -5,3 +5,4 @@ ChatSDK Demo.xcworkspace
 Pods
 Podfile.lock
 Modules
+BModules.h.default

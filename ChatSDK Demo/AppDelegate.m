@@ -8,6 +8,12 @@
 
 #import "AppDelegate.h"
 
+#import "BTwitterHelper.h"
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/ChatFirebaseAdapter.h>
+#import <ChatSDK/ChatCoreData.h>
+
 @interface AppDelegate ()
 
 @end
@@ -16,10 +22,53 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+
+    // Configure app for Facebook login
+    [FIRApp configure];
+    [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+    
+    // Start the twitter helper to handle login
+    [BTwitterHelper sharedHelper];
+    
+    // This is the main view that contains the tab bar
+    UIViewController * mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
+    
+    // Create a network adapter to communicate with Firebase
+    // The network adapter handles network traffic
+    BFirebaseNetworkAdapter * adapter = [[BFirebaseNetworkAdapter alloc] init];
+    
+    // Set the login screen
+    // This screen is customizable - for example if you are using the
+    // Two factor authentication module
+    adapter.auth.challengeViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
+    
+    // Set the adapter
+    [BNetworkManager sharedManager].a = adapter;
+    
+    // Set the data handler
+    // The data handler is responsible for persisting data on the device
+    [BStorageManager sharedManager].a = [[BCoreDataManager alloc] init];
+    
+    // Set the root view controller
+    [self.window setRootViewController:mainViewController];
+    
     return YES;
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [FBSDKAppEvents activateApp];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([[url scheme] isEqualToString:[NSString stringWithFormat:@"fb%@",     [BSettingsManager facebookAppId]]]) {
+        return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    }
+    else {
+        return [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication annotation:annotation];
+    }
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -37,10 +86,6 @@
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 }
 
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {

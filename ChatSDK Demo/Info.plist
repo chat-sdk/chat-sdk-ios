@@ -2,20 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>ChatSDK would like to access your photos to customise your profile or image message</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>To send audio messages</string>
-	<key>NSCameraUsageDescription</key>
-	<string>To send an image message</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Chat SDK would like to send location messages</string>
-	<key>NSLocationUsageDescription</key>
-	<string>To send location messages</string>
-	<key>NSContactsUsageDescription</key>
-	<string>ChatSDK would like to check if any of your contacts use this app</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Chat SDK would like to send location messages</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Chat SDK</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -49,11 +51,51 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>To send an image message</string>
+	<key>NSContactsUsageDescription</key>
+	<string>ChatSDK would like to check if any of your contacts use this app</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Chat SDK would like to send location messages</string>
+	<key>NSLocationUsageDescription</key>
+	<string>To send location messages</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Chat SDK would like to send location messages</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To send audio messages</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>ChatSDK would like to access your photos to customise your profile or image message</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
 	<key>chat_sdk</key>
 	<dict>
 		<key>anonymous</key>
@@ -78,7 +120,7 @@
 		<key>firebase</key>
 		<dict>
 			<key>root_path</key>
-			<string>firebase_v4_read</string>
+			<string>firebase_v4_live</string>
 			<key>storage_path</key>
 			<string>gs://chat-sdk-v4.appspot.com</string>
 		</dict>
@@ -111,46 +153,5 @@
 			<string>HeISRl8w3uNcMoLtCexpSRP3NE0DHqbF6hS0B6YxNaVgsRRqU1</string>
 		</dict>
 	</dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
-	<key>CFBundleDisplayName</key>
-	<string>Chat SDK</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
-	<key>CFBundleVersion</key>
-	<string>1</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
 </dict>
 </plist>

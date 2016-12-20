@@ -643,11 +643,10 @@
 
 -(BOOL) showOptions {
     [_textInputView becomeFirstResponder];
-    _keyboardOverlay.alpha = 1;
-    _keyboardOverlay.userInteractionEnabled = YES;
     
     if (_optionsHandler.keyboardView) {
-        [_textInputView becomeFirstResponder];
+        _keyboardOverlay.alpha = 1;
+        _keyboardOverlay.userInteractionEnabled = YES;
     }
     
     return [_optionsHandler show];
