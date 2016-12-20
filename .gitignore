@@ -1,8 +1,8 @@
 .DS_Store
-Build
+Xcode/Build
 Chat SDK Firebase.xcworkspace
-ChatSDK Demo.xcworkspace
-Pods
-Podfile.lock
+Xcode/ChatSDK Demo.xcworkspace
+Xcode/Pods
+Xcode/Podfile.lock
 Modules
 BModules.h.default

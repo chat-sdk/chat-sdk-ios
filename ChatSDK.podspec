@@ -14,9 +14,9 @@ Pod::Spec.new do |s|
   
   s.subspec 'Core' do |core|
 
-    core.source_files = ['Core/Classes/**/*']
+    core.source_files = ['ChatSDK/Core/Classes/**/*']
     core.resource_bundles = {
-      'ChatSDKCore' => ['Core/Assets/**/*']
+      'ChatSDKCore' => ['ChatSDK/Core/Assets/**/*']
     }
 
     core.dependency 'RXPromise', '~> 1.0'
@@ -27,9 +27,9 @@ Pod::Spec.new do |s|
   
   s.subspec 'ChatUI' do |ui|
   
-    ui.source_files = 'ChatUI/Classes/**/*'
+    ui.source_files = 'ChatSDK/ChatUI/Classes/**/*'
     ui.resource_bundles = {
-      'ChatUI' => ['ChatUI/Assets/**/*', 'ChatUI/Interface/**/*']
+      'ChatUI' => ['ChatSDK/ChatUI/Assets/**/*', 'ChatSDK/ChatUI/Interface/**/*']
     }
   
     ui.dependency 'ChatSDK/Core'
@@ -47,9 +47,9 @@ Pod::Spec.new do |s|
   
   s.subspec 'CoreData' do |coredata|
   
-    coredata.source_files = 'CoreData/Classes/**/*'
+    coredata.source_files = 'ChatSDK/CoreData/Classes/**/*'
     coredata.resource_bundles = {
-      'ChatCoreData' => ['CoreData/Assets/**/*']
+      'ChatCoreData' => ['ChatSDK/CoreData/Assets/**/*']
     }
   
     coredata.dependency 'ChatSDK/Core'
@@ -59,9 +59,9 @@ Pod::Spec.new do |s|
   
   s.subspec 'FirebaseAdapter' do |firebase|
   
-    firebase.source_files = 'FirebaseAdapter/Classes/**/*'
+    firebase.source_files = 'ChatSDK/FirebaseAdapter/Classes/**/*'
     firebase.resource_bundles = {
-      'ChatFirebaseAdapter' => ['FirebaseAdapter/Assets/**/*']
+      'ChatFirebaseAdapter' => ['ChatSDK/FirebaseAdapter/Assets/**/*']
     }
 
     firebase.frameworks = 'CoreData', 'SystemConfiguration', 'Security', 'MobileCoreServices', 'CFNetwork', 'MessageUI', 'Accounts', 'Social', 'CoreLocation'
