@@ -171,26 +171,26 @@ The ChatSDK relies on a number of different backends for its functionality.
 **Backendless:** Backendless is a mobile app development platform with server functionality. Backendless provide free targeted push notifications.
 
 1. Create a Firebase account
-..1. Create a Firebase account [here](https://console.firebase.google.com/)
-..2. Create a new project 
+  1. Create a Firebase account [here](https://console.firebase.google.com/)
+  2. Create a new project 
   
 2. Adding Firebase details to your project Info.plist
-..1. Open your new project and click database in the left menu
-..2. Copy the URL at the top of your browser e.g. https://appname.firebaseio.com/
-..3. Modify the URL into the following format: gs://appname.appspot.com
-..4. Copy the modified URL into your plist field: **chat_sdk** -> **firebase** -> **storage_path**
-..5. Enter a custom root_path. 
+  1. Open your new project and click database in the left menu
+  2. Copy the URL at the top of your browser e.g. https://appname.firebaseio.com/
+  3. Modify the URL into the following format: gs://appname.appspot.com
+  4. Copy the modified URL into your plist field: **chat_sdk** -> **firebase** -> **storage_path**
+  5. Enter a custom root_path. 
   
 >**Note:**  
 >The root path is the initial path which your ChatSDK data will be stored on Firebase. It allows you to use a single Firebase database for multiple versions of your project. For example you could create a ```/live``` path and a ```/testing``` path. This allows you to test new features without fear of corrupting your current data model.
 
 3. Configure your Firebase iOS App 
-..1. In your Firebase project, click the cog at the top of the page
-..2. Select Project settings
-..3. Click to add an iOS App
-..4. Enter your BundleID
-..5. Click through the remaining steps (all this code has already been added)
-..6. Copy the GoogleService-Info.plist into your main project folder (replace the previous one copied from ChatSDK)
+  1. In your Firebase project, click the cog at the top of the page
+  2. Select Project settings
+  3. Click to add an iOS App
+  4. Enter your BundleID
+  5. Click through the remaining steps (all this code has already been added)
+  6. Copy the GoogleService-Info.plist into your main project folder (replace the previous one copied from ChatSDK)
 
 >**Note:**  
 >It is worth opening your downloaded ```GoogleService-Info.plist``` and checking there is an ```API_KEY``` field included. Sometimes Firebase's automatic download doesn’t include this in the plist. To rectify, just re-download the plist from the project settings menu.
@@ -204,9 +204,9 @@ To get started with Backendless you need to complete the following steps:
 1. Create an account on [Backendless](https://backendless.com/)
 2. Create a new app on the dashboard
 3. Navigate to your app settings (Manage -> App Settings) and copy the following keys into your plist
-..1. The AppID (**chat_sdk** -> **backendless** -> **app_id**) 
-..2. The iOS Secret Key (**chat_sdk** -> **backendless** -> **app_secret**) 
-..3. The App Version Key (**chat_sdk** -> **backendless** -> **app_secret**) 
+  1. The AppID (**chat_sdk** -> **backendless** -> **app_id**) 
+  2. The iOS Secret Key (**chat_sdk** -> **backendless** -> **app_secret**) 
+  3. The App Version Key (**chat_sdk** -> **backendless** -> **app_secret**) 
 
 You have now added the custom keys to your project. Next, you need to configure the certificates to enable push notifications. 
 
