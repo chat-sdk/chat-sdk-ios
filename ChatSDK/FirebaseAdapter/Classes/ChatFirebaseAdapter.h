@@ -11,9 +11,11 @@
 
 #import <RXPromise.h>
 #import <RXPromise/RXPromise+RXExtension.h>
-#import <ChatSDK/NSManagedObject+Status.h>
-
+#import <Facebook-iOS-SDK/FBSDKCoreKit/FBSDKCoreKit.h>
+#import <Google/SignIn.h>
 #import <Firebase/Firebase.h>
+
+#import <ChatSDK/NSManagedObject+Status.h>
 
 #import <ChatSDK/CCThreadWrapper.h>
 #import <ChatSDK/CCUserWrapper.h>

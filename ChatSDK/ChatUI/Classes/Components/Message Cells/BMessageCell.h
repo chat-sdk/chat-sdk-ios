@@ -11,6 +11,13 @@
 #import "PMessageLayout.h"
 #import "PMessage.h"
 
+// Size of the speech bubble tail
+#define bTailSize 5.0
+
+#define bTopCap 13
+#define bLeftCapLeft 18
+#define bLeftCapRight 13
+
 @interface BMessageCell : UITableViewCell<BMessageDelegate> {
     UIImage * _meBubbleImage;
     UIImage * _replyBubbleImage;
@@ -33,5 +40,6 @@
 -(void) willDisplayCell;
 -(UIView *) cellContentView;
 -(BOOL) supportsCopy;
++(UIImage *) bubbleWithImage: (UIImage *) bubbleImage withColor: (UIColor *) color;
 
 @end

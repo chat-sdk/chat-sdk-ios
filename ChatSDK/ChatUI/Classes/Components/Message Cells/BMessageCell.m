@@ -11,12 +11,6 @@
 #import <ChatSDK/ChatUI.h>
 #import <ChatSDK/ChatCore.h>
 
-// Size of the speech bubble tail
-#define bTailSize 5.0
-
-#define bTopCap 13
-#define bLeftCapLeft 18
-#define bLeftCapRight 13
 
 @implementation BMessageCell
 
@@ -110,7 +104,7 @@
     // Set the message for later use
     _message = message;
     
-    BOOL isMine = [message.userModel isEqual:[BNetworkManager sharedManager].a.core.currentUserModel];
+    BOOL isMine = [[BMessageCache sharedCache] isMine:message];
     if (isMine) {
         [self setReadStatus:message.readStatus];
     }
@@ -118,55 +112,18 @@
         [self setReadStatus:bMessageReadStatusHide];
     }
     
-    //
-    NSString * bubbleImageName = @"";
-    switch (message.messagePosition) {
-        case bMessagePositionFirst:
-            bubbleImageName = @"chat_bubble_right_0S.png";
-            break;
-        case bMessagePositionMiddle:
-            bubbleImageName = @"chat_bubble_right_SS.png";
-            break;
-        case bMessagePositionLast:
-            bubbleImageName = @"chat_bubble_right_ST.png";
-            break;
-        case bMessagePositionSingle:
-            bubbleImageName = @"chat_bubble_right_0T.png";
-            break;
-    }
-    bubbleImageName = [NSBundle res: bubbleImageName];
-    UIImage * rightBubbleImage = [UIImage imageNamed:bubbleImageName];
-    
-    UIImage * leftBubbleImage = [UIImage imageWithCGImage:rightBubbleImage.CGImage
-                                                    scale:rightBubbleImage.scale
-                                              orientation:UIImageOrientationUpMirrored];
-    
-    _meBubbleImage = [rightBubbleImage stretchableImageWithLeftCapWidth:bLeftCapRight topCapHeight:bTopCap];
-    _replyBubbleImage = [leftBubbleImage stretchableImageWithLeftCapWidth:bLeftCapRight topCapHeight:bTopCap];
-    
-    // Update the image
-    UIImage * image = isMine ? _meBubbleImage : _replyBubbleImage;
-
-    UIColor * color = Nil;
-    if (bAllowUserDefinedMessageColor) {
-        color = [BCoreUtilities stringToColor: message.userModel.messageColor];
-    }
-    if (isMine) {
-        color = [BCoreUtilities colorWithHexString:bDefaultMessageColorMe withColorWeight:colorWeight];
-    }
-    else {
-        color = [BCoreUtilities colorWithHexString:bDefaultMessageColorReply withColorWeight:colorWeight];
-    }
+    bMessagePosition position = [[BMessageCache sharedCache] positionForMessage:message];
+    id<PMessage> nextMessage = [[BMessageCache sharedCache] nextMessageForMessage:message];
     
     // Set the bubble to be the correct color
-    bubbleImageView.image = [BMessageCell bubbleWithImage:image withColor:color];
+    bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message withColorWeight:colorWeight];
     
     // If the image has an image URL
     //_profilePicture.hidden = YES;
     //[[AsyncImageLoader sharedLoader] cancelLoadingImagesForTarget:_profilePicture];
 
     // We only want to show the user picture if it is the latest message from the user
-    if (_message.messagePosition & bMessagePositionLast) {
+    if (position & bMessagePositionLast) {
         if (message.userModel) {
             _profilePicture.hidden = NO;
             
@@ -194,8 +151,8 @@
     // We use 10 here because if the messages are less than 10 minutes apart, then we
     // can just compare the minute figures. If they were hours apart they could have
     // the same number of minutes
-    if (message.nextMessage && [message.nextMessage.date minutesFrom:message.date] < 10) {
-        if (message.date.minute == message.nextMessage.date.minute && [message.userModel isEqual: message.nextMessage.userModel]) {
+    if (nextMessage && [nextMessage.date minutesFrom:message.date] < 10) {
+        if (message.date.minute == nextMessage.date.minute && [message.userModel isEqual: nextMessage.userModel]) {
             _timeLabel.text = Nil;
         }
     }
@@ -206,7 +163,7 @@
 //    // We only want to show the name label if the previous message was posted by someone else and if this is enabled in the thread
 //    // Or if the message is mine...
     
-    _nameLabel.hidden = !_message.showUserNameLabelInThread;
+    _nameLabel.hidden = ![_message showUserNameLabelForPosition:position];
     
     // Hide the read receipt view if this is a public thread or if read receipts are disabled
     _readMessageImageView.hidden = [_message.thread.type intValue] & bThreadTypePublic || ![BNetworkManager sharedManager].a.readReceipt;

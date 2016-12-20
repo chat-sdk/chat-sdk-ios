@@ -427,12 +427,6 @@
     }
     
     messageCell = [tableView_ dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    // TODO: Is this necessary?
-    if (message.type.intValue == bMessageTypeAudio) {
-        messageCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    
     messageCell.navigationController = self.navigationController;
     
     // Add a gradient to the cells
@@ -523,9 +517,9 @@
         [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
     }
     
-#ifdef ChatSDKVideoMessageModule
+#ifdef ChatSDKVideoMessagesModule
     if([BNetworkManager sharedManager].a.videoMessage) {
-        if ([cell isKindOfClass:[BNetworkManager sharedManager].a.videoMessage.messageClassCell]) {
+        if ([cell isKindOfClass:[BNetworkManager sharedManager].a.videoMessage.messageCellClass]) {
             
             // Only allow the user to click if the image is not still loading hence the alpha is 1
             if (cell.imageView.alpha == 1) {
@@ -660,6 +654,7 @@
 }
 
 -(BOOL) hideOptions {
+    [_textInputView becomeFirstResponder];
     _keyboardOverlay.alpha = 0;
     _keyboardOverlay.userInteractionEnabled = NO;
     return [_optionsHandler hide];

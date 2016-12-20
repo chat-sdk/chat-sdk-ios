@@ -122,7 +122,7 @@ typedef enum {
 -(id<PMessage>) nextMessage;
 -(bMessagePosition) messagePosition;
 
-- (BOOL)showUserNameLabelInThread;
+- (BOOL)showUserNameLabelForPosition: (bMessagePosition) position;
 
 /**
  * @brief Message flagged on server for moderator attention

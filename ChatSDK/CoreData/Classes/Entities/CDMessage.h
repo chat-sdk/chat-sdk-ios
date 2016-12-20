@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSInteger)imageWidth;
 - (NSInteger)imageHeight;
 
+
+
 @end
 
 NS_ASSUME_NONNULL_END

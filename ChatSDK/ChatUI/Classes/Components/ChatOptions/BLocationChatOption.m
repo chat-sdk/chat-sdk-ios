@@ -46,7 +46,6 @@
     [_locationManager startUpdatingLocation];
     
     return _promise;
-    
 }
 
 - (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {

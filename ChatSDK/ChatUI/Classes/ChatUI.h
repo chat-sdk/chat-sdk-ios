@@ -61,6 +61,7 @@
 #import <ChatSDK/BChatOptionDelegate.h>
 #import <ChatSDK/PChatOptionsHandler.h>
 #import <ChatSDK/BChatOptionsActionSheet.h>
+#import <ChatSDK/BMessageCache.h>
 
 #ifdef ChatSDKAudioMessagesModule
 #import <ChatSDKFirebase/BAudioMessageCell.h>

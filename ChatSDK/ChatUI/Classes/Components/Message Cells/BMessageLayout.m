@@ -7,7 +7,8 @@
 //
 
 #import "BMessageLayout.h"
-#import "BChatUIDefines.h"
+
+#import <ChatSDK/ChatUI.h>
 
 @implementation BMessageLayout
 
@@ -86,8 +87,9 @@
 }
 
 -(float) nameHeight {
+    bMessagePosition pos = [[BMessageCache sharedCache] positionForMessage:_message];
     // Do we want to show the users name label
-    if (_message.showUserNameLabelInThread) {
+    if ([_message showUserNameLabelForPosition:pos]) {
         return bUserNameHeight;
     }
     return 0;
