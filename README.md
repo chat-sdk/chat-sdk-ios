@@ -1,14 +1,16 @@
 # Chat SDK for iOS
 
+<img src="http://img.chatcatapp.com/chat-sdk-hand.jpg" />
+
 Chat SDK is a fully featured open source instant messaging framework for iOS. Chat SDK is fully featured, scalable and flexible and follows the following key principles:
 
 - **Open Source.** The Chat SDK is open source under the MIT license.
 - **Full data control.** You have full and exclusive access to the user's chat data
 - **Quick integration.** Chat SDK is fully featured out of the box
- 
-A demo of the project is available on the App Store
-App Store ![App Store](app_store)
 
+A demo of the project is available on the App Store.  
+
+<a href="https://itunes.apple.com/us/app/chatcat/id962537653?mt=8"><img src="http://www.binpress.com/uploads/store33364/itunes-app-store-logo.png" width="290" height="100" alt="App Store" /></a>
 
 ### Features
 
@@ -20,7 +22,9 @@ App Store ![App Store](app_store)
 - User profiles
 - User search
 
-Full breakdown is available on the [features page][1].
+<img src="http://img.chatcatapp.com/chat-sdk-3.jpg" />
+
+Full breakdown is available on the [features page](http://chatsdk.co/features/).
 
 ### Additional Features
 
@@ -34,7 +38,7 @@ In order to fund the development of the Chat SDK we also offer premium add-ons f
 - Stickers
 - Two Factor Authentication
 
-These modules can be purchased on [our store][2].
+These modules can be purchased on [our store](http://chatsdk.co/pricing/).
 
 ## Running the demo project
 This repository contains a fully functional verion of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
@@ -54,10 +58,10 @@ It's easy to integrate the Chat SDK with an existing project.
   pod "ChatSDK", :path => "[Path to ChatSDK folder]"
 ```
 
-> **Note**
+> **Note**  
 > Chat SDK supports push notifications but this requires the installation of an additional free module. This guide includes the additional steps necessary to setup push notifications. These steps will be marked with a comment. 
 
-For push notifications you should download the free [BackendlessPushHandler][3] module. 
+For push notifications you should download the free [BackendlessPushHandler](http://chatsdk.co/push) module. 
 
 ```
   pod "ChatSDKModules/Backendless", :path => "[Path to ChatSDKModules folder]"
@@ -166,7 +170,7 @@ The ChatSDK relies on a number of different backends for its functionality.
 **Backendless:** Backendless is a mobile app development platform with server functionality. Backendless provide free targeted push notifications.
 
 1) Create a Firebase account
-  a) Create a Firebase account [here][4]
+  a) Create a Firebase account [here](https://console.firebase.google.com/)
   b) Create a new project 
   
 2) Adding Firebase details to your project Info.plist
@@ -176,7 +180,8 @@ The ChatSDK relies on a number of different backends for its functionality.
   d) Copy the modified URL into your plist field: **chat_sdk** -> **firebase** -> **storage_path**
   e) Enter a custom root_path. 
   
->**Note:** The root path is the initial path which your ChatSDK data will be stored on Firebase. It allows you to use a single Firebase database for multiple versions of your project. For example you could create a ```/live``` path and a ```/testing``` path. This allows you to test new features without fear of corrupting your current data model.
+>**Note:**  
+>The root path is the initial path which your ChatSDK data will be stored on Firebase. It allows you to use a single Firebase database for multiple versions of your project. For example you could create a ```/live``` path and a ```/testing``` path. This allows you to test new features without fear of corrupting your current data model.
 
 3. Configure your Firebase iOS App 
   a) In your Firebase project, click the cog at the top of the page
@@ -186,7 +191,8 @@ The ChatSDK relies on a number of different backends for its functionality.
   e) Click through the remaining steps (all this code has already been added)
   f) Copy the GoogleService-Info.plist into your main project folder (replace the previous one copied from ChatSDK)
 
->**Note:** It is worth opening your downloaded ```GoogleService-Info.plist``` and checking there is an ```API_KEY``` field included. Sometimes Firebase's automatic download doesn’t include this in the plist. To rectify, just re-download the plist from the project settings menu.
+>**Note:**  
+>It is worth opening your downloaded ```GoogleService-Info.plist``` and checking there is an ```API_KEY``` field included. Sometimes Firebase's automatic download doesn’t include this in the plist. To rectify, just re-download the plist from the project settings menu.
 
 ## Backendless Set up for push notifications
 
@@ -194,7 +200,7 @@ Configuring your project with Backendless is very simple due to the large amount
 
 To get started with Backendless you need to complete the following steps:
 
-1. Create an account on [Backendless][5]
+1. Create an account on [Backendless](https://backendless.com/)
 2. Create a new app on the dashboard
 3. Navigate to your app settings (Manage -> App Settings) and copy the following keys into your plist
   a) The AppID (**chat_sdk** -> **backendless** -> **app_id**) 
@@ -203,23 +209,16 @@ To get started with Backendless you need to complete the following steps:
 
 You have now added the custom keys to your project. Next, you need to configure the certificates to enable push notifications. 
 
-Backendless provide extremely detailed documentation for this and we recommend you to work through this to set up Push Notifications correctly. You can find the iOS Push Notification guide [here][6].
+Backendless provide extremely detailed documentation for this and we recommend you to work through this to set up Push Notifications correctly. You can find the iOS Push Notification guide [here](https://backendless.com/ios-push-notifications-with-backendless/).
 
->**Note:** There have been some instances of the push notifications not being sent and received until the app has been uploaded to iTunes Connect. We recommend carefully configuring Push Notifications before uploading your app and testing it with TestFlight before final release.
+>**Note:**  
+>There have been some instances of the push notifications not being sent and received until the app has been uploaded to iTunes Connect. We recommend carefully configuring Push Notifications before uploading your app and testing it with TestFlight before final release.
 
 Your project is now set up with the ChatSDK. 
 
-**Note:** Don’t forget that it is still using many of our test accounts for social media.
+>**Note:**  
+>Don’t forget that it is still using many of our test accounts for social media.
 
 You find complete documentation to set these up here.
 
-[1]: http://chatsdk.co/features/
-[2]: http://chatsdk.co/pricing/
-[3]: http://chatsdk.co/push
-[4]: https://console.firebase.google.com/
-[5]: https://backendless.com/
-[6]: https://backendless.com/ios-push-notifications-with-backendless/
-
-
-[app_store]: http://www.binpress.com/uploads/store33364/itunes-app-store-logo.png "App Store"
 
