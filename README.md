@@ -1,6 +1,6 @@
 # Chat SDK for iOS
 
-<img src="http://img.chatcatapp.com/chat-sdk-hand.jpg" />
+<img target="_blank" src="http://img.chatcatapp.com/chat-sdk-hand.jpg" />
 
 Chat SDK is a fully featured open source instant messaging framework for iOS. Chat SDK is fully featured, scalable and flexible and follows the following key principles:
 
@@ -10,7 +10,7 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 
 A demo of the project is available on the App Store.  
 
-<a href="https://itunes.apple.com/us/app/chatcat/id962537653?mt=8"><img src="http://www.binpress.com/uploads/store33364/itunes-app-store-logo.png" width="290" height="100" alt="App Store" /></a>
+<a target="_blank" href="https://itunes.apple.com/us/app/chatcat/id962537653?mt=8"><img src="http://www.binpress.com/uploads/store33364/itunes-app-store-logo.png" width="290" height="100" alt="App Store" /></a>
 
 ### Features
 
@@ -38,7 +38,7 @@ In order to fund the development of the Chat SDK we also offer premium add-ons f
 - Stickers
 - Two Factor Authentication
 
-These modules can be purchased on [our store](http://chatsdk.co/pricing/).
+These modules can be purchased on <a href="http://chatsdk.co/pricing/" target="_blank">our store</a>.
 
 ## Running the demo project
 This repository contains a fully functional verion of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
