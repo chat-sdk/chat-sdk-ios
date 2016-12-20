@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="13F34" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="BLinkedContact" representedClassName="BLinkedContact" syncable="YES">
+        <attribute name="authenticationID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="entityID" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BUser" inverseName="linkedContacts" inverseEntity="BUser" syncable="YES"/>
+    </entity>
+    <entity name="BMessage" representedClassName="BMessage" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="delivered" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="dirty" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="entityID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="placeholder" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="read" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="resource" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="resourcePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="thread" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BThread" inverseName="messages" inverseEntity="BThread" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BUser" inverseName="messages" inverseEntity="BUser" syncable="YES"/>
+    </entity>
+    <entity name="BMetaData" representedClassName="BMetaData" syncable="YES">
+        <attribute name="dirty" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="entityID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BUser" inverseName="metaData" inverseEntity="BUser" syncable="YES"/>
+    </entity>
+    <entity name="BThread" representedClassName="BThread" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="deleted" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="dirty" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="entityID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasUnreadMessages" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="lastMessageAdded" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BUser" inverseName="threadsCreated" inverseEntity="BUser" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BMessage" inverseName="thread" inverseEntity="BMessage" syncable="YES"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BUser" inverseName="threads" inverseEntity="BUser" syncable="YES"/>
+    </entity>
+    <entity name="BUser" representedClassName="BUser" syncable="YES">
+        <attribute name="authenticationID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="authenticationType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="dirty" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="entityID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="lastOnline" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="messageColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageFontName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageFontSize" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="messageTextColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="online" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <relationship name="linkedAccounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BUserAccount" inverseName="user" inverseEntity="BUserAccount" syncable="YES"/>
+        <relationship name="linkedContacts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BLinkedContact" inverseName="owner" inverseEntity="BLinkedContact" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BMessage" inverseName="user" inverseEntity="BMessage" syncable="YES"/>
+        <relationship name="metaData" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BMetaData" inverseName="owner" inverseEntity="BMetaData" syncable="YES"/>
+        <relationship name="threads" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BThread" inverseName="users" inverseEntity="BThread" syncable="YES"/>
+        <relationship name="threadsCreated" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BThread" inverseName="creator" inverseEntity="BThread" syncable="YES"/>
+    </entity>
+    <entity name="BUserAccount" representedClassName="BUserAccount" syncable="YES">
+        <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BUser" inverseName="linkedAccounts" inverseEntity="BUser" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="BLinkedContact" positionX="-614" positionY="36" width="128" height="90"/>
+        <element name="BMessage" positionX="-299" positionY="5" width="128" height="225"/>
+        <element name="BMetaData" positionX="-873" positionY="-54" width="128" height="133"/>
+        <element name="BThread" positionX="25" positionY="-267" width="128" height="210"/>
+        <element name="BUser" positionX="-668" positionY="-270" width="128" height="330"/>
+        <element name="BUserAccount" positionX="-333" positionY="-396" width="128" height="88"/>
+    </elements>
+</model>

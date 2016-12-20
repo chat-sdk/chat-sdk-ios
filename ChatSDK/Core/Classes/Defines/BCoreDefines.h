@@ -1,0 +1,27 @@
+//
+//  BCoreDefines.h
+//  Pods
+//
+//  Created by Benjamin Smiley-andrews on 25/11/2015.
+//
+//
+
+#ifndef BCoreDefines_h
+#define BCoreDefines_h
+
+#define bProfilePictureSize CGSizeMake(300, 300)
+#define bProfilePictureThumbnailSize CGSizeMake(100, 100)
+
+// How longer after the user stops typing until the recipient
+// stops seeing the "typing" indicator
+#define bTypingTimeout 5.0
+#define bLocationDefaultArea 1000
+
+#define bDefaultMessageColorMe @"abcff4"
+#define bDefaultMessageColorReply @"d7d4d3"
+
+#define bDefaultProfileImage @"ChatUI.bundle/icn_100_anonymous.png"
+#define bDefaultPublicGroupImage @"ChatUI.bundle/icn_100_anonymousGroup.png"
+#define bDefaultPlaceholderImage @"ChatUI.bundle/icn_300_placeholder.png"
+
+#endif /* BCoreDefines_h */

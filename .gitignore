@@ -1,0 +1,7 @@
+.DS_Store
+Build
+Chat SDK Firebase.xcworkspace
+ChatSDK Demo.xcworkspace
+Pods
+Podfile.lock
+Modules
