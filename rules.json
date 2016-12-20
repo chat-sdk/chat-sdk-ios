@@ -1,0 +1,226 @@
+{
+  "rules": {
+    //".read": true,
+    //".write": "auth != null",
+    
+    "$root": {
+      
+      "flagged": {
+        "threads": {
+          "$thread_id": {
+            "messages": {
+               "$message_id": {
+                  ".read": "root.child($root+'/users/'+auth.uid).exists()",
+                  ".write":"root.child($root+'/users/'+auth.uid).exists()",
+
+                  "user-firebase-id":{
+                    ".validate": "root.child($root+'/users/'+newData.val()).exists()"
+                  },
+                  "creator-enitity-id": {
+                    ".validate": "newData.val() == auth.uid"
+                  }
+               }
+            }
+          }
+        }
+      },
+      
+      "public-threads": {
+        
+        // Only users who have a profile can create and read
+        // public threads
+        ".read": "root.child($root+'/users/'+auth.uid).exists()",
+        ".write":"root.child($root+'/users/'+auth.uid).exists()",
+        
+        "$thread_id": {
+          
+        }
+      },
+      
+      "threads": {
+        "$thread_id": {
+
+          // The user must have a profile to read thread
+          ".read": "root.child($root+'/users/'+auth.uid).exists()",
+          ".write": "root.child($root+'/users/'+auth.uid).exists()",
+          //".read": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
+          //".write": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
+          
+          "details": {
+            
+            //"creation-date": {
+              // This can only be set on creation - the time must be the current time
+            //  ".validate": "data.val() == null && newData.val() == now"
+            //},
+            
+            "last-message-added": {
+              // Can only be set to current time
+              ".validate": "newData.val() == now || data.val() == null"
+            },
+            
+            "name": {
+              // Can only be set on thread creation
+              ".validate": "data.val() == null"
+            },
+            
+            "creator-entity-id": {
+              // Can only be set on thread creation
+              ".validate": "data.val() == null && newData.val() == auth.uid"
+            },
+            
+            "type": {
+              // Can only be set on thread creation must be 0 or 1
+              ".validate": "data.val() == null && (newData.val() == 0 || newData.val() == 1)"
+            }
+          },
+          
+          "messages": {
+          
+          //".validate": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
+          
+          // Only thread members can read and write messages
+          ".read": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
+          ".write": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
+          
+            "$message_id": {
+            
+              "date": {
+                // Can only be set on message creation, must be current time
+                ".validate": "data.val() == null && newData.val() == now"
+              },
+            
+              "payload": {
+                // Can only be set on message creation
+                ".validate": "data.val() == null"
+              },
+            
+              "type": {
+                // Can only be set on message creation must be 0, 1 or 2
+                ".validate": "data.val() == null && (newData.val() >=0 && newData.val() <= 4)"
+              },
+            
+              "user-firebase-id": {
+                // Can only be set on message creation - a user can only mark a message with their uid
+                ".validate": "data.val() == null && newData.val() == auth.uid"
+              },
+              
+              "read": {
+                
+              }
+            }
+          },
+          
+          "users": {
+            
+            // For a user to be added to the thread, they should exist in the users area,
+            ".validate": "root.child($root+'/users/'+auth.uid).exists() && 
+                          // If this is a public thread, then the user must have an account
+                          (root.child($root+'/threads/'+$thread_id+'/details/type').val() == 1 && 
+                            root.child($root+'/users/'+auth.uid).exists()) || 
+                          // If this is a private thread, then only the creator can add a user
+                          (root.child($root+'/threads/'+$thread_id+'/details/type').val() == 0 && 
+                            (root.child($root+'/threads/'+$thread_id+'/details/creator-entity-id').val() == auth.uid || 
+                            root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()))",
+            
+            // The user must be a member of the thread to see which users exist
+            //".read": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
+            
+            // Anyone can add to a public group
+            // To write to a private group you must be the creator or a member
+            //".write": "(root.child($root+'/threads/'+$thread_id+'/details/type').val() == 1 && 
+            //              root.child($root+'/users/'+auth.uid).exists()) || 
+            //           (root.child($root+'/threads/'+$thread_id+'/details/type').val() == 0 && 
+            //              (root.child($root+'/threads/'+$thread_id+'/details/creator-entity-id').val() == auth.uid || 
+            //               root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()))",
+                           
+            "$user_id": {
+              "name": {
+                // The user ID should exist
+                ".validate": "root.child($root+'/users/'+auth.uid).exists()"
+              }
+            }
+          }
+        }
+      },
+      
+      "users": {
+        "$user_id": {
+          
+          ".read": "auth.uid != null",
+          ".write": "auth.uid != null",
+          
+          "authentication-id": {
+             ".validate": "auth.uid == $user_id && newData.val() == auth.uid"
+          },
+          
+          "last-online": {
+            ".validate": "auth.uid == $user_id && newData.val() == now" 
+          },
+          
+          "threads": {
+             "$thread_id": {
+             }
+          }
+        }
+      },
+      
+      "searchIndex": {
+
+        // Any authenticated user can read the data
+        ".read": "root.child($root+'/users/'+auth.uid).exists()",
+
+        // Index the items to improve search performance 
+        ".indexOn": ["name", "email", "phone"],
+
+        "$user_id": {
+          
+          // We can only write to the index related to our user
+          ".write": "$user_id == auth.uid"
+        
+        }
+      },
+      
+      // GeoFire Rules or location based chat
+      "location": {
+      // Allow anyone to read the GeoFire index
+      ".read": true,
+
+      // Index each location's geohash for faster querying
+      ".indexOn": ["g"],
+
+      // Schema validation
+      "$key": {
+        // Allow anyone to add, update, or remove keys in the GeoFire index
+        ".write": true,
+
+        // Key validation
+        ".validate": "newData.hasChildren(['g', 'l']) && newData.getPriority().length <= 22 && newData.getPriority().length > 0",
+
+        // Geohash validation
+        "g": {
+          ".validate": "newData.val() == newData.parent().getPriority()"
+        },
+
+        // Location coordinates validation
+        "l": {
+          "0" : {
+            ".validate": "newData.isNumber() && newData.val() >= -90 && newData.val() <= 90"
+          },
+          "1" : {
+            ".validate": "newData.isNumber() && newData.val() >= -180 && newData.val() <= 180"
+          },
+          "$other": {
+            ".validate": false
+          }
+        },
+
+        // Don't allow any other keys to be written
+        "$other": {
+          ".validate": false
+        }
+      }
+    }
+      
+    }
+  }
+}
