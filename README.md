@@ -70,9 +70,9 @@ For push notifications you should download the free [BackendlessPushHandler](htt
 3. Run ```Pod install```  
 4. Copy the **BTwitterHelper** and **GooglerService-Info.plist** files into your main project target folder  
 5. Copy the following rows from the ChatSDK **Info.plist** file to your project's Info.plist  
-..1. chat_sdk
-..2. App Transport Security Settings
-..3. Privacy rows appropriate for your project (location, photo library, microphone, camera etc)
+  1. chat_sdk
+  2. App Transport Security Settings
+  3. Privacy rows appropriate for your project (location, photo library, microphone, camera etc)
 6. Open the **AppDelegate.m** add the following code to initialise the chat
 
 ```objc
