@@ -7,18 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Google/SignIn.h>
 
 @class MBProgressHUD;
 
-@interface BLoginViewController : UIViewController<UITextFieldDelegate, GIDSignInDelegate, GIDSignInUIDelegate> {
+@interface BLoginViewController : UIViewController<UITextFieldDelegate> {
     UITapGestureRecognizer * _tapRecognizer;
     NSTimer * _timer;
     MBProgressHUD * _hud;
-    
     id _internetConnectionObserver;
-    
-    BOOL googleSignInOn; // There is a delay when a user logs in with Google, we can use this BOOL to show HUD while we call the delegate method
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
@@ -33,7 +29,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (weak, nonatomic) IBOutlet UIButton *googleButton;
-
 
 @property (weak, nonatomic) IBOutlet UIImageView *splashView;
 

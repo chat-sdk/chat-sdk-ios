@@ -132,7 +132,9 @@
         [view dismissViewControllerAnimated:YES completion:nil];
     }];
     
+#ifdef ChatSDKContactBookModule
     [view addAction:phoneBook];
+#endif
     [view addAction:nameSearch];
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];

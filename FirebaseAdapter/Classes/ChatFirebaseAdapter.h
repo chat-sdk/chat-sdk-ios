@@ -32,6 +32,7 @@
 #import <ChatSDK/BFirebaseSearchHandler.h>
 #import <ChatSDK/BFirebaseModerationHandler.h>
 #import <ChatSDK/BFirebasePublicThreadHandler.h>
+#import <ChatSDK/BGoogleLoginHelper.h>
 
 #ifdef ChatSDKReadReceiptsModule
 #import <ChatSDKFirebase/BFirebaseReadReceiptHandler.h>

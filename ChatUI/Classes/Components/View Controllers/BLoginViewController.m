@@ -78,17 +78,7 @@
 
     anonymousButton.hidden = !anonymousButton.enabled;
     
-    
     [self updateButtonStateForInternetConnection];
-    
-    // TODO: Remove this
-    [GIDSignIn sharedInstance].delegate = self;
-    [GIDSignIn sharedInstance].uiDelegate = self;
-    [GIDSignIn sharedInstance].clientID = [BSettingsManager googleClientKey]; //@"530766463312-set738214thf1ma67mckei7u5hp2nr2m.apps.googleusercontent.com";
-    
-    [[GIDSignIn sharedInstance] setScopes:@[@"https://www.googleapis.com/auth/plus.login", @"https://www.googleapis.com/auth/plus.me"]];
-    
-    googleSignInOn = NO;
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -167,13 +157,13 @@
     [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeRegister),
                                                                   bLoginEmailKey: emailField.text,
                                                                            bLoginPasswordKey: passwordField.text}].thenOnMain(
-                                                        ^id(id<PUser> user) {
+                                                         ^id(id<PUser> user) {
                                                             [self loginButtonPressed:Nil];
                                                             return Nil;
-                                                        }, ^id(NSError * error) {
+                                                         }, ^id(NSError * error) {
                                                             [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
                                                             return Nil;
-                                                        });
+                                                         });
 }
 
 -(void) hideKeyboard {
@@ -184,6 +174,31 @@
 - (IBAction)facebookButtonPressed:(id)sender {
     [self showHUD];
     [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeFacebook)}].thenOnMain(
+                                                        ^id(id<PUser> user) {
+                                                           [self authenticationFinished];
+                                                           return Nil;
+                                                        }, ^id(NSError * error) {
+                                                           [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+                                                           return Nil;
+                                                        });
+
+}
+
+- (IBAction)twitterButtonPressed:(id)sender {
+    [self showHUD];
+    [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeTwitter)}].thenOnMain(
+                                                        ^id(id<PUser> user) {
+                                                           [self authenticationFinished];
+                                                           return Nil;
+                                                        }, ^id(NSError * error) {
+                                                           [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+                                                           return Nil;
+                                                        });
+}
+
+- (IBAction)googleButtonPressed:(id)sender {
+    [self showHUD];
+    [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeGoogle)}].thenOnMain(
                                                        ^id(id<PUser> user) {
                                                            [self authenticationFinished];
                                                            return Nil;
@@ -191,12 +206,11 @@
                                                            [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
                                                            return Nil;
                                                        });
-
 }
 
-- (IBAction)twitterButtonPressed:(id)sender {
+- (IBAction)anonymousButtonPressed:(id)sender {
     [self showHUD];
-    [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeTwitter)}].thenOnMain(
+    [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeAnonymous)}].thenOnMain(
                                                       ^id(id<PUser> user) {
                                                           [self authenticationFinished];
                                                           return Nil;
@@ -204,25 +218,6 @@
                                                           [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
                                                           return Nil;
                                                       });
-}
-
-- (IBAction)googleButtonPressed:(id)sender {
-    
-    googleSignInOn = YES;
-    [self showHUD];
-    [[GIDSignIn sharedInstance] signIn];
-}
-
-- (IBAction)anonymousButtonPressed:(id)sender {
-    [self showHUD];
-    [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeAnonymous)}].thenOnMain(
-                                                    ^id(id<PUser> user) {
-                                                        [self authenticationFinished];
-                                                        return Nil;
-                                                    }, ^id(NSError * error) {
-                                                        [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
-                                                        return Nil;
-                                                    });
 }
 
 - (IBAction)termsAndConditionsButtonPressed:(id)sender {
@@ -317,26 +312,6 @@
     anonymousButton.alpha = connected ? 1 : 0.6;
 }
 
-// Implement the required GIDSignInDelegate methods
-- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    
-    [self showHUD];
-    googleSignInOn = NO;
-    
-    if (error == nil) {
-        
-        [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeGoogle)}].thenOnMain(^id(id<PUser> user) {
-            
-            [self authenticationFinished];
-             return Nil;
-        }, ^id(NSError * error) {
-            [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
-            return Nil;
-        });
-    }
-    else {
-        [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
-    }
-}
+
 
 @end

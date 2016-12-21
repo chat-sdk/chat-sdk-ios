@@ -155,14 +155,25 @@
             
         }
             break;
+        // TODO: Test this
         case bAccountTypeGoogle:
         {
-            GIDAuthentication * authentication = [GIDSignIn sharedInstance].currentUser.authentication;
+            BGoogleLoginHelper * helper = [[BGoogleLoginHelper alloc] init];
+            [helper login].thenOnMain(^id(id success) {
+
+                GIDAuthentication * authentication = [GIDSignIn sharedInstance].currentUser.authentication;
+                
+                FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:authentication.idToken
+                                                                                  accessToken:authentication.accessToken];
+                
+                [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
+               
+                return Nil;
+            }, ^id(NSError * error) {
+                handleResult(Nil, error);
+                return Nil;
+            });
             
-            FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:authentication.idToken
-                                                                              accessToken:authentication.accessToken];
-            
-            [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
         }
             break;
         case bAccountTypePassword:

@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.2.1"
+  s.version          = "4.2.2"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = 'MIT'
   s.author           = { "Ben Smiley" => "ben@chatsdk.co" }
-  s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => '4.2.1' }
+  s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => '4.2.2' }
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
@@ -14,9 +14,9 @@ Pod::Spec.new do |s|
   
   s.subspec 'Core' do |core|
 
-    core.source_files = ['ChatSDK/Core/Classes/**/*']
+    core.source_files = ['Core/Classes/**/*']
     core.resource_bundles = {
-      'ChatSDKCore' => ['ChatSDK/Core/Assets/**/*']
+      'ChatSDKCore' => ['Core/Assets/**/*']
     }
 
     core.dependency 'RXPromise', '~> 1.0'
@@ -27,13 +27,12 @@ Pod::Spec.new do |s|
   
   s.subspec 'ChatUI' do |ui|
   
-    ui.source_files = 'ChatSDK/ChatUI/Classes/**/*'
+    ui.source_files = 'ChatUI/Classes/**/*'
     ui.resource_bundles = {
-      'ChatUI' => ['ChatSDK/ChatUI/Assets/**/*', 'ChatSDK/ChatUI/Interface/**/*']
+      'ChatUI' => ['ChatUI/Assets/**/*', 'ChatUI/Interface/**/*']
     }
   
     ui.dependency 'ChatSDK/Core'
-    ui.dependency 'Google/SignIn', '~> 3.0'
     ui.dependency 'MBProgressHUD', '~> 1.0'
     ui.dependency 'VENTokenField', '~> 2.0'
     ui.dependency 'SDWebImage', '~> 3.0'
@@ -47,9 +46,9 @@ Pod::Spec.new do |s|
   
   s.subspec 'CoreData' do |coredata|
   
-    coredata.source_files = 'ChatSDK/CoreData/Classes/**/*'
+    coredata.source_files = 'CoreData/Classes/**/*'
     coredata.resource_bundles = {
-      'ChatCoreData' => ['ChatSDK/CoreData/Assets/**/*']
+      'ChatCoreData' => ['CoreData/Assets/**/*']
     }
   
     coredata.dependency 'ChatSDK/Core'
@@ -59,9 +58,9 @@ Pod::Spec.new do |s|
   
   s.subspec 'FirebaseAdapter' do |firebase|
   
-    firebase.source_files = 'ChatSDK/FirebaseAdapter/Classes/**/*'
+    firebase.source_files = 'FirebaseAdapter/Classes/**/*'
     firebase.resource_bundles = {
-      'ChatFirebaseAdapter' => ['ChatSDK/FirebaseAdapter/Assets/**/*']
+      'ChatFirebaseAdapter' => ['FirebaseAdapter/Assets/**/*']
     }
 
     firebase.frameworks = 'CoreData', 'SystemConfiguration', 'Security', 'MobileCoreServices', 'CFNetwork', 'MessageUI', 'Accounts', 'Social', 'CoreLocation'
@@ -74,7 +73,7 @@ Pod::Spec.new do |s|
     firebase.dependency 'Firebase/Auth'
     firebase.dependency 'Firebase/Messaging'
 
-    firebase.dependency 'Google/SignIn'
+    firebase.dependency 'Google/SignIn', '~> 3.0'
     firebase.dependency 'TwitterKit', '~>1.12'
   
     firebase.library = 'icucore'
