@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.2.2"
+  s.version          = "4.2.3"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = 'MIT'
   s.author           = { "Ben Smiley" => "ben@chatsdk.co" }
-  s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => '4.2.2' }
+  s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => '4.2.3' }
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
@@ -73,8 +73,12 @@ Pod::Spec.new do |s|
     firebase.dependency 'Firebase/Auth'
     firebase.dependency 'Firebase/Messaging'
 
-    firebase.dependency 'Google/SignIn', '~> 3.0'
-    firebase.dependency 'TwitterKit', '~>1.12'
+    #firebase.dependency 'Google/SignIn', '~> 3.0'
+    #firebase.dependency 'TwitterKit', '~>1.12'
+  
+  	firebase.vendored_frameworks = 'FirebaseAdapter/Frameworks/GGLCore.framework'
+  	firebase.vendored_frameworks = 'FirebaseAdapter/Frameworks/GGLSignIn.framework'
+  	firebase.vendored_frameworks = 'FirebaseAdapter/Frameworks/TwitterKit.framework'
   
     firebase.library = 'icucore'
   

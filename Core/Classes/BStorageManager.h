@@ -7,14 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CDUser.h"
-#import "CDMessage.h"
-#import "CDThread.h"
-#import "PEntity.h"
-#import "CDUserAccount.h"
-#import "CDUserConnection.h"
-#import "CDGroup.h"
-#import "BStorageAdapter.h"
+
+@protocol BStorageAdapter;
 
 @interface BStorageManager : NSObject {
 }

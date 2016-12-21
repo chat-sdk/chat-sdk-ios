@@ -7,9 +7,9 @@
 //
 
 #import "CDUserConnection.h"
-#import "CDGroup.h"
-#import "CDUser.h"
-#import <ChatSDK/BStorageManager.h>
+
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatCoreData.h>
 
 #define bSubscriptionTypeKey @"subscriptionType"
 

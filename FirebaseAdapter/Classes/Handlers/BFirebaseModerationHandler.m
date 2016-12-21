@@ -8,11 +8,8 @@
 
 #import "BFirebaseModerationHandler.h"
 
-#import <RXPromise/RXPromise.h>
-
-#import <ChatSDK/PMessage.h>
-#import <ChatSDK/BStorageManager.h>
-#import <ChatSDK/CCMessageWrapper.h>
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatFirebaseAdapter.h>
 
 @implementation BFirebaseModerationHandler
 
