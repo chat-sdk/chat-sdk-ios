@@ -50,6 +50,7 @@
     NSArray * entities = [[BStorageManager sharedManager].a fetchEntitiesWithName:bUserConnectionEntity withPredicate:predicate];
     [[BStorageManager sharedManager].a deleteEntities:entities];
     
+    return [RXPromise resolveWithResult:Nil];
 }
 
 -(RXPromise *) searchViewControllerForType: (bSearchType) type exclude: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {

@@ -9,6 +9,8 @@
 #import <ChatSDK/BTextInputDelegate.h>
 #import <ChatSDK/bChatState.h>
 
+#import <ChatSDK/BChatOptionDelegate.h>
+
 @class MPMoviePlayerController;
 @class CLLocationManager;
 @class MBProgressHUD;
@@ -30,7 +32,6 @@ typedef enum {
 
 
 @protocol PThread;
-@protocol BChatOptionDelegate;
 @protocol PChatOptionsHandler;
 
 // TODO: Check if there are unused class variables

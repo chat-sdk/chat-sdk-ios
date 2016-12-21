@@ -14,6 +14,7 @@
 #import "MBProgressHUD.h"
 #import "TOCropViewController.h"
 #import "UIImageView+WebCache.h"
+#import "NSDate+DateTools.h"
 
 #import <ChatSDK/BChatUIDefines.h>
 #import <ChatSDK/BMessageLayout.h>
@@ -24,7 +25,6 @@
 #import <ChatSDK/NSMutableArray+User.h>
 #import <ChatSDK/UITextView+Resize.h>
 #import <ChatSDK/NSDate+Additions.h>
-#import <NSDate+DateTools.h>
 
 #import <ChatSDK/BThreadCell.h>
 

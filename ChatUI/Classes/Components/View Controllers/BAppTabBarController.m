@@ -34,8 +34,6 @@
     
     self.delegate = self;
     
-    NSMutableArray * tabs = [NSMutableArray new];
-    
     self.viewControllers = [[BInterfaceManager sharedManager].a tabBarNavigationViewControllers];
 
     // Listen to see if the user logs out

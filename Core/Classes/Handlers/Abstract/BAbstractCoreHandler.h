@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol PCoreHandler;
+#import <ChatSDK/PCoreHandler.h>
 
 @interface BAbstractCoreHandler : NSObject<PCoreHandler>
 
