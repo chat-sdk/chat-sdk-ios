@@ -29,5 +29,8 @@
     }, Nil);
 }
 
+-(RXPromise *) uploadFile:(NSData *)file withName: (NSString *) name mimeType: (NSString *) mimeType {
+    assert(NO);
+}
 
 @end

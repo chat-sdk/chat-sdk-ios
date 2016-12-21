@@ -21,4 +21,3 @@
 @end
 
 #endif /* PStickersHandler_h */
-  

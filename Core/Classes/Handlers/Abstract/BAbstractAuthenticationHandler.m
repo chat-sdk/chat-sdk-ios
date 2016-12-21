@@ -45,4 +45,43 @@
     return [[NSUserDefaults standardUserDefaults] dictionaryForKey:bCurrentUserLoginInfo];
 }
 
+/**
+ * @brief Check to see if the user is already authenticated
+ */
+-(RXPromise *) authenticateWithCachedToken {
+    assert(NO);
+}
+
+/**
+ * @brief Authenticate with Firebase
+ */
+-(RXPromise *) authenticateWithDictionary: (NSDictionary *) details {
+    assert(NO);
+}
+
+/**
+ * @brief Checks whether the user has been authenticated this session
+ */
+-(BOOL) userAuthenticated {
+    assert(NO);
+}
+
+/**
+ * @brief Logout the user from the current account
+ */
+-(RXPromise *) logout {
+    assert(NO);
+}
+
+/**
+ * @brief The view controller that should be displayed when the user isn't logged in
+ */
+-(UIViewController *) challengeViewController {
+    assert(NO);
+}
+
+-(void) setChallengeViewController: (UIViewController *) viewController {
+    assert(NO);
+}
+
 @end

@@ -9,11 +9,11 @@
 #ifndef ChatUI_h
 #define ChatUI_h
 
-#import <KeepLayout.h>
-#import <UIImage+Resize.h>
-#import <MBProgressHUD.h>
-#import <TOCropViewController.h>
-#import <UIImageView+WebCache.h>
+#import "KeepLayout.h"
+#import "UIImage+Resize.h"
+#import "MBProgressHUD.h"
+#import "TOCropViewController.h"
+#import "UIImageView+WebCache.h"
 
 #import <ChatSDK/BChatUIDefines.h>
 #import <ChatSDK/BMessageLayout.h>

@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.2.3"
+  s.version          = "4.2.4"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = 'MIT'
   s.author           = { "Ben Smiley" => "ben@chatsdk.co" }
-  s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => '4.2.3' }
+  s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => '4.2.4' }
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
@@ -15,9 +15,9 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |core|
 
     core.source_files = ['Core/Classes/**/*']
-    core.resource_bundles = {
-      'ChatSDKCore' => ['Core/Assets/**/*']
-    }
+    #core.resource_bundles = {
+    #  'ChatSDKCore' => ['Core/Assets/**/*']
+    #}
 
     core.dependency 'RXPromise', '~> 1.0'
     core.dependency 'Reachability', '~> 3.0'
@@ -59,9 +59,9 @@ Pod::Spec.new do |s|
   s.subspec 'FirebaseAdapter' do |firebase|
   
     firebase.source_files = 'FirebaseAdapter/Classes/**/*'
-    firebase.resource_bundles = {
-      'ChatFirebaseAdapter' => ['FirebaseAdapter/Assets/**/*']
-    }
+    #firebase.resource_bundles = {
+    #  'ChatFirebaseAdapter' => ['FirebaseAdapter/Assets/**/*']
+    #}
 
     firebase.frameworks = 'CoreData', 'SystemConfiguration', 'Security', 'MobileCoreServices', 'CFNetwork', 'MessageUI', 'Accounts', 'Social', 'CoreLocation'
 

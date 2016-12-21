@@ -9,12 +9,6 @@
 #ifndef PCoreHandler_h
 #define PCoreHandler_h
 
-#import <RXPromise/RXPromise.h>
-#import <ChatSDK/PUser.h>
-#import <ChatSDK/PThread_.h>
-#import <ChatSDK/PMessage.h>
-#import <ChatSDK/bChatState.h>
-
 @class RXPromise;
 @protocol PUser;
 @protocol PMessage;
@@ -127,11 +121,6 @@
 
 -(void) sendLocalSystemMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID;
 -(void) sendLocalSystemMessageWithText:(NSString *)text type: (bSystemMessageType) type withThreadEntityID:(NSString *)threadID;
-
-
-// TODO: Are these used?
-//-(RXPromise *) acceptSubscriptionRequestForUser: (id<PUser>) user;
-//-(RXPromise *) rejectSubscriptionRequestForUser: (id<PUser>) user;
 
 
 @end

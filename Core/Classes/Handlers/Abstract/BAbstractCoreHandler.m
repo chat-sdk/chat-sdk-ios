@@ -134,7 +134,105 @@
     return user;
 }
 
+/**
+ * @brief Update the user on the server
+ */
+-(RXPromise *) pushUser {
+    assert(NO);
+}
+
+/**
+ * @brief Return the current user data
+ */
+-(id<PUser>) currentUserModel {
+    assert(NO);
+}
+
+// TODO: Consider removing / refactoring this
+/**
+ * @brief Mark the user as online
+ */
+-(void) setUserOnline {
+    assert(NO);
+}
+
+/**
+ * @brief Connect to the server
+ */
+
+-(void) goOffline {
+    assert(NO);
+}
 
 
+/**
+ * @brief Disconnect from the server
+ */
+-(void) goOnline {
+    assert(NO);
+}
+
+// TODO: Consider removing / refactoring this
+/**
+ * @brief Subscribe to a user's updates
+ */
+-(void)observeUser: (NSString *)entityID {
+    assert(NO);
+}
+
+/**
+ * @brief This method invites adds the users provided to a a conversation thread
+ * Register block to:
+ * - Handle thread creation
+ */
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                                name: (NSString *) name
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+    assert(NO);
+}
+
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) thread {
+    assert(NO);
+}
+
+/**
+ * @brief Add users to a thread
+ */
+-(RXPromise *) addUsers: (NSArray<PUser> *) userIDs toThread: (id<PThread>) threadModel {
+    assert(NO);
+}
+
+/**
+ * @brief Remove users from a thread
+ */
+-(RXPromise *) removeUsers: (NSArray<PUser> *) userIDs fromThread: (id<PThread>) threadModel {
+    assert(NO);
+}
+
+/**
+ * @brief Lazy loading of messages this method will load
+ * that are not already in memory
+ */
+-(RXPromise *) loadMoreMessagesForThread: (id<PThread>) threadModel {
+    assert(NO);
+}
+
+/**
+ * @brief This method deletes an existing thread. It deletes the thread from memory
+ * and removes the user from the thread so the user no longer recieves notifications
+ * from the thread
+ */
+-(RXPromise *) deleteThread: (id<PThread>) thread {
+    assert(NO);
+}
+
+-(RXPromise *) leaveThread: (id<PThread>) thread {
+    assert(NO);
+}
+
+-(RXPromise *) joinThread: (id<PThread>) thread {
+    assert(NO);
+}
 
 @end

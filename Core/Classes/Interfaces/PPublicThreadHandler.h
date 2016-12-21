@@ -9,7 +9,7 @@
 #ifndef PPublicThreadHandler_h
 #define PPublicThreadHandler_h
 
-#import <RXPromise.h>
+@class RXPromise;
 
 @protocol PPublicThreadHandler <NSObject>
 

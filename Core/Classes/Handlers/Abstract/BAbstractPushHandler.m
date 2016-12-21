@@ -78,5 +78,29 @@
     [self pushToChannels:userChannels withData:dict];
 }
 
+- (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    assert(NO);
+}
+
+- (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    assert(NO);
+}
+
+-(void) registerForPushNotificationsWithApplication: (UIApplication *) app launchOptions: (NSDictionary *) options {
+    assert(NO);
+}
+
+-(void) subscribeToPushChannel: (NSString *) channel {
+    assert(NO);
+}
+
+-(void) unsubscribeToPushChannel: (NSString *) channel {
+    assert(NO);
+}
+
+-(void) pushToChannels: (NSArray *) channels withData:(NSDictionary *) data {
+    assert(NO);
+}
+
 
 @end
