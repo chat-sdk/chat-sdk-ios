@@ -10,11 +10,11 @@
 #define ChatUI_h
 
 #import "KeepLayout.h"
-#import "UIImage+Resize.h"
 #import "MBProgressHUD.h"
 #import "TOCropViewController.h"
 #import "UIImageView+WebCache.h"
 #import "NSDate+DateTools.h"
+#import "CountryPicker.h"
 
 #import <ChatSDK/BChatUIDefines.h>
 #import <ChatSDK/BMessageLayout.h>
@@ -46,6 +46,7 @@
 #import <ChatSDK/BInterfaceManager.h>
 #import <ChatSDK/BDetailedProfileDefines.h>
 #import <ChatSDK/BAppTabBarController.h>
+#import <ChatSDK/BDefaultInterfaceAdapter.h>
 
 #import <ChatSDK/BTextInputView.h>
 

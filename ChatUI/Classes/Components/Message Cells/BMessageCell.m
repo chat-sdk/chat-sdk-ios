@@ -84,6 +84,8 @@
         case bMessageReadStatusRead:
             imageName = @"icn_message_read.png";
             break;
+        default:
+            break;
     }
     
     if (imageName) {

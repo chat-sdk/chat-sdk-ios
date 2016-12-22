@@ -7,8 +7,9 @@
 //
 
 #import "BSearchIndexViewController.h"
-#import <ChatSDK/NSBundle+ChatUI.h>
-#import <ChatSDK/NSArray+KeyPair.h>
+
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
 
 #define bTableCell @"cell"
 #define bSelectedIndexName @"selectedIndexName"

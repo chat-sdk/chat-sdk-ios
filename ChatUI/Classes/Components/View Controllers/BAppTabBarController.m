@@ -64,13 +64,6 @@
         [weakSelf updateBadge];
     }];
     
-    // Set the previous value
-//    [BInterfaceManager sharedManager].a.privateThreadsViewController.tabBarItem.badgeValue = [[NSUserDefaults standardUserDefaults] stringForKey:bMessagesBadgeValueKey];
-
-    NSInteger privateThreadIndex = [self.tabBarController.viewControllers indexOfObject:[BInterfaceManager sharedManager].a.privateThreadsViewController];
-    // Using self.tabbar will correctly set the badge for the specific index
-    [self.tabBar.items objectAtIndex:privateThreadIndex].badgeValue = [[NSUserDefaults standardUserDefaults] stringForKey:bMessagesBadgeValueKey];
-    
     [self updateBadge];
 }
 
@@ -121,7 +114,7 @@
     // The message view open with this thread?
     // Get the number of unread messages
     int count = [BNetworkManager sharedManager].a.core.currentUserModel.unreadMessageCount;
-    NSString * badge = Nil;
+    NSString * badge = [[NSUserDefaults standardUserDefaults] stringForKey:bMessagesBadgeValueKey];
     if (count > 0) {
         badge = [NSString stringWithFormat:@"%i", count];
     }

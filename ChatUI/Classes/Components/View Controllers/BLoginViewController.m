@@ -250,7 +250,7 @@
     
     //if (!_hud) {
         _hud = [MBProgressHUD showHUDAddedTo:splashView animated:NO];
-        _hud.labelText = message;
+        _hud.label.text = message;
         //[_hud hide:NO];
     //}
     
@@ -261,7 +261,7 @@
 }
 
 -(void) showHudNow {
-    [_hud show:YES];
+    [_hud showAnimated:YES];
     [splashView fadeToAlpha:1.0 withTime:0.3];
     //[self.view bringSubviewToFront:_hud];
 }
@@ -274,7 +274,7 @@
     [_timer invalidate];
     _timer = Nil;
     
-    [_hud hide:duration == 0 ? NO : YES];
+    [_hud hideAnimated:duration == 0 ? NO : YES];
     
     [splashView fadeToAlpha:0.0 withTime:duration];
 }

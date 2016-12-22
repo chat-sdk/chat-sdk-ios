@@ -10,9 +10,6 @@
 
 @interface NSArray(KeyPair)
 
-@property (nonatomic, readwrite) NSString * name;
-@property (nonatomic, readwrite) NSString * index;
-
 +(id) keyPair: (NSString *) name value: (NSString *) index;
 
 -(NSString *) key;

@@ -9,10 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PThreadWrapper.h"
 
-@class BChatViewController;
-
 @interface BThreadsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UITabBarDelegate, UIAlertViewDelegate> {
-    BChatViewController * _chatViewController;
     UIBarButtonItem * _editButton;
     
     id _messageObserver;
@@ -33,6 +30,5 @@
 -(void) reloadData;
 -(void) setEditingEnabled: (BOOL) enabled;
 -(void) toggleEditing;
--(NSString *) getDateFormat;
 
 @end

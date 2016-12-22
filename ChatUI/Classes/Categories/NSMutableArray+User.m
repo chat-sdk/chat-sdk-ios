@@ -7,7 +7,9 @@
 //
 
 #import "NSMutableArray+User.h"
-#import <ChatSDK/PUser.h>
+
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
 
 @implementation NSMutableArray(User)
 

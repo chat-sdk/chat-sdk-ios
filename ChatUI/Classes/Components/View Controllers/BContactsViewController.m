@@ -114,11 +114,13 @@
     // We want to create an action sheet which will allow users to choose how they add their contacts
     UIAlertController * view = [UIAlertController alertControllerWithTitle:[NSBundle t:bSearch] message:[NSBundle t:bSelectYourSearch] preferredStyle:UIAlertControllerStyleActionSheet];
     
+#ifdef ChatSDKContactBookModule
     UIAlertAction * phoneBook = [UIAlertAction actionWithTitle:[NSBundle t:bPhonebook]
                                                          style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * action){
         [weakSelf openSearchViewWithType:bSearchTypePhonebook];
     }];
+#endif
     
     UIAlertAction * nameSearch = [UIAlertAction actionWithTitle:[NSBundle t:bSearchWithName]
                                                           style:UIAlertActionStyleDefault
@@ -157,9 +159,6 @@
 }
 
 - (void)addUsers: (NSArray *)users {
-    
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
-    
     if (users.count) {
         
         // Add users to contacts

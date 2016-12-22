@@ -7,9 +7,9 @@
 //
 
 #import "BEULAViewController.h"
-#import "BNetworkManager.h"
-#import "NSBundle+ChatUI.h"
-#import <KeepLayout.h>
+
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
 
 #define bEULA @"EULA"
 #define bEULAEnglish @"EULAEnglish"

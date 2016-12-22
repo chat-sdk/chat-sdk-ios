@@ -7,7 +7,8 @@
 //
 
 #import "BLocationViewController.h"
-#import "NSBundle+ChatUI.h"
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
 
 @interface BLocationViewController ()
 

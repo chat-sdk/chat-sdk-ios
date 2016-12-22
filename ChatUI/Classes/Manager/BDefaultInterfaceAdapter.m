@@ -13,18 +13,18 @@
 
 @implementation BDefaultInterfaceAdapter
 
--(BPrivateThreadsViewController *) privateThreadsViewController {
+-(UIViewController *) privateThreadsViewController {
     if (!_privateThreadsViewController) {
         _privateThreadsViewController = [[BPrivateThreadsViewController alloc] init];
     }
     return _privateThreadsViewController;
 }
 
--(BPublicThreadsViewController *) publicThreadsViewController {
+-(UIViewController *) publicThreadsViewController {
     return [[BPublicThreadsViewController alloc] init];
 }
 
--(BContactsViewController *) contactsViewController {
+-(UIViewController *) contactsViewController {
     return [[BContactsViewController alloc] init];
 }
 
@@ -32,7 +32,7 @@
     return [[BFriendsListViewController alloc] initWithUsersToExclude:usersToExclude];
 }
 
--(BProfileTableViewController *) profileViewControllerWithUser: (id<PUser>) user {
+-(UIViewController *) profileViewControllerWithUser: (id<PUser>) user {
     
     UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Profile"
                                                           bundle:[NSBundle chatUIBundle]];
@@ -43,7 +43,7 @@
     return controller;
 }
 
--(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread {
+-(UIViewController *) chatViewControllerWithThread: (id<PThread>) thread {
     return [[BChatViewController alloc] initWithThread:thread];
 }
 
@@ -67,7 +67,6 @@
     NSMutableArray * options = [NSMutableArray new];
     
     BOOL videoEnabled = [BNetworkManager sharedManager].a.videoMessage != Nil;
-    BOOL audioEnabled = [BNetworkManager sharedManager].a.audioMessage != Nil;
     BOOL imageEnabled = [BNetworkManager sharedManager].a.imageMessage != Nil;
     BOOL locationEnabled = [BNetworkManager sharedManager].a.locationMessage != Nil;
     
@@ -96,7 +95,7 @@
     
 }
 
--(BSearchViewController *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {
+-(UIViewController *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {
     BSearchViewController * vc = [[BSearchViewController alloc] initWithUsersToExclude: users];
     vc.usersSelected = usersAdded;
     return [[UINavigationController alloc] initWithRootViewController:vc];

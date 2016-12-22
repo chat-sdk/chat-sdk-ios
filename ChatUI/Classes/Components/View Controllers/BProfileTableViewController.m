@@ -175,7 +175,7 @@
 
 -(void) startChatWithUser {
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = [NSBundle t:bCreatingThread];
+    hud.label.text = [NSBundle t:bCreatingThread];
     
     [[BNetworkManager sharedManager].a.core createThreadWithUsers:@[_user] threadCreated:^(NSError * error, id<PThread> thread) {
         if (!error) {
@@ -190,7 +190,7 @@
 
 -(void) pushChatViewControllerWithThread: (id<PThread>) thread {
     if (thread) {
-        BChatViewController * chatViewController = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
+        UIViewController * chatViewController = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:chatViewController animated:YES];
     }
 }

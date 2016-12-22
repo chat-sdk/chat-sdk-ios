@@ -64,7 +64,7 @@
         if (buttonIndex) {
             
             MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.labelText = [NSBundle t:bCreatingThread];
+            hud.label.text = [NSBundle t:bCreatingThread];
             
             NSString * name = [alertView textFieldAtIndex:0].text;
             [[BNetworkManager sharedManager].a.publicThread createPublicThreadWithName:name].thenOnMain(^id(id<PThread> thread) {

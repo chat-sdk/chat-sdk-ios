@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BDefaultInterfaceAdapter.h"
+
+#import <ChatSDK/PInterfaceFacade.h>
 
 @interface BInterfaceManager : NSObject
 
-@property (nonatomic, readwrite) BDefaultInterfaceAdapter * a;
+@property (nonatomic, readwrite) id<PInterfaceFacade> a;
 
 +(BInterfaceManager *) sharedManager;
 

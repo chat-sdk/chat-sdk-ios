@@ -9,6 +9,8 @@
 #import <ChatSDK/BChatOption.h>
 #import <ChatSDK/bPictureTypes.h>
 
+#import "TOCropViewController.h"
+
 @class RXPromise;
 @protocol TOCropViewControllerDelegate;
 

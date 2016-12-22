@@ -7,11 +7,9 @@
 //
 
 #import "BSystemMessageCell.h"
-#import "PMessage.h"
-#import "UIView+Additions.h"
-#import "BChatUIDefines.h"
-#import <ChatSDK/BCoreUtilities.h>
-#import <ChatSDK/BMessageLayout.h>
+
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
 
 @implementation BSystemMessageCell
 

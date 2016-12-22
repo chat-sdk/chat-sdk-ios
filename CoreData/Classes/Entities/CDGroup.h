@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-//#import <ChatSDK/PGroup.h>
 
-#import <PGroup.h>
+#import <ChatSDK/PGroup.h>
 
 @class CDLinkedContact;
 

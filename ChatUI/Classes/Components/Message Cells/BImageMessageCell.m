@@ -8,12 +8,8 @@
 
 #import "BImageMessageCell.h"
 
-#import <UIImageView+WebCache.h>
-#import <UIImageView+ProgressView.h>
-
-#import <ChatSDK/UIImage+Additions.h>
-
 #import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
 
 @implementation BImageMessageCell
 

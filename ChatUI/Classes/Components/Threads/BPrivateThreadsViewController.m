@@ -55,13 +55,13 @@
 
 -(void) createPrivateThread {
     
-    BFriendsListViewController * flvc = [[BInterfaceManager sharedManager].a friendsViewControllerWithUsersToExclude:@[]];
+    BFriendsListViewController * flvc = (BFriendsListViewController *) [[BInterfaceManager sharedManager].a friendsViewControllerWithUsersToExclude:@[]];
     
     // The friends view controller will give us a list of users to invite
     flvc.usersToInvite = ^(NSArray * users, NSString * groupName){
         
         MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.labelText = [NSBundle t:bCreatingThread];
+        hud.label.text = [NSBundle t:bCreatingThread];
         
         // Create group with group name
         [[BNetworkManager sharedManager].a.core createThreadWithUsers:users name:groupName threadCreated:^(NSError *error, id<PThread> thread) {

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "TOCropViewController.h"
+
 @protocol PUser;
 @protocol PUserConnection;
 

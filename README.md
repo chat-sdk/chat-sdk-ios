@@ -98,6 +98,9 @@ Add the following code to the start of your didFinishLaunchingWithOptions functi
 
 // Start the twitter helper to handle login
 [BTwitterHelper sharedHelper];
+
+// Set the default interface manager
+[BInterfaceManager sharedManager].a = [[BDefaultInterfaceAdapter alloc] init];
     
 // This is the main view that contains the tab bar
 _mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];

@@ -8,7 +8,8 @@
 
 #import <ChatSDK/BChatOption.h>
 
-@class CLLocationManager;
+#import <CoreLocation/CoreLocation.h>
+
 @class RXPromise;
 @protocol CLLocationManagerDelegate;
 

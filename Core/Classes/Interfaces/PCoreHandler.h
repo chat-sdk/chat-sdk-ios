@@ -9,10 +9,11 @@
 #ifndef PCoreHandler_h
 #define PCoreHandler_h
 
+#import <ChatSDK/PThread_.h>
+#import <ChatSDK/PMessage.h>
+#import <ChatSDK/PUser.h>
+
 @class RXPromise;
-@protocol PUser;
-@protocol PMessage;
-@protocol PThread;
 
 @protocol PCoreHandler <NSObject>
 

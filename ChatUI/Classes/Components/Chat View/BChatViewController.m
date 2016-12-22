@@ -259,9 +259,6 @@
         [tableView reloadData];
     }];
     
-    // Typing Indicator code
-    NSString * currentUserEntityID = currentUserModel.entityID;
-    
     _typingObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationTypingStateChanged object:nil queue:Nil usingBlock:^(NSNotification * notification) {
         id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
         if ([thread isEqual: _thread]) {

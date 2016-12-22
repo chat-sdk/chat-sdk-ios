@@ -7,9 +7,6 @@
 //
 
 #import "BInterfaceManager.h"
-#import <objc/runtime.h>
-#import "BProfileTableViewController.h"
-
 
 @implementation BInterfaceManager
 
@@ -32,7 +29,6 @@ static BInterfaceManager * manager;
 
 -(id) init {
     if ((self = [super init])) {
-        a = [[BDefaultInterfaceAdapter alloc] init];
     }
     return self;
 }

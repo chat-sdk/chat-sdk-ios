@@ -7,8 +7,9 @@
 //
 
 #import "NSDate+Additions.h"
-#import <DateTools.h>
-#import "NSBundle+ChatUI.h"
+
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
 
 @implementation NSDate (Additions)
 

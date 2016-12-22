@@ -73,15 +73,4 @@
     assert(NO);
 }
 
-/**
- * @brief The view controller that should be displayed when the user isn't logged in
- */
--(UIViewController *) challengeViewController {
-    assert(NO);
-}
-
--(void) setChallengeViewController: (UIViewController *) viewController {
-    assert(NO);
-}
-
 @end

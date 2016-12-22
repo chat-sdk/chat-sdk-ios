@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage         = "http://chatsdk.co"
   s.license          = 'MIT'
   s.author           = { "Ben Smiley" => "ben@chatsdk.co" }
-  s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => '4.2.5' }
+  s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => s.version.to_s }
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
@@ -22,6 +22,9 @@ Pod::Spec.new do |s|
     core.dependency 'RXPromise', '~> 1.0'
     core.dependency 'Reachability', '~> 3.0'
     core.dependency 'AFNetworking', '~>3.0'
+    
+    #core.public_header_files = "Core/Classes/ChatCore.h"
+	#core.header_mappings_dir = "Core/Classes"
 
   end
   
@@ -41,6 +44,8 @@ Pod::Spec.new do |s|
     ui.dependency 'CountryPicker', '~> 1.0'
     ui.dependency 'DateTools', '~> 1.0'
     ui.dependency 'TOCropViewController', '~> 2.0'
+    
+	#ui.public_header_files = "ChatUI/Classes/ChatUI.h"
   
   end
   
@@ -54,6 +59,8 @@ Pod::Spec.new do |s|
     coredata.dependency 'ChatSDK/Core'
 	coredata.frameworks = 'UIKit', 'CoreData'
   
+    #coredata.public_header_files = "CoreData/Classes/ChatCoreData.h"
+
   end
   
   s.subspec 'FirebaseAdapter' do |firebase|
@@ -73,14 +80,14 @@ Pod::Spec.new do |s|
     firebase.dependency 'Firebase/Auth'
     firebase.dependency 'Firebase/Messaging'
 
-    #firebase.dependency 'Google/SignIn', '~> 3.0'
-    #firebase.dependency 'TwitterKit', '~>1.12'
+    firebase.dependency 'Google/SignIn', '~> 3.0'
+    firebase.dependency 'TwitterKit', '~>1.12'
   
-  	firebase.vendored_frameworks = 'FirebaseAdapter/Frameworks/GGLCore.framework'
-  	firebase.vendored_frameworks = 'FirebaseAdapter/Frameworks/GGLSignIn.framework'
-  	firebase.vendored_frameworks = 'FirebaseAdapter/Frameworks/TwitterKit.framework'
+  	#firebase.vendored_frameworks = 'FirebaseAdapter/Frameworks/TwitterKit.framework', 'FirebaseAdapter/Frameworks/GGLSignIn.framework', 'FirebaseAdapter/Frameworks/GGLCore.framework'
   
     firebase.library = 'icucore'
+    
+	#firebase.public_header_files = "FirebaseAdapter/Classes/ChatFirebaseAdapter.h"
   
   end
 

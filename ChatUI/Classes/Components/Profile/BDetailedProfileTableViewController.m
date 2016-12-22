@@ -158,12 +158,12 @@
         addFriendImageView.highlighted = isFriend;
         addFriendTextView.text = isFriend ? [NSBundle t: bRemoveFriend] : [NSBundle t:bAddFriend];
         addFriendActivityIndicator.hidden = YES;
-        return Nil;
+        return success;
     };
     
     promise_errorHandler_t error = ^id(NSError * error) {
         addFriendActivityIndicator.hidden = YES;
-        return Nil;
+        return error;
     };
 }
 
@@ -181,12 +181,12 @@
         blockImageView.highlighted = isBlocked;
         blockTextView.text = isBlocked ? [NSBundle t:bUnblock] : [NSBundle t:bBlock];
         blockUserActivityIndicator.hidden = YES;
-        return Nil;
+        return success;
     };
     
     promise_errorHandler_t error = ^id(NSError * error) {
         blockUserActivityIndicator.hidden = YES;
-        return Nil;
+        return error;
     };
 }
 
@@ -224,7 +224,7 @@
 
 -(void) startChat {
     [[BNetworkManager sharedManager].a.core createThreadWithUsers:@[self.overrideUser] threadCreated:^(NSError * error, id<PThread> thread) {
-        BChatViewController * cvc = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
+        UIViewController * cvc = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:cvc animated:YES];
     }];
 }
@@ -239,7 +239,7 @@
     
     // Update the user
     id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
-    [user setImage:image];
+    [user setImage:UIImagePNGRepresentation(image)];
     
     [[BNetworkManager sharedManager].a.core pushUser];
     

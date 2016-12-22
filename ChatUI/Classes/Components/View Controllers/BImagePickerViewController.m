@@ -7,9 +7,9 @@
 //
 
 #import "BImagePickerViewController.h"
-#import "KeepLayout.h"
-#import "UIView+Additions.h"
-#import "NSBundle+ChatUI.h"
+
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
 
 @interface BImagePickerViewController ()
 

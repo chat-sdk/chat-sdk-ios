@@ -9,10 +9,8 @@
 #ifndef ChatFirebaseAdapter_h
 #define ChatFirebaseAdapter_h
 
-#import <RXPromise.h>
-#import <RXPromise/RXPromise+RXExtension.h>
 #import <Facebook-iOS-SDK/FBSDKCoreKit/FBSDKCoreKit.h>
-#import <Google/SignIn.h>
+//#import <Google/SignIn.h>
 #import <Firebase/Firebase.h>
 
 #import <ChatSDK/NSManagedObject+Status.h>

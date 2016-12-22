@@ -30,6 +30,9 @@
     // Start the twitter helper to handle login
     [BTwitterHelper sharedHelper];
     
+    // Set the default interface manager
+    [BInterfaceManager sharedManager].a = [[BDefaultInterfaceAdapter alloc] init];
+    
     // This is the main view that contains the tab bar
     UIViewController * mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
     

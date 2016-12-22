@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PUser.h"
 #import "StaticDataTableViewController.h"
+
+@protocol PUser;
 
 @interface BDetailedProfileTableViewController : StaticDataTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     

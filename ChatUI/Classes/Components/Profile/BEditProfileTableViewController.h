@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CountryPicker.h>
+
+#import "CountryPicker.h"
 
 #ifdef __IPHONE_8_0
 #define GregorianCalendar NSCalendarIdentifierGregorian

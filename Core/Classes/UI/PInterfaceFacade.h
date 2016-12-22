@@ -13,6 +13,7 @@
 @protocol PThread;
 @protocol PChatOptionsHandler;
 @class BChatViewController;
+@class BFriendsListViewController;
 
 @protocol PInterfaceFacade <NSObject>
 
@@ -20,7 +21,7 @@
 -(UIViewController *) publicThreadsViewController;
 -(UIViewController *) contactsViewController;
 -(UIViewController *) profileViewControllerWithUser: (id<PUser>) user ;
--(UIViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude;
+-(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude;
 -(UIViewController *) chatViewControllerWithThread: (id<PThread>) thread;
 -(UIViewController *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded;
 
