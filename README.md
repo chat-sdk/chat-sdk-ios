@@ -61,7 +61,7 @@ It's easy to integrate the Chat SDK with an existing project.
 > **Note**  
 > Chat SDK supports push notifications but this requires the installation of an additional free module. This guide includes the additional steps necessary to setup push notifications. These steps will be marked with a comment. 
 
-For push notifications you should download the free [BackendlessPushHandler](http://chatsdk.co/push) module. 
+For push notifications you should download the free [BackendlessPushHandler](http://chatsdk.co/downloads/backendless-push-notifications/) module. 
 
 ```
   pod "ChatSDKModules/Backendless", :path => "[Path to ChatSDKModules folder]"
