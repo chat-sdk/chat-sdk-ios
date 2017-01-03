@@ -40,6 +40,8 @@
 //            }
 //        }
         
+        _messageCache = [NSMutableArray new];
+        
         // Set the title
         self.title = _thread.displayName ? _thread.displayName : [NSBundle t: bDefaultThreadName];
         
@@ -81,7 +83,6 @@
             }, Nil);
         }
     }
-    
     
     // Keep the table header at the top
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
@@ -137,7 +138,6 @@
         [self.tableView registerClass:[BNetworkManager sharedManager].a.stickerMessage.messageCellClass forCellReuseIdentifier:bStickerMessageCell];
     }
 #endif
-
     
     _refreshControl = [[UIRefreshControl alloc] init];
     [_refreshControl addTarget:self action:@selector(loadMoreMessages) forControlEvents:UIControlEventValueChanged];
@@ -383,16 +383,28 @@
 #pragma TableView delegates
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return self.messages.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.messages.count;
+    return [self.messages[section] rowCount];
+}
+
+-(id<PMessage>) messageForIndexPath: (NSIndexPath *) path {
+    return [_messageCache[path.section] messageForRow:path.row];
+}
+
+//-(NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//    return [self.messages[section] title];
+//}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [self.messages[section] view];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<PMessage, PMessageLayout> message = self.messages[indexPath.row];
+    id<PMessage, PMessageLayout> message = [self messageForIndexPath:indexPath];
     
     BMessageCell<BMessageDelegate> * messageCell;
     
@@ -426,8 +438,10 @@
     messageCell = [tableView_ dequeueReusableCellWithIdentifier:cellIdentifier];
     messageCell.navigationController = self.navigationController;
     
+    
     // Add a gradient to the cells
-    float colorWeight = ((float) indexPath.row / (float) self.messages.count) * 0.15 + 0.85;
+    //float colorWeight = ((float) indexPath.row / (float) self.messages.count) * 0.15 + 0.85;
+    float colorWeight = 1;
     
     [messageCell setMessage:message withColorWeight:colorWeight];
     
@@ -437,7 +451,25 @@
 // A little bit of optimization
 -(NSArray *) messages {
     if (!_messageCache || !_messageCache.count || _messageCacheDirty) {
-        _messageCache = [_thread messagesOrderedByDateAsc];
+        [_messageCache removeAllObjects];
+        
+        NSArray * messages = [_thread messagesOrderedByDateAsc];
+        id<PMessage> lastMessageDate;
+        BMessageSection * section;
+        
+        for (id<PMessage> message in messages) {
+            // This is a new day
+            if (!lastMessageDate || abs([message.date daysFrom:lastMessageDate]) > 0) {
+                section = [[BMessageSection alloc] init];
+                [_messageCache addObject:section];
+            }
+            [section addMessage:message];
+            lastMessageDate = message.date;
+        }
+        if (![_messageCache containsObject:section]) {
+            [_messageCache addObject:section];
+        }
+        
         _messageCacheDirty = NO;
     }
     return _messageCache;
@@ -447,13 +479,12 @@
 // access to the cell dimensions
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     [((UITableViewCell<BMessageDelegate> *) cell) willDisplayCell];
-    
 }
 
 // Set the message height based on the text height
 - (CGFloat)tableView:(UITableView *)tableView_ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(self.messages && self.messages.count > indexPath.row) {
-        id<PMessage> message = self.messages[indexPath.row];
+    id<PMessage> message = [self messageForIndexPath:indexPath];
+    if(message) {
         id<PMessageLayout> l = [BMessageLayout layoutWithMessage:message];
         return l.cellHeight;
     }
@@ -683,7 +714,7 @@
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<PMessage> message = self.messages[indexPath.row];
+    id<PMessage> message = [self messageForIndexPath:indexPath];
     
     return message.flagged.intValue ? bUnflag : [NSBundle t:bFlag];
 }
@@ -691,7 +722,7 @@
 // Check that this is called for iOS7
 - (void)tableView:(UITableView *)tableView_ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<PMessage> message = self.messages[indexPath.row];
+    id<PMessage> message = [self messageForIndexPath:indexPath];
     
     if (message.flagged.intValue) {
         [[BNetworkManager sharedManager].a.moderation unflagMessage:message.entityID].thenOnMain(^id(id success) {
@@ -717,7 +748,7 @@
 // This only works for iOS8
 -(NSArray *)tableView:(UITableView *)tableView_ editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<PMessage> message = self.messages[indexPath.row];
+    id<PMessage> message = [self messageForIndexPath:indexPath];
     
     NSString * flagTitle = message.flagged.intValue ? [NSBundle t:bUnflag] : [NSBundle t:bFlag];
     
@@ -880,8 +911,8 @@
     NSMutableArray * users = [NSMutableArray arrayWithArray: _thread.model.users.allObjects];
     [users removeObject:[BNetworkManager sharedManager].a.core.currentUserModel];
     
-    BUsersViewController * vc = [[BUsersViewController alloc] initWithThread:_thread];
-    vc.parentNavigationController = self.navigationController;
+    UIViewController * vc = [[BInterfaceManager sharedManager].a usersViewControllerWithThread:_thread
+                                                                    parentNavigationController:self.navigationController];
     
     UINavigationController * nvc = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nvc animated:YES completion:nil];

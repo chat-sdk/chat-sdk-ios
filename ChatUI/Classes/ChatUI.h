@@ -47,6 +47,7 @@
 #import <ChatSDK/BDetailedProfileDefines.h>
 #import <ChatSDK/BAppTabBarController.h>
 #import <ChatSDK/BDefaultInterfaceAdapter.h>
+#import <ChatSDK/BMessageSection.h>
 
 #import <ChatSDK/BTextInputView.h>
 

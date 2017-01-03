@@ -54,7 +54,7 @@ typedef enum {
     UINavigationController * _locationViewNavigationController;
     
     BOOL _messageCacheDirty;
-    NSArray * _messageCache;
+    NSMutableArray * _messageCache;
     
     UIRefreshControl * _refreshControl;
     

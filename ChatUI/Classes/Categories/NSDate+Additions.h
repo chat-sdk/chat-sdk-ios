@@ -12,6 +12,7 @@
 -(NSString *) threadTimeAgo;
 -(NSString *) messageTimeAt;
 -(NSString *) lastSeenTimeAgo;
+-(NSString *) dateAgo;
 
 @end
 

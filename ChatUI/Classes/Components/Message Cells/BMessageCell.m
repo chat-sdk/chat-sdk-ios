@@ -237,7 +237,7 @@
     // This will automatically center the text in the y direction
     // we'll set the side using text alignment
     [_timeLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0];
-    [_timeLabel setViewFrameHeight:20];
+    [_timeLabel setViewFrameHeight:l.cellHeight];
     
     [_readMessageImageView setViewFrameWidth:_profilePicture.fw];
     [_readMessageImageView setViewFrameHeight:_profilePicture.fw * 2 / 3];

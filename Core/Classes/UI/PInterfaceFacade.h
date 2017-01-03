@@ -30,6 +30,7 @@
 
 -(NSMutableArray *) chatOptions;
 -(id<PChatOptionsHandler>) chatOptionsHandlerWithChatViewController: (BChatViewController *) chatViewController;
+-(UIViewController *) usersViewControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent;
 
 @end
 

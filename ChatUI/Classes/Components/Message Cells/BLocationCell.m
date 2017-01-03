@@ -35,7 +35,12 @@
     
     self.bubbleImageView.image = Nil;
     
-    CLLocationCoordinate2D coord = [BCoreUtilities locationForString: self.message.textString];
+    float longitude = [[self.message textAsDictionary][bMessageLongitude] floatValue];
+    float latitude = [[self.message textAsDictionary][bMessageLatitude] floatValue];
+
+    CLLocationCoordinate2D coord;
+    coord.longitude = longitude;
+    coord.latitude = latitude;
     
     // Set the location and display the controller
     MKCoordinateRegion region = [BCoreUtilities regionForLongitude:coord.longitude latitude:coord.latitude];

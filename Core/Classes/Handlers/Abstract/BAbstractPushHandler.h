@@ -11,4 +11,6 @@
 
 @interface BAbstractPushHandler : NSObject<PPushHandler>
 
+-(NSString *) safeChannel: (NSString *) channel;
+
 @end

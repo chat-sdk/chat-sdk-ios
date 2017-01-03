@@ -110,5 +110,10 @@
     
 }
 
+-(UIViewController *) usersViewControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent {
+    BUsersViewController * vc = [[BUsersViewController alloc] initWithThread:thread];
+    vc.parentNavigationController = parent;
+    return vc;
+}
 
 @end

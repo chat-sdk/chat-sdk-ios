@@ -57,6 +57,7 @@
     [super viewDidLoad];
     
     groupNameTextField.placeholder = [NSBundle t:bGroupName];
+    groupNameTextField.delegate = self;
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.getRightBarButtonActionTitle style:UIBarButtonItemStylePlain target:self action:@selector(composeMessage)];
@@ -117,13 +118,21 @@
 
 -(void) viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSString * newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    self.navigationItem.rightBarButtonItem.enabled = newString.length;
+    return YES;
 }
 
 -(void) setGroupNameHidden: (BOOL) hidden duration: (float) duration {
     [self.view keepAnimatedWithDuration: duration layout:^{
         groupNameView.keepTopInset.equal = hidden ? -46 : 0;
     }];
+    if (!hidden) {
+        self.navigationItem.rightBarButtonItem.enabled = groupNameTextField.text.length;
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

@@ -121,11 +121,20 @@ static BMessageCache * cache;
     }
     else {
         pos = message.messagePosition;
-        if ([self shouldCacheMessage:message]) {
-            [self infoForMessage:message][bMessagePositionKey] = @(pos);
-        }
+        [self cacheMessage:message];
     }
     return pos;
+}
+
+-(void) cacheMessage: (id<PMessage>) message {
+    if ([self shouldCacheMessage:message]) {
+
+        bMessagePosition pos = message.messagePosition;
+        id<PMessage> nm = message.nextMessage;
+        
+        [self infoForMessage:message][bMessagePositionKey] = @(pos);
+        [self infoForMessage:message][bNextMessageKey] = nm;
+    }
 }
 
 -(id<PMessage>) nextMessageForMessage: (id<PMessage>) message {
@@ -135,9 +144,7 @@ static BMessageCache * cache;
     }
     else {
         nm = message.nextMessage;
-        if ([self shouldCacheMessage:message]) {
-            [self infoForMessage:message][bNextMessageKey] = nm;
-        }
+        [self cacheMessage:message];
     }
     return nm;
 }

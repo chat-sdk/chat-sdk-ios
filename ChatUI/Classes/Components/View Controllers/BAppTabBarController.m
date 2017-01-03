@@ -64,7 +64,10 @@
         [weakSelf updateBadge];
     }];
     
-    [self updateBadge];
+    
+    NSNumber * badge = [[NSUserDefaults standardUserDefaults] stringForKey:bMessagesBadgeValueKey];
+    [self setBadge: badge.intValue];
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -79,6 +82,7 @@
         if (!user) {
             [self showLoginScreen];
         }
+        [self updateBadge];
         
         return Nil;
     },^id(NSError * error) {
@@ -114,23 +118,24 @@
     // The message view open with this thread?
     // Get the number of unread messages
     int count = [BNetworkManager sharedManager].a.core.currentUserModel.unreadMessageCount;
-    NSString * badge = [[NSUserDefaults standardUserDefaults] stringForKey:bMessagesBadgeValueKey];
-    if (count > 0) {
-        badge = [NSString stringWithFormat:@"%i", count];
-    }
+    [self setBadge:count];
     
     // This way does not set the tab bar number
     //[BInterfaceManager sharedManager].a.privateThreadsViewController.tabBarItem.badgeValue = badge;
     
+}
+
+-(void) setBadge: (int) badge {
     NSInteger privateThreadIndex = [self.tabBarController.viewControllers indexOfObject:[BInterfaceManager sharedManager].a.privateThreadsViewController];
     // Using self.tabbar will correctly set the badge for the specific index
-    [self.tabBar.items objectAtIndex:privateThreadIndex].badgeValue = badge;
+    NSString * badgeString = badge == 0 ? Nil : [NSString stringWithFormat:@"%i", badge];
+    [self.tabBar.items objectAtIndex:privateThreadIndex].badgeValue = badgeString;
     
     // Save the value to defaults
-    [[NSUserDefaults standardUserDefaults] setObject:badge forKey:bMessagesBadgeValueKey];
+    [[NSUserDefaults standardUserDefaults] setObject:@(badge) forKey:bMessagesBadgeValueKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [UIApplication sharedApplication].applicationIconBadgeNumber = count;
+    [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
 }
 
 -(NSBundle *) uiBundle {

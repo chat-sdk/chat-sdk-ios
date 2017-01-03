@@ -74,6 +74,15 @@ Pod::Spec.new do |s|
     }
 
   end
+  
+    s.subspec 'SocialLogin' do |sl|
+
+    sl.source_files = ['SocialLogin/Classes/**/*']
+    sl.resource_bundles = {
+      'ChatSocialLogin' => ['SocialLogin/Assets/**/*', 'SocialLogin/Interface/**/*']
+    }
+
+  end
 
 
 end

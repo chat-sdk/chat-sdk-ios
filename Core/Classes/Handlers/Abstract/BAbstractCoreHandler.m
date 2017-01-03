@@ -106,6 +106,7 @@
     
     // Set the URLs for the images and save it in CoreData
     id<PMessage> message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
+    message.entityID = [BCoreUtilities getUUID];
     
     message.type = @(bMessageTypeSystem);
     //message.text = text;

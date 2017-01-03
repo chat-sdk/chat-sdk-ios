@@ -102,5 +102,9 @@
     assert(NO);
 }
 
+-(NSString *) safeChannel: (NSString *) channel {
+    return [channel stringByReplacingOccurrencesOfString:@"@" withString:@"_a_"];
+}
+
 
 @end

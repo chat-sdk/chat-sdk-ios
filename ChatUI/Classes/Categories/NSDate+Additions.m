@@ -34,26 +34,24 @@
 }
 
 -(NSString *) messageTimeAt {
-    if (self.daysAgo < 1) {
+//    if (self.daysAgo < 1) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"HH:mm"];
         return [formatter stringFromDate:self];
-    }
-    else {
-        return [self timeAgoWithFormatString:b_at_];
-    }
+//    }
+//    else {
+//        return [self timeAgoWithFormatString:b_at_];
+//    }
 }
 
 -(NSString *) lastSeenTimeAgo {
     return [self timeAgoWithFormatString:bLastSeen_at_];
 }
 
--(NSString *) timeAgoWithFormatString: (NSString *) formatString {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
-    
-    NSString * time = [formatter stringFromDate:self];
+-(NSString *) dateAgo {
+
     NSString * day = @"";
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     
     if ([self daysAgo] == 0) {
         day = [NSBundle t: bToday];
@@ -69,6 +67,16 @@
         [formatter setDateFormat:@"MM/yy"];
         day = [formatter stringFromDate:self];
     }
+    
+    return day;
+}
+
+-(NSString *) timeAgoWithFormatString: (NSString *) formatString {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSString * time = [formatter stringFromDate:self];
+    NSString * day = [self dateAgo];
     return [NSString stringWithFormat:[NSBundle t:formatString], day, time];
 }
 

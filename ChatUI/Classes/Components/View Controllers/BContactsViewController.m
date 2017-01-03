@@ -112,7 +112,7 @@
     __weak BContactsViewController * weakSelf = self;
     
     // We want to create an action sheet which will allow users to choose how they add their contacts
-    UIAlertController * view = [UIAlertController alertControllerWithTitle:[NSBundle t:bSearch] message:[NSBundle t:bSelectYourSearch] preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController * view = [UIAlertController alertControllerWithTitle:[NSBundle t:bSearch] message:Nil preferredStyle:UIAlertControllerStyleActionSheet];
     
 #ifdef ChatSDKContactBookModule
     UIAlertAction * phoneBook = [UIAlertAction actionWithTitle:[NSBundle t:bPhonebook]

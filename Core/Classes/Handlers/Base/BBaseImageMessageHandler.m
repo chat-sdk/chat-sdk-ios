@@ -55,7 +55,10 @@
                                        bMessageImageWidth: @(image.size.width),
                                        bMessageImageHeight: @(image.size.height)}];
         
-        return [[BNetworkManager sharedManager].a.core sendMessage:message];
+        return [[BNetworkManager sharedManager].a.core sendMessage:message].thenOnMain(^id(id result) {
+            message.delivered = @YES;
+            return result;
+        }, Nil);
     }, Nil);
 }
 

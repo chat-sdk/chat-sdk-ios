@@ -39,6 +39,7 @@
 #import <ChatSDK/PUser.h>
 #import <ChatSDK/PUserAccount.h>
 #import <ChatSDK/PUserWrapper.h>
+#import <ChatSDK/PGroup.h>
 
 #import <ChatSDK/PCoreHandler.h>
 #import <ChatSDK/PVideoMessageHandler.h>
