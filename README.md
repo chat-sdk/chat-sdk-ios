@@ -26,19 +26,17 @@ A demo of the project is available on the App Store.
 
 Full breakdown is available on the [features page](http://chatsdk.co/features/).
 
-### Additional Features
+##Get involved!
+We're very excited about the project and we're looking for other people to get involved. Over time we would like to make the best messaging framework for mobile. Helping us could involve any of the following:
 
-In order to fund the development of the Chat SDK we also offer premium add-ons for the Chat SDK:
++ Providing feedback and feature requests
++ Reporting bugs
++ Fixing bugs
++ Writing documentation
++ Improving the user interface
++ Helping to write adapters for other services such as Layer, Pusher, Pubnub etc... 
 
-- Typing indicator
-- Read Receipts
-- Audio / Video Messages
-- Contact book integration
-- Location based user search
-- Stickers
-- Two Factor Authentication
-
-These modules can be purchased on <a href="http://chatsdk.co/pricing/" target="_blank">our store</a>.
+If you're interested please email me at **ben@chatsdk.co**.
 
 ## Running the demo project
 This repository contains a fully functional verion of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
@@ -224,5 +222,20 @@ Your project is now set up with the ChatSDK.
 >Don’t forget that it is still using many of our test accounts for social media.
 
 You find complete documentation to set these up here.
+
+### Premium Features
+
+We have also developed some premium features for the Chat SDK. These are available on our website. 
+
+- Typing indicator
+- Read Receipts
+- Audio / Video Messages
+- Contact book integration
+- Location based user search
+- Stickers
+- Two Factor Authentication
+
+These modules can be purchased on <a href="http://chatsdk.co/pricing/" target="_blank">our store</a>.
+
 
 

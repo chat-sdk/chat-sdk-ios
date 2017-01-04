@@ -18,7 +18,7 @@ chat_sdk/
 ```
 These details are available on the Backendless dashboard. 
 
-## Push notifications
+###Push notifications
 
 In the `AppDelegate.m` add the following:
 
