@@ -1,4 +1,4 @@
-##Installation
+##Backendless Installation
 
 + Download and unzip the module
 + Add the folder `Backendless` to `ChatSDK/ChatSDKModules`
@@ -16,6 +16,7 @@ chat_sdk/
        app_secret
        app_version
 ```
+
 These details are available on the Backendless dashboard. 
 
 ###Push notifications
@@ -34,7 +35,9 @@ Set the push handler in `app: didFinishLaunchingWithOptions:` method:
     [adapter.push  registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
 
 ```
+
 Make sure the following methods are added: 
+
 ```
 -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[BNetworkManager sharedManager].a.push application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
@@ -47,6 +50,7 @@ Make sure the following methods are added:
 
 ###For file upload
 In the `AppDelegate.m` add the following:
+
 ```
 #import <ChatSDKModules/BBackendlessUploadHandler.h>
 ```
@@ -54,10 +58,10 @@ In the `AppDelegate.m` add the following:
 Set the push handler in `app: didFinishLaunchingWithOptions:` method:
 
 ```ObjC
-    adapter.upload = [[BBackendlessUploadHandler alloc] initWithAppKey:[BSettingsManager backendlessAppId] secretKey:[BSettingsManager backendlessSecretKey] versionKey:[BSettingsManager backendlessVersionKey]];
+adapter.upload = [[BBackendlessUploadHandler alloc] initWithAppKey:[BSettingsManager backendlessAppId] secretKey:[BSettingsManager backendlessSecretKey] versionKey:[BSettingsManager backendlessVersionKey]];
 ```
 
->**Note**
+>**Note**  
 >You only to `initWithAppKey: secretKey: versionKey:` once. If you are using both the Backendless file upload handler and the push handler, the second time you can just alloc/init. This is because both handlers use the same Backendless singleton and the keys only need to be set once. 
 
 ```ObjC
@@ -65,4 +69,4 @@ Set the push handler in `app: didFinishLaunchingWithOptions:` method:
     adapter.upload = [[BBackendlessUploadHandler alloc] init];
 ```
 
- For full instructions see the [Module installation guide](http://chatsdk.co/docs/ios-installing-modules/)
+ For extra instructions see the [Module installation guide](http://chatsdk.co/docs/ios-installing-modules/).

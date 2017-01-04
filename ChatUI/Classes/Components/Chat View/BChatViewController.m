@@ -466,7 +466,7 @@
             [section addMessage:message];
             lastMessageDate = message.date;
         }
-        if (![_messageCache containsObject:section]) {
+        if (![_messageCache containsObject:section] && section) {
             [_messageCache addObject:section];
         }
         

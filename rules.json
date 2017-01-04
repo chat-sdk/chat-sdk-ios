@@ -2,6 +2,8 @@
   "rules": {
     //".read": true,
     //".write": "auth != null",
+    ".read": "auth != null",
+    ".write": "auth != null",
     
     "$root": {
       
@@ -67,11 +69,25 @@
               // Can only be set on thread creation
               ".validate": "data.val() == null && newData.val() == auth.uid"
             },
-            
+
             "type": {
-              // Can only be set on thread creation must be 0 or 1
+              // Legacy type value for backwards compatibility
+              // 0x0 (0) - Group
+              // 0x1 (1) - Public
               ".validate": "data.val() == null && (newData.val() == 0 || newData.val() == 1)"
+            },
+
+            "type_v4": {
+              // Can only be set on thread creation must be 
+              // 0x1 (1) - Group
+              // 0x2 (2) - 1to1
+              // 0x3 (3) - Public
+              ".validate": "data.val() == null && (newData.val() == 1 || newData.val() == 2 || newData.val() == 4)"
             }
+            
+            
+        
+            
           },
           
           "messages": {
@@ -96,7 +112,7 @@
             
               "type": {
                 // Can only be set on message creation must be 0, 1 or 2
-                ".validate": "data.val() == null && (newData.val() >=0 && newData.val() <= 4)"
+                ".validate": "data.val() == null && (newData.val() >=0 && newData.val() <= 5)"
               },
             
               "user-firebase-id": {
@@ -113,14 +129,14 @@
           "users": {
             
             // For a user to be added to the thread, they should exist in the users area,
-            ".validate": "root.child($root+'/users/'+auth.uid).exists() && 
+            ".validate": "root.child($root+'/users/'+auth.uid).exists()", //&& 
                           // If this is a public thread, then the user must have an account
-                          (root.child($root+'/threads/'+$thread_id+'/details/type').val() == 1 && 
-                            root.child($root+'/users/'+auth.uid).exists()) || 
+            //              (root.child($root+'/threads/'+$thread_id+'/details/type').val() == 1 && 
+            //                root.child($root+'/users/'+auth.uid).exists()) || 
                           // If this is a private thread, then only the creator can add a user
-                          (root.child($root+'/threads/'+$thread_id+'/details/type').val() == 0 && 
-                            (root.child($root+'/threads/'+$thread_id+'/details/creator-entity-id').val() == auth.uid || 
-                            root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()))",
+            //              (root.child($root+'/threads/'+$thread_id+'/details/type').val() == 0 && 
+            //                (root.child($root+'/threads/'+$thread_id+'/details/creator-entity-id').val() == auth.uid || 
+            //                root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()))",
             
             // The user must be a member of the thread to see which users exist
             //".read": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
@@ -144,9 +160,12 @@
       },
       
       "users": {
+        
+         ".read": "root.child($root+'/users/'+auth.uid).exists()",
+           
         "$user_id": {
           
-          ".read": "auth.uid != null",
+         ".read": "root.child($root+'/users/'+auth.uid).exists()",
           ".write": "auth.uid != null",
           
           "authentication-id": {
@@ -164,6 +183,18 @@
         }
       },
       
+      "classSearchIndex": {
+
+        // Any authenticated user can read the data
+        ".read": "root.child($root+'/users/'+auth.uid).exists()",
+
+        // Index the items to improve search performance 
+        ".indexOn": ["className", "professor", "semester", "school"],
+          
+        ".write": "auth != null"
+        //".validate": "auth.email == newData.child('user').val()"
+      },  
+        
       "searchIndex": {
 
         // Any authenticated user can read the data
