@@ -1,5 +1,5 @@
 #Chat SDK
-###Open Source Messagine framework for iOS
+###Open Source Messaging framework for iOS
 
 <img target="_blank" src="http://img.chatcatapp.com/chat-sdk-hand.jpg" />
 
