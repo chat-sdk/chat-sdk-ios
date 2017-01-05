@@ -237,7 +237,9 @@
     // This will automatically center the text in the y direction
     // we'll set the side using text alignment
     [_timeLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0];
-    [_timeLabel setViewFrameHeight:l.cellHeight];
+    
+    // We don't want the label getting in the way of the read receipt
+    [_timeLabel setViewFrameHeight:l.cellHeight * 0.8];
     
     [_readMessageImageView setViewFrameWidth:_profilePicture.fw];
     [_readMessageImageView setViewFrameHeight:_profilePicture.fw * 2 / 3];

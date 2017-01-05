@@ -29,6 +29,8 @@
     UIImage * thumbnail = [image resizedImage:newSize interpolationQuality:kCGInterpolationHigh];
     
     id<PMessage> message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
+    // Generate a temporary ID
+    message.entityID = [BCoreUtilities getUUID];
     
     message.type = @(bMessageTypeImage);
     

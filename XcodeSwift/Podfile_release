@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+#use_frameworks!
+
+target 'ChatSDKSwift' do
+  
+  pod "ChatUI", :path => "ChatUI"
+  pod "ChatCoreData", :path => "ChatCoreData"
+  pod "ChatCore", :path => "ChatCore"
+  pod "ChatFirebaseAdapter", :path => "ChatFirebaseAdapter"
+  pod "ChatBackendless", :path => "ChatBackendless"
+
+end

@@ -1,0 +1,8 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'ChatSDKSwift' do
+  
+  pod "ChatSDK", :path => "../"
+  #pod "ChatSDKModules/Backendless", :path => "ChatSDKModules"
+	
+end

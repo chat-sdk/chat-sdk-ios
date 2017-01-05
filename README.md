@@ -1,4 +1,5 @@
-# Chat SDK for iOS
+#Chat SDK
+###Open Source Messagine framework for iOS
 
 <img target="_blank" src="http://img.chatcatapp.com/chat-sdk-hand.jpg" />
 
@@ -7,12 +8,13 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 - **Open Source.** The Chat SDK is open source under the MIT license.
 - **Full data control.** You have full and exclusive access to the user's chat data
 - **Quick integration.** Chat SDK is fully featured out of the box
+- **Firebase** Powered by Google Firebase
 
 A demo of the project is available on the App Store.  
 
 <a target="_blank" href="https://itunes.apple.com/us/app/chatcat/id962537653?mt=8"><img src="http://www.binpress.com/uploads/store33364/itunes-app-store-logo.png" width="290" height="100" alt="App Store" /></a>
 
-### Features
+##Features
 
 - Private and group messages
 - Public chat rooms
@@ -21,6 +23,8 @@ A demo of the project is available on the App Store.
 - Text, Image and Location messages
 - User profiles
 - User search
+- Powered by Firebase
+- [Cross Platform - see Android Version](https://github.com/chat-sdk/chat-sdk-android)
 
 <img src="http://img.chatcatapp.com/chat-sdk-3.jpg" />
 
@@ -34,6 +38,7 @@ We're very excited about the project and we're looking for other people to get i
 + Fixing bugs
 + Writing documentation
 + Improving the user interface
++ Help us update the library to use Swift
 + Helping to write adapters for other services such as Layer, Pusher, Pubnub etc... 
 
 If you're interested please email me at **ben@chatsdk.co**.
@@ -44,7 +49,16 @@ This repository contains a fully functional verion of the Chat SDK which is conf
 1. Clone Chat SDK  
 2. Run ```pod install``` in the ChatSDK directory  
 3. Open the ```Chat SDK Firebase.xcworkspace``` file in Xcode  
-4. Compile and run   
+4. Compile and run
+
+##Swift Version
+If you want to use Swift, you can use the Swift Xcode project. If you want to add new files, you should make sure that the header files are added to `ChatSDK-Bridging-Header.h`.  
+
+If your integrating the Chat SDK with a project that's written in Swift, you should do the following:
+
+1. Create a new file called `[project name]-Bridging-Header.h`
+2. Set this file in the **Build Settings** -> **Objective-C Bridging Header**. Note that this path should be relative to your `.xcodeproj` file  
+3. Add the necessary imports to this header - they will be available to your Swift project
 
 ## Integration with an existing project
 It's easy to integrate the Chat SDK with an existing project. 
