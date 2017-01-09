@@ -55,7 +55,9 @@ typedef enum {
 /**
  * @brief Message text body
  */
-//-(void) setText: (NSString *) text;
+-(void) setText: (NSString *) text;
+-(NSString *) text;
+
 -(NSString *) textString;
 
 /**

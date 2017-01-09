@@ -33,12 +33,13 @@
     // Set the default interface manager
     [BInterfaceManager sharedManager].a = [[BDefaultInterfaceAdapter alloc] init];
     
-    // This is the main view that contains the tab bar
-    UIViewController * mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
-    
     // Create a network adapter to communicate with Firebase
     // The network adapter handles network traffic
     BFirebaseNetworkAdapter * adapter = [[BFirebaseNetworkAdapter alloc] init];
+    
+    // This is the main view that contains the tab bar
+    UIViewController * mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
+    
     
     // Set the login screen
     // This screen is customizable - for example if you are using the

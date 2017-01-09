@@ -120,7 +120,7 @@
 		<key>firebase</key>
 		<dict>
 			<key>root_path</key>
-			<string>firebase_v4_demo</string>
+			<string>firebase_v4_local</string>
 			<key>storage_path</key>
 			<string>gs://chat-sdk-v4.appspot.com</string>
 		</dict>

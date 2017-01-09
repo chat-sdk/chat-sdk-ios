@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
       'ChatNearbyUsers' => ['NearbyUsers/Assets/**/*', 'NearbyUsers/Interface/**/*']
     }
     
-    nu.dependency 'GeoFire'
+#     nu.dependency 'GeoFire'
 
   end
 

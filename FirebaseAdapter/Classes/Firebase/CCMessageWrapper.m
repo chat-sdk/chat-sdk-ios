@@ -78,7 +78,7 @@
 }
 
 -(NSDictionary *) serialize {
-    return @{b_Payload: _model.textString,
+    return @{b_Payload: _model.text,
              b_Type: _model.type,
              b_Date: [FIRServerValue timestamp],
              b_UserFirebaseID: _model.userModel.entityID,
@@ -102,7 +102,7 @@
     
     NSString * payload = value[b_Payload];
     if (payload) {
-        [_model setTextAsDictionary:@{bMessageTextKey: payload}];
+        [_model setText:payload];
     }
     
     NSNumber * messageType = value[b_Type];

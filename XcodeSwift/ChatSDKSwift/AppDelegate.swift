@@ -25,16 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         BTwitterHelper.shared()
         
         BInterfaceManager.shared().a = BDefaultInterfaceAdapter.init()
+        let adapter = BFirebaseNetworkAdapter.init()
         
         let mainViewController = BAppTabBarController.init(nibName: nil, bundle: nil)
-
-        let adapter = BFirebaseNetworkAdapter.init()
         
         adapter.auth.setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
         
         BNetworkManager.shared().a = adapter
 
         BStorageManager.shared().a = BCoreDataManager.init()
+                
         
         self.window?.rootViewController = mainViewController;
         self.window?.makeKeyAndVisible();
