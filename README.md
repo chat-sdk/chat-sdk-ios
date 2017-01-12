@@ -40,6 +40,7 @@ We're very excited about the project and we're looking for other people to get i
 + Improving the user interface
 + Help us update the library to use Swift
 + Helping to write adapters for other services such as Layer, Pusher, Pubnub etc... 
++ Write a tutorial - **we pay $100** for quality tutorials
 
 If you're interested please email me at **ben@chatsdk.co**.
 
