@@ -8,7 +8,7 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 - **Open Source.** The Chat SDK is open source under the MIT license.
 - **Full data control.** You have full and exclusive access to the user's chat data
 - **Quick integration.** Chat SDK is fully featured out of the box
-- **Firebase** Powered by Google Firebase
+- **Firebase** Powered by [Google Firebase](https://firebase.google.com/)
 
 A demo of the project is available on the App Store.  
 
@@ -44,6 +44,7 @@ We're very excited about the project and we're looking for other people to get i
 
 If you're interested please email me at **ben@chatsdk.co**.
 
+
 ## Running the demo project
 This repository contains a fully functional verion of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
 
@@ -60,6 +61,12 @@ If your integrating the Chat SDK with a project that's written in Swift, you sho
 1. Create a new file called `[project name]-Bridging-Header.h`
 2. Set this file in the **Build Settings** -> **Objective-C Bridging Header**. Note that this path should be relative to your `.xcodeproj` file  
 3. Add the necessary imports to this header - they will be available to your Swift project
+
+## Explore the Wiki
+
+We have a number of additional guides available on our [Wiki](https://github.com/chat-sdk/chat-sdk-ios/wiki) including:
+
+- [Exploring the Chat SDK Architecture](https://github.com/chat-sdk/chat-sdk-ios/wiki/Exploring-the-Chat-SDK-Architecture)
 
 ## Integration with an existing project
 It's easy to integrate the Chat SDK with an existing project. 

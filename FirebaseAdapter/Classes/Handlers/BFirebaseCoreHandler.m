@@ -35,6 +35,7 @@
 }
 
 -(void) goOnline {
+    [super goOnline];
     [FIRDatabaseReference goOnline];
     if (self.currentUserModel) {
         [self setUserOnline];

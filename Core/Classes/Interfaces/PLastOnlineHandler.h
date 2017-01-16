@@ -15,6 +15,7 @@
 @protocol PLastOnlineHandler <NSObject>
 
 -(RXPromise *) getLastOnlineForUser: (id<PUser>) user;
+-(RXPromise *) setLastOnlineForUser: (id<PUser>) user;
 
 @end
 

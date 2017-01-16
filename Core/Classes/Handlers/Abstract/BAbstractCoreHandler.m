@@ -170,7 +170,9 @@
  * @brief Disconnect from the server
  */
 -(void) goOnline {
-    assert(NO);
+    if([BNetworkManager sharedManager].a.lastOnline && [[BNetworkManager sharedManager].a.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
+        [[BNetworkManager sharedManager].a.lastOnline setLastOnlineForUser:self.currentUserModel];
+    }
 }
 
 // TODO: Consider removing / refactoring this
