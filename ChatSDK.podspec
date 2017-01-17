@@ -73,7 +73,7 @@ Pod::Spec.new do |s|
     firebase.frameworks = 'CoreData', 'SystemConfiguration', 'Security', 'MobileCoreServices', 'CFNetwork', 'MessageUI', 'Accounts', 'Social', 'CoreLocation'
 
     firebase.dependency 'ChatSDK/Core'
-    firebase.dependency 'Facebook-iOS-SDK', '~>4.0.1'
+    firebase.dependency 'Facebook-iOS-SDK', '~>4.1.0'
     firebase.dependency 'Firebase/Core'
     firebase.dependency 'Firebase/Database'
     firebase.dependency 'Firebase/Storage'
