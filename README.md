@@ -67,6 +67,9 @@ If your integrating the Chat SDK with a project that's written in Swift, you sho
 We have a number of additional guides available on our [Wiki](https://github.com/chat-sdk/chat-sdk-ios/wiki) including:
 
 - [Exploring the Chat SDK Architecture](https://github.com/chat-sdk/chat-sdk-ios/wiki/Exploring-the-Chat-SDK-Architecture)
+- [Calculating the price of different backends](https://github.com/chat-sdk/blog/wiki/Messaging-service-price-comparison)
+- [Facebook login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/ChatSDK-iOS:-Facebook-login)
+- [Twitter login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/ChatSDK-iOS:-Twitter-Login)
 
 ## Integration with an existing project
 It's easy to integrate the Chat SDK with an existing project. 
