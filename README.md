@@ -44,6 +44,14 @@ We're very excited about the project and we're looking for other people to get i
 
 If you're interested please email me at **ben@chatsdk.co**.
 
+##The license
+This project uses the MIT license which is a commercially friendly open source license. The license has the following features:
+
++ Commercial use is allowed
++ You can modify, distribute and sublicense the source code
++ The work is provided "as is". You may not hold the author liable.
++ You must include the copyright notice
++ You must include the license 
 
 ## Running the demo project
 This repository contains a fully functional verion of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
