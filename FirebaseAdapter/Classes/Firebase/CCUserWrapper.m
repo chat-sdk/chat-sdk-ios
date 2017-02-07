@@ -114,7 +114,16 @@
     }
     
     if (!profilePictureSet && ![self.model metaStringForKey:bPictureURLKey]) {
-        [self setRobotProfilePicture];
+        
+        // If the user doesn't have a default profile picture then set it automatically
+        UIImage * defaultImage = [self.model.defaultImage resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
+        UIImage * thumbnail = [defaultImage resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
+        
+        // Update the user
+        [self.model setImage:UIImagePNGRepresentation(defaultImage)];
+        [self.model setThumbnail:UIImagePNGRepresentation(thumbnail)];
+        
+        //[self setRobotProfilePicture];
     }
     
     // Setup the message color defaults
