@@ -10,7 +10,6 @@
 
 //#import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
-#import <ChatSDK/ChatUIElements.h>
 
 @interface ElmLoginViewController ()
 
@@ -30,6 +29,8 @@
 @synthesize twitterButton;
 @synthesize googleButton;
 
+@synthesize delegate;
+
 @synthesize splashView;
 
 -(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -41,7 +42,7 @@
 
 - (id)init
 {
-    self = [super initWithNibName:@"ElmLoginViewController" bundle:[NSBundle bundleWithName:ChatUIElementsBundle]];
+    self = [super initWithNibName:@"BLoginViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
@@ -61,10 +62,6 @@
     
     // First check to see if the user is already authenticated
     [self showHUD: [NSBundle t:bAuthenticating]];
-    
-    if(self._viewDidLoad != Nil) {
-        self._viewDidLoad();
-    }
     
     facebookButton.hidden = !facebookButton.enabled;
     twitterButton.hidden = !twitterButton.enabled;
@@ -94,10 +91,6 @@
         
         [self updateButtonStateForInternetConnection];
     }];
-    
-    if(self._viewWillAppear != Nil) {
-        self._viewWillAppear();
-    }
     
 }
 
@@ -133,12 +126,11 @@
     
     [self hideKeyboard];
 
-    // Login using the details provided
-    [self showHUD];
-    if(self._loginButtonPressed != Nil) {
-        [self handleLoginAttempt:self._loginButtonPressed(emailField.text, passwordField.text)];
+    if ([delegate respondsToSelector:@selector(loginWithUsername:password:)]) {
+        [self showHUD];
+        [self handleLoginAttempt:[delegate loginWithUsername:emailField.text
+                                                    password:passwordField.text]];
     }
-
     
     [emailField resignFirstResponder];
     [passwordField resignFirstResponder];
@@ -148,18 +140,17 @@
     
     [self hideKeyboard];
     
-    // Let the user know we are registering
-    [self showHUD];
-    
-    self._registerButtonPressed(emailField.text, passwordField.text).thenOnMain(
-                                                        ^id(id success) {
-                                                            [self loginButtonPressed:Nil];
-                                                            return Nil;
-                                                        }, ^id(NSError * error) {
-                                                            [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
-                                                            return Nil;
-                                                        });
-    
+    if ([delegate respondsToSelector:@selector(registerWithUsername:password:)]) {
+        [self showHUD];
+        [delegate registerWithUsername:emailField.text password:passwordField.text].thenOnMain(
+                                                                                               ^id(id success) {
+                                                                                                   [self loginButtonPressed:Nil];
+                                                                                                   return Nil;
+                                                                                               }, ^id(NSError * error) {
+                                                                                                   [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+                                                                                                   return Nil;
+                                                                                               });
+    }
 }
 
 -(void) hideKeyboard {
@@ -168,9 +159,9 @@
 }
 
 - (IBAction)facebookButtonPressed:(id)sender {
-    [self showHUD];
-    if(self._facebookButtonPressed != Nil) {
-        [self handleLoginAttempt:self._facebookButtonPressed()];
+    if([delegate respondsToSelector:@selector(facebook)]) {
+        [self showHUD];
+        [self handleLoginAttempt:[delegate facebook]];
     }
 }
 
@@ -186,23 +177,23 @@
 }
 
 - (IBAction)twitterButtonPressed:(id)sender {
-    [self showHUD];
-    if(self._twitterButtonPressed != Nil) {
-        [self handleLoginAttempt:self._twitterButtonPressed()];
+    if ([delegate respondsToSelector:@selector(twitter)]) {
+        [self showHUD];
+        [self handleLoginAttempt:[delegate twitter]];
     }
 }
 
 - (IBAction)googleButtonPressed:(id)sender {
-    [self showHUD];
-    if(self._googlePlusButtonPressed != Nil) {
-        [self handleLoginAttempt:self._googlePlusButtonPressed()];
+    if ([delegate respondsToSelector:@selector(googlePlus)]) {
+        [self showHUD];
+        [self handleLoginAttempt:[delegate googlePlus]];
     }
 }
 
 - (IBAction)anonymousButtonPressed:(id)sender {
-    [self showHUD];
-    if(self._anonymousButtonPressed != Nil) {
-        [self handleLoginAttempt:self._anonymousButtonPressed()];
+    if ([delegate respondsToSelector:@selector(anonymous)]) {
+        [self showHUD];
+        [self handleLoginAttempt:[delegate anonymous]];
     }
 }
 

@@ -56,7 +56,7 @@
     [profilePictureButton setImage:image ? image : _user.defaultImage forState:UIControlStateNormal];
         
     // This function can only be called on the current user
-    [_user updateImageFromMetaData:YES].thenOnMain(^id(UIImage * image) {
+    [_user loadProfileImage:YES].thenOnMain(^id(UIImage * image) {
         
         // Only set the image if one is returned
         if (image) {
@@ -123,7 +123,7 @@
 //    if ([currentUser.entityID isEqualToString:_user.entityID]) {
 //        
 //        // This function can only be called on the current user
-//        [_user updateImageFromMetaData:YES].thenOnMain(^id(UIImage * image) {
+//        [_user loadProfileImage:YES].thenOnMain(^id(UIImage * image) {
 //            
 //            image = [image resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
 //            
@@ -143,7 +143,7 @@
 //        [profilePictureButton setImage:image ? image : _anonymousProfilePicture forState:UIControlStateNormal];
 //
 //        if (!_user.image) {
-//            [_user updateImageFromMetaData:YES].thenOnMain(^id(id success){
+//            [_user loadProfileImage:YES].thenOnMain(^id(id success){
 //                [profilePictureButton setImage:[UIImage imageWithData:_user.image] forState:UIControlStateNormal];
 //                return Nil;
 //            }, Nil);

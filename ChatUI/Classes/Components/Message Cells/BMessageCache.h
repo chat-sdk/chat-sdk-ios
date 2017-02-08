@@ -7,24 +7,23 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #import <ChatSDK/PMessage.h>
 
-@protocol PMessage;
+@protocol PElmMessage;
 
 @interface BMessageCache : NSObject {
     NSMutableDictionary * _messageBubbleImages;
     NSMutableDictionary * _messageInfo;
     NSString * _currentUserEntityID;
-}
+} 
 
 +(BMessageCache *) sharedCache;
 
--(UIImage *) bubbleForMessage: (id<PMessage>) message withColorWeight: (float) weight ;
+-(UIImage *) bubbleForMessage: (id<PElmMessage>) message withColorWeight: (float) weight ;
 
--(BOOL) isMine: (id<PMessage>) message;
+-(BOOL) isMine: (id<PElmMessage>) message;
 -(void) clear;
--(bMessagePosition) positionForMessage: (id<PMessage>) message;
--(id<PMessage>) nextMessageForMessage: (id<PMessage>) message;
+-(bMessagePosition) positionForMessage: (id<PElmMessage>) message;
+-(id<PElmMessage>) nextMessageForMessage: (id<PElmMessage>) message;
 
 @end

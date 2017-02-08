@@ -9,6 +9,7 @@
 #import "BAccountTypes.h"
 
 #import "BUserConnectionType.h"
+#import "PElmUser.h"
 
 @class RXPromise;
 @protocol PUserConnection;
@@ -17,7 +18,7 @@
 @protocol PEntity;
 @protocol PHasMeta;
 
-@protocol PUser <PEntity, PHasMeta>
+@protocol PUser <PEntity, PHasMeta, PElmUser>
 
 /**
  * @brief Sets the user's online status
@@ -82,8 +83,8 @@
 -(void) setAuthenticationType: (NSString *) type;
 -(NSString *) authenticationType;
 
--(RXPromise *) updateImageFromMetaData: (BOOL) force;
--(RXPromise *) updateThumbnailFromMetaData: (BOOL) force;
+-(RXPromise *) loadProfileImage: (BOOL) force;
+-(RXPromise *) loadProfileThumbnail: (BOOL) force;
 
 -(void) addLinkedAccountsObject: (id<PUserAccount>) account;
 

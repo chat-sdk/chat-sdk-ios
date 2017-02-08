@@ -78,7 +78,8 @@
 }
 
 -(NSDictionary *) serialize {
-    return @{b_Payload: _model.text,
+    return @{b_Payload: _model.textString,
+             b_JSON: _model.text,
              b_Type: _model.type,
              b_Date: [FIRServerValue timestamp],
              b_UserFirebaseID: _model.userModel.entityID,
@@ -96,13 +97,36 @@
     return readReceipts;
 }
 
+-(void) handlePayload: (NSString *) payload __deprecated_msg("From version 4 onwards messages should be encoded using JSON."); {
+    
+    NSData *jsonData = [payload dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *e;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonData options:nil error:&e];
+    
+    // This is encoded as JSON
+    if(dict[@"text"]) {
+        [_model setText:payload];
+    }
+    else {
+        [_model setTextAsDictionary:@{bMessageTextKey: payload}];
+    }
+
+}
+
 -(RXPromise *) deserialize: (NSDictionary *) value {
     
     RXPromise * promise = [RXPromise new];
     
-    NSString * payload = value[b_Payload];
-    if (payload) {
-        [_model setText:payload];
+    // Version 4 uses a JSON string so if this property is set, we use it!
+    NSString * json = value[b_JSON];
+    if (json) {
+        [_model setText:json];
+    }
+    else {
+        NSString * payload = value[b_Payload];
+        if (payload) {
+            [self handlePayload:payload];
+        }
     }
     
     NSNumber * messageType = value[b_Type];
@@ -152,9 +176,7 @@
         return [self push];
     }
     else {
-        RXPromise * promise = [RXPromise new];
-        [promise rejectWithReason:Nil];
-        return promise;
+        return [RXPromise rejectWithReason:Nil];
     }
 }
 

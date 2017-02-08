@@ -24,4 +24,10 @@
 #define bDefaultPublicGroupImage @"ChatUI.bundle/icn_100_anonymousGroup.png"
 #define bDefaultPlaceholderImage @"ChatUI.bundle/icn_300_placeholder.png"
 
+#define bDefaultFontSize 17
+#define bDefaultUserNameLabelSize 14
+#define bDefaultTextColor @"000000"
+
+#define bThreadDateFormat @"HH:mm dd/MM/YY"
+
 #endif /* BCoreDefines_h */

@@ -9,7 +9,7 @@
 #import "BLocationCell.h"
 
 #import <ChatSDK/BCoreUtilities.h>
-#import <ChatSDK/PMessage.h>
+#import <ChatSDK/PElmMessage.h>
 
 @implementation BLocationCell
 
@@ -30,7 +30,7 @@
     return self;
 }
 
--(void) setMessage: (id<PMessage, PMessageLayout>) message withColorWeight:(float)colorWeight {
+-(void) setMessage: (id<PElmMessage, PMessageLayout>) message withColorWeight:(float)colorWeight {
     [super setMessage:message withColorWeight:colorWeight];
     
     self.bubbleImageView.image = Nil;

@@ -11,7 +11,6 @@
 
 #import <ChatSDK/PMessageHandler.h>
 
-#define bVideoMessageCell @"bVideoMessageCell"
 
 @class RXPromise;
 

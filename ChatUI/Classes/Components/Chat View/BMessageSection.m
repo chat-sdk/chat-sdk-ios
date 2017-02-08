@@ -10,6 +10,7 @@
 
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
+#import <ChatSDK/PElmMessage.h>
 
 @implementation BMessageSection
 
@@ -28,11 +29,11 @@
 }
 
 -(NSString *) title {
-    id<PMessage> message = _messages.firstObject;
+    id<PElmMessage> message = _messages.firstObject;
     return [message.date dateAgo];
 }
 
--(id<PMessage>) messageForRow: (int) row {
+-(id<PElmMessage>) messageForRow: (int) row {
     if (row < _messages.count) {
         return _messages[row];
     }
@@ -43,7 +44,7 @@
     return _messages.count;
 }
 
--(void) addMessage:(id<PMessage>)message {
+-(void) addMessage:(id<PElmMessage>)message {
     [_messages addObject:message];
 }
 

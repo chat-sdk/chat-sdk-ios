@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSData *image;
 @property (nullable, nonatomic, retain) NSDate *lastOnline;
 @property (nullable, nonatomic, retain) NSDate *lastUpdated;
+
+// TODO: Remove this
 @property (nullable, nonatomic, retain) NSString *messageColor;
 @property (nullable, nonatomic, retain) id meta;
 @property (nullable, nonatomic, retain) NSNumber *online;

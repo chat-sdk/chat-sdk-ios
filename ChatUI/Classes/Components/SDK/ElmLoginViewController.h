@@ -11,6 +11,8 @@
 @class MBProgressHUD;
 @class RXPromise;
 
+@protocol ElmLoginViewDelegate;
+
 @interface ElmLoginViewController : UIViewController<UITextFieldDelegate> {
     UITapGestureRecognizer * _tapRecognizer;
     NSTimer * _timer;
@@ -33,15 +35,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *googleButton;
 
 @property (weak, nonatomic) IBOutlet UIImageView *splashView;
-
-@property (nonatomic, readwrite, copy) void(^_viewDidLoad)();
-@property (nonatomic, readwrite, copy) void(^_viewWillAppear)();
-@property (nonatomic, readwrite, copy) RXPromise * (^_loginButtonPressed)(NSString * username, NSString * password);
-@property (nonatomic, readwrite, copy) RXPromise * (^_registerButtonPressed)(NSString * username, NSString * password);
-@property (nonatomic, readwrite, copy) RXPromise * (^_facebookButtonPressed)();
-@property (nonatomic, readwrite, copy) RXPromise * (^_twitterButtonPressed)();
-@property (nonatomic, readwrite, copy) RXPromise * (^_googlePlusButtonPressed)();
-@property (nonatomic, readwrite, copy) RXPromise * (^_anonymousButtonPressed)();
+@property (nonatomic, readwrite, weak) id<ElmLoginViewDelegate> delegate;
 
 -(void) showHUD: (NSString *) message;
 -(void) showHUD;

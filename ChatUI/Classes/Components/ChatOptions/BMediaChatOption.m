@@ -129,7 +129,8 @@
         
         // Send video to the chat view
         if([BNetworkManager sharedManager].a.videoMessage) {
-            [_promise resolveWithResult: [[BNetworkManager sharedManager].a.videoMessage sendMessageWithVideo:videoData coverImage:cover withThreadEntityID:self.parent.delegate.currentThread.entityID]];
+            [_promise resolveWithResult:[self.parent.delegate sendVideoMessage:videoData withCoverImage:cover]];
+            
             [self.parent.delegate reloadData];
             _promise = Nil;
         }
@@ -147,7 +148,8 @@
 - (void)cropViewController:(TOCropViewController *)cropViewController didCropToImage:(UIImage *)image withRect:(CGRect)cropRect angle:(NSInteger)angle {
     
     // 'image' is the newly cropped version of the original image
-    [_promise resolveWithResult:[[BNetworkManager sharedManager].a.imageMessage sendMessageWithImage:image withThreadEntityID:self.parent.delegate.currentThread.entityID]];
+    [_promise resolveWithResult:[self.parent.delegate sendImageMessage:image]];
+    
     _promise = Nil;
     [self.parent.delegate reloadData];
     [cropViewController dismissViewControllerAnimated:YES completion:nil];

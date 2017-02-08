@@ -57,8 +57,8 @@
         CLLocation * location = locations.lastObject;
         
         if ([BNetworkManager sharedManager].a.locationMessage) {
-            [_promise resolveWithResult: [[BNetworkManager sharedManager].a.locationMessage sendMessageWithLocation:location
-                                                                                                 withThreadEntityID:parent.delegate.currentThread.entityID]];
+            [_promise resolveWithResult:[self.parent.delegate sendLocationMessage:location]];
+            
             [self.parent.delegate reloadData];
             _promise = Nil;
         }

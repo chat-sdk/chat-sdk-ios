@@ -8,15 +8,18 @@
 
 #import "BMessageLayout.h"
 
+#import <ChatSDK/PElmMessage.h>
+
+#import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
 
 @implementation BMessageLayout
 
-+(BMessageLayout *) layoutWithMessage: (id<PMessage>) message {
++(BMessageLayout *) layoutWithMessage: (id<PElmMessage>) message {
     return [[self alloc] initWithMessage:message];
 }
 
--(id) initWithMessage: (id<PMessage>) message {
+-(id) initWithMessage: (id<PElmMessage>) message {
     if((self = [self init])) {
         _message = message;
     }

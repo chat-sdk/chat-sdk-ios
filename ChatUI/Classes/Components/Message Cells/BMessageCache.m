@@ -11,6 +11,7 @@
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
 
+
 #define bMessagePositionKey @"bMessagePositionKey"
 #define bNextMessageKey @"bNextMessageKey"
 
@@ -39,7 +40,7 @@ static BMessageCache * cache;
     return self;
 }
 
--(UIImage *) bubbleForMessage: (id<PMessage>) message withColorWeight: (float) weight {
+-(UIImage *) bubbleForMessage: (id<PElmMessage>) message withColorWeight: (float) weight {
     
     bMessagePosition pos = [self positionForMessage:message];
     BOOL isMine = [self isMine:message];
@@ -62,9 +63,6 @@ static BMessageCache * cache;
     
     // Color
     NSString * colorString = Nil;
-    if (bAllowUserDefinedMessageColor) {
-        colorString = message.userModel.messageColor;
-    }
     if (isMine) {
         colorString = bDefaultMessageColorMe;
     }
@@ -105,7 +103,7 @@ static BMessageCache * cache;
     
 }
 
--(BOOL) shouldCacheMessage: (id<PMessage>) message {
+-(BOOL) shouldCacheMessage: (id<PElmMessage>) message {
     NSArray * messages = message.thread.messagesOrderedByDateAsc;
     NSInteger index = [messages indexOfObject:message];
     
@@ -114,7 +112,7 @@ static BMessageCache * cache;
 
 }
 
--(bMessagePosition) positionForMessage: (id<PMessage>) message {
+-(bMessagePosition) positionForMessage: (id<PElmMessage>) message {
     bMessagePosition pos;
     if([self isMessageCached:message]) {
         pos = [[self infoForMessage:message][bMessagePositionKey] intValue];
@@ -126,19 +124,19 @@ static BMessageCache * cache;
     return pos;
 }
 
--(void) cacheMessage: (id<PMessage>) message {
+-(void) cacheMessage: (id<PElmMessage>) message {
     if ([self shouldCacheMessage:message]) {
 
         bMessagePosition pos = message.messagePosition;
-        id<PMessage> nm = message.nextMessage;
+        id<PElmMessage> nm = message.nextMessage;
         
         [self infoForMessage:message][bMessagePositionKey] = @(pos);
         [self infoForMessage:message][bNextMessageKey] = nm;
     }
 }
 
--(id<PMessage>) nextMessageForMessage: (id<PMessage>) message {
-    id<PMessage> nm;
+-(id<PElmMessage>) nextMessageForMessage: (id<PElmMessage>) message {
+    id<PElmMessage> nm;
     if([self isMessageCached:message]) {
         nm = [self infoForMessage:message][bNextMessageKey];
     }
@@ -149,21 +147,21 @@ static BMessageCache * cache;
     return nm;
 }
 
--(NSMutableDictionary *) infoForMessage: (id<PMessage>) message {
+-(NSMutableDictionary *) infoForMessage: (id<PElmMessage>) message {
     // Have we already seen this message?
     NSMutableDictionary * messageInfo = _messageInfo[message.entityID];
-    if(!messageInfo) {
+    if(!messageInfo && message.entityID) {
         messageInfo = [NSMutableDictionary new];
         _messageInfo[message.entityID] = messageInfo;
     }
     return messageInfo;
 }
 
--(BOOL) isMessageCached: (id<PMessage>) message {
+-(BOOL) isMessageCached: (id<PElmMessage>) message {
     return _messageInfo[message.entityID] != Nil;
 }
 
--(BOOL) isMine: (id<PMessage>) message {
+-(BOOL) isMine: (id<PElmMessage>) message {
     return [message.userModel.entityID isEqualToString: self.currentUserEntityID];
 }
 

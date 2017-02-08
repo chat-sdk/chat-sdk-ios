@@ -146,7 +146,7 @@
                     [user setMetaString:urls[bImagePath] forKey:bPictureURLKey];
                     [user setMetaString:urls[bThumbnailPath] forKey:bPictureURLThumbnailKey];
                     
-                    return [user updateImageFromMetaData:NO].thenOnMain(^id(UIImage * image) {
+                    return [user loadProfileImage:NO].thenOnMain(^id(UIImage * image) {
                         
                         return [[BNetworkManager sharedManager].a.core pushUser];
                     }, Nil);
@@ -380,10 +380,10 @@
     }
     
     NSMutableArray * promises = [NSMutableArray new];
-    [promises addObject:[_model updateThumbnailFromMetaData:thumbnailChanged]];
+    [promises addObject:[_model loadProfileThumbnail:thumbnailChanged]];
     
     if (self.entityID == [BNetworkManager sharedManager].a.core.currentUserModel.entityID) {
-        [promises addObject:[_model updateImageFromMetaData:imageChanged]];
+        [promises addObject:[_model loadProfileImage:imageChanged]];
     }
     
     return [RXPromise all:promises];

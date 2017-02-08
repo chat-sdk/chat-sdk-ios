@@ -32,6 +32,15 @@
         }
     }];
     
+    [threadsRef observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
+        // Returns threads one by one
+        if (snapshot.value != [NSNull null]) {
+            // Make the new thread
+            CCThreadWrapper * thread = [CCThreadWrapper threadWithEntityID:snapshot.key];
+            [thread off];
+        }
+    }];
+    
     FIRDatabaseReference * publicThreadsRef = [FIRDatabaseReference publicThreadsRef];
     [publicThreadsRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
         if (snapshot.value != [NSNull null]) {

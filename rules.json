@@ -112,7 +112,7 @@
             
               "type": {
                 // Can only be set on message creation must be 0, 1 or 2
-                ".validate": "data.val() == null && (newData.val() >=0 && newData.val() <= 5)"
+                ".validate": "data.val() == null && (newData.val() >=0 && newData.val() <= 6)"
               },
             
               "user-firebase-id": {

@@ -11,7 +11,18 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
 
-#import <ChatSDK/ChatUIElements.h>
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
+
+//
+//#import <ChatSDK/ChatUI.h>
+//#import <ChatSDK/BCoreDefines.h>
+//#import <ChatSDK/PAudioMessageHandler.h>
+//#import <ChatSDK/PVideoMessageHandler.h>
+//#import <ChatSDK/PStickerMessageHandler.h>
+//#import <ChatSDK/BCoreUtilities.h>
+//
+//#import <ChatSDK/PElmThread.h>
 
 @interface ElmChatViewController ()
 
@@ -20,34 +31,18 @@
 @implementation ElmChatViewController
 
 @synthesize tableView;
-@synthesize controller;
+@synthesize delegate;
 
-- (id)initWithThread: (id<PThread>) thread
+- (id)initWithDelegate: (id<ElmChatViewDelegate>) delegate
 {
-    self = [super initWithNibName:@"ElmChatViewController" bundle:[NSBundle bundleWithName:ChatUIElementsBundle]];
+    self.delegate = delegate;
+    self = [super initWithNibName:@"BChatViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {
         
-        _thread = thread;
-        
-//        if (bLimitNumberOfMessagesTo > 0) {
-//            NSArray * array = _thread.messagesOrderedByDateDesc;
-//            int count = array.count;
-//            for (int i = bLimitNumberOfMessagesTo; i < count; i++) {
-//                [array[i] setThread:Nil];
-//                [[BStorageManager sharedManager].adapter deleteEntity:array[i]];
-//            }
-//        }
-        
-        _messageCache = [NSMutableArray new];
-        
-        // Set the title
-        if(self._name) {
-            self.title = self._name();
-        }
-        
-        // Add a tap recognizer so when we tap the table
-        // we dismiss the keyboard
+        // Add a tap recognizer so when we tap the table we dismiss the keyboard
         _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
+        
+        // It should only be enabled when the keyboard is being displayed
         _tapRecognizer.enabled = NO;
         [self.view addGestureRecognizer:_tapRecognizer];
         
@@ -57,38 +52,127 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:Nil];
         
-        // Mark all messages as read
-//        [thread.model markRead];
+        //[delegate.thread markRead];
         
-        if (self._markRead) {
-            self._markRead();
-        }
-        
-        UITapGestureRecognizer * titleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadUsersView)];
+        // When a user taps the title bar we want to know to show the options screen
+        UITapGestureRecognizer * titleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navigationBarTapped)];
         [self.navigationItem.titleView addGestureRecognizer:titleTapRecognizer];
 
     }
     return self;
 }
 
+// The text input view sits on top of the keyboard
+-(void) setupTextInputView {
+    _textInputView = [[BTextInputView alloc] init];
+    _textInputView.messageDelegate = self;
+    
+    
+    [self.view addSubview:_textInputView];
+    
+    _textInputView.keepBottomInset.equal = 0;
+    _textInputView.keepLeftInset.equal = 0;
+    _textInputView.keepRightInset.equal = 0;
+    
+    // Constrain the table to the top of the toolbar
+    tableView.keepBottomOffsetTo(_textInputView).equal =  -_textInputView.fh;
+    [self setTableViewBottomContentInset:_textInputView.fh];
+}
+
+-(void) registerMessageCells {
+    
+    // Default message types
+    
+    [self.tableView registerClass:[BTextMessageCell class] forCellReuseIdentifier:@(bMessageTypeText).stringValue];
+    [self.tableView registerClass:[BImageMessageCell class] forCellReuseIdentifier:@(bMessageTypeImage).stringValue];
+    [self.tableView registerClass:[BLocationCell class] forCellReuseIdentifier:@(bMessageTypeLocation).stringValue];
+    [self.tableView registerClass:[BSystemMessageCell class] forCellReuseIdentifier:@(bMessageTypeSystem).stringValue];
+    
+    // Some optional message types
+    if ([delegate respondsToSelector:@selector(customCellTypes)]) {
+        for (NSArray * cell in delegate.customCellTypes) {
+            [self.tableView registerClass:cell.firstObject forCellReuseIdentifier:[cell.lastObject stringValue]];
+        }
+    }
+    
+}
+
+// The naivgation bar has three functions
+// 1 - Shows the name of the chat
+// 2 - Show's a message or the list of users
+// 3 - Show's who's typing
+-(void) setupNavigationBar {
+    
+    UIView * containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 220, 40)];
+    
+    _titleLabel = [[UILabel alloc] init];
+    
+    _titleLabel.text = [NSBundle t: bThread];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.font = [UIFont boldSystemFontOfSize:_titleLabel.font.pointSize];
+    
+    [containerView addSubview:_titleLabel];
+    _titleLabel.keepInsets.equal = 0;
+    _titleLabel.keepBottomInset.equal = 10;
+    
+    _subtitleLabel = [[UILabel alloc] init];
+    _subtitleLabel.textAlignment = NSTextAlignmentCenter;
+    _subtitleLabel.font = [UIFont italicSystemFontOfSize:12.0];
+    _subtitleLabel.textColor = [UIColor lightGrayColor];
+    
+    [containerView addSubview:_subtitleLabel];
+    
+    _subtitleLabel.keepHeight.equal = 15;
+    _subtitleLabel.keepWidth.equal = 200;
+    _subtitleLabel.keepBottomInset.equal = 0;
+    _subtitleLabel.keepHorizontalCenter.equal = 0.5;
+    
+    [self.navigationItem setTitleView:containerView];
+}
+
+// The options handler is responsible for displaying options to the user
+// when the options button is pressed. These can either be in an alert view
+// or a collection view shown in the keyboard overlay
+-(void) setupKeyboardOverlay {
+    _keyboardOverlay = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fh, self.view.fw, 0)];
+    _keyboardOverlay.backgroundColor = [UIColor whiteColor];
+    
+    _optionsHandler = [[BInterfaceManager sharedManager].a chatOptionsHandlerWithChatViewController:self];
+    [_optionsHandler setDelegate: self];
+    
+    if(_optionsHandler.keyboardView) {
+        [_keyboardOverlay addSubview:_optionsHandler.keyboardView];
+        _optionsHandler.keyboardView.keepInsets.equal = 0;
+    }
+    
+    _keyboardOverlay.alpha = 0;
+    _keyboardOverlay.userInteractionEnabled = NO;
+
+}
+
+-(void) setTitle: (NSString *) title {
+    _titleLabel.text = title;
+}
+
+-(void) setSubtitle: (NSString *) subtitle {
+    _subtitleText = subtitle;
+    _subtitleLabel.text = subtitle;
+}
+
+-(void) setMessages: (NSArray<BMessageSection *> *) messages {
+    [self setMessages:messages scrollToBottom:YES];
+}
+
+-(void) setMessages: (NSArray<BMessageSection *> *) messages scrollToBottom: (BOOL) scroll {
+    _messages = messages;
+    [self.tableView reloadData];
+    if (scroll) {
+        [self scrollToBottomOfTable:YES];
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _navigationBarSubtitleText = [NSBundle t: bTapHereForContactInfo];
-    
-    
-    
-    if (_thread.type.intValue == bThreadType1to1) {
-        if([BNetworkManager sharedManager].a.lastOnline) {
-            [[BNetworkManager sharedManager].a.lastOnline getLastOnlineForUser:_thread.otherUser].thenOnMain(^id(NSDate * date) {
-                _navigationBarSubtitleText = date.lastSeenTimeAgo;
-                [self setNavigationBarSubtitle:Nil];
-                
-                return Nil;
-            }, Nil);
-        }
-    }
     
     // Keep the table header at the top
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
@@ -100,188 +184,59 @@
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
     
+    // Hide the tab bar when the messages are shown
+    self.hidesBottomBarWhenPushed = YES;
+    
     // Add an extra 5 px padding between the top of the table and the navigation bar
     // just to give the top message a bit more space
     UIEdgeInsets tableInsets = tableView.contentInset;
     tableInsets.top += 5;
     tableView.contentInset = tableInsets;
     
-    // Add a toolbar at bottom to allow messages to be composed
-    //
-    _textInputView = [[BTextInputView alloc] init];
-    _textInputView.messageDelegate = self;
-    [_textInputView setAudioEnabled: [BNetworkManager sharedManager].a.audioMessage != Nil];
-    
-    [self.view addSubview:_textInputView];
-    
-    _textInputView.keepBottomInset.equal = 0;
-    _textInputView.keepLeftInset.equal = 0;
-    _textInputView.keepRightInset.equal = 0;
-    
-    // Constrain the table to the top of the toolbar
-    tableView.keepBottomOffsetTo(_textInputView).equal =  -_textInputView.fh;
-    [self setTableViewBottomContentInset:_textInputView.fh];
-    
-    [self.tableView registerClass:[BTextMessageCell class] forCellReuseIdentifier:bTextMessageCell];
-    [self.tableView registerClass:[BImageMessageCell class] forCellReuseIdentifier:bImageMessageCell];
-    [self.tableView registerClass:[BLocationCell class] forCellReuseIdentifier:bLocationMessageCell];
-    [self.tableView registerClass:[BSystemMessageCell class] forCellReuseIdentifier:bSystemMessageCell];
-   
-#ifdef ChatSDKAudioMessagesModule
-    if([BNetworkManager sharedManager].a.audioMessage) {
-        [self.tableView registerClass:[BNetworkManager sharedManager].a.audioMessage.messageCellClass forCellReuseIdentifier:bAudioMessageCell];
-    }
-#endif
-
-#ifdef ChatSDKVideoMessagesModule
-    if([BNetworkManager sharedManager].a.videoMessage) {
-        [self.tableView registerClass:[BNetworkManager sharedManager].a.videoMessage.messageCellClass forCellReuseIdentifier:bVideoMessageCell];
-    }
-#endif
-
-#ifdef ChatSDKStickerMessagesModule
-    if([BNetworkManager sharedManager].a.stickerMessage) {
-        [self.tableView registerClass:[BNetworkManager sharedManager].a.stickerMessage.messageCellClass forCellReuseIdentifier:bStickerMessageCell];
-    }
-#endif
-    
+    // Add the refresh control - drag to load more messages
     _refreshControl = [[UIRefreshControl alloc] init];
-    [_refreshControl addTarget:self action:@selector(loadMoreMessages) forControlEvents:UIControlEventValueChanged];
+    [_refreshControl addTarget:self action:@selector(tableRefreshed) forControlEvents:UIControlEventValueChanged];
     [tableView addSubview:_refreshControl];
     
-    // Hide the tab bar when the messages are shown
-    self.hidesBottomBarWhenPushed = YES;
-
+    [self setupTextInputView];
     
-    // When a user types in a thread they get added to the typing users in that thread
-    // This sends a notification to add them to the list
-    // If they click send or stop typing for 5 seconds then it is removed
-    // Set the title
-
-    UIView * containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 220, 40)];
+    [self registerMessageCells];
     
-    UILabel * titleLabel = [[UILabel alloc] init];
-    titleLabel.text = _thread.displayName ? _thread.displayName : [NSBundle t: bThread];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.font = [UIFont boldSystemFontOfSize:titleLabel.font.pointSize];
-    
-    [containerView addSubview:titleLabel];
-    titleLabel.keepInsets.equal = 0;
-    titleLabel.keepBottomInset.equal = 10;
-    
-    _navigationBarSubtitle = [[UILabel alloc] init];
-    _navigationBarSubtitle.textAlignment = NSTextAlignmentCenter;
-    _navigationBarSubtitle.font = [UIFont italicSystemFontOfSize:12.0];
-    _navigationBarSubtitle.textColor = [UIColor lightGrayColor];
-    
-    [containerView addSubview:_navigationBarSubtitle];
-    
-    _navigationBarSubtitle.keepHeight.equal = 15;
-    _navigationBarSubtitle.keepWidth.equal = 200;
-    _navigationBarSubtitle.keepBottomInset.equal = 0;
-    _navigationBarSubtitle.keepHorizontalCenter.equal = 0.5;
-    
-    [self setNavigationBarSubtitle:Nil];
-    
-    [self.navigationItem setTitleView:containerView];
+    [self setupNavigationBar];
     
     [self updateInterfaceForReachabilityStateChange];
     
-    _keyboardOverlay = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fh, self.view.fw, 0)];
-    _keyboardOverlay.backgroundColor = [UIColor whiteColor];
+    [self setupKeyboardOverlay];
 
-    _optionsHandler = [[BInterfaceManager sharedManager].a chatOptionsHandlerWithChatViewController:self];
-    [_optionsHandler setDelegate: self];
-    
-    if(_optionsHandler.keyboardView) {
-        [_keyboardOverlay addSubview:_optionsHandler.keyboardView];
-        _optionsHandler.keyboardView.keepInsets.equal = 0;
+}
+
+-(void) tableRefreshed {
+    if ([delegate respondsToSelector:@selector(loadMoreMessages)]) {
+        [delegate loadMoreMessages].thenOnMain(^id(id success) {
+            [_refreshControl endRefreshing];
+            return Nil;
+        }, ^id(NSError * error) {
+            [_refreshControl endRefreshing];
+            return Nil;
+        });
     }
-
-    _keyboardOverlay.alpha = 0;
-    _keyboardOverlay.userInteractionEnabled = NO;
-
 }
 
--(void) loadMoreMessages {
-    [[BNetworkManager sharedManager].a.core loadMoreMessagesForThread:_thread].thenOnMain(^id(NSArray * messages) {
-        _messageCacheDirty = YES;
-        [tableView reloadData];
-        [_refreshControl endRefreshing];
-        return Nil;
-    },^id(NSError * error) {
-        // Make the refresh control disappear if there are no messages to load
-        [_refreshControl endRefreshing];
-        return Nil;
-    });
-}
-
--(void) setNavigationBarSubtitle: (NSString *) subtitle {
-    if (subtitle && subtitle.length) {
-        _navigationBarSubtitle.text = subtitle;
+-(void) startTypingWithMessage: (NSString *) message {
+    if(message && message.length) {
+        _subtitleLabel.text = message;
     }
     else {
-        if (_thread.type.intValue & bThreadTypeGroup) {
-            _navigationBarSubtitle.text = _thread.memberListString;
-        }
-        else {
-            _navigationBarSubtitle.text = _navigationBarSubtitleText;
-        }
+        [self stopTyping];
     }
 }
 
--(void) addObservers {
-    [self removeObservers];
-    
-    id<PUser> currentUserModel = [BNetworkManager sharedManager].a.core.currentUserModel;
+-(void) stopTyping {
+    _subtitleLabel.text = _subtitleText;
+}
 
-    _readReceiptObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationReadReceiptUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        _messageCacheDirty = YES;
-        [tableView reloadData];
-    }];
-
-    _messageObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageAdded object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        _messageCacheDirty = YES;
-        
-        id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
-        
-        if (![messageModel.thread isEqual:_thread.model] && [currentUserModel.threads containsObject:_thread] && messageModel) {
-            
-            // If we are in chat and receive a message in another chat then vibrate the phone
-            if (![messageModel.userModel isEqual:currentUserModel]) {
-                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-            }
-        }
-        else {
-            [self reloadData];
-            [[BNetworkManager sharedManager].a.readReceipt markRead:_thread.model];
-            //[_thread.model markRead];
-        }
-        
-        messageModel.delivered = @YES;
-    }];
-    _userObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        _messageCacheDirty = YES;
-        [tableView reloadData];
-    }];
-    
-    _typingObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationTypingStateChanged object:nil queue:Nil usingBlock:^(NSNotification * notification) {
-        id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
-        if ([thread isEqual: _thread]) {
-            [self setNavigationBarSubtitle:notification.userInfo[bNotificationTypingStateChangedKeyMessage]];
-        }
-    }];
-    
-    // TODO: Check this
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateInterfaceForReachabilityStateChange)
-                                                 name:kReachabilityChangedNotification
-                                               object:Nil];
-    
-    _threadUsersObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadUsersUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [self setNavigationBarSubtitle:Nil];
-    }];
-
+-(void) setAudioEnabled:(BOOL)enabled {
+    [_textInputView setAudioEnabled: enabled];
 }
 
 // Typing Indicator
@@ -299,12 +254,12 @@
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.tabBarController.tabBar.hidden = YES;
-    
     [self addObservers];
     
+    self.tabBarController.tabBar.hidden = YES;
+    
     // The user's read the messages
-    [_thread markRead];
+    [delegate markRead];
     
     // This scrolls the tableview almost to the bottom
     // This happens because autolayout hasn't yet been
@@ -316,69 +271,46 @@
     
     [self setChatState:bChatStateActive];
     
-    _usersViewLoaded = NO;
-    
     // Add an observer to detect if the app enters the foreground - if this happens we want to add the user to the public thread
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidAppear:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(viewDidAppear:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
     
     [self reloadData];
 }
 
--(void) removeObservers {
-    [[NSNotificationCenter defaultCenter] removeObserver:_messageObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:_userObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:_typingObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:_threadUsersObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:Nil];
-}
-
 -(void) viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    
-
-    //[self scrollToBottomOfTable:NO];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
- 
-    // For public threads we add the user when we view the thread
-    // TODO: This is called multiple times... maybe move it to view did load
-    if (_thread.type.intValue & bThreadTypePublic) {
-        id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
-        [[BNetworkManager sharedManager].a.core addUsers:@[user] toThread:_thread];
-    }
-    
     [self scrollToBottomOfTable:YES];
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    // The user's read the messages
-    [_thread markRead];
+    
     [self removeObservers];
     
-    // Remove the user from the thread
-    if (_thread.type.intValue & bThreadTypePublic && !_usersViewLoaded) {
-        id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
-        [[BNetworkManager sharedManager].a.core removeUsers:@[currentUser] fromThread:_thread];
-    }
-
+    [self.delegate markRead];
+    
+    _keyboardOverlay.alpha = 0;
+    _keyboardOverlay.userInteractionEnabled = NO;
+    
     // Typing Indicator
     // When the user leaves then automatically set them not to be typing in the thread
     [self userFinishedTypingWithState: bChatStateInactive];
-
 }
 
 -(void) viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
     // Remove the observer when we leave the thread so the function isn't called when returning from foreground when not in chat view
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-}
-
-- (void)dealloc {
-    NSLog(@"Dealloc");
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationWillEnterForegroundNotification
+                                                  object:nil];
 }
 
 // When the view is tapped - dismiss the keyboard
@@ -389,61 +321,29 @@
 #pragma TableView delegates
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.messages.count;
+    return _messages.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.messages[section] rowCount];
+    return [_messages[section] rowCount];
 }
 
--(id<PMessage>) messageForIndexPath: (NSIndexPath *) path {
-    return [_messageCache[path.section] messageForRow:path.row];
+-(id<PElmMessage>) messageForIndexPath: (NSIndexPath *) path {
+    return [_messages[path.section] messageForRow:path.row];
 }
-
-//-(NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    return [self.messages[section] title];
-//}
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [self.messages[section] view];
+    return [_messages[section] view];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<PMessage, PMessageLayout> message = [self messageForIndexPath:indexPath];
+    id<PElmMessage> message = [self messageForIndexPath:indexPath];
     
     BMessageCell<BMessageDelegate> * messageCell;
     
-    NSString * cellIdentifier = Nil;
-    switch (message.type.intValue) {
-        case bMessageTypeText:
-            cellIdentifier = bTextMessageCell;
-            break;
-        case bMessageTypeImage:
-            cellIdentifier = bImageMessageCell;
-            break;
-        case bMessageTypeLocation:
-            cellIdentifier = bLocationMessageCell;
-            break;
-        case bMessageTypeAudio:
-            cellIdentifier = bAudioMessageCell;
-            break;
-        case bMessageTypeVideo:
-            cellIdentifier = bVideoMessageCell;
-            break;
-        case bMessageTypeSticker:
-            cellIdentifier = bStickerMessageCell;
-            break;
-        case bMessageTypeSystem:
-            cellIdentifier = bSystemMessageCell;
-            break;
-        default:
-            break;
-    }
-    
-    messageCell = [tableView_ dequeueReusableCellWithIdentifier:cellIdentifier];
+    messageCell = [tableView_ dequeueReusableCellWithIdentifier:message.type.stringValue];
     messageCell.navigationController = self.navigationController;
-    
     
     // Add a gradient to the cells
     //float colorWeight = ((float) indexPath.row / (float) self.messages.count) * 0.15 + 0.85;
@@ -454,31 +354,21 @@
     return messageCell;
 }
 
-// A little bit of optimization
--(NSArray *) messages {
-    if (!_messageCache || !_messageCache.count || _messageCacheDirty) {
-        [_messageCache removeAllObjects];
-        
-        NSArray * messages = [_thread messagesOrderedByDateAsc];
-        id<PMessage> lastMessageDate;
-        BMessageSection * section;
-        
-        for (id<PMessage> message in messages) {
-            // This is a new day
-            if (!lastMessageDate || abs([message.date daysFrom:lastMessageDate]) > 0) {
-                section = [[BMessageSection alloc] init];
-                [_messageCache addObject:section];
-            }
-            [section addMessage:message];
-            lastMessageDate = message.date;
-        }
-        if (![_messageCache containsObject:section] && section) {
-            [_messageCache addObject:section];
-        }
-        
-        _messageCacheDirty = NO;
-    }
-    return _messageCache;
+-(void) addObservers {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateInterfaceForReachabilityStateChange)
+                                                 name:kReachabilityChangedNotification
+                                               object:Nil];
+    
+}
+
+-(void) removeObservers {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kReachabilityChangedNotification
+                                                  object:Nil];
+
 }
 
 // Layout out the bubbles. Do this after the cell's been made so we have
@@ -489,7 +379,7 @@
 
 // Set the message height based on the text height
 - (CGFloat)tableView:(UITableView *)tableView_ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id<PMessage> message = [self messageForIndexPath:indexPath];
+    id<PElmMessage> message = [self messageForIndexPath:indexPath];
     if(message) {
         id<PMessageLayout> l = [BMessageLayout layoutWithMessage:message];
         return l.cellHeight;
@@ -501,6 +391,7 @@
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     BMessageCell * cell = (BMessageCell *) [tableView_ cellForRowAtIndexPath:indexPath];
+    
     if ([cell isKindOfClass:[BImageMessageCell class]]) {
         
         if (!_imageViewController) {
@@ -603,7 +494,7 @@
 
 #pragma Message Delegate
 
--(void) sendText: (NSString *) message {
+-(void) sendTextMessage: (NSString *) message {
 
     // Typing indicator
     // Once a user sends a message they are no longer typing
@@ -611,42 +502,33 @@
     
     NSString * newMessage = [message stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     
-    [self handleSendError:[[BNetworkManager sharedManager].a.core sendMessageWithText:newMessage
-                                      withThreadEntityID:_thread.entityID]];
+    [self handleMessageSend:[delegate sendText:newMessage]];
+    
     [self reloadData];
 }
 
--(void) sendImage: (UIImage *) image {
-    
-    // This may be called from another view so make sure we're registered as
-    // a network activity listener
+-(void) sendImageMessage: (UIImage *) image {
     [self addObservers];
-    
-    if ([BNetworkManager sharedManager].a.imageMessage) {
-        [self handleSendError:[[BNetworkManager sharedManager].a.imageMessage sendMessageWithImage:image
-                                                          withThreadEntityID:_thread.entityID]];
-    }
+
+    [self handleMessageSend:[delegate sendImage: image]];
+
     [self reloadData];
 }
 
--(void) handleSendError: (RXPromise *) promise {
-    promise.thenOnMain(Nil, ^id(NSError * error) {
-        [[BNetworkManager sharedManager].a.core sendLocalSystemMessageWithText:error.localizedDescription
-                                                                          type:bSystemMessageTypeError
-                                                            withThreadEntityID:_thread.entityID];
-        
+-(void) handleMessageSend: (RXPromise *) promise {
+    promise.thenOnMain(^id(id success) {
+        [self scrollToBottomOfTable:YES];
+        return Nil;
+    }, ^id(NSError * error) {
+        [self handleMessageSend:[delegate sendSystemMessage: error.localizedDescription]];
         return Nil;
     });
 }
 
--(void) sendAudio: (NSData *) data duration: (double) seconds {
+-(void) sendAudioMessage: (NSData *) data duration: (double) seconds {
     
     if (seconds > 2) {
-        if ([BNetworkManager sharedManager].a.audioMessage) {
-            [self handleSendError:[[BNetworkManager sharedManager].a.audioMessage sendMessageWithAudio:data
-                                                                        duration:seconds
-                                                              withThreadEntityID:_thread.entityID]];
-        }
+        [self handleMessageSend:[delegate sendAudio:data withDuration:seconds]];
     }
     else {
         [UIView alertWithTitle:[NSBundle t:bErrorTitle]
@@ -656,22 +538,19 @@
     [self reloadData];
 }
 
--(void) sendVideo: (NSData *) data coverImage: (UIImage *) image {
+-(RXPromise *) sendVideoMessage: (NSData *) data withCoverImage: (UIImage *) image {
     [self addObservers];
-    if ([BNetworkManager sharedManager].a.videoMessage) {
-        [self handleSendError:[[BNetworkManager sharedManager].a.videoMessage sendMessageWithVideo:data
-                                                           coverImage:image
-                                                   withThreadEntityID:_thread.entityID]];
-    }
-    
+    [self handleMessageSend:[delegate sendVideo:data withCoverImage:image]];
     [self reloadData];
 }
 
-- (void) sendSticker: (NSString *)stickerName {
+- (void) sendStickerMessage: (NSString *)stickerName {
+    [self handleMessageSend:[delegate sendSticker: stickerName]];
+    [self reloadData];
+}
 
-    [[BNetworkManager sharedManager].a.stickerMessage sendMessageWithSticker:stickerName
-                                                          withThreadEntityID:_thread.entityID];
-    
+-(void) sendLocationMessage: (CLLocation *) location {
+    [self handleMessageSend:[delegate sendLocation: location]];
     [self reloadData];
 }
 
@@ -699,16 +578,12 @@
 
 #pragma BChatOptionDelegate
 
--(id<PThread>) currentThread {
-    return _thread;
-}
-
 -(UIViewController *) currentViewController {
     return self;
 }
 
 -(void) chatOptionActionExecuted:(RXPromise *)promise {
-    [self handleSendError:promise];
+    [self handleMessageSend:promise];
     promise.thenOnMain(^id(id success) {
         [self reloadData];
         return Nil;
@@ -717,10 +592,9 @@
 
 #pragma  Picture selection
 
-
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<PMessage> message = [self messageForIndexPath:indexPath];
+    id<PElmMessage> message = [self messageForIndexPath:indexPath];
     
     return message.flagged.intValue ? bUnflag : [NSBundle t:bFlag];
 }
@@ -728,52 +602,37 @@
 // Check that this is called for iOS7
 - (void)tableView:(UITableView *)tableView_ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<PMessage> message = [self messageForIndexPath:indexPath];
+    id<PElmMessage> message = [self messageForIndexPath:indexPath];
     
-    if (message.flagged.intValue) {
-        [[BNetworkManager sharedManager].a.moderation unflagMessage:message.entityID].thenOnMain(^id(id success) {
-            [tableView_ reloadData]; // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
-            return Nil;
-        }, Nil);
-    }
-    else {
-        [[BNetworkManager sharedManager].a.moderation flagMessage:message.entityID].thenOnMain(^id(id success) {
-            [tableView_ reloadData]; // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
-            return Nil;
-        }, Nil);
-    }
+    [delegate setMessageFlagged:message isFlagged:message.flagged.intValue].thenOnMain(^id(id success) {
+    // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
+        [tableView_ reloadData];
+        return Nil;
+    }, Nil);
     
     [tableView_ setEditing:NO animated:YES];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // We can only flag posts in public threads
-    return _thread.type.intValue & bThreadTypePublic ? YES : NO;
+    return delegate.threadType & bThreadTypePublic ? YES : NO;
 }
 
 // This only works for iOS8
 -(NSArray *)tableView:(UITableView *)tableView_ editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<PMessage> message = [self messageForIndexPath:indexPath];
+    id<PElmMessage> message = [self messageForIndexPath:indexPath];
     
     NSString * flagTitle = message.flagged.intValue ? [NSBundle t:bUnflag] : [NSBundle t:bFlag];
     
     UITableViewRowAction * button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:flagTitle handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         
-        if (message.flagged.intValue) {
-            [[BNetworkManager sharedManager].a.moderation unflagMessage:message.entityID].thenOnMain(^id(id success) {
-                [tableView_ reloadData]; // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
-                return Nil;
-            }, Nil);
+        [delegate setMessageFlagged:message isFlagged:message.flagged.intValue].thenOnMain(^id(id success) {
+            // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
+            [tableView_ reloadData];
+            return Nil;
+        }, Nil);
 
-        }
-        else {
-            [[BNetworkManager sharedManager].a.moderation flagMessage:message.entityID].thenOnMain(^id(id success) {
-                [tableView_ reloadData]; // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
-                return Nil;
-            }, Nil);
-
-        }
     }];
     
     button.backgroundColor = message.flagged.intValue ? [UIColor greenColor] : [UIColor orangeColor]; //arbitrary color
@@ -898,7 +757,6 @@
 }
 
 -(void) reloadData {
-    _messageCacheDirty = YES;
     [tableView reloadData];
     [self scrollToBottomOfTable:YES];
 }
@@ -910,18 +768,9 @@
     [self scrollToBottomOfTable:YES];
 }
 
-- (void)loadUsersView {
+- (void) navigationBarTapped {
     
-    _usersViewLoaded = YES;
-    
-    NSMutableArray * users = [NSMutableArray arrayWithArray: _thread.model.users.allObjects];
-    [users removeObject:[BNetworkManager sharedManager].a.core.currentUserModel];
-    
-    UIViewController * vc = [[BInterfaceManager sharedManager].a usersViewControllerWithThread:_thread
-                                                                    parentNavigationController:self.navigationController];
-    
-    UINavigationController * nvc = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self presentViewController:nvc animated:YES completion:nil];
+    [delegate navigationBarTapped];
 }
 
 - (void)updateInterfaceForReachabilityStateChange {
@@ -935,7 +784,7 @@
 
 -(void) setChatState: (bChatState) state {
     if (state != _chatState) {
-        [[BNetworkManager sharedManager].a.typingIndicator setChatState: state forThread: _thread];
+        [delegate setChatState:state];
     }
     _chatState = state;
 }

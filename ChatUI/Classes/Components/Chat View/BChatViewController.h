@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 deluge. All rights reserved.
 //
 
+
 #import <ChatSDK/BTextInputDelegate.h>
 #import <ChatSDK/bChatState.h>
 

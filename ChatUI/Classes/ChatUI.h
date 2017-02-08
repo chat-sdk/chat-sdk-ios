@@ -15,18 +15,26 @@
 #import "UIImageView+WebCache.h"
 #import "NSDate+DateTools.h"
 #import "CountryPicker.h"
+#import "RXPromise.h"
+#import "Reachability.h"
 
-#import <ChatSDK/BChatUIDefines.h>
+// Elements
+
+#import <ChatSDK/PElmMessage.h>
+#import <ChatSDK/PElmThread.h>
+#import <ChatSDK/PElmUser.h>
+
+
 #import <ChatSDK/BMessageLayout.h>
 #import <ChatSDK/NSBundle+ChatUI.h>
 #import <ChatSDK/UIImage+Additions.h>
 #import <ChatSDK/UIView+Additions.h>
-#import <ChatSDK/BChatUIDefines.h>
 #import <ChatSDK/NSMutableArray+User.h>
 #import <ChatSDK/UITextView+Resize.h>
 #import <ChatSDK/NSDate+Additions.h>
 
 #import <ChatSDK/BThreadCell.h>
+
 
 #import <ChatSDK/BProfileTableViewController.h>
 #import <ChatSDK/BChatViewController.h>

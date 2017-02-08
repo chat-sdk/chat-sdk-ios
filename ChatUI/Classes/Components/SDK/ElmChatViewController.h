@@ -9,42 +9,25 @@
 #import <ChatSDK/BTextInputDelegate.h>
 #import <ChatSDK/bChatState.h>
 #import <ChatSDK/BChatOptionDelegate.h>
+#import <ChatSDK/PElmMessage.h>
+#import <ChatSDK/ElmChatViewDelegate.h>
+
+
+@protocol PChatOptionsHandler;
 
 @class MPMoviePlayerController;
-@class CLLocationManager;
-@class MBProgressHUD;
-
-typedef enum {
-    bStickerPositionUp,
-    bStickerPositionDown,
-} bStickerPosition;
-
 @class BTextInputView;
 @class BImageViewController;
 @class BLocationViewController;
-@class MBProgressHUD;
-@class BAudioMessageCell;
-@class BThreadsViewController;
+@class BMessageSection;
 
-@class BStickerView;
-@class BChatOptionsCollectionView;
-
-
-//@protocol PThread;
-@protocol PChatOptionsHandler;
-
-// TODO: Check if there are unused class variables
 @interface ElmChatViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, BTextInputDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, BChatOptionDelegate> {
+    
+    NSArray<BMessageSection *> * _messages;
     
     BTextInputView * _textInputView;
     
     UIGestureRecognizer * _tapRecognizer;
-    
-    id<PThread> _thread;
-    
-    UISwipeGestureRecognizer * _swipeGestureRecognizer;
-    
-    CGPoint _lastContentOffset;
     
     BImageViewController * _imageViewController;
     UINavigationController * _imageViewNavigationController;
@@ -52,34 +35,16 @@ typedef enum {
     BLocationViewController * _locationViewController;
     UINavigationController * _locationViewNavigationController;
     
-    BOOL _messageCacheDirty;
-    NSMutableArray * _messageCache;
-    
     UIRefreshControl * _refreshControl;
-    
-    id _messageObserver;
-    id _userObserver;
-    id _typingObserver;
-    id _readReceiptObserver;
-
-    UIActivityIndicatorView * _activityIndicator;
-    
-    
-    MBProgressHUD * _hud;
-    
-    // This allows us to see what kind of media is being sent to know if we need to save it to album
-//    bPictureType _pictureType;
-    
-    BOOL _usersViewLoaded;
-    
+        
     // Typing Indicator
     NSTimer * _typingTimer;
-    UILabel * _navigationBarSubtitle;
-    
-    NSString * _navigationBarSubtitleText;
+
+    UILabel * _titleLabel;
+    UILabel * _subtitleLabel;
+    NSString * _subtitleText;
+
     bChatState _chatState;
-    
-    id _threadUsersObserver;
     
     UIView * _keyboardOverlay;
     
@@ -87,15 +52,26 @@ typedef enum {
 }
 
 @property (weak, nonatomic) IBOutlet UITableView * tableView;
-@property (weak, nonatomic) BThreadsViewController * controller;
+@property (nonatomic, readwrite, weak) id<ElmChatViewDelegate> delegate;
 
 @property (strong, nonatomic) MPMoviePlayerController * videoPlayer;
 
-// API
-@property (nonatomic, readwrite, copy) void(^_markRead)();
-@property (nonatomic, readwrite, copy) NSString * (^_name)();
+- (id)initWithDelegate: (id<ElmChatViewDelegate>) delegate;
 
-- (id)initWithThread: (id<PThread>) thread;
+-(void) setTitle: (NSString *) title;
+-(void) setSubtitle: (NSString *) subtitle;
+
+-(void) startTypingWithMessage: (NSString *) message;
+-(void) stopTyping;
+
+-(void) setMessages: (NSArray<BMessageSection *> *) messages;
+-(void) setMessages: (NSArray<BMessageSection *> *) messages scrollToBottom: (BOOL) scroll;
+
 -(void) hideKeyboard;
+-(void) setAudioEnabled: (BOOL) enabled;
+
+// To be overridden
+-(void) addObservers;
+-(void) removeObservers;
 
 @end

@@ -140,7 +140,7 @@
     
     // Set the profile picture
     // Does the user already have a profile picture?
-    [user updateImageFromMetaData: YES].thenOnMain(^id(UIImage * image) {
+    [user loadProfileImage: YES].thenOnMain(^id(UIImage * image) {
         [profilePictureButton setImage:image forState:UIControlStateNormal];
         return image;
     }, Nil);

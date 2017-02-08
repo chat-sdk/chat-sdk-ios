@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BImageViewController">
+            <connections>
+                <outlet property="imageView" destination="bVJ-qU-mwC" id="fVU-iT-3bp"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="zBP-CP-jEE">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bVJ-qU-mwC">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="800" constant="568" id="P1w-Ac-lJT"/>
+                                <constraint firstAttribute="width" priority="800" constant="320" id="qEO-7Z-jFt"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="bVJ-qU-mwC" firstAttribute="leading" secondItem="zBP-CP-jEE" secondAttribute="leading" id="UZV-Hy-tn6"/>
+                        <constraint firstItem="bVJ-qU-mwC" firstAttribute="top" secondItem="zBP-CP-jEE" secondAttribute="top" id="dGN-uU-2DQ"/>
+                        <constraint firstAttribute="trailing" secondItem="bVJ-qU-mwC" secondAttribute="trailing" id="lOg-NZ-BC1"/>
+                        <constraint firstAttribute="bottom" secondItem="bVJ-qU-mwC" secondAttribute="bottom" id="pG0-rM-gih"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="RmK-DE-0lK"/>
+                    </connections>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="zBP-CP-jEE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Kl1-Nw-TcM"/>
+                <constraint firstAttribute="trailing" secondItem="zBP-CP-jEE" secondAttribute="trailing" id="OPa-i0-T8Q"/>
+                <constraint firstAttribute="bottom" secondItem="zBP-CP-jEE" secondAttribute="bottom" id="Yen-Kf-O6P"/>
+                <constraint firstItem="zBP-CP-jEE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ssN-kH-Bad"/>
+            </constraints>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
+</document>

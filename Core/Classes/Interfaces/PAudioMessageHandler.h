@@ -13,7 +13,6 @@
 
 @class RXPromise;
 
-#define bAudioMessageCell @"bAudioMessageCell"
 
 @protocol PAudioMessageHandler <PMessageHandler>
 

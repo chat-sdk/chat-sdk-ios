@@ -106,7 +106,7 @@
     }
 }
 
--(RXPromise *) updateImageFromMetaData: (BOOL) force {
+-(RXPromise *) loadProfileImage: (BOOL) force {
     
     if (!self.image || force) {
         
@@ -132,7 +132,7 @@
 }
 
 // TODO: Check this
--(RXPromise *) updateThumbnailFromMetaData: (BOOL) force {
+-(RXPromise *) loadProfileThumbnail: (BOOL) force {
     
     if (!self.thumbnail || force) {
         

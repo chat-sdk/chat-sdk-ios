@@ -14,6 +14,15 @@
 #import <ChatSDK/ChatUI.h>
 #import <ChatSDK/ChatCore.h>
 
+#define bAudioMessageCell @"1"
+#define bVideoMessageCell @"2"
+#define bStickerMessageCell @"3"
+#define bTextMessageCell @"4"
+#define bImageMessageCell @"5"
+#define bLocationMessageCell @"6"
+#define bSystemMessageCell @"7"
+
+
 @interface BChatViewController ()
 
 @end

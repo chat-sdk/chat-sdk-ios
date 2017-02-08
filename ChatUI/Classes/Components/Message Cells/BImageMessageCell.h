@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BMessageCell.h"
 
-#define bImageMessageCell @"ImageMessageCell"
-
 @interface BImageMessageCell : BMessageCell<BMessageDelegate>
 
 @property (nonatomic, readwrite) UIImageView * imageView;

@@ -10,6 +10,7 @@
 
 #import <ChatSDK/ChatUI.h>
 #import <ChatSDK/ChatCore.h>
+#import <ChatSDK/PElmMessage.h>
 
 
 @implementation BMessageCell
@@ -96,12 +97,12 @@
     }
 }
 
--(void) setMessage: (id<PMessage, PMessageLayout>) message {
+-(void) setMessage: (id<PElmMessage, PMessageLayout>) message {
     [self setMessage:message withColorWeight:1.0];
 }
 
 // Called to setup the current cell for the message
--(void) setMessage: (id<PMessage, PMessageLayout>) message withColorWeight: (float) colorWeight {
+-(void) setMessage: (id<PElmMessage, PMessageLayout>) message withColorWeight: (float) colorWeight {
     
     // Set the message for later use
     _message = message;
@@ -115,7 +116,7 @@
     }
     
     bMessagePosition position = [[BMessageCache sharedCache] positionForMessage:message];
-    id<PMessage> nextMessage = [[BMessageCache sharedCache] nextMessageForMessage:message];
+    id<PElmMessage> nextMessage = [[BMessageCache sharedCache] nextMessageForMessage:message];
     
     // Set the bubble to be the correct color
     bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message withColorWeight:colorWeight];
@@ -129,7 +130,7 @@
         if (message.userModel) {
             _profilePicture.hidden = NO;
             
-            [message.userModel updateThumbnailFromMetaData:NO].thenOnMain(^id(UIImage * image) {
+            [message.userModel loadProfileThumbnail:NO].thenOnMain(^id(UIImage * image) {
                 _profilePicture.image = image;
                 return image;
             },Nil);

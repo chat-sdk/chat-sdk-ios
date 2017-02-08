@@ -41,6 +41,10 @@
 #import <ChatSDK/PUserWrapper.h>
 #import <ChatSDK/PGroup.h>
 
+#import <ChatSDK/PElmMessage.h>
+#import <ChatSDK/PElmThread.h>
+#import <ChatSDK/PElmUser.h>
+
 #import <ChatSDK/PCoreHandler.h>
 #import <ChatSDK/PVideoMessageHandler.h>
 #import <ChatSDK/PAudioMessageHandler.h>

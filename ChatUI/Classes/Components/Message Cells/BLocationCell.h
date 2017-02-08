@@ -10,8 +10,6 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-#define bLocationMessageCell @"LocationMessageCell"
-
 @interface BLocationCell : BMessageCell<BMessageDelegate>
 
 @property (nonatomic, readwrite) MKMapView * mapView;

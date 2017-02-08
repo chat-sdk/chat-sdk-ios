@@ -10,6 +10,7 @@
 
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
+#import <ChatSDK/PElmMessage.h>
 
 @implementation BSystemMessageCell
 
@@ -42,7 +43,7 @@
     return self;
 }
 
--(void) setMessage: (id<PMessage, PMessageLayout>) message withColorWeight:(float)colorWeight {
+-(void) setMessage: (id<PElmMessage, PMessageLayout>) message withColorWeight:(float)colorWeight {
     [super setMessage:message withColorWeight:colorWeight];
     
     NSDictionary * dict = [message textAsDictionary];

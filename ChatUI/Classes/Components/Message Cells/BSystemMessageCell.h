@@ -10,8 +10,6 @@
 #import "BMessageDelegate.h"
 #import "BMessageCell.h"
 
-#define bSystemMessageCell @"SystemMessageCell"
-
 @class BMessage;
 
 @interface BSystemMessageCell : BMessageCell {

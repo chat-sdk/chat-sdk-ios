@@ -10,7 +10,7 @@
 
 #import "PEntity.h"
 #import "PUser.h"
-#import <UIKit/UIKit.h> 
+#import "PElmThread.h"
 
 // Essentially, the last bit decides whether the thread is public
 // or private.
@@ -31,7 +31,7 @@ typedef enum {
     
 } bThreadType;
 
-@protocol PThread <PEntity, PHasMeta>
+@protocol PThread <PEntity, PHasMeta, PElmThread>
 
 -(void) setCreator: (id<PUser>) user;
 -(id<PUser>) creator;

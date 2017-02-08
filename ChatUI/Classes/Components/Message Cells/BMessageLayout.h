@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PMessage.h"
+
 #import "PMessageLayout.h"
 
 #define bTimeLabelPadding 10
@@ -16,10 +16,12 @@
 #define bMinMessageHeight 50
 #define bUserNameHeight 25
 
+@protocol PElmMessage;
+
 @interface BMessageLayout : NSObject<PMessageLayout> {
-    __weak id<PMessage> _message;
+    __weak id<PElmMessage> _message;
 }
 
-+(BMessageLayout *) layoutWithMessage: (id<PMessage>) message;
++(BMessageLayout *) layoutWithMessage: (id<PElmMessage>) message;
 
 @end

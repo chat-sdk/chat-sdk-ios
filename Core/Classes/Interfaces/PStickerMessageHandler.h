@@ -11,8 +11,6 @@
 
 @class RXPromise;
 
-#define bStickerMessageCell @"bStickerMessageCell"
-
 @protocol PStickerMessageHandler <NSObject>
 
 -(RXPromise *) sendMessageWithSticker: (NSString *) stickerName withThreadEntityID: (NSString *) threadID;

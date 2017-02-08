@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "BMessageDelegate.h"
 #import "PMessageLayout.h"
-#import "PMessage.h"
+//#import "PMessage.h"
+#import <ChatSDK/PElmMessage.h>
 
 // Size of the speech bubble tail
 #define bTailSize 5.0
@@ -28,11 +29,11 @@
     
     UILabel * _nameLabel;
     
-    id<PMessage, PMessageLayout> _message;
+    id<PElmMessage, PMessageLayout> _message;
 }
 
 @property (nonatomic, readwrite) UIImageView * bubbleImageView;
-@property (nonatomic, readwrite) id<PMessage> message;
+@property (nonatomic, readwrite) id<PElmMessage, PMessageLayout> message;
 
 // Let us open the user profile view
 @property (nonatomic, weak) UINavigationController * navigationController;

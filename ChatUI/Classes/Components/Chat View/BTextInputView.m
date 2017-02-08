@@ -176,8 +176,8 @@
             return;
         }
         
-        if (messageDelegate && [messageDelegate respondsToSelector:@selector(sendText:)]) {
-            [messageDelegate sendText:_textView.text];
+        if (messageDelegate && [messageDelegate respondsToSelector:@selector(sendTextMessage:)]) {
+            [messageDelegate sendTextMessage:_textView.text];
         }
         _textView.text = @"";
         [self textViewDidChange:_textView];
@@ -185,14 +185,14 @@
     else {
         
         // This is where the button is released so we want to finish recording and send
-        if (messageDelegate && [messageDelegate respondsToSelector:@selector(sendAudio:duration:)]) {
+        if (messageDelegate && [messageDelegate respondsToSelector:@selector(sendAudioMessage:duration:)]) {
             [[BAudioManager sharedManager] finishRecording];
             
             // Return the recording url and duration in an array
             NSURL * audioURL = [BAudioManager sharedManager].recorder.url;
             NSData * audioData = [NSData dataWithContentsOfURL:audioURL];
             
-            [messageDelegate sendAudio: audioData
+            [messageDelegate sendAudioMessage: audioData
                               duration: [BAudioManager sharedManager].recordingLength];
         }
     }

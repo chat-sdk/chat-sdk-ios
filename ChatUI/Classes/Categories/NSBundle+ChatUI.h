@@ -145,6 +145,13 @@
 #define bWarning @"bWarning"
 #define bYouMustEnableContactPermissionsToUseThisFunctionalityEnableInTheSettingsApp @"bYouMustEnableContactPermissionsToUseThisFunctionalityEnableInTheSettingsApp"
 
+#define bImageMessagesNotSupported @"bImageMessagesNotSupported"
+#define bAudioMessagesNotSupported @"bAudioMessagesNotSupported"
+#define bStickerMessagesNotSupported @"bStickerMessagesNotSupported"
+#define bLocationMessagesNotSupported @"bLocationMessagesNotSupported"
+#define bVideoMessagesNotSupported @"bVideoMessagesNotSupported"
+
+
 @interface NSBundle (ChatUI)
 
 +(NSBundle *) chatUIBundle;

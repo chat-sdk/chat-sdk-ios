@@ -10,6 +10,7 @@
 
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
+#import <ChatSDK/BChatViewController2.h>
 
 @implementation BDefaultInterfaceAdapter
 
@@ -44,7 +45,7 @@
 }
 
 -(UIViewController *) chatViewControllerWithThread: (id<PThread>) thread {
-    return [[BChatViewController alloc] initWithThread:thread];
+    return [[BChatViewController2 alloc] initWithThread:thread];
 }
 
 -(NSArray *) tabBarViewControllers {

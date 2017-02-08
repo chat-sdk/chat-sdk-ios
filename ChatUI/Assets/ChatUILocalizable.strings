@@ -138,8 +138,13 @@
 "bChoosePhoto" = "Choose Photo";
 "bChooseVideo" = "Choose Video";
 "bSticker" = "Sticker";
-"" = "";
-"" = "";
+
+"bImageMessagesNotSupported" = "Image messages are not supported";
+"bAudioMessagesNotSupported" = "Audio messages are not supported";
+"bStickerMessagesNotSupported" = "Sticker messages are not supported";
+"bLocationMessagesNotSupported" = "Location messages are not supported";
+"bVideoMessagesNotSupported" = "Video messages are not supported";
+
 "" = "";
 
 

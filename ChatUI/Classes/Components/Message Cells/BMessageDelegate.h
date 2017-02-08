@@ -6,13 +6,14 @@
 //  Copyright (c) 2013 deluge. All rights reserved.
 //
 
-#import "PMessage.h"
 #import "PMessageLayout.h"
+
+#import <ChatSDK/PElmMessage.h>
 
 @protocol BMessageDelegate <NSObject>
 
--(void) setMessage: (id<PMessage, PMessageLayout>) message;
--(void) setMessage: (id<PMessage, PMessageLayout>) message withColorWeight: (float) colorWeight;
+-(void) setMessage: (id<PElmMessage, PMessageLayout>) message;
+-(void) setMessage: (id<PElmMessage, PMessageLayout>) message withColorWeight: (float) colorWeight;
 
 -(void) willDisplayCell;
 

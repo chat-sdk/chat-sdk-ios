@@ -10,14 +10,20 @@
 #define BChatOptionDelegate_h
 
 @class RXPromise;
+@class CLLocation;
+
 @protocol PThread;
 
 @protocol BChatOptionDelegate <NSObject>
 
--(id<PThread>) currentThread;
 -(UIViewController *) currentViewController;
 -(void) chatOptionActionExecuted: (RXPromise *) promise;
 -(void) reloadData;
+
+-(RXPromise *) sendImageMessage: (UIImage *) image;
+-(RXPromise *) sendVideoMessage: (NSData *) video withCoverImage: (UIImage *) coverImage;
+-(RXPromise *) sendLocationMessage: (CLLocation *) location;
+-(RXPromise *) sendStickerMessage: (NSString *) name;
 
 @end
 

@@ -8,28 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class MBProgressHUD;
+#import <ChatSDK/ElmLoginViewController.h>
+#import <ChatSDK/ElmLoginViewDelegate.h>
 
-@interface BLoginViewController : UIViewController<UITextFieldDelegate> {
-    UITapGestureRecognizer * _tapRecognizer;
-    NSTimer * _timer;
-    MBProgressHUD * _hud;
-    id _internetConnectionObserver;
+
+@interface BLoginViewController : ElmLoginViewController<ElmLoginViewDelegate> {
 }
 
-@property (weak, nonatomic) IBOutlet UITextField *emailField;
-@property (weak, nonatomic) IBOutlet UITextField *passwordField;
-
-@property (weak, nonatomic) IBOutlet UIImageView *chatImageView;
-
-@property (weak, nonatomic) IBOutlet UIButton *loginButton;
-@property (weak, nonatomic) IBOutlet UIButton *registerButton;
-@property (weak, nonatomic) IBOutlet UIButton *anonymousButton;
-
-@property (weak, nonatomic) IBOutlet UIButton *facebookButton;
-@property (weak, nonatomic) IBOutlet UIButton *twitterButton;
-@property (weak, nonatomic) IBOutlet UIButton *googleButton;
-
-@property (weak, nonatomic) IBOutlet UIImageView *splashView;
 
 @end
