@@ -258,6 +258,9 @@
     if([BNetworkManager sharedManager].a.readReceipt) {
         [[BNetworkManager sharedManager].a.readReceipt markRead:_thread];
     }
+    else {
+        [_thread markRead];
+    }
 }
 
 -(bThreadType) threadType {
