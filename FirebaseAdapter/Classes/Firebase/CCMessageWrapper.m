@@ -128,7 +128,7 @@
             [self handlePayload:payload];
         }
     }
-    
+        
     NSNumber * messageType = value[b_Type];
     if (messageType) {
         _model.type = messageType;

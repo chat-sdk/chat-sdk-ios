@@ -30,6 +30,15 @@ A demo of the project is available on the App Store.
 
 Full breakdown is available on the [features page](http://chatsdk.co/features/).
 
+- [Typing indicator](http://chatsdk.co/downloads/typing-indicator/)
+- [Read receipts](http://chatsdk.co/downloads/read-receipts/)
+- [Location based chat](http://chatsdk.co/downloads/location-based-chat/)
+- [Audio messages](http://chatsdk.co/downloads/audio-messages/)
+- [Video messages](http://chatsdk.co/downloads/video-messages/)
+- [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
+- [Sticker messages](http://chatsdk.co/downloads/sticker-messages/)
+- [Push notifications](http://chatsdk.co/downloads/backendless-push-notifications/)
+
 ##Get involved!
 We're very excited about the project and we're looking for other people to get involved. Over time we would like to make the best messaging framework for mobile. Helping us could involve any of the following:
 
@@ -42,7 +51,7 @@ We're very excited about the project and we're looking for other people to get i
 + Helping to write adapters for other services such as Layer, Pusher, Pubnub etc... 
 + Write a tutorial - **we pay $100** for quality tutorials
 
-If you're interested please email me at **ben@chatsdk.co**.
+If you're interested please email me at **[team@chatsdk.co](mailto:team@chatsdk.co)**.
 
 ##The license
 This project uses the MIT license which is a commercially friendly open source license. The license has the following features:
@@ -52,6 +61,10 @@ This project uses the MIT license which is a commercially friendly open source l
 + The work is provided "as is". You may not hold the author liable.
 + You must include the copyright notice
 + You must include the license 
+
+##Wiki
+
+We have a lot more information on our [**Wiki**](https://github.com/chat-sdk/chat-sdk-ios/wiki) so make sure to check it out! 
 
 ## Running the demo project
 This repository contains a fully functional verion of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
