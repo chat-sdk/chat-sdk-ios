@@ -7,11 +7,12 @@
 //
 
 //#import <Foundation/Foundation.h>
-#import "Firebase.h"
+//#import "Firebase.h"
 //#import <Firebase/Firebase.h>
 //@import Firebase
+//#import <Firebase/Firebase.h>
 
-@class GeoFire;
+@import FirebaseDatabase;
 
 @interface FIRDatabaseReference (Paths)
 

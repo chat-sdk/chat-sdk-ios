@@ -10,6 +10,9 @@
 #import "BEntity.h"
 #import "PUserWrapper.h"
 
+@class FIRUser;
+@class FIRDataSnapshot;
+
 @interface CCUserWrapper : BEntity <PUserWrapper> {
     id<PUser> _model;
 }

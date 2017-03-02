@@ -15,9 +15,6 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |core|
 
     core.source_files = ['Core/Classes/**/*']
-    #core.resource_bundles = {
-    #  'ChatSDKCore' => ['Core/Assets/**/*']
-    #}
 
     core.dependency 'RXPromise', '~> 1.0'
     core.dependency 'Reachability', '~> 3.0'
@@ -30,12 +27,12 @@ Pod::Spec.new do |s|
   
   s.subspec 'ChatUI' do |ui|
   
-    ui.source_files = 'ChatUI/Classes/**/*'
+    ui.source_files = ['ChatUI/Classes/**/*']
     ui.resource_bundles = {
       'ChatUI' => ['ChatUI/Assets/**/*', 'ChatUI/Interface/**/*']
     }
   
-    ui.dependency 'ChatSDK/Core'
+    #ui.dependency 'ChatSDK/Core'
     ui.dependency 'MBProgressHUD', '~> 1.0'
     ui.dependency 'VENTokenField', '~> 2.0'
     ui.dependency 'SDWebImage', '~> 3.0'
@@ -44,28 +41,24 @@ Pod::Spec.new do |s|
     ui.dependency 'CountryPicker', '~> 1.0'
     ui.dependency 'DateTools', '~> 1.0'
     ui.dependency 'TOCropViewController', '~> 2.0'
-    
-	#ui.public_header_files = "ChatUI/Classes/ChatUI.h"
-  
+      
   end
   
   s.subspec 'CoreData' do |coredata|
   
-    coredata.source_files = 'CoreData/Classes/**/*'
+    coredata.source_files = ['CoreData/Classes/**/*']
     coredata.resource_bundles = {
       'ChatCoreData' => ['CoreData/Assets/**/*']
     }
   
-    coredata.dependency 'ChatSDK/Core'
+    #coredata.dependency 'ChatSDK/Core'
 	coredata.frameworks = 'UIKit', 'CoreData'
   
-    #coredata.public_header_files = "CoreData/Classes/ChatCoreData.h"
-
   end
   
   s.subspec 'FirebaseAdapter' do |firebase|
   
-    firebase.source_files = 'FirebaseAdapter/Classes/**/*'
+    firebase.source_files = ['FirebaseAdapter/Classes/**/*']
     #firebase.resource_bundles = {
     #  'ChatFirebaseAdapter' => ['FirebaseAdapter/Assets/**/*']
     #}
@@ -73,15 +66,22 @@ Pod::Spec.new do |s|
     firebase.frameworks = 'CoreData', 'SystemConfiguration', 'Security', 'MobileCoreServices', 'CFNetwork', 'MessageUI', 'Accounts', 'Social', 'CoreLocation'
 
     firebase.dependency 'ChatSDK/Core'
-    firebase.dependency 'Facebook-iOS-SDK', '~>4.1.0'
     firebase.dependency 'Firebase/Core'
     firebase.dependency 'Firebase/Database'
     firebase.dependency 'Firebase/Storage'
     firebase.dependency 'Firebase/Auth'
-    firebase.dependency 'Firebase/Messaging'
+    
+    # This is necessary because otherwise Firebase libraries aren't linked with Chat SDK pod
+    # We are manually adding the Firebase frameworks and then linking them
+    s.pod_target_xcconfig = { 
+        "OTHER_LDFLAGS" => '$(inherited) -framework "FirebaseDatabase" -framework "FirebaseCore" -framework "FirebaseAuth" -framework "FirebaseStorage" -framework "FirebaseInstanceID" -framework "FirebaseAnalytics" -framework "FirebaseDatabase"', 
+        "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES" => 'YES',
+        "FRAMEWORK_SEARCH_PATHS" => '$(inherited) "${PODS_ROOT}/FirebaseAuth/Frameworks" "${PODS_ROOT}/FirebaseCore/Frameworks" "${PODS_ROOT}/FirebaseDatabase/Frameworks" "${PODS_ROOT}/FirebaseInstanceID/Frameworks" "${PODS_ROOT}/FirebaseStorage/Frameworks" "${PODS_ROOT}/FirebaseAnalytics/Frameworks"' 
+	}
+# 	s.xcconfig = {
+#         "FRAMEWORK_SEARCH_PATHS" => '"$(inherited)" "${PODS_ROOT}/FirebaseAuth/Frameworks" "${PODS_ROOT}/FirebaseCore/Frameworks" "${PODS_ROOT}/FirebaseDatabase/Frameworks" "${PODS_ROOT}/FirebaseInstanceID/Frameworks" "${PODS_ROOT}/FirebaseStorage/Frameworks" "${PODS_ROOT}/FirebaseAnalytics/Frameworks"' 
+# 	}
 
-    firebase.dependency 'Google/SignIn', '~> 3.0'
-    firebase.dependency 'TwitterKit', '~>1.12'
   
   	#firebase.vendored_frameworks = 'FirebaseAdapter/Frameworks/TwitterKit.framework', 'FirebaseAdapter/Frameworks/GGLSignIn.framework', 'FirebaseAdapter/Frameworks/GGLCore.framework'
   

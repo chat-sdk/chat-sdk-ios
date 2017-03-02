@@ -8,11 +8,13 @@
 
 #import "AppDelegate.h"
 
-#import "BTwitterHelper.h"
+
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
 #import <ChatSDK/ChatFirebaseAdapter.h>
 #import <ChatSDK/ChatCoreData.h>
+
+#import <Firebase/Firebase.h>
 
 @interface AppDelegate ()
 
@@ -25,22 +27,24 @@
 
     // Configure app for Facebook login
     [FIRApp configure];
-    [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
     // Start the twitter helper to handle login
-    [BTwitterHelper sharedHelper];
+    //[BTwitterHelper sharedHelper];
     
     // Set the default interface manager
     [BInterfaceManager sharedManager].a = [[BDefaultInterfaceAdapter alloc] init];
     
-    // Create a network adapter to communicate with Firebase
-    // The network adapter handles network traffic
+//    // Create a network adapter to communicate with Firebase
+//    // The network adapter handles network traffic
     BFirebaseNetworkAdapter * adapter = [[BFirebaseNetworkAdapter alloc] init];
-    
+//
     // This is the main view that contains the tab bar
     UIViewController * mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
-    
-    
+//
+    if (adapter.socialLogin) {
+        [adapter.socialLogin application: application didFinishLaunchingWithOptions:launchOptions];
+    }
+
     // Set the login screen
     // This screen is customizable - for example if you are using the
     // Two factor authentication module
@@ -61,19 +65,21 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [FBSDKAppEvents activateApp];
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+
+// During the Facebook login flow, your app passes control to the Facebook iOS app or Facebook in a mobile browser.
+// After authentication, your app will be called back with the session information.
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
 {
-    if ([[url scheme] isEqualToString:[NSString stringWithFormat:@"fb%@",[BSettingsManager facebookAppId]]]) {
-        return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    if ([BNetworkManager sharedManager].a.socialLogin) {
+        return [[BNetworkManager sharedManager].a.socialLogin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     }
-    else {
-        return [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication annotation:annotation];
-    }
+    return NO;
 }
-
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

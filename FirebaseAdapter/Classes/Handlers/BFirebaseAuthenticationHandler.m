@@ -8,9 +8,6 @@
 
 #import "BFirebaseAuthenticationHandler.h"
 
-#import "FBSDKAccessToken.h"
-#import "FBSDKLoginManager.h"
-#import <Google/SignIn.h>
 
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatFirebaseAdapter.h>
@@ -112,67 +109,53 @@
     // Depending on the login method we need to authenticate with Firebase
     switch ([details[bLoginTypeKey] intValue]) {
         case bAccountTypeFacebook: {
-            //[self loginWithFacebookWithCompletion:handleResult];
-            if([FBSDKAccessToken currentAccessToken]) {
-                
-                FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:[FBSDKAccessToken currentAccessToken].tokenString];
-                [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
-            }
-            else {
-                // TODO: Check this
-                FBSDKLoginManager * manager = [[FBSDKLoginManager alloc] init];
-                [manager logInWithReadPermissions:@[] handler:^(FBSDKLoginManagerLoginResult * result, NSError * error) {
-                    if(!error) {
-                        
-                        FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:[FBSDKAccessToken currentAccessToken].tokenString];
-                        [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
-                    }
-                    else {
-                        handleResult(error, Nil);
-                    }
-                }];
+            if ([BNetworkManager sharedManager].a.socialLogin) {
+                [[BNetworkManager sharedManager].a.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
+                    FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:token];
+                    [promise resolveWithResult:credential];
+                    [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
+
+                    return Nil;
+                }, ^id (NSError * error) {
+                    handleResult(error, Nil);
+                    return Nil;
+                });
             }
         }
             break;
         case bAccountTypeTwitter:
         {
-            
-            [[NSNotificationCenter defaultCenter] addObserverForName:bTwitterLoginPromiseNotification object:Nil queue:0 usingBlock:^(NSNotification * notification) {
-                RXPromise * promise = notification.userInfo[bTwitterLoginPromise];
-                promise.thenOnMain(^id(NSDictionary * dict) {
+         
+            if ([BNetworkManager sharedManager].a.socialLogin) {
+                [[BNetworkManager sharedManager].a.socialLogin loginWithTwitter].thenOnMain(^id(NSDictionary * dict) {
                     FIRAuthCredential * credential = [FIRTwitterAuthProvider credentialWithToken:dict[bTwitterAuthToken]
                                                                                           secret:dict[bTwitterSecret]];
                     [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
                     return Nil;
-                },^id(NSError * error) {
-                    handleResult(Nil, error);
+                    
+                }, ^id (NSError * error) {
+                    handleResult(error, Nil);
                     return Nil;
                 });
-            }];
-            
-            // When this is called, we try to login and return the promise
-            [[NSNotificationCenter defaultCenter] postNotificationName:bTwitterLoginStartNotification object:Nil userInfo:@{bTwitterLoginPromise: promise}];
+            }
             
         }
             break;
         // TODO: Test this
         case bAccountTypeGoogle:
         {
-            BGoogleLoginHelper * helper = [[BGoogleLoginHelper alloc] init];
-            [helper login].thenOnMain(^id(id success) {
-
-                GIDAuthentication * authentication = [GIDSignIn sharedInstance].currentUser.authentication;
-                
-                FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:authentication.idToken
-                                                                                  accessToken:authentication.accessToken];
-                
-                [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
-               
-                return Nil;
-            }, ^id(NSError * error) {
-                handleResult(Nil, error);
-                return Nil;
-            });
+            if ([BNetworkManager sharedManager].a.socialLogin) {
+                [[BNetworkManager sharedManager].a.socialLogin loginWithGoogle].thenOnMain(^id(NSArray * array) {
+                    FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:array.firstObject
+                                                                                      accessToken:array.lastObject];
+                    [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
+                    return Nil;
+                    
+                }, ^id (NSError * error) {
+                    handleResult(error, Nil);
+                    return Nil;
+                });
+            }
             
         }
             break;

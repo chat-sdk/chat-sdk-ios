@@ -50,6 +50,10 @@
 		self.contact = [[BFirebasePhonebookContactHandler alloc] init];
 #endif
         
+#ifdef ChatSDKSocialLoginModule
+        self.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
+#endif
+
     }
     return self;
 }

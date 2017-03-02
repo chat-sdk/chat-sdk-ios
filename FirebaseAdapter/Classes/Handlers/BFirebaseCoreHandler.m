@@ -113,7 +113,6 @@
     
     return [thread push].thenOnMain(^id(id<PThread> thread) {
         
-        [[BStorageManager sharedManager].a endUndoGroup];
         // Add the users to the thread
         if (threadCreated != Nil) {
             threadCreated(Nil, thread);
@@ -121,7 +120,6 @@
         return [self addUsers:usersToAdd toThread:threadModel];
         
     },^id(NSError * error) {
-        [[BStorageManager sharedManager].a endUndoGroup];
         [[BStorageManager sharedManager].a undo];
         
         if (threadCreated != Nil) {

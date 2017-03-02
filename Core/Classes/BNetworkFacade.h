@@ -30,6 +30,7 @@
 @protocol PNearbyUsersHandler;
 @protocol PReadReceiptHandler;
 @protocol PStickerMessageHandler;
+@protocol PSocialLoginHandler;
 
 #define bNotificationLogout @"bNLogout"
 
@@ -79,6 +80,7 @@
 -(id<PNearbyUsersHandler>) nearbyUsers;
 -(id<PReadReceiptHandler>) readReceipt;
 -(id<PStickerMessageHandler>) stickerMessage;
+-(id<PSocialLoginHandler>) socialLogin;
 
 @end
 

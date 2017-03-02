@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MBProgressHUD.h"
-#import "VENTokenField.h"
-#import "PThread_.h"
+#import <VENTokenField/VENTokenField.h>
 
 @class BSearchIndexViewController;
+@class MBProgressHUD;
+@protocol  PThread;
+@protocol PUser;
 
 @interface BFriendsListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, VENTokenFieldDelegate, VENTokenFieldDataSource, UITextFieldDelegate> {
     NSMutableArray * _contacts;

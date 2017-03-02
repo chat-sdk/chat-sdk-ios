@@ -9,8 +9,6 @@
 #ifndef ChatFirebaseAdapter_h
 #define ChatFirebaseAdapter_h
 
-#import <Facebook-iOS-SDK/FBSDKCoreKit/FBSDKCoreKit.h>
-//#import <Google/SignIn.h>
 #import <Firebase/Firebase.h>
 
 #import <ChatSDK/NSManagedObject+Status.h>
@@ -30,7 +28,6 @@
 #import <ChatSDK/BFirebaseSearchHandler.h>
 #import <ChatSDK/BFirebaseModerationHandler.h>
 #import <ChatSDK/BFirebasePublicThreadHandler.h>
-#import <ChatSDK/BGoogleLoginHelper.h>
 
 #ifdef ChatSDKReadReceiptsModule
 #import <ChatSDKFirebase/BFirebaseReadReceiptHandler.h>
@@ -58,6 +55,9 @@
 #import <ChatSDKFirebase/BFirebasePhonebookContactHandler.h>
 #endif
 
+#ifdef ChatSDKSocialLoginModule
+#import <ChatSDKFirebase/BFirebaseSocialLoginHandler.h>
+#endif
 
 
 #endif /* ChatFirebaseAdapter_h */

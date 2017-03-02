@@ -9,7 +9,7 @@
 #import "BFirebaseUploadHandler.h"
 
 #import <Firebase/Firebase.h>
-#import <RXPromise.h>
+#import <RXPromise/RXPromise.h>
 
 #import <ChatSDK/BSettingsManager.h>
 #import <ChatSDK/BCoreUtilities.h>

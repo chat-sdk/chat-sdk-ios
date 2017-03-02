@@ -29,5 +29,6 @@
 @property (nonatomic, readwrite) id<PNearbyUsersHandler> nearbyUsers;
 @property (nonatomic, readwrite) id<PReadReceiptHandler> readReceipt;
 @property (nonatomic, readwrite) id<PStickerMessageHandler> stickerMessage;
+@property (nonatomic, readwrite) id<PSocialLoginHandler> socialLogin;
 
 @end

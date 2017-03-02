@@ -10,13 +10,18 @@
 #define ChatUI_h
 
 #import "KeepLayout.h"
-#import "MBProgressHUD.h"
-#import "TOCropViewController.h"
-#import "UIImageView+WebCache.h"
-#import "NSDate+DateTools.h"
-#import "CountryPicker.h"
-#import "RXPromise.h"
-#import "Reachability.h"
+
+#import <MBProgressHUD/MBProgressHUD.h>
+
+
+//#import "MBProgressHUD.h"
+#import <TOCropViewController/TOCropViewController.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+//#import "UIImageView+WebCache.h"
+#import <DateTools/NSDate+DateTools.h>
+#import <CountryPicker/CountryPicker.h>
+#import <RXPromise/RXPromise.h>
+#import <Reachability/Reachability.h>
 
 // Elements
 
