@@ -77,8 +77,40 @@
 }
 
 -(RXPromise *) googlePlus {
-    return [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeGoogle)}];
+    
+    BGoogleLoginViewController * vc = [[BGoogleLoginViewController alloc] init];
+    UINavigationController * nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nvc animated:YES completion:nil];
+    
+    //return [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeGoogle)}];
 }
+
+//// Implement the required GIDSignInDelegate methods
+//- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+//
+//    //[self showHUD];
+//    
+////    if (error == nil) {
+//        
+//    //[[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeGoogle)}];
+//        
+////        [[BNetworkManager sharedManager].authenticationAdapter authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeGoogle)}].thenOnMain(^id(id<PUser> user) {
+////            
+//////            [self authenticationFinished];
+////            return Nil;
+////        }, ^id(NSError * error) {
+//////            [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+////            return Nil;
+////        });
+////    }
+//////    else {
+//////        [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+//////    }
+//}
+//
+//- (void)signInWillDispatch:(GIDSignIn *)signIn error:(NSError *)error {
+//    
+//}
 
 -(RXPromise *) anonymous {
     return [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeAnonymous)}];

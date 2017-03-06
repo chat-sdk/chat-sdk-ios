@@ -186,6 +186,8 @@
 - (IBAction)googleButtonPressed:(id)sender {
     if ([delegate respondsToSelector:@selector(googlePlus)]) {
         [self showHUD];
+        [delegate googlePlus];
+        
         [self handleLoginAttempt:[delegate googlePlus]];
     }
 }
