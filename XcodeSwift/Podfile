@@ -2,7 +2,11 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'ChatSDKSwift' do
   
-  pod "ChatSDK", :path => "../"
+  pod "ChatSDKCore”, :path => "../"
+  pod "ChatSDKUI”, :path => "../"
+  pod "ChatSDKCoreData”, :path => "../"
+  pod "ChatSDKFirebaseAdapter”, :path => "../"
+
   #pod "ChatSDKModules/Backendless", :path => "ChatSDKModules"
 	
 end
