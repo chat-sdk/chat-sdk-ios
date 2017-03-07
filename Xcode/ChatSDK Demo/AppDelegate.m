@@ -9,10 +9,10 @@
 #import "AppDelegate.h"
 
 #import "BTwitterHelper.h"
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
-#import <ChatSDK/ChatFirebaseAdapter.h>
-#import <ChatSDK/ChatCoreData.h>
+#import <ChatSDKCore/ChatCore.h>
+#import <ChatSDKUI/ChatUI.h>
+#import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
+#import <ChatSDKCoreData/ChatCoreData.h>
 
 @interface AppDelegate ()
 

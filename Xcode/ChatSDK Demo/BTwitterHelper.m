@@ -9,7 +9,7 @@
 #import "BTwitterHelper.h"
 #import <TwitterKit/TwitterKit.h>
 
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDKCore/ChatCore.h>
 
 @implementation BTwitterHelper
 
