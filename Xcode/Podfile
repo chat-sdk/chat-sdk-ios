@@ -4,11 +4,11 @@ target 'ChatSDK Demo' do
 
   use_frameworks!
   
-  pod "ChatSDK/Core", :path => "../"
-  pod "ChatSDK/ChatUI", :path => "../"
-  pod "ChatSDK/CoreData", :path => "../"
-  pod "ChatSDK/FirebaseAdapter", :path => "../"
-  
+  pod "ChatSDKCore”, :path => "../"
+  pod "ChatSDKUI”, :path => "../"
+  pod "ChatSDKCoreData”, :path => "../"
+  pod "ChatSDKFirebaseAdapter”, :path => "../"
+
   #pod "ChatSDKModules/Backendless", :path => "ChatSDKModules"
 	
 end
