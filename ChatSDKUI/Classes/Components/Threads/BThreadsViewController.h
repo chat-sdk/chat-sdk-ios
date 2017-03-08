@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PThreadWrapper.h"
+#import <ChatSDKCore/PThreadWrapper.h>
 
 @interface BThreadsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UITabBarDelegate, UIAlertViewDelegate> {
     UIBarButtonItem * _editButton;

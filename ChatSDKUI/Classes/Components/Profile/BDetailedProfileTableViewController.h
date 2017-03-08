@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StaticDataTableViewController.h"
+#import <StaticDataTableViewController/StaticDataTableViewController.h>
 
 @protocol PUser;
 

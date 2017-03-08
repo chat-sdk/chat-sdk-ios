@@ -1,11 +1,21 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
+use_frameworks!
+
 target 'ChatSDKSwift' do
   
   pod "ChatSDKCore”, :path => "../"
   pod "ChatSDKUI”, :path => "../"
   pod "ChatSDKCoreData”, :path => "../"
   pod "ChatSDKFirebaseAdapter”, :path => "../"
+	
+  pod 'Firebase/Core'
+  pod 'Firebase/Database'
+  pod 'Firebase/Storage'
+  pod 'Firebase/Auth'
+
+	
+  pod "TwitterKit"
 
   #pod "ChatSDKModules/Backendless", :path => "ChatSDKModules"
 	

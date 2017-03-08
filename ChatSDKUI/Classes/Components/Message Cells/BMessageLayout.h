@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PMessageLayout.h"
+#import <ChatSDKCore/PMessageLayout.h>
 
 #define bTimeLabelPadding 10
 #define bMaxMessageWidth 200

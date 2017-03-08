@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PThread_.h"
-#import "BThreadsViewController.h"
+#import <ChatSDKCore/PThread_.h>
+#import <ChatSDKUI/BThreadsViewController.h>
 
 @class BChatViewController;
 

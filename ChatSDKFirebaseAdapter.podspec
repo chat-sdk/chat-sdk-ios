@@ -14,15 +14,16 @@ Pod::Spec.new do |s|
     
   s.frameworks = 'CoreData', 'SystemConfiguration', 'Security', 'MobileCoreServices', 'CFNetwork', 'MessageUI', 'Accounts', 'Social', 'CoreLocation'  
     
-  s.dependency 'Facebook-iOS-SDK', '~>4.1.0'
+  #s.dependency 'Facebook-iOS-SDK', '~>4.1.0'
   s.dependency 'Firebase/Core'
   s.dependency 'Firebase/Database'
   s.dependency 'Firebase/Storage'
   s.dependency 'Firebase/Auth'
-  s.dependency 'Firebase/Messaging'
+  #s.dependency 'Firebase/Messaging'
 
-  s.dependency 'Google/SignIn', '~> 3.0'
-  s.dependency 'TwitterKit', '~>1.12'  
+  #s.dependency 'Google/SignIn', '~> 3.0'
+  #s.dependency 'TwitterKit', '~>1.12'
+  s.dependency 'ChatSDKCore'  
       
   s.library = 'icucore'
      

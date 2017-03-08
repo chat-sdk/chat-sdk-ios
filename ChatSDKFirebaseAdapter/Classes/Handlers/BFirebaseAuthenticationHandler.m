@@ -8,10 +8,6 @@
 
 #import "BFirebaseAuthenticationHandler.h"
 
-#import "FBSDKAccessToken.h"
-#import "FBSDKLoginManager.h"
-#import <Google/SignIn.h>
-
 #import <ChatSDKCore/ChatCore.h>
 #import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
 

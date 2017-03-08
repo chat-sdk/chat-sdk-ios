@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 deluge. All rights reserved.
 //
 
-#import "PMessageLayout.h"
+#import <ChatSDKCore/PMessageLayout.h>
 
 #import <ChatSDKCore/PElmMessage.h>
 

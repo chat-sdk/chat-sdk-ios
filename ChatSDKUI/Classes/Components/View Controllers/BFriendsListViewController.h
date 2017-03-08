@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MBProgressHUD.h"
-#import "VENTokenField.h"
-#import "PThread_.h"
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <VENTokenField/VENTokenField.h>
+#import <ChatSDKCore/PThread_.h>
 
 @class BSearchIndexViewController;
 

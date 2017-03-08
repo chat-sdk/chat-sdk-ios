@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
   }    
       
   s.frameworks = 'UIKit', 'CoreData'
+  s.dependency 'ChatSDKCore'
     
 end
 

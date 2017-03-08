@@ -15,7 +15,7 @@
     NSMutableDictionary * _messageBubbleImages;
     NSMutableDictionary * _messageInfo;
     NSString * _currentUserEntityID;
-} 
+}
 
 +(BMessageCache *) sharedCache;
 

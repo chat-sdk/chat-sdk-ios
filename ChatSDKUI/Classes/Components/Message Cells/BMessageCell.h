@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BMessageDelegate.h"
-#import "PMessageLayout.h"
+#import <ChatSDKUI/BMessageDelegate.h>
+#import <ChatSDKCore/PMessageLayout.h>
 //#import "PMessage.h"
 #import <ChatSDKCore/PElmMessage.h>
 
