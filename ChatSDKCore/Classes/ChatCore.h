@@ -64,7 +64,7 @@
 #import <ChatSDKCore/PReadReceiptHandler.h>
 #import <ChatSDKCore/PStickerMessageHandler.h>
 #import <ChatSDKCore/BStorageAdapter.h>
-//#import <ChatSDKCore/PSocialLoginHandler.h>
+#import <ChatSDKCore/PSocialLoginHandler.h>
 
 #import <ChatSDKCore/BBaseContactHandler.h>
 #import <ChatSDKCore/BBaseImageMessageHandler.h>
