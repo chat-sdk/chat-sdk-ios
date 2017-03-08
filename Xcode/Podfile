@@ -8,15 +8,6 @@ target 'ChatSDK Demo' do
   pod "ChatSDK/ChatUI", :path => "../"
   pod "ChatSDK/CoreData", :path => "../"
   pod "ChatSDK/FirebaseAdapter", :path => "../"
-
-#   pod "ChatSDK/FirebaseAdapter", :path => "../"
-#   pod "Firebase"
-  
-    pod 'Firebase/Database'
-    pod 'Firebase/Storage'
-    pod 'Firebase/Auth'
-    pod 'Firebase/Analytics'
-
   
   #pod "ChatSDKModules/Backendless", :path => "ChatSDKModules"
 	

@@ -9,12 +9,14 @@
 #import "NSBundle+ChatUI.h"
 
 //#define bBundleName @"ChatUI"
-#define bBundleName @"ChatSDK-ChatUI"
+#define bBundleName @"Frameworks/ChatSDK.framework/ChatUI"
 
 @implementation NSBundle (ChatUI)
 
 +(NSBundle *) chatUIBundle {
-    return [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:bBundleName ofType:@"bundle"]];
+    //.return [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:bBundleName ofType:@"bundle"]];
+    NSBundle * bundle =  [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:bBundleName ofType:@"bundle"]];
+    return bundle;
 }
 
 +(NSString *) t: (NSString *) string {

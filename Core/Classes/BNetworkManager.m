@@ -56,7 +56,7 @@ static BNetworkManager * manager;
 
 -(void) appDidBecomeActive {
     if(self.a) {
-        [self.a.core goOnline];
+        //[self.a.core goOnline];
     }
 }
 

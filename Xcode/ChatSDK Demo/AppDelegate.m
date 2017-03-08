@@ -25,8 +25,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    // Configure app for Facebook login
-    [FIRApp configure];
     
     // Start the twitter helper to handle login
     //[BTwitterHelper sharedHelper];

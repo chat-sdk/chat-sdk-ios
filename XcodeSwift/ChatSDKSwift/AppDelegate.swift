@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ChatSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,26 +16,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        FIRApp.configure();
-        
-        var configureError: NSError?;
-        GGLContext.sharedInstance().configureWithError(&configureError);
-        
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+//        FIRApp.configure();
+//        
+//        var configureError: NSError?;
+//        GGLContext.sharedInstance().configureWithError(&configureError);
+//        
+//        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         BTwitterHelper.shared()
         
-        BInterfaceManager.shared().a = BDefaultInterfaceAdapter.init()
-        let adapter = BFirebaseNetworkAdapter.init()
-        
-        let mainViewController = BAppTabBarController.init(nibName: nil, bundle: nil)
-        
-        adapter.auth.setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
-        
-        BNetworkManager.shared().a = adapter
+        BInterfaceManager.shared().a = nil
 
-        BStorageManager.shared().a = BCoreDataManager.init()
-                
+//        
+//        BInterfaceManager.shared().a = BDefaultInterfaceAdapter.init()
+//        let adapter = BFirebaseNetworkAdapter.init()
+//        
+//        let mainViewController = BAppTabBarController.init(nibName: nil, bundle: nil)
+//        
+//        adapter.auth.setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
+//        
+//        BNetworkManager.shared().a = adapter
+//
+//        BStorageManager.shared().a = BCoreDataManager.init()
+        
         
         self.window?.rootViewController = mainViewController;
         self.window?.makeKeyAndVisible();
