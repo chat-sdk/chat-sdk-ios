@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Google/SignIn.h>
+//#import <Google/SignIn.h>
 
 @class RXPromise;
 
-@interface BGoogleLoginHelper : NSObject<GIDSignInDelegate, GIDSignInUIDelegate> {
+@interface BGoogleLoginHelper : NSObject {//<GIDSignInDelegate, GIDSignInUIDelegate> {
     RXPromise * _promise;
 }
 

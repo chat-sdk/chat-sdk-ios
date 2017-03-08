@@ -109,25 +109,25 @@
     switch ([details[bLoginTypeKey] intValue]) {
         case bAccountTypeFacebook: {
             //[self loginWithFacebookWithCompletion:handleResult];
-            if([FBSDKAccessToken currentAccessToken]) {
-                
-                FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:[FBSDKAccessToken currentAccessToken].tokenString];
-                [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
-            }
-            else {
-                // TODO: Check this
-                FBSDKLoginManager * manager = [[FBSDKLoginManager alloc] init];
-                [manager logInWithReadPermissions:@[] handler:^(FBSDKLoginManagerLoginResult * result, NSError * error) {
-                    if(!error) {
-                        
-                        FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:[FBSDKAccessToken currentAccessToken].tokenString];
-                        [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
-                    }
-                    else {
-                        handleResult(error, Nil);
-                    }
-                }];
-            }
+//            if([FBSDKAccessToken currentAccessToken]) {
+//                
+//                FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:[FBSDKAccessToken currentAccessToken].tokenString];
+//                [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
+//            }
+//            else {
+//                // TODO: Check this
+//                FBSDKLoginManager * manager = [[FBSDKLoginManager alloc] init];
+//                [manager logInWithReadPermissions:@[] handler:^(FBSDKLoginManagerLoginResult * result, NSError * error) {
+//                    if(!error) {
+//                        
+//                        FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:[FBSDKAccessToken currentAccessToken].tokenString];
+//                        [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
+//                    }
+//                    else {
+//                        handleResult(error, Nil);
+//                    }
+//                }];
+//            }
         }
             break;
         case bAccountTypeTwitter:
@@ -157,12 +157,12 @@
             BGoogleLoginHelper * helper = [[BGoogleLoginHelper alloc] init];
             [helper login].thenOnMain(^id(id success) {
 
-                GIDAuthentication * authentication = [GIDSignIn sharedInstance].currentUser.authentication;
-                
-                FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:authentication.idToken
-                                                                                  accessToken:authentication.accessToken];
-                
-                [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
+//                GIDAuthentication * authentication = [GIDSignIn sharedInstance].currentUser.authentication;
+//                
+//                FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:authentication.idToken
+//                                                                                  accessToken:authentication.accessToken];
+//                
+//                [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
                
                 return Nil;
             }, ^id(NSError * error) {

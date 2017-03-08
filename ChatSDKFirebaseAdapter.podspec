@@ -20,6 +20,15 @@ Pod::Spec.new do |s|
   s.dependency 'Firebase/Storage'
   s.dependency 'Firebase/Auth'
   #s.dependency 'Firebase/Messaging'
+  
+      s.pod_target_xcconfig = { 
+	    "ALWAYS_SEARCH_USER_PATHS" => 'NO',
+         "OTHER_LDFLAGS" => '$(inherited) -framework "FirebaseDatabase" -framework "FirebaseCore" -framework "FirebaseAuth" -framework "FirebaseStorage" -framework "FirebaseInstanceID" -framework "FirebaseAnalytics" -framework "FirebaseDatabase"', 
+         "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES" => 'YES',
+#         "HEADER_SEARCH_PATHS" => '$(inherited) "${PODS_ROOT}/FirebaseAuth/Frameworks" "${PODS_ROOT}/FirebaseCore/Frameworks" "${PODS_ROOT}/FirebaseDatabase/Frameworks" "${PODS_ROOT}/FirebaseInstanceID/Frameworks" "${PODS_ROOT}/FirebaseStorage/Frameworks" "${PODS_ROOT}/FirebaseAnalytics/Frameworks"' 
+         "FRAMEWORK_SEARCH_PATHS" => '$(inherited) "${PODS_ROOT}/FirebaseAuth/Frameworks" "${PODS_ROOT}/FirebaseCore/Frameworks" "${PODS_ROOT}/FirebaseDatabase/Frameworks" "${PODS_ROOT}/FirebaseInstanceID/Frameworks" "${PODS_ROOT}/FirebaseStorage/Frameworks" "${PODS_ROOT}/FirebaseAnalytics/Frameworks"' 
+	}
+
 
   #s.dependency 'Google/SignIn', '~> 3.0'
   #s.dependency 'TwitterKit', '~>1.12'

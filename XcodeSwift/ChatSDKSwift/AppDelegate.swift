@@ -27,23 +27,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        GGLContext.sharedInstance().configureWithError(&configureError);
 //        
 //        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-//        
-//        BTwitterHelper.shared()
-//        
-//        BInterfaceManager.shared().a = BDefaultInterfaceAdapter.init()
-//        let adapter = BFirebaseNetworkAdapter.init()
-//        
-//        let mainViewController = BAppTabBarController.init(nibName: nil, bundle: nil)
-//        
-//        adapter.auth.setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
-//        
-//        BNetworkManager.shared().a = adapter
-//
-//        BStorageManager.shared().a = BCoreDataManager.init()
-//                
-//        
-//        self.window?.rootViewController = mainViewController;
-//        self.window?.makeKeyAndVisible();
+        
+        BTwitterHelper.shared()
+        
+        BInterfaceManager.shared().a = BDefaultInterfaceAdapter.init()
+        let adapter = BFirebaseNetworkAdapter.init()
+        
+        let mainViewController = BAppTabBarController.init(nibName: nil, bundle: nil)
+        
+        adapter.auth.setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
+        
+        BNetworkManager.shared().a = adapter
+
+        BStorageManager.shared().a = BCoreDataManager.init()
+                
+        
+        self.window?.rootViewController = mainViewController;
+        self.window?.makeKeyAndVisible();
         
         // Override point for customization after application launch.
         return true

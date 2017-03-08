@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 deluge. All rights reserved.
 //
 
-#import "BEntity.h"
-#import "PThreadWrapper.h"
+#import <ChatSDKFirebaseAdapter/BEntity.h>
+#import <ChatSDKCore/PThreadWrapper.h>
 
 @class CCUserWrapper;
 

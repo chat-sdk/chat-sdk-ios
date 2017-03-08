@@ -9,7 +9,7 @@
 #ifndef ChatFirebaseAdapter_h
 #define ChatFirebaseAdapter_h
 
-#import <Facebook-iOS-SDK/FBSDKCoreKit/FBSDKCoreKit.h>
+//#import <Facebook-iOS-SDK/FBSDKCoreKit/FBSDKCoreKit.h>
 //#import <Google/SignIn.h>
 #import <Firebase/Firebase.h>
 

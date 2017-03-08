@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 deluge. All rights reserved.
 //
 
-#import "BEntity.h"
-#import "PMessageWrapper.h"
+#import <ChatSDKFirebaseAdapter/BEntity.h>
+#import <ChatSDKCore/PMessageWrapper.h>
 
 @class CDMessage;
 @class FIRDatabaseReference;
