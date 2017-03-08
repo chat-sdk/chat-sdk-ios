@@ -13,7 +13,7 @@
 @implementation BChatOption
 
 -(UIImage *) icon {
-    return [UIImage imageNamed:@"ChatUI.bundle/icn_60_sticker.png"];
+    return [UIImage imageNamed:@"Frameworks/ChatSDKUI.framework/ChatUI.bundle/icn_60_sticker.png"];
 }
 
 -(NSString *) title {

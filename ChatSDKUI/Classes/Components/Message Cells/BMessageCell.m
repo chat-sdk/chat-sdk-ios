@@ -90,7 +90,7 @@
     }
     
     if (imageName) {
-        _readMessageImageView.image = [UIImage imageNamed:[@"ChatUI.bundle/" stringByAppendingString: imageName]];
+        _readMessageImageView.image = [UIImage imageNamed:[@"Frameworks/ChatSDKUI.framework/ChatUI.bundle/" stringByAppendingString: imageName]];
     }
     else {
         _readMessageImageView.image = Nil;

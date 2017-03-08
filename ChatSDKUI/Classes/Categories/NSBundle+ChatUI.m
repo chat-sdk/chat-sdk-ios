@@ -9,7 +9,7 @@
 #import "NSBundle+ChatUI.h"
 
 //#define bBundleName @"ChatUI"
-#define bBundleName @"Frameworks/ChatSDK.framework/ChatUI"
+#define bBundleName @"Frameworks/ChatSDKUI.framework/ChatUI"
 
 @implementation NSBundle (ChatUI)
 
