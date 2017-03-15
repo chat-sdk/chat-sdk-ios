@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = ['ChatSDKCore/Classes/**/*']
+  s.source_files = ['Classes/**/*']
 
   s.dependency 'RXPromise', '~> 1.0'
   s.dependency 'Reachability', '~> 3.0'

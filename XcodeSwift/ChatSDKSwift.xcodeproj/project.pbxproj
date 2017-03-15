@@ -133,7 +133,7 @@
 				TargetAttributes = {
 					ACF7BE751C8D8AD7003E8983 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 648G6J36QZ;
+						DevelopmentTeam = P7RPLLCMTA;
 						LastSwiftMigration = 0820;
 					};
 				};
@@ -213,7 +213,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -344,7 +344,7 @@
 			baseConfigurationReference = 96D6BF774CA9015733932C2C /* Pods-ChatSDKSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 648G6J36QZ;
+				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ChatSDKSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -360,7 +360,7 @@
 			baseConfigurationReference = 7FA2943267FDCE1D271912C7 /* Pods-ChatSDKSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 648G6J36QZ;
+				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ChatSDKSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

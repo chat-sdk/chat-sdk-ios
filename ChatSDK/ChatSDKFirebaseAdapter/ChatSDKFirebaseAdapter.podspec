@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = ['ChatSDKFirebaseAdapter/Classes/**/*']
+  s.source_files = ['Classes/**/*']
     
   s.frameworks = 'CoreData', 'SystemConfiguration', 'Security', 'MobileCoreServices', 'CFNetwork', 'MessageUI', 'Accounts', 'Social', 'CoreLocation'  
     

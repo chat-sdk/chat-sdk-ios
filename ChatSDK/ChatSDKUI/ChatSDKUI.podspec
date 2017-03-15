@@ -10,9 +10,9 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = ['ChatSDKUI/Classes/**/*']
+  s.source_files = ['Classes/**/*']
   s.resource_bundles = {
-    'ChatUI' => ['ChatSDKUI/Assets/**/*', 'ChatSDKUI/Interface/**/*']
+    'ChatUI' => ['Assets/**/*', 'Interface/**/*']
   }
             
   s.dependency 'MBProgressHUD', '~> 1.0'
