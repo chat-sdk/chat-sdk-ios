@@ -11,12 +11,6 @@ target 'ChatSDKSwift' do
 	
   #pod "ChatSDKFirebase/TypingIndicator", :path => "../../ChatSDK/ChatSDKFirebase"
 	
-  #pod 'Firebase/Core'
-  #pod 'Firebase/Database'
-  #pod 'Firebase/Storage'
-  #pod 'Firebase/Auth'
-
-	
   pod "TwitterKit"
 
   #pod "ChatSDKModules/Backendless", :path => "ChatSDKModules"

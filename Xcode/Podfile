@@ -1,13 +1,13 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-target 'ChatSDK Demo' do
+use_frameworks!
 
-  use_frameworks!
+target 'ChatSDK Demo' do
   
-  pod "ChatSDKCore”, :path => "../"
-  pod "ChatSDKUI”, :path => "../"
-  pod "ChatSDKCoreData”, :path => "../"
-  pod "ChatSDKFirebaseAdapter”, :path => "../"
+  pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
+  pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"
+  pod "ChatSDKCoreData", :path => "../ChatSDK/ChatSDKCoreData"
+  pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
 
   #pod "ChatSDKModules/Backendless", :path => "ChatSDKModules"
 	

@@ -36,7 +36,7 @@
 #ifdef ChatSDKAudioMessagesModule
         self.audioMessage = [[BFirebaseAudioMessageHandler alloc] init];
 #endif
-        
+
 #ifdef ChatSDKTypingIndicatorModule
         self.typingIndicator = [[BFirebaseTypingIndicatorHandler alloc] init];
 #endif

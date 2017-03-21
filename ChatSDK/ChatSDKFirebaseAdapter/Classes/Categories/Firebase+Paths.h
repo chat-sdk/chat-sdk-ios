@@ -12,7 +12,13 @@
 //@import Firebase
 //#import <Firebase/Firebase.h>
 
-@import FirebaseDatabase;
+//@import FirebaseDatabase;
+//@import Firebase;
+//#import <Firebase/Firebase.h>
+#import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
+
+
+@class FIRDatabaseReference;
 
 @interface FIRDatabaseReference (Paths)
 

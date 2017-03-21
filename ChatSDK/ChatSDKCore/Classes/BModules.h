@@ -22,7 +22,7 @@
 #endif
 
 #if __has_include(<ChatSDKFirebase/TypingIndicator.h>)
-#import <ChatSDKFirebase/TypingIndicator.h>
+  #import <ChatSDKFirebase/TypingIndicator.h>
 #endif
 
 #if __has_include(<ChatSDKFirebase/VideoMessages.h>)

@@ -7,8 +7,9 @@
 //
 
 #import "BTwitterHelper.h"
-#import <TwitterKit/TwitterKit.h>
+//#import <TwitterKit/TwitterKit.h>
 #import <ChatSDKCore/ChatCore.h>
+
 
 @implementation BTwitterHelper
 
@@ -27,35 +28,35 @@ static BTwitterHelper * helper;
     return helper;
 }
 
--(id) init {
-    if ((self = [super init])) {
-        [[Twitter sharedInstance] startWithConsumerKey:[BSettingsManager twitterApiKey]
-                                        consumerSecret:[BSettingsManager twitterSecret]];
-
-        // When this is called, we try to login and return the promise
-        [[NSNotificationCenter defaultCenter] addObserverForName:bTwitterLoginStartNotification object:Nil queue:0 usingBlock:^(NSNotification * notification) {
-            RXPromise * promise = [self login];
-            [[NSNotificationCenter defaultCenter] postNotificationName:bTwitterLoginPromiseNotification object:Nil userInfo:@{bTwitterLoginPromise: promise}];
-        }];
-        
-    }
-    return self;
-}
-
--(RXPromise *) login {
-    RXPromise * promise = [RXPromise new];
-    [[Twitter sharedInstance] logInWithCompletion:^(TWTRSession *session, NSError *error) {
-        if (!error) {
-            NSDictionary * details = @{bTwitterAuthToken: session.authToken,
-                                       bTwitterSecret: session.authTokenSecret};
-            
-            [promise resolveWithResult:details];
-        }
-        else {
-            [promise rejectWithReason:error];
-        }
-    }];
-    return promise;
-}
+//-(id) init {
+//    if ((self = [super init])) {
+//        [[Twitter sharedInstance] startWithConsumerKey:[BSettingsManager twitterApiKey]
+//                                        consumerSecret:[BSettingsManager twitterSecret]];
+//
+//        // When this is called, we try to login and return the promise
+//        [[NSNotificationCenter defaultCenter] addObserverForName:bTwitterLoginStartNotification object:Nil queue:0 usingBlock:^(NSNotification * notification) {
+//            RXPromise * promise = [self login];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:bTwitterLoginPromiseNotification object:Nil userInfo:@{bTwitterLoginPromise: promise}];
+//        }];
+//        
+//    }
+//    return self;
+//}
+//
+//-(RXPromise *) login {
+//    RXPromise * promise = [RXPromise new];
+//    [[Twitter sharedInstance] logInWithCompletion:^(TWTRSession *session, NSError *error) {
+//        if (!error) {
+//            NSDictionary * details = @{bTwitterAuthToken: session.authToken,
+//                                       bTwitterSecret: session.authTokenSecret};
+//            
+//            [promise resolveWithResult:details];
+//        }
+//        else {
+//            [promise rejectWithReason:error];
+//        }
+//    }];
+//    return promise;
+//}
 
 @end
