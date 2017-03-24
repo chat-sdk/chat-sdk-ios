@@ -75,12 +75,16 @@ Pod::Spec.new do |s|
 
   end
   
-    s.subspec 'SocialLogin' do |sl|
+  s.subspec 'SocialLogin' do |sl|
 
     sl.source_files = ['SocialLogin/Classes/**/*']
     sl.resource_bundles = {
       'ChatSocialLogin' => ['SocialLogin/Assets/**/*', 'SocialLogin/Interface/**/*']
     }
+    
+    sl.dependency 'Google/SignIn', '~> 3.0'
+    sl.dependency 'TwitterKit', '~>1.12'
+    sl.dependency 'Facebook-iOS-SDK', '~>4.1.0'
 
   end
 

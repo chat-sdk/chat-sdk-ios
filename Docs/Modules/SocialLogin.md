@@ -1,10 +1,10 @@
 ## Installation
 
 + Download and unzip the module
-+ Add the folder `StickerMessages` to `ChatSDK/ChatSDKModules`
++ Add the folder `SocialLogin` to `ChatSDK/ChatSDKFirebase`
 + Add the pod to the `Podfile`
 ```
-    pod "ChatSDKModules/StickerMessages", :path => "../ChatSDKModules"
+    pod "ChatSDKFirebase/SocialLogin", :path => "../ChatSDKFirebase"
 ```
 + Run ```pod install```
 

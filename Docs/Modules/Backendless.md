@@ -1,4 +1,4 @@
-##Backendless Installation
+## Backendless Installation
 
 + Download and unzip the module
 + Add the folder `Backendless` to `ChatSDK/ChatSDKModules`
@@ -19,7 +19,7 @@ chat_sdk/
 
 These details are available on the Backendless dashboard. 
 
-###Push notifications
+### Push notifications
 
 In the `AppDelegate.m` add the following:
 
@@ -48,7 +48,7 @@ Make sure the following methods are added:
 }
 ```
 
-###For file upload
+### For file upload
 In the `AppDelegate.m` add the following:
 
 ```

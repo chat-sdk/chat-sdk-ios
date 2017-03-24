@@ -1,4 +1,4 @@
-##Installation
+## Installation
 
 + Download and unzip the module
 + Add the folder `NearbyUsers` to `ChatSDK/ChatSDKFirebase`
@@ -10,11 +10,6 @@
   ```
 
 + Run ```pod install```
-+ Add this to the `BModules.h` file:
-
-  ```
-      #import <ChatSDKFirebase/NearbyUsers.h>
-  ```
 
 
 > **Note**  
