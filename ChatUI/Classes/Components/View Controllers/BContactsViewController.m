@@ -113,6 +113,7 @@
     
     // We want to create an action sheet which will allow users to choose how they add their contacts
     UIAlertController * view = [UIAlertController alertControllerWithTitle:[NSBundle t:bSearch] message:Nil preferredStyle:UIAlertControllerStyleActionSheet];
+    view.popoverPresentationController.barButtonItem = self.navigationItem.rightBarButtonItem;
     
 #ifdef ChatSDKContactBookModule
     UIAlertAction * phoneBook = [UIAlertAction actionWithTitle:[NSBundle t:bPhonebook]

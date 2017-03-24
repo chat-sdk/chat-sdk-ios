@@ -102,7 +102,9 @@
     }
     else {
         // Once we are authenticated then start updating the users location
-        [[BNetworkManager sharedManager].a.nearbyUsers startUpdatingUserLocation];
+        if([BNetworkManager sharedManager].a.nearbyUsers) {
+            [[BNetworkManager sharedManager].a.nearbyUsers startUpdatingUserLocation];
+        }
     }
 }
 

@@ -17,5 +17,6 @@
 //#import <ChatSDKModules/StickerMessages.h>
 //#import <ChatSDKFirebase/ContactBook.h>
 //#import <ChatSDKModules/KeyboardOverlayOptions.h>
+#import <ChatSDKModules/BBackendless.h>
 
 #endif /* BModules_h */

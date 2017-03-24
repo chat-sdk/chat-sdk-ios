@@ -1,5 +1,5 @@
-#Chat SDK
-###Open Source Messaging framework for iOS
+# Chat SDK
+### Open Source Messaging framework for iOS
 
 <img target="_blank" src="http://img.chatcatapp.com/chat-sdk-hand.jpg" />
 
@@ -14,7 +14,7 @@ A demo of the project is available on the App Store.
 
 <a target="_blank" href="https://itunes.apple.com/us/app/chatcat/id962537653?mt=8"><img src="http://www.binpress.com/uploads/store33364/itunes-app-store-logo.png" width="290" height="100" alt="App Store" /></a>
 
-##Features
+## Features
 
 - Private and group messages
 - Public chat rooms
@@ -53,7 +53,7 @@ We're very excited about the project and we're looking for other people to get i
 
 If you're interested please email me at **[team@chatsdk.co](mailto:team@chatsdk.co)**.
 
-##The license
+## The license
 This project uses the MIT license which is a commercially friendly open source license. The license has the following features:
 
 + Commercial use is allowed
@@ -62,7 +62,7 @@ This project uses the MIT license which is a commercially friendly open source l
 + You must include the copyright notice
 + You must include the license 
 
-##Wiki
+## Wiki
 
 We have a lot more information on our [**Wiki**](https://github.com/chat-sdk/chat-sdk-ios/wiki) so make sure to check it out! 
 
@@ -74,7 +74,7 @@ This repository contains a fully functional verion of the Chat SDK which is conf
 3. Open the ```Chat SDK Firebase.xcworkspace``` file in Xcode  
 4. Compile and run
 
-##Swift Version
+## Swift Version
 If you want to use Swift, you can use the Swift Xcode project. If you want to add new files, you should make sure that the header files are added to `ChatSDK-Bridging-Header.h`.  
 
 If your integrating the Chat SDK with a project that's written in Swift, you should do the following:
@@ -242,7 +242,7 @@ The ChatSDK relies on a number of different backends for its functionality.
 >**Note:**  
 >The root path is the initial path which your ChatSDK data will be stored on Firebase. It allows you to use a single Firebase database for multiple versions of your project. For example you could create a ```/live``` path and a ```/testing``` path. This allows you to test new features without fear of corrupting your current data model.  
 
-####Security Rules
+#### Security Rules
 
 Firebase secures your data by allowing you to write rules to govern who can access the database and what can be written. On the Firebase dashboard click **Database** then the **Rules** tab. 
 
@@ -276,7 +276,7 @@ Your project is now set up with the ChatSDK.
 
 You find complete documentation to set these up here.
 
-##Integrating the Chat SDK with an existing login system
+## Integrating the Chat SDK with an existing login system
 
 To start with, you should have completed the steps above to add the Chat SDK to your project. To integrate the Chat SDK we need to intercept three key events in your app:
 
@@ -288,7 +288,7 @@ Once this is done, you will be able to access the Chat SDK API to perform action
 
 When integrating the Chat SDK with an existing app it's best practice to create a new class with static methods to handle the lifecycle of the Chat SDK. This means that you can perform actions like setting the authentication token, updating the user and logging out from anywhere in your app. This also helps to separate the Chat SDK code from your own code. 
 
-###Login
+### Login
 
 To integrate with a third party server two steps are necessary:
 
@@ -342,7 +342,7 @@ bLoginCustomToken: token}].thenOnMain(^id(id<PUser> user) {
 >**Note:**  
 >This code could be added as a static function to the Chat SDK handler class as mentioned above. 
 
-###User integration
+### User integration
 
 The Chat SDK uses CoreData to persist it's data. This includes a user object which is used to store the current user's information. 
 
@@ -375,7 +375,7 @@ user.phoneNumber = @"Number goes here"
 
 ```
 
-###Logging out
+### Logging out
 
 When your user logs out of the app, they should also log out of the Chat SDK. 
 
@@ -383,7 +383,7 @@ When your user logs out of the app, they should also log out of the Chat SDK.
 [[BNetworkManager sharedManager].a.auth logout];
 ```
 
-##Using the Chat SDK API
+## Using the Chat SDK API
 
 The Chat SDK API is based around the network manager and a series of handlers. A good place to start is by looking at the handlers `Pods/Development Pods/ChatSDK/Core/Core/Classes/Interfaces`. Here you can review the handler interfaces which are well documented. To use a handler you would use the following code:
 
@@ -392,7 +392,7 @@ The Chat SDK API is based around the network manager and a series of handlers. A
 [[BNetworkManager sharedManager].a.handler_name function: to: call:]
 ```
 
-#####Searching for a user
+##### Searching for a user
 
 For example, to search for a user you could use the search handler:
 
@@ -444,7 +444,7 @@ So a more complete example would look like this:
 }
 ```
 
-##Premium Features
+## Premium Features
 
 We have also developed some premium features for the Chat SDK. These are available on our website. 
 
@@ -458,7 +458,7 @@ We have also developed some premium features for the Chat SDK. These are availab
 
 These modules can be purchased on <a href="http://chatsdk.co/pricing/" target="_blank">our store</a>.
 
-##Troubleshooting Cocoapods
+## Troubleshooting Cocoapods
 
 1. Always open the .xcworkspace file rather than .xcodeproj
 2. Check CocoaPod warnings - make sure to fix any warnings before proceeding

@@ -3,6 +3,6 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'ChatSDK Demo' do
   
   pod "ChatSDK", :path => "../"
-  #pod "ChatSDKModules/Backendless", :path => "ChatSDKModules"
+  pod "ChatSDKModules/Backendless", :path => "../../ChatSDK/ChatSDKModules"
 	
 end
