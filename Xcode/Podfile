@@ -4,5 +4,6 @@ target 'ChatSDK Demo' do
   
   pod "ChatSDK", :path => "../"
   pod "ChatSDKModules/Backendless", :path => "../../ChatSDK/ChatSDKModules"
+  pod "ChatSDKFirebase/SocialLogin", :path => "../../ChatSDK/ChatSDKFirebase"
 	
 end
