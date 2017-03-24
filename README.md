@@ -37,6 +37,7 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 - [Video messages](http://chatsdk.co/downloads/video-messages/)
 - [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
 - [Sticker messages](http://chatsdk.co/downloads/sticker-messages/)
+- [Contact book integration](http://chatsdk.co/downloads/contact-book-integration/)
 - [Push notifications](http://chatsdk.co/downloads/backendless-push-notifications/)
 
 ##Get involved!
