@@ -107,8 +107,6 @@
     threadModel.type = usersToAdd.count == 2 ? @(bThreadType1to1) : @(bThreadTypePrivateGroup);
     threadModel.name = name;
     
-    [[BStorageManager sharedManager].a endUndoGroup];
-    
     CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
     
     return [thread push].thenOnMain(^id(id<PThread> thread) {
