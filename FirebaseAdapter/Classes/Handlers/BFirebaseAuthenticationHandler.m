@@ -97,7 +97,6 @@
     // Create a completion block to handle the login result
     void(^handleResult)() = ^(FIRUser * firebaseUser, NSError * error) {
         if (!error) {
-            //[promise resolveWithResult:self.currentUserModel];
             [promise resolveWithResult:firebaseUser];
         }
         else {
@@ -158,22 +157,21 @@
         // TODO: Test this
         case bAccountTypeGoogle:
         {
-            BGoogleLoginHelper * helper = [[BGoogleLoginHelper alloc] init];
-            [helper login].thenOnMain(^id(id success) {
-
+            BGoogleLoginHelper * googleHelper = [[BGoogleLoginHelper alloc] init];
+            
+            [googleHelper loginWithGoogle].thenOnMain(^id(id success) {
+                
                 GIDAuthentication * authentication = [GIDSignIn sharedInstance].currentUser.authentication;
                 
                 FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:authentication.idToken
                                                                                   accessToken:authentication.accessToken];
                 
                 [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
-               
                 return Nil;
             }, ^id(NSError * error) {
                 handleResult(Nil, error);
                 return Nil;
             });
-            
         }
             break;
         case bAccountTypePassword:

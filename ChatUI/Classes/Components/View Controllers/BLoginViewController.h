@@ -11,7 +11,6 @@
 #import <ChatSDK/ElmLoginViewController.h>
 #import <ChatSDK/ElmLoginViewDelegate.h>
 
-
 @interface BLoginViewController : ElmLoginViewController<ElmLoginViewDelegate> {
 }
 

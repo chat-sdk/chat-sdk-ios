@@ -44,7 +44,7 @@
         return Nil;
     }, Nil);
     
-    self.facebookButton.enabled = [[BNetworkManager sharedManager].a.auth accountTypeEnabled:bAccountTypeFacebook];
+    self.facebookButton.enabled = [[BNetworkManager sharedManager].a.auth accountTypeEnabled:bAccountTypeFacebook];    
     self.twitterButton.enabled = [[BNetworkManager sharedManager].a.auth accountTypeEnabled:bAccountTypeTwitter];
     self.googleButton.enabled = [[BNetworkManager sharedManager].a.auth accountTypeEnabled:bAccountTypeGoogle];
     self.anonymousButton.enabled = [[BNetworkManager sharedManager].a.auth accountTypeEnabled:bAccountTypeAnonymous];

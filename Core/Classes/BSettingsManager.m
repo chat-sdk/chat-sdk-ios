@@ -31,6 +31,8 @@
 #define bSecretKey @"secret"
 #define bImageMessagesEnabledKey @"image_messages_enabled"
 #define bLocationMessagesEnabledKey @"location_messages_enabled"
+#define bAppBadgeEnabledKey @"app_badge_enabled"
+#define bUserChatInfoEnabledKey @"user_chat_info_enabled"
 
 @implementation BSettingsManager
 
@@ -121,6 +123,16 @@
 
 +(BOOL) locationMessagesEnabled {
     return [[self number_s:@[bSettingsKey, bLocationMessagesEnabledKey]] boolValue];
+}
+
+// Turn on whether the app badge reflects how many unread messages there are
++(BOOL) appBadgeEnabled {
+    return [[self number_s:@[bSettingsKey, bAppBadgeEnabledKey]] boolValue];
+}
+
+// Turn on whether users can access the BUsersViewController from the chat view
++(BOOL) userChatInfoEnabled {
+    return [[self number_s:@[bSettingsKey, bUserChatInfoEnabledKey]] boolValue];
 }
 
 +(NSString *) backendlessAppId {

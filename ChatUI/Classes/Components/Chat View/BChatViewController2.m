@@ -44,11 +44,14 @@
     }
     
     [super setAudioEnabled: [BNetworkManager sharedManager].a.audioMessage != Nil];
-    
 }
 
 -(void) updateSubtitle {
-    [self setSubtitle:[NSBundle t: bTapHereForContactInfo]];
+    
+    if ([BSettingsManager userChatInfoEnabled]) {
+        [self setSubtitle:[NSBundle t: bTapHereForContactInfo]];
+    }
+    
     if (_thread.type.intValue & bThreadTypeGroup) {
         [self setSubtitle:_thread.memberListString];
     }

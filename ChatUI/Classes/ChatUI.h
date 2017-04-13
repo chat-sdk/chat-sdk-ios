@@ -57,6 +57,10 @@
 #import <ChatSDK/BDefaultInterfaceAdapter.h>
 #import <ChatSDK/BMessageSection.h>
 
+#import <ChatSDK/BGoogleLoginViewController.h>
+#import <ChatSDK/BGoogleLoginHelper.h>
+#import <ChatSDK/BGoogleLoginDelegate.h>
+
 #import <ChatSDK/BTextInputView.h>
 
 #import <ChatSDK/BTextMessageCell.h>

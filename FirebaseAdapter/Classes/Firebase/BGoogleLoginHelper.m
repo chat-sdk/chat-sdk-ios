@@ -11,37 +11,57 @@
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatFirebaseAdapter.h>
 
+#import <ChatSDK/ChatUI.h>
+
 @implementation BGoogleLoginHelper
 
--(id) init {
-    if((self = [super init])) {
-        [GIDSignIn sharedInstance].delegate = self;
-        [GIDSignIn sharedInstance].uiDelegate = self;
-        [GIDSignIn sharedInstance].clientID = [BSettingsManager googleClientKey]; //@"530766463312-set738214thf1ma67mckei7u5hp2nr2m.apps.googleusercontent.com";
-        
-        [[GIDSignIn sharedInstance] setScopes:@[@"https://www.googleapis.com/auth/plus.login", @"https://www.googleapis.com/auth/plus.me"]];
+@synthesize googlePromise;
 
+-(id) init {
+    
+    if((self = [super init])) {
     }
     return self;
 }
 
--(RXPromise *) login {
-    if(!_promise) {
-        _promise = [RXPromise new];
-        [[GIDSignIn sharedInstance] signIn];
+- (RXPromise *)loginWithGoogle {
+    
+    RXPromise * promise = [RXPromise new];
+    
+    BGoogleLoginViewController * vc = [[BGoogleLoginViewController alloc] init];
+    vc.googleLoginPromise = promise;
+    
+    UIWindow * window = [UIApplication sharedApplication].keyWindow;
+    UIViewController * rootViewController = window.rootViewController;
+    
+    UIViewController * loginView;
+    
+    if ([rootViewController isKindOfClass:[UINavigationController class]]) {
+        loginView = [(UINavigationController *)rootViewController topViewController];
     }
-    return _promise;
-}
-
-// Implement the required GIDSignInDelegate methods
-- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    if(error) {
-        [_promise rejectWithReason: error];
+    if ([rootViewController isKindOfClass:[UITabBarController class]]) {
+        loginView = [(UITabBarController *)rootViewController selectedViewController];
     }
-    else {
-        [_promise resolveWithResult: Nil];
+    if ([rootViewController presentedViewController]) {
+        loginView = [rootViewController presentedViewController];
     }
-    _promise = Nil;
+    
+//    If [viewController isKindOfClass:[UINavigationController class]], then proceed to [(UINavigationController *)viewController topViewController].
+//    If [viewController isKindOfClass:[UITabBarController class]], then proceed to [(UITabBarController *)viewController selectedViewController].
+//    If [viewController presentedViewController], then proceed to [viewController presentedViewController].
+    
+    //UIViewController * rootViewController = [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject];
+    
+    //window.rootViewController.navigationController.visibleViewController;
+    
+    //UIViewController * rootViewController = window.rootViewController;
+    
+    //UIViewController * vc = self.view.window.rootViewController;
+    //[vc presentViewController: activityController animated: YES completion:nil];
+    
+    [loginView presentViewController:vc animated:YES completion:nil];
+    
+    return promise;
 }
 
 @end
