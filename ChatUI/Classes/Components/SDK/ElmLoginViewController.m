@@ -166,6 +166,8 @@
 }
 
 -(void) handleLoginAttempt: (RXPromise *) promise {
+    [self showHUD];
+    
     promise.thenOnMain(
                 ^id(id<PUser> user) {
                     [self authenticationFinished];
@@ -186,8 +188,6 @@
 - (IBAction)googleButtonPressed:(id)sender {
     if ([delegate respondsToSelector:@selector(googlePlus)]) {
         [self showHUD];
-        [delegate googlePlus];
-        
         [self handleLoginAttempt:[delegate googlePlus]];
     }
 }
