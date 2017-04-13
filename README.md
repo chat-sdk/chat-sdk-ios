@@ -40,7 +40,8 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 - [Contact book integration](http://chatsdk.co/downloads/contact-book-integration/)
 - [Push notifications](http://chatsdk.co/downloads/backendless-push-notifications/)
 
-##Get involved!
+## Get involved!
+
 We're very excited about the project and we're looking for other people to get involved. Over time we would like to make the best messaging framework for mobile. Helping us could involve any of the following:
 
 + Providing feedback and feature requests
