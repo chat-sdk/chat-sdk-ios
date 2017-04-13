@@ -29,7 +29,7 @@
 {
     self = [super init];
     if (self) {
-
+        super.delegate = self;
     }
     return self;
 }

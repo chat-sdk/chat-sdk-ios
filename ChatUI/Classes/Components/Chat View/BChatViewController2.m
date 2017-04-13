@@ -25,7 +25,7 @@
 
 -(void) viewDidLoad {
     [super viewDidLoad];
-
+    
     // Set the title
     [self setTitle:_thread.displayName ? _thread.displayName : [NSBundle t: bDefaultThreadName]];
     
@@ -109,7 +109,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:_userObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:_typingObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:_threadUsersObserver];
-
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -121,7 +121,7 @@
     [super viewDidAppear:animated];
     
     _usersViewLoaded = NO;
-
+    
     // For public threads we add the user when we view the thread
     // TODO: This is called multiple times... maybe move it to view did load
     if (_thread.type.intValue & bThreadTypePublic) {
@@ -143,53 +143,60 @@
     
 }
 
+-(RXPromise *) handleMessageSend: (RXPromise *) promise {
+    [self updateMessages];
+    return promise;
+}
+
 -(RXPromise *) sendText: (NSString *) text {
-    return [[BNetworkManager sharedManager].a.core sendMessageWithText:text withThreadEntityID:_thread.entityID];
+    return [self handleMessageSend:[[BNetworkManager sharedManager].a.core sendMessageWithText:text
+                                                                            withThreadEntityID:_thread.entityID]];
 }
 
 -(RXPromise *) sendImage: (UIImage *) image {
     if ([BNetworkManager sharedManager].a.imageMessage) {
-        return [[BNetworkManager sharedManager].a.imageMessage sendMessageWithImage:image
-                                                                                withThreadEntityID:_thread.entityID];
+        return [self handleMessageSend:[[BNetworkManager sharedManager].a.imageMessage sendMessageWithImage:image
+                                                                                         withThreadEntityID:_thread.entityID]];
     }
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bImageMessagesNotSupported];
 }
 
 -(RXPromise *) sendLocation: (CLLocation *) location {
     if ([BNetworkManager sharedManager].a.locationMessage) {
-        return [[BNetworkManager sharedManager].a.locationMessage sendMessageWithLocation:location withThreadEntityID:_thread.entityID];
+        return [self handleMessageSend:[[BNetworkManager sharedManager].a.locationMessage sendMessageWithLocation:location
+                                                                                               withThreadEntityID:_thread.entityID]];
     }
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bLocationMessagesNotSupported];
 }
 
 -(RXPromise *) sendAudio: (NSData *) audio withDuration: (double) duration {
     if ([BNetworkManager sharedManager].a.audioMessage) {
-        return [[BNetworkManager sharedManager].a.audioMessage sendMessageWithAudio:audio
-                                                                    duration:duration
-                                                          withThreadEntityID:_thread.entityID];
+        return [self handleMessageSend:[[BNetworkManager sharedManager].a.audioMessage sendMessageWithAudio:audio
+                                                                                                   duration:duration
+                                                                                         withThreadEntityID:_thread.entityID]];
     }
-
+    
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bAudioMessagesNotSupported];
 }
 
 -(RXPromise *) sendVideo: (NSData *) video withCoverImage: (UIImage *) coverImage {
     if ([BNetworkManager sharedManager].a.videoMessage) {
-        return [[BNetworkManager sharedManager].a.videoMessage sendMessageWithVideo:video
-                                                                  coverImage:coverImage
-                                                          withThreadEntityID:_thread.entityID];
+        return [self handleMessageSend:[[BNetworkManager sharedManager].a.videoMessage sendMessageWithVideo:video
+                                                                                                 coverImage:coverImage
+                                                                                         withThreadEntityID:_thread.entityID]];
     }
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bVideoMessagesNotSupported];
 }
 
 -(RXPromise *) sendSystemMessage: (NSString *) text {
-    return [[BNetworkManager sharedManager].a.stickerMessage sendMessageWithSticker:text
-                                                          withThreadEntityID:_thread.entityID];
+    return [self handleMessageSend:[[BNetworkManager sharedManager].a.stickerMessage sendMessageWithSticker:text
+                                                                                         withThreadEntityID:_thread.entityID]];
 }
 
 -(RXPromise *) sendSticker: (NSString *) name {
     if([BNetworkManager sharedManager].a.stickerMessage) {
-        return [[BNetworkManager sharedManager].a.stickerMessage sendMessageWithSticker:name
-                                                              withThreadEntityID:_thread.entityID];
+        return [self handleMessageSend:[[BNetworkManager sharedManager].a.stickerMessage sendMessageWithSticker:name
+                                                                                             withThreadEntityID:_thread.entityID]];
     }
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bStickerMessagesNotSupported];
 }
@@ -201,7 +208,7 @@
     else {
         return [[BNetworkManager sharedManager].a.moderation unflagMessage:message.entityID];
     }
-
+    
 }
 
 -(RXPromise *) setChatState: (bChatState) state {
@@ -275,7 +282,7 @@
         [types addObject: @[[BNetworkManager sharedManager].a.audioMessage.messageCellClass, @(bMessageTypeAudio)]];
     }
 #endif
-
+    
 #ifdef ChatSDKVideoMessagesModule
     if([BNetworkManager sharedManager].a.videoMessage) {
         [types addObject: @[[BNetworkManager sharedManager].a.videoMessage.messageCellClass, @(bMessageTypeVideo)]];
@@ -287,7 +294,7 @@
         [types addObject: @[[BNetworkManager sharedManager].a.stickerMessage.messageCellClass, @(bMessageTypeSticker)]];
     }
 #endif
-
+    
     return types;
 }
 
@@ -301,7 +308,7 @@
     
     UINavigationController * nvc = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nvc animated:YES completion:nil];
-
+    
 }
 
 

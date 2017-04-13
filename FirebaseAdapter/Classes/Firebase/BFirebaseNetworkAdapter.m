@@ -49,6 +49,11 @@
 #ifdef ChatSDKContactBookModule
 		self.contact = [[BFirebasePhonebookContactHandler alloc] init];
 #endif
+
+#ifdef ChatSDKSocialLoginModule
+        self.social = [[BFirebaseSocialLoginHandler alloc] init];
+#endif
+
         
     }
     return self;
