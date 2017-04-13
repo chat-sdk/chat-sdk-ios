@@ -26,7 +26,6 @@
     return promise;
 }
 
-
 // The helper implemetns the delegate
 
 
@@ -48,8 +47,6 @@
 
 // Google will tell us
 // Have to add the delegate property to the view controller which then should notify it's delegate - the google helper\\\
-
-
 
 // We just want to call a login method through our helper
 // The helper
