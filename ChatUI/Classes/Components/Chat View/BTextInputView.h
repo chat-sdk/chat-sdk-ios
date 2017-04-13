@@ -33,5 +33,6 @@
 -(void) setAudioEnabled: (BOOL) audioEnabled;
 -(BOOL) resignFirstResponder;
 -(void) becomeFirstResponder;
+-(void) setOptionsButtonHidden: (BOOL) hidden;
 
 @end

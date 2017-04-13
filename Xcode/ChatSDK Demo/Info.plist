@@ -146,6 +146,10 @@
 			<true/>
 			<key>location_messages_enabled</key>
 			<true/>
+			<key>app_badge_enabled</key>
+			<true/>
+			<key>user_chat_info_enabled</key>
+			<true/>
 		</dict>
 		<key>twitter</key>
 		<dict>

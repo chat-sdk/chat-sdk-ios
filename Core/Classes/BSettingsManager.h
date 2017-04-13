@@ -27,6 +27,8 @@
 
 +(BOOL) imageMessagesEnabled;
 +(BOOL) locationMessagesEnabled;
++(BOOL) appBadgeEnabled;
++(BOOL) userChatInfoEnabled;
 
 +(NSString *) backendlessAppId;
 +(NSString *) backendlessSecretKey;
