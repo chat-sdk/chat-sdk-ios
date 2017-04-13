@@ -3,7 +3,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'ChatSDK Demo' do
   
   pod "ChatSDK", :path => "../"
-  pod "ChatSDKModules/Backendless", :path => "../../ChatSDK/ChatSDKModules"
-  pod "ChatSDKFirebase/SocialLogin", :path => "../../ChatSDK/ChatSDKFirebase"
+  pod "ChatSDKModules/Backendless", :path => "../ChatSDKModules"
+  pod "ChatSDKFirebase/SocialLogin", :path => "../ChatSDKFirebase"
 	
 end
