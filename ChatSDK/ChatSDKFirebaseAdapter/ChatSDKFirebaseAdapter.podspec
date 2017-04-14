@@ -45,6 +45,9 @@ Pod::Spec.new do |s|
   #s.dependency 'TwitterKit', '~>1.12'
   s.dependency 'ChatSDKCore'  
   
+  s.dependency 'GTMSessionFetcher', '~>1.1'
+  s.dependency 'GoogleToolboxForMac', '~>2.1'
+  
   s.vendored_frameworks = "Frameworks/*"
       
   s.library = 'icucore', 'c++', 'sqlite3'

@@ -15,7 +15,7 @@
 @synthesize parent;
 
 -(UIImage *) icon {
-    return [UIImage imageNamed:@"Frameworks/ChatSDKUI.bundle/ChatUI.bundle/icn_60_location.png"];
+    return [NSBundle chatUIImageNamed:@"icn_60_location.png"];
 }
 
 -(NSString *) title {

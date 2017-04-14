@@ -113,14 +113,8 @@
     
     // We want to create an action sheet which will allow users to choose how they add their contacts
     UIAlertController * view = [UIAlertController alertControllerWithTitle:[NSBundle t:bSearch] message:Nil preferredStyle:UIAlertControllerStyleActionSheet];
+    view.popoverPresentationController.barButtonItem = self.navigationItem.rightBarButtonItem;
     
-#ifdef ChatSDKContactBookModule
-    UIAlertAction * phoneBook = [UIAlertAction actionWithTitle:[NSBundle t:bPhonebook]
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * action){
-        [weakSelf openSearchViewWithType:bSearchTypePhonebook];
-    }];
-#endif
     
     UIAlertAction * nameSearch = [UIAlertAction actionWithTitle:[NSBundle t:bSearchWithName]
                                                           style:UIAlertActionStyleDefault
@@ -128,34 +122,42 @@
         [weakSelf openSearchViewWithType:bSearchTypeNameSearch];
     }];
     
+    // Add additional options
+    NSDictionary * searchControllerNamesForType = [BInterfaceManager sharedManager].a.additionalSearchControllerNames;
+    for (NSString * key in searchControllerNamesForType.allKeys) {
+        UIAlertAction * action = [UIAlertAction actionWithTitle:searchControllerNamesForType[key]
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action){
+                                                               [weakSelf openSearchViewWithType:key];
+                                                           }];
+        [view addAction:action];
+    }
+    
     UIAlertAction * cancel = [UIAlertAction actionWithTitle:[NSBundle t: bCancel]
                                                       style:UIAlertActionStyleCancel
                                                     handler:^(UIAlertAction * action) {
         [view dismissViewControllerAnimated:YES completion:nil];
     }];
     
-#ifdef ChatSDKContactBookModule
-    [view addAction:phoneBook];
-#endif
     [view addAction:nameSearch];
     [view addAction:cancel];
+    
     [self presentViewController:view animated:YES completion:nil];
 }
 
-- (void)openSearchViewWithType: (bSearchType)type {
+- (void)openSearchViewWithType: (NSString *) type {
     
     __weak BContactsViewController * weakSelf = self;
     
-    [[BNetworkManager sharedManager].a.contact searchViewControllerForType:type exclude:[BNetworkManager sharedManager].a.contact.contacts usersAdded:^(NSArray * users) {
-        [weakSelf addUsers:users];
-        [weakSelf dismissViewControllerAnimated:YES completion:Nil];
-    }].thenOnMain(^id(UIViewController * vc) {
+    UIViewController * vc = [[BInterfaceManager sharedManager].a searchViewControllerWithType:type
+                                                                               excludingUsers:[BNetworkManager sharedManager].a.contact.contacts
+                                                                                   usersAdded:^(NSArray * users) {
+                                                                                   [weakSelf addUsers:users];
+                                                                                   [weakSelf dismissViewControllerAnimated:YES completion:Nil];
+                                                                               }];
+    if(vc) {
         [self presentViewController:vc animated:YES completion:Nil];
-        return Nil;
-    }, ^id(NSError * error) {
-        [UIView alertWithTitle:[NSBundle t: bWarning] withError:error];
-        return Nil;
-    });
+    }
 }
 
 - (void)addUsers: (NSArray *)users {

@@ -73,25 +73,4 @@
 #import <ChatSDKUI/BChatOptionsActionSheet.h>
 #import <ChatSDKUI/BMessageCache.h>
 
-#ifdef ChatSDKAudioMessagesModule
-#import <ChatSDKFirebase/BAudioMessageCell.h>
-#endif
-
-#ifdef ChatSDKVideoMessagesModule 
-#import <ChatSDKFirebase/BVideoMessageCell.h>
-#endif
-
-#ifdef ChatSDKNearbyUsersModule 
-#import <ChatSDKFirebase/BNearbyContactsViewController.h>
-#endif
-
-#ifdef ChatSDKStickerMessagesModule
-#import <ChatSDKModules/BStickerMessageCell.h>
-#import <ChatSDKModules/BStickerChatOption.h>
-#endif
-
-#ifdef ChatSDKKeyboardOverlayOptionsModule
-#import <ChatSDKModules/BChatOptionsCollectionView.h>
-#endif
-
 #endif /* ChatUI_h */

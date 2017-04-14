@@ -270,23 +270,17 @@
 -(NSArray *) customCellTypes {
     NSMutableArray * types = [NSMutableArray new];
     
-#ifdef ChatSDKAudioMessagesModule
     if([BNetworkManager sharedManager].a.audioMessage) {
         [types addObject: @[[BNetworkManager sharedManager].a.audioMessage.messageCellClass, @(bMessageTypeAudio)]];
     }
-#endif
 
-#ifdef ChatSDKVideoMessagesModule
     if([BNetworkManager sharedManager].a.videoMessage) {
         [types addObject: @[[BNetworkManager sharedManager].a.videoMessage.messageCellClass, @(bMessageTypeVideo)]];
     }
-#endif
     
-#ifdef ChatSDKStickerMessagesModule
     if([BNetworkManager sharedManager].a.stickerMessage) {
         [types addObject: @[[BNetworkManager sharedManager].a.stickerMessage.messageCellClass, @(bMessageTypeSticker)]];
     }
-#endif
 
     return types;
 }

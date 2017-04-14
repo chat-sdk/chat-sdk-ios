@@ -20,9 +20,9 @@
 #define bDefaultMessageColorMe @"abcff4"
 #define bDefaultMessageColorReply @"d7d4d3"
 
-#define bDefaultProfileImage @"Frameworks/ChatSDKUI.framework/ChatUI.bundle/icn_100_anonymous.png"
-#define bDefaultPublicGroupImage @"Frameworks/ChatSDKUI.framework/ChatUI.bundle/icn_100_anonymousGroup.png"
-#define bDefaultPlaceholderImage @"Frameworks/ChatSDKUI.framework/ChatUI.bundle/icn_300_placeholder.png"
+#define bDefaultProfileImage @"icn_100_anonymous.png"
+#define bDefaultPublicGroupImage @"icn_100_anonymousGroup.png"
+#define bDefaultPlaceholderImage @"icn_300_placeholder.png"
 
 #define bDefaultFontSize 17
 #define bDefaultUserNameLabelSize 14

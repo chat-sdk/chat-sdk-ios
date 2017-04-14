@@ -130,23 +130,17 @@
     [self.tableView registerClass:[BLocationCell class] forCellReuseIdentifier:bLocationMessageCell];
     [self.tableView registerClass:[BSystemMessageCell class] forCellReuseIdentifier:bSystemMessageCell];
    
-#ifdef ChatSDKAudioMessagesModule
     if([BNetworkManager sharedManager].a.audioMessage) {
         [self.tableView registerClass:[BNetworkManager sharedManager].a.audioMessage.messageCellClass forCellReuseIdentifier:bAudioMessageCell];
     }
-#endif
 
-#ifdef ChatSDKVideoMessagesModule
     if([BNetworkManager sharedManager].a.videoMessage) {
         [self.tableView registerClass:[BNetworkManager sharedManager].a.videoMessage.messageCellClass forCellReuseIdentifier:bVideoMessageCell];
     }
-#endif
 
-#ifdef ChatSDKStickerMessagesModule
     if([BNetworkManager sharedManager].a.stickerMessage) {
         [self.tableView registerClass:[BNetworkManager sharedManager].a.stickerMessage.messageCellClass forCellReuseIdentifier:bStickerMessageCell];
     }
-#endif
     
     _refreshControl = [[UIRefreshControl alloc] init];
     [_refreshControl addTarget:self action:@selector(loadMoreMessages) forControlEvents:UIControlEventValueChanged];
@@ -554,7 +548,6 @@
         [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
     }
     
-#ifdef ChatSDKVideoMessagesModule
     if([BNetworkManager sharedManager].a.videoMessage) {
         if ([cell isKindOfClass:[BNetworkManager sharedManager].a.videoMessage.messageCellClass]) {
             
@@ -600,7 +593,6 @@
             }
         }
     }
-#endif
 
 }
 

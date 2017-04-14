@@ -15,7 +15,7 @@
 #import <ChatSDKUI/ChatUI.h>
 
 //
-//#import <ChatSDK/ChatUI.h>
+//#import <ChatSDKUI/ChatUI.h>
 //#import <ChatSDK/BCoreDefines.h>
 //#import <ChatSDK/PAudioMessageHandler.h>
 //#import <ChatSDK/PVideoMessageHandler.h>
@@ -442,7 +442,6 @@
         [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
     }
     
-#ifdef ChatSDKVideoMessagesModule
     if([BNetworkManager sharedManager].a.videoMessage) {
         if ([cell isKindOfClass:[BNetworkManager sharedManager].a.videoMessage.messageCellClass]) {
             
@@ -488,7 +487,6 @@
             }
         }
     }
-#endif
 
 }
 

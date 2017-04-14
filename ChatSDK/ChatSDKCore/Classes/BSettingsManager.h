@@ -25,9 +25,6 @@
 +(NSString *) parseClientKey;
 +(BOOL) anonymousLoginEnabled;
 
-+(BOOL) imageMessagesEnabled;
-+(BOOL) locationMessagesEnabled;
-
 +(NSString *) backendlessAppId;
 +(NSString *) backendlessSecretKey;
 +(NSString *) backendlessVersionKey;

@@ -9,10 +9,21 @@ target 'ChatSDKSwift' do
   pod "ChatSDKCoreData", :path => "../ChatSDK/ChatSDKCoreData"
   pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
 	
-  #pod "ChatSDKFirebase/TypingIndicator", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/TypingIndicator", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/VideoMessages", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/AudioMessages", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/ContactBook", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/ReadReceipts", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/NearbyUsers", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "TwoFactorAuth", :path => "../../ChatSDK/TwoFactorAuth"
+# 
+#   pod "ChatSDKModules/StickerMessages", :path => "../../ChatSDK/ChatSDKModules"
+#   pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../../ChatSDK/ChatSDKModules"
 	
-  pod "TwitterKit"
-
+  #pod "TwitterKit"
+  #pod 'GoogleSignIn'
+  #pod 'Google/SignIn'
+  
   #pod "ChatSDKModules/Backendless", :path => "ChatSDKModules"
 	
 end

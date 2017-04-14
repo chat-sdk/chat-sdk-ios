@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ChatSDKUI/PSearchViewController.h>
 
 @class MBProgressHUD;
 @class BSearchIndexViewController;
 
-@interface BSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
+@interface BSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, PSearchViewController> {
     
     NSMutableArray * _users;
     NSMutableArray * _selectedUsers;

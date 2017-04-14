@@ -11,13 +11,9 @@
 
 #import <ChatSDKCore/BUserConnectionType.h>
 
-typedef enum {
-    bSearchTypeGoogle,
-    bSearchTypeFacebook,
-    bSearchTypePhonebook,
-    bSearchTypeNameSearch,
-} bSearchType;
-
+#define bSearchTypeGoogle @"Google"
+#define bSearchTypeFacebook @"Facebook"
+#define bSearchTypeNameSearch @"NameSearch"
 
 @class RXPromise;
 
@@ -43,11 +39,6 @@ typedef enum {
 -(RXPromise *) addContact: (id<PUser>) contact withType: (bUserConnectionType) type;
 
 -(RXPromise *) deleteContact: (id<PUser>) user;
-
-/**
- * Get the contact search view for a given search type
- */
--(RXPromise *) searchViewControllerForType: (bSearchType) type  exclude: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded;
 
 @end
 

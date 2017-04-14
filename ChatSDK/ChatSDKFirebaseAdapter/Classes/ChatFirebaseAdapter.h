@@ -29,35 +29,6 @@
 #import <ChatSDKFirebaseAdapter/BFirebaseModerationHandler.h>
 #import <ChatSDKFirebaseAdapter/BFirebasePublicThreadHandler.h>
 
-#ifdef ChatSDKReadReceiptsModule
-#import <ChatSDKFirebase/BFirebaseReadReceiptHandler.h>
-#endif
-
-#ifdef ChatSDKAudioMessagesModule
-#import <ChatSDKFirebase/BFirebaseAudioMessageHandler.h>
-#endif
-
-#ifdef ChatSDKTypingIndicatorModule
-#import <ChatSDKFirebase/BFirebaseTypingIndicatorHandler.h>
-#endif
-
-#ifdef ChatSDKVideoMessagesModule
-#import <ChatSDKFirebase/BFirebaseVideoMessageHandler.h>
-#endif
-
-#ifdef ChatSDKNearbyUsersModule
-#import <ChatSDKFirebase/BGeoFireManager.h>
-#import <ChatSDKFirebase/BGeoFireInterfaceAdapter.h>
-#import <GeoFire.h>
-#endif
-
-#ifdef ChatSDKContactBookModule
-#import <ChatSDKFirebase/BFirebasePhonebookContactHandler.h>
-#endif
-
-#ifdef ChatSDKSocialLoginModule
-#import <ChatSDKFirebase/BFirebaseSocialLoginHandler.h>
-#endif
 
 
 #endif /* ChatFirebaseAdapter_h */

@@ -45,9 +45,10 @@
 
         // Create an options button which shows an action sheet
         _optionsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_optionsButton setImage:[UIImage imageNamed:@"Frameworks/ChatSDKUI.framework/ChatUI.bundle/icn_24_options.png"] forState:UIControlStateNormal];
-        [_optionsButton setImage:[UIImage imageNamed:@"Frameworks/ChatSDKUI.framework/ChatUI.bundle/icn_24_keyboard.png"] forState:UIControlStateSelected];
-
+        
+        [_optionsButton setImage:[NSBundle imageNamed:@"icn_24_options.png" framework:@"ChatSDKUI" bundle:@"ChatUI"] forState:UIControlStateNormal];
+        [_optionsButton setImage:[NSBundle imageNamed:@"icn_24_keyboard.png" framework:@"ChatSDKUI" bundle:@"ChatUI"] forState:UIControlStateSelected];
+        
         [_optionsButton addTarget:self action:@selector(optionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 
         UIBarButtonItem * optionsItem = [[UIBarButtonItem alloc] initWithCustomView:_optionsButton];

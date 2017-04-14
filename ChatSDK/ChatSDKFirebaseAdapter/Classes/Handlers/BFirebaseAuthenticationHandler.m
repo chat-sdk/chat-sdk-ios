@@ -13,6 +13,7 @@
 
 @implementation BFirebaseAuthenticationHandler
 
+
 // Note: this method gets called often
 // Each time the main tab bar appears the app check that
 // the user is authenticated
@@ -111,7 +112,7 @@
             if ([BNetworkManager sharedManager].a.socialLogin) {
                 [[BNetworkManager sharedManager].a.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
                     FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:token];
-                    [promise resolveWithResult:credential];
+                    //[promise resolveWithResult:credential];
                     [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
 
                     return Nil;
@@ -126,9 +127,9 @@
         {
          
             if ([BNetworkManager sharedManager].a.socialLogin) {
-                [[BNetworkManager sharedManager].a.socialLogin loginWithTwitter].thenOnMain(^id(NSDictionary * dict) {
-                    FIRAuthCredential * credential = [FIRTwitterAuthProvider credentialWithToken:dict[bTwitterAuthToken]
-                                                                                          secret:dict[bTwitterSecret]];
+                [[BNetworkManager sharedManager].a.socialLogin loginWithTwitter].thenOnMain(^id(NSArray * array) {
+                    FIRAuthCredential * credential = [FIRTwitterAuthProvider credentialWithToken:array.firstObject
+                                                                                          secret:array.lastObject];
                     [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
                     return Nil;
                     

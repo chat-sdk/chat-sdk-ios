@@ -12,7 +12,23 @@
 #import <ChatSDKUI/ChatUI.h>
 #import <ChatSDKUI/BChatViewController2.h>
 
+#define bControllerKey @"bControllerKey"
+#define bNameKey @"bNameKey"
+
 @implementation BDefaultInterfaceAdapter
+
+-(id) init {
+    if((self = [super init])) {
+        _additionalChatOptions = [NSMutableArray new];
+        _additionalTabBarViewControllers = [NSMutableArray new];
+        _additionalSearchViewControllers = [NSMutableDictionary new];
+    }
+    return self;
+}
+
+-(void) addTabBarViewController: (UIViewController *) controller atIndex: (int) index {
+    [_additionalTabBarViewControllers addObject:@[controller, @(index)]];
+}
 
 -(UIViewController *) privateThreadsViewController {
     if (!_privateThreadsViewController) {
@@ -49,10 +65,18 @@
 }
 
 -(NSArray *) tabBarViewControllers {
-    return @[self.privateThreadsViewController,
-             self.publicThreadsViewController,
-             self.contactsViewController,
-             [self profileViewControllerWithUser: Nil]];
+    NSArray * defaultTabs = @[self.privateThreadsViewController,
+                              self.publicThreadsViewController,
+                              self.contactsViewController,
+                              [self profileViewControllerWithUser: Nil]];
+
+    NSMutableArray * tabs = [NSMutableArray arrayWithArray:defaultTabs];
+   
+    for(NSArray * tab in _additionalTabBarViewControllers) {
+        [tabs insertObject:tab.firstObject atIndex:[tab.lastObject intValue]];
+    }
+    
+    return tabs;
 }
 
 -(NSArray *) tabBarNavigationViewControllers {
@@ -88,33 +112,83 @@
         [options addObject:[[BLocationChatOption alloc] init]];
     }
     
-#ifdef ChatSDKStickerMessagesModule
-    [options addObject: [[BStickerChatOption alloc] init]];
-#endif
+    for(BChatOption * option in _additionalChatOptions) {
+        [options addObject:option];
+    }
     
     return options;
     
 }
 
+-(UIViewController *) searchViewControllerWithType: (NSString *) type excludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {
+
+    UIViewController<PSearchViewController> * vc;
+    
+    if([type isEqualToString:bSearchTypeNameSearch]) {
+        vc = [[BSearchViewController alloc] initWithUsersToExclude: users selectedAction: usersAdded];
+    }
+    else {
+        vc = _additionalSearchViewControllers[type][bControllerKey];
+        if(vc) {
+            [vc setSelectedAction:usersAdded];
+            [vc setExcludedUsers:users];
+        }
+    }
+    return [[UINavigationController alloc] initWithRootViewController:vc];
+    
+}
+
+-(NSDictionary *) additionalSearchControllerNames {
+    NSMutableDictionary * nameForType = [NSMutableDictionary new];
+    for(NSString * key in [_additionalSearchViewControllers allKeys]) {
+        nameForType[key] = _additionalSearchViewControllers[key][bNameKey];
+    }
+    return nameForType;
+}
+
+-(void) addSearchViewController: (UIViewController *) controller withType: (NSString *) type withName: (NSString *) name {
+    [_additionalSearchViewControllers setObject:@{bControllerKey: controller, bNameKey: name}
+                                         forKey:type];
+}
+
+-(void) removeSearchViewControllerWithType: (NSString *) type {
+    [_additionalSearchViewControllers removeObjectForKey:type];
+}
+
+
 -(UIViewController *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {
     BSearchViewController * vc = [[BSearchViewController alloc] initWithUsersToExclude: users];
-    vc.usersSelected = usersAdded;
+
     return [[UINavigationController alloc] initWithRootViewController:vc];
 }
 
+-(void) setChatOptionsHandler:(id<PChatOptionsHandler>)handler {
+    _chatOptionsHandler = handler;
+}
+
 -(id<PChatOptionsHandler>) chatOptionsHandlerWithChatViewController: (BChatViewController *) chatViewController {
-#ifdef ChatSDKKeyboardOverlayOptionsModule
-    return [[BChatOptionsCollectionView alloc] initWithChatViewController:chatViewController];
-#else
+    if (_chatOptionsHandler) {
+        return _chatOptionsHandler;
+    }
     return [[BChatOptionsActionSheet alloc] initWithChatViewController:chatViewController];
-#endif
-    
 }
 
 -(UIViewController *) usersViewControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent {
     BUsersViewController * vc = [[BUsersViewController alloc] initWithThread:thread];
     vc.parentNavigationController = parent;
     return vc;
+}
+
+-(void) addChatOption: (BChatOption *) option {
+    if(![_additionalChatOptions containsObject:option]) {
+        [_additionalChatOptions addObject:option];
+    }
+}
+
+-(void) removeChatOption: (BChatOption *) option {
+    if([_additionalChatOptions containsObject:option]) {
+        [_additionalChatOptions removeObject:option];
+    }
 }
 
 @end

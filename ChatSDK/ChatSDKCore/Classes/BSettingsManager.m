@@ -29,8 +29,6 @@
 #define bClientKey @"client_key"
 #define bApiKey @"api_key"
 #define bSecretKey @"secret"
-#define bImageMessagesEnabledKey @"image_messages_enabled"
-#define bLocationMessagesEnabledKey @"location_messages_enabled"
 
 @implementation BSettingsManager
 
@@ -113,14 +111,6 @@
 
 +(NSString *) parseClientKey {
     return [self string_s:@[bParseKey, bClientKey]];
-}
-
-+(BOOL) imageMessagesEnabled {
-    return [[self number_s:@[bSettingsKey, bImageMessagesEnabledKey]] boolValue];
-}
-
-+(BOOL) locationMessagesEnabled {
-    return [[self number_s:@[bSettingsKey, bLocationMessagesEnabledKey]] boolValue];
 }
 
 +(NSString *) backendlessAppId {

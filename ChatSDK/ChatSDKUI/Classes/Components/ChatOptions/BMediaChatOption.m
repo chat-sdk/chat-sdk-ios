@@ -25,20 +25,20 @@
     NSString * image;
     switch (_type) {
         case bPictureTypeAlbumImage:
-            image = @"Frameworks/ChatSDKUI.framework/ChatUI.bundle/icn_60_gallery.png";
+            image = @"icn_60_gallery.png";
             break;
         case bPictureTypeAlbumVideo:
-            image = @"Frameworks/ChatSDKUI.framework/ChatUI.bundle/icn_60_video_clip.png";
+            image = @"icn_60_video_clip.png";
             break;
         case bPictureTypeCameraImage:
-            image = @"Frameworks/ChatSDKUI.framework/ChatUI.bundle/icn_60_camera.png";
+            image = @"icn_60_camera.png";
             break;
         case bPictureTypeCameraVideo:
-            image = @"Frameworks/ChatSDKUI.framework/ChatUI.bundle/icn_60_camera.png";
+            image = @"icn_60_camera.png";
             break;
     }
 
-    return [UIImage imageNamed:image];
+    return [NSBundle chatUIImageNamed:image];
 }
 
 -(NSString *) title {
@@ -125,7 +125,7 @@
         NSData * videoData = [NSData dataWithContentsOfURL:videoURL];
         
         UIImage * cover = [self thumbnailImageForVideo:videoURL atTime:0.1];
-        cover = [self drawImage:cover withBadge:[UIImage imageNamed:@"Frameworks/ChatSDKUI.framework/ChatUI.bundle/play-button.png"]];
+        cover = [self drawImage:cover withBadge:[NSBundle imageNamed:@"play-button.png" framework:@"ChatSDKUI" bundle:@"ChatUI"]];
         
         // Send video to the chat view
         if([BNetworkManager sharedManager].a.videoMessage) {

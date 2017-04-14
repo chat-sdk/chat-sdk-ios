@@ -142,10 +142,10 @@
         
         // Check how many users are in the conversation
         if (self.type.intValue & bThreadTypePublic) {
-            return [UIImage imageNamed:bDefaultPublicGroupImage];
+            return [NSBundle imageNamed:bDefaultPublicGroupImage framework:@"ChatSDKUI" bundle:@"ChatUI"];
         }
         else {
-            return [UIImage imageNamed:bDefaultProfileImage];
+            return [NSBundle imageNamed:bDefaultProfileImage framework:@"ChatSDKUI" bundle:@"ChatUI"];
         }
     }
     else if (users.count == 1) {

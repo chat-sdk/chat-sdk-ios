@@ -25,7 +25,7 @@
 @synthesize activityView;
 @synthesize usersSelected;
 
-- (id)initWithUsersToExclude: (NSArray *) excludedUsers {
+- (id)initWithUsersToExclude: (NSArray *) excludedUsers selectedAction: (void(^)(NSArray * users)) action {
     
     self = [super initWithNibName:@"BSearchViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {
@@ -35,8 +35,17 @@
         self.title = [NSBundle t: bSearch];
         
         _usersToExclude = excludedUsers;
+        self.usersSelected = action;
     }
     return self;
+}
+
+-(void) setExcludedUsers: (NSArray *) excludedUsers {
+    _usersToExclude = excludedUsers;
+}
+
+-(void) setSelectedAction: (void(^)(NSArray * users)) action {
+    self.usersSelected = action;
 }
 
 - (void)viewDidLoad {

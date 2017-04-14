@@ -15,6 +15,8 @@
 		AC7BD9A71E0874B400C785EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A61E0874B400C785EE /* Assets.xcassets */; };
 		AC7BD9AA1E0874B400C785EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A81E0874B400C785EE /* LaunchScreen.storyboard */; };
 		AC7BD9BF1E096E9000C785EE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */; };
+		ACE0A1C01E9762D300ED68B3 /* BFirebaseSocialLoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE0A1BC1E9762D300ED68B3 /* BFirebaseSocialLoginHandler.m */; };
+		ACE0A1C11E9762D300ED68B3 /* BGoogleLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE0A1BE1E9762D300ED68B3 /* BGoogleLoginHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,11 @@
 		AC7BD9A91E0874B400C785EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC7BD9AB1E0874B400C785EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ACE0A1BB1E9762D300ED68B3 /* BFirebaseSocialLoginHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseSocialLoginHandler.h; sourceTree = "<group>"; };
+		ACE0A1BC1E9762D300ED68B3 /* BFirebaseSocialLoginHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseSocialLoginHandler.m; sourceTree = "<group>"; };
+		ACE0A1BD1E9762D300ED68B3 /* BGoogleLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGoogleLoginHelper.h; sourceTree = "<group>"; };
+		ACE0A1BE1E9762D300ED68B3 /* BGoogleLoginHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGoogleLoginHelper.m; sourceTree = "<group>"; };
+		ACE0A1BF1E9762D300ED68B3 /* SocialLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialLogin.h; sourceTree = "<group>"; };
 		C1E0C00DE6291F2AF340F82F /* Pods-ChatSDK Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,6 +83,7 @@
 		AC7BD9991E0874B400C785EE /* ChatSDK Demo */ = {
 			isa = PBXGroup;
 			children = (
+				ACE0A1BA1E9762D300ED68B3 /* SocialLogin */,
 				AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */,
 				AC7BD99D1E0874B400C785EE /* AppDelegate.h */,
 				AC7BD99E1E0874B400C785EE /* AppDelegate.m */,
@@ -96,6 +104,18 @@
 				AC7BD99B1E0874B400C785EE /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		ACE0A1BA1E9762D300ED68B3 /* SocialLogin */ = {
+			isa = PBXGroup;
+			children = (
+				ACE0A1BB1E9762D300ED68B3 /* BFirebaseSocialLoginHandler.h */,
+				ACE0A1BC1E9762D300ED68B3 /* BFirebaseSocialLoginHandler.m */,
+				ACE0A1BD1E9762D300ED68B3 /* BGoogleLoginHelper.h */,
+				ACE0A1BE1E9762D300ED68B3 /* BGoogleLoginHelper.m */,
+				ACE0A1BF1E9762D300ED68B3 /* SocialLogin.h */,
+			);
+			path = SocialLogin;
 			sourceTree = "<group>";
 		};
 		C8B54BE9273467F07490747B /* Frameworks */ = {
@@ -231,6 +251,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC7BD9A21E0874B400C785EE /* ViewController.m in Sources */,
+				ACE0A1C01E9762D300ED68B3 /* BFirebaseSocialLoginHandler.m in Sources */,
+				ACE0A1C11E9762D300ED68B3 /* BGoogleLoginHelper.m in Sources */,
 				AC7BD99F1E0874B400C785EE /* AppDelegate.m in Sources */,
 				AC7BD99C1E0874B400C785EE /* main.m in Sources */,
 			);

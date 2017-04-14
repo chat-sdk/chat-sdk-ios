@@ -27,37 +27,6 @@
         self.contact = [[BBaseContactHandler alloc] init];
         self.publicThread = [[BFirebasePublicThreadHandler alloc] init];
 
-// Enable the read receipt module if it exists
-#ifdef ChatSDKReadReceiptsModule
-        self.readReceipt = [[BFirebaseReadReceiptHandler alloc] init];
-#endif
-
-// Enable the read receipt module if it exists
-#ifdef ChatSDKAudioMessagesModule
-        self.audioMessage = [[BFirebaseAudioMessageHandler alloc] init];
-#endif
-
-#ifdef ChatSDKTypingIndicatorModule
-        self.typingIndicator = [[BFirebaseTypingIndicatorHandler alloc] init];
-#endif
-
-#ifdef ChatSDKVideoMessagesModule
-        self.videoMessage = [[BFirebaseVideoMessageHandler alloc] init];
-#endif
-
-#ifdef ChatSDKNearbyUsersModule
-        self.nearbyUsers = [[BGeoFireManager alloc] init];
-        [BInterfaceManager sharedManager].a = [[BGeoFireInterfaceAdapter alloc] init];
-#endif
-
-#ifdef ChatSDKContactBookModule
-		self.contact = [[BFirebasePhonebookContactHandler alloc] init];
-#endif
-        
-#ifdef ChatSDKSocialLoginModule
-        self.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
-#endif
-
     }
     return self;
 }

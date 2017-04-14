@@ -90,7 +90,9 @@
     }
     
     if (imageName) {
-        _readMessageImageView.image = [UIImage imageNamed:[@"Frameworks/ChatSDKUI.framework/ChatUI.bundle/" stringByAppendingString: imageName]];
+        _readMessageImageView.image = [NSBundle chatUIImageNamed:imageName];
+        
+        
     }
     else {
         _readMessageImageView.image = Nil;

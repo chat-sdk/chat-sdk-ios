@@ -82,5 +82,25 @@
 -(id<PStickerMessageHandler>) stickerMessage;
 -(id<PSocialLoginHandler>) socialLogin;
 
+-(void) setCore: (id<PCoreHandler>) core;
+-(void) setAuth: (id<PAuthenticationHandler>) auth;
+-(void) setPush: (id<PPushHandler>) push;
+-(void) setUpload: (id<PUploadHandler>) upload;
+-(void) setVideoMessage: (id<PVideoMessageHandler>) videoMessage;
+-(void) setAudioMessage: (id<PAudioMessageHandler>) audioMessage;
+-(void) setImageMessage: (id<PImageMessageHandler>) imageMessage;
+-(void) setLocationMessage: (id<PLocationMessageHandler>) locationMessage;
+-(void) setContact: (id<PContactHandler>) contact;
+-(void) setTypingIndicator: (id<PTypingIndicatorHandler>) typingIndicator;
+-(void) setModeration: (id<PModerationHandler>) moderation;
+-(void) setSearch: (id<PSearchHandler>) search;
+-(void) setPublicThread: (id<PPublicThreadHandler>) publicThread;
+-(void) setLastOnline: (id<PLastOnlineHandler>) lastOnline;
+-(void) setBlocking: (id<PBlockingHandler>) blocking;
+-(void) setNearbyUsers: (id<PNearbyUsersHandler>) nearbyUsers;
+-(void) setReadReceipt: (id<PReadReceiptHandler>) readReceipt;
+-(void) setStickerMessage: (id<PStickerMessageHandler>) stickerMessage;
+-(void) setSocialLogin: (id<PSocialLoginHandler>) socialLogin;
+
 @end
 

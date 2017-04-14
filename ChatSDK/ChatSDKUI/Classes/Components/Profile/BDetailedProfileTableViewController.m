@@ -55,7 +55,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _anonymousProfilePicture = [UIImage imageNamed:bDefaultProfileImage];
+    
+    _anonymousProfilePicture = [NSBundle chatUIImageNamed:bDefaultProfileImage];
     profilePictureButton.layer.cornerRadius = 50;
     
     self.hideSectionsWithHiddenRows = YES;

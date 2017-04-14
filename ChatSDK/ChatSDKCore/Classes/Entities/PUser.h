@@ -42,10 +42,6 @@
  * @brief User's main image
  * @return NSData Image in binary format
  */
-/**
- * @brief User's main image
- * @return NSData Image in binary format
- */
 -(NSData *) image;
 -(UIImage *) imageAsImage;
 -(UIImage *) defaultImage;

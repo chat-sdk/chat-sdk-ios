@@ -2,6 +2,10 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 use_frameworks!
 
+#pre_install do |installer|
+#	def installer.verify_no_static_framework_transitive_dependencies; end
+#end
+
 target 'ChatSDK Demo' do
   
   pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
@@ -9,6 +13,23 @@ target 'ChatSDK Demo' do
   pod "ChatSDKCoreData", :path => "../ChatSDK/ChatSDKCoreData"
   pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
 
-  #pod "ChatSDKModules/Backendless", :path => "ChatSDKModules"
+#   pod "ChatSDKFirebase/TypingIndicator", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/VideoMessages", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/AudioMessages", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/ContactBook", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/ReadReceipts", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/NearbyUsers", :path => "../../ChatSDK/ChatSDKFirebase"
+# 
+#   pod "ChatSDKModules/StickerMessages", :path => "../../ChatSDK/ChatSDKModules"
+#   pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../../ChatSDK/ChatSDKModules"
+# 
+#   pod "TwoFactorAuth", :path => "../../ChatSDK/TwoFactorAuth"
+
+  #pod "ChatSDKFirebase/SocialLogin", :path => "../../ChatSDK/ChatSDKFirebase"
+  #pod "ChatSDKModules/Backendless", :path => "../../ChatSDK/ChatSDKModules"
+
+  pod 'GoogleSignIn'
+  pod 'TwitterKit'
+  pod 'FBSDKLoginKit'
 	
 end

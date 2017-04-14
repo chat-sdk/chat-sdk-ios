@@ -53,12 +53,4 @@
     return [RXPromise resolveWithResult:Nil];
 }
 
--(RXPromise *) searchViewControllerForType: (bSearchType) type exclude: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {
-    UIViewController * vc = Nil;
-    if(type == bSearchTypeNameSearch) {
-        vc = [[BInterfaceManager sharedManager].a searchViewControllerExcludingUsers:users usersAdded:usersAdded];
-    }
-    return [RXPromise resolveWithResult: vc];
-}
-
 @end

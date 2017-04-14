@@ -226,7 +226,7 @@
 
 // TODO: Remove UI dependency on CoreData
 -(UIImage *) defaultImage {
-    return [UIImage imageNamed:bDefaultProfileImage];
+    return [NSBundle imageNamed:bDefaultProfileImage framework:@"ChatSDKUI" bundle:@"ChatUI"];
 }
 
 @end

@@ -9,15 +9,16 @@
 #ifndef ChatCore_h
 #define ChatCore_h
 
-#import "Reachability/Reachability.h"
-#import "RXPromise/RXPromise.h"
-#import "RXPromise/RXPromise+RXExtension.h"
-#import "AFNetworking/AFNetworking.h"
+#import <Reachability/Reachability.h>
+#import <RXPromise/RXPromise.h>
+#import <RXPromise/RXPromise+RXExtension.h>
+#import <AFNetworking/AFNetworking.h>
 
 #import <ChatSDKCore/NSArray+KeyPair.h>
 #import <ChatSDKCore/NSObject+AssociatedObject.h>
 #import <ChatSDKCore/RXPromise+Additions.h>
 #import <ChatSDKCore/UIImage+Resize.h>
+#import <ChatSDKCore/NSBundle+Additions.h>
 
 #import <ChatSDKCore/BNetworkManager.h>
 #import <ChatSDKCore/BStorageManager.h>

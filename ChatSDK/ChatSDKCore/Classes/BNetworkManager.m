@@ -43,6 +43,7 @@ static BNetworkManager * manager;
                                                      name:UIApplicationWillTerminateNotification
                                                    object:Nil];
         
+        
     }
     return self;
 }
@@ -56,7 +57,8 @@ static BNetworkManager * manager;
 
 -(void) appDidBecomeActive {
     if(self.a) {
-        //[self.a.core goOnline];
+        // TODO: Check this
+        [self.a.core goOnline];
     }
 }
 

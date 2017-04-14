@@ -11,6 +11,7 @@
 #import <ChatSDKCore/ChatCore.h>
 #import <ChatSDKUI/ChatUI.h>
 
+
 #define bMessagesBadgeValueKey @"bMessagesBadgeValueKey"
 
 @interface BAppTabBarController ()
@@ -34,7 +35,8 @@
     
     self.delegate = self;
     
-    self.viewControllers = [[BInterfaceManager sharedManager].a tabBarNavigationViewControllers];
+    NSArray * vcs = [[BInterfaceManager sharedManager].a tabBarNavigationViewControllers];
+    self.viewControllers = vcs;
 
     // Listen to see if the user logs out
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationLogout
