@@ -1,4 +1,4 @@
-##Client Installation
+## Client Installation
 
 + Download and unzip the module
 + Add the folder `TwoFactorAuth` to `ChatSDK`
@@ -9,15 +9,21 @@
 + Run ```pod install```
 + Set the server path
 
-In `Info.plist`
+In `Info.plist` set
+
 ```
 two_factor_auth_server_path: http://[url-to-your-two-factor-auth-server]
 ```
+
 **Make sure there is no trailing slash.**
 
-For instructions on installing the server see below. 
+> **Note:**  
+> For instructions on installing the server see below. 
 
-###Enabling the module
+### Enabling the module
+
+#### Objective C
+
 Add this to `AppDelegate.h`
 
 ```
@@ -25,18 +31,23 @@ Add this to `AppDelegate.h`
 
 // Implement the two factor auth delegate delegate
 @interface AppDelegate : UIResponder <UIApplicationDelegate, BTwoFactorAuthDelegate> {
-    BAppTabBarController * _mainViewController;
     BVerifyViewController * _verifyViewController;
 }
 ```
 
-Add this code to `app: didFinishLaunching`
+Add this code to `app: didFinishLaunchingWithOptions`
 
 ```ObjC
     _verifyViewController = [[BVerifyViewController alloc] initWithNibName:nil bundle:nil];;
     _verifyViewController.delegate = self;
     adapter.auth.challengeViewController = _verifyViewController;
 ```
+
+Here we are just replacing the default login view with the two factor authentication screen. The client will automatically connect to the server, verify the phone number and return a Firebase token that can be used to authenticate the user. 
+
+> **Note:**  
+> You will need to comment out this line `[BNetworkManager sharedManager].a.auth.challengeViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
+` 
 
 Add the delegate method:
 
@@ -66,7 +77,66 @@ Add the delegate method:
 }
 ```
 
-##Server Installation
+#### Swift
+
+Add this to `AppDelegate.h`
+
+```
+import TwoFactorAuth
+
+// Implement the two factor auth delegate delegate
+class AppDelegate: UIResponder, UIApplicationDelegate, BTwoFactorAuthDelegate {
+
+    var window: UIWindow?
+    var verifyViewController:BVerifyViewController?;
+```
+
+Add this code to `app: didFinishLaunchingWithOptions`
+
+```Swift
+verifyViewController = BVerifyViewController(nibName: nil, bundle: nil)
+verifyViewController?.delegate = self
+BNetworkManager.shared().a.auth().setChallenge(verifyViewController)
+```
+
+Here we are just replacing the default login view with the two factor authentication screen. The client will automatically connect to the server, verify the phone number and return a Firebase token that can be used to authenticate the user. 
+
+> **Note:**  
+> You will need to comment out this line `BNetworkManager.shared().a.auth().setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));` 
+
+Add the delegate method:
+
+```Swift
+func numberVerified(withToken token: String) {
+    let dict = [bLoginTypeKey: (bAccountTypeCustom), bLoginCustomToken: token] as [String : Any]
+    
+    let block = BNetworkManager.shared().a.auth().authenticate(with: dict).thenOnMain
+    _ = block!({(user: Any) -> Any? in
+        if(user is PUser) {
+            self.authenticationFinished(with: user as? PUser)
+        }
+        return nil
+    }, {(error: Error?) -> Any? in
+        BTwoFactorAuthUtils.alertWithError(error?.localizedDescription)
+        // Still need to remove the HUD else we get stuck
+        self.authenticationFinished(with: nil)
+        return nil
+    })
+
+}
+    
+func authenticationFinished(with user: PUser?) {
+    if user != nil {
+        verifyViewController?.dismiss(animated: true, completion: {() -> Void in
+            self.verifyViewController?.phoneNumber?.text = ""
+        })
+    }
+    verifyViewController?.hideHUD()
+}
+
+```
+
+## Server Installation
 
 To run the two factor auth module you need a PHP/Apache/MySQL server. 
 
@@ -97,7 +167,7 @@ sh setup.sh
 
 The script will setup the database, permissions and finish the installation. If you would like a description of what the script is actually doing, you can see below. 
 
-####Script Actions
+#### Script Actions
 Create the database with the command (this step may be handled by composer):
 
 `php bin/console doctrine:database:create`
@@ -125,7 +195,7 @@ Finally, clear the cache:
 ```
 php bin/console cache:clear --env=prod --no-debug
 ```
-###Firebase setup
+### Firebase setup
 
 1. Create a Firebase project in the Firebase console, if you don't already have one. If you already have an existing Google project associated with your app, click Import Google Project. Otherwise, click Create New Project.
 2. Click settings and select Permissions.
@@ -145,7 +215,7 @@ firebase_secret: "secret here"
 twilio_number: "number here"
 ```
 
-###Twilio Setup
+### Twilio Setup
 
 1. Create a new Twilio account
 2. Click "Buy a number". For this trial account, you can choose any number for free. Choose a USA local number that can send SMS to all regions
