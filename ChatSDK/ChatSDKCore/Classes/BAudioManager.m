@@ -69,11 +69,28 @@ static BAudioManager * manager;
         AVPlayerItem * playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:audioURL]];
         _player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
         
+        
+        // If the headphones are in use don't override the audio
+        if (![self isHeadsetPluggedIn]) {
+            UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+            AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute, sizeof (audioRouteOverride),&audioRouteOverride);
+        }
+        
         // Subscribe to the AVPlayerItem's DidPlayToEndTime notification.
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemDidFinishPlaying:) name:AVPlayerItemDidPlayToEndTimeNotification object:playerItem];
     }
     
     [_player play];
+}
+
+// Check if the user has their headphones plugged in
+- (BOOL)isHeadsetPluggedIn {
+    AVAudioSessionRouteDescription* route = [[AVAudioSession sharedInstance] currentRoute];
+    for (AVAudioSessionPortDescription* desc in [route outputs]) {
+        if ([[desc portType] isEqualToString:AVAudioSessionPortHeadphones])
+            return YES;
+    }
+    return NO;
 }
 
 - (void)pauseAudio {
