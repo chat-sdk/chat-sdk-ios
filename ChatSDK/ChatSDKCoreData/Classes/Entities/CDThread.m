@@ -132,7 +132,7 @@
     for (CDUser * user in tempUsers) {
         
         // Check if the user picture has been uploaded
-        if (![user image]) {
+        if (!user.thumbnail) {
             [users removeObject:user];
         }
     }
@@ -151,7 +151,6 @@
     else if (users.count == 1) {
         // Only one user left so use their picture
         id<PUser> user = users.firstObject;
-        
         return [UIImage imageWithData:user.thumbnail];
     }
     else {
