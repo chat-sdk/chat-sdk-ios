@@ -58,8 +58,8 @@
     //[[[BKeyboardOverlayOptionsModule alloc] init] activate];
     
     /* Social Login */
-    //[[BNetworkManager sharedManager].a.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
-    //[[BNetworkManager sharedManager].a.socialLogin application: application didFinishLaunchingWithOptions:launchOptions];
+    [BNetworkManager sharedManager].a.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
+    [[BNetworkManager sharedManager].a.socialLogin application: application didFinishLaunchingWithOptions:launchOptions];
 
     /* Two Factor Authentication */
     //_verifyViewController = [[BVerifyViewController alloc] initWithNibName:nil bundle:nil];;

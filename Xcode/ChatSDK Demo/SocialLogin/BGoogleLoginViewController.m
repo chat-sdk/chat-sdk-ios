@@ -23,10 +23,10 @@
 
 - (id)init {
     
-    self = [super initWithNibName:@"BGoogleLoginViewController" bundle:[NSBundle chatUIBundle]];
+    self = [super initWithNibName:@"BGoogleLoginViewController" bundle:Nil];
     if (self) {
         
-        UIImageView * googleLogo = [[UIImageView alloc] initWithImage:[NSBundle chatUIImageNamed: @"icn_200_google.png"]];
+        UIImageView * googleLogo = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"icn_200_google.png"]]; //[NSBundle chatUIImageNamed: @"icn_200_google.png"]];
         [self.view addSubview:googleLogo];
         
         googleLogo.keepHorizontalCenter.equal = 0.5;
