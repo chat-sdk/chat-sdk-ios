@@ -92,10 +92,13 @@
 
         // Constrain the elements
         _optionsButton.keepLeftInset.equal = bMargin +keepRequired;
-        
+
         _optionsButton.keepBottomInset.equal = 8.0;
         _optionsButton.keepHeight.equal = 24;
-        _optionsButton.keepWidth.equal = 24;
+        
+        // If the user has no chat options available then remove the chat option button width
+        _optionsButton.keepWidth.equal = [BInterfaceManager sharedManager].a.chatOptions.count ? 24 : 0;
+        
         _optionsButton.translatesAutoresizingMaskIntoConstraints = NO;
         
         _sendButton.keepRightInset.equal = bMargin;
@@ -360,6 +363,10 @@
     {
         return textView.contentSize.height;
     }
+}
+
+-(void) setOptionsButtonHidden: (BOOL) hidden {
+    _optionsButton.keepWidth.equal = hidden ? 0 : 24;
 }
 
 -(BOOL) resignFirstResponder {

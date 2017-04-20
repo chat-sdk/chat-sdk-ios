@@ -94,7 +94,6 @@
     // Create a completion block to handle the login result
     void(^handleResult)() = ^(FIRUser * firebaseUser, NSError * error) {
         if (!error) {
-            //[promise resolveWithResult:self.currentUserModel];
             [promise resolveWithResult:firebaseUser];
         }
         else {
@@ -156,7 +155,6 @@
                     return Nil;
                 });
             }
-            
         }
             break;
         case bAccountTypePassword:

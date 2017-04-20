@@ -91,6 +91,7 @@
     // Make sure our picker is set to album as elsewhere we are using it for the camera
     _picker.sourceType = _type == bPictureTypeCameraImage || _type == bPictureTypeCameraVideo ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     
+    
     // This code fixes an issue where the picker isn't loaded in iOS 8 and above sometimes on devices
     // This seems to be due to UIActionSheet delegate being depreciated
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -101,6 +102,8 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    // This causes a warning but it seems to be harmless
+    // http://stackoverflow.com/questions/40086636/creating-an-image-format-with-an-unknown-type-is-an-error-objective-c-xcode-8
     
     // This checks whether we are adding image or video (public.movie for video)
     if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:@"public.image"]) {

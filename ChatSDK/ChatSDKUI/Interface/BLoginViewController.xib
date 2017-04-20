@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -27,6 +30,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Yy7-xO-WLG">
+                    <rect key="frame" x="77.5" y="309.5" width="220" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="JSY-ta-Y2X"/>
                         <constraint firstAttribute="width" constant="220" id="Qkh-ZL-kCi"/>
@@ -38,6 +42,7 @@
                     </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="pTU-Xn-wwY">
+                    <rect key="frame" x="77.5" y="359.5" width="220" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="220" id="4Mh-ly-WuI"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="Ogu-aU-0CO"/>
@@ -51,12 +56,14 @@
                     </connections>
                 </textField>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_120_main.png" translatesAutoresizingMaskIntoConstraints="NO" id="iqu-5d-jZf">
+                    <rect key="frame" x="127.5" y="123.5" width="120" height="120"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="120" id="VB6-Oe-cdg"/>
                         <constraint firstAttribute="height" constant="120" id="h0p-62-JdG"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat SDK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCJ-rr-kr4">
+                    <rect key="frame" x="117.5" y="251.5" width="140" height="38"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="38" id="1yU-Cm-SqJ"/>
                         <constraint firstAttribute="width" constant="140" id="CNG-d8-TOC"/>
@@ -66,6 +73,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WlM-w5-GCE">
+                    <rect key="frame" x="77.5" y="407.5" width="105" height="40"/>
                     <color key="backgroundColor" red="0.11164315789937973" green="0.57593858242034912" blue="0.85774248838424683" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="105" id="Wgg-mu-ZRW"/>
@@ -80,6 +88,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8xt-b0-3Uh">
+                    <rect key="frame" x="102.5" y="455.5" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="900" constant="50" id="c0J-Ia-q1F"/>
                         <constraint firstAttribute="height" constant="50" id="wyz-tn-nnR"/>
@@ -92,7 +101,8 @@
                         <action selector="facebookButtonPressed:" destination="-1" eventType="touchUpInside" id="Hjb-Bu-Znq"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffH-hL-IDK">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffH-hL-IDK">
+                    <rect key="frame" x="162.5" y="455.5" width="50" height="50"/>
                     <state key="normal" image="icn_50_twitter.png">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -102,6 +112,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySd-IY-GlQ">
+                    <rect key="frame" x="222.5" y="455.5" width="50" height="50"/>
                     <state key="normal" image="icn_50_google.png">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -111,6 +122,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hre-W7-hiD">
+                    <rect key="frame" x="77.5" y="513.5" width="220" height="30"/>
                     <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="Anonymous Login">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -121,6 +133,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMk-xT-irR">
+                    <rect key="frame" x="77.5" y="543.5" width="220" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="ADO-9i-GFR"/>
                     </constraints>
@@ -131,6 +144,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HeC-qI-71z">
+                    <rect key="frame" x="192.5" y="407.5" width="105" height="40"/>
                     <color key="backgroundColor" red="0.47124177217483521" green="0.7163616418838501" blue="0.21390841901302338" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="1s0-Mc-lqV"/>
@@ -144,7 +158,9 @@
                         <action selector="registerButtonPressed:" destination="-1" eventType="touchUpInside" id="iIh-Cf-sI9"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_full.png" translatesAutoresizingMaskIntoConstraints="NO" id="vmY-9M-YJg"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="splash_full.png" translatesAutoresizingMaskIntoConstraints="NO" id="vmY-9M-YJg">
+                    <rect key="frame" x="0.0" y="-499" width="375" height="667"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>

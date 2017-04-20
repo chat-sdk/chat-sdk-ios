@@ -70,11 +70,11 @@
     
     RXPromise * promise = [RXPromise new];
     
-    BGoogleLoginHelper * helper = [[BGoogleLoginHelper alloc] init];
-    [helper login].thenOnMain(^id(id success) {
+    BGoogleLoginHelper * googleHelper = [[BGoogleLoginHelper alloc] init];
+    
+    [googleHelper loginWithGoogle].thenOnMain(^id(id success) {
         
         GIDAuthentication * authentication = [GIDSignIn sharedInstance].currentUser.authentication;
-        
         [promise resolveWithResult:@[authentication.idToken, authentication.accessToken]];
         
         return Nil;
@@ -82,7 +82,7 @@
         [promise rejectWithReason:error];
         return Nil;
     });
-    
+
     return promise;
 }
 

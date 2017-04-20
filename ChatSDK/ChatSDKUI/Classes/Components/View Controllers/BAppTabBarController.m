@@ -104,7 +104,9 @@
     }
     else {
         // Once we are authenticated then start updating the users location
-        [[BNetworkManager sharedManager].a.nearbyUsers startUpdatingUserLocation];
+        if([BNetworkManager sharedManager].a.nearbyUsers) {
+            [[BNetworkManager sharedManager].a.nearbyUsers startUpdatingUserLocation];
+        }
     }
 }
 
@@ -127,6 +129,7 @@
     
 }
 
+// TODO - move this to a more appropriate place in the code
 -(void) setBadge: (int) badge {
     NSInteger privateThreadIndex = [self.tabBarController.viewControllers indexOfObject:[BInterfaceManager sharedManager].a.privateThreadsViewController];
     // Using self.tabbar will correctly set the badge for the specific index
@@ -137,7 +140,9 @@
     [[NSUserDefaults standardUserDefaults] setObject:@(badge) forKey:bMessagesBadgeValueKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
+    if ([BSettingsManager appBadgeEnabled]) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
+    }
 }
 
 -(NSBundle *) uiBundle {

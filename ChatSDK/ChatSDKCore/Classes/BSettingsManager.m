@@ -30,6 +30,9 @@
 #define bApiKey @"api_key"
 #define bSecretKey @"secret"
 
+#define bAppBadgeEnabledKey @"app_badge_enabled"
+#define bUserChatInfoEnabledKey @"user_chat_info_enabled"
+
 @implementation BSettingsManager
 
 +(NSDictionary *) settings {
@@ -111,6 +114,16 @@
 
 +(NSString *) parseClientKey {
     return [self string_s:@[bParseKey, bClientKey]];
+}
+
+// Turn on whether the app badge reflects how many unread messages there are
++(BOOL) appBadgeEnabled {
+    return [[self number_s:@[bSettingsKey, bAppBadgeEnabledKey]] boolValue];
+}
+
+// Turn on whether users can access the BUsersViewController from the chat view
++(BOOL) userChatInfoEnabled {
+    return [[self number_s:@[bSettingsKey, bUserChatInfoEnabledKey]] boolValue];
 }
 
 +(NSString *) backendlessAppId {

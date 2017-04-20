@@ -1,4 +1,4 @@
-##Installation
+## Installation
 
 + Download and unzip the module
 + Add the folder `StickerMessages` to `ChatSDK/ChatSDKModules`

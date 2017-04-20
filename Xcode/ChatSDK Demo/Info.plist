@@ -45,7 +45,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.251724064995-e9hf1kgtgctovtpo2qikipk5u0dlm5bj</string>
+				<string>com.googleusercontent.apps.1088435112418-11bedtu385j8r22bm2t92crdk7c2pc1j</string>
 			</array>
 		</dict>
 		<dict>
@@ -137,7 +137,7 @@
 			<key>api_key</key>
 			<string>test</string>
 			<key>client_key</key>
-			<string>251724064995-e9hf1kgtgctovtpo2qikipk5u0dlm5bj.apps.googleusercontent.com</string>
+			<string>1088435112418-11bedtu385j8r22bm2t92crdk7c2pc1j.apps.googleusercontent.com</string>
 		</dict>
 		<key>parse</key>
 		<dict>
@@ -147,7 +147,12 @@
 			<string></string>
 		</dict>
 		<key>settings</key>
-		<dict/>
+		<dict>
+			<key>app_badge_enabled</key>
+			<true/>
+			<key>user_chat_info_enabled</key>
+			<true/>
+		</dict>
 		<key>twitter</key>
 		<dict>
 			<key>api_key</key>

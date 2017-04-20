@@ -11,10 +11,12 @@
 
 @class RXPromise;
 
-@interface BGoogleLoginHelper : NSObject<GIDSignInDelegate, GIDSignInUIDelegate> {
-    RXPromise * _promise;
+@interface BGoogleLoginHelper : NSObject /*<GIDSignInDelegate, GIDSignInUIDelegate>*/ {
+
 }
 
--(RXPromise *) login;
+- (RXPromise *)loginWithGoogle;
+
+@property (nonatomic, weak) RXPromise * googlePromise;
 
 @end

@@ -55,9 +55,10 @@
         //[delegate.thread markRead];
         
         // When a user taps the title bar we want to know to show the options screen
-        UITapGestureRecognizer * titleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navigationBarTapped)];
-        [self.navigationItem.titleView addGestureRecognizer:titleTapRecognizer];
-
+        if ([BSettingsManager userChatInfoEnabled]) {
+            UITapGestureRecognizer * titleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navigationBarTapped)];
+            [self.navigationItem.titleView addGestureRecognizer:titleTapRecognizer];
+        }
     }
     return self;
 }
@@ -147,7 +148,6 @@
     
     _keyboardOverlay.alpha = 0;
     _keyboardOverlay.userInteractionEnabled = NO;
-
 }
 
 -(void) setTitle: (NSString *) title {

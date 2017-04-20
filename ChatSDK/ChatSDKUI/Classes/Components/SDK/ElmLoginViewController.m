@@ -166,6 +166,8 @@
 }
 
 -(void) handleLoginAttempt: (RXPromise *) promise {
+    [self showHUD];
+    
     promise.thenOnMain(
                 ^id(id<PUser> user) {
                     [self authenticationFinished];
