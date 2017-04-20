@@ -34,6 +34,8 @@
 @property (weak, nonatomic) IBOutlet UITextField * groupNameTextField;
 @property (weak, nonatomic) IBOutlet UIView * groupNameView;
 
+@property (nonatomic, readwrite) int maximumSelectedUsers;
+
 - (id)initWithUsersToExclude: (NSArray<PUser> *) users;
 
 @end

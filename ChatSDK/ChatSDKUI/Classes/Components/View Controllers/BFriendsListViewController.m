@@ -29,6 +29,7 @@
 @synthesize _tokenView;
 @synthesize groupNameView;
 @synthesize groupNameTextField;
+@synthesize maximumSelectedUsers;
 
 // If we create it with a thread then we look at who is in the thread and make sure they don't come up on the lists
 // If we are creating a new thread then we don't mind
@@ -256,16 +257,19 @@
 
 - (void) selectUser: (id<PUser>) user {
     
-    [_selectedContacts addObject:user];
+    if(_selectedContacts.count < maximumSelectedUsers) {
+        [_selectedContacts addObject:user];
+        
+        [self.names addObject:user.name];
+        
+        _filterByName = Nil;
+        [_tokenField reloadData];
+        
+        [self setGroupNameHidden:_selectedContacts.count < 2 || _contactsToExclude.count > 0 duration:0.4];
+        
+        [self reloadData];
+    }
     
-    [self.names addObject:user.name];
-    
-    _filterByName = Nil;
-    [_tokenField reloadData];
-    
-    [self setGroupNameHidden:_selectedContacts.count < 2 || _contactsToExclude.count > 0 duration:0.4];
-    
-    [self reloadData];
 }
 
 // TODO: This will fail if there are two users with the same name...
