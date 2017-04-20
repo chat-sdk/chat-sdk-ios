@@ -26,7 +26,7 @@
     return [bBundleName stringByAppendingFormat:@".bundle/%@", name];
 }
 
-+(NSBundle *) chatUIImageNamed: (NSString *) name {
++(UIImage *) chatUIImageNamed: (NSString *) name {
     return [NSBundle imageNamed:name framework:@"ChatSDKUI" bundle:@"ChatUI"];
 }
 

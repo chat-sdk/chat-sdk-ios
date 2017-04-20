@@ -157,6 +157,6 @@
 +(NSBundle *) chatUIBundle;
 +(NSString *) t: (NSString *) string;
 +(NSString *) res: (NSString *) name;
-+(NSBundle *) chatUIImageNamed: (NSString *) name;
++(UIImage *) chatUIImageNamed: (NSString *) name;
 
 @end

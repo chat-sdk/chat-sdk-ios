@@ -13,8 +13,8 @@
 
 @protocol PGoogleLoginDelegate <NSObject>
 
--(RXPromise *) loginWasSuccessful;
--(RXPromise *) loginFailedWithError: (NSError *) error;
+-(void) loginWasSuccessful;
+-(void) loginFailedWithError: (NSError *) error;
 
 @end
 

@@ -7,9 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDK/ChatUI.h>
+#import "PGoogleLoginDelegate.h"
 
-@interface BGoogleHelper : NSObject
+@class RXPromise;
+
+@interface BGoogleHelper : NSObject<PGoogleLoginDelegate> {
+    RXPromise * _promise;
+}
 
 - (RXPromise *)loginWithGoogle;
 

@@ -1,2 +1,0 @@
-framework module GoogleMapsCore { umbrella header "GoogleMapsCore.h"
-export * module * { export * } }

@@ -26,7 +26,7 @@
     self = [super initWithNibName:@"BGoogleLoginViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {
         
-        UIImageView * googleLogo = [[UIImageView alloc] initWithImage:[NSBundle chatUIImageNamed: @"icn_1200_google.png"]]];
+        UIImageView * googleLogo = [[UIImageView alloc] initWithImage:[NSBundle chatUIImageNamed: @"icn_200_google.png"]];
         [self.view addSubview:googleLogo];
         
         googleLogo.keepHorizontalCenter.equal = 0.5;
@@ -61,8 +61,9 @@
     else {
      
         [self dismissViewControllerAnimated:YES completion:^{
-            // We already have a Google user so can we immediately login with Firebase
-            [googleLoginPromise resolveWithResult:[GIDSignIn sharedInstance].currentUser];
+            if (delegate) {
+                [delegate loginWasSuccessful];
+            }
         }];
     }
 }
@@ -71,33 +72,15 @@
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
 
     [self dismissViewControllerAnimated:YES completion:^{
-        
-        if (error == nil) {
-            [googleLoginPromise resolveWithResult:user];
-        }
-        else {
-            [googleLoginPromise rejectWithReason:error];
+        if (delegate) {
+            if (error) {
+                [delegate loginFailedWithError:error];
+            }
+            else {
+                [delegate loginWasSuccessful];
+            }
         }
     }];
 }
-
-// Inside our login method
-// Create a new promise
-// Create a new instance of the google login view controller
-
-// Make a GoogleLoginViewDelegate - loginWas successfull - loginFailedWitherror
-// Google helper implements the Googledelegate
-// Google viewController.delete = self
-// return promise
-// In the helper we have a class property wihich is the promise
-
-// Self.promise = rxpromise new
-// GoogleLoginViewController.promise = promise
-
-// Inside the login was successful - resolve promise
-// Inside the login was failed - resolve promise
-
-// Google will tell us
-// Have to add the delegate property to the view controller which then should notify it's delegate - the google helper
 
 @end

@@ -14,12 +14,9 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 #import <GoogleSignIn/GoogleSignIn.h>
-//#import <GoogleSignIn/GIDAuthentication.h>
-//#import <GoogleSignIn/GIDGoogleUser.h>
-//#import <GGLCore/GGLContext.h>
 #import <TwitterKit/TwitterKit.h>
 
-#import "BGoogleLoginHelper.h"
+#import "BGoogleHelper.h"
 
 @implementation BFirebaseSocialLoginHandler
 
@@ -70,7 +67,7 @@
     
     RXPromise * promise = [RXPromise new];
     
-    BGoogleLoginHelper * googleHelper = [[BGoogleLoginHelper alloc] init];
+    BGoogleHelper * googleHelper = [[BGoogleHelper alloc] init];
     
     [googleHelper loginWithGoogle].thenOnMain(^id(id success) {
         
