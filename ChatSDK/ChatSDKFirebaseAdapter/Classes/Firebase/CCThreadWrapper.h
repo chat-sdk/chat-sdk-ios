@@ -96,4 +96,9 @@
  */
 -(void) markRead;
 
+/**
+ * @brief Update the class object from Firebase once
+ */
+-(RXPromise *) once;
+
 @end

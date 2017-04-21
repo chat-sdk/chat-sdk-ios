@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
   
   # Import the Firebase frameworks to the main project (gets rid of missing header errors)
   s.user_target_xcconfig = {
-      "FRAMEWORK_SEARCH_PATHS" => '"${PODS_ROOT}/../../ChatSDK/ChatSDKFirebaseAdapter/Frameworks"'
+      "FRAMEWORK_SEARCH_PATHS" => '"${PODS_ROOT}/../ChatSDK/ChatSDKFirebaseAdapter/Frameworks"'
   }
 
   #s.dependency 'Google/SignIn', '~> 3.0'
