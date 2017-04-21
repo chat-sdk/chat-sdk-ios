@@ -72,12 +72,12 @@ We have a lot more information on our [**Wiki**](https://github.com/chat-sdk/cha
 This repository contains a fully functional verion of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
 
 1. Clone Chat SDK  
-2. Run ```pod install``` in the ChatSDK directory  
+2. Run ```pod install``` in the Xcode directory  
 3. Open the ```Chat SDK Firebase.xcworkspace``` file in Xcode  
 4. Compile and run
 
 ## Swift Version
-If you want to use Swift, you can use the Swift Xcode project. If you want to add new files, you should make sure that the header files are added to `ChatSDK-Bridging-Header.h`.  
+If you want to use Swift, you can use the Swift Xcode (run pod install on the XcodeSwift directory) project. If you want to add new files, you should make sure that the header files are added to `ChatSDK-Bridging-Header.h`.  
 
 If your integrating the Chat SDK with a project that's written in Swift, you should do the following:
 
@@ -95,7 +95,7 @@ We have a number of additional guides available on our [Wiki](https://github.com
 - [Twitter login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/ChatSDK-iOS:-Twitter-Login)
 
 ## Integration with an existing project
-It's easy to integrate the Chat SDK with an existing project. 
+It's easy to integrate the Chat SDK with an existing project. For more detail and a walkthrough video checkout the wiki [here](https://github.com/chat-sdk/chat-sdk-ios/wiki/Chat-SDK-iOS:-Adding-Chat-SDK-to-your-existing-project).
 
 1. Clone Chat SDK  
 2. Add the Chat SDK development pods to your Podfile  
@@ -105,7 +105,7 @@ It's easy to integrate the Chat SDK with an existing project.
   ```
 
   > **Note**  
-  > Chat SDK supports push notifications but this requires the installation of an     additional free module. This guide includes the additional steps necessary to setup push notifications. These steps will be marked with a comment. 
+  > Chat SDK supports push notifications but this requires the installation of an additional free module. This guide includes the additional steps necessary to setup push notifications. These steps will be marked with a comment. 
 
   For push notifications you should download the free [BackendlessPushHandler](http://chatsdk.co/downloads/backendless-push-notifications/) module. 
 
@@ -116,9 +116,11 @@ It's easy to integrate the Chat SDK with an existing project.
 3. Run ```Pod install```  
 4. Copy the **BTwitterHelper** and **GooglerService-Info.plist** files into your main project target folder  
 5. Copy the following rows from the ChatSDK **Info.plist** file to your project's Info.plist  
-  1. chat_sdk
-  2. App Transport Security Settings
+  1. `chat_sdk` row
+  2. `App Transport Security Settings` row
   3. Privacy rows appropriate for your project (location, photo library, microphone, camera etc)
+  4. `URL types` row
+  5. `FacebookAppID` row
 6. Open the **AppDelegate.m** add the following code to initialise the chat
 
 ```objc
@@ -148,9 +150,6 @@ Add the following code to the start of your didFinishLaunchingWithOptions functi
 // Set the default interface manager
 [BInterfaceManager sharedManager].a = [[BDefaultInterfaceAdapter alloc] init];
     
-// This is the main view that contains the tab bar
-_mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
-
 // Create a network adapter to communicate with Firebase
 // The network adapter handles network traffic
 BFirebaseNetworkAdapter * adapter = [[BFirebaseNetworkAdapter alloc] init];
@@ -166,12 +165,18 @@ adapter.auth.challengeViewController = [[BLoginViewController alloc] initWithNib
 // Set the data handler
 // The data handler is responsible for persisting data on the device
 [BStorageManager sharedManager].a = [[BCoreDataManager alloc] init];
+```
+If you want to load the Chat SDK login when your app runs you will also need to add the following lines:
+
+```
+// This is the main view that contains the tab bar
+_mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
 
 // Set the root view controller
 [self.window setRootViewController:_mainViewController];
 ```
 
-For push notifications also add:
+For push notifications add:
 
 ```objc
 adapter.push = [[BBackendlessPushHandler alloc] initWithAppKey:[BSettingsManager backendlessAppId] secretKey:[BSettingsManager backendlessSecretKey] versionKey:[BSettingsManager backendlessVersionKey]];
@@ -198,7 +203,7 @@ Finally Make sure the following functions are either copied into your AppDelegat
 }
 ```
 
-For push notifications also add:
+For push notifications add:
 
 ```objc
 -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -212,37 +217,38 @@ For push notifications also add:
 ```
 
 ## Firebase Setup
+For full documentation of Firebase configuration checkout the complete guide and walkthrough video [here](https://github.com/chat-sdk/chat-sdk-ios/wiki/Chat-SDK-iOS:-Firebase-Configuration).
 
 The ChatSDK relies on a number of different backends for its functionality.
 
 **Firebase.** Firebase is a real-time data and storage service provided by Google. Firebase is free up to around 20k daily active users. 
 
-**Backendless:** Backendless is a mobile app development platform with server functionality. Backendless provide free targeted push notifications.
+1. Go to the [Firebase website](https://console.firebase.google.com/) and create an account
+2. Create a new project on the dashboard
+3. Click on your project and click through to database (left hand menu)
 
-1. Create a Firebase account
-  1. Create a Firebase account [here](https://console.firebase.google.com/)
-  2. Create a new project 
-  
-2. Adding Firebase details to your project Info.plist
-  1. Open your new project and click database in the left menu
-  2. Copy the URL at the top of your browser e.g. https://appname.firebaseio.com/
-  3. Modify the URL into the following format: gs://appname.appspot.com
-  4. Copy the modified URL into your plist field: **chat_sdk** -> **firebase** -> **storage_path**
-  5. Enter a custom root_path. 
+#### Adding Firebase details to your project Info.plist
+
+1. Open your new project and click database in the left menu
+2. Copy the URL at the top of your browser e.g. https://appname.firebaseio.com/
+3. Modify the URL into the following format: gs://appname.appspot.com
+4. Copy the modified URL into your plist field: **chat_sdk** -> **firebase** -> **storage_path**
+5. Enter a custom root_path. 
 
   >**Note:**  
+  >The root path is the initial path which your ChatSDK data will be stored on Firebase. It allows you to use a single Firebase database for multiple versions of your project. For example you could create a ```/live``` path and a ```/testing``` path. This allows you to test new features without fear of corrupting your current data model.  
+
+#### Configuring your Firebase iOS App
+
+1. In your Firebase project, click the cog at the top of the page
+2. Select Project settings
+3. Click to add an iOS App
+4. Enter your BundleID
+5. Click through the remaining steps (all this code has already been added)
+6. Copy the GoogleService-Info.plist into your main project folder (replace the previous one copied from ChatSDK)
+
+  >**Note:** 
   >It is worth opening your downloaded ```GoogleService-Info.plist``` and checking there is an ```API_KEY``` field included. Sometimes Firebase's automatic download doesn’t include this in the plist. To rectify, just re-download the plist from the project settings menu.  
-
-3. Configure your Firebase iOS App 
-  1. In your Firebase project, click the cog at the top of the page
-  2. Select Project settings
-  3. Click to add an iOS App
-  4. Enter your BundleID
-  5. Click through the remaining steps (all this code has already been added)
-  6. Copy the GoogleService-Info.plist into your main project folder (replace the previous one copied from ChatSDK)
-
->**Note:**  
->The root path is the initial path which your ChatSDK data will be stored on Firebase. It allows you to use a single Firebase database for multiple versions of your project. For example you could create a ```/live``` path and a ```/testing``` path. This allows you to test new features without fear of corrupting your current data model.  
 
 #### Security Rules
 
@@ -268,13 +274,13 @@ You have now added the custom keys to your project. Next, you need to configure 
 
 Backendless provide extremely detailed documentation for this and we recommend you to work through this to set up Push Notifications correctly. You can find the iOS Push Notification guide [here](https://backendless.com/ios-push-notifications-with-backendless/).
 
->**Note:**  
->There have been some instances of the push notifications not being sent and received until the app has been uploaded to iTunes Connect. We recommend carefully configuring Push Notifications before uploading your app and testing it with TestFlight before final release.
+  >**Note:**  
+  >There have been some instances of the push notifications not being sent and received until the app has been uploaded to iTunes Connect. We recommend carefully configuring Push Notifications before uploading your app and testing it with TestFlight before final release.
 
 Your project is now set up with the ChatSDK. 
 
->**Note:**  
->Don’t forget that it is still using many of our test accounts for social media.
+  >**Note:**  
+  >Don’t forget that it is still using many of our test accounts for social media.
 
 You find complete documentation to set these up here.
 
