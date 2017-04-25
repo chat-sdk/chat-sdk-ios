@@ -511,6 +511,17 @@
     [threadUsersRef onDisconnectRemoveValue];
 }
 
-
+-(RXPromise *) once {
+    
+    NSString * token = [BNetworkManager sharedManager].a.auth.loginInfo[bTokenKey];
+    FIRDatabaseReference * ref = [FIRDatabaseReference threadRef:self.entityID];
+    
+    return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {
+        
+        [self deserialize:response];
+        
+        return self;
+    }, Nil);
+}
 
 @end
