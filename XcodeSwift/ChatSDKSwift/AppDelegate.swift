@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let dict = [bLoginTypeKey: (bAccountTypeCustom), bLoginCustomToken: token] as [String : Any]
 //        
 //        let block = BNetworkManager.shared().a.auth().authenticate(with: dict).thenOnMain
-//        _ = block!({(user: Any) -> Any? in
+//        _ = block!({(user: Any?) -> Any? in
 //            if(user is PUser) {
 //                self.authenticationFinished(with: user as? PUser)
 //            }

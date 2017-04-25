@@ -58,6 +58,8 @@
 #define bNotificationTypingStateChangedKeyThread @"bNTypingStateChangedKeyThread"
 #define bNotificationTypingStateChangedKeyMessage @"bNTypingStateChangedKeyMessage"
 
+#define bNotificationAuthenticationComplete @"bNAuthenticationComplete"
+
 
 @protocol BNetworkFacade <NSObject>
 

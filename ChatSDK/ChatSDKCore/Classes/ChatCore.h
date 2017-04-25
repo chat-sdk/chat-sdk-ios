@@ -19,6 +19,7 @@
 #import <ChatSDKCore/RXPromise+Additions.h>
 #import <ChatSDKCore/UIImage+Resize.h>
 #import <ChatSDKCore/NSBundle+Additions.h>
+#import <ChatSDKCore/RXPromise+PromiseKit.h>
 
 #import <ChatSDKCore/BNetworkManager.h>
 #import <ChatSDKCore/BStorageManager.h>

@@ -13,7 +13,7 @@
 
 @interface BGoogleLoginViewController : UIViewController <GIDSignInDelegate, GIDSignInUIDelegate>
 
-@property (nonatomic, weak) id<PGoogleLoginDelegate> delegate;
+@property (nonatomic, strong) id<PGoogleLoginDelegate> delegate;
 
 
 @end

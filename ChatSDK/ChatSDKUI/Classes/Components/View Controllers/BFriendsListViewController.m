@@ -183,6 +183,7 @@
     
     BUserCell * cell = [tableView_ dequeueReusableCellWithIdentifier:bUserCellIdentifier];
     
+    
     id<PUser> user;
     if (indexPath.section == bContactsSection) {
         user = _contacts[indexPath.row];

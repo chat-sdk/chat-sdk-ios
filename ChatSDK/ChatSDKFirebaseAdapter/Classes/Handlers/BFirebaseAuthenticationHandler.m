@@ -228,6 +228,8 @@
                 
                 [[BNetworkManager sharedManager].a.core setUserOnline];
                 
+                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
+                
                 return [user push];
                 
             }, Nil);

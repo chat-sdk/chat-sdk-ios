@@ -60,9 +60,10 @@
     }
     else {
      
-        [self dismissViewControllerAnimated:YES completion:^{
+        [self dismissViewControllerAnimated:NO completion:^{
             if (delegate) {
                 [delegate loginWasSuccessful];
+                delegate = Nil;
             }
         }];
     }
@@ -71,7 +72,7 @@
 // Implement the required GIDSignInDelegate methods
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
 
-    [self dismissViewControllerAnimated:YES completion:^{
+    [self dismissViewControllerAnimated:NO completion:^{
         if (delegate) {
             if (error) {
                 [delegate loginFailedWithError:error];
@@ -79,6 +80,7 @@
             else {
                 [delegate loginWasSuccessful];
             }
+            delegate = Nil;
         }
     }];
 }

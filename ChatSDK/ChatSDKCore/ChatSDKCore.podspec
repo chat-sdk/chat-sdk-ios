@@ -13,6 +13,7 @@ Pod::Spec.new do |s|
   s.source_files = ['Classes/**/*']
 
   s.dependency 'RXPromise', '~> 1.0'
+  s.dependency 'PromiseKit'
   s.dependency 'Reachability', '~> 3.0'
   s.dependency 'AFNetworking', '~>3.0'
     

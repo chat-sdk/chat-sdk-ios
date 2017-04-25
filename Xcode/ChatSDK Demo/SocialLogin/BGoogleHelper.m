@@ -27,7 +27,10 @@
         UIWindow * window = [UIApplication sharedApplication].keyWindow;
         UIViewController * rootViewController = window.rootViewController;
         
-        [rootViewController presentViewController:vc animated:YES completion:nil];
+        // Dismiss the login view
+        [rootViewController dismissViewControllerAnimated:NO completion:^{
+            [rootViewController presentViewController:vc animated:YES completion:nil];
+        }];
     }
     else {
         return [RXPromise rejectWithReasonDomain:@"" code:0 description:@"Google login already in progress"];
