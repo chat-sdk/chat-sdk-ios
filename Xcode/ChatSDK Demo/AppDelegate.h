@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+//#import <TwoFactorAuth/TwoFactorAuth.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+//@interface AppDelegate : UIResponder <UIApplicationDelegate, BTwoFactorAuthDelegate> {
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+//    BVerifyViewController * _verifyViewController;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 

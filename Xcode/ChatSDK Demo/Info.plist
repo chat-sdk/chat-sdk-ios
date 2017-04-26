@@ -4,6 +4,12 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>two_factor_auth_server_path</key>
+	<string>http://http://twofactorauth.chatcatapp.com</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbauth2</string>
+	</array>
 	<key>CFBundleDisplayName</key>
 	<string>Chat SDK</string>
 	<key>CFBundleExecutable</key>
@@ -122,7 +128,7 @@
 		<key>firebase</key>
 		<dict>
 			<key>root_path</key>
-			<string>firebase_v4_local</string>
+			<string>use_frameworks_beta_2</string>
 			<key>storage_path</key>
 			<string>gs://chat-sdk-v4.appspot.com</string>
 		</dict>
@@ -142,10 +148,6 @@
 		</dict>
 		<key>settings</key>
 		<dict>
-			<key>image_messages_enabled</key>
-			<true/>
-			<key>location_messages_enabled</key>
-			<true/>
 			<key>app_badge_enabled</key>
 			<true/>
 			<key>user_chat_info_enabled</key>

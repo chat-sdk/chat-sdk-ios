@@ -1,9 +1,29 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
+use_frameworks!
+
 target 'ChatSDK Demo' do
   
-  pod "ChatSDK", :path => "../"
-  pod "ChatSDKModules/Backendless", :path => "../ChatSDKModules"
-  pod "ChatSDKFirebase/SocialLogin", :path => "../ChatSDKFirebase"
+  pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
+  pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"
+  pod "ChatSDKCoreData", :path => "../ChatSDK/ChatSDKCoreData"
+  pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+
+#   pod "ChatSDKFirebase/TypingIndicator", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/VideoMessages", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/AudioMessages", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/ContactBook", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/ReadReceipts", :path => "../../ChatSDK/ChatSDKFirebase"
+#   pod "ChatSDKFirebase/NearbyUsers", :path => "../../ChatSDK/ChatSDKFirebase"
+
+#   pod "TwoFactorAuth", :path => "../../ChatSDK/TwoFactorAuth"
+
+#   pod "ChatSDKModules/StickerMessages", :path => "../../ChatSDK/ChatSDKModules"
+#   pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../../ChatSDK/ChatSDKModules"
+
+#   pod 'GoogleSignIn'
+#   pod 'TwitterKit'
+#   pod 'FBSDKLoginKit'
+#   pod 'Backendless'
 	
 end

@@ -18,24 +18,33 @@ Pod::Spec.new do |s|
     }
     
     bh.dependency 'Backendless'
+    bh.dependency 'ChatSDKCore'
+    bh.dependency 'ChatSDKUI'
 
   end
 
-  s.subspec 'StickerMessages' do |st|
+  s.subspec 'StickerMessages' do |sm|
 
-    st.source_files = ['StickerMessages/Classes/**/*']
-    st.resource_bundles = {
+    sm.source_files = ['StickerMessages/Classes/**/*']
+    sm.resource_bundles = {
       'ChatStickerMessages' => ['StickerMessages/Assets/**/*', 'StickerMessages/Interface/**/*']
     }
 
+    sm.dependency 'ChatSDKCore'
+    sm.dependency 'ChatSDKUI'
+    sm.dependency 'ChatSDKModules/KeyboardOverlayOptions'
+
   end
 
-  s.subspec 'KeyboardOverlayOptions' do |st|
+  s.subspec 'KeyboardOverlayOptions' do |ko|
 
-    st.source_files = ['KeyboardOverlayOptions/Classes/**/*']
-    st.resource_bundles = {
+    ko.source_files = ['KeyboardOverlayOptions/Classes/**/*']
+    ko.resource_bundles = {
       'ChatKeyboardOverlayOptions' => ['KeyboardOverlayOptions/Assets/**/*', 'KeyboardOverlayOptions/Interface/**/*']
     }
+    
+    ko.dependency 'ChatSDKCore'
+    ko.dependency 'ChatSDKUI'
 
   end
 

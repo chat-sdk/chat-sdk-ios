@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		75EA9F0C5B73A5C8FBEA1EF1 /* libPods-ChatSDK Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71C40EB905B4104EB7FAC70A /* libPods-ChatSDK Demo.a */; };
+		AC7777E9AC4696C5650C0624 /* Pods_ChatSDK_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 369A95ECCEDC395C4185D9A1 /* Pods_ChatSDK_Demo.framework */; };
 		AC7BD99C1E0874B400C785EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7BD99B1E0874B400C785EE /* main.m */; };
 		AC7BD99F1E0874B400C785EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7BD99E1E0874B400C785EE /* AppDelegate.m */; };
 		AC7BD9A21E0874B400C785EE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7BD9A11E0874B400C785EE /* ViewController.m */; };
@@ -15,12 +15,11 @@
 		AC7BD9A71E0874B400C785EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A61E0874B400C785EE /* Assets.xcassets */; };
 		AC7BD9AA1E0874B400C785EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A81E0874B400C785EE /* LaunchScreen.storyboard */; };
 		AC7BD9BF1E096E9000C785EE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */; };
-		AC7BD9C21E097D5600C785EE /* BTwitterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7BD9C11E097D5600C785EE /* BTwitterHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0A6C898A6E2363FFF39375AA /* Pods-ChatSDK Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.release.xcconfig"; sourceTree = "<group>"; };
-		71C40EB905B4104EB7FAC70A /* libPods-ChatSDK Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChatSDK Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		369A95ECCEDC395C4185D9A1 /* Pods_ChatSDK_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSDK_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC7BD9971E0874B400C785EE /* ChatSDK Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChatSDK Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC7BD99B1E0874B400C785EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AC7BD99D1E0874B400C785EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -32,8 +31,6 @@
 		AC7BD9A91E0874B400C785EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC7BD9AB1E0874B400C785EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		AC7BD9C01E097D5600C785EE /* BTwitterHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTwitterHelper.h; sourceTree = "<group>"; };
-		AC7BD9C11E097D5600C785EE /* BTwitterHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTwitterHelper.m; sourceTree = "<group>"; };
 		C1E0C00DE6291F2AF340F82F /* Pods-ChatSDK Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -42,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75EA9F0C5B73A5C8FBEA1EF1 /* libPods-ChatSDK Demo.a in Frameworks */,
+				AC7777E9AC4696C5650C0624 /* Pods_ChatSDK_Demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,8 +76,6 @@
 		AC7BD9991E0874B400C785EE /* ChatSDK Demo */ = {
 			isa = PBXGroup;
 			children = (
-				AC7BD9C01E097D5600C785EE /* BTwitterHelper.h */,
-				AC7BD9C11E097D5600C785EE /* BTwitterHelper.m */,
 				AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */,
 				AC7BD99D1E0874B400C785EE /* AppDelegate.h */,
 				AC7BD99E1E0874B400C785EE /* AppDelegate.m */,
@@ -106,7 +101,7 @@
 		C8B54BE9273467F07490747B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				71C40EB905B4104EB7FAC70A /* libPods-ChatSDK Demo.a */,
+				369A95ECCEDC395C4185D9A1 /* Pods_ChatSDK_Demo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -145,7 +140,8 @@
 				TargetAttributes = {
 					AC7BD9961E0874B400C785EE = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = 648G6J36QZ;
+						DevelopmentTeam = P7RPLLCMTA;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -225,7 +221,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -235,7 +231,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC7BD9C21E097D5600C785EE /* BTwitterHelper.m in Sources */,
 				AC7BD9A21E0874B400C785EE /* ViewController.m in Sources */,
 				AC7BD99F1E0874B400C785EE /* AppDelegate.m in Sources */,
 				AC7BD99C1E0874B400C785EE /* main.m in Sources */,
@@ -267,7 +262,6 @@
 		AC7BD9AC1E0874B400C785EE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -315,7 +309,6 @@
 		AC7BD9AD1E0874B400C785EE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -358,14 +351,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C1E0C00DE6291F2AF340F82F /* Pods-ChatSDK Demo.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				DEVELOPMENT_TEAM = 648G6J36QZ;
+				DEVELOPMENT_TEAM = P7RPLLCMTA;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "ChatSDK Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -373,14 +367,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0A6C898A6E2363FFF39375AA /* Pods-ChatSDK Demo.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				DEVELOPMENT_TEAM = 648G6J36QZ;
+				DEVELOPMENT_TEAM = P7RPLLCMTA;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "ChatSDK Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

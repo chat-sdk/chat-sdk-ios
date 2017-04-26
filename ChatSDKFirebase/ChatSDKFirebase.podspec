@@ -16,6 +16,10 @@ Pod::Spec.new do |s|
     am.resource_bundles = {
       'ChatAudioMessages' => ['AudioMessages/Assets/**/*', 'AudioMessages/Interface/**/*']
     }
+    
+    am.dependency 'ChatSDKCore'
+    am.dependency 'ChatSDKFirebaseAdapter'
+    am.dependency 'ChatSDKUI'
 
   end
 
@@ -25,17 +29,27 @@ Pod::Spec.new do |s|
     cb.resource_bundles = {
       'ChatContactBook' => ['ContactBook/Assets/**/*', 'ContactBook/Interface/**/*']
     }
+    
+    cb.dependency 'ChatSDKCore'
+    cb.dependency 'ChatSDKFirebaseAdapter'
+    cb.dependency 'ChatSDKUI'
+
 
   end
 
   s.subspec 'NearbyUsers' do |nu|
 
-    nu.source_files = ['NearbyUsers/Classes/**/*']
+    nu.source_files = ['NearbyUsers/Classes/**/*', 'NearbyUsers/geofire-objc/GeoFire/**/*']
     nu.resource_bundles = {
       'ChatNearbyUsers' => ['NearbyUsers/Assets/**/*', 'NearbyUsers/Interface/**/*']
     }
     
-#     nu.dependency 'GeoFire'
+    # Not included because it would double import the Firebase libraries
+    # because they are already imported using vendored_frameworks
+    #nu.dependency 'GeoFire'
+    nu.dependency 'ChatSDKCore'
+    nu.dependency 'ChatSDKFirebaseAdapter'
+    nu.dependency 'ChatSDKUI'
 
   end
 
@@ -46,14 +60,9 @@ Pod::Spec.new do |s|
       'ChatReadReceipts' => ['ReadReceipts/Assets/**/*', 'ReadReceipts/Interface/**/*']
     }
 
-  end
-
-  s.subspec 'Stickers' do |st|
-
-    st.source_files = ['Stickers/Classes/**/*']
-    st.resource_bundles = {
-      'ChatStickers' => ['Stickers/Assets/**/*', 'Stickers/Interface/**/*']
-    }
+    rr.dependency 'ChatSDKCore'
+    rr.dependency 'ChatSDKFirebaseAdapter'
+    rr.dependency 'ChatSDKUI'
 
   end
 
@@ -63,6 +72,10 @@ Pod::Spec.new do |s|
     ti.resource_bundles = {
       'ChatTypingIndicator' => ['TypingIndicator/Assets/**/*', 'TypingIndicator/Interface/**/*']
     }
+    
+    ti.dependency 'ChatSDKCore'
+    ti.dependency 'ChatSDKFirebaseAdapter'
+    ti.dependency 'ChatSDKUI'
 
   end
 
@@ -73,6 +86,10 @@ Pod::Spec.new do |s|
       'ChatVideoMessages' => ['VideoMessages/Assets/**/*', 'VideoMessages/Interface/**/*']
     }
 
+    vm.dependency 'ChatSDKCore'
+    vm.dependency 'ChatSDKFirebaseAdapter'
+    vm.dependency 'ChatSDKUI'
+
   end
   
   s.subspec 'SocialLogin' do |sl|
@@ -82,9 +99,29 @@ Pod::Spec.new do |s|
       'ChatSocialLogin' => ['SocialLogin/Assets/**/*', 'SocialLogin/Interface/**/*']
     }
     
-    sl.dependency 'Google/SignIn', '~> 3.0'
-    sl.dependency 'TwitterKit', '~>1.12'
-    sl.dependency 'Facebook-iOS-SDK', '~>4.1.0'
+    #sl.dependency 'Google/SignIn', '~> 3.0'
+    #sl.dependency 'TwitterKit', '~>1.1'
+    #sl.dependency 'Facebook-iOS-SDK', '~>4.1.0'
+    #sl.dependency 'FBSDKCoreKit'
+    #sl.dependency 'FBSDKLoginKit'
+
+    
+    # This needs to be synchronized with the Firebase Adapter Module because 
+    # They share some Google library dependencies
+    #sl.dependency 'GTMOAuth2', '~>1.0'
+    #sl.dependency 'GTMSessionFetcher', '~>1.1'
+    #sl.dependency 'GoogleToolboxForMac', '~>2.1'
+
+    #sl.vendored_frameworks = "SocialLogin/Frameworks/*"
+    
+#       Import the Firebase frameworks to the main project (gets rid of missing header errors)
+	#sl.user_target_xcconfig = {
+	#  "FRAMEWORK_SEARCH_PATHS" => '"${PODS_ROOT}/../../../ChatSDK/ChatSDKFirebase/SocialLogin/Frameworks"'
+	#}
+
+    sl.dependency 'ChatSDKCore'
+    sl.dependency 'ChatSDKFirebaseAdapter'
+    sl.dependency 'ChatSDKUI'
 
   end
 
