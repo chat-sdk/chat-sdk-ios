@@ -1,4 +1,4 @@
-## Installation
+##Installation
 
 + Download and unzip the module
 + Add the folder `KeyboardOverlayOptions` to `ChatSDK/ChatSDKModules`

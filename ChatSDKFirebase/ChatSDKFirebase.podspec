@@ -92,38 +92,38 @@ Pod::Spec.new do |s|
 
   end
   
-#   s.subspec 'SocialLogin' do |sl|
-# 
-#     sl.source_files = ['SocialLogin/Classes/**/*']
-#     sl.resource_bundles = {
-#       'ChatSocialLogin' => ['SocialLogin/Assets/**/*', 'SocialLogin/Interface/**/*']
-#     }
-#     
-#     #sl.dependency 'Google/SignIn', '~> 3.0'
-#     #sl.dependency 'TwitterKit', '~>1.1'
-#     #sl.dependency 'Facebook-iOS-SDK', '~>4.1.0'
-#     #sl.dependency 'FBSDKCoreKit'
-#     sl.dependency 'FBSDKLoginKit'
-# 
-#     
-#     # This needs to be synchronized with the Firebase Adapter Module because 
-#     # They share some Google library dependencies
-#     sl.dependency 'GTMOAuth2', '~>1.0'
-#     sl.dependency 'GTMSessionFetcher', '~>1.1'
-#     sl.dependency 'GoogleToolboxForMac', '~>2.1'
-# 
-#     sl.vendored_frameworks = "SocialLogin/Frameworks/*"
-#     
-# #       Import the Firebase frameworks to the main project (gets rid of missing header errors)
-# 	sl.user_target_xcconfig = {
-# 	  "FRAMEWORK_SEARCH_PATHS" => '"${PODS_ROOT}/../../../ChatSDK/ChatSDKFirebase/SocialLogin/Frameworks"'
-# 	}
-# 
-#     sl.dependency 'ChatSDKCore'
-#     sl.dependency 'ChatSDKFirebaseAdapter'
-#     sl.dependency 'ChatSDKUI'
-# 
-#   end
+  s.subspec 'SocialLogin' do |sl|
+
+    sl.source_files = ['SocialLogin/Classes/**/*']
+    sl.resource_bundles = {
+      'ChatSocialLogin' => ['SocialLogin/Assets/**/*', 'SocialLogin/Interface/**/*']
+    }
+    
+    #sl.dependency 'Google/SignIn', '~> 3.0'
+    #sl.dependency 'TwitterKit', '~>1.1'
+    #sl.dependency 'Facebook-iOS-SDK', '~>4.1.0'
+    #sl.dependency 'FBSDKCoreKit'
+    #sl.dependency 'FBSDKLoginKit'
+
+    
+    # This needs to be synchronized with the Firebase Adapter Module because 
+    # They share some Google library dependencies
+    #sl.dependency 'GTMOAuth2', '~>1.0'
+    #sl.dependency 'GTMSessionFetcher', '~>1.1'
+    #sl.dependency 'GoogleToolboxForMac', '~>2.1'
+
+    #sl.vendored_frameworks = "SocialLogin/Frameworks/*"
+    
+#       Import the Firebase frameworks to the main project (gets rid of missing header errors)
+	#sl.user_target_xcconfig = {
+	#  "FRAMEWORK_SEARCH_PATHS" => '"${PODS_ROOT}/../../../ChatSDK/ChatSDKFirebase/SocialLogin/Frameworks"'
+	#}
+
+    sl.dependency 'ChatSDKCore'
+    sl.dependency 'ChatSDKFirebaseAdapter'
+    sl.dependency 'ChatSDKUI'
+
+  end
 
 
 end

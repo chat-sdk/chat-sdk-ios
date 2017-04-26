@@ -1,11 +1,13 @@
 ## Backendless Installation
 
 + Download and unzip the module
-+ Add the folder `Backendless` to `ChatSDK/ChatSDKModules`
++ Drag the source code files into your project
 + Add the pod to the `Podfile`
+
 ```
-    pod "ChatSDKModules/Backendless", :path => "../ChatSDKModules"
+pod "Backendless"
 ```
+
 + Run ```pod install```
 + Add your API details to the `info.plist`
 
@@ -21,19 +23,20 @@ These details are available on the Backendless dashboard.
 
 ### Push notifications
 
-In the `AppDelegate.m` add the following:
+Open the App delegate and add the following code:
+
+**Objective C**
 
 ```
-#import <ChatSDKModules/BBackendlessPushHandler.h>
+#import "BBackendlessPushHandler.h"
 ``` 
 
-Set the push handler in `app: didFinishLaunchingWithOptions:` method:
-
-```ObjC
-    adapter.push = [[BBackendlessPushHandler alloc] initWithAppKey:[BSettingsManager backendlessAppId] secretKey:[BSettingsManager backendlessSecretKey] versionKey:[BSettingsManager backendlessVersionKey]];
-
-    [adapter.push  registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
-
+At the end of `didFinishLaunchingWithOptions` after all the Chat SDK setup code:
+  
+```
+BBackendlessPushHandler * pushHandler = [[BBackendlessPushHandler alloc] initWithAppKey:[BSettingsManager backendlessAppId] secretKey:[BSettingsManager backendlessSecretKey] versionKey:[BSettingsManager backendlessVersionKey]];
+[[BNetworkManager sharedManager].a setPush:pushHandler];
+[[BNetworkManager sharedManager].a.push registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
 ```
 
 Make sure the following methods are added: 
@@ -46,27 +49,38 @@ Make sure the following methods are added:
 -(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [[BNetworkManager sharedManager].a.push application:application didReceiveRemoteNotification:userInfo];
 }
-```
-
-### For file upload
-In the `AppDelegate.m` add the following:
 
 ```
-#import <ChatSDKModules/BBackendlessUploadHandler.h>
+
+**Swift**
+
+```
+let pushHandler = BBackendlessPushHandler.init(appKey: BSettingsManager.backendlessAppId(), secretKey: BSettingsManager.backendlessSecretKey(), versionKey: BSettingsManager.backendlessVersionKey())
+BNetworkManager.shared().a.setPush(pushHandler)
+BNetworkManager.shared().a.push().registerForPushNotifications(with: application, launchOptions: launchOptions)
+```
+  
+Make sure the following methods are added: 
+  
+```
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    if (BNetworkManager.shared().a.push() != nil) {
+        BNetworkManager.shared().a.push().application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+    }
+}
+    
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    if (BNetworkManager.shared().a.push() != nil) {
+        BNetworkManager.shared().a.push().application(application, didReceiveRemoteNotification: userInfo)
+    }
+}
+
+```
+  
+Add this to the `ChatSDK-Bridging-Header.h`
+  
+```
+#import "BBackendlessPushHandler.h"
 ```
 
-Set the push handler in `app: didFinishLaunchingWithOptions:` method:
-
-```ObjC
-adapter.upload = [[BBackendlessUploadHandler alloc] initWithAppKey:[BSettingsManager backendlessAppId] secretKey:[BSettingsManager backendlessSecretKey] versionKey:[BSettingsManager backendlessVersionKey]];
-```
-
->**Note**  
->You only to `initWithAppKey: secretKey: versionKey:` once. If you are using both the Backendless file upload handler and the push handler, the second time you can just alloc/init. This is because both handlers use the same Backendless singleton and the keys only need to be set once. 
-
-```ObjC
-	// If you have already setup the push handler previously
-    adapter.upload = [[BBackendlessUploadHandler alloc] init];
-```
-
- For extra instructions see the [Module installation guide](http://chatsdk.co/docs/ios-installing-modules/).
+For extra instructions see the [Module installation guide](http://chatsdk.co/docs/ios-installing-modules/).

@@ -107,32 +107,33 @@ Here we are just replacing the default login view with the two factor authentica
 Add the delegate method:
 
 ```Swift
-func numberVerified(withToken token: String) {
-    let dict = [bLoginTypeKey: (bAccountTypeCustom), bLoginCustomToken: token] as [String : Any]
-    
-    let block = BNetworkManager.shared().a.auth().authenticate(with: dict).thenOnMain
-    _ = block!({(user: Any) -> Any? in
-        if(user is PUser) {
-            self.authenticationFinished(with: user as? PUser)
-        }
-        return nil
-    }, {(error: Error?) -> Any? in
-        BTwoFactorAuthUtils.alertWithError(error?.localizedDescription)
-        // Still need to remove the HUD else we get stuck
-        self.authenticationFinished(with: nil)
-        return nil
-    })
+    func numberVerified(withToken token: String) {
+        let dict = [bLoginTypeKey: bAccountTypeCustom.rawValue, bLoginCustomToken: token] as [String : Any]
+        
+        let promise = BNetworkManager.shared().a.auth().authenticate(with: dict)
+        _ = promise!.promiseKitThen().then { (result: Any?) in
+            
+            if (result is Error) {
+                BTwoFactorAuthUtils.alertWithError((result as! Error).localizedDescription)
+                // Still need to remove the HUD else we get stuck
+                self.authenticationFinished(error: result)
+            }
+            else {
+                self.authenticationFinished(error: nil)
+            }
 
-}
-    
-func authenticationFinished(with user: PUser?) {
-    if user != nil {
-        verifyViewController?.dismiss(animated: true, completion: {() -> Void in
-            self.verifyViewController?.phoneNumber?.text = ""
-        })
+            return AnyPromise.promiseWithValue(result)
+        }
     }
-    verifyViewController?.hideHUD()
-}
+    
+    func authenticationFinished(error: Any?) {
+        if error == nil {
+            verifyViewController?.dismiss(animated: true, completion: {() -> Void in
+                self.verifyViewController?.phoneNumber?.text = ""
+            })
+        }
+        verifyViewController?.hideHUD()
+    }
 
 ```
 
@@ -219,7 +220,7 @@ twilio_number: "number here"
 
 1. Create a new Twilio account
 2. Click "Buy a number". For this trial account, you can choose any number for free. Choose a USA local number that can send SMS to all regions
-3. Enable SMS for all the countries you need https://www.twilio.com/user/account/settings/international/sms
+3. Enable SMS for all the countries you need to visit [https://www.twilio.com/user/account/settings/international/sms](https://www.twilio.com/user/account/settings/international/sms)
 
 Add this number in the ```app/config/parameters.yml``` file.
 
