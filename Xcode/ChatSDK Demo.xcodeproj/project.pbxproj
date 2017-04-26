@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AC60C5E71EA86257001E83BA /* BGoogleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AC60C5E21EA86257001E83BA /* BGoogleHelper.m */; };
-		AC60C5E81EA86257001E83BA /* BGoogleLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC60C5E51EA86257001E83BA /* BGoogleLoginViewController.m */; };
-		AC60C5EA1EA868AD001E83BA /* BGoogleLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC60C5E91EA868AD001E83BA /* BGoogleLoginViewController.xib */; };
-		AC60C5EC1EA868FC001E83BA /* icn_200_google@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC60C5EB1EA868FC001E83BA /* icn_200_google@3x.png */; };
 		AC7777E9AC4696C5650C0624 /* Pods_ChatSDK_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 369A95ECCEDC395C4185D9A1 /* Pods_ChatSDK_Demo.framework */; };
 		AC7BD99C1E0874B400C785EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7BD99B1E0874B400C785EE /* main.m */; };
 		AC7BD99F1E0874B400C785EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7BD99E1E0874B400C785EE /* AppDelegate.m */; };
@@ -19,19 +15,11 @@
 		AC7BD9A71E0874B400C785EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A61E0874B400C785EE /* Assets.xcassets */; };
 		AC7BD9AA1E0874B400C785EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A81E0874B400C785EE /* LaunchScreen.storyboard */; };
 		AC7BD9BF1E096E9000C785EE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */; };
-		ACE0A1C01E9762D300ED68B3 /* BFirebaseSocialLoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE0A1BC1E9762D300ED68B3 /* BFirebaseSocialLoginHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0A6C898A6E2363FFF39375AA /* Pods-ChatSDK Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.release.xcconfig"; sourceTree = "<group>"; };
 		369A95ECCEDC395C4185D9A1 /* Pods_ChatSDK_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSDK_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC60C5E11EA86257001E83BA /* BGoogleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGoogleHelper.h; sourceTree = "<group>"; };
-		AC60C5E21EA86257001E83BA /* BGoogleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGoogleHelper.m; sourceTree = "<group>"; };
-		AC60C5E31EA86257001E83BA /* PGoogleLoginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGoogleLoginDelegate.h; sourceTree = "<group>"; };
-		AC60C5E41EA86257001E83BA /* BGoogleLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGoogleLoginViewController.h; sourceTree = "<group>"; };
-		AC60C5E51EA86257001E83BA /* BGoogleLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGoogleLoginViewController.m; sourceTree = "<group>"; };
-		AC60C5E91EA868AD001E83BA /* BGoogleLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BGoogleLoginViewController.xib; sourceTree = "<group>"; };
-		AC60C5EB1EA868FC001E83BA /* icn_200_google@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icn_200_google@3x.png"; sourceTree = "<group>"; };
 		AC7BD9971E0874B400C785EE /* ChatSDK Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChatSDK Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC7BD99B1E0874B400C785EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AC7BD99D1E0874B400C785EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -43,9 +31,6 @@
 		AC7BD9A91E0874B400C785EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC7BD9AB1E0874B400C785EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		ACE0A1BB1E9762D300ED68B3 /* BFirebaseSocialLoginHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseSocialLoginHandler.h; sourceTree = "<group>"; };
-		ACE0A1BC1E9762D300ED68B3 /* BFirebaseSocialLoginHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseSocialLoginHandler.m; sourceTree = "<group>"; };
-		ACE0A1BF1E9762D300ED68B3 /* SocialLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialLogin.h; sourceTree = "<group>"; };
 		C1E0C00DE6291F2AF340F82F /* Pods-ChatSDK Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,7 +76,6 @@
 		AC7BD9991E0874B400C785EE /* ChatSDK Demo */ = {
 			isa = PBXGroup;
 			children = (
-				ACE0A1BA1E9762D300ED68B3 /* SocialLogin */,
 				AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */,
 				AC7BD99D1E0874B400C785EE /* AppDelegate.h */,
 				AC7BD99E1E0874B400C785EE /* AppDelegate.m */,
@@ -112,23 +96,6 @@
 				AC7BD99B1E0874B400C785EE /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		ACE0A1BA1E9762D300ED68B3 /* SocialLogin */ = {
-			isa = PBXGroup;
-			children = (
-				AC60C5EB1EA868FC001E83BA /* icn_200_google@3x.png */,
-				AC60C5E91EA868AD001E83BA /* BGoogleLoginViewController.xib */,
-				AC60C5E11EA86257001E83BA /* BGoogleHelper.h */,
-				AC60C5E21EA86257001E83BA /* BGoogleHelper.m */,
-				AC60C5E31EA86257001E83BA /* PGoogleLoginDelegate.h */,
-				AC60C5E41EA86257001E83BA /* BGoogleLoginViewController.h */,
-				AC60C5E51EA86257001E83BA /* BGoogleLoginViewController.m */,
-				ACE0A1BB1E9762D300ED68B3 /* BFirebaseSocialLoginHandler.h */,
-				ACE0A1BC1E9762D300ED68B3 /* BFirebaseSocialLoginHandler.m */,
-				ACE0A1BF1E9762D300ED68B3 /* SocialLogin.h */,
-			);
-			path = SocialLogin;
 			sourceTree = "<group>";
 		};
 		C8B54BE9273467F07490747B /* Frameworks */ = {
@@ -174,6 +141,7 @@
 					AC7BD9961E0874B400C785EE = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = P7RPLLCMTA;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -203,9 +171,7 @@
 			files = (
 				AC7BD9AA1E0874B400C785EE /* LaunchScreen.storyboard in Resources */,
 				AC7BD9BF1E096E9000C785EE /* GoogleService-Info.plist in Resources */,
-				AC60C5EC1EA868FC001E83BA /* icn_200_google@3x.png in Resources */,
 				AC7BD9A71E0874B400C785EE /* Assets.xcassets in Resources */,
-				AC60C5EA1EA868AD001E83BA /* BGoogleLoginViewController.xib in Resources */,
 				AC7BD9A51E0874B400C785EE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,11 +232,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC7BD9A21E0874B400C785EE /* ViewController.m in Sources */,
-				ACE0A1C01E9762D300ED68B3 /* BFirebaseSocialLoginHandler.m in Sources */,
-				AC60C5E71EA86257001E83BA /* BGoogleHelper.m in Sources */,
 				AC7BD99F1E0874B400C785EE /* AppDelegate.m in Sources */,
 				AC7BD99C1E0874B400C785EE /* main.m in Sources */,
-				AC60C5E81EA86257001E83BA /* BGoogleLoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +359,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -411,6 +375,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

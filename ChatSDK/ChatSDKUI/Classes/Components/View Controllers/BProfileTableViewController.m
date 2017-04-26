@@ -353,7 +353,7 @@
     
     // This function ensures the user has a profile picture set
     if (!profilePictureButton.currentBackgroundImage) {
-        UIImage * image = [UIImage imageWithData:_user.image] ? [UIImage imageWithData:_user.image] : [UIImage imageNamed:bDefaultPlaceholderImage];
+        UIImage * image = [UIImage imageWithData:_user.image] ? [UIImage imageWithData:_user.image] : [NSBundle chatUIImageNamed:bDefaultPlaceholderImage];
         [profilePictureButton setImage:image forState:UIControlStateNormal];
     }
 }

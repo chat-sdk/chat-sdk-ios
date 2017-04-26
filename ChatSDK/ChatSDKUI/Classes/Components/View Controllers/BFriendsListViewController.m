@@ -258,7 +258,7 @@
 
 - (void) selectUser: (id<PUser>) user {
     
-    if(_selectedContacts.count < maximumSelectedUsers) {
+    if(_selectedContacts.count < maximumSelectedUsers || maximumSelectedUsers <= 0) {
         [_selectedContacts addObject:user];
         
         [self.names addObject:user.name];

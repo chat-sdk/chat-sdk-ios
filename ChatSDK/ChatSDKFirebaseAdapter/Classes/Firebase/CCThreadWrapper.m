@@ -87,6 +87,9 @@
     FIRDatabaseReference * threadDetailsRef = [[FIRDatabaseReference threadRef:self.entityID] child:bDetailsPath];
     [threadDetailsRef removeAllObservers];
     
+    [self messagesOff];
+    [self usersOff];
+    
     if([BNetworkManager sharedManager].a.typingIndicator) {
         [[BNetworkManager sharedManager].a.typingIndicator typingOff: self.model];
     }
@@ -202,9 +205,9 @@
     [((NSManagedObject *)_model) setPath:bUsersPath on:YES];
     
     // Get the thread data
-    FIRDatabaseReference * threadDetailsRef = [[FIRDatabaseReference threadRef:self.entityID] child:bUsersPath];
+    FIRDatabaseReference * threadUsersRef = [FIRDatabaseReference threadUsersRef:self.entityID];
     
-    [threadDetailsRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
+    [threadUsersRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
         if (![snapshot.value isEqual: [NSNull null]]) {
             // Update the thread
             CCUserWrapper * user = [CCUserWrapper userWithSnapshot:snapshot];
@@ -214,7 +217,7 @@
         }
     }];
     
-    [threadDetailsRef observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
+    [threadUsersRef observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
         if (![snapshot.value isEqual: [NSNull null]]) {
             // Update the thread
             CCUserWrapper * user = [CCUserWrapper userWithSnapshot:snapshot];
@@ -226,7 +229,10 @@
 
 -(void) usersOff {
     [((NSManagedObject *)_model) setPath:bUsersPath on:NO];
-    [[[FIRDatabaseReference threadRef:self.entityID] child:bUsersPath] removeAllObservers];
+    for(id<PUser> user in _model.users) {
+        [[CCUserWrapper userWithModel:user.model] off];
+    }
+    [[FIRDatabaseReference threadUsersRef:self.entityID] removeAllObservers];
 }
 
 /**
@@ -239,7 +245,7 @@
     
     id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
 
-    FIRDatabaseReference * currentThreadUser = [[[FIRDatabaseReference threadRef:self.entityID] child: bUsersPath] child:currentUser.entityID];
+    FIRDatabaseReference * currentThreadUser = [[FIRDatabaseReference threadUsersRef:self.entityID] child:currentUser.entityID];
 
     [currentThreadUser observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
         if (![snapshot.value isEqual: [NSNull null]] && snapshot.value[bDeletedKey]) {
@@ -269,7 +275,7 @@
     [[BStorageManager sharedManager].a endUndoGroup];
     
     id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
-    FIRDatabaseReference * currentThreadUser = [[[FIRDatabaseReference threadRef:self.entityID] child: bUsersPath] child:currentUser.entityID];
+    FIRDatabaseReference * currentThreadUser = [[FIRDatabaseReference threadUsersRef:self.entityID] child:currentUser.entityID];
     
     // If this is a private thread with only two users
     // TODO: Consider deleting it for groups and only doing this for 1to1
@@ -431,7 +437,7 @@
 
 -(RXPromise *) addUserWithEntityID: (NSString *) entityID {
     
-    FIRDatabaseReference * threadUsersRef = [[[FIRDatabaseReference threadRef:_model.entityID] child:bUsersPath] child:entityID];
+    FIRDatabaseReference * threadUsersRef = [[FIRDatabaseReference threadUsersRef:_model.entityID] child:entityID];
     
     RXPromise * promise = [RXPromise new];
     // Add the user entities to the thread too
@@ -453,7 +459,7 @@
 }
 
 -(RXPromise *) removeUserWithEntityID: (NSString *) entityID {
-    FIRDatabaseReference * threadUsersRef = [[[FIRDatabaseReference threadRef:_model.entityID] child:bUsersPath] child:entityID];
+    FIRDatabaseReference * threadUsersRef = [[FIRDatabaseReference threadUsersRef:_model.entityID] child:entityID];
     
     RXPromise * promise = [RXPromise new];
     // Add the user entities to the thread too
@@ -507,7 +513,7 @@
 }
 
 -(void) removeUserOnDisconnect: (NSString *) entityID {
-    FIRDatabaseReference * threadUsersRef = [[[FIRDatabaseReference threadRef:_model.entityID] child:bUsersPath] child:entityID];
+    FIRDatabaseReference * threadUsersRef = [[FIRDatabaseReference threadUsersRef:_model.entityID] child:entityID];
     [threadUsersRef onDisconnectRemoveValue];
 }
 

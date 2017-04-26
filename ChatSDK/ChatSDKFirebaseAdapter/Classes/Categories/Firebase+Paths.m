@@ -65,6 +65,10 @@
     return [[self threadsRef] child:firebaseID];
 }
 
++(FIRDatabaseReference *) threadUsersRef: (NSString *) firebaseID {
+    return [[[self threadsRef] child:firebaseID] child:bUsersPath];
+}
+
 +(FIRDatabaseReference *) threadMessagesRef: (NSString *) firebaseID  {
     return [[self threadRef:firebaseID] child:bMessagesPath];
 }

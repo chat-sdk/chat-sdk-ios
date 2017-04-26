@@ -45,7 +45,7 @@
     
     UIImage * placeholder = [UIImage imageWithData:message.placeholder];
     if (!placeholder) {
-        placeholder = [UIImage imageNamed:bDefaultPlaceholderImage];
+        placeholder = [NSBundle chatUIImageNamed:bDefaultPlaceholderImage];
     }
         
     [imageView sd_setImageWithURL:message.thumbnailURL

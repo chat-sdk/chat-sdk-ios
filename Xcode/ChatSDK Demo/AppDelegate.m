@@ -26,7 +26,10 @@
 //#import <ChatSDKModules/KeyboardOverlayOptions.h>
 //#import <ChatSDKModules/StickerMessages.h>
 
-#import "BFirebaseSocialLoginHandler.h"
+//#import "BBackendlessPushHandler.h"
+//#import "BBackendlessUploadHandler.h"
+
+//#import "BFirebaseSocialLoginHandler.h"
 
 @interface AppDelegate ()
 
@@ -43,7 +46,9 @@
     
     // Set the default interface manager
     [BInterfaceManager sharedManager].a = [[BDefaultInterfaceAdapter alloc] init];
-    
+
+    [BStorageManager sharedManager].a = [[BCoreDataManager alloc] init];
+
     /*
      * Module Setup - http://chatsdk.co/modules-2
      */
@@ -58,8 +63,8 @@
     //[[[BKeyboardOverlayOptionsModule alloc] init] activate];
     
     /* Social Login */
-    [BNetworkManager sharedManager].a.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
-    [[BNetworkManager sharedManager].a.socialLogin application: application didFinishLaunchingWithOptions:launchOptions];
+    //[BNetworkManager sharedManager].a.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
+    //[[BNetworkManager sharedManager].a.socialLogin application: application didFinishLaunchingWithOptions:launchOptions];
 
     /* Two Factor Authentication */
     //_verifyViewController = [[BVerifyViewController alloc] initWithNibName:nil bundle:nil];;
@@ -72,9 +77,10 @@
     // Set the login screen
     [BNetworkManager sharedManager].a.auth.challengeViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
     
-    // Set the data handler
-    // The data handler is responsible for persisting data on the device
-    [BStorageManager sharedManager].a = [[BCoreDataManager alloc] init];
+    /* Backendless Push handler */
+    //BBackendlessPushHandler * pushHandler = [[BBackendlessPushHandler alloc] initWithAppKey:[BSettingsManager backendlessAppId] secretKey:[BSettingsManager backendlessSecretKey] versionKey:[BSettingsManager backendlessVersionKey]];
+    //[[BNetworkManager sharedManager].a setPush:pushHandler];
+    //[[BNetworkManager sharedManager].a.push registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
 
     // Set the root view controller
     [self.window setRootViewController:mainViewController];
@@ -83,6 +89,7 @@
 }
 
 /* Two Factor Authentication Code */
+
 //-(void) numberVerifiedWithToken:(NSString *)token {
 //    [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeCustom),
 //                                                                         bLoginCustomToken: token}].thenOnMain(^id(id<PUser> user) {
@@ -106,12 +113,15 @@
 //    }
 //    [_verifyViewController hideHUD];
 //}
+
 /* End Two Factor Authentication Code */
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    if ([BNetworkManager sharedManager].a.socialLogin) {
+        [[BNetworkManager sharedManager].a.socialLogin applicationDidBecomeActive:application];
+    }
 }
-
 
 // During the Facebook login flow, your app passes control to the Facebook iOS app or Facebook in a mobile browser.
 // After authentication, your app will be called back with the session information.
@@ -125,25 +135,19 @@
     }
     return NO;
 }
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+
+-(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [[BNetworkManager sharedManager].a.push application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+-(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [[BNetworkManager sharedManager].a.push application:application didReceiveRemoteNotification:userInfo];
 }
 
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
+- (void)applicationWillResignActive:(UIApplication *)application {}
+- (void)applicationDidEnterBackground:(UIApplication *)application {}
+- (void)applicationWillEnterForeground:(UIApplication *)application {}
+- (void)applicationWillTerminate:(UIApplication *)application {}
 
 
 @end

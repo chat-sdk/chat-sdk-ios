@@ -62,15 +62,16 @@
 -(RXPromise *) logout {
     RXPromise * promise = [RXPromise new];
     
+    // Stop observing the user
+    [BStateManager userOff: self.currentUserEntityID];
+    
     NSError * error = Nil;
     if([[FIRAuth auth] signOut:&error]) {
         
         // When a user logs out set their user offline
         FIRDatabaseReference * userOnlineRef = [FIRDatabaseReference userOnlineRef:self.currentUserEntityID];
         [userOnlineRef setValue:@NO];
-        
-        // Stop observing the user
-        [BStateManager userOff: self.currentUserEntityID];
+
         _userListenersAdded = NO;
         
         // Post a notification

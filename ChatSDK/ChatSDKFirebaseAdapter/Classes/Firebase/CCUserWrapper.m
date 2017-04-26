@@ -230,6 +230,8 @@
     
     FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
     [ref removeAllObservers];
+    [self metaOff];
+    [self onlineOff];
 }
 
 -(RXPromise *) metaOn {

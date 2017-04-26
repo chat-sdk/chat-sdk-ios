@@ -7,11 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AC11A8821D5B128400EBFDFD /* BTwitterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AC11A8801D5B128400EBFDFD /* BTwitterHelper.m */; };
 		AC11A8831D5B128400EBFDFD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC11A8811D5B128400EBFDFD /* GoogleService-Info.plist */; };
 		ACF7BE7A1C8D8AD7003E8983 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF7BE791C8D8AD7003E8983 /* AppDelegate.swift */; };
-		ACF7BE7C1C8D8AD7003E8983 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF7BE7B1C8D8AD7003E8983 /* ViewController.swift */; };
-		ACF7BE7F1C8D8AD7003E8983 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACF7BE7D1C8D8AD7003E8983 /* Main.storyboard */; };
 		ACF7BE811C8D8AD7003E8983 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF7BE801C8D8AD7003E8983 /* Assets.xcassets */; };
 		ACF7BE841C8D8AD7003E8983 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACF7BE821C8D8AD7003E8983 /* LaunchScreen.storyboard */; };
 		E0B40CBFF82242CA7A068C9B /* Pods_ChatSDKSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49984E496C1AAC43FD13FB54 /* Pods_ChatSDKSwift.framework */; };
@@ -21,13 +18,9 @@
 		49984E496C1AAC43FD13FB54 /* Pods_ChatSDKSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSDKSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FA2943267FDCE1D271912C7 /* Pods-ChatSDKSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift.release.xcconfig"; sourceTree = "<group>"; };
 		96D6BF774CA9015733932C2C /* Pods-ChatSDKSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift.debug.xcconfig"; sourceTree = "<group>"; };
-		AC11A87F1D5B128400EBFDFD /* BTwitterHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTwitterHelper.h; sourceTree = "<group>"; };
-		AC11A8801D5B128400EBFDFD /* BTwitterHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTwitterHelper.m; sourceTree = "<group>"; };
 		AC11A8811D5B128400EBFDFD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ACF7BE761C8D8AD7003E8983 /* ChatSDKSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatSDKSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF7BE791C8D8AD7003E8983 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ACF7BE7B1C8D8AD7003E8983 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		ACF7BE7E1C8D8AD7003E8983 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ACF7BE801C8D8AD7003E8983 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACF7BE831C8D8AD7003E8983 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ACF7BE851C8D8AD7003E8983 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -67,12 +60,8 @@
 		ACF7BE781C8D8AD7003E8983 /* ChatSDKSwift */ = {
 			isa = PBXGroup;
 			children = (
-				AC11A87F1D5B128400EBFDFD /* BTwitterHelper.h */,
-				AC11A8801D5B128400EBFDFD /* BTwitterHelper.m */,
 				AC11A8811D5B128400EBFDFD /* GoogleService-Info.plist */,
 				ACF7BE791C8D8AD7003E8983 /* AppDelegate.swift */,
-				ACF7BE7B1C8D8AD7003E8983 /* ViewController.swift */,
-				ACF7BE7D1C8D8AD7003E8983 /* Main.storyboard */,
 				ACF7BE801C8D8AD7003E8983 /* Assets.xcassets */,
 				ACF7BE821C8D8AD7003E8983 /* LaunchScreen.storyboard */,
 				ACF7BE851C8D8AD7003E8983 /* Info.plist */,
@@ -164,7 +153,6 @@
 				ACF7BE841C8D8AD7003E8983 /* LaunchScreen.storyboard in Resources */,
 				AC11A8831D5B128400EBFDFD /* GoogleService-Info.plist in Resources */,
 				ACF7BE811C8D8AD7003E8983 /* Assets.xcassets in Resources */,
-				ACF7BE7F1C8D8AD7003E8983 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,8 +211,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC11A8821D5B128400EBFDFD /* BTwitterHelper.m in Sources */,
-				ACF7BE7C1C8D8AD7003E8983 /* ViewController.swift in Sources */,
 				ACF7BE7A1C8D8AD7003E8983 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,14 +218,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		ACF7BE7D1C8D8AD7003E8983 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				ACF7BE7E1C8D8AD7003E8983 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		ACF7BE821C8D8AD7003E8983 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

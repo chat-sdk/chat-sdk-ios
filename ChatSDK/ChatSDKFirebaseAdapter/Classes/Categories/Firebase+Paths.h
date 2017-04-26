@@ -38,6 +38,7 @@
 +(FIRDatabaseReference *) userOnlineRef: (NSString *) firebaseID;
 +(FIRDatabaseReference *) threadMessagesRef: (NSString *) firebaseID;
 +(FIRDatabaseReference *) threadTypingRef: (NSString *) firebaseID;
++(FIRDatabaseReference *) threadUsersRef: (NSString *) firebaseID;
 
 // Flagged
 +(FIRDatabaseReference *) flaggedRefWithThread: (NSString *) threadID message: (NSString *) messageID;

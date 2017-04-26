@@ -10,7 +10,7 @@
 
 #import <ChatSDKCore/ChatCore.h>
 #import <ChatSDKUI/ChatUI.h>
-#import <ChatSDKUI/BChatViewController2.h>
+#import <ChatSDKUI/BChatViewController.h>
 
 #define bControllerKey @"bControllerKey"
 #define bNameKey @"bNameKey"
@@ -61,7 +61,7 @@
 }
 
 -(UIViewController *) chatViewControllerWithThread: (id<PThread>) thread {
-    return [[BChatViewController2 alloc] initWithThread:thread];
+    return [[BChatViewController alloc] initWithThread:thread];
 }
 
 -(NSArray *) tabBarViewControllers {

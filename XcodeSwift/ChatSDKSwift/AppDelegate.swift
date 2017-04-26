@@ -16,25 +16,36 @@ import ChatSDKFirebaseAdapter
 //import ChatSDKModules
 //import TwoFactorAuth
 
+
 @UIApplicationMain
+/* Two Factor Auth */
 //class AppDelegate: UIResponder, UIApplicationDelegate, BTwoFactorAuthDelegate {
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    /* Two Factor Auth */
     //var verifyViewController:BVerifyViewController?;
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        //BTwitterHelper.shared()
         
         /* Set up main adapters */
         BInterfaceManager.shared().a = BDefaultInterfaceAdapter.init()
         BNetworkManager.shared().a = BFirebaseNetworkAdapter.init()
         BStorageManager.shared().a = BCoreDataManager.init()
+        
+        /* Social Login */
+        //BNetworkManager.shared().a.setSocialLogin(BFirebaseSocialLoginHandler.init())
+        //BNetworkManager.shared().a.socialLogin().application(application, didFinishLaunchingWithOptions: launchOptions)
 
+        /* Backendless Push Notifications */
+        //let pushHandler = BBackendlessPushHandler.init(appKey: BSettingsManager.backendlessAppId(), secretKey: BSettingsManager.backendlessSecretKey(), versionKey: BSettingsManager.backendlessVersionKey())
+        //BNetworkManager.shared().a.setPush(pushHandler)
+        //BNetworkManager.shared().a.push().registerForPushNotifications(with: application, launchOptions: launchOptions)
+        
         /*
          * Module Setup - http://chatsdk.co/modules-2
          */
+        
         //BTypingIndicatorModule.init().activate()
         //BVideoMessageModule.init().activate()
         //BAudioMessageModule.init().activate()
@@ -52,67 +63,76 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainViewController = BAppTabBarController.init(nibName: nil, bundle: nil)
         BNetworkManager.shared().a.auth().setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
         
+        self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = mainViewController;
         self.window?.makeKeyAndVisible();
         
-        
+    
         // Override point for customization after application launch.
         return true
     }
     
     /* Start Two Factor Authentication Code */
+    
 //    func numberVerified(withToken token: String) {
-//        let dict = [bLoginTypeKey: (bAccountTypeCustom), bLoginCustomToken: token] as [String : Any]
+//        let dict = [bLoginTypeKey: bAccountTypeCustom.rawValue, bLoginCustomToken: token] as [String : Any]
 //        
-//        let block = BNetworkManager.shared().a.auth().authenticate(with: dict).thenOnMain
-//        _ = block!({(user: Any?) -> Any? in
-//            if(user is PUser) {
-//                self.authenticationFinished(with: user as? PUser)
+//        let promise = BNetworkManager.shared().a.auth().authenticate(with: dict)
+//        _ = promise!.promiseKitThen().then { (result: Any?) in
+//            
+//            if (result is Error) {
+//                BTwoFactorAuthUtils.alertWithError((result as! Error).localizedDescription)
+//                // Still need to remove the HUD else we get stuck
+//                self.authenticationFinished(error: result)
 //            }
-//            return nil
-//        }, {(error: Error?) -> Any? in
-//            BTwoFactorAuthUtils.alertWithError(error?.localizedDescription)
-//            // Still need to remove the HUD else we get stuck
-//            self.authenticationFinished(with: nil)
-//            return nil
-//        })
+//            else {
+//                self.authenticationFinished(error: nil)
+//            }
 //
+//            return AnyPromise.promiseWithValue(result)
+//        }
 //    }
 //    
-//    func authenticationFinished(with user: PUser?) {
-//        if user != nil {
+//    func authenticationFinished(error: Any?) {
+//        if error == nil {
 //            verifyViewController?.dismiss(animated: true, completion: {() -> Void in
 //                self.verifyViewController?.phoneNumber?.text = ""
 //            })
 //        }
 //        verifyViewController?.hideHUD()
 //    }
+    
     /* End Two Factor Authentication Code */
 
-
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    }
+    func applicationWillResignActive(_ application: UIApplication) {}
+    func applicationDidEnterBackground(_ application: UIApplication) {}
+    func applicationWillEnterForeground(_ application: UIApplication) {}
+    func applicationWillTerminate(_ application: UIApplication) {}
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        //FBSDKAppEvents.activateApp();
+        if(BNetworkManager.shared().a.socialLogin() != nil) {
+           BNetworkManager.shared().a.socialLogin().applicationDidBecomeActive(application)
+        }
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        if (BNetworkManager.shared().a.push() != nil) {
+            BNetworkManager.shared().a.push().application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+        }
     }
     
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if (BNetworkManager.shared().a.push() != nil) {
+            BNetworkManager.shared().a.push().application(application, didReceiveRemoteNotification: userInfo)
+        }
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        if(BNetworkManager.shared().a.socialLogin() != nil) {
+            return BNetworkManager.shared().a.socialLogin().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+        }
+        return false
+    }
 
 }
 

@@ -15,15 +15,15 @@ target 'ChatSDKSwift' do
 #   pod "ChatSDKFirebase/ContactBook", :path => "../../ChatSDK/ChatSDKFirebase"
 #   pod "ChatSDKFirebase/ReadReceipts", :path => "../../ChatSDK/ChatSDKFirebase"
 #   pod "ChatSDKFirebase/NearbyUsers", :path => "../../ChatSDK/ChatSDKFirebase"
+
 #   pod "TwoFactorAuth", :path => "../../ChatSDK/TwoFactorAuth"
-# 
+
 #   pod "ChatSDKModules/StickerMessages", :path => "../../ChatSDK/ChatSDKModules"
 #   pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../../ChatSDK/ChatSDKModules"
 	
-  #pod "TwitterKit"
-  #pod 'GoogleSignIn'
-  #pod 'Google/SignIn'
-  
-  #pod "ChatSDKModules/Backendless", :path => "ChatSDKModules"
+#   pod 'GoogleSignIn'
+#   pod 'TwitterKit'
+#   pod 'FBSDKLoginKit'
+#   pod 'Backendless'
 	
 end

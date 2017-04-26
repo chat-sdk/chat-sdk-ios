@@ -79,18 +79,22 @@
 
     id<PUser> user = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bUserEntity];
     
+    FIRDatabaseReference * publicThreadsRef = [FIRDatabaseReference publicThreadsRef];
+    [publicThreadsRef removeAllObservers];
+    
+    FIRDatabaseReference * threadsRef = [FIRDatabaseReference userThreadsRef:entityID];
+    [threadsRef removeAllObservers];
+    
     if (user) {
         for (id<PThread> threadModel in user.threads) {
             CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
             [thread off];
-            [thread messagesOff];
         }
     }
     
     for (id<PThread> threadModel in [[BNetworkManager sharedManager].a.core threadsWithType:bThreadTypePublicGroup]) {
         CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
         [thread off];
-        [thread messagesOff];
     }
     
     for (id<PUserConnection> contact in [user connectionsWithType:bUserConnectionTypeContact]) {
