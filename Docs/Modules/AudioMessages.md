@@ -3,9 +3,11 @@
 + Download and unzip the module
 + Add the folder `AudioMessages` to `ChatSDK/ChatSDKFirebase`
 + Add the pod to the `Podfile`
+
 ```
     pod "ChatSDKFirebase/AudioMessages", :path => "../ChatSDKFirebase"
 ```
+
 + Run ```pod install```
 
 + Open the App delegate and add the following code:

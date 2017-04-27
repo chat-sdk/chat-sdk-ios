@@ -39,6 +39,7 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 - [Sticker messages](http://chatsdk.co/downloads/sticker-messages/)
 - [Contact book integration](http://chatsdk.co/downloads/contact-book-integration/)
 - [Push notifications](http://chatsdk.co/downloads/backendless-push-notifications/)
+- [Social Login](https://chatsdk.co/downloads/firebase-social-login/)
 
 ## Get involved!
 
@@ -229,6 +230,10 @@ The ChatSDK relies on a number of different backends for its functionality.
 Firebase secures your data by allowing you to write rules to govern who can access the database and what can be written. On the Firebase dashboard click **Database** then the **Rules** tab. 
 
 Copy the contents of the **rules.json** file into the rules and click publish. 
+
+## Social Login
+
+If you want to log in using Facebook, Twitter and Google Plus you can do that by downloading the Social Login [module](https://chatsdk.co/downloads/firebase-social-login/). The social login installation instructions are available [here](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Docs/Modules/SocialLogin.md). 
 
 ## Backendless Set up for push notifications
 

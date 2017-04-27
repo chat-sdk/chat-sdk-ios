@@ -24,7 +24,7 @@
   ```
   [BNetworkManager sharedManager].a.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
   [[BNetworkManager sharedManager].a.socialLogin application: application didFinishLaunchingWithOptions:launchOptions];
-  ```
+ ```
   
   **Swift**
   
