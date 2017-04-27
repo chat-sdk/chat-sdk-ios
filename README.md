@@ -435,7 +435,7 @@ Here you pass in a series of indexes to be used in the search i.e. name, email e
 
 You can also see example implementations of these handlers by looking at the `BFirebaseSearchHandler` class. And also seeing how the method is used in the Chat SDK. 
 
-#####Starting a chat 
+##### Starting a chat 
 
 To start a chat you can use the core handler. 
 
