@@ -97,9 +97,9 @@ We have a number of additional guides available on our [Wiki](https://github.com
 _And more... so check it out!_
 
 ## Integration with an existing project
-It's easy to integrate the Chat SDK with an existing project. 
+It's easy to integrate the Chat SDK with an existing project. For more detail and a walkthrough video checkout the wiki [here](https://github.com/chat-sdk/chat-sdk-ios/wiki/Chat-SDK-iOS:-Adding-Chat-SDK-to-your-existing-project).
 
-1. Clone Chat SDK  
+1. Clone the Chat SDK  
 2. Add the Chat SDK development pods to your Podfile  
 
   ```
@@ -133,9 +133,11 @@ It's easy to integrate the Chat SDK with an existing project.
 3. Run ```Pod install```  
 4. Copy the **GooglerService-Info.plist** file into your main project target folder  
 5. Copy the following rows from the demo ChatSDK **Info.plist** file to your project's **Info.plist**  
-  1. `chat_sdk`
-  2. App Transport Security Settings
-  3. Privacy rows appropriate for your project (location, photo library, microphone, camera etc)
+  1. `chat_sdk` row
+  2. `App Transport Security Settings` row
+  3. `URL types` row
+  4. `FacebookAppID` row
+  5. Privacy rows appropriate for your project (location, photo library, microphone, camera etc)
 6. Open the **App Delegate** add the following code to initialise the chat
 
   **Objective C**
@@ -196,10 +198,13 @@ It's easy to integrate the Chat SDK with an existing project.
 
 [Firebase](http://firebase.google.com) is a real-time data and storage service provided by Google. Firebase is free up to around 20k daily active users. 
 
+For full documentation of Firebase configuration checkout the complete guide and walkthrough video [here](https://github.com/chat-sdk/chat-sdk-ios/wiki/Chat-SDK-iOS:-Firebase-Configuration).
+
 **Create a Firebase account**
 
-1. Create an account [here](https://console.firebase.google.com/)
-2. Create a new project 
+1. Go to the [Firebase website](https://console.firebase.google.com/) and create an account
+2. Create a new project on the dashboard
+3. Click on your project and click through to database (left hand menu)
   
 **Add Firebase details to your project Info.plist**
 
@@ -207,10 +212,10 @@ It's easy to integrate the Chat SDK with an existing project.
 2. Copy the URL at the top of your browser e.g. `https://appname.firebaseio.com/`
 3. Modify the URL into the following format: `gs://appname.appspot.com`
 4. Copy the modified URL into your plist field: **chat_sdk** -> **firebase** -> **storage_path**
-5. Enter a custom root_path. 
+5. Enter a custom `root_path`
 
   >**Note:**  
-  >It is worth opening your downloaded ```GoogleService-Info.plist``` and checking there is an ```API_KEY``` field included. Sometimes Firebase's automatic download doesn’t include this in the plist. To rectify, just re-download the plist from the project settings menu.  
+  >The root path is the initial path which your ChatSDK data will be stored on Firebase. It allows you to use a single Firebase database for multiple versions of your project. For example you could create a ```/live``` path and a ```/testing``` path. This allows you to test new features without fear of corrupting your current data model.  
 
 **Configure your Firebase iOS App**
 
@@ -221,8 +226,9 @@ It's easy to integrate the Chat SDK with an existing project.
 5. Click through the remaining steps (all this code has already been added)
 6. Copy the **GoogleService-Info.plist** into your main project folder (replace the previous one copied from ChatSDK)
 
->**Note:**  
->The root path is the initial path which your ChatSDK data will be stored on Firebase. It allows you to use a single Firebase database for multiple versions of your project. For example you could create a ```/live``` path and a ```/testing``` path. This allows you to test new features without fear of corrupting your current data model.  
+  >**Note:**  
+  >It is worth opening your downloaded ```GoogleService-Info.plist``` and checking there is an ```API_KEY``` field included. Sometimes Firebase's automatic download doesn’t include this in the plist. To rectify, just re-download the plist from the project settings menu.  
+
 
 #### Security Rules
 
@@ -258,7 +264,7 @@ Backendless provide extremely detailed documentation for this and we recommend y
 >**Note:**  
 >There have been some instances of the push notifications not being sent and received until the app has been uploaded to iTunes Connect. We recommend carefully configuring Push Notifications before uploading your app and testing it with TestFlight before final release.
 
-Your project is now set up with the ChatSDK. 
+Your project is now set up with the Chat SDK. 
 
 >**Note:**  
 >Don’t forget that it is still using many of our test accounts for social media.
