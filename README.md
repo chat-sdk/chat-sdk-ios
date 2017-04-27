@@ -194,33 +194,32 @@ It's easy to integrate the Chat SDK with an existing project.
   
 ## Firebase Setup
 
-The ChatSDK relies on a number of different backends for its functionality.
+[Firebase](http://firebase.google.com) is a real-time data and storage service provided by Google. Firebase is free up to around 20k daily active users. 
 
-**Firebase.** Firebase is a real-time data and storage service provided by Google. Firebase is free up to around 20k daily active users. 
+**Create a Firebase account**
 
-**Backendless:** Backendless is a mobile app development platform with server functionality. Backendless provide free targeted push notifications.
-
-1. Create a Firebase account
-  1. Create a Firebase account [here](https://console.firebase.google.com/)
-  2. Create a new project 
+1. Create an account [here](https://console.firebase.google.com/)
+2. Create a new project 
   
-2. Adding Firebase details to your project Info.plist
-  1. Open your new project and click database in the left menu
-  2. Copy the URL at the top of your browser e.g. `https://appname.firebaseio.com/`
-  3. Modify the URL into the following format: `gs://appname.appspot.com`
-  4. Copy the modified URL into your plist field: **chat_sdk** -> **firebase** -> **storage_path**
-  5. Enter a custom root_path. 
+**Add Firebase details to your project Info.plist**
+
+1. Open your new project and click database in the left menu
+2. Copy the URL at the top of your browser e.g. `https://appname.firebaseio.com/`
+3. Modify the URL into the following format: `gs://appname.appspot.com`
+4. Copy the modified URL into your plist field: **chat_sdk** -> **firebase** -> **storage_path**
+5. Enter a custom root_path. 
 
   >**Note:**  
   >It is worth opening your downloaded ```GoogleService-Info.plist``` and checking there is an ```API_KEY``` field included. Sometimes Firebase's automatic download doesn’t include this in the plist. To rectify, just re-download the plist from the project settings menu.  
 
-3. Configure your Firebase iOS App 
-  1. In your Firebase project, click the cog at the top of the page
-  2. Select Project settings
-  3. Click to add an iOS App
-  4. Enter your BundleID
-  5. Click through the remaining steps (all this code has already been added)
-  6. Copy the **GoogleService-Info.plist** into your main project folder (replace the previous one copied from ChatSDK)
+**Configure your Firebase iOS App**
+
+1. In your Firebase project, click the cog at the top of the page
+2. Select Project settings
+3. Click to add an iOS App
+4. Enter your BundleID
+5. Click through the remaining steps (all this code has already been added)
+6. Copy the **GoogleService-Info.plist** into your main project folder (replace the previous one copied from ChatSDK)
 
 >**Note:**  
 >The root path is the initial path which your ChatSDK data will be stored on Firebase. It allows you to use a single Firebase database for multiple versions of your project. For example you could create a ```/live``` path and a ```/testing``` path. This allows you to test new features without fear of corrupting your current data model.  
