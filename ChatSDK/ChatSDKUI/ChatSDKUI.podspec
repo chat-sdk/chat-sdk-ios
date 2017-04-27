@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
             
   s.dependency 'MBProgressHUD', '~> 1.0'
   s.dependency 'VENTokenField', '~> 2.0'
-  s.dependency 'SDWebImage', '~> 3.0'
+  s.dependency 'SDWebImage', '~> 4.0'
   #s.dependency 'SDWebImage-ProgressView', '~> 0.4'
   s.dependency 'StaticDataTableViewController', '~> 2.0'
   s.dependency 'CountryPicker', '~> 1.0'
