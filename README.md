@@ -40,6 +40,7 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 - [Contact book integration](http://chatsdk.co/downloads/contact-book-integration/)
 - [Push notifications](http://chatsdk.co/downloads/backendless-push-notifications/)
 - [Social Login](https://chatsdk.co/downloads/firebase-social-login/)
+- [Two Factor Authentication](https://chatsdk.co/downloads/two-factor-authentication/)
 
 ## Get involved!
 
@@ -84,6 +85,10 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
 2. Run ```pod install``` in the **XcodeSwift** directory  
 3. Open the ```ChatSDKSwift.xcworkspace``` file in Xcode  
 4. Compile and run 
+
+## Setup Service
+
+We provide extensive documentation on Github but if you’re a non-technical user or want to save yourself some work you can take advantage of our [setup and integration service](http://chatsdk.co/downloads/chat-sdk-setup-service/).
 
 ## Explore the Wiki
 

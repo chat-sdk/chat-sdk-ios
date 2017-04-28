@@ -25,7 +25,7 @@ These details are available on the Backendless dashboard.
 
 Open the App delegate and add the following code:
 
-**Objective C**
+#### Objective C
 
 ```
 #import "BBackendlessPushHandler.h"
@@ -52,7 +52,7 @@ Make sure the following methods are added:
 
 ```
 
-**Swift**
+#### Swift
 
 ```
 let pushHandler = BBackendlessPushHandler.init(appKey: BSettingsManager.backendlessAppId(), secretKey: BSettingsManager.backendlessSecretKey(), versionKey: BSettingsManager.backendlessVersionKey())

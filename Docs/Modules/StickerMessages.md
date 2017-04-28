@@ -1,4 +1,4 @@
-##Installation
+## Installation
 
 + Download and unzip the module
 + Add the folder `StickerMessages` to `ChatSDK/ChatSDKModules`
@@ -9,7 +9,7 @@
 + Run ```pod install```
 + Open the App delegate and add the following code:
 
-  **Objective C**
+  #### Objective C
   
   ```
   #import <ChatSDKModules/KeyboardOverlayOptions.h>
@@ -23,7 +23,7 @@
   [[[BKeyboardOverlayOptionsModule alloc] init] activate];
   ```
   
-  **Swift**
+  #### Swift
   
   ```
   import ChatSDKModules

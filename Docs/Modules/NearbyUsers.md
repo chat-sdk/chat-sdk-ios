@@ -11,7 +11,7 @@
 + Run ```pod install```
 + Open the App delegate and add the following code:
 
-  **Objective C**
+  #### Objective C
   
   ```
   #import <ChatSDKFirebase/NearbyUsers.h>
@@ -23,7 +23,7 @@
   [[[BNearbyUsersModule alloc] init] activate];
   ```
   
-  **Swift**
+  #### Swift
   
   ```
   import ChatSDKFirebase

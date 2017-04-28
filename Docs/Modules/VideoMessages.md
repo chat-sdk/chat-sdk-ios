@@ -9,7 +9,7 @@
 + Run ```pod install```
 + Open the App delegate and add the following code:
 
-  **Objective C**
+  #### Objective C
   
   ```
   #import <ChatSDKFirebase/VideoMessages.h>
@@ -21,7 +21,7 @@
   [[[BVideoMessageModule alloc] init] activate];
   ```
   
-  **Swift**
+  #### Swift
   
   ```
   import ChatSDKFirebase

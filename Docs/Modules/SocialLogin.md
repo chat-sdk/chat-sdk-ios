@@ -13,7 +13,7 @@
   
 + Open the App delegate and add the following code:
 
-  **Objective C**
+  #### Objective C
   
   ```
   #import "BFirebaseSocialLoginHandler.h"
@@ -26,7 +26,7 @@
   [[BNetworkManager sharedManager].a.socialLogin application: application didFinishLaunchingWithOptions:launchOptions];
  ```
   
-  **Swift**
+  #### Swift
   
   At the end of `didFinishLaunchingWithOptions` after all the Chat SDK setup code:
   

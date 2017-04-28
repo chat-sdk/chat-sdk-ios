@@ -9,7 +9,7 @@
 + Run ```pod install```
 + Open the App delegate and add the following code:
 
-  **Objective C**
+  #### Objective C
   
   ```
   #import <ChatSDKFirebase/TypingIndicator.h>
@@ -21,7 +21,7 @@
   [[[BTypingIndicatorModule alloc] init] activate];
   ```
   
-  **Swift**
+  #### Swift
   
   ```
   import ChatSDKFirebase

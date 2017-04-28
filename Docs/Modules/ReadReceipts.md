@@ -9,7 +9,7 @@
 + Run ```pod install```
 + Open the App delegate and add the following code:
 
-  **Objective C**
+  #### Objective C
   
   ```
   #import <ChatSDKFirebase/ReadReceipts.h>
@@ -21,7 +21,7 @@
   [[[BReadReceiptsModule alloc] init] activate];
   ```
   
-  **Swift**
+  #### Swift
   
   ```
   import ChatSDKFirebase
