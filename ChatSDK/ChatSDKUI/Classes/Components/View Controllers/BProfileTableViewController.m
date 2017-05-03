@@ -50,7 +50,8 @@
     if (!_user) {
         _user = currentUser;
     }
-  
+ 
+    
     // Set the user's profile picture
     UIImage * image = [UIImage imageWithData: _user.thumbnail];
     [profilePictureButton setImage:image ? image : _user.defaultImage forState:UIControlStateNormal];

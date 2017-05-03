@@ -42,6 +42,12 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 - [Social Login](https://chatsdk.co/downloads/firebase-social-login/)
 - [Two Factor Authentication](https://chatsdk.co/downloads/two-factor-authentication/)
 
+## Help spread the word
+Chat SDK is free and open source. If you like the project help us spread the word by:
+
++ Giving us a Github star ⭐
++ Upvoting our page on [Product Hunt](https://www.producthunt.com/posts/chat-sdk)
+
 ## Get involved!
 
 We're very excited about the project and we're looking for other people to get involved. Over time we would like to make the best messaging framework for mobile. Helping us could involve any of the following:
