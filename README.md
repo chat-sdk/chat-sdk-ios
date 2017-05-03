@@ -63,6 +63,14 @@ We're very excited about the project and we're looking for other people to get i
 
 If you're interested please email me at **[team@chatsdk.co](mailto:team@chatsdk.co)**.
 
+## Apps that use Chat SDK
+
++ [Parlor](http://parlor.me/)
++ [Runbuddy](https://itunes.apple.com/us/app/run-buddy/id1050833009?mt=8)
+
+If you have an app that uses the Chat SDK let us know and we'll add a link. 
+
+
 ## The license
 This project uses the MIT license which is a commercially friendly open source license. The license has the following features:
 
