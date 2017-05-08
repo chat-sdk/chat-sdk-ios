@@ -17,6 +17,7 @@
  * @brief Create a public group thread with a name. This can be used for group discussion
  */
 -(RXPromise *) createPublicThreadWithName: (NSString *) name;
+-(RXPromise *) createPublicThreadWithName: (NSString *) name entityID: (NSString *) entityID isHidden: (BOOL) hidden;
 
 @end
 

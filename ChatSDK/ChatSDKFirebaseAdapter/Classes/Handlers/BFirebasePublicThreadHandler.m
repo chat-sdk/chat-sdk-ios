@@ -13,8 +13,12 @@
 
 @implementation BFirebasePublicThreadHandler
 
+
 -(RXPromise *) createPublicThreadWithName:(NSString *)name {
-    
+    return [self createPublicThreadWithName:name entityID:Nil isHidden:NO];
+}
+
+-(RXPromise *) createPublicThreadWithName: (NSString *) name entityID: (NSString *) entityID isHidden: (BOOL) hidden {
     // Before we create the thread start an undo grouping
     // that means that if it fails we can undo changed to the database
     [[BStorageManager sharedManager].a beginUndoGroup];
@@ -27,6 +31,7 @@
     threadModel.creator = currentUserModel;
     threadModel.type = @(bThreadTypePublic);
     threadModel.name = name;
+    threadModel.entityID = entityID ? entityID : Nil;
     
     [[BStorageManager sharedManager].a endUndoGroup];
     
@@ -36,18 +41,23 @@
     return [thread push].thenOnMain(^id(id success) {
         
         RXPromise * promise = [RXPromise new];
-        
-        // Add the thread to the list of public threads
-        FIRDatabaseReference * publicThreadsRef = [[FIRDatabaseReference publicThreadsRef] child:thread.entityID];
-        [publicThreadsRef setValue:@{bNullString: @""} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
-            if (!error) {
-                [promise resolveWithResult:thread.model];
-            }
-            else {
-                [[BStorageManager sharedManager].a undo];
-                [promise rejectWithReason:error];
-            }
-        }];
+        if(!hidden) {
+            
+            // Add the thread to the list of public threads
+            FIRDatabaseReference * publicThreadsRef = [[FIRDatabaseReference publicThreadsRef] child:thread.entityID];
+            [publicThreadsRef setValue:@{bNullString: @""} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+                if (!error) {
+                    [promise resolveWithResult:thread.model];
+                }
+                else {
+                    [[BStorageManager sharedManager].a undo];
+                    [promise rejectWithReason:error];
+                }
+            }];
+        }
+        else {
+            [promise resolveWithResult: thread.model];
+        }
         
         return promise;
         
