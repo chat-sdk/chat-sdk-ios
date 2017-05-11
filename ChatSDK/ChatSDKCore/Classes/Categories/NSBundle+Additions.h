@@ -12,5 +12,5 @@
 
 +(UIImage *) imageNamed: (NSString *) name framework: (NSString *) framework bundle: (NSString *) bundle;
 +(NSBundle *) bundleWithFramework: (NSString *) framework name: (NSString *) name;
-
++(NSString *) filePathWithFramework: (NSString *) framework name: (NSString *) name;
 @end

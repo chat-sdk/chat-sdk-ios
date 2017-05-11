@@ -15,13 +15,14 @@
 
 +(void) userOn: (NSString *) entityID {
     
+    id<PUser> user = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bUserEntity];
+    
     FIRDatabaseReference * threadsRef = [FIRDatabaseReference userThreadsRef:entityID];
     [threadsRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
         // Returns threads one by one
         if (snapshot.value != [NSNull null]) {
             // Make the new thread
             CCThreadWrapper * thread = [CCThreadWrapper threadWithEntityID:snapshot.key];
-            id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
             if (![thread.model.users containsObject:user]) {
                 [thread.model addUser:user];
             }
@@ -46,7 +47,6 @@
         if (snapshot.value != [NSNull null]) {
             // Make the new thread
             CCThreadWrapper * thread = [CCThreadWrapper threadWithEntityID:snapshot.key];
-            id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
             
             // Make sure that we're not in the thread
             // there's an edge case where the user could kill the app and remain
@@ -60,8 +60,6 @@
             [thread usersOn];
         }
     }];
-    
-    id<PUser> user = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bUserEntity];
     
     if ([BNetworkManager sharedManager].a.push && [[BNetworkManager sharedManager].a.push respondsToSelector:@selector(subscribeToPushChannel:)]) {
         [[BNetworkManager sharedManager].a.push subscribeToPushChannel:user.pushChannel];

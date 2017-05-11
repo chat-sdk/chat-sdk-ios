@@ -28,7 +28,7 @@
 -(id) initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         self.title = [NSBundle t:bProfile];
-        self.tabBarItem.image = [UIImage imageNamed: [NSBundle res: @"icn_30_profile.png"]];
+        self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_profile.png"];
     }
     return self;
 }

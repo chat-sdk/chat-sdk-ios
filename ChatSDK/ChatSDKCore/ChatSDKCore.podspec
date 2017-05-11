@@ -16,5 +16,10 @@ Pod::Spec.new do |s|
   s.dependency 'PromiseKit'
   s.dependency 'Reachability', '~> 3.0'
   s.dependency 'AFNetworking', '~>3.0'
+  
+  s.pod_target_xcconfig = { 
+      "ENABLE_BITCODE" => 'false'
+  }
+
     
 end

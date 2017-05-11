@@ -23,11 +23,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 
-//        // Load up the default bubbles
-//        _meBubbleImage = [[UIImage imageNamed:[NSBundle res: @"chat_bubble_me.png"]] stretchableImageWithLeftCapWidth:bLeftCapRight topCapHeight:bTopCap];
-//
-//        _replyBubbleImage = [[UIImage imageNamed:[NSBundle res: @"chat_bubble_reply.png"]] stretchableImageWithLeftCapWidth:bLeftCapLeft topCapHeight:bTopCap];
-
         // They aren't selectable
         self.selectionStyle = UITableViewCellSelectionStyleDefault;
         

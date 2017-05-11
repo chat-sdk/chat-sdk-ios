@@ -83,7 +83,7 @@
     
     if (overrideUser) {
         self.title = user.name;
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icn_22_chat.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(startChat)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle chatUIImageNamed:@"icn_22_chat.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(startChat)];
         
         self.editPhotoButton.hidden = YES;
         self.profilePictureButton.userInteractionEnabled = NO;
@@ -119,8 +119,8 @@
         return;
     }
 
-    NSString * countryCodeImage = [NSString stringWithFormat:@"CountryPicker.bundle/%@.png",[user metaStringForKey:bCountry]];
-    [flagImageView setImage:[UIImage imageNamed:countryCodeImage]];
+    UIImage * countryCodeImage = [NSBundle imageNamed:[user metaStringForKey:bCountry] framework:@"CountryPicker" bundle:@"CountryPicker"];
+    [flagImageView setImage:countryCodeImage];
     
     nameLabel.text = [user metaStringForKey:bName];
     
@@ -197,8 +197,8 @@
 
 -(void) updateTabBarIcon {
     BOOL female = [[[BNetworkManager sharedManager].a.core.currentUserModel metaStringForKey:bGender] isEqualToString:@"F"];
-    self.tabBarItem.image = [UIImage imageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
-    self.tabBarItem.selectedImage = [UIImage imageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
+    self.tabBarItem.image = [NSBundle chatUIImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
+    self.tabBarItem.selectedImage = [NSBundle chatUIImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
 }
 
 -(UIImage *) profilePicture {

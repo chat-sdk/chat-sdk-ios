@@ -25,5 +25,11 @@ Pod::Spec.new do |s|
   s.dependency 'TOCropViewController', '~> 2.0'
   
   s.dependency 'ChatSDKCore'
+   
+  # For compatibility with the XMPP Adapter
+  s.pod_target_xcconfig = { 
+      "ENABLE_BITCODE" => 'false'
+  }
+
     
 end

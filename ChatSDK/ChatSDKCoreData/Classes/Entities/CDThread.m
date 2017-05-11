@@ -118,6 +118,7 @@
     return Nil;
 }
 
+// TODO: Move this to UI module
 - (UIImage *)imageForThread {
     
     NSMutableArray * users = [NSMutableArray arrayWithArray:self.users.allObjects];

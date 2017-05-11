@@ -52,15 +52,15 @@
 }
 
 -(void) setOnline {
-    self.statusImageView.image = [UIImage imageNamed:[NSBundle res: @"icn_16_status_online.png"]];
+    self.statusImageView.image = [NSBundle chatUIImageNamed: @"icn_16_status_online.png"];
 }
 
 -(void) setAway {
-    self.statusImageView.image = [UIImage imageNamed:[NSBundle res: @"icn_16_status_away.png"]];
+    self.statusImageView.image = [NSBundle chatUIImageNamed: @"icn_16_status_away.png"];
 }
 
 -(void) setOffline {
-    self.statusImageView.image = [UIImage imageNamed:[NSBundle res: @"icn_16_status_offline.png"]];
+    self.statusImageView.image = [NSBundle chatUIImageNamed: @"icn_16_status_offline.png"];
 }
 
 

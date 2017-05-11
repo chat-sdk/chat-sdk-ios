@@ -112,7 +112,7 @@
             id<PUser> user = _users[indexPath.row];
             
             cell.textLabel.text = user.name;
-            cell.imageView.image = user && user.thumbnail ? [UIImage imageWithData:user.thumbnail] : [UIImage imageNamed:[NSBundle res: @"icn_user.png"]];
+            cell.imageView.image = user && user.thumbnail ? [UIImage imageWithData:user.thumbnail] : [NSBundle chatUIImageNamed: @"icn_user.png"];
             
             cell.imageView.layer.cornerRadius = 20;
             cell.imageView.clipsToBounds = YES;

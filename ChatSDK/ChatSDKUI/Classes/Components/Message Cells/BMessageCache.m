@@ -75,10 +75,8 @@ static BMessageCache * cache;
         return _messageBubbleImages[imageIdentifier];
     }
     else {
-        
-        bubbleImageName = [NSBundle res: bubbleImageName];
 
-        UIImage * bubbleImage = [UIImage imageNamed:bubbleImageName];
+        UIImage * bubbleImage = [NSBundle chatUIImageNamed:bubbleImageName];
 
         if (isMine) {
             bubbleImage = [bubbleImage stretchableImageWithLeftCapWidth:bLeftCapRight topCapHeight:bTopCap];

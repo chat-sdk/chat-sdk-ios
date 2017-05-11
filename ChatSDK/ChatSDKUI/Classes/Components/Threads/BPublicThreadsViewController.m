@@ -23,7 +23,7 @@
     if (self) {
  
         self.title = [NSBundle t:bChatRooms];
-        self.tabBarItem.image = [UIImage imageNamed: [NSBundle res: @"icn_30_public.png"]];
+        self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_public.png"];
 
     }
     return self;
