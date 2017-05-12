@@ -5,7 +5,7 @@
 
 Chat SDK is a fully featured open source instant messaging framework for iOS. Chat SDK is fully featured, scalable and flexible and follows the following key principles:
 
-- **Open Source.** The Chat SDK is open source under the MIT license.
+- **Open Source.** The Chat SDK is open source under the MIT license for compiled binaries
 - **Full data control.** You have full and exclusive access to the user's chat data
 - **Quick integration.** Chat SDK is fully featured out of the box
 - **Firebase** Powered by [Google Firebase](https://firebase.google.com/)
