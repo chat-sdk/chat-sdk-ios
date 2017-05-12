@@ -73,22 +73,30 @@ If you have an app that uses the Chat SDK let us know and we'll add a link.
 
 ## The license
 
-+ Binary distributeion - MIT license
+We offer a choice of two license for this app. You can either use the [Chat SDK](https://chatsdk.co/chat-sdk-license/) license or the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license. 
 
-If you are distributing a product in binary form - like selling an app on the app store, the code is covered by the MIT license.
+**Chat SDK License Summary**
 
-+ Source code distribution - GNUv3 license
++ License does not expire.
++ Can be used for creating unlimited applications
++ Can be distributed in binary or object form only
++ Commercial use allowed
++ Can modify source-code but cannot distribute modifications (derivative works)
 
-If you are distributing the source code to the Chat SDK, the code is covered under the GNUv3 license. 
+**GPLv3 License Summary**
 
-What this means:
++ Can modify and distribute source code
++ Commerical use allowed
++ Cannot sublicense or hold liable
++ Must include original license
++ Must disclose source 
 
-+ You can make an app using the Chat SDK code and sell it on the app store
-+ You can compile the Chat SDK into a library and sell that library
-+ You can add the Chat SDK to your client's app 
 
-+ If you want to distribute the source code a product that includes the Chat SDK, you would have to distribute it under the GNUv3 license. 
+**What does this mean?**
 
+Essentially, it means that you are free to use the Chat SDK code in your own apps or your clients apps as long as those apps are distributed in a binary form. That means on the App Store or Play Store or as compiled libraries. 
+
+The only thing you can't do is sell source code that includes the Chat SDK code. If you want to do that, you should email us for a custom license. 
 
 ## Wiki
 
