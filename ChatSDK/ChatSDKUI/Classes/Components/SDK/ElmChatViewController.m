@@ -24,6 +24,9 @@
 //
 //#import <ChatSDK/PElmThread.h>
 
+// The distance to the bottom of the screen you need to be for the tableView to snap you to the bottom
+#define bTableViewRefreshHeight 300
+
 @interface ElmChatViewController ()
 
 @end
@@ -162,7 +165,7 @@
 -(void) setMessages: (NSArray<BMessageSection *> *) messages {
     
     BOOL scroll = NO;   
-    if ((tableView.contentSize.height - tableView.frame.size.height) - tableView.contentOffset.y <= 300) {
+    if ((tableView.contentSize.height - tableView.frame.size.height) - tableView.contentOffset.y <= bTableViewRefreshHeight) {
         scroll = YES;
     }
     
