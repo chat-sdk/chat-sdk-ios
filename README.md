@@ -61,7 +61,9 @@ We're very excited about the project and we're looking for other people to get i
 + Helping to write adapters for other services such as Layer, Pusher, Pubnub etc... 
 + Write a tutorial - **we pay $100** for quality tutorials
 
-If you're interested please email me at **[team@chatsdk.co](mailto:team@chatsdk.co)**.
+If you're interested please review the [Contributing
+Document](https://github.com/chat-sdk/chat-sdk-ios/blob/master/CONTRIBUTING.md) for details of our development flow and the CLA then email me at [**team@chatsdk.co**](mailto:team@chatsdk.co).
+
 
 ## Apps that use Chat SDK
 
