@@ -38,6 +38,8 @@
             // Make the new thread
             CCThreadWrapper * thread = [CCThreadWrapper threadWithEntityID:snapshot.key];
             [thread off];
+            
+            [[BNetworkManager sharedManager].a.core deleteThread:thread.model];
         }
     }];
     
