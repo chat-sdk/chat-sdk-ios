@@ -160,7 +160,13 @@
 }
 
 -(void) setMessages: (NSArray<BMessageSection *> *) messages {
-    [self setMessages:messages scrollToBottom:YES];
+    
+    BOOL scroll = NO;   
+    if ((tableView.contentSize.height - tableView.frame.size.height) - tableView.contentOffset.y <= 300) {
+        scroll = YES;
+    }
+    
+    [self setMessages:messages scrollToBottom:scroll];
 }
 
 -(void) setMessages: (NSArray<BMessageSection *> *) messages scrollToBottom: (BOOL) scroll {
