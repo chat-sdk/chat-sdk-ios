@@ -77,14 +77,17 @@ If you have an app that uses the Chat SDK let us know and we'll add a link.
 
 We offer a choice of two license for this app. You can either use the [Chat SDK](https://chatsdk.co/chat-sdk-license/) license or the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license. 
 
+Most Chat SDK users either want to add the Chat SDK to an app that will be released to the App Store or they want to use the Chat SDK in a project for their client. The **Chat SDK** license gives you complete flexibility to do this for free.
+
 **Chat SDK License Summary**
 
 + License does not expire.
 + Can be used for creating unlimited applications
 + Can be distributed in binary or object form only
-+ No attribution required
 + Commercial use allowed
 + Can modify source-code but cannot distribute modifications (derivative works)
+
+If a user wants to distribute the Chat SDK source code, we feel that any additions or modifications they make to the code should be contributed back to the project. The GPLv3 license ensures that if source code is distributed, it must remain open source and available to the community.
 
 **GPLv3 License Summary**
 
