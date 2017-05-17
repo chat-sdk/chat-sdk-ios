@@ -128,7 +128,7 @@
 		<key>firebase</key>
 		<dict>
 			<key>root_path</key>
-			<string>use_frameworks_beta_2</string>
+			<string>firebase_v4_local_2</string>
 			<key>storage_path</key>
 			<string>gs://chat-sdk-v4.appspot.com</string>
 		</dict>
