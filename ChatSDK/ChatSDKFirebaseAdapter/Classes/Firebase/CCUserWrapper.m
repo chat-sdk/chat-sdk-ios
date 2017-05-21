@@ -434,7 +434,7 @@
     RXPromise * promise = [RXPromise new];
     
     // Get the user's reference
-    FIRDatabaseReference * userThreadsRef = [[[FIRDatabaseReference userRef:_model.entityID] child:bThreadsPath] child:entityID];
+    FIRDatabaseReference * userThreadsRef = [[FIRDatabaseReference userThreadsRef:_model.entityID]child:entityID];
 
     [userThreadsRef setValue:@{bNullString: @""} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
