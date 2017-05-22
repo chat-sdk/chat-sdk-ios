@@ -21,5 +21,9 @@ Pod::Spec.new do |s|
       "ENABLE_BITCODE" => 'false'
   }
 
+  s.user_target_xcconfig = {
+      "ENABLE_BITCODE" => 'false'
+  }
+
     
 end

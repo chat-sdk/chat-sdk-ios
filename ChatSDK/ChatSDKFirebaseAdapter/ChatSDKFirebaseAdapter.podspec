@@ -33,8 +33,9 @@ Pod::Spec.new do |s|
 
   # Needed otherwise we get runtime errors (http://stackoverflow.com/questions/39617804/firebase-analytics-is-not-avaible)
   s.pod_target_xcconfig = { 
-      "OTHER_LDFLAGS" => '-ObjC'
+      "OTHER_LDFLAGS" => '-ObjC', "ENABLE_BITCODE" => 'false'
   }
+  
   
   # Import the Firebase frameworks to the main project (gets rid of missing header errors)
   s.user_target_xcconfig = {
