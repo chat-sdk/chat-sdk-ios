@@ -12,5 +12,7 @@ cp -R $DIR/Carthage/Checkouts/Firebase/Source/Analytics/. ChatSDKFirebaseAdapter
 cp -R $DIR/Carthage/Checkouts/Firebase/Source/Auth/. ChatSDKFirebaseAdapter/Frameworks
 cp -R $DIR/Carthage/Checkouts/Firebase/Source/Database/. ChatSDKFirebaseAdapter/Frameworks
 cp -R $DIR/Carthage/Checkouts/Firebase/Source/Storage/. ChatSDKFirebaseAdapter/Frameworks
+cp -R $DIR/Carthage/Checkouts/Firebase/Source/AdMob/. ChatSDKFirebaseAdapter/Frameworks
+#cp -R $DIR/Carthage/Checkouts/Firebase/Source/AppIndexing/. ChatSDKFirebaseAdapter/Frameworks
 
 rm -r $DIR
