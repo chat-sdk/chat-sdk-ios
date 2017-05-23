@@ -39,6 +39,9 @@
             // Make the new thread
             CCThreadWrapper * thread = [CCThreadWrapper threadWithEntityID:snapshot.key];
             [thread off];
+            [thread messagesOff]; // We need to turn the messages off incase we rejoin the thread
+            
+            [[BNetworkManager sharedManager].a.core deleteThread:thread.model];
         }
     }];
     

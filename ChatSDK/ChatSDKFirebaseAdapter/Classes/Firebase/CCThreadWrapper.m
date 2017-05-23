@@ -309,7 +309,11 @@
                                   });
     }
     else {
-     // Otherwise we just remove the user
+        
+        // We still want to notify the user to refresh the view
+        [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadDeleted object:Nil];
+        
+        // Otherwise we just remove the user
         return [self removeUser:[CCUserWrapper userWithModel:currentUser]];
     }
 }

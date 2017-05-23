@@ -12,6 +12,7 @@
 @interface BThreadsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UITabBarDelegate, UIAlertViewDelegate> {
     UIBarButtonItem * _editButton;
     
+    id _threadObserver;
     id _messageObserver;
     id _userObserver;
     id _internetConnectionObserver;

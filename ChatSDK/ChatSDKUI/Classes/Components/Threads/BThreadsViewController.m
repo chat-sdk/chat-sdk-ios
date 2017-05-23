@@ -91,6 +91,9 @@
         _threadTypingMessages[thread.entityID] = notification.userInfo[bNotificationTypingStateChangedKeyMessage];
         [self reloadData];
     }];
+    _threadObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadDeleted object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+        [self reloadData];
+    }];
 }
 
 //-(void) removeObservers {

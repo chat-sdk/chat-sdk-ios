@@ -18,6 +18,7 @@
     return [self createPublicThreadWithName:name entityID:Nil isHidden:NO];
 }
 
+// The hidden BOOL will create the thread but hide it - generally this should be set to NO
 -(RXPromise *) createPublicThreadWithName: (NSString *) name entityID: (NSString *) entityID isHidden: (BOOL) hidden {
     // Before we create the thread start an undo grouping
     // that means that if it fails we can undo changed to the database
