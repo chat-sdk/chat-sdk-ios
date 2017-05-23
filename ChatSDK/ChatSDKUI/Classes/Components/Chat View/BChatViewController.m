@@ -1,5 +1,5 @@
 //
-//  BChatViewController2.m
+//  BChatViewController.m
 //  Pods
 //
 //  Created by Benjamin Smiley-andrews on 02/02/2017.
