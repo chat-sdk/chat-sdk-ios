@@ -146,41 +146,46 @@
         // download 50k messages!
         query = [query queryLimitedToFirst:bMessageDownloadLimit];
         
-        [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
-            
-            if (![snapshot.value isEqual: [NSNull null]]) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
                 
-                [_model setDeleted: @NO];
-                
-                // This gets the message if it exists and then updates it from the snapshot
-                CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:snapshot];
-                BOOL newMessage = message.model.delivered.boolValue == NO;
-                
-                // Is this a new message?
-                // When a message arrives we add it to the database
-                //newMessage = [[BStorageManager sharedManager].a fetchEntityWithID:snapshot.key withType:bMessageEntity] == Nil;
-                
-                // Mark the message as delivered
-                message.model.delivered = @YES;
-                
-                // Add the message to this thread;
-                message.model.thread = self.model;
-                
-                if (newMessage) {
-                    // TODO: Maybe change here
-                    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded object:Nil userInfo:@{bNotificationMessageAddedKeyMessage: message.model}];
-                    NSLog(@"Message: %@, %@", message.model.textString, message.model.date);
+                if (![snapshot.value isEqual: [NSNull null]]) {
                     
-                    if([BNetworkManager sharedManager].a.readReceipt) {
-                        [[BNetworkManager sharedManager].a.readReceipt updateReadReceiptsForThread:self.model];
+                    [_model setDeleted: @NO];
+                    
+                    // This gets the message if it exists and then updates it from the snapshot
+                    CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:snapshot];
+                    BOOL newMessage = message.model.delivered.boolValue == NO;
+                    
+                    // Is this a new message?
+                    // When a message arrives we add it to the database
+                    //newMessage = [[BStorageManager sharedManager].a fetchEntityWithID:snapshot.key withType:bMessageEntity] == Nil;
+                    
+                    // Mark the message as delivered
+                    message.model.delivered = @YES;
+                    
+                    // Add the message to this thread;
+                    message.model.thread = self.model;
+                    
+                    if (newMessage) {
+                        // TODO: Maybe change here
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded object:Nil userInfo:@{bNotificationMessageAddedKeyMessage: message.model}];
+                            NSLog(@"Message: %@, %@", message.model.textString, message.model.date);
+                            
+                            if([BNetworkManager sharedManager].a.readReceipt) {
+                                [[BNetworkManager sharedManager].a.readReceipt updateReadReceiptsForThread:self.model];
+                            }
+                        });
                     }
+                    [promise resolveWithResult:self];
                 }
-                [promise resolveWithResult:self];
-            }
-            else {
-                [promise rejectWithReason:Nil];
-            }
-        }];
+                else {
+                    [promise rejectWithReason:Nil];
+                }
+            }];
+        });
         
         return promise;
         

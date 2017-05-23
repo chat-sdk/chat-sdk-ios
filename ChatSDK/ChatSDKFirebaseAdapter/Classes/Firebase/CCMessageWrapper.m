@@ -59,21 +59,27 @@
 #pragma Network Methods
 
 -(RXPromise *) push {
-    RXPromise * promise = [RXPromise new];
     
-    // Add the message to Firebase
-    FIRDatabaseReference * ref = [self ref];
-    _model.entityID = ref.key;
+    RXPromise * promise = [RXPromise new];
 
-    [ref setValue:[self serialize] andPriority:[FIRServerValue timestamp] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
-        if (!error) {
-            [promise resolveWithResult:self];
-        }
-        else {
-            _model.entityID = Nil;
-            [promise rejectWithReason:error];
-        }
-    }];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+
+        // Add the message to Firebase
+        FIRDatabaseReference * ref = [self ref];
+        _model.entityID = ref.key;
+
+        [ref setValue:[self serialize] andPriority:[FIRServerValue timestamp] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+            if (!error) {
+                [promise resolveWithResult:self];
+            }
+            else {
+                _model.entityID = Nil;
+                [promise rejectWithReason:error];
+            }
+        }];
+        
+    });
+        
     return promise;
 }
 
