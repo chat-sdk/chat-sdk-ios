@@ -2,9 +2,11 @@
 
 + Download and unzip the module
 + Add the folder `StickerMessages` to `ChatSDK/ChatSDKModules`
++ Add the folder `KeyboardOverlayOptions` to `ChatSDK/ChatSDKModules`
 + Add the pod to the `Podfile`
 ```
     pod "ChatSDKModules/StickerMessages", :path => "../ChatSDKModules"
+    pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"
 ```
 + Run ```pod install```
 + Open the App delegate and add the following code:
