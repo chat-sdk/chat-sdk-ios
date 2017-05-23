@@ -270,7 +270,7 @@
         //_picker.allowsEditing = YES; // This allows the user to crop their image
     }
     
-    _picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
     _resetUser = NO;
     

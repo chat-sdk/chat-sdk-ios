@@ -89,7 +89,7 @@
     }
     
     // Make sure our picker is set to album as elsewhere we are using it for the camera
-    _picker.sourceType = _type == bPictureTypeCameraImage || _type == bPictureTypeCameraVideo ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    _picker.sourceType = _type == bPictureTypeCameraImage || _type == bPictureTypeCameraVideo ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary;
     
     
     // This code fixes an issue where the picker isn't loaded in iOS 8 and above sometimes on devices

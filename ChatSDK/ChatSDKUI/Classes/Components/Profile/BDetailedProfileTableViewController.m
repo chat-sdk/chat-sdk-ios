@@ -218,7 +218,7 @@
         _picker.allowsEditing = YES;
     }
     
-    _picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
     [self presentViewController:_picker animated:YES completion:Nil];
 }
