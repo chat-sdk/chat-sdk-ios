@@ -96,7 +96,7 @@
     // Setup the initial read receipts
     NSMutableDictionary * readReceipts = [NSMutableDictionary new];
     for (id<PUser> user in self.model.thread.users) {
-        if (![user isEqual:[BNetworkManager sharedManager].a.core.currentUserModel]) {
+        if (![user isEqual:NM.currentUser]) {
             readReceipts[user.entityID] = @{b_Status: @(bMessageReadStatusNone)};
         }
     }
@@ -189,7 +189,7 @@
 -(RXPromise *) flag {
     RXPromise * promise = [RXPromise new];
     
-    NSDictionary * data = @{b_CreatorEntityID: [BNetworkManager sharedManager].a.core.currentUserModel.entityID,
+    NSDictionary * data = @{b_CreatorEntityID: NM.currentUser.entityID,
                             b_UserFirebaseID: _model.userModel.entityID,
                             b_Message: _model.textString,
                             b_Date: [FIRServerValue timestamp]};

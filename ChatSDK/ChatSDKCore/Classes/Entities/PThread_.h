@@ -19,6 +19,7 @@ typedef enum {
     bThreadTypePrivateGroup = 0x1,
     bThreadType1to1 = 0x2,
     bThreadTypePublicGroup = 0x4,
+    bThreadTypeBroadcast = 0x8,
 
     // Descriptors
     bThreadTypePrivate = bThreadType1to1 | bThreadTypePrivateGroup,

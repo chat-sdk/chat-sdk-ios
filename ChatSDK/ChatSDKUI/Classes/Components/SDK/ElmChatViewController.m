@@ -451,8 +451,8 @@
         [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
     }
     
-    if([BNetworkManager sharedManager].a.videoMessage) {
-        if ([cell isKindOfClass:[BNetworkManager sharedManager].a.videoMessage.messageCellClass]) {
+    if(NM.videoMessage) {
+        if ([cell isKindOfClass:NM.videoMessage.messageCellClass]) {
             
             // Only allow the user to click if the image is not still loading hence the alpha is 1
             if (cell.imageView.alpha == 1) {

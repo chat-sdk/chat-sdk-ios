@@ -171,7 +171,7 @@ static BMessageCache * cache;
 
 -(NSString *) currentUserEntityID {
     if(!_currentUserEntityID) {
-        _currentUserEntityID = [BNetworkManager sharedManager].a.core.currentUserModel.entityID;
+        _currentUserEntityID = NM.currentUser.entityID;
     }
     return _currentUserEntityID;
 }

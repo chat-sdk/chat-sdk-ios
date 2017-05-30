@@ -170,8 +170,8 @@
  * @brief Disconnect from the server
  */
 -(void) goOnline {
-    if([BNetworkManager sharedManager].a.lastOnline && [[BNetworkManager sharedManager].a.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
-        [[BNetworkManager sharedManager].a.lastOnline setLastOnlineForUser:self.currentUserModel];
+    if(NM.lastOnline && [NM.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
+        [NM.lastOnline setLastOnlineForUser:self.currentUserModel];
     }
 }
 

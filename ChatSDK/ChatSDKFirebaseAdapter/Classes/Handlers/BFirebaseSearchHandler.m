@@ -46,7 +46,7 @@
             for (NSString * key in keys) {
                 
                 // Don't return the current user!
-                id<PUser> currentUserID = [BNetworkManager sharedManager].a.auth.currentUserEntityID;
+                id<PUser> currentUserID = NM.auth.currentUserEntityID;
                 
                 if ([key isEqualToString:currentUserID]) {
                     continue;
@@ -127,7 +127,7 @@
     
     RXPromise * promise = [RXPromise new];
     
-    FIRDatabaseReference * ref = [[FIRDatabaseReference searchIndexRef] child:[BNetworkManager sharedManager].a.auth.currentUserEntityID];
+    FIRDatabaseReference * ref = [[FIRDatabaseReference searchIndexRef] child:NM.auth.currentUserEntityID];
     
     NSString * email = [userModel metaStringForKey:bEmailKey];
     NSString * phone = [userModel metaStringForKey:bPhoneKey];

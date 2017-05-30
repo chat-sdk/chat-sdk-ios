@@ -23,7 +23,7 @@
     message.type = @(bMessageTypeLocation);
     message.thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
     message.date = [NSDate date];
-    message.userModel = [BNetworkManager sharedManager].a.core.currentUserModel;
+    message.userModel = NM.currentUser;
     message.delivered = @NO;
     message.read = @YES;
     message.flagged = @NO;
@@ -103,7 +103,7 @@
         UIImage * thumbnail = images[bThumbnailPath];
         
         // Upload the images to Parse
-        return [[BNetworkManager sharedManager].a.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
+        return [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
             
             NSString * imageURL = urls[bImagePath];
             NSString * thumbnailURL = urls[bThumbnailPath];
@@ -119,7 +119,7 @@
                                            bMessageImageHeight: @(image.size.height)}];
 
                         
-            return [[BNetworkManager sharedManager].a.core sendMessage:message];
+            return [NM.core sendMessage:message];
             
         }, Nil);
     }, Nil);

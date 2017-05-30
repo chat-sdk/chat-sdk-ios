@@ -241,7 +241,7 @@ static BCoreDataManager * manager;
 -(id<PThread>) fetchThreadWithUsers: (NSArray *) users {
     NSMutableArray * allUsers = [NSMutableArray arrayWithArray:users];
 
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
     if (![allUsers containsObject:currentUser]) {
         [allUsers addObject:currentUser];
     }

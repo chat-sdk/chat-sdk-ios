@@ -68,6 +68,8 @@
 #import <ChatSDKCore/BStorageAdapter.h>
 #import <ChatSDKCore/PSocialLoginHandler.h>
 
+#import <ChatSDKCore/BHook.h>
+
 #import <ChatSDKCore/BBaseContactHandler.h>
 #import <ChatSDKCore/BBaseImageMessageHandler.h>
 #import <ChatSDKCore/BBaseLocationMessageHandler.h>
@@ -77,6 +79,7 @@
 #import <ChatSDKCore/bChatState.h>
 #import <ChatSDKCore/BKeys.h>
 #import <ChatSDKCore/BCoreDefines.h>
+#import <ChatSDKCore/NM.h>
 
 #import <ChatSDKCore/bPictureTypes.h>
 

@@ -303,7 +303,7 @@
     
     // Load contacts
     [_contacts removeAllObjects];
-    [_contacts addObjectsFromArray:[[BNetworkManager sharedManager].a.contact contactsWithType:bUserConnectionTypeContact]];
+    [_contacts addObjectsFromArray:[NM.contact contactsWithType:bUserConnectionTypeContact]];
     
     [_contacts removeObjectsInArray:_selectedContacts];
     

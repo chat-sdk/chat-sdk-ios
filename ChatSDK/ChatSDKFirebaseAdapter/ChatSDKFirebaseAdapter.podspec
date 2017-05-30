@@ -32,8 +32,11 @@ Pod::Spec.new do |s|
 
 
   # Needed otherwise we get runtime errors (http://stackoverflow.com/questions/39617804/firebase-analytics-is-not-avaible)
+#   s.pod_target_xcconfig = { 
+#       "OTHER_LDFLAGS" => '-ObjC' "ENABLE_BITCODE" => 'false'
+#   }
   s.pod_target_xcconfig = { 
-      "OTHER_LDFLAGS" => '-ObjC', "ENABLE_BITCODE" => 'false'
+      "ENABLE_BITCODE" => 'false'
   }
   
   

@@ -83,6 +83,7 @@
 -(id<PReadReceiptHandler>) readReceipt;
 -(id<PStickerMessageHandler>) stickerMessage;
 -(id<PSocialLoginHandler>) socialLogin;
+-(id) handlerWithName: (NSString *) name;
 
 -(void) setCore: (id<PCoreHandler>) core;
 -(void) setAuth: (id<PAuthenticationHandler>) auth;
@@ -103,6 +104,7 @@
 -(void) setReadReceipt: (id<PReadReceiptHandler>) readReceipt;
 -(void) setStickerMessage: (id<PStickerMessageHandler>) stickerMessage;
 -(void) setSocialLogin: (id<PSocialLoginHandler>) socialLogin;
+-(void) setHandler: (id) handler withName: (NSString *) name;
 
 @end
 

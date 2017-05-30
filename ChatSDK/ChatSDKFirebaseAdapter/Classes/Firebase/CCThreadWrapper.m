@@ -63,8 +63,8 @@
             [self deserialize:snapshot.value];
             [promise resolveWithResult:self];
             
-            if([BNetworkManager sharedManager].a.readReceipt) {
-                [[BNetworkManager sharedManager].a.readReceipt updateReadReceiptsForThread:self.model];
+            if(NM.readReceipt) {
+                [NM.readReceipt updateReadReceiptsForThread:self.model];
             }
 
         }
@@ -73,8 +73,8 @@
         }
     }];
     
-    if([BNetworkManager sharedManager].a.typingIndicator) {
-        [[BNetworkManager sharedManager].a.typingIndicator typingOn: self.model];
+    if(NM.typingIndicator) {
+        [NM.typingIndicator typingOn: self.model];
     }
     
     return promise;
@@ -90,16 +90,16 @@
     [self messagesOff];
     [self usersOff];
     
-    if([BNetworkManager sharedManager].a.typingIndicator) {
-        [[BNetworkManager sharedManager].a.typingIndicator typingOff: self.model];
+    if(NM.typingIndicator) {
+        [NM.typingIndicator typingOff: self.model];
     }
 }
 
 // TODO: Remove promise maybe
 -(RXPromise *) messagesOn {
     
-    if([BNetworkManager sharedManager].a.readReceipt) {
-        [[BNetworkManager sharedManager].a.readReceipt updateReadReceiptsForThread:self.model];
+    if(NM.readReceipt) {
+        [NM.readReceipt updateReadReceiptsForThread:self.model];
     }
     
     RXPromise * promise = [RXPromise new];
@@ -174,8 +174,8 @@
                             [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded object:Nil userInfo:@{bNotificationMessageAddedKeyMessage: message.model}];
                             NSLog(@"Message: %@, %@", message.model.textString, message.model.date);
                             
-                            if([BNetworkManager sharedManager].a.readReceipt) {
-                                [[BNetworkManager sharedManager].a.readReceipt updateReadReceiptsForThread:self.model];
+                            if(NM.readReceipt) {
+                                [NM.readReceipt updateReadReceiptsForThread:self.model];
                             }
                         });
                     }
@@ -248,7 +248,7 @@
    
     RXPromise * promise = [RXPromise new];
     
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
 
     FIRDatabaseReference * currentThreadUser = [[FIRDatabaseReference threadUsersRef:self.entityID] child:currentUser.entityID];
 
@@ -279,7 +279,7 @@
     
     [[BStorageManager sharedManager].a endUndoGroup];
     
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
     FIRDatabaseReference * currentThreadUser = [[FIRDatabaseReference threadUsersRef:self.entityID] child:currentUser.entityID];
     
     // If this is a private thread with only two users
@@ -528,7 +528,7 @@
 
 -(RXPromise *) once {
     
-    NSString * token = [BNetworkManager sharedManager].a.auth.loginInfo[bTokenKey];
+    NSString * token = NM.auth.loginInfo[bTokenKey];
     FIRDatabaseReference * ref = [FIRDatabaseReference threadRef:self.entityID];
     
     return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {

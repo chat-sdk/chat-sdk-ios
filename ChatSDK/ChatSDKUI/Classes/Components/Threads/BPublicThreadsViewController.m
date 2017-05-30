@@ -67,7 +67,7 @@
             hud.label.text = [NSBundle t:bCreatingThread];
             
             NSString * name = [alertView textFieldAtIndex:0].text;
-            [[BNetworkManager sharedManager].a.publicThread createPublicThreadWithName:name].thenOnMain(^id(id<PThread> thread) {
+            [NM.publicThread createPublicThreadWithName:name].thenOnMain(^id(id<PThread> thread) {
                 
                 [self pushChatViewControllerWithThread:thread];
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -84,7 +84,7 @@
 
 -(void) reloadData {
     [_threads removeAllObjects];
-    [_threads addObjectsFromArray:[[BNetworkManager sharedManager].a.core threadsWithType:bThreadTypePublicGroup]];
+    [_threads addObjectsFromArray:[NM.core threadsWithType:bThreadTypePublicGroup]];
     [super reloadData];
 }
 

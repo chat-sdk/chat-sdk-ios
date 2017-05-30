@@ -45,7 +45,7 @@
     // This stops the data from scrolling which we don't want
     self.tableView.alwaysBounceVertical = NO;
     
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
     
     if (!_user) {
         _user = currentUser;
@@ -75,7 +75,7 @@
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
     
     if (!_user) {
         _user = currentUser;
@@ -178,7 +178,7 @@
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.label.text = [NSBundle t:bCreatingThread];
     
-    [[BNetworkManager sharedManager].a.core createThreadWithUsers:@[_user] threadCreated:^(NSError * error, id<PThread> thread) {
+    [NM.core createThreadWithUsers:@[_user] threadCreated:^(NSError * error, id<PThread> thread) {
         if (!error) {
             [self pushChatViewControllerWithThread:thread];
         }
@@ -197,7 +197,7 @@
 }
 
 -(UIImage *) profilePicture {
-    id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> user = NM.currentUser;
     return user.image ? [UIImage imageWithData:user.image] : Nil;
 }
 
@@ -235,7 +235,7 @@
 -(void) updateUserAndIndexes {
     
     // Add the user to the index
-    id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> user = NM.currentUser;
     
     if (user && user.entityID && [_user.entityID isEqualToString:user.entityID]) {
         
@@ -251,13 +251,13 @@
         
         user.phoneNumber = phoneNumberField.text;
         
-        [[BNetworkManager sharedManager].a.search updateIndexForUser:user].thenOnMain(Nil, ^id(NSError * error) {
+        [NM.search updateIndexForUser:user].thenOnMain(Nil, ^id(NSError * error) {
             [UIView alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
             return error;
         });
         
         // Update the user
-        [[BNetworkManager sharedManager].a.core pushUser];
+        [NM.core pushUser];
     }
 }
 // End bug fix for v3.0.2
@@ -308,19 +308,19 @@
     [profilePictureButton setImage:image forState:UIControlStateNormal];
     
     // Update the user
-    id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> user = NM.currentUser;
     [user setImage:UIImagePNGRepresentation(image)];
     [user setThumbnail:UIImagePNGRepresentation(thumbnail)];
     
     // Set the image now
-    [[BNetworkManager sharedManager].a.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
+    [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
     
         // Set the meta data
         [user setMetaString:urls[bImagePath] forKey:bUserPictureURLKey];
         [user setMetaString:urls[bThumbnailPath] forKey:bUserPictureURLThumbnailKey];
     
         // Update the user
-        [[BNetworkManager sharedManager].a.core pushUser];
+        [NM.core pushUser];
     
         return urls;
     }, Nil);
@@ -362,7 +362,7 @@
 -(void) logout {
     // This will prevent the app from trying to
     _didLogout = YES;
-    [[BNetworkManager sharedManager].a.auth logout].thenOnMain(^id(id success) {
+    [NM.auth logout].thenOnMain(^id(id success) {
         
         // Clear fields
         nameField.text = @"";

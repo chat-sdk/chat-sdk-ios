@@ -166,7 +166,7 @@
     _nameLabel.hidden = ![_message showUserNameLabelForPosition:position];
     
     // Hide the read receipt view if this is a public thread or if read receipts are disabled
-    _readMessageImageView.hidden = [_message.thread.type intValue] & bThreadTypePublic || ![BNetworkManager sharedManager].a.readReceipt;
+    _readMessageImageView.hidden = [_message.thread.type intValue] & bThreadTypePublic || !NM.readReceipt;
 }
 
 -(void) willDisplayCell {
@@ -186,7 +186,7 @@
     
     // #1 Because of the text view insets we want the cellContentView of the
     // text cell to extend to the right edge of the bubble
-    BOOL isMine = [_message.userModel isEqual:[BNetworkManager sharedManager].a.core.currentUserModel];
+    BOOL isMine = [_message.userModel isEqual:NM.currentUser];
     
     // Update the content view size for the message length
     [self cellContentView].frame = CGRectMake(padding + (!isMine ? bTailSize : 0),
@@ -215,7 +215,7 @@
 -(void) showProfileView {
     
     // Cannot view our own profile this way
-    if (![_message.userModel.entityID isEqualToString:[BNetworkManager sharedManager].a.core.currentUserModel.entityID]) {
+    if (![_message.userModel.entityID isEqualToString:NM.currentUser.entityID]) {
         
         
         UIViewController * profileView = [[BInterfaceManager sharedManager].a profileViewControllerWithUser:_message.userModel];
@@ -229,7 +229,7 @@
     
     id<PMessageLayout> l = [BMessageLayout layoutWithMessage:_message];
 
-    BOOL isMine = [_message.userModel isEqual:[BNetworkManager sharedManager].a.core.currentUserModel];
+    BOOL isMine = [_message.userModel isEqual:NM.currentUser];
     
     // Layout the date label this will be the full size of the cell
     // This will automatically center the text in the y direction

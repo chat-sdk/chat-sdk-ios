@@ -20,7 +20,7 @@
 }
 
 -(id<PUser>) currentUserModel {
-    NSString * currentUserID = [BNetworkManager sharedManager].a.auth.currentUserEntityID;
+    NSString * currentUserID = NM.auth.currentUserEntityID;
     
     return [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
                                                              withType:bUserEntity];
@@ -77,7 +77,7 @@
         
         // Check to see if a thread already exists with these
         // two users
-        for (id<PThread> thread in [[BNetworkManager sharedManager].a.core threadsWithType:bThreadType1to1]) {
+        for (id<PThread> thread in [NM.core threadsWithType:bThreadType1to1]) {
             if (thread.users.count == 2 && [thread.users containsObject:currentUser] && [thread.users containsObject:otherUser]) {
                 jointThread = thread;
                 break;
@@ -184,7 +184,7 @@
     
     // Create the new CCMessage wrapper
     return [[CCMessageWrapper messageWithModel:messageModel] send].thenOnMain(^id(id success) {
-        [[BNetworkManager sharedManager].a.push pushForMessage:messageModel];
+        [NM.push pushForMessage:messageModel];
         return success;
     }, Nil);
     

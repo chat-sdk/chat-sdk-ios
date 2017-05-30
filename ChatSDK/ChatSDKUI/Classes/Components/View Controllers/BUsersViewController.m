@@ -35,7 +35,7 @@
     if (self) {
         
         _users = [NSMutableArray arrayWithArray: thread.users.allObjects];
-        [_users removeObject:[BNetworkManager sharedManager].a.core.currentUserModel];
+        [_users removeObject:NM.currentUser];
         
         _thread = thread;
     }
@@ -180,7 +180,7 @@
         // The friends view controller will give us a list of users to invite
         flvc.usersToInvite = ^(NSArray * users, NSString * groupName){
             
-            [[BNetworkManager sharedManager].a.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
+            [NM.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
                 [UIView alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];
                 
                 [self reloadData];
@@ -192,8 +192,8 @@
     }
     if (indexPath.section == bLeaveConvoSection) {
         
-        [[BNetworkManager sharedManager].a.core deleteThread:_thread];
-        [[BNetworkManager sharedManager].a.core leaveThread:_thread];
+        [NM.core deleteThread:_thread];
+        [NM.core leaveThread:_thread];
         
         [self.navigationController dismissViewControllerAnimated:NO completion:^{
             if (self.parentNavigationController) {
@@ -225,7 +225,7 @@
 - (void)reloadData {
     
     _users = [NSMutableArray arrayWithArray: _thread.users.allObjects];
-    [_users removeObject:[BNetworkManager sharedManager].a.core.currentUserModel];
+    [_users removeObject:NM.currentUser];
     
     [self.tableView reloadData];
 }

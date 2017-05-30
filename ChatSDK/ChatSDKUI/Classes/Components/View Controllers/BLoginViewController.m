@@ -39,15 +39,15 @@
     
     // First check to see if the user is already authenticated
     [self showHUD: [NSBundle t:bAuthenticating]];
-    [[BNetworkManager sharedManager].a.auth authenticateWithCachedToken].thenOnMain(^id(id success) {
+    [NM.auth authenticateWithCachedToken].thenOnMain(^id(id success) {
         [self authenticationFinished];
         return Nil;
     }, Nil);
     
-    self.facebookButton.enabled = [[BNetworkManager sharedManager].a.auth accountTypeEnabled:bAccountTypeFacebook];    
-    self.twitterButton.enabled = [[BNetworkManager sharedManager].a.auth accountTypeEnabled:bAccountTypeTwitter];
-    self.googleButton.enabled = [[BNetworkManager sharedManager].a.auth accountTypeEnabled:bAccountTypeGoogle];
-    self.anonymousButton.enabled = [[BNetworkManager sharedManager].a.auth accountTypeEnabled:bAccountTypeAnonymous];
+    self.facebookButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeFacebook];    
+    self.twitterButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeTwitter];
+    self.googleButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeGoogle];
+    self.anonymousButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeAnonymous];
     
 }
 
@@ -56,32 +56,32 @@
 }
 
 -(RXPromise *) loginWithUsername: (NSString *) username password: (NSString *) password {
-    return [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypePassword),
+    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypePassword),
                                                                                 bLoginEmailKey: username,
                                                                                 bLoginPasswordKey: password}];
 
 }
 
 -(RXPromise *) registerWithUsername: (NSString *) username password: (NSString *) password {
-    return [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeRegister),
+    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeRegister),
                                                                                 bLoginEmailKey: username,
                                                                                 bLoginPasswordKey: password}];
 }
 
 -(RXPromise *) facebook {
-    return [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeFacebook)}];
+    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeFacebook)}];
 }
 
 -(RXPromise *) twitter {
-    return [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeTwitter)}];
+    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeTwitter)}];
 }
 
 -(RXPromise *) googlePlus {
-    return [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeGoogle)}];
+    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeGoogle)}];
 }
 
 -(RXPromise *) anonymous {
-    return [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeAnonymous)}];
+    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeAnonymous)}];
 }
 
 

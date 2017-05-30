@@ -19,7 +19,7 @@
 -(void) pushForMessage: (id<PMessage>) message {
     if (message.thread.type.intValue & bThreadTypePrivate) {
         for (id<PUser> user in message.thread.users) {
-            id<PUser> currentUserModel = [BNetworkManager sharedManager].a.core.currentUserModel;
+            id<PUser> currentUserModel = NM.currentUser;
             if (![user isEqual:currentUserModel]) {
                 if(!user.online.boolValue) {
                     NSLog(@"Sending push to: %@", user.name);
@@ -37,7 +37,7 @@
     // channel. In this case user_[user id] this means that we can
     // send a push to a specific user if we know their user id.
     NSMutableArray * userChannels = [NSMutableArray new];
-    id<PUser> currentUserModel = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUserModel = NM.currentUser;
     for (id<PUser> user in users) {
         if(![user isEqual:currentUserModel])
             [userChannels addObject:user.pushChannel];

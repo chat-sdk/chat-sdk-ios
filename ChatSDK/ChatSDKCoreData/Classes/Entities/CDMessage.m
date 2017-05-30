@@ -304,7 +304,7 @@
 }
 
 -(BOOL) isMine {
-    return [[BNetworkManager sharedManager].a.core.currentUserModel isEqual:self.userModel];
+    return [NM.currentUser isEqual:self.userModel];
 }
 
 -(void) setReadStatus:(NSDictionary *)status {

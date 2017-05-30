@@ -131,7 +131,7 @@
         cover = [self drawImage:cover withBadge:[NSBundle chatUIImageNamed:@"play-button.png"]];
         
         // Send video to the chat view
-        if([BNetworkManager sharedManager].a.videoMessage) {
+        if(NM.videoMessage) {
             [_promise resolveWithResult:[self.parent.delegate sendVideoMessage:videoData withCoverImage:cover]];
             
             [self.parent.delegate reloadData];

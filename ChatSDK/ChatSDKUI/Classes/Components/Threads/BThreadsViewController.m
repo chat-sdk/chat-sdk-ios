@@ -71,7 +71,7 @@
         
         // Only vibrate if a message is received from a private thread
         if (messageModel.thread.type.intValue & bThreadTypePrivate) {
-            if (![messageModel.userModel isEqual:[BNetworkManager sharedManager].a.core.currentUserModel]) {
+            if (![messageModel.userModel isEqual:NM.currentUser]) {
                 AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
             }
         }
@@ -234,7 +234,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete )
     {
         id<PThread> thread = _threads[indexPath.row];
-        [[BNetworkManager sharedManager].a.core deleteThread:thread];
+        [NM.core deleteThread:thread];
         [self reloadData];
     }
 }

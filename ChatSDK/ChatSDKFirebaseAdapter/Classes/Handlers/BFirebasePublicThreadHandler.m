@@ -27,7 +27,7 @@
     
     threadModel.creationDate = [NSDate date];
     
-    id<PUser> currentUserModel = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUserModel = NM.currentUser;
     
     threadModel.creator = currentUserModel;
     threadModel.type = @(bThreadTypePublic);

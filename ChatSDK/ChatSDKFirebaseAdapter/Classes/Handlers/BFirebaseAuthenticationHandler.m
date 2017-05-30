@@ -109,8 +109,8 @@
     // Depending on the login method we need to authenticate with Firebase
     switch ([details[bLoginTypeKey] intValue]) {
         case bAccountTypeFacebook: {
-            if ([BNetworkManager sharedManager].a.socialLogin) {
-                [[BNetworkManager sharedManager].a.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
+            if (NM.socialLogin) {
+                [NM.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
                     FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:token];
                     //[promise resolveWithResult:credential];
                     [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
@@ -126,8 +126,8 @@
         case bAccountTypeTwitter:
         {
          
-            if ([BNetworkManager sharedManager].a.socialLogin) {
-                [[BNetworkManager sharedManager].a.socialLogin loginWithTwitter].thenOnMain(^id(NSArray * array) {
+            if (NM.socialLogin) {
+                [NM.socialLogin loginWithTwitter].thenOnMain(^id(NSArray * array) {
                     FIRAuthCredential * credential = [FIRTwitterAuthProvider credentialWithToken:array.firstObject
                                                                                           secret:array.lastObject];
                     [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
@@ -144,8 +144,8 @@
         // TODO: Test this
         case bAccountTypeGoogle:
         {
-            if ([BNetworkManager sharedManager].a.socialLogin) {
-                [[BNetworkManager sharedManager].a.socialLogin loginWithGoogle].thenOnMain(^id(NSArray * array) {
+            if (NM.socialLogin) {
+                [NM.socialLogin loginWithGoogle].thenOnMain(^id(NSArray * array) {
                     FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:array.firstObject
                                                                                       accessToken:array.lastObject];
                     [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
@@ -220,14 +220,14 @@
             // Update the user from the remote server
             return [user once].thenOnMain(^id(id<PUserWrapper> user_) {
                 
-                [[BNetworkManager sharedManager].a.core save];
+                [NM.core save];
                 
                 _userListenersAdded = YES;
                 
                 // Add listeners here
                 [BStateManager userOn: user.entityID];
                 
-                [[BNetworkManager sharedManager].a.core setUserOnline];
+                [NM.core setUserOnline];
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
                 

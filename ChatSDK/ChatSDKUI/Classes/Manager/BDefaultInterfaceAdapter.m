@@ -91,9 +91,9 @@
    
     NSMutableArray * options = [NSMutableArray new];
     
-    BOOL videoEnabled = [BNetworkManager sharedManager].a.videoMessage != Nil;
-    BOOL imageEnabled = [BNetworkManager sharedManager].a.imageMessage != Nil;
-    BOOL locationEnabled = [BNetworkManager sharedManager].a.locationMessage != Nil;
+    BOOL videoEnabled = NM.videoMessage != Nil;
+    BOOL imageEnabled = NM.imageMessage != Nil;
+    BOOL locationEnabled = NM.locationMessage != Nil;
     
     if (imageEnabled && videoEnabled) {
         [options addObject:[[BMediaChatOption alloc] initWithType:bPictureTypeCameraVideo]];

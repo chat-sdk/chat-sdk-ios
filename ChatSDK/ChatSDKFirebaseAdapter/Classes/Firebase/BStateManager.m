@@ -41,7 +41,7 @@
             [thread off];
             [thread messagesOff]; // We need to turn the messages off incase we rejoin the thread
             
-            [[BNetworkManager sharedManager].a.core deleteThread:thread.model];
+            [NM.core deleteThread:thread.model];
         }
     }];
     
@@ -64,8 +64,8 @@
         }
     }];
     
-    if ([BNetworkManager sharedManager].a.push && [[BNetworkManager sharedManager].a.push respondsToSelector:@selector(subscribeToPushChannel:)]) {
-        [[BNetworkManager sharedManager].a.push subscribeToPushChannel:user.pushChannel];
+    if (NM.push && [NM.push respondsToSelector:@selector(subscribeToPushChannel:)]) {
+        [NM.push subscribeToPushChannel:user.pushChannel];
     }
     
     for (id<PUserConnection> contact in [user connectionsWithType:bUserConnectionTypeContact]) {
@@ -93,7 +93,7 @@
         }
     }
     
-    for (id<PThread> threadModel in [[BNetworkManager sharedManager].a.core threadsWithType:bThreadTypePublicGroup]) {
+    for (id<PThread> threadModel in [NM.core threadsWithType:bThreadTypePublicGroup]) {
         CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
         [thread off];
     }
@@ -105,8 +105,8 @@
         [[CCUserWrapper userWithModel:contactModel] onlineOff];
     }
 
-    if ([BNetworkManager sharedManager].a.push && [[BNetworkManager sharedManager].a.push respondsToSelector:@selector(unsubscribeToPushChannel:)]) {
-        [[BNetworkManager sharedManager].a.push unsubscribeToPushChannel:user.pushChannel];
+    if (NM.push && [NM.push respondsToSelector:@selector(unsubscribeToPushChannel:)]) {
+        [NM.push unsubscribeToPushChannel:user.pushChannel];
     }
 }
 

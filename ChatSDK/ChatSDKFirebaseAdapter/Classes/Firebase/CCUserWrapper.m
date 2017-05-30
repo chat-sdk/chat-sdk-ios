@@ -134,7 +134,7 @@
 
 - (RXPromise *)setProfilePictureWithImageURL: (NSString *)url {
     
-    id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> user = NM.currentUser;
     
     // Only set the user picture if they are logging on the first time
     if (url && !user.thumbnail) {
@@ -149,7 +149,7 @@
                 [user setImage:UIImagePNGRepresentation(image)];
                 [user setThumbnail:UIImagePNGRepresentation(thumbnail)];
                 
-                return [[BNetworkManager sharedManager].a.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
+                return [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
                     
                     // Set the meta data
                     [user setMetaString:urls[bImagePath] forKey:bPictureURLKey];
@@ -157,7 +157,7 @@
                     
                     return [user loadProfileImage:NO].thenOnMain(^id(UIImage * image) {
                         
-                        return [[BNetworkManager sharedManager].a.core pushUser];
+                        return [NM.core pushUser];
                     }, Nil);
                 }, Nil);
             }
@@ -188,7 +188,7 @@
 
 -(RXPromise *) once {
     
-    NSString * token = [BNetworkManager sharedManager].a.auth.loginInfo[bTokenKey];
+    NSString * token = NM.auth.loginInfo[bTokenKey];
     FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
     
     return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {
@@ -307,8 +307,8 @@
         if (!error) {
             
             // We only want to do this if we are logged in
-            if ([BNetworkManager sharedManager].a.auth.userAuthenticated) {
-                [[BNetworkManager sharedManager].a.search updateIndexForUser:self.model];
+            if (NM.auth.userAuthenticated) {
+                [NM.search updateIndexForUser:self.model];
                 [promise resolveWithResult:self.model];
             }
             else {
@@ -393,7 +393,7 @@
     NSMutableArray * promises = [NSMutableArray new];
     [promises addObject:[_model loadProfileThumbnail:thumbnailChanged]];
     
-    if (self.entityID == [BNetworkManager sharedManager].a.core.currentUserModel.entityID) {
+    if (self.entityID == NM.currentUser.entityID) {
         [promises addObject:[_model loadProfileImage:imageChanged]];
     }
     

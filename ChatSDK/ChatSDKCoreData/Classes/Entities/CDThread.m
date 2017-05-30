@@ -56,7 +56,7 @@
     NSString * name = @"";
     
     for (id<PUser> user in self.users) {
-        if (![user isEqual:[BNetworkManager sharedManager].a.core.currentUserModel]) {
+        if (![user isEqual:NM.currentUser]) {
             if (user.name.length) {
                 name = [name stringByAppendingFormat:@"%@, ", user.name];
             }
@@ -107,7 +107,7 @@
 }
 
 -(id<PUser>) otherUser {
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
     if (self.type.intValue == bThreadType1to1 || self.users.count == 2) {
         for (id<PUser> user in self.users) {
             if (![user isEqual:currentUser]) {
@@ -124,7 +124,7 @@
     NSMutableArray * users = [NSMutableArray arrayWithArray:self.users.allObjects];
     
     // Remove the current user from the array
-    [users removeObject:[BNetworkManager sharedManager].a.core.currentUserModel];
+    [users removeObject:NM.currentUser];
     
     // Create a temporary array as we cannot loop through an array and remove users
     NSMutableArray * tempUsers = [NSMutableArray arrayWithArray:users];
