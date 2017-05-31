@@ -1,7 +1,7 @@
 ## Installation
 
 + Download and unzip the module
-+ Add the folder `ContactBook` to `ChatSDK/ChatSDKFirebase`
++ Add the folder `ContactBook` to `ChatSDKFirebase`
 + Add the pod to the `Podfile`
 ```
     pod "ChatSDKFirebase/ContactBook", :path => "../ChatSDKFirebase"

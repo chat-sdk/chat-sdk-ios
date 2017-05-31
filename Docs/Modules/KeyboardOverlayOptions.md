@@ -1,7 +1,7 @@
 ## Installation
 
 + Download and unzip the module
-+ Add the folder `KeyboardOverlayOptions` to `ChatSDK/ChatSDKModules`
++ Add the folder `KeyboardOverlayOptions` to `ChatSDKModules`
 + Add the pod to the `Podfile`
 ```
     pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"

@@ -1,7 +1,7 @@
 ## Installation
 
 + Download and unzip the module
-+ Add the folder `AudioMessages` to `ChatSDK/ChatSDKFirebase`
++ Add the folder `AudioMessages` to `ChatSDKFirebase`
 + Add the pod to the `Podfile`
 
 ```
