@@ -69,6 +69,7 @@
 #import <ChatSDKCore/PSocialLoginHandler.h>
 
 #import <ChatSDKCore/BHook.h>
+#import <ChatSDKCore/PHookHandler.h>
 
 #import <ChatSDKCore/BBaseContactHandler.h>
 #import <ChatSDKCore/BBaseImageMessageHandler.h>

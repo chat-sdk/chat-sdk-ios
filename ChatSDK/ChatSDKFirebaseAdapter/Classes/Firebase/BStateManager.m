@@ -17,6 +17,9 @@
     
     id<PUser> user = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bUserEntity];
     
+    NSDictionary * data = @{bHookUserOn_PUser_User: user};
+    [NM.hook executeHookWithName:bHookUserOn data:data];
+    
     FIRDatabaseReference * threadsRef = [FIRDatabaseReference userThreadsRef:entityID];
     [threadsRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
         // Returns threads one by one

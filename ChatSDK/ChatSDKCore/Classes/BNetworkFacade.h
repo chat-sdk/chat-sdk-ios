@@ -31,6 +31,7 @@
 @protocol PReadReceiptHandler;
 @protocol PStickerMessageHandler;
 @protocol PSocialLoginHandler;
+@protocol PHookHandler;
 
 #define bNotificationLogout @"bNLogout"
 
@@ -83,6 +84,7 @@
 -(id<PReadReceiptHandler>) readReceipt;
 -(id<PStickerMessageHandler>) stickerMessage;
 -(id<PSocialLoginHandler>) socialLogin;
+-(id<PHookHandler>) hook;
 -(id) handlerWithName: (NSString *) name;
 
 -(void) setCore: (id<PCoreHandler>) core;
@@ -105,6 +107,7 @@
 -(void) setStickerMessage: (id<PStickerMessageHandler>) stickerMessage;
 -(void) setSocialLogin: (id<PSocialLoginHandler>) socialLogin;
 -(void) setHandler: (id) handler withName: (NSString *) name;
+-(void) setHookHandler: (id<PHookHandler>) hook;
 
 @end
 

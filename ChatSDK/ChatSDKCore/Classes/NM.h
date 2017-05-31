@@ -35,5 +35,6 @@
 +(id<PSocialLoginHandler>) socialLogin;
 +(id<PUser>) currentUser;
 +(id) handler: (NSString *) name;
++(id<PHookHandler>) hook;
 
 @end

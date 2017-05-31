@@ -16,6 +16,7 @@
 "bUserCreatedError" = "User could not be created";
 "bContacts" = "Contacts";
 "bConversations" = "Conversations";
+"bBroadcast" = "Broadcasts";
 "bThreadCreationError" = "Thread creation failed";
 "bChatRooms" = "Chat Rooms";
 "bPickFriends" = "Pick Friends";

@@ -12,6 +12,9 @@
 #define bHookUserAuthFinished @"bHookUserAuthFinished"
 #define bHookUserAuthFinished_PUser_User @"bHookUserAuthFinished_PUser_User"
 
+#define bHookUserOn @"bHookUserOn"
+#define bHookUserOn_PUser_User @"bHookUserOn_PUser_User"
+
 @class BHook;
 
 @protocol PHookHandler <NSObject>

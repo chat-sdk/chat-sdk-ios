@@ -96,5 +96,9 @@
     return [[BNetworkManager sharedManager].a handlerWithName:name];
 }
 
++(id<PHookHandler>) hook {
+    return [BNetworkManager sharedManager].a.hook;
+}
+
 
 @end
