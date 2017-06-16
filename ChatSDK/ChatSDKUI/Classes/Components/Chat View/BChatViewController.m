@@ -16,6 +16,9 @@
 - (id)initWithThread: (id<PThread>) thread
 {
     _thread = thread;
+    
+    // Reset the working list (so we don't load any more messages than necessary)
+    [_thread resetMessages];
     self = [super initWithDelegate:self];
     if (self) {
         _messageCache = [NSMutableArray new];
@@ -263,6 +266,10 @@
         _messageCacheDirty = NO;
     }
     return _messageCache;
+}
+
+-(void) viewDidScroll: (UIScrollView *) scrollView withOffset: (int) offset {
+
 }
 
 -(void) markRead {

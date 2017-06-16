@@ -12,6 +12,8 @@
 #import "PUser.h"
 #import "PElmThread.h"
 
+@protocol PMessage;
+
 // Essentially, the last bit decides whether the thread is public
 // or private.
 typedef enum {
@@ -78,9 +80,8 @@ typedef enum {
 -(NSNumber *) deleted_;
 
 -(void) addUser: (id<PUser>) user;
-- (void)removeUser:(id<PUser>) user;
-
--(NSArray *) messages;
+-(void) removeUser:(id<PUser>) user;
+-(void) addMessage: (id<PMessage>) message;
 
 -(NSString *) displayName;
 
@@ -94,6 +95,10 @@ typedef enum {
 
 -(NSArray *) messagesOrderedByDateAsc;
 -(NSArray *) messagesOrderedByDateDesc;
+-(NSArray *) allMessages;
+
+-(NSArray *) loadMoreMessages: (int) numberOfMessages;
+-(void) resetMessages;
 
 -(UIImage *)imageForThread;
 -(NSDate *) orderDate;

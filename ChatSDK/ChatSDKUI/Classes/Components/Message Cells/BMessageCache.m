@@ -101,13 +101,10 @@ static BMessageCache * cache;
     
 }
 
+// We want to cache any message apart from the last message because the
+// properties of the last message can still change
 -(BOOL) shouldCacheMessage: (id<PElmMessage>) message {
-    NSArray * messages = message.thread.messagesOrderedByDateAsc;
-    NSInteger index = [messages indexOfObject:message];
-    
-    // If the message isn't the last message, then it's type won't change
-    return index < messages.count - 1;
-
+    return ![message isEqual:message.thread.messagesOrderedByDateAsc.lastObject];
 }
 
 -(bMessagePosition) positionForMessage: (id<PElmMessage>) message {

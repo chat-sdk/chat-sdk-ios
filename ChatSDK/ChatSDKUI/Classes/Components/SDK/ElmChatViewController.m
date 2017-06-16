@@ -36,9 +36,9 @@
 @synthesize tableView;
 @synthesize delegate;
 
-- (id)initWithDelegate: (id<ElmChatViewDelegate>) delegate
+- (id)initWithDelegate: (id<ElmChatViewDelegate>) delegate_
 {
-    self.delegate = delegate;
+    self.delegate = delegate_;
     self = [super initWithNibName:@"BChatViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {
         
@@ -761,6 +761,27 @@
 -(void) reloadData {
     [tableView reloadData];
     [self scrollToBottomOfTable:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    float scrollViewHeight = scrollView.frame.size.height;
+    float scrollContentSizeHeight = scrollView.contentSize.height;
+    float scrollOffset = scrollView.contentOffset.y;
+    
+    if (scrollOffset == 0)
+    {
+        // then we are at the top
+    }
+    else if (scrollOffset + scrollViewHeight == scrollContentSizeHeight)
+    {
+        
+    }
+    if(scrollOffset < 50) {
+    }
+    if([delegate respondsToSelector:@selector(viewDidScroll:withOffset:)]) {
+        [delegate viewDidScroll:scrollView withOffset:scrollOffset];
+    }
 }
 
 #pragma Utility Methods

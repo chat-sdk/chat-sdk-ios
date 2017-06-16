@@ -162,7 +162,7 @@
     int i = 0;
     for (id<PThread> thread in self.threads) {
         if (thread.type.intValue & bThreadFilterPrivate) {
-            for (id<PMessage> message in thread.messages) {
+            for (id<PMessage> message in thread.allMessages) {
                 if (!message.read.boolValue) {
                     i++;
                 }

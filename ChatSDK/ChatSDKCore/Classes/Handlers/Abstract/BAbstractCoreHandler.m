@@ -28,10 +28,13 @@
     [[BStorageManager sharedManager].a beginUndoGroup];
     
     id<PMessage> message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
-    
+
+    id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+    [thread addMessage: message];
+
     message.type = @(bMessageTypeText);
     [message setTextAsDictionary:@{bMessageTextKey: text}];
-    message.thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+
     message.date = [NSDate date];
     message.userModel = self.currentUserModel;
     message.delivered = @NO;
@@ -106,7 +109,9 @@
     [message setTextAsDictionary:@{bMessageTypeKey: @(type),
                                    bMessageTextKey: text}];
     
-    message.thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+    id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+    [thread addMessage: message];
+
     message.date = [NSDate date];
     message.userModel = self.currentUserModel;
     message.delivered = @YES;

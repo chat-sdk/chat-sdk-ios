@@ -154,7 +154,7 @@
     
     id<PMessage> message = Nil;
     
-    if (thread.messages.count) {
+    if (thread.allMessages.count) {
         // Get the last message
         message = [thread messagesOrderedByDateDesc].firstObject;
         

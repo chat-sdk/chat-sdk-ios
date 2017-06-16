@@ -13,7 +13,7 @@
 #import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
 #import <ChatSDKCore/ChatCore.h>
 
-#define bMessageDownloadLimit 500
+#define bMessageDownloadLimit 50
 
 // How old does a message have to be before we stop adding the
 // read receipt listener
@@ -165,7 +165,7 @@
                     message.model.delivered = @YES;
                     
                     // Add the message to this thread;
-                    message.model.thread = self.model;
+                    [self.model addMessage:message.model];
                     
                     if (newMessage) {
                         // TODO: Maybe change here
@@ -273,7 +273,7 @@
     [_model setDeleted: @YES];
     
     // Delete all messages
-    for(id<PMessage> m in _model.messages) {
+    for(id<PMessage> m in _model.allMessages) {
         [[BStorageManager sharedManager].a deleteEntity:m];
     }
     
@@ -325,51 +325,62 @@
 
 -(RXPromise *) loadMoreMessages: (int) numberOfMessages {
     
+    NSArray * messages = [_model loadMoreMessages:numberOfMessages];
+    
+    // All the messages could be loaded from memory
+    if(messages.count == numberOfMessages) {
+        return [RXPromise resolveWithResult:messages];
+    }
+    
     RXPromise * promise = [RXPromise new];
-    
-    // Get the earliest message from the database
-    id<PMessage> earliestMessage = _model.messagesOrderedByDateAsc.firstObject;
-    NSDate * endDate = Nil;
-    
-    // If we have a message in the database then we use the earliest
-    // message's date
-    if (earliestMessage) {
-        endDate = earliestMessage.date;
-    }
-    // Otherwise we use todays date
-    else {
-        endDate = [NSDate date];
-    }
-    
-    FIRDatabaseReference * messagesRef = [[FIRDatabaseReference threadRef:self.entityID] child:bMessagesPath];
-    
-    // Convert the end date to a Firebase timestamp
-    FIRDatabaseQuery * query = [[messagesRef queryOrderedByPriority] queryEndingAtValue:[BFirebaseCoreHandler dateToTimestamp:endDate]];
-    
-    // We add one becase we'll also be returning the last message again
-    query = [query queryLimitedToLast:numberOfMessages + 1];
-    
-    [query observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
-        if (![snapshot.value isEqual: [NSNull null]]) {
-            
-            NSMutableArray * msgs = [NSMutableArray new];
-            NSDictionary * messages = snapshot.value;
-            // We'll have an array of messages
-            for (NSString * key in messages.allKeys) {
-                // Create the messages with the sub-snapshot
-                CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:[snapshot childSnapshotForPath:key]];
-                // Associate the messages with the thread
-                message.model.thread = self.model;
-                [msgs addObject:message];
-            }
-            [promise resolveWithResult:msgs];
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        // Get the earliest message from the database
+        id<PMessage> earliestMessage = _model.messagesOrderedByDateAsc.firstObject;
+        NSDate * endDate = Nil;
+        
+        // If we have a message in the database then we use the earliest
+        // message's date
+        if (earliestMessage) {
+            endDate = earliestMessage.date;
         }
+        // Otherwise we use todays date
         else {
-            [promise rejectWithReason:Nil];
+            endDate = [NSDate date];
         }
         
-    }];
-    
+        FIRDatabaseReference * messagesRef = [[FIRDatabaseReference threadRef:self.entityID] child:bMessagesPath];
+        
+        // Convert the end date to a Firebase timestamp
+        FIRDatabaseQuery * query = [[messagesRef queryOrderedByPriority] queryEndingAtValue:[BFirebaseCoreHandler dateToTimestamp:endDate]];
+        
+        // We add one becase we'll also be returning the last message again
+        query = [query queryLimitedToLast:numberOfMessages + 1];
+        
+        [query observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+            if (![snapshot.value isEqual: [NSNull null]]) {
+                
+                NSMutableArray * msgs = [NSMutableArray new];
+                NSDictionary * messages = snapshot.value;
+                // We'll have an array of messages
+                for (NSString * key in messages.allKeys) {
+                    // Create the messages with the sub-snapshot
+                    CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:[snapshot childSnapshotForPath:key]];
+                    // Associate the messages with the thread
+                    [self.model addMessage:message.model];
+                    
+                    [msgs addObject:message];
+                }
+                [promise resolveWithResult:msgs];
+            }
+            else {
+                [promise rejectWithReason:Nil];
+            }
+            
+        }];
+        
+    });
     return promise;
 }
 

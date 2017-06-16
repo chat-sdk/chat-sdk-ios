@@ -69,7 +69,8 @@ typedef enum {
 -(void) setType: (NSNumber *) type;
 -(NSNumber *) type;
 
--(void) setThread: (id<PThread>) thread;
+// Use thread setMessage instead
+//-(void) setThread: (id<PThread>) thread;
 -(id<PThread>) thread;
 
 -(void) setEntityID:(NSString *)uid;
