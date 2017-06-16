@@ -123,6 +123,10 @@
 -(void) sendLocalSystemMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID;
 -(void) sendLocalSystemMessageWithText:(NSString *)text type: (bSystemMessageType) type withThreadEntityID:(NSString *)threadID;
 
+/**
+ * @brief Get a list of threads with a particular type that contain a particluar set of users
+ */
+-(NSArray *) threadsWithUsers: (NSArray *) users type: (bThreadType) type;
 
 @end
 

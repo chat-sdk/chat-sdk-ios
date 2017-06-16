@@ -19,6 +19,8 @@
         self.contact = [[BBaseContactHandler alloc] init];
         self.imageMessage = [[BBaseImageMessageHandler alloc] init];
         self.locationMessage = [[BBaseLocationMessageHandler alloc] init];
+        self.hook = [[BBaseHookHandler alloc] init];
+        
         _handlers = [NSMutableDictionary new];
     }
     return self;

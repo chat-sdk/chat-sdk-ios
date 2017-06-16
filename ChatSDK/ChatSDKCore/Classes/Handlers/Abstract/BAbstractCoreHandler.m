@@ -65,26 +65,19 @@
 -(NSArray *) threadsWithType:(bThreadType)type {
     
     NSMutableArray * threads = [NSMutableArray new];
+    NSArray * allThreads = type & bThreadFilterPrivate ? NM.currentUser.threads : [[BStorageManager sharedManager].a fetchEntitiesWithName:bThreadEntity];
     
-    id<PUser> currentUser = self.currentUserModel;
-    if (!currentUser) {
-        return @[];
-    }
-    
-    if (type & bThreadTypePrivate) {
-        for(id<PThread> thread in currentUser.threads) {
-            if(thread.type.intValue == type && !thread.deleted_.boolValue) {
+    for(id<PThread> thread in allThreads) {
+        if(thread.type.intValue & bThreadFilterPrivate) {
+            if(thread.type.intValue & type  && !thread.deleted_.boolValue) {
                 [threads addObject:thread];
             }
         }
-    }
-    else {
-        // TODO:
-        // Only return threads with the correct root path and API key
-        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"type = %i", type];
-        
-        [threads addObjectsFromArray:[[BStorageManager sharedManager].a fetchEntitiesWithName:bThreadEntity
-                                                                                withPredicate:predicate]];
+        else if (thread.type.intValue & bThreadFilterPublic) {
+            if(thread.type.intValue & type) {
+                [threads addObject:thread];
+            }
+        }
     }
     
     [threads sortUsingComparator:^(id<PThread> t1, id<PThread> t2) {

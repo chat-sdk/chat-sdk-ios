@@ -13,6 +13,13 @@
     NSMutableDictionary * _hooks;
 }
 
+-(id) init {
+    if((self = [super init])) {
+        _hooks = [NSMutableDictionary new];
+    }
+    return self;
+}
+
 -(void) addHook: (BHook *) hook withName: (NSString *) name {
     NSMutableArray * existingHooks = _hooks[name];
     if(!existingHooks) {

@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) CDThread *thread;
 @property (nullable, nonatomic, retain) CDUser *user;
 @property (nullable, nonatomic, retain) id status;
+@property (nullable, nonatomic, retain) id meta;
 
 @end
 

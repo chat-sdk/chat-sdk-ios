@@ -293,7 +293,7 @@
     if (!(position & bMessagePositionLast)) {
         return NO;
     }
-    if (self.thread.type.integerValue & bThreadTypePublic || self.thread.users.count > 2) {
+    if (self.thread.type.integerValue & bThreadFilterPublic || self.thread.users.count > 2) {
         return YES;
     }
     //    if (!self.userModel) {
@@ -355,6 +355,33 @@
     else {
         return bMessageReadStatusNone;
     }
+}
+
+-(CDMessage *) copy {
+    CDMessage * message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
+    message.entityID = [self.entityID copy];
+    message.date = [self.date copy];
+    message.placeholder = [self.placeholder copy];
+    message.read = [self.read copy];
+    message.resource = [self.resource copy];
+    message.resourcePath = [self.resourcePath copy];
+    message.text = [self.text copy];
+    message.type = [self.type copy];
+    message.thread = self.thread;
+    message.user = self.user;
+    message.status = [self.status copy];
+    message.meta = [self.meta copy];
+    return message;
+}
+
+-(void) setMetaValue: (id) value forKey: (NSString *) key {
+    NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:self.meta];
+    dict[key] = value;
+    self.meta = dict;
+}
+
+-(id) metaValueForKey: (NSString *) key {
+    return self.meta[key];
 }
 
 

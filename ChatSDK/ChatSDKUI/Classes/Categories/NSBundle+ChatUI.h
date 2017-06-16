@@ -30,6 +30,7 @@
 #define bCreateGroup @"bCreateGroup"
 
 #define bLoadingFriends @"bLoadingFriends"
+#define bLoading @"bLoading"
 #define bErrorLoadingFriends @"bErrorLoadingFriends"
 
 #define bInvalidSelection @"bInvalidSelection"
@@ -139,6 +140,7 @@
 #define bChooseVideo @"bChooseVideo"
 #define bSticker @"bSticker"
 #define bRefreshingUsers @"bRefreshingUsers"
+#define bMessageBurst @"bMessageBurst"
 
 #define bSelectYourSearch @"bSelectYourSearch"
 #define bPhonebook @"bPhonebook"

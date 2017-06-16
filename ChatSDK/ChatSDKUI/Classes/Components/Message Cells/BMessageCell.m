@@ -126,11 +126,13 @@
     if (position & bMessagePositionLast) {
         if (message.userModel) {
             _profilePicture.hidden = NO;
+            [_profilePicture sd_setImageWithURL:message.userModel.imageURL
+                               placeholderImage:message.userModel.defaultImage];
             
-            [message.userModel loadProfileThumbnail:NO].thenOnMain(^id(UIImage * image) {
-                _profilePicture.image = image;
-                return image;
-            },Nil);
+//            [message.userModel loadProfileThumbnail:NO].thenOnMain(^id(UIImage * image) {
+//                _profilePicture.image = image;
+//                return image;
+//            },Nil);
         }
         else {
             // If the user doesn't have a profile picture set the default profile image
@@ -166,7 +168,7 @@
     _nameLabel.hidden = ![_message showUserNameLabelForPosition:position];
     
     // Hide the read receipt view if this is a public thread or if read receipts are disabled
-    _readMessageImageView.hidden = [_message.thread.type intValue] & bThreadTypePublic || !NM.readReceipt;
+    _readMessageImageView.hidden = [_message.thread.type intValue] & bThreadFilterPublic || !NM.readReceipt;
 }
 
 -(void) willDisplayCell {

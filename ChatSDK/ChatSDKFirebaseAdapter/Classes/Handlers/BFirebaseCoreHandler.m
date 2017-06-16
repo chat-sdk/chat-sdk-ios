@@ -52,6 +52,20 @@
     [[CCUserWrapper userWithModel:contactModel] onlineOn];
 }
 
+-(NSArray *) threadsWithUsers: (NSArray *) users type: (bThreadType) type {
+    NSMutableArray * threads = [NSMutableArray new];
+    
+    NSSet * usersSet = [NSSet setWithArray:users];
+    
+    for (id<PThread> thread in [NM.core threadsWithType:type]) {
+        if([usersSet isEqual:thread.users]) {
+            [threads addObject:thread];
+        }
+    }
+    
+    return threads;
+}
+
 -(RXPromise *) createThreadWithUsers: (NSArray *) users name: (NSString *) name threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
     
     id<PUser> currentUser = self.currentUserModel;

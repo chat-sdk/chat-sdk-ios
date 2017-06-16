@@ -220,6 +220,8 @@
             // Update the user from the remote server
             return [user once].thenOnMain(^id(id<PUserWrapper> user_) {
                 
+                [NM.hook executeHookWithName:bHookUserAuthFinished data:@{bHookUserAuthFinished_PUser_User: user.model}];
+                
                 [NM.core save];
                 
                 _userListenersAdded = YES;

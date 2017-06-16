@@ -209,7 +209,7 @@
     
     if (section == bParticipantsSection) {
         
-        if (_thread.type.integerValue & bThreadTypePrivate) {
+        if (_thread.type.integerValue & bThreadFilterPrivate) {
             return [NSBundle t:bParticipants];
         }
         else {

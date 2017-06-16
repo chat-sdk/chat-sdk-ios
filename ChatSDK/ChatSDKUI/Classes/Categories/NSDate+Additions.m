@@ -15,7 +15,7 @@
 
 -(NSString *) threadTimeAgo {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
+    [formatter setDateFormat:self.timeFormat];
     
     NSString * time = [formatter stringFromDate:self];
     
@@ -33,10 +33,18 @@
     return time;
 }
 
+-(NSString *) timeFormat {
+    NSString * timeFormat = [BSettingsManager timeFormat];
+    if(!timeFormat) {
+        timeFormat = bDefaultTimeFormat;
+    }
+    return timeFormat;
+}
+
 -(NSString *) messageTimeAt {
 //    if (self.daysAgo < 1) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"HH:mm"];
+        [formatter setDateFormat:self.timeFormat];
         return [formatter stringFromDate:self];
 //    }
 //    else {
@@ -73,7 +81,7 @@
 
 -(NSString *) timeAgoWithFormatString: (NSString *) formatString {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
+    [formatter setDateFormat:self.timeFormat];
     
     NSString * time = [formatter stringFromDate:self];
     NSString * day = [self dateAgo];

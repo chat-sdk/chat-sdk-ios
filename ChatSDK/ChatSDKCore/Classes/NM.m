@@ -92,6 +92,10 @@
     return NM.core.currentUserModel;
 }
 
++(BOOL) isMe: (id<PUser>) user {
+    return [[self currentUser].entityID isEqualToString:user.entityID];
+}
+
 +(id) handler: (NSString *) name {
     return [[BNetworkManager sharedManager].a handlerWithName:name];
 }

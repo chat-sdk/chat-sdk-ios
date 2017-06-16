@@ -239,7 +239,7 @@
     
     BOOL shouldSearch = [newString stringByReplacingOccurrencesOfString:@" " withString:@""].length;
     
-    if (shouldSearch && newString.length > 0) {
+    if (shouldSearch && newString.length > 2) {
         [self searchWithText:newString];
     }
     

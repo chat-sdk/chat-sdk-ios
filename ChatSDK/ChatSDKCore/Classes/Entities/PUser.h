@@ -45,6 +45,7 @@
 -(NSData *) image;
 -(UIImage *) imageAsImage;
 -(UIImage *) defaultImage;
+-(NSString *) imageURL;
 
 -(void) setThumbnail: (NSData *) image;
 -(NSData *) thumbnail;
@@ -60,7 +61,6 @@
 
 -(void) setStatusText: (NSString *) statusText;
 -(NSString *) statusText;
-
 
 -(void) setMetaString: (NSString *) value forKey: (NSString *) key;
 -(NSString *) metaStringForKey: (NSString *) key;
@@ -106,6 +106,7 @@
 
 -(NSArray<PUserConnection> *) connectionsWithType: (bUserConnectionType) type;
 
+-(BOOL) isMe;
 
 
 @end

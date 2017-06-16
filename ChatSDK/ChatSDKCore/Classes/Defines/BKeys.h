@@ -42,7 +42,6 @@
 #define b_FirebaseID @"firebase-id"
 #define b_ThreadFirebaseID @"thread-firebase-id"
 #define b_RoundEnds @"round-ends"
-#define b_Color @"color"
 #define b_Key @"key"
 #define b_Value @"value"
 #define b_TextColor @"text-color"
@@ -106,7 +105,7 @@
 #define bUserPrefixKey @"user"
 #define bUserPictureURLKey @"pictureURL"
 #define bUserPictureURLThumbnailKey @"pictureURLThumbnail"
-
+#define bUserPrivilegeKey @"privilege"
 
 
 #endif /* BKeys_h */

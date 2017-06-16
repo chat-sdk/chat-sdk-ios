@@ -50,26 +50,17 @@
     if (!_user) {
         _user = currentUser;
     }
- 
-    
-    // Set the user's profile picture
-    UIImage * image = [UIImage imageWithData: _user.thumbnail];
-    [profilePictureButton setImage:image ? image : _user.defaultImage forState:UIControlStateNormal];
-        
-    // This function can only be called on the current user
-    [_user loadProfileImage:YES].thenOnMain(^id(UIImage * image) {
-        
-        // Only set the image if one is returned
-        if (image) {
-            image = [image resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
-            [profilePictureButton setImage:image forState:UIControlStateNormal];
-        }
-        
-        [self refreshUserProfilePicture];
-        
-        return image;
-    }, Nil);
-    
+}
+
+-(void) loadUserImage {
+    if(_user) {
+        UIImage * image = [UIImage imageWithData: _user.thumbnail];
+        image = image ? image : _user.defaultImage;
+
+        [profilePictureButton sd_setImageWithURL:[_user metaStringForKey:bUserPictureURLKey]
+                                        forState:UIControlStateNormal
+                                placeholderImage:image];
+    }
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -80,6 +71,8 @@
     if (!_user) {
         _user = currentUser;
     }
+    
+    [self loadUserImage];
     
     _keyboardObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:Nil usingBlock:^(NSNotification * n) {
         [self updateUserAndIndexes];
@@ -112,44 +105,6 @@
     
     phoneNumberField.text = _user.phoneNumber;
     phoneNumberField.placeholder = [NSBundle t:bPhoneNumber];
-    
-    // Set the profile picture
-    // Does the user already have a profile picture?
-    
-    // Test combining these two functions
-    // Use function thumbnail as image
-    // Use default image instead on anonymous
-    // Image as Image
-    
-//    if ([currentUser.entityID isEqualToString:_user.entityID]) {
-//        
-//        // This function can only be called on the current user
-//        [_user loadProfileImage:YES].thenOnMain(^id(UIImage * image) {
-//            
-//            image = [image resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
-//            
-//            if (refreshImage) {
-//                [profilePictureButton setImage:image forState:UIControlStateNormal];
-//            }
-//            
-//            refreshImage = YES;
-//            
-//            return image;
-//        }, Nil);
-//    }
-//    else {
-//
-//        UIImage * image = [UIImage imageWithData: _user.thumbnail];
-//        
-//        [profilePictureButton setImage:image ? image : _anonymousProfilePicture forState:UIControlStateNormal];
-//
-//        if (!_user.image) {
-//            [_user loadProfileImage:YES].thenOnMain(^id(id success){
-//                [profilePictureButton setImage:[UIImage imageWithData:_user.image] forState:UIControlStateNormal];
-//                return Nil;
-//            }, Nil);
-//        }
-//    }
     
     // Make sure we always have an image set just in case
     [self refreshUserProfilePicture];

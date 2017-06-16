@@ -355,19 +355,14 @@
     if (online) {
         _model.online = online;
     }
-    
-    NSString * color = value[b_Color];
-    if (color && color.length) {
-        _model.messageColor = color;
-    }
-    
+        
     return [self deserializeMeta:value[bMetaDataPath]];
 }
 
 -(NSDictionary *) serialize {
 
     return @{b_AuthenticationID: self.entityID,
-             b_Color:_model.messageColor ? _model.messageColor : @"",
+             
              b_Meta: _model.metaDictionary};
 }
 

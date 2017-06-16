@@ -52,7 +52,7 @@
         [self setSubtitle:[NSBundle t: bTapHereForContactInfo]];
     }
     
-    if (_thread.type.intValue & bThreadTypeGroup) {
+    if (_thread.type.intValue & bThreadFilterGroup) {
         [self setSubtitle:_thread.memberListString];
     }
 }
@@ -127,7 +127,7 @@
     
     // For public threads we add the user when we view the thread
     // TODO: This is called multiple times... maybe move it to view did load
-    if (_thread.type.intValue & bThreadTypePublic) {
+    if (_thread.type.intValue & bThreadFilterPublic) {
         id<PUser> user = NM.currentUser;
         [NM.core addUsers:@[user] toThread:_thread];
     }
@@ -138,7 +138,7 @@
     [super viewWillDisappear:animated];
     
     // Remove the user from the thread
-    if (_thread.type.intValue & bThreadTypePublic && !_usersViewLoaded) {
+    if (_thread.type.intValue & bThreadFilterPublic && !_usersViewLoaded) {
         id<PUser> currentUser = NM.currentUser;
         [NM.core removeUsers:@[currentUser] fromThread:_thread];
     }
@@ -148,6 +148,7 @@
 
 -(RXPromise *) handleMessageSend: (RXPromise *) promise {
     [self updateMessages];
+    //[self reloadData];
     return promise;
 }
 

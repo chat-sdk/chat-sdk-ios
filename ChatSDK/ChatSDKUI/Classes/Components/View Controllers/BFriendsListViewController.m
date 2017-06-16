@@ -37,11 +37,7 @@
 - (id)initWithUsersToExclude: (NSArray<PUser> *) users {
     if ((self = [self init])) {
         self.title = [NSBundle t:bPickFriends];
-        
-        _selectedContacts = [NSMutableArray new];
-        _contacts = [NSMutableArray new];
-        _contactsToExclude = [NSMutableArray arrayWithArray:users];
-
+        [_contactsToExclude addObjectsFromArray:users];
     }
     return self;
 }
@@ -50,6 +46,9 @@
     self = [super initWithNibName:@"BFriendsListViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {
         self.title = [NSBundle t:bPickFriends];
+        _selectedContacts = [NSMutableArray new];
+        _contacts = [NSMutableArray new];
+        _contactsToExclude = [NSMutableArray new];
     }
     return self;
 }
@@ -303,7 +302,13 @@
     
     // Load contacts
     [_contacts removeAllObjects];
-    [_contacts addObjectsFromArray:[NM.contact contactsWithType:bUserConnectionTypeContact]];
+    
+    if(_overrideContacts == Nil) {
+        [_contacts addObjectsFromArray:[NM.contact contactsWithType:bUserConnectionTypeContact]];
+    }
+    else {
+        [_contacts addObjectsFromArray: self.overrideContacts()];
+    }
     
     [_contacts removeObjectsInArray:_selectedContacts];
     
@@ -320,6 +325,20 @@
     [self updateRightBarButtonActionTitle];
     self.navigationItem.rightBarButtonItem.enabled = _selectedContacts.count;
 }
+
+
+-(void) setUsersToExclude: (NSArray *) users {
+    [_contactsToExclude removeAllObjects];
+    [_contactsToExclude addObjectsFromArray:users];
+    [self reloadData];
+}
+
+-(void) setSelectedUsers: (NSArray *) users {
+    [_selectedContacts removeAllObjects];
+    [_selectedContacts addObjectsFromArray:users];
+    [self reloadData];
+}
+
 
 #pragma keyboard notifications
 

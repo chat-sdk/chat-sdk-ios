@@ -33,6 +33,7 @@ typedef enum {
 
 #define bMessageImageURL @"image-url"
 #define bMessageThumbnailURL @"thumbnail-url"
+
 #define bMessageImageWidth @"image-width"
 #define bMessageImageHeight @"image-height"
 #define bMessageVideoURL @"video-url"
@@ -42,6 +43,7 @@ typedef enum {
 #define bMessageAudioURL @"audio-url"
 #define bMessageAudioLength @"audio-length"
 
+#define bMessageOriginalThreadEntityID @"original-thread-entity-id"
 
 #define bMessageSticker @"sticker"
 
@@ -119,6 +121,9 @@ typedef enum {
 
 - (NSInteger)imageHeight;
 
+-(void) setMetaValue: (id) value forKey: (NSString *) key;
+-(id) metaValueForKey: (NSString *) key;
+
 //- (BOOL)firstMessageFromUser;
 - (BOOL)lastMessageFromUser;
 -(id<PMessage>) nextMessage;
@@ -132,6 +137,7 @@ typedef enum {
 
 - (NSNumber *)flagged;
 -(void) setFlagged: (NSNumber *) flagged;
+-(id<PMessage>) copy;
 
 @optional
 
@@ -140,5 +146,6 @@ typedef enum {
 -(void) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid;
 -(bMessageReadStatus) readStatusForUserID: (NSString *) uid;
 -(bMessageReadStatus) readStatus;
+
 
 @end

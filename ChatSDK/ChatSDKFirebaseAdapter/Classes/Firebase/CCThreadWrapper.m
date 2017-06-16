@@ -144,7 +144,7 @@
         
         // Limit to 500 messages just to be safe - on a busy public thread we wouldn't want to
         // download 50k messages!
-        query = [query queryLimitedToFirst:bMessageDownloadLimit];
+        query = [query queryLimitedToLast:bMessageDownloadLimit];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
@@ -284,7 +284,7 @@
     
     // If this is a private thread with only two users
     // TODO: Consider deleting it for groups and only doing this for 1to1
-    if (_model.type.intValue & bThreadTypePrivate && _model.users.allObjects.count == 2) {
+    if (_model.type.intValue & bThreadFilterPrivate && _model.users.allObjects.count == 2) {
         // Rather than delete the thread we just set the status as deleted
         [currentThreadUser setValue:@{bNameKey: currentUser.name, bDeletedKey: [FIRServerValue timestamp]}
                 withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
@@ -386,7 +386,7 @@
 -(NSDictionary *) serialize {
     return @{bDetailsPath: @{b_CreationDate: [FIRServerValue timestamp],
                              b_Name: _model.name ? _model.name : @"",
-                             b_Type: _model.type.integerValue & bThreadTypePrivate ? @(bThreadTypePrivateV3) : @(bThreadTypePublicV3),
+                             b_Type: _model.type.integerValue & bThreadFilterPrivate ? @(bThreadTypePrivateV3) : @(bThreadTypePublicV3),
                              b_TypeV4: _model.type,
                              b_LastMessageAdded: [BFirebaseCoreHandler dateToTimestamp:_model.lastMessageAdded],
                              b_CreatorEntityID: _model.creator.entityID}};
@@ -407,6 +407,21 @@
     }
     else if (type) {
         _model.type = type.intValue == bThreadTypePrivateV3 ? @(bThreadTypePrivateGroup) : @(bThreadTypePublicGroup);
+    }
+    
+    NSString * creatorEntityID = value[b_CreatorEntityID];
+    if(creatorEntityID) {
+        _model.creator = [[BStorageManager sharedManager].a fetchEntityWithID:creatorEntityID withType:bUserEntity];
+        if(!_model.creator) {
+            id<PUser> user = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:creatorEntityID withType:bUserEntity];
+            [[CCUserWrapper userWithModel:user] once].thenOnMain(^id(id success) {
+                _model.creator = user;
+                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated
+                                                                    object:Nil
+                                                                  userInfo:@{bNotificationMessageUpdatedKeyMessage: self.model}];
+                return success;
+            }, Nil);
+        }
     }
     
     NSString * name = value[b_Name];
@@ -460,7 +475,7 @@
     }];
     
 //    // When we disconnect, we leave all our public threads
-    if (_model.type.intValue & bThreadTypePublic) {
+    if (_model.type.intValue & bThreadFilterPublic) {
         [threadUsersRef onDisconnectRemoveValue];
     }
     
@@ -488,7 +503,7 @@
     return [self removeUserWithEntityID:user.entityID].thenOnMain(^id(id success)
     {
         // We only add the thread to the user if it's a private thread
-        if (_model.type.intValue & bThreadTypePrivate) {
+        if (_model.type.intValue & bThreadFilterPrivate) {
             return [user removeThreadWithEntityID:self.entityID];
         }
         else {
@@ -502,7 +517,7 @@
     return [self addUserWithEntityID:user.entityID].thenOnMain(^id(id success)
     {
         // We only add the thread to the user if it's a private thread
-        if (_model.type.intValue & bThreadTypePrivate) {
+        if (_model.type.intValue & bThreadFilterPrivate) {
             return [user addThreadWithEntityID:self.entityID];
         }
         else {

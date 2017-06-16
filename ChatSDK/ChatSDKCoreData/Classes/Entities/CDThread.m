@@ -38,7 +38,7 @@
 }
 
 -(NSString *) displayName {
-    if (self.type.intValue & bThreadTypePrivate) {
+    if (self.type.intValue & bThreadFilterPrivate) {
         
         if (self.name && self.name.length) {
             return self.name;
@@ -46,7 +46,7 @@
         
         return self.memberListString;
     }
-    if (self.type.intValue & bThreadTypePublic) {
+    if (self.type.intValue & bThreadFilterPublic) {
         return self.name;
     }
     return Nil;
@@ -142,7 +142,7 @@
     if (!users.count) {
         
         // Check how many users are in the conversation
-        if (self.type.intValue & bThreadTypePublic) {
+        if (self.type.intValue & bThreadFilterPublic) {
             return [NSBundle imageNamed:bDefaultPublicGroupImage framework:@"ChatSDKUI" bundle:@"ChatUI"];
         }
         else {

@@ -26,6 +26,7 @@
 #import <ChatSDKCore/BSettingsManager.h>
 #import <ChatSDKCore/BNetworkFacade.h>
 #import <ChatSDKCore/BAbstractNetworkAdapter.h>
+#import <ChatSDKCore/BBaseHookHandler.h>
 
 #import <ChatSDKCore/BCoreUtilities.h>
 #import <ChatSDKCore/BModules.h>

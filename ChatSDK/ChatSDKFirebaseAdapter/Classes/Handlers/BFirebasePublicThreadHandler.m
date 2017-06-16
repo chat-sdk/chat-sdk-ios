@@ -30,7 +30,7 @@
     id<PUser> currentUserModel = NM.currentUser;
     
     threadModel.creator = currentUserModel;
-    threadModel.type = @(bThreadTypePublic);
+    threadModel.type = @(bThreadFilterPublic);
     threadModel.name = name;
     threadModel.entityID = entityID ? entityID : Nil;
     
