@@ -52,7 +52,7 @@ Pod::Spec.new do |s|
     
   
   s.dependency 'GTMSessionFetcher', '~>1.1'
-  s.dependency 'GoogleToolboxForMac', '~>2.1.1'
+  s.dependency 'GoogleToolboxForMac/NSData+zlib', '~>2.1.1'
   
   s.vendored_frameworks = "Frameworks/*"
       
