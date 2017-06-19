@@ -16,11 +16,12 @@ Pod::Spec.new do |s|
     
   # Maybe we can bring this back at some point but currently (03/17) Firebase pod is broken with use_frameworks! flag
   #s.dependency 'Facebook-iOS-SDK', '~>4.1.0'
-  #s.dependency 'Firebase/Core'
-  #s.dependency 'Firebase/Database'
-  #s.dependency 'Firebase/Storage'
-  #s.dependency 'Firebase/Auth'
-  #s.dependency 'Firebase/Messaging'
+
+#   s.dependency 'Firebase/Core'
+#   s.dependency 'Firebase/Database'
+#   s.dependency 'Firebase/Storage'
+#   s.dependency 'Firebase/Auth'
+#   s.dependency 'Firebase/Messaging'
   
 #      s.pod_target_xcconfig = { 
 #	    "ALWAYS_SEARCH_USER_PATHS" => 'NO',
@@ -48,6 +49,7 @@ Pod::Spec.new do |s|
   #s.dependency 'Google/SignIn', '~> 3.0'
   #s.dependency 'TwitterKit', '~>1.12'
   s.dependency 'ChatSDKCore'  
+    
   
   s.dependency 'GTMSessionFetcher', '~>1.1'
   s.dependency 'GoogleToolboxForMac', '~>2.1.1'
