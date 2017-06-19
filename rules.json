@@ -2,8 +2,8 @@
   "rules": {
     //".read": true,
     //".write": "auth != null",
-    ".read": "auth != null",
-    ".write": "auth != null",
+    //".read": "auth != null",
+    //".write": "auth != null",
     
     "$root": {
       

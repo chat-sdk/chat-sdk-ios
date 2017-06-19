@@ -24,7 +24,8 @@
 -(UIViewController *) contactsViewController;
 -(UIViewController *) profileViewControllerWithUser: (id<PUser>) user ;
 -(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude;
--(UIViewController *) chatViewControllerWithThread: (id<PThread>) thread;
+-(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread;
+-(NSArray *) defaultTabBarViewControllers;
 
 -(UIViewController *) searchViewControllerWithType: (NSString *) type excludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded;
 

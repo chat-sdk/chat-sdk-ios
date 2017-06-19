@@ -224,7 +224,14 @@
 
 -(FIRDatabaseReference *) ref {
     if (_model.entityID) {
-        return [[FIRDatabaseReference threadMessagesRef:_model.thread.entityID] child: _model.entityID];
+        // Check to see if this message is a virtual message i.e. it's been threaded
+        // from a different thread
+        NSString * originalThreadID = [_model metaValueForKey:bMessageOriginalThreadEntityID];
+        if(!originalThreadID) {
+            originalThreadID = _model.thread.entityID;
+        }
+        
+        return [[FIRDatabaseReference threadMessagesRef:originalThreadID] child: _model.entityID];
     }
     else {
         return [[FIRDatabaseReference threadMessagesRef:_model.thread.entityID] childByAutoId];
@@ -234,8 +241,6 @@
 -(void) setDelivered: (NSNumber *) delivered {
     _model.delivered = delivered;
 }
-
-
 
 -(id<PMessage>) model {
     return _model;

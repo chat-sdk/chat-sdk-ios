@@ -21,7 +21,10 @@
     id<PMessage> message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
     
     message.type = @(bMessageTypeLocation);
-    message.thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+    
+    id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+    [thread addMessage: message];
+
     message.date = [NSDate date];
     message.userModel = NM.currentUser;
     message.delivered = @NO;

@@ -12,6 +12,8 @@
 #import "PUser.h"
 #import "PElmThread.h"
 
+@protocol PMessage;
+
 // Essentially, the last bit decides whether the thread is public
 // or private.
 typedef enum {
@@ -19,18 +21,39 @@ typedef enum {
     bThreadTypePrivateGroup = 0x1,
     bThreadType1to1 = 0x2,
     bThreadTypePublicGroup = 0x4,
-    bThreadTypeBroadcast = 0x8,
-
-    // Descriptors
-    bThreadTypePrivate = bThreadType1to1 | bThreadTypePrivateGroup,
-    bThreadTypePublic = bThreadTypePublicGroup,
-    bThreadTypeGroup = bThreadTypePrivateGroup | bThreadTypePublicGroup,
+    
+    // The broadcast channel is publically viewable in the public broadcast list
+    bThreadTypePublicBroadcast = 0x8,
+    
+    // The proadcast is only available to members
+    bThreadTypePrivateBroadcast = 0x10,
+    
+    // The broadcast is hidden but messages are threaded into
+    // 1-to-1 chats. So if I broadcast to 5 users, it would
+    // appear that I was sending a personal 1-to-1 message to
+    // each of the users
+    bThreadTypeThreadedBroadcast = 0x20,
     
     // To maintain backwards compatibility
     bThreadTypePrivateV3 = 0,
     bThreadTypePublicV3 = 1,
     
 } bThreadType;
+
+typedef enum {
+    
+    // Filters
+    bThreadFilterPrivate = bThreadType1to1 | bThreadTypePrivateGroup | bThreadTypePrivateBroadcast | bThreadTypeThreadedBroadcast,
+    
+    bThreadFilterBroadcast = bThreadTypePublicBroadcast | bThreadTypePrivateBroadcast | bThreadTypeThreadedBroadcast,
+    
+    bThreadFilterPublic = bThreadTypePublicGroup | bThreadTypePublicBroadcast,
+    bThreadFilterGroup = bThreadTypePrivateGroup | bThreadTypePublicGroup | bThreadFilterBroadcast,
+    
+    bThreadFilterPrivateThread = bThreadTypePrivateGroup | bThreadType1to1,
+    
+    
+} bThreadFilter;
 
 @protocol PThread <PEntity, PHasMeta, PElmThread>
 
@@ -57,9 +80,8 @@ typedef enum {
 -(NSNumber *) deleted_;
 
 -(void) addUser: (id<PUser>) user;
-- (void)removeUser:(id<PUser>) user;
-
--(NSArray *) messages;
+-(void) removeUser:(id<PUser>) user;
+-(void) addMessage: (id<PMessage>) message;
 
 -(NSString *) displayName;
 
@@ -73,6 +95,10 @@ typedef enum {
 
 -(NSArray *) messagesOrderedByDateAsc;
 -(NSArray *) messagesOrderedByDateDesc;
+-(NSArray *) allMessages;
+
+-(NSArray *) loadMoreMessages: (int) numberOfMessages;
+-(void) resetMessages;
 
 -(UIImage *)imageForThread;
 -(NSDate *) orderDate;

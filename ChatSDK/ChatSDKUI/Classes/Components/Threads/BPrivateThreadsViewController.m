@@ -107,8 +107,7 @@
 
 -(void) reloadData {
     [_threads removeAllObjects];
-    [_threads addObjectsFromArray:[NM.core threadsWithType:bThreadTypePrivateGroup]];
-    [_threads addObjectsFromArray:[NM.core threadsWithType:bThreadType1to1]];
+    [_threads addObjectsFromArray:[NM.core threadsWithType:bThreadFilterPrivateThread]];
     [super reloadData];
 }
 

@@ -27,6 +27,7 @@
 #define bAppVersion @"app_version"
 #define bRootPathKey @"root_path"
 #define bClientKey @"client_key"
+#define bTimeFormat @"time_format"
 #define bApiKey @"api_key"
 #define bSecretKey @"secret"
 
@@ -114,6 +115,10 @@
 
 +(NSString *) parseClientKey {
     return [self string_s:@[bParseKey, bClientKey]];
+}
+
++(NSString *) timeFormat {
+    return [self string_s:@[bSettingsKey, bTimeFormat]];
 }
 
 // Turn on whether the app badge reflects how many unread messages there are

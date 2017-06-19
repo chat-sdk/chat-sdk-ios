@@ -20,6 +20,7 @@
 -(void) chatOptionActionExecuted: (RXPromise *) promise;
 -(void) reloadData;
 
+-(RXPromise *) sendTextMessage: (NSString *) text;
 -(RXPromise *) sendImageMessage: (UIImage *) image;
 -(RXPromise *) sendVideoMessage: (NSData *) video withCoverImage: (UIImage *) coverImage;
 -(RXPromise *) sendLocationMessage: (CLLocation *) location;

@@ -31,6 +31,7 @@
 +(NSString *) backendlessAppId;
 +(NSString *) backendlessSecretKey;
 +(NSString *) backendlessVersionKey;
++(NSString *) timeFormat;
 
 +(id) s: (NSArray *) parameters;
 +(NSNumber *) number_s: (NSArray *) parameters;

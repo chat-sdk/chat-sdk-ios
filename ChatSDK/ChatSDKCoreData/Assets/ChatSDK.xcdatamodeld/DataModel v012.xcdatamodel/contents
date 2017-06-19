@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16B2555" minimumToolsVersion="Xcode 4.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16F73" minimumToolsVersion="Xcode 4.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="CDGroup" representedClassName="CDGroup" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="userConnections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDUserConnection" inverseName="groups" inverseEntity="CDUserConnection" syncable="YES"/>
@@ -10,6 +10,7 @@
         <attribute name="dirty" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="entityID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="flagged" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="meta" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="placeholder" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="read" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="resource" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -69,7 +70,7 @@
     </entity>
     <elements>
         <element name="CDGroup" positionX="-747" positionY="-387" width="128" height="73"/>
-        <element name="CDMessage" positionX="-225" positionY="99" width="128" height="255"/>
+        <element name="CDMessage" positionX="-225" positionY="99" width="128" height="270"/>
         <element name="CDThread" positionX="-236" positionY="-252" width="128" height="268"/>
         <element name="CDUser" positionX="-693" positionY="-268" width="128" height="283"/>
         <element name="CDUserAccount" positionX="-333" positionY="-396" width="128" height="88"/>

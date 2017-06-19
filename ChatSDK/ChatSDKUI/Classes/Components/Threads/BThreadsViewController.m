@@ -70,7 +70,7 @@
         // This makes the phone vibrate when we get a new message
         
         // Only vibrate if a message is received from a private thread
-        if (messageModel.thread.type.intValue & bThreadTypePrivate) {
+        if (messageModel.thread.type.intValue & bThreadFilterPrivate) {
             if (![messageModel.userModel isEqual:NM.currentUser]) {
                 AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
             }
@@ -154,7 +154,7 @@
     
     id<PMessage> message = Nil;
     
-    if (thread.messages.count) {
+    if (thread.allMessages.count) {
         // Get the last message
         message = [thread messagesOrderedByDateDesc].firstObject;
         

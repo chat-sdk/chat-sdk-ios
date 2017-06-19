@@ -17,7 +17,7 @@
 // they could have hundreds of users and we don't want to be spammed
 // with push notifications
 -(void) pushForMessage: (id<PMessage>) message {
-    if (message.thread.type.intValue & bThreadTypePrivate) {
+    if (message.thread.type.intValue & bThreadFilterPrivate) {
         for (id<PUser> user in message.thread.users) {
             id<PUser> currentUserModel = NM.currentUser;
             if (![user isEqual:currentUserModel]) {
