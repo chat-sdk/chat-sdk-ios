@@ -1,6 +1,7 @@
 .DS_Store
 BModules.h.default
 
+ChatSDK/ChatSDKFirebaseAdapter/Frameworks
 Xcode/Build
 Xcode/ChatSDK Demo.xcworkspace
 Xcode/Pods
