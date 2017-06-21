@@ -109,6 +109,7 @@
  * @brief Get a list of all threads
  */
 -(NSArray<PThread> *) threadsWithType: (bThreadType) type;
+-(NSArray<PThread> *) threadsWithType:(bThreadType)type includeDeleted: (BOOL) includeDeleted includeEmpty: (BOOL) includeEmpty;
 
 -(id<PUser>) userForEntityID: (NSString *) entityID;
 

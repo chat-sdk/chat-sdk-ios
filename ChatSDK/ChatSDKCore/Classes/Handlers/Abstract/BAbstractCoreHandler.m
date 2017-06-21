@@ -66,13 +66,17 @@
 }
 
 -(NSArray *) threadsWithType:(bThreadType)type {
+    return [self threadsWithType:type includeDeleted:NO includeEmpty:NO];
+}
+
+-(NSArray *) threadsWithType:(bThreadType)type includeDeleted: (BOOL) includeDeleted includeEmpty: (BOOL) includeEmpty {
     
     NSMutableArray * threads = [NSMutableArray new];
     NSArray * allThreads = type & bThreadFilterPrivate ? NM.currentUser.threads : [[BStorageManager sharedManager].a fetchEntitiesWithName:bThreadEntity];
     
     for(id<PThread> thread in allThreads) {
         if(thread.type.intValue & bThreadFilterPrivate) {
-            if(thread.type.intValue & type  && !thread.deleted_.boolValue) {
+            if(thread.type.intValue & type  && (!thread.deleted_.boolValue || includeDeleted) && (thread.allMessages.count || includeEmpty)) {
                 [threads addObject:thread];
             }
         }

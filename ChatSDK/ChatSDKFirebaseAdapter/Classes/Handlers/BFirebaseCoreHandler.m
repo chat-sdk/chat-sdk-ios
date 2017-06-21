@@ -91,7 +91,7 @@
         
         // Check to see if a thread already exists with these
         // two users
-        for (id<PThread> thread in [NM.core threadsWithType:bThreadType1to1]) {
+        for (id<PThread> thread in [NM.core threadsWithType:bThreadType1to1 includeDeleted:YES includeEmpty:YES]) {
             if (thread.users.count == 2 && [thread.users containsObject:currentUser] && [thread.users containsObject:otherUser]) {
                 jointThread = thread;
                 break;
