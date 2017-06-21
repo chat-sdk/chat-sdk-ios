@@ -5,6 +5,7 @@ Pod::Spec.new do |s|
   s.homepage         = "http://chatsdk.co"
   s.license          = 'MIT'
   s.author           = { "Ben Smiley" => "ben@chatsdk.co" }
+#   s.source           = { :git => "https://github.com/bensmiley/chat-sdk-test.git" }
   s.source           = { :git => "https://github.com/bensmiley/chat-sdk-test.git", :tag => s.version.to_s }
 
   s.platform     = :ios, '7.0'
