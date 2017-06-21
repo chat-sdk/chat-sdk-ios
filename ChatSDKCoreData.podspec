@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDKCoreData"
-  s.version          = "4.2.7"
+  s.version          = "4.2.8"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = 'MIT'
@@ -10,9 +10,9 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = ['Classes/**/*']    
+  s.source_files = ['ChatSDKCoreData/Classes/**/*']    
   s.resource_bundles = {
-    'ChatCoreData' => ['Assets/**/*']
+    'ChatCoreData' => ['ChatSDKCoreData/Assets/**/*']
   }    
       
   s.frameworks = 'UIKit', 'CoreData'
