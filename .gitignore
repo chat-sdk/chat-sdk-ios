@@ -2,6 +2,7 @@
 BModules.h.default
 
 ChatSDK/ChatSDKFirebaseAdapter/Frameworks
+ChatSDKFirebaseAdapter/Frameworks
 Xcode/Build
 Xcode/ChatSDK Demo.xcworkspace
 Xcode/Pods
