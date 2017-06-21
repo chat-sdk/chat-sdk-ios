@@ -1,5 +1,6 @@
 .DS_Store
 BModules.h.default
+
 Xcode/Build
 Xcode/ChatSDK Demo.xcworkspace
 Xcode/Pods
@@ -10,4 +11,5 @@ XcodeSwift/Pods
 XcodeSwift/Podfile.lock
 XcodeSnapchat/
 XcodeTest/
+XcodeTest2/
 XcodeTed/
