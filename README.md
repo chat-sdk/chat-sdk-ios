@@ -24,6 +24,7 @@ A demo of the project is available on the App Store.
 - User profiles
 - User search
 - Powered by Firebase
+- Firebase UI
 - [Cross Platform - see Android Version](https://github.com/chat-sdk/chat-sdk-android)
 
 <img src="http://img.chatcatapp.com/chat-sdk-3.jpg" />
@@ -64,46 +65,12 @@ We're very excited about the project and we're looking for other people to get i
 If you're interested please review the [Contributing
 Document](https://github.com/chat-sdk/chat-sdk-ios/blob/master/CONTRIBUTING.md) for details of our development flow and the CLA then email me at [**team@chatsdk.co**](mailto:team@chatsdk.co).
 
-
 ## Apps that use Chat SDK
 
 + [Parlor](http://parlor.me/)
 + [Runbuddy](https://itunes.apple.com/us/app/run-buddy/id1050833009?mt=8)
 
 If you have an app that uses the Chat SDK let us know and we'll add a link. 
-
-
-## The license
-
-We offer a choice of two license for this app. You can either use the [Chat SDK](https://chatsdk.co/chat-sdk-license/) license or the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license. 
-
-Most Chat SDK users either want to add the Chat SDK to an app that will be released to the App Store or they want to use the Chat SDK in a project for their client. The **Chat SDK** license gives you complete flexibility to do this for free.
-
-**Chat SDK License Summary**
-
-+ License does not expire.
-+ Can be used for creating unlimited applications
-+ Can be distributed in binary or object form only
-+ Commercial use allowed
-+ Can modify source-code but cannot distribute modifications (derivative works)
-
-If a user wants to distribute the Chat SDK source code, we feel that any additions or modifications they make to the code should be contributed back to the project. The GPLv3 license ensures that if source code is distributed, it must remain open source and available to the community.
-
-**GPLv3 License Summary**
-
-+ Can modify and distribute source code
-+ Commerical use allowed
-+ Cannot sublicense or hold liable
-+ Must include original license
-+ Must disclose source 
-
-**What does this mean?**
-
-Please check out the [Licensing FAQ](https://github.com/chat-sdk/chat-sdk-ios/blob/master/LICENSE.md) for more information.
-
-## Wiki
-
-We have a lot more information on our [**Wiki**](https://github.com/chat-sdk/chat-sdk-ios/wiki) so make sure to check it out! 
 
 ## Running the demo project
 This repository contains a fully functional version of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
@@ -275,6 +242,24 @@ For full documentation of Firebase configuration checkout the complete guide and
 Firebase secures your data by allowing you to write rules to govern who can access the database and what can be written. On the Firebase dashboard click **Database** then the **Rules** tab. 
 
 Copy the contents of the **rules.json** file into the rules and click publish. 
+
+## Firebase UI
+
+We've now added support for Firebase UI to the project. In order to make Firebase UI compatible with the Chat SDK, we needed to make some modifications to the Firebase UI podspec. You can see the forked version of the project [here](https://github.com/chat-sdk/FirebaseUI-iOS). 
+
+To add Firebase UI to your project you need to add the following to your `Podfile`.
+
+```
+pod "FirebaseUI", :podspec => "https://raw.githubusercontent.com/chat-sdk/FirebaseUI-iOS/master/FirebaseUI.podspec"
+```
+
+If you want to install just one subspec, you can do that using the following syntax:
+
+```
+pod "FirebaseUI/[subspec name]", :podspec => "https://raw.githubusercontent.com/chat-sdk/FirebaseUI-iOS/master/FirebaseUI.podspec"
+```
+
+Replace **[subspec name]** with the name of the subspec you want to install. 
 
 ## Social Login
 
@@ -515,7 +500,6 @@ So a more complete example would look like this:
 }
 ```
 
-
 ## Troubleshooting Cocoapods
 
 1. Always open the .xcworkspace file rather than .xcodeproj
@@ -524,7 +508,33 @@ So a more complete example would look like this:
 4. Make sure that the “Build Active Architecture Only” setting is the same for both the main project and the pods project. 
 5. Check the build settings in the Xcode project and check which fields are in bold (this means that their value has been overridden and CocoaPods can't access them). If you press backspace while selecting those fields, their values will be set to the default value.
 
+## The license
 
+We offer a choice of two license for this app. You can either use the [Chat SDK](https://chatsdk.co/chat-sdk-license/) license or the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license. 
+
+Most Chat SDK users either want to add the Chat SDK to an app that will be released to the App Store or they want to use the Chat SDK in a project for their client. The **Chat SDK** license gives you complete flexibility to do this for free.
+
+**Chat SDK License Summary**
+
++ License does not expire.
++ Can be used for creating unlimited applications
++ Can be distributed in binary or object form only
++ Commercial use allowed
++ Can modify source-code but cannot distribute modifications (derivative works)
+
+If a user wants to distribute the Chat SDK source code, we feel that any additions or modifications they make to the code should be contributed back to the project. The GPLv3 license ensures that if source code is distributed, it must remain open source and available to the community.
+
+**GPLv3 License Summary**
+
++ Can modify and distribute source code
++ Commerical use allowed
++ Cannot sublicense or hold liable
++ Must include original license
++ Must disclose source 
+
+**What does this mean?**
+
+Please check out the [Licensing FAQ](https://github.com/chat-sdk/chat-sdk-ios/blob/master/LICENSE.md) for more information.
 
  
 

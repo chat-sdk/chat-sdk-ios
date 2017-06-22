@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import <ChatSDKCore/PInterfaceFacade.h>
+//#import <ChatSDKCore/PInterfaceFacade.h>
+@protocol PInterfaceFacade;
 
 @interface BInterfaceManager : NSObject
 

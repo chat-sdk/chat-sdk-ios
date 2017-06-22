@@ -30,6 +30,8 @@ framework module GoogleMobileAds {
   header "GADAdDelegate.h"
   header "GADAdNetworkExtras.h"
   header "GADAdSize.h"
+  header "GADAudioVideoManagerDelegate.h"
+  header "GADAudioVideoManager.h"
   header "GADBannerView.h"
   header "GADBannerViewDelegate.h"
   header "GADCorrelator.h"
@@ -51,6 +53,7 @@ framework module GoogleMobileAds {
   header "GADVideoOptions.h"
 
   header "DFPBannerView.h"
+  header "DFPBannerViewOptions.h"
   header "DFPCustomRenderedAd.h"
   header "DFPCustomRenderedBannerViewDelegate.h"
   header "DFPCustomRenderedInterstitialDelegate.h"
@@ -69,7 +72,9 @@ framework module GoogleMobileAds {
   header "GADNativeAdImage.h"
   header "GADNativeAdImage+Mediation.h"
   header "GADNativeAppInstallAd.h"
+  header "GADNativeAppInstallAdAssetIDs.h"
   header "GADNativeContentAd.h"
+  header "GADNativeContentAdAssetIDs.h"
   header "GADNativeCustomTemplateAd.h"
 
   header "GADNativeAdImageAdLoaderOptions.h"

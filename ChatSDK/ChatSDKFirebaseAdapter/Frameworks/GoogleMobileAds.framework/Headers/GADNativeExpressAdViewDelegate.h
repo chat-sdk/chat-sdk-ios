@@ -7,10 +7,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import <GoogleMobileAds/GADRequestError.h>
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>
 
 @class GADNativeExpressAdView;
-@class GADRequestError;
 
 GAD_ASSUME_NONNULL_BEGIN
 

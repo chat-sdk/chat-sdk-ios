@@ -66,11 +66,6 @@ GAD_ASSUME_NONNULL_BEGIN
 /// Typically this is a UIViewController.
 @property(nonatomic, weak, GAD_NULLABLE) IBOutlet id<GADBannerViewDelegate> delegate;
 
-/// Optional delegate object that receives in-app purchase notifications from this ad. Required for
-/// the custom in-app purchase flow, but ignored when using the default in-app purchase flow.
-@property(nonatomic, weak, GAD_NULLABLE)
-    IBOutlet id<GADInAppPurchaseDelegate> inAppPurchaseDelegate;
-
 /// Optional delegate that is notified when creatives cause the banner to change size.
 @property(nonatomic, weak, GAD_NULLABLE) IBOutlet id<GADAdSizeDelegate> adSizeDelegate;
 
@@ -96,6 +91,10 @@ GAD_ASSUME_NONNULL_BEGIN
 /// Indicates if the currently displayed ad (or most recent failure) was a result of auto refreshing
 /// as specified on server. This property is set to NO after each loadRequest: method.
 @property(nonatomic, readonly, assign) BOOL hasAutoRefreshed GAD_DEPRECATED_ATTRIBUTE;
+
+/// Deprecated delegate. GADInAppPurchase has been deprecated.
+@property(nonatomic, weak, GAD_NULLABLE)
+    IBOutlet id<GADInAppPurchaseDelegate> inAppPurchaseDelegate GAD_DEPRECATED_ATTRIBUTE;
 
 /// The mediated ad network's underlying ad view. You may use this property to read the ad's actual
 /// size and adjust this banner view's frame origin. However, modifying the banner view's frame size

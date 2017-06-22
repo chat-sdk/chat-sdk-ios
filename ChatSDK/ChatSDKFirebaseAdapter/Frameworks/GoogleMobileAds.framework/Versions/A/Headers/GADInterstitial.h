@@ -34,10 +34,6 @@ GAD_ASSUME_NONNULL_BEGIN
 /// Optional delegate object that receives state change notifications from this GADInterstitalAd.
 @property(nonatomic, weak, GAD_NULLABLE) id<GADInterstitialDelegate> delegate;
 
-/// Optional delegate object that receives in-app purchase notifications from this ad. Required for
-/// the custom in-app purchase flow, but ignored when using the default in-app purchase flow.
-@property(nonatomic, weak, GAD_NULLABLE) id<GADInAppPurchaseDelegate> inAppPurchaseDelegate;
-
 #pragma mark Making an Ad Request
 
 /// Makes an interstitial ad request. Additional targeting options can be supplied with a request
@@ -75,6 +71,10 @@ GAD_ASSUME_NONNULL_BEGIN
 - (void)presentFromRootViewController:(UIViewController *)rootViewController;
 
 #pragma mark Deprecated
+
+/// Deprecated delegate. GADInAppPurchase has been deprecated.
+@property(nonatomic, weak, GAD_NULLABLE)
+    id<GADInAppPurchaseDelegate> inAppPurchaseDelegate GAD_DEPRECATED_ATTRIBUTE;
 
 /// Deprecated intializer. Use initWithAdUnitID: instead.
 - (instancetype)init GAD_DEPRECATED_MSG_ATTRIBUTE("Use initWithAdUnitID:.");

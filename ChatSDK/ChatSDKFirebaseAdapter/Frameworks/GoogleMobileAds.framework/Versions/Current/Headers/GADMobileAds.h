@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import <GoogleMobileAds/GADAudioVideoManager.h>
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>
 
 GAD_ASSUME_NONNULL_BEGIN
@@ -40,6 +41,9 @@ GAD_ASSUME_NONNULL_BEGIN
 /// method only if your application has its own volume controls (e.g., custom music or sound effect
 /// muting). Defaults to NO.
 @property(nonatomic, assign) BOOL applicationMuted;
+
+/// Manages the Google Mobile Ads SDK's audio and video settings.
+@property(nonatomic, readonly, strong) GADAudioVideoManager *audioVideoManager;
 
 /// Returns YES if the current SDK version is at least |major|.|minor|.|patch|. This method can be
 /// used by libraries that depend on a specific minimum version of the Google Mobile Ads SDK to warn
