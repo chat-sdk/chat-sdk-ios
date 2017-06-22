@@ -4,10 +4,13 @@ use_frameworks!
 
 target 'ChatSDKSwift' do
   
-  pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
-  pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"
-  pod "ChatSDKCoreData", :path => "../ChatSDK/ChatSDKCoreData"
-  pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDK/Core", :podspec => "../ChatSDK"
+  pod "ChatSDK/CoreData", :podspec => "../ChatSDK"
+  pod "ChatSDK/FirebaseAdapter", :podspec => "../ChatSDK"
+  
+#   pod "ChatSDKUI", :podspec => "../ChatSDK/ChatSDKUI"
+#   pod "ChatSDKCoreData", :podspec => "../ChatSDK/ChatSDKCoreData"
+#   pod "ChatSDKFirebaseAdapter", :podspec => "../ChatSDK/ChatSDKFirebaseAdapter"
 	
 #   pod "ChatSDKFirebase/TypingIndicator", :path => "../../ChatSDK/ChatSDKFirebase"
 #   pod "ChatSDKFirebase/VideoMessages", :path => "../../ChatSDK/ChatSDKFirebase"
