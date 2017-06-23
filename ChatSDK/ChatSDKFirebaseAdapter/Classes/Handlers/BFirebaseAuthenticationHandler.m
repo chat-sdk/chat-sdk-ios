@@ -33,7 +33,7 @@
             
             FIRUser * user = [FIRAuth auth].currentUser;
             if (user) {
-                return [self handleFAUser:user].thenOnMain(Nil, ^id(NSError * error) {
+                return [self loginWithFirebaseUser:user].thenOnMain(Nil, ^id(NSError * error) {
                     return Nil;
                 });
             }
@@ -42,7 +42,7 @@
     
     if (authenticated) {
         //        [promise resolveWithResult:self.currentUserModel];
-        [promise resolveWithResult:[self handleFAUser:[FIRAuth auth].currentUser]];
+        [promise resolveWithResult:[self loginWithFirebaseUser:[FIRAuth auth].currentUser]];
     }
     else {
         [promise rejectWithReason:Nil];
@@ -103,7 +103,7 @@
     };
     
     promise.thenOnMain(^id(FIRUser * firebaseUser) {
-        return [self handleFAUser: firebaseUser];
+        return [self loginWithFirebaseUser: firebaseUser];
     }, Nil);
     
     // Depending on the login method we need to authenticate with Firebase
@@ -169,8 +169,6 @@
             break;
         case bAccountTypeRegister:
         {
-            RXPromise * p2 = [RXPromise new];
-            
             [[FIRAuth auth] createUserWithEmail:details[bLoginEmailKey] password:details[bLoginPasswordKey] completion:handleResult];
         }
             break;
@@ -185,7 +183,7 @@
     return promise;
 }
 
--(RXPromise *) handleFAUser: (FIRUser *) firebaseUser {
+-(RXPromise *) loginWithFirebaseUser: (FIRUser *) firebaseUser {
     
     RXPromise * promise = [RXPromise new];
     
@@ -197,7 +195,7 @@
     
     // Get the token
     RXPromise * tokenPromise = [RXPromise new];
-    [firebaseUser getTokenWithCompletion:^(NSString * token, NSError * error) {
+    [firebaseUser getIDTokenWithCompletion:^(NSString * token, NSError * error) {
         if (!error) {
             [tokenPromise resolveWithResult:token];
         }

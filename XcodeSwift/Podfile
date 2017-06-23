@@ -7,8 +7,17 @@ target 'ChatSDKSwift' do
   pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
   pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"
   pod "ChatSDKCoreData", :path => "../ChatSDK/ChatSDKCoreData"
+
   pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-	
+
+#   pod "ChatSDKFirebaseAdapter/AuthBase", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+#   pod "ChatSDKFirebaseAdapter/Phone", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+#   pod "ChatSDKFirebaseAdapter/Database", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+#   pod "ChatSDKFirebaseAdapter/Twitter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+#   pod "ChatSDKFirebaseAdapter/Facebook", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+#   pod "ChatSDKFirebaseAdapter/Storage", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+#   pod "ChatSDKFirebaseAdapter/Google", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  	
 #   pod "ChatSDKFirebase/TypingIndicator", :path => "../../ChatSDK/ChatSDKFirebase"
 #   pod "ChatSDKFirebase/VideoMessages", :path => "../../ChatSDK/ChatSDKFirebase"
 #   pod "ChatSDKFirebase/AudioMessages", :path => "../../ChatSDK/ChatSDKFirebase"

@@ -245,21 +245,89 @@ Copy the contents of the **rules.json** file into the rules and click publish.
 
 ## Firebase UI
 
-We've now added support for Firebase UI to the project. In order to make Firebase UI compatible with the Chat SDK, we needed to make some modifications to the Firebase UI podspec. You can see the forked version of the project [here](https://github.com/chat-sdk/FirebaseUI-iOS). 
+We've now added support for Firebase UI to the project. To get around some issues with the [Firebase pods](https://github.com/chat-sdk/chat-sdk-ios/wiki/Issues-with-Firebase-Pods), we needed to integrate the Firebase UI code with the Chat SDK. 
 
 To add Firebase UI to your project you need to add the following to your `Podfile`.
 
 ```
-pod "FirebaseUI", :podspec => "https://raw.githubusercontent.com/chat-sdk/FirebaseUI-iOS/master/FirebaseUI.podspec"
+  pod "ChatSDKFirebaseAdapter/AuthBase", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Phone", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Database", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Twitter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Facebook", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Storage", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Google", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
 ```
 
-If you want to install just one subspec, you can do that using the following syntax:
+To add Firebase UI as the default login provider for the app you should do the following:
+
+1. Import the libraries that you need to the App Delegate header file
+
+  ```
+  #import <ChatSDKFirebaseAdapter/FUIAuth.h>
+  #import <ChatSDKFirebaseAdapter/FirebaseAuthUI.h>
+  #import <ChatSDKFirebaseAdapter/FUIPhoneAuth.h>
+  ```
+  
+2. Implement the `FUIAuthDelegate`
+
+  ```
+  @interface AppDelegate : UIResponder <UIApplicationDelegate, FUIAuthDelegate> {
+  ```
+
+3. In `didFinishLaunchingWithOptions` setup the providers that you need:
+
+  ```
+  FIRAuth * auth = [FIRAuth auth];
+  FUIAuth * authUI = [FUIAuth authUIWithAuth:auth];
+  
+  // This allows us to be notified when authentication finishes
+  authUI.delegate = self;
+
+  // Add phone authentication    
+  FUIPhoneAuth * phone = [[FUIPhoneAuth alloc] initWithAuthUI:authUI];
+    
+  // Add the phone provider  
+  [authUI setProviders:@[phone]];
+  
+  FUIAuthPickerViewController * controller = [[FUIAuthPickerViewController alloc] initWithAuthUI:authUI];
+  
+  // Present the controller as the default authentication controller
+  [BNetworkManager sharedManager].a.auth.challengeViewController = [[UINavigationController alloc] initWithRootViewController:controller];
+  ```
+
+4. Make sure that you've done the necessary configuration for your login providers - see [instructions](https://github.com/firebase/FirebaseUI-iOS#mandatory-sample-project-configuration) and the Firebase [authentication documentation](https://firebase.google.com/docs/auth/).
+5. Finall add the delegate method: 
 
 ```
-pod "FirebaseUI/[subspec name]", :podspec => "https://raw.githubusercontent.com/chat-sdk/FirebaseUI-iOS/master/FirebaseUI.podspec"
-```
+- (void)authUI:(FUIAuth *)authUI
+didSignInWithUser:(nullable FIRUser *)user
+         error:(nullable NSError *)error {
 
-Replace **[subspec name]** with the name of the subspec you want to install. 
+    if(!error) {
+        [user getIDTokenWithCompletion:^(NSString * token, NSError * error) {
+            if (!error) {
+                
+                NSDictionary * loginInfo = @{bLoginTypeKey: @(bAccountTypeCustom),
+                                             bLoginCustomToken: token};
+                
+                [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:loginInfo].thenOnMain(^id(id<PUser> user) {
+                    return Nil;
+                }, ^id(NSError * error) {
+                    // Handle error
+                    return Nil;
+                });
+            }
+            else {
+                // Handle error
+            }
+        }];
+    }
+    else {
+        // Handle error
+    }
+}
+```
 
 ## Social Login
 

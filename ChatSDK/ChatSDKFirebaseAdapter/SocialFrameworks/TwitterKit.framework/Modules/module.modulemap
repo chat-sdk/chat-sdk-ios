@@ -1,0 +1,10 @@
+framework module TwitterKit {
+    umbrella header "TwitterKit.h"
+
+    export *
+    module * { export * }
+
+    link framework "AVFoundation"
+    link framework "CoreMedia"
+    link framework "SafariServices"
+}
