@@ -82,7 +82,12 @@
     if ([_user.entityID isEqualToString:currentUser.entityID]) {
         // Add a logout button
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bLogout] style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
-        self.navigationItem.leftBarButtonItem = Nil;
+        if([BInterfaceManager sharedManager].a.settingsViewController) {
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle chatUIImageNamed:@"icn_25_settings.png"] style:UIBarButtonItemStylePlain target:self action:@selector(openSettings)];
+        }
+        else {
+            self.navigationItem.leftBarButtonItem = Nil;
+        }
         
         [self currentUserProfile:YES];
     }
@@ -127,6 +132,10 @@
     [self updateUserAndIndexes];
     
     _resetUser = YES;
+}
+
+-(void) openSettings {
+    [self.navigationController pushViewController:[BInterfaceManager sharedManager].a.settingsViewController animated:YES];
 }
 
 -(void) startChatWithUser {

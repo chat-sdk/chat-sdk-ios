@@ -19,7 +19,7 @@
 #import "FUIAuth_Internal.h"
 #import "FUIPhoneAuthStrings.h"
 #import "FUIPhoneEntryViewController.h"
-#import <FirebaseAuth/FIRPhoneAuthProvider.h>
+#import <FirebaseCommunity/FIRPhoneAuthProvider.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

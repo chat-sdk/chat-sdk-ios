@@ -193,4 +193,8 @@
     }
 }
 
+-(UIViewController *) settingsViewController {
+    return Nil;
+}
+
 @end

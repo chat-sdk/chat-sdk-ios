@@ -16,7 +16,7 @@
 
 #import "FUIPasswordRecoveryViewController.h"
 
-#import <FirebaseAuth/FirebaseAuth.h>
+#import <FirebaseCommunity/FirebaseAuth.h>
 #import "FUIAuthBaseViewController_Internal.h"
 #import "FUIAuthStrings.h"
 #import "FUIAuthTableViewCell.h"

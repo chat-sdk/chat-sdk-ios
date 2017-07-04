@@ -15,7 +15,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <FirebaseAuth/FIRAuth.h>
+#import <FirebaseCommunity/FirebaseAuth.h>
 
 @class FIRAuth;
 @class FIRAuthCredential;

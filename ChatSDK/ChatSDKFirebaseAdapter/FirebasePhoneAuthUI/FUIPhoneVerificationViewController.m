@@ -16,8 +16,8 @@
 
 #import "FUIPhoneVerificationViewController.h"
 
-#import <FirebaseAuth/FIRPhoneAuthProvider.h>
-#import "FirebaseAuth/FIRPhoneAuthCredential.h"
+#import <FirebaseCommunity/FIRPhoneAuthProvider.h>
+#import "FirebaseCommunity/FIRPhoneAuthCredential.h"
 #import "FUIAuth_Internal.h"
 #import "FUICodeField.h"
 #import "FUIPhoneAuthStrings.h"

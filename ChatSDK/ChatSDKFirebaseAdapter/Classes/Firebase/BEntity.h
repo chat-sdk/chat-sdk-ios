@@ -7,8 +7,8 @@
 //
 
 #import <RXPromise/RXPromise.h>
-//#import "Firebase.h"
-#import <Firebase/Firebase.h>
+
+@class FIRDataSnapshot;
 
 @interface BEntity : NSObject {
     

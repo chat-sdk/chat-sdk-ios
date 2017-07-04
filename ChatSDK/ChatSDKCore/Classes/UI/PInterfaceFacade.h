@@ -45,6 +45,7 @@
 
 -(void) addTabBarViewController: (UIViewController *) controller atIndex: (int) index;
 -(NSDictionary *) additionalSearchControllerNames;
+-(UIViewController *) settingsViewController;
 
 @end
 

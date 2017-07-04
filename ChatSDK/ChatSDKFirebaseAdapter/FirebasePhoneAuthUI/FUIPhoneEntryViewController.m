@@ -16,8 +16,8 @@
 
 #import "FUIPhoneEntryViewController.h"
 
-#import <FirebaseAuth/FIRPhoneAuthProvider.h>
-#import <FirebaseAuth/FirebaseAuth.h>
+#import <FirebaseCommunity/FIRPhoneAuthProvider.h>
+#import <FirebaseCommunity/FirebaseAuth.h>
 #import "FUIAuthTableViewCell.h"
 #import "FUIAuthUtils.h"
 #import "FUIAuth_Internal.h"

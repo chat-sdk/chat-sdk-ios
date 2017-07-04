@@ -23,7 +23,12 @@ Pod::Spec.new do |s|
     }
   
     fi.dependency 'ChatSDKCore'  
-    fi.dependency 'ChatSDKFirebaseAdapter/FirebaseFrameworks'
+#     fi.dependency 'ChatSDKFirebaseAdapter/FirebaseFrameworks'
+    fi.dependency 'FirebaseCommunity/Core'
+    fi.dependency 'FirebaseCommunity/Auth'
+    fi.dependency 'FirebaseCommunity/Database'
+    fi.dependency 'FirebaseCommunity/Storage'
+    fi.dependency 'FirebaseCommunity/Messaging'
 
   end
 
@@ -47,8 +52,8 @@ Pod::Spec.new do |s|
  
     sf.dependency "GTMOAuth2", "~> 1.0"
     sf.dependency "GTMSessionFetcher/Core", "~> 1.1"
-    sf.dependency "GoogleToolboxForMac/NSDictionary+URLArguments", "~> 2.1"
-    sf.dependency "GoogleToolboxForMac/NSString+URLArguments", "~> 2.1"
+    sf.dependency "GoogleToolboxForMac/NSDictionary+URLArguments", "~> 2.1.1"
+    sf.dependency "GoogleToolboxForMac/NSString+URLArguments", "~> 2.1.1"
 
  
 #     authbase.resource_bundle = {
@@ -70,7 +75,8 @@ Pod::Spec.new do |s|
                            'FirebaseAuthUI/Resources/**/*',
                            'FirebaseAuthUI/**/*.xib']
     }
-    authbase.dependency 'ChatSDKFirebaseAdapter/FirebaseFrameworks'
+#     authbase.dependency 'ChatSDKFirebaseAdapter/FirebaseFrameworks'
+    authbase.dependency 'FirebaseCommunity/Auth'
 
   end
       

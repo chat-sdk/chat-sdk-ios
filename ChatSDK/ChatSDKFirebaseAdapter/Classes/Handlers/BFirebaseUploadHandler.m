@@ -8,7 +8,8 @@
 
 #import "BFirebaseUploadHandler.h"
 
-#import <Firebase/Firebase.h>
+#import <FirebaseCommunity/FirebaseDatabase.h>
+#import <FirebaseCommunity/FirebaseStorage.h>
 #import <RXPromise/RXPromise.h>
 
 #import <ChatSDKCore/BSettingsManager.h>

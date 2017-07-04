@@ -16,7 +16,7 @@
 
 #import "FUIAccountSettingsOperation.h"
 
-#import <FirebaseAuth/FirebaseAuth.h>
+#import <FirebaseCommunity/FirebaseAuth.h>
 
 #import "FUIAccountSettingsOperationType.h"
 #import "FUIAuthStrings.h"

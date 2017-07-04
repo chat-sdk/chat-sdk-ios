@@ -16,7 +16,7 @@
 
 #import "FUIEmailEntryViewController.h"
 
-#import <FirebaseAuth/FirebaseAuth.h>
+#import <FirebaseCommunity/FirebaseAuth.h>
 #import "FUIAuthBaseViewController_Internal.h"
 #import "FUIAuthProvider.h"
 #import "FUIAuthStrings.h"
