@@ -446,11 +446,12 @@
             _locationViewNavigationController = [[UINavigationController alloc] initWithRootViewController:_locationViewController];
         }
         
-        CLLocationCoordinate2D coord = [BCoreUtilities locationForString: cell.message.textString];
+        float longitude = [[cell.message textAsDictionary][bMessageLongitude] floatValue];
+        float latitude = [[cell.message textAsDictionary][bMessageLatitude] floatValue];
         
         // Set the location and display the controller
-        _locationViewController.region = [BCoreUtilities regionForLongitude:coord.longitude latitude:coord.latitude];
-        _locationViewController.annotation = [BCoreUtilities annotationForLongitude:coord.longitude latitude:coord.latitude];
+        _locationViewController.region = [BCoreUtilities regionForLongitude:longitude latitude:latitude];
+        _locationViewController.annotation = [BCoreUtilities annotationForLongitude:longitude latitude:latitude];
 
         [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
     }

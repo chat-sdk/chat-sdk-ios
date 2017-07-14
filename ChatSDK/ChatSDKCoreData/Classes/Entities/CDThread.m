@@ -30,6 +30,9 @@
         if(i < messages.count) {
             [_messagesWorkingList addObject:messages[i]];
         }
+        else {
+            break;
+        }
     }
 }
 
@@ -77,11 +80,11 @@
 }
 
 -(NSArray *) messagesOrderedByDateAsc {
-    return [self orderMessagesByDateAsc:_messagesWorkingList];
+    return [self orderMessagesByDateAsc:self.messagesWorkingList];
 }
 
 -(NSArray *) messagesOrderedByDateDesc {
-    return [_messagesWorkingList sortedArrayUsingComparator:^(id<PMessage> m1, id<PMessage> m2) {
+    return [self.messagesWorkingList sortedArrayUsingComparator:^(id<PMessage> m1, id<PMessage> m2) {
         return [m2.date compare:m1.date];
     }];
 }

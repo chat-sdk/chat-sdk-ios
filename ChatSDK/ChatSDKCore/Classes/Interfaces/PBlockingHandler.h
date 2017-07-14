@@ -14,9 +14,9 @@
 
 @protocol PBlockingHandler <NSObject>
 
--(RXPromise *) blockUser: (id<PUser>) user;
--(RXPromise *) unblockUser: (id<PUser>) user;
--(BOOL) isBlocked: (id<PUser>) user;
+-(RXPromise *) blockUser: (NSString *) userEntityID;
+-(RXPromise *) unblockUser: (NSString *) userEntityID;
+-(BOOL) isBlocked: (NSString *) userEntityID;
 
 @end
 

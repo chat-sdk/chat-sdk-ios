@@ -50,6 +50,8 @@
     if (!_user) {
         _user = currentUser;
     }
+    [self updateBlockButton];
+
 }
 
 -(void) loadUserImage {
@@ -362,6 +364,28 @@
 
 -(void) keyboardDidHide: (NSNotification *) notification {
     self.navigationItem.rightBarButtonItem.enabled = YES;
+}
+
+- (IBAction)blockButtonPressed:(id)sender {
+    if(NM.blocking) {
+        if(![NM.blocking isBlocked:_user]) {
+            [NM.blocking blockUser:_user];
+        }
+        else {
+            [NM.blocking unblockUser:_user];
+        }
+    }
+    [self updateBlockButton];
+}
+
+-(void) updateBlockButton {
+    [self.blockButton setTitle:[NSBundle t:bBlock] forState:UIControlStateNormal];
+    [self.blockButton setTitle:[NSBundle t:bUnblock] forState:UIControlStateSelected];
+
+    self.blockButton.hidden = !NM.blocking || [_user isEqual:NM.currentUser];
+    if(NM.blocking) {
+        self.blockButton.selected = [NM.blocking isBlocked:_user];
+    }
 }
 
 @end

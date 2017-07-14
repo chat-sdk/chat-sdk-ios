@@ -23,7 +23,7 @@
 {
     self = [super initWithNibName:@"BImageViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {
-        self.title = [NSBundle t:bImageMessage];
+        self.title = [NSBundle core_t:bImageMessage];
     }
     return self;
 }

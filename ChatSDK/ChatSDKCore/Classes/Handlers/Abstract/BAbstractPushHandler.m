@@ -47,16 +47,19 @@
     NSString * text = message.textString;
     
     if (message.type.intValue == bMessageTypeLocation) {
-        text = @"Location message!";
+        text = [NSBundle core_t:bLocationMessage];
     }
     if (message.type.intValue == bMessageTypeImage) {
-        text = @"Picture message!";
+        text = [NSBundle core_t:bImageMessage];
     }
     if (message.type.intValue == bMessageTypeAudio) {
-        text = @"Audio message!";
+        text = [NSBundle core_t:bAudioMessage];
     }
     if (message.type.intValue == bMessageTypeVideo) {
-        text = @"Video message!";
+        text = [NSBundle core_t:bVideoMessage];
+    }
+    if (message.type.intValue == bMessageTypeSticker) {
+        text = [NSBundle core_t:bStickerMessage];
     }
     
     text = [NSString stringWithFormat:@"%@: %@", message.userModel.name, text];

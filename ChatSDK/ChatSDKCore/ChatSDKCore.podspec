@@ -11,6 +11,9 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = ['Classes/**/*']
+  s.resource_bundles = {
+    'ChatCore' => ['Assets/**/*']
+  }
 
   s.dependency 'RXPromise', '~> 1.0'
   s.dependency 'PromiseKit'

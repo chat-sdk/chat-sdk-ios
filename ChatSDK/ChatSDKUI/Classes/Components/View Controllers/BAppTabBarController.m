@@ -44,7 +44,10 @@
                                                        queue:Nil
                                                   usingBlock:^(NSNotification * sender) {
         
-        [self showLoginScreen];
+                                                      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                          [self showLoginScreen];
+                                                      });
+//        [self showLoginScreen];
         
         // Resets the view which the tab bar loads on
         [self setSelectedIndex:0];
@@ -124,6 +127,7 @@
     int count = NM.currentUser.unreadMessageCount;
     [self setBadge:count];
     
+    [NM.core save];
     // This way does not set the tab bar number
     //[BInterfaceManager sharedManager].a.privateThreadsViewController.tabBarItem.badgeValue = badge;
     
@@ -131,7 +135,9 @@
 
 // TODO - move this to a more appropriate place in the code
 -(void) setBadge: (int) badge {
-    NSInteger privateThreadIndex = [self.tabBarController.viewControllers indexOfObject:[BInterfaceManager sharedManager].a.privateThreadsViewController];
+    
+    NSInteger privateThreadIndex = [[BInterfaceManager sharedManager].a.tabBarViewControllers indexOfObject:[BInterfaceManager sharedManager].a.privateThreadsViewController];
+
     // Using self.tabbar will correctly set the badge for the specific index
     NSString * badgeString = badge == 0 ? Nil : [NSString stringWithFormat:@"%i", badge];
     [self.tabBar.items objectAtIndex:privateThreadIndex].badgeValue = badgeString;

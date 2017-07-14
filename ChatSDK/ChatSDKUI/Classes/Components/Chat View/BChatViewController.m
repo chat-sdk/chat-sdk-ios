@@ -151,6 +151,7 @@
 
 -(RXPromise *) handleMessageSend: (RXPromise *) promise {
     [self updateMessages];
+    [NM.core save];
     //[self reloadData];
     return promise;
 }

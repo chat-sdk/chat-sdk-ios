@@ -17,7 +17,7 @@
     
     id<PUser> user = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bUserEntity];
     
-    NSDictionary * data = @{bHookUserOn_PUser_User: user};
+    NSDictionary * data = @{bHookUserOn_PUser: user};
     [NM.hook executeHookWithName:bHookUserOn data:data];
     
     FIRDatabaseReference * threadsRef = [FIRDatabaseReference userThreadsRef:entityID];

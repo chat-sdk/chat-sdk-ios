@@ -26,7 +26,7 @@
 +(MKCoordinateRegion) regionForLongitude: (double) longitude latitude: (double) latitude;
 +(MKPointAnnotation *) annotationForLongitude: (double) longitude latitude: (double) latitude;
 
-+(NSString *) timeAgo: (NSDate *) date;
+//+(NSString *) timeAgo: (NSDate *) date;
 
 +(UIColor*)colorWithHexString:(NSString*)hex;
 +(UIColor*)colorWithHexString:(NSString*)hex withColorWeight: (float) weight;

@@ -20,6 +20,7 @@
 #import <ChatSDKFirebaseAdapter/CCUserWrapper.h>
 #import <ChatSDKFirebaseAdapter/CCMessageWrapper.h>
 #import <ChatSDKFirebaseAdapter/BStateManager.h>
+#import <ChatSDKFirebaseAdapter/BFirebaseUsersHandler.h>
 
 #import <ChatSDKFirebaseAdapter/Firebase+Paths.h>
 
@@ -31,6 +32,7 @@
 #import <ChatSDKFirebaseAdapter/BFirebaseSearchHandler.h>
 #import <ChatSDKFirebaseAdapter/BFirebaseModerationHandler.h>
 #import <ChatSDKFirebaseAdapter/BFirebasePublicThreadHandler.h>
+#import <ChatSDKFirebaseAdapter/BFirebaseUsersHandler.h>
 
 
 

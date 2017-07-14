@@ -248,7 +248,7 @@
     [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
         if(![snapshot.value isEqual: [NSNull null]]) {
             [promise resolveWithResult:[self deserializeMeta:snapshot.value].thenOnMain(^id(id success) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:Nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: self.model}];
                 return self;
             }, Nil)];
         }
@@ -282,7 +282,7 @@
         if(![snapshot.value isEqual: [NSNull null]]) {
             
             self.model.online = [snapshot.value isEqualToNumber:@1] ? @(YES) : @(NO);
-            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:Nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: self.model}];
         }
     }];
     

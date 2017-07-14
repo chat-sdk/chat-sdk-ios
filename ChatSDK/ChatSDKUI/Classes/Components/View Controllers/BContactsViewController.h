@@ -25,5 +25,6 @@
 
 -(NSMutableArray *) contacts;
 -(void) sortContacts;
+-(void) reloadData;
 
 @end

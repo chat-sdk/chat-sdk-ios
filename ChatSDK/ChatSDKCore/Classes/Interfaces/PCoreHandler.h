@@ -129,6 +129,10 @@
  */
 -(NSArray *) threadsWithUsers: (NSArray *) users type: (bThreadType) type;
 
+@optional
+
+
+
 @end
 
 #endif /* PCoreHandler_h */

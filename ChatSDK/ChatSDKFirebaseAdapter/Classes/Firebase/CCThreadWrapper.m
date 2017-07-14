@@ -151,10 +151,19 @@
                 
                 if (![snapshot.value isEqual: [NSNull null]]) {
                     
+                    if(NM.blocking) {
+                        if([NM.blocking isBlocked:snapshot.value[b_UserFirebaseID]]) {
+                            return;
+                        }
+                    }
+                    
                     [_model setDeleted: @NO];
                     
                     // This gets the message if it exists and then updates it from the snapshot
                     CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:snapshot];
+                    
+                    [NM.hook executeHookWithName:bHookMessageRecieved data:@{bHookMessageReceived_PMessage: message}];
+                    
                     BOOL newMessage = message.model.delivered.boolValue == NO;
                     
                     // Is this a new message?

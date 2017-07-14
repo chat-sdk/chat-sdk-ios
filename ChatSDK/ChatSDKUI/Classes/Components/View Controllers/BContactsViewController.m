@@ -33,6 +33,9 @@
         self.title = [NSBundle t:bContacts];
         self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_contact.png"];
         _contacts = [NSMutableArray new];
+        [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+            [self reloadData];
+        }];
     }
     return self;
 }
@@ -45,9 +48,6 @@
                                                                                             target:self
                                                                                             action:@selector(addContacts)];
     
-    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [self reloadData];
-    }];
     
     if (!searchController) {
         

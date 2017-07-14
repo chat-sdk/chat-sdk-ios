@@ -3,6 +3,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
 target 'ChatSDKSwift' do
+
+  pod "FirebaseCommunity"
   
   pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
   pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"
@@ -24,6 +26,8 @@ target 'ChatSDKSwift' do
 #   pod "ChatSDKFirebase/ContactBook", :path => "../../ChatSDK/ChatSDKFirebase"
 #   pod "ChatSDKFirebase/ReadReceipts", :path => "../../ChatSDK/ChatSDKFirebase"
 #   pod "ChatSDKFirebase/NearbyUsers", :path => "../../ChatSDK/ChatSDKFirebase"
+
+   pod "ChatSDKFirebase/Blocking", :path => "../../ChatSDK/ChatSDKFirebase"
 
 #   pod "TwoFactorAuth", :path => "../../ChatSDK/TwoFactorAuth"
 

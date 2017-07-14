@@ -126,8 +126,17 @@
     if (position & bMessagePositionLast) {
         if (message.userModel) {
             _profilePicture.hidden = NO;
-            [_profilePicture sd_setImageWithURL:message.userModel.imageURL
-                               placeholderImage:message.userModel.defaultImage];
+            if(message.userModel.imageURL) {
+                [_profilePicture sd_setImageWithURL:message.userModel.imageURL
+                                   placeholderImage:message.userModel.defaultImage];
+            }
+            else if (message.userModel.imageAsImage) {
+                [_profilePicture setImage:message.userModel.imageAsImage];
+            }
+            else {
+                [_profilePicture setImage:message.userModel.defaultImage];
+            }
+            
             
 //            [message.userModel loadProfileThumbnail:NO].thenOnMain(^id(UIImage * image) {
 //                _profilePicture.image = image;

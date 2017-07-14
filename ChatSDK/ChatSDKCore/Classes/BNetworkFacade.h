@@ -32,6 +32,7 @@
 @protocol PStickerMessageHandler;
 @protocol PSocialLoginHandler;
 @protocol PHookHandler;
+@protocol PUsersHandler;
 
 #define bNotificationLogout @"bNLogout"
 
@@ -42,6 +43,8 @@
 #define bNotificationMessageUpdatedKeyMessage @"bNMessageUpdatedKeyMessage"
 
 #define bNotificationUserUpdated @"bNUserUpdated"
+#define bNotificationUserUpdated_PUser @"bNUserUpdated_PUser"
+
 #define bNotificationThreadRead @"bNThreadRead"
 #define bNotificationThreadDeleted @"bNThreadDeleted"
 #define bNotificationBadgeUpdated @"bNBadgeUpdated"
@@ -85,6 +88,7 @@
 -(id<PStickerMessageHandler>) stickerMessage;
 -(id<PSocialLoginHandler>) socialLogin;
 -(id<PHookHandler>) hook;
+-(id<PUsersHandler>) users;
 -(id) handlerWithName: (NSString *) name;
 
 -(void) setCore: (id<PCoreHandler>) core;
@@ -108,6 +112,7 @@
 -(void) setSocialLogin: (id<PSocialLoginHandler>) socialLogin;
 -(void) setHandler: (id) handler withName: (NSString *) name;
 -(void) setHookHandler: (id<PHookHandler>) hook;
+-(void) setUsers: (id<PUsersHandler>) users;
 
 @end
 

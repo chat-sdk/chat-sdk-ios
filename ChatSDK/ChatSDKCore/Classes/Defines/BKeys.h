@@ -106,6 +106,7 @@
 #define bUserPictureURLKey @"pictureURL"
 #define bUserPictureURLThumbnailKey @"pictureURLThumbnail"
 #define bUserPrivilegeKey @"privilege"
+#define bUID @"uid"
 
 
 #endif /* BKeys_h */
