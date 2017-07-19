@@ -305,6 +305,7 @@
     
     [ref updateChildValues:[self serialize] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
+            [BEntity pushUserMetaUpdated:self.model.entityID];
             
             // We only want to do this if we are logged in
             if (NM.auth.userAuthenticated) {
@@ -346,11 +347,6 @@
 
 -(RXPromise *) deserialize: (NSDictionary *) value {
     
-    NSString * uid = value[b_AuthenticationID];
-    if (uid) {
-        _model.entityID = uid;
-    }
-    
     NSNumber * online = value[b_Online];
     if (online) {
         _model.online = online;
@@ -360,10 +356,7 @@
 }
 
 -(NSDictionary *) serialize {
-
-    return @{b_AuthenticationID: self.entityID,
-             
-             b_Meta: _model.metaDictionary};
+    return @{b_Meta: _model.metaDictionary};
 }
 
 -(RXPromise *) deserializeMeta: (NSDictionary *) value {
@@ -431,8 +424,9 @@
     // Get the user's reference
     FIRDatabaseReference * userThreadsRef = [[FIRDatabaseReference userThreadsRef:_model.entityID]child:entityID];
 
-    [userThreadsRef setValue:@{bNullString: @""} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    [userThreadsRef setValue:@{b_InvitedBy: NM.currentUser} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
+            [BEntity pushUserThreadsUpdated:self.model.entityID];
             [promise resolveWithResult:self];
         }
         else {
@@ -451,6 +445,7 @@
     
     [userThreadsRef removeValueWithCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
+            [BEntity pushUserThreadsUpdated:self.model.entityID];
             [promise resolveWithResult:self];
         }
         else {

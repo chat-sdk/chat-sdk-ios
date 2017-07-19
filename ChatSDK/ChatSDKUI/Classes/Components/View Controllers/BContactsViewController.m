@@ -115,7 +115,6 @@
     UIAlertController * view = [UIAlertController alertControllerWithTitle:[NSBundle t:bSearch] message:Nil preferredStyle:UIAlertControllerStyleActionSheet];
     view.popoverPresentationController.barButtonItem = self.navigationItem.rightBarButtonItem;
     
-    
     UIAlertAction * nameSearch = [UIAlertAction actionWithTitle:[NSBundle t:bSearchWithName]
                                                           style:UIAlertActionStyleDefault
                                                         handler:^(UIAlertAction * action) {

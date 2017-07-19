@@ -11,6 +11,7 @@
 
 @class CDMessage;
 @class FIRDatabaseReference;
+@class FIRDataSnapshot;
 
 @interface CCMessageWrapper : BEntity <PMessageWrapper> {
     id<PMessage> _model;

@@ -469,6 +469,7 @@
     
     [ref updateChildValues:self.serialize withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
+            [BEntity pushThreadDetailsUpdated:self.model.entityID];
             [promise resolveWithResult:self.model];
         }
         else {
@@ -487,6 +488,7 @@
     // Add the user entities to the thread too
     [threadUsersRef setValue:@{bNullString: @""} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
+            [BEntity pushThreadUsersUpdated:self.model.entityID];
             [promise resolveWithResult:self];
         }
         else {
@@ -509,6 +511,7 @@
     // Add the user entities to the thread too
     [threadUsersRef removeValueWithCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
+            [BEntity pushThreadUsersUpdated:self.model.entityID];
             [promise resolveWithResult:self];
         }
         else {

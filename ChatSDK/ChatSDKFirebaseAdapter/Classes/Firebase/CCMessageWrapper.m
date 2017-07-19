@@ -179,7 +179,10 @@
 
 -(RXPromise *) send {
     if (_model.thread) {
-        return [self push];
+        return [self push].thenOnMain(^id(id success) {
+            [BEntity pushThreadMessagesUpdated:_model.thread.entityID];
+            return success;
+        }, Nil);
     }
     else {
         return [RXPromise rejectWithReason:Nil];

@@ -21,6 +21,7 @@
 #import <ChatSDKFirebaseAdapter/CCMessageWrapper.h>
 #import <ChatSDKFirebaseAdapter/BStateManager.h>
 #import <ChatSDKFirebaseAdapter/BFirebaseUsersHandler.h>
+#import <ChatSDKFirebaseAdapter/BEntity.h>
 
 #import <ChatSDKFirebaseAdapter/Firebase+Paths.h>
 

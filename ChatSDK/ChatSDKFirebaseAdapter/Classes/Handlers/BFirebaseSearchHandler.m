@@ -14,6 +14,35 @@
 @implementation BFirebaseSearchHandler
 
 -(RXPromise *) usersForIndex: (NSString *) index withValue: (NSString *) value limit: (int) limit userAdded: (void(^)(id<PUser> user)) userAdded {
+    RXPromise * promise = [RXPromise new];
+    
+    if(!index || !index.length || !value || !value.length) {
+        // TODO: Localise this
+        [promise rejectWithReason:[NSError errorWithDomain:@"" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Index or value is blank"}]];
+    }
+    else {
+        NSString * childPath = [NSString stringWithFormat:@"%@/%@", bMetaDataPath, index];
+        FIRDatabaseQuery * query = [[FIRDatabaseReference usersRef] queryOrderedByChild: childPath];
+        query = [query queryStartingAtValue:value];
+        query = [query queryLimitedToFirst:limit];
+        
+        [query observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+            if(snapshot.value != [NSNull null]) {
+                for(NSString * key in [snapshot.value allKeys]) {
+                    CCUserWrapper * wrapper = [CCUserWrapper userWithSnapshot:[snapshot childSnapshotForPath:key]];
+                    if(![wrapper.model isEqual:NM.currentUser]) {
+                        userAdded(wrapper.model);
+                    }
+                }
+            }
+            [promise resolveWithResult:Nil];
+        }];
+    }
+    
+    return promise;
+}
+
+-(RXPromise *) usersForIndex2: (NSString *) index withValue: (NSString *) value limit: (int) limit userAdded: (void(^)(id<PUser> user)) userAdded {
 
     RXPromise * promise = [RXPromise new];
 
@@ -130,6 +159,8 @@
     }, Nil);
 }
 
+// TODO: add the user index to user/index
+#pragma Depricated
 -(RXPromise *) updateIndexForUser: (id<PUser>) userModel {
     
     RXPromise * promise = [RXPromise new];

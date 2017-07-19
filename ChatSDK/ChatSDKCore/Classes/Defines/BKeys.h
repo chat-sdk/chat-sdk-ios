@@ -51,7 +51,6 @@
 //#define b_FontSize @"font-size"
 #define b_Name @"name"
 #define b_CreationDate @"creation-date"
-#define b_AuthenticationID @"authentication-id"
 #define b_NekStatus @"nek-status"
 #define b_Picture @"picture"
 #define b_PictureIsSilhouette @"picture-is-silhouette"
@@ -61,6 +60,7 @@
 #define b_Online @"online"
 #define b_Message @"message"
 #define b_Status @"status"
+#define b_InvitedBy @"invitedBy"
 
 
 // Paths
@@ -79,7 +79,7 @@
 //#define bImagePath @"image"
 #define bAudioPath @"audio"
 #define bVideoPath @"video"
-#define bStatePath @"state"
+#define bUpdatedPath @"updated"
 #define bReadPath @"read"
 #define bFlaggedKey @"flagged"
 #define bLocationPath @"location"
