@@ -206,12 +206,11 @@
 
 -(RXPromise *) setMessageFlagged: (id<PElmMessage>) message isFlagged: (BOOL) flagged {
     if (flagged) {
-        return [[BNetworkManager sharedManager].a.moderation flagMessage:message.entityID];
-    }
-    else {
         return [[BNetworkManager sharedManager].a.moderation unflagMessage:message.entityID];
     }
-    
+    else {
+        return [[BNetworkManager sharedManager].a.moderation flagMessage:message.entityID];
+    }
 }
 
 -(RXPromise *) setChatState: (bChatState) state {
