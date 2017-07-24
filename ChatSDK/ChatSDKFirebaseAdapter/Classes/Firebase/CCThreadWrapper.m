@@ -192,8 +192,6 @@
     }, Nil);
 }
 
-
-
 -(void) messagesOff {
     
     ((NSManagedObject *)_model).messagesOn = NO;

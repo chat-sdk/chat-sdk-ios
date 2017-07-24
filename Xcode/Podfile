@@ -26,8 +26,8 @@ target 'ChatSDK Demo' do
 
 #   pod "TwoFactorAuth", :path => "../../ChatSDK/TwoFactorAuth"
 
-#   pod "ChatSDKModules/StickerMessages", :path => "../../ChatSDK/ChatSDKModules"
-#   pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../../ChatSDK/ChatSDKModules"
+#   pod "ChatSDKModules/StickerMessages", :path => "../ChatSDKModules"
+#   pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"
 
 #   pod 'GoogleSignIn'
 #   pod 'TwitterKit'
