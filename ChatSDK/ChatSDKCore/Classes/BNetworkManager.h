@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDKCore/PMessage.h>
 
-@class CDUser;
 @protocol BNetworkFacade;
 
 @interface BNetworkManager : NSObject {

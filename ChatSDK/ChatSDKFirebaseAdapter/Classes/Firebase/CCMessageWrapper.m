@@ -59,21 +59,27 @@
 #pragma Network Methods
 
 -(RXPromise *) push {
-    RXPromise * promise = [RXPromise new];
     
-    // Add the message to Firebase
-    FIRDatabaseReference * ref = [self ref];
-    _model.entityID = ref.key;
+    RXPromise * promise = [RXPromise new];
 
-    [ref setValue:[self serialize] andPriority:[FIRServerValue timestamp] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
-        if (!error) {
-            [promise resolveWithResult:self];
-        }
-        else {
-            _model.entityID = Nil;
-            [promise rejectWithReason:error];
-        }
-    }];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+
+        // Add the message to Firebase
+        FIRDatabaseReference * ref = [self ref];
+        _model.entityID = ref.key;
+
+        [ref setValue:[self serialize] andPriority:[FIRServerValue timestamp] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+            if (!error) {
+                [promise resolveWithResult:self];
+            }
+            else {
+                _model.entityID = Nil;
+                [promise rejectWithReason:error];
+            }
+        }];
+        
+    });
+        
     return promise;
 }
 
@@ -90,7 +96,7 @@
     // Setup the initial read receipts
     NSMutableDictionary * readReceipts = [NSMutableDictionary new];
     for (id<PUser> user in self.model.thread.users) {
-        if (![user isEqual:[BNetworkManager sharedManager].a.core.currentUserModel]) {
+        if (![user isEqual:NM.currentUser]) {
             readReceipts[user.entityID] = @{b_Status: @(bMessageReadStatusNone)};
         }
     }
@@ -183,7 +189,7 @@
 -(RXPromise *) flag {
     RXPromise * promise = [RXPromise new];
     
-    NSDictionary * data = @{b_CreatorEntityID: [BNetworkManager sharedManager].a.core.currentUserModel.entityID,
+    NSDictionary * data = @{b_CreatorEntityID: NM.currentUser.entityID,
                             b_UserFirebaseID: _model.userModel.entityID,
                             b_Message: _model.textString,
                             b_Date: [FIRServerValue timestamp]};
@@ -218,7 +224,14 @@
 
 -(FIRDatabaseReference *) ref {
     if (_model.entityID) {
-        return [[FIRDatabaseReference threadMessagesRef:_model.thread.entityID] child: _model.entityID];
+        // Check to see if this message is a virtual message i.e. it's been threaded
+        // from a different thread
+        NSString * originalThreadID = [_model metaValueForKey:bMessageOriginalThreadEntityID];
+        if(!originalThreadID) {
+            originalThreadID = _model.thread.entityID;
+        }
+        
+        return [[FIRDatabaseReference threadMessagesRef:originalThreadID] child: _model.entityID];
     }
     else {
         return [[FIRDatabaseReference threadMessagesRef:_model.thread.entityID] childByAutoId];
@@ -228,8 +241,6 @@
 -(void) setDelivered: (NSNumber *) delivered {
     _model.delivered = delivered;
 }
-
-
 
 -(id<PMessage>) model {
     return _model;

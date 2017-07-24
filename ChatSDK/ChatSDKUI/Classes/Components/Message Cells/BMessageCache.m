@@ -75,10 +75,8 @@ static BMessageCache * cache;
         return _messageBubbleImages[imageIdentifier];
     }
     else {
-        
-        bubbleImageName = [NSBundle res: bubbleImageName];
 
-        UIImage * bubbleImage = [UIImage imageNamed:bubbleImageName];
+        UIImage * bubbleImage = [NSBundle chatUIImageNamed:bubbleImageName];
 
         if (isMine) {
             bubbleImage = [bubbleImage stretchableImageWithLeftCapWidth:bLeftCapRight topCapHeight:bTopCap];
@@ -103,13 +101,10 @@ static BMessageCache * cache;
     
 }
 
+// We want to cache any message apart from the last message because the
+// properties of the last message can still change
 -(BOOL) shouldCacheMessage: (id<PElmMessage>) message {
-    NSArray * messages = message.thread.messagesOrderedByDateAsc;
-    NSInteger index = [messages indexOfObject:message];
-    
-    // If the message isn't the last message, then it's type won't change
-    return index < messages.count - 1;
-
+    return ![message isEqual:message.thread.messagesOrderedByDateAsc.lastObject];
 }
 
 -(bMessagePosition) positionForMessage: (id<PElmMessage>) message {
@@ -173,7 +168,7 @@ static BMessageCache * cache;
 
 -(NSString *) currentUserEntityID {
     if(!_currentUserEntityID) {
-        _currentUserEntityID = [BNetworkManager sharedManager].a.core.currentUserModel.entityID;
+        _currentUserEntityID = NM.currentUser.entityID;
     }
     return _currentUserEntityID;
 }

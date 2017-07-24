@@ -13,18 +13,81 @@
 
 @implementation CDThread
 
+-(NSMutableArray *) messagesWorkingList {
+    if(!_messagesWorkingList) {
+        _messagesWorkingList = [NSMutableArray new];
+        [self resetMessages];
+    }
+    return _messagesWorkingList;
+}
+
+-(void) resetMessages {
+    [_messagesWorkingList removeAllObjects];
+    
+    NSArray * messages = [self orderMessagesByDateDesc:self.allMessages];
+
+    for(int i = 0; i < bMessageWorkingListInitialSize; i++) {
+        if(i < messages.count) {
+            [_messagesWorkingList addObject:messages[i]];
+        }
+    }
+}
+
+// Adds extra messages to the
+-(NSArray *) loadMoreMessages: (int) numberOfMessages {
+    
+    NSArray * allMessages = [self orderMessagesByDateAsc:self.allMessages];
+    
+    // The endIndex of the last message to add
+    NSInteger endIndex = allMessages.count - self.messagesWorkingList.count - 1;
+    
+    NSMutableArray * messages = [NSMutableArray new];
+    
+    // Loop backwards from the end index adding the messages to the working list
+    for(NSInteger i = endIndex; i > endIndex - numberOfMessages; i--) {
+        if(i >= 0) {
+            [messages addObject:allMessages[i]];
+        }
+    }
+    
+    [_messagesWorkingList addObjectsFromArray:messages];
+    
+    return messages;
+}
+
+-(NSArray *) allMessages {
+    return self.messages.allObjects;
+}
+
+-(void) addMessage: (id<PMessage>) message {
+    ((CDMessage *) message).thread = self;
+    if(![self.messagesWorkingList containsObject:message]) {
+        [self.messagesWorkingList addObject:message];
+    }
+}
+
 -(void) setDeleted:(NSNumber *)deleted_ {
     self.deleted_ = deleted_;
 }
 
--(NSArray *) messagesOrderedByDateAsc {
-    return [self.messages.allObjects sortedArrayUsingComparator:^(id<PMessage> m1, id<PMessage> m2) {
+-(NSArray *) orderMessagesByDateAsc: (NSArray *) messages {
+    return [messages sortedArrayUsingComparator:^(id<PMessage> m1, id<PMessage> m2) {
         return [m1.date compare:m2.date];
     }];
 }
 
+-(NSArray *) messagesOrderedByDateAsc {
+    return [self orderMessagesByDateAsc:_messagesWorkingList];
+}
+
 -(NSArray *) messagesOrderedByDateDesc {
-    return [self.messages.allObjects sortedArrayUsingComparator:^(id<PMessage> m1, id<PMessage> m2) {
+    return [_messagesWorkingList sortedArrayUsingComparator:^(id<PMessage> m1, id<PMessage> m2) {
+        return [m2.date compare:m1.date];
+    }];
+}
+
+-(NSArray *) orderMessagesByDateDesc: (NSArray *) messages {
+    return [messages sortedArrayUsingComparator:^(id<PMessage> m1, id<PMessage> m2) {
         return [m2.date compare:m1.date];
     }];
 }
@@ -38,7 +101,7 @@
 }
 
 -(NSString *) displayName {
-    if (self.type.intValue & bThreadTypePrivate) {
+    if (self.type.intValue & bThreadFilterPrivate) {
         
         if (self.name && self.name.length) {
             return self.name;
@@ -46,7 +109,7 @@
         
         return self.memberListString;
     }
-    if (self.type.intValue & bThreadTypePublic) {
+    if (self.type.intValue & bThreadFilterPublic) {
         return self.name;
     }
     return Nil;
@@ -56,7 +119,7 @@
     NSString * name = @"";
     
     for (id<PUser> user in self.users) {
-        if (![user isEqual:[BNetworkManager sharedManager].a.core.currentUserModel]) {
+        if (![user isEqual:NM.currentUser]) {
             if (user.name.length) {
                 name = [name stringByAppendingFormat:@"%@, ", user.name];
             }
@@ -107,7 +170,7 @@
 }
 
 -(id<PUser>) otherUser {
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
     if (self.type.intValue == bThreadType1to1 || self.users.count == 2) {
         for (id<PUser> user in self.users) {
             if (![user isEqual:currentUser]) {
@@ -118,12 +181,13 @@
     return Nil;
 }
 
+// TODO: Move this to UI module
 - (UIImage *)imageForThread {
     
     NSMutableArray * users = [NSMutableArray arrayWithArray:self.users.allObjects];
     
     // Remove the current user from the array
-    [users removeObject:[BNetworkManager sharedManager].a.core.currentUserModel];
+    [users removeObject:NM.currentUser];
     
     // Create a temporary array as we cannot loop through an array and remove users
     NSMutableArray * tempUsers = [NSMutableArray arrayWithArray:users];
@@ -141,7 +205,7 @@
     if (!users.count) {
         
         // Check how many users are in the conversation
-        if (self.type.intValue & bThreadTypePublic) {
+        if (self.type.intValue & bThreadFilterPublic) {
             return [NSBundle imageNamed:bDefaultPublicGroupImage framework:@"ChatSDKUI" bundle:@"ChatUI"];
         }
         else {

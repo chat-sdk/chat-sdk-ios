@@ -13,22 +13,22 @@
 @implementation BBaseContactHandler
 
 -(NSArray *) contacts {
-    return [[BNetworkManager sharedManager].a.core.currentUserModel connectionsWithType:bUserConnectionTypeContact];
+    return [NM.currentUser connectionsWithType:bUserConnectionTypeContact];
 }
 
 -(NSArray<PUser> *) contactsWithType: (bUserConnectionType) type {
-    return [[BNetworkManager sharedManager].a.core.currentUserModel contactsWithType: type];
+    return [NM.currentUser contactsWithType: type];
 }
 
 -(NSArray<PUserConnection> *) connectionsWithType: (bUserConnectionType) type {
-    return [[BNetworkManager sharedManager].a.core.currentUserModel connectionsWithType:type];
+    return [NM.currentUser connectionsWithType:type];
 }
 
 -(RXPromise *) addContact: (id<PUser>) contact withType: (bUserConnectionType) type {
     id<PUserConnection> connection = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:contact.entityID withType:bUserConnectionEntity];
     [connection setType:@(bUserConnectionTypeContact)];
     [connection setEntityID:contact.entityID];
-    [[BNetworkManager sharedManager].a.core.currentUserModel addConnection:connection];
+    [NM.currentUser addConnection:connection];
     return [RXPromise resolveWithResult:Nil];
 }
 
@@ -37,7 +37,7 @@
  */
 -(RXPromise *) deleteContact: (id<PUser>) user {
     // Clear down the old blocking list
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
     
     NSPredicate * predicate;
     if (user && user.entityID) {

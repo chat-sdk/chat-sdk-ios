@@ -6,9 +6,11 @@
 //  Copyright (c) 2013 deluge. All rights reserved.
 //
 
+@class RXPromise;
+
 @protocol BTextInputDelegate <NSObject>
 
--(void) sendTextMessage: (NSString *) message;
+-(RXPromise *) sendTextMessage: (NSString *) message;
 
 // Return whether we should mark the button as selected
 -(BOOL) showOptions;

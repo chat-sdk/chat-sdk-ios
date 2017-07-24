@@ -31,7 +31,7 @@
     
     if (self) {
         self.title = [NSBundle t:bContacts];
-        self.tabBarItem.image = [UIImage imageNamed: [NSBundle res: @"icn_30_contact.png"]];
+        self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_contact.png"];
         _contacts = [NSMutableArray new];
     }
     return self;
@@ -167,7 +167,7 @@
         for (id<PUser> user in users) {
             
             // Add observers to the user just added
-            [[BNetworkManager sharedManager].a.core observeUser:user.entityID];
+            [NM.core observeUser:user.entityID];
             [[BNetworkManager sharedManager].a.contact addContact:user withType:bUserConnectionTypeContact];
         }
     }
@@ -216,7 +216,7 @@
 
 -(void) reloadData {
     
-    NSArray<PUserConnection> * allContacts = [[BNetworkManager sharedManager].a.core.currentUserModel connectionsWithType:bUserConnectionTypeContact];
+    NSArray<PUserConnection> * allContacts = [NM.currentUser connectionsWithType:bUserConnectionTypeContact];
     
     [_contacts removeAllObjects];
     [_contacts addObjectsFromArray:allContacts];

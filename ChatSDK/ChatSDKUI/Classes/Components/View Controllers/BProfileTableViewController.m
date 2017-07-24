@@ -28,7 +28,7 @@
 -(id) initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         self.title = [NSBundle t:bProfile];
-        self.tabBarItem.image = [UIImage imageNamed: [NSBundle res: @"icn_30_profile.png"]];
+        self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_profile.png"];
     }
     return self;
 }
@@ -45,41 +45,34 @@
     // This stops the data from scrolling which we don't want
     self.tableView.alwaysBounceVertical = NO;
     
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
     
     if (!_user) {
         _user = currentUser;
     }
- 
-    
-    // Set the user's profile picture
-    UIImage * image = [UIImage imageWithData: _user.thumbnail];
-    [profilePictureButton setImage:image ? image : _user.defaultImage forState:UIControlStateNormal];
-        
-    // This function can only be called on the current user
-    [_user loadProfileImage:YES].thenOnMain(^id(UIImage * image) {
-        
-        // Only set the image if one is returned
-        if (image) {
-            image = [image resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
-            [profilePictureButton setImage:image forState:UIControlStateNormal];
-        }
-        
-        [self refreshUserProfilePicture];
-        
-        return image;
-    }, Nil);
-    
+}
+
+-(void) loadUserImage {
+    if(_user) {
+        UIImage * image = [UIImage imageWithData: _user.thumbnail];
+        image = image ? image : _user.defaultImage;
+
+        [profilePictureButton sd_setImageWithURL:[_user metaStringForKey:bUserPictureURLKey]
+                                        forState:UIControlStateNormal
+                                placeholderImage:image];
+    }
 }
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
     
     if (!_user) {
         _user = currentUser;
     }
+    
+    [self loadUserImage];
     
     _keyboardObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:Nil usingBlock:^(NSNotification * n) {
         [self updateUserAndIndexes];
@@ -113,44 +106,6 @@
     phoneNumberField.text = _user.phoneNumber;
     phoneNumberField.placeholder = [NSBundle t:bPhoneNumber];
     
-    // Set the profile picture
-    // Does the user already have a profile picture?
-    
-    // Test combining these two functions
-    // Use function thumbnail as image
-    // Use default image instead on anonymous
-    // Image as Image
-    
-//    if ([currentUser.entityID isEqualToString:_user.entityID]) {
-//        
-//        // This function can only be called on the current user
-//        [_user loadProfileImage:YES].thenOnMain(^id(UIImage * image) {
-//            
-//            image = [image resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
-//            
-//            if (refreshImage) {
-//                [profilePictureButton setImage:image forState:UIControlStateNormal];
-//            }
-//            
-//            refreshImage = YES;
-//            
-//            return image;
-//        }, Nil);
-//    }
-//    else {
-//
-//        UIImage * image = [UIImage imageWithData: _user.thumbnail];
-//        
-//        [profilePictureButton setImage:image ? image : _anonymousProfilePicture forState:UIControlStateNormal];
-//
-//        if (!_user.image) {
-//            [_user loadProfileImage:YES].thenOnMain(^id(id success){
-//                [profilePictureButton setImage:[UIImage imageWithData:_user.image] forState:UIControlStateNormal];
-//                return Nil;
-//            }, Nil);
-//        }
-//    }
-    
     // Make sure we always have an image set just in case
     [self refreshUserProfilePicture];
     
@@ -178,7 +133,7 @@
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.label.text = [NSBundle t:bCreatingThread];
     
-    [[BNetworkManager sharedManager].a.core createThreadWithUsers:@[_user] threadCreated:^(NSError * error, id<PThread> thread) {
+    [NM.core createThreadWithUsers:@[_user] threadCreated:^(NSError * error, id<PThread> thread) {
         if (!error) {
             [self pushChatViewControllerWithThread:thread];
         }
@@ -197,7 +152,7 @@
 }
 
 -(UIImage *) profilePicture {
-    id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> user = NM.currentUser;
     return user.image ? [UIImage imageWithData:user.image] : Nil;
 }
 
@@ -235,7 +190,7 @@
 -(void) updateUserAndIndexes {
     
     // Add the user to the index
-    id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> user = NM.currentUser;
     
     if (user && user.entityID && [_user.entityID isEqualToString:user.entityID]) {
         
@@ -251,13 +206,13 @@
         
         user.phoneNumber = phoneNumberField.text;
         
-        [[BNetworkManager sharedManager].a.search updateIndexForUser:user].thenOnMain(Nil, ^id(NSError * error) {
+        [NM.search updateIndexForUser:user].thenOnMain(Nil, ^id(NSError * error) {
             [UIView alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
             return error;
         });
         
         // Update the user
-        [[BNetworkManager sharedManager].a.core pushUser];
+        [NM.core pushUser];
     }
 }
 // End bug fix for v3.0.2
@@ -308,19 +263,19 @@
     [profilePictureButton setImage:image forState:UIControlStateNormal];
     
     // Update the user
-    id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> user = NM.currentUser;
     [user setImage:UIImagePNGRepresentation(image)];
     [user setThumbnail:UIImagePNGRepresentation(thumbnail)];
     
     // Set the image now
-    [[BNetworkManager sharedManager].a.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
+    [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
     
         // Set the meta data
         [user setMetaString:urls[bImagePath] forKey:bUserPictureURLKey];
         [user setMetaString:urls[bThumbnailPath] forKey:bUserPictureURLThumbnailKey];
     
         // Update the user
-        [[BNetworkManager sharedManager].a.core pushUser];
+        [NM.core pushUser];
     
         return urls;
     }, Nil);
@@ -362,7 +317,7 @@
 -(void) logout {
     // This will prevent the app from trying to
     _didLogout = YES;
-    [[BNetworkManager sharedManager].a.auth logout].thenOnMain(^id(id success) {
+    [NM.auth logout].thenOnMain(^id(id success) {
         
         // Clear fields
         nameField.text = @"";

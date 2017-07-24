@@ -1,7 +1,7 @@
 ## Installation
 
 + Download and unzip the module
-+ Add the folder `TypingIndicator` to `ChatSDK/ChatSDKFirebase`
++ Add the folder `TypingIndicator` to `ChatSDKFirebase`
 + Add the pod to the `Podfile`
 ```
     pod "ChatSDKFirebase/TypingIndicator", :path => "../ChatSDKFirebase"

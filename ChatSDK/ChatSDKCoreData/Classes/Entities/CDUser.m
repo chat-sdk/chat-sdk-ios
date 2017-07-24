@@ -106,7 +106,7 @@
     }
 }
 
--(RXPromise *) loadProfileImage: (BOOL) force {
+-(RXPromise *) loadProfileImage: (BOOL) force __attribute__((deprecated)) {
     
     if (!self.image || force) {
         
@@ -161,8 +161,8 @@
     // Get all the threads
     int i = 0;
     for (id<PThread> thread in self.threads) {
-        if (thread.type.intValue & bThreadTypePrivate) {
-            for (id<PMessage> message in thread.messages) {
+        if (thread.type.intValue & bThreadFilterPrivate) {
+            for (id<PMessage> message in thread.allMessages) {
                 if (!message.read.boolValue) {
                     i++;
                 }
@@ -224,9 +224,17 @@
     }
 }
 
+-(NSString *) imageURL {
+    return [self metaStringForKey:bUserPictureURLKey];
+}
+
 // TODO: Remove UI dependency on CoreData
 -(UIImage *) defaultImage {
     return [NSBundle imageNamed:bDefaultProfileImage framework:@"ChatSDKUI" bundle:@"ChatUI"];
+}
+
+-(BOOL) isMe {
+    return [self isEqual:NM.currentUser];
 }
 
 @end

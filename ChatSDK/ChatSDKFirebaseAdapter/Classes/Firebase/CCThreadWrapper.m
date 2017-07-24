@@ -13,7 +13,7 @@
 #import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
 #import <ChatSDKCore/ChatCore.h>
 
-#define bMessageDownloadLimit 500
+#define bMessageDownloadLimit 50
 
 // How old does a message have to be before we stop adding the
 // read receipt listener
@@ -63,8 +63,8 @@
             [self deserialize:snapshot.value];
             [promise resolveWithResult:self];
             
-            if([BNetworkManager sharedManager].a.readReceipt) {
-                [[BNetworkManager sharedManager].a.readReceipt updateReadReceiptsForThread:self.model];
+            if(NM.readReceipt) {
+                [NM.readReceipt updateReadReceiptsForThread:self.model];
             }
 
         }
@@ -73,8 +73,8 @@
         }
     }];
     
-    if([BNetworkManager sharedManager].a.typingIndicator) {
-        [[BNetworkManager sharedManager].a.typingIndicator typingOn: self.model];
+    if(NM.typingIndicator) {
+        [NM.typingIndicator typingOn: self.model];
     }
     
     return promise;
@@ -90,16 +90,16 @@
     [self messagesOff];
     [self usersOff];
     
-    if([BNetworkManager sharedManager].a.typingIndicator) {
-        [[BNetworkManager sharedManager].a.typingIndicator typingOff: self.model];
+    if(NM.typingIndicator) {
+        [NM.typingIndicator typingOff: self.model];
     }
 }
 
 // TODO: Remove promise maybe
 -(RXPromise *) messagesOn {
     
-    if([BNetworkManager sharedManager].a.readReceipt) {
-        [[BNetworkManager sharedManager].a.readReceipt updateReadReceiptsForThread:self.model];
+    if(NM.readReceipt) {
+        [NM.readReceipt updateReadReceiptsForThread:self.model];
     }
     
     RXPromise * promise = [RXPromise new];
@@ -144,43 +144,48 @@
         
         // Limit to 500 messages just to be safe - on a busy public thread we wouldn't want to
         // download 50k messages!
-        query = [query queryLimitedToFirst:bMessageDownloadLimit];
+        query = [query queryLimitedToLast:bMessageDownloadLimit];
         
-        [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
-            
-            if (![snapshot.value isEqual: [NSNull null]]) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
                 
-                [_model setDeleted: @NO];
-                
-                // This gets the message if it exists and then updates it from the snapshot
-                CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:snapshot];
-                BOOL newMessage = message.model.delivered.boolValue == NO;
-                
-                // Is this a new message?
-                // When a message arrives we add it to the database
-                //newMessage = [[BStorageManager sharedManager].a fetchEntityWithID:snapshot.key withType:bMessageEntity] == Nil;
-                
-                // Mark the message as delivered
-                message.model.delivered = @YES;
-                
-                // Add the message to this thread;
-                message.model.thread = self.model;
-                
-                if (newMessage) {
-                    // TODO: Maybe change here
-                    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded object:Nil userInfo:@{bNotificationMessageAddedKeyMessage: message.model}];
-                    NSLog(@"Message: %@, %@", message.model.textString, message.model.date);
+                if (![snapshot.value isEqual: [NSNull null]]) {
                     
-                    if([BNetworkManager sharedManager].a.readReceipt) {
-                        [[BNetworkManager sharedManager].a.readReceipt updateReadReceiptsForThread:self.model];
+                    [_model setDeleted: @NO];
+                    
+                    // This gets the message if it exists and then updates it from the snapshot
+                    CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:snapshot];
+                    BOOL newMessage = message.model.delivered.boolValue == NO;
+                    
+                    // Is this a new message?
+                    // When a message arrives we add it to the database
+                    //newMessage = [[BStorageManager sharedManager].a fetchEntityWithID:snapshot.key withType:bMessageEntity] == Nil;
+                    
+                    // Mark the message as delivered
+                    message.model.delivered = @YES;
+                    
+                    // Add the message to this thread;
+                    [self.model addMessage:message.model];
+                    
+                    if (newMessage) {
+                        // TODO: Maybe change here
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded object:Nil userInfo:@{bNotificationMessageAddedKeyMessage: message.model}];
+                            NSLog(@"Message: %@, %@", message.model.textString, message.model.date);
+                            
+                            if(NM.readReceipt) {
+                                [NM.readReceipt updateReadReceiptsForThread:self.model];
+                            }
+                        });
                     }
+                    [promise resolveWithResult:self];
                 }
-                [promise resolveWithResult:self];
-            }
-            else {
-                [promise rejectWithReason:Nil];
-            }
-        }];
+                else {
+                    [promise rejectWithReason:Nil];
+                }
+            }];
+        });
         
         return promise;
         
@@ -241,7 +246,7 @@
    
     RXPromise * promise = [RXPromise new];
     
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
 
     FIRDatabaseReference * currentThreadUser = [[FIRDatabaseReference threadUsersRef:self.entityID] child:currentUser.entityID];
 
@@ -266,18 +271,18 @@
     [_model setDeleted: @YES];
     
     // Delete all messages
-    for(id<PMessage> m in _model.messages) {
+    for(id<PMessage> m in _model.allMessages) {
         [[BStorageManager sharedManager].a deleteEntity:m];
     }
     
     [[BStorageManager sharedManager].a endUndoGroup];
     
-    id<PUser> currentUser = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> currentUser = NM.currentUser;
     FIRDatabaseReference * currentThreadUser = [[FIRDatabaseReference threadUsersRef:self.entityID] child:currentUser.entityID];
     
     // If this is a private thread with only two users
     // TODO: Consider deleting it for groups and only doing this for 1to1
-    if (_model.type.intValue & bThreadTypePrivate && _model.users.allObjects.count == 2) {
+    if (_model.type.intValue & bThreadFilterPrivate && _model.users.allObjects.count == 2) {
         // Rather than delete the thread we just set the status as deleted
         [currentThreadUser setValue:@{bNameKey: currentUser.name, bDeletedKey: [FIRServerValue timestamp]}
                 withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
@@ -318,51 +323,62 @@
 
 -(RXPromise *) loadMoreMessages: (int) numberOfMessages {
     
+    NSArray * messages = [_model loadMoreMessages:numberOfMessages];
+    
+    // All the messages could be loaded from memory
+    if(messages.count == numberOfMessages) {
+        return [RXPromise resolveWithResult:messages];
+    }
+    
     RXPromise * promise = [RXPromise new];
-    
-    // Get the earliest message from the database
-    id<PMessage> earliestMessage = _model.messagesOrderedByDateAsc.firstObject;
-    NSDate * endDate = Nil;
-    
-    // If we have a message in the database then we use the earliest
-    // message's date
-    if (earliestMessage) {
-        endDate = earliestMessage.date;
-    }
-    // Otherwise we use todays date
-    else {
-        endDate = [NSDate date];
-    }
-    
-    FIRDatabaseReference * messagesRef = [[FIRDatabaseReference threadRef:self.entityID] child:bMessagesPath];
-    
-    // Convert the end date to a Firebase timestamp
-    FIRDatabaseQuery * query = [[messagesRef queryOrderedByPriority] queryEndingAtValue:[BFirebaseCoreHandler dateToTimestamp:endDate]];
-    
-    // We add one becase we'll also be returning the last message again
-    query = [query queryLimitedToLast:numberOfMessages + 1];
-    
-    [query observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
-        if (![snapshot.value isEqual: [NSNull null]]) {
-            
-            NSMutableArray * msgs = [NSMutableArray new];
-            NSDictionary * messages = snapshot.value;
-            // We'll have an array of messages
-            for (NSString * key in messages.allKeys) {
-                // Create the messages with the sub-snapshot
-                CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:[snapshot childSnapshotForPath:key]];
-                // Associate the messages with the thread
-                message.model.thread = self.model;
-                [msgs addObject:message];
-            }
-            [promise resolveWithResult:msgs];
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        // Get the earliest message from the database
+        id<PMessage> earliestMessage = _model.messagesOrderedByDateAsc.firstObject;
+        NSDate * endDate = Nil;
+        
+        // If we have a message in the database then we use the earliest
+        // message's date
+        if (earliestMessage) {
+            endDate = earliestMessage.date;
         }
+        // Otherwise we use todays date
         else {
-            [promise rejectWithReason:Nil];
+            endDate = [NSDate date];
         }
         
-    }];
-    
+        FIRDatabaseReference * messagesRef = [[FIRDatabaseReference threadRef:self.entityID] child:bMessagesPath];
+        
+        // Convert the end date to a Firebase timestamp
+        FIRDatabaseQuery * query = [[messagesRef queryOrderedByPriority] queryEndingAtValue:[BFirebaseCoreHandler dateToTimestamp:endDate]];
+        
+        // We add one becase we'll also be returning the last message again
+        query = [query queryLimitedToLast:numberOfMessages + 1];
+        
+        [query observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+            if (![snapshot.value isEqual: [NSNull null]]) {
+                
+                NSMutableArray * msgs = [NSMutableArray new];
+                NSDictionary * messages = snapshot.value;
+                // We'll have an array of messages
+                for (NSString * key in messages.allKeys) {
+                    // Create the messages with the sub-snapshot
+                    CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:[snapshot childSnapshotForPath:key]];
+                    // Associate the messages with the thread
+                    [self.model addMessage:message.model];
+                    
+                    [msgs addObject:message];
+                }
+                [promise resolveWithResult:msgs];
+            }
+            else {
+                [promise rejectWithReason:Nil];
+            }
+            
+        }];
+        
+    });
     return promise;
 }
 
@@ -379,7 +395,7 @@
 -(NSDictionary *) serialize {
     return @{bDetailsPath: @{b_CreationDate: [FIRServerValue timestamp],
                              b_Name: _model.name ? _model.name : @"",
-                             b_Type: _model.type.integerValue & bThreadTypePrivate ? @(bThreadTypePrivateV3) : @(bThreadTypePublicV3),
+                             b_Type: _model.type.integerValue & bThreadFilterPrivate ? @(bThreadTypePrivateV3) : @(bThreadTypePublicV3),
                              b_TypeV4: _model.type,
                              b_LastMessageAdded: [BFirebaseCoreHandler dateToTimestamp:_model.lastMessageAdded],
                              b_CreatorEntityID: _model.creator.entityID}};
@@ -400,6 +416,21 @@
     }
     else if (type) {
         _model.type = type.intValue == bThreadTypePrivateV3 ? @(bThreadTypePrivateGroup) : @(bThreadTypePublicGroup);
+    }
+    
+    NSString * creatorEntityID = value[b_CreatorEntityID];
+    if(creatorEntityID) {
+        _model.creator = [[BStorageManager sharedManager].a fetchEntityWithID:creatorEntityID withType:bUserEntity];
+        if(!_model.creator) {
+            id<PUser> user = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:creatorEntityID withType:bUserEntity];
+            [[CCUserWrapper userWithModel:user] once].thenOnMain(^id(id success) {
+                _model.creator = user;
+                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated
+                                                                    object:Nil
+                                                                  userInfo:@{bNotificationMessageUpdatedKeyMessage: self.model}];
+                return success;
+            }, Nil);
+        }
     }
     
     NSString * name = value[b_Name];
@@ -453,7 +484,7 @@
     }];
     
 //    // When we disconnect, we leave all our public threads
-    if (_model.type.intValue & bThreadTypePublic) {
+    if (_model.type.intValue & bThreadFilterPublic) {
         [threadUsersRef onDisconnectRemoveValue];
     }
     
@@ -481,7 +512,7 @@
     return [self removeUserWithEntityID:user.entityID].thenOnMain(^id(id success)
     {
         // We only add the thread to the user if it's a private thread
-        if (_model.type.intValue & bThreadTypePrivate) {
+        if (_model.type.intValue & bThreadFilterPrivate) {
             return [user removeThreadWithEntityID:self.entityID];
         }
         else {
@@ -495,7 +526,7 @@
     return [self addUserWithEntityID:user.entityID].thenOnMain(^id(id success)
     {
         // We only add the thread to the user if it's a private thread
-        if (_model.type.intValue & bThreadTypePrivate) {
+        if (_model.type.intValue & bThreadFilterPrivate) {
             return [user addThreadWithEntityID:self.entityID];
         }
         else {
@@ -521,7 +552,7 @@
 
 -(RXPromise *) once {
     
-    NSString * token = [BNetworkManager sharedManager].a.auth.loginInfo[bTokenKey];
+    NSString * token = NM.auth.loginInfo[bTokenKey];
     FIRDatabaseReference * ref = [FIRDatabaseReference threadRef:self.entityID];
     
     return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {

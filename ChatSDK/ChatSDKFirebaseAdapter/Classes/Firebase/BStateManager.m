@@ -15,13 +15,17 @@
 
 +(void) userOn: (NSString *) entityID {
     
+    id<PUser> user = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bUserEntity];
+    
+    NSDictionary * data = @{bHookUserOn_PUser_User: user};
+    [NM.hook executeHookWithName:bHookUserOn data:data];
+    
     FIRDatabaseReference * threadsRef = [FIRDatabaseReference userThreadsRef:entityID];
     [threadsRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
         // Returns threads one by one
         if (snapshot.value != [NSNull null]) {
             // Make the new thread
             CCThreadWrapper * thread = [CCThreadWrapper threadWithEntityID:snapshot.key];
-            id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
             if (![thread.model.users containsObject:user]) {
                 [thread.model addUser:user];
             }
@@ -40,7 +44,7 @@
             [thread off];
             [thread messagesOff]; // We need to turn the messages off incase we rejoin the thread
             
-            [[BNetworkManager sharedManager].a.core deleteThread:thread.model];
+            [NM.core deleteThread:thread.model];
         }
     }];
     
@@ -49,7 +53,6 @@
         if (snapshot.value != [NSNull null]) {
             // Make the new thread
             CCThreadWrapper * thread = [CCThreadWrapper threadWithEntityID:snapshot.key];
-            id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
             
             // Make sure that we're not in the thread
             // there's an edge case where the user could kill the app and remain
@@ -64,10 +67,8 @@
         }
     }];
     
-    id<PUser> user = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bUserEntity];
-    
-    if ([BNetworkManager sharedManager].a.push && [[BNetworkManager sharedManager].a.push respondsToSelector:@selector(subscribeToPushChannel:)]) {
-        [[BNetworkManager sharedManager].a.push subscribeToPushChannel:user.pushChannel];
+    if (NM.push && [NM.push respondsToSelector:@selector(subscribeToPushChannel:)]) {
+        [NM.push subscribeToPushChannel:user.pushChannel];
     }
     
     for (id<PUserConnection> contact in [user connectionsWithType:bUserConnectionTypeContact]) {
@@ -95,7 +96,7 @@
         }
     }
     
-    for (id<PThread> threadModel in [[BNetworkManager sharedManager].a.core threadsWithType:bThreadTypePublicGroup]) {
+    for (id<PThread> threadModel in [NM.core threadsWithType:bThreadTypePublicGroup]) {
         CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
         [thread off];
     }
@@ -107,8 +108,8 @@
         [[CCUserWrapper userWithModel:contactModel] onlineOff];
     }
 
-    if ([BNetworkManager sharedManager].a.push && [[BNetworkManager sharedManager].a.push respondsToSelector:@selector(unsubscribeToPushChannel:)]) {
-        [[BNetworkManager sharedManager].a.push unsubscribeToPushChannel:user.pushChannel];
+    if (NM.push && [NM.push respondsToSelector:@selector(unsubscribeToPushChannel:)]) {
+        [NM.push unsubscribeToPushChannel:user.pushChannel];
     }
 }
 

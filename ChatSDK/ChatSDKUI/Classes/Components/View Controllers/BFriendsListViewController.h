@@ -16,10 +16,17 @@
 @protocol  PThread;
 @protocol PUser;
 
+@protocol BFriendsListDataSource <NSObject>
+
+-(NSArray *) contacts;
+
+@end
+
 @interface BFriendsListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, VENTokenFieldDelegate, VENTokenFieldDataSource, UITextFieldDelegate> {
     NSMutableArray * _contacts;
     NSMutableArray * _selectedContacts;
     NSMutableArray * _contactsToExclude;
+    
     NSString * _filterByName;
     id _internetConnectionObserver;
 }
@@ -27,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, readwrite, copy) void (^usersToInvite)(NSArray * users, NSString * groupName);
 @property (nonatomic, readwrite) NSString * rightBarButtonActionTitle;
+@property (nonatomic, readwrite) NSArray * (^overrideContacts)();
 
 @property (weak, nonatomic) IBOutlet VENTokenField * _tokenField;
 @property (strong, nonatomic) NSMutableArray * names;
@@ -37,5 +45,8 @@
 @property (nonatomic, readwrite) int maximumSelectedUsers;
 
 - (id)initWithUsersToExclude: (NSArray<PUser> *) users;
+
+-(void) setUsersToExclude: (NSArray *) users;
+-(void) setSelectedUsers: (NSArray *) users;
 
 @end

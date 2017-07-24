@@ -30,5 +30,6 @@
 @property (nonatomic, readwrite) id<PReadReceiptHandler> readReceipt;
 @property (nonatomic, readwrite) id<PStickerMessageHandler> stickerMessage;
 @property (nonatomic, readwrite) id<PSocialLoginHandler> socialLogin;
+@property (nonatomic, readwrite) id<PHookHandler> hook;
 
 @end

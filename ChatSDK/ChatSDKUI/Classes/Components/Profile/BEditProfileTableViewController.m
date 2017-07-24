@@ -62,7 +62,7 @@
 //    }];
     
     // Update the user's details
-    id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> user = NM.currentUser;
 
     // Load the user's information
     statusTextView.text = [user metaStringForKey:bDescription];
@@ -136,7 +136,7 @@
     
     // This will prevent the app from trying to
     _didLogout = YES;
-    [[BNetworkManager sharedManager].a.auth logout];
+    [NM.auth logout];
     
     // Clear fields
     nameTextField.text = @"";
@@ -154,7 +154,7 @@
 -(void) updateUserAndIndexes {
     
     // Add the user to the index
-    id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
+    id<PUser> user = NM.currentUser;
     
     // Get the user's starting meta
     NSDictionary * oldMeta = user.model.metaDictionary;
@@ -180,7 +180,7 @@
     }
     
     if (pushRequired) {
-        [[BNetworkManager sharedManager].a.core pushUser];
+        [NM.core pushUser];
     }
     
 

@@ -17,6 +17,7 @@
 //#define bUserCreatedError @"bUserCreatedError"
 #define bContacts @"bContacts"
 #define bConversations @"bConversations"
+#define bBroadcast @"bBroadcast"
 #define bThread @"bThread"
 #define bChatRooms @"bChatRooms"
 #define bThreadCreationError @"bThreadCreationError"
@@ -29,6 +30,7 @@
 #define bCreateGroup @"bCreateGroup"
 
 #define bLoadingFriends @"bLoadingFriends"
+#define bLoading @"bLoading"
 #define bErrorLoadingFriends @"bErrorLoadingFriends"
 
 #define bInvalidSelection @"bInvalidSelection"
@@ -138,6 +140,7 @@
 #define bChooseVideo @"bChooseVideo"
 #define bSticker @"bSticker"
 #define bRefreshingUsers @"bRefreshingUsers"
+#define bMessageBurst @"bMessageBurst"
 
 #define bSelectYourSearch @"bSelectYourSearch"
 #define bPhonebook @"bPhonebook"
@@ -156,7 +159,8 @@
 
 +(NSBundle *) chatUIBundle;
 +(NSString *) t: (NSString *) string;
-+(NSString *) res: (NSString *) name;
+//+(NSString *) res: (NSString *) name;
 +(UIImage *) chatUIImageNamed: (NSString *) name;
++(NSString *) chatUIFilePath: (NSString *) name;
 
 @end

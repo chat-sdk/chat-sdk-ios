@@ -56,7 +56,7 @@
     // Sets the back button for the thread views as back meaning we have more space for the title
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    [tableView registerNib:[UINib nibWithNibName:[NSBundle res: @"BThreadCell"] bundle:[NSBundle mainBundle]] forCellReuseIdentifier:bCellIdentifier];
+    [tableView registerNib:[UINib nibWithNibName:@"BThreadCell" bundle:[NSBundle chatUIBundle]] forCellReuseIdentifier:bCellIdentifier];
     
     [self addObservers];
 }
@@ -70,8 +70,8 @@
         // This makes the phone vibrate when we get a new message
         
         // Only vibrate if a message is received from a private thread
-        if (messageModel.thread.type.intValue & bThreadTypePrivate) {
-            if (![messageModel.userModel isEqual:[BNetworkManager sharedManager].a.core.currentUserModel]) {
+        if (messageModel.thread.type.intValue & bThreadFilterPrivate) {
+            if (![messageModel.userModel isEqual:NM.currentUser]) {
                 AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
             }
         }
@@ -154,7 +154,7 @@
     
     id<PMessage> message = Nil;
     
-    if (thread.messages.count) {
+    if (thread.allMessages.count) {
         // Get the last message
         message = [thread messagesOrderedByDateDesc].firstObject;
         
@@ -234,7 +234,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete )
     {
         id<PThread> thread = _threads[indexPath.row];
-        [[BNetworkManager sharedManager].a.core deleteThread:thread];
+        [NM.core deleteThread:thread];
         [self reloadData];
     }
 }

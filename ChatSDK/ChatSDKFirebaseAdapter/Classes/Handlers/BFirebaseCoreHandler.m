@@ -20,7 +20,7 @@
 }
 
 -(id<PUser>) currentUserModel {
-    NSString * currentUserID = [BNetworkManager sharedManager].a.auth.currentUserEntityID;
+    NSString * currentUserID = NM.auth.currentUserEntityID;
     
     return [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
                                                              withType:bUserEntity];
@@ -52,7 +52,22 @@
     [[CCUserWrapper userWithModel:contactModel] onlineOn];
 }
 
+-(NSArray *) threadsWithUsers: (NSArray *) users type: (bThreadType) type {
+    NSMutableArray * threads = [NSMutableArray new];
+    
+    NSSet * usersSet = [NSSet setWithArray:users];
+    
+    for (id<PThread> thread in [NM.core threadsWithType:type]) {
+        if([usersSet isEqual:thread.users]) {
+            [threads addObject:thread];
+        }
+    }
+    
+    return threads;
+}
+
 -(RXPromise *) createThreadWithUsers: (NSArray *) users name: (NSString *) name threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+    
     id<PUser> currentUser = self.currentUserModel;
     
     NSMutableArray * usersToAdd = [NSMutableArray arrayWithArray:users];
@@ -76,7 +91,7 @@
         
         // Check to see if a thread already exists with these
         // two users
-        for (id<PThread> thread in [[BNetworkManager sharedManager].a.core threadsWithType:bThreadType1to1]) {
+        for (id<PThread> thread in [NM.core threadsWithType:bThreadType1to1 includeDeleted:YES includeEmpty:YES]) {
             if (thread.users.count == 2 && [thread.users containsObject:currentUser] && [thread.users containsObject:otherUser]) {
                 jointThread = thread;
                 break;
@@ -183,7 +198,7 @@
     
     // Create the new CCMessage wrapper
     return [[CCMessageWrapper messageWithModel:messageModel] send].thenOnMain(^id(id success) {
-        [[BNetworkManager sharedManager].a.push pushForMessage:messageModel];
+        [NM.push pushForMessage:messageModel];
         return success;
     }, Nil);
     

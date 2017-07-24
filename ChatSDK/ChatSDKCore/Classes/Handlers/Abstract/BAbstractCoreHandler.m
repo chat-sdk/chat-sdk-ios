@@ -28,10 +28,13 @@
     [[BStorageManager sharedManager].a beginUndoGroup];
     
     id<PMessage> message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
-    
+
+    id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+    [thread addMessage: message];
+
     message.type = @(bMessageTypeText);
     [message setTextAsDictionary:@{bMessageTextKey: text}];
-    message.thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+
     message.date = [NSDate date];
     message.userModel = self.currentUserModel;
     message.delivered = @NO;
@@ -63,28 +66,25 @@
 }
 
 -(NSArray *) threadsWithType:(bThreadType)type {
+    return [self threadsWithType:type includeDeleted:NO includeEmpty:NO];
+}
+
+-(NSArray *) threadsWithType:(bThreadType)type includeDeleted: (BOOL) includeDeleted includeEmpty: (BOOL) includeEmpty {
     
     NSMutableArray * threads = [NSMutableArray new];
+    NSArray * allThreads = type & bThreadFilterPrivate ? NM.currentUser.threads : [[BStorageManager sharedManager].a fetchEntitiesWithName:bThreadEntity];
     
-    id<PUser> currentUser = self.currentUserModel;
-    if (!currentUser) {
-        return @[];
-    }
-    
-    if (type & bThreadTypePrivate) {
-        for(id<PThread> thread in currentUser.threads) {
-            if(thread.type.intValue == type && !thread.deleted_.boolValue) {
+    for(id<PThread> thread in allThreads) {
+        if(thread.type.intValue & bThreadFilterPrivate) {
+            if(thread.type.intValue & type  && (!thread.deleted_.boolValue || includeDeleted) && (thread.allMessages.count || includeEmpty)) {
                 [threads addObject:thread];
             }
         }
-    }
-    else {
-        // TODO:
-        // Only return threads with the correct root path and API key
-        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"type = %i", type];
-        
-        [threads addObjectsFromArray:[[BStorageManager sharedManager].a fetchEntitiesWithName:bThreadEntity
-                                                                                withPredicate:predicate]];
+        else if (thread.type.intValue & bThreadFilterPublic) {
+            if(thread.type.intValue & type) {
+                [threads addObject:thread];
+            }
+        }
     }
     
     [threads sortUsingComparator:^(id<PThread> t1, id<PThread> t2) {
@@ -113,7 +113,9 @@
     [message setTextAsDictionary:@{bMessageTypeKey: @(type),
                                    bMessageTextKey: text}];
     
-    message.thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+    id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+    [thread addMessage: message];
+
     message.date = [NSDate date];
     message.userModel = self.currentUserModel;
     message.delivered = @YES;
@@ -170,8 +172,8 @@
  * @brief Disconnect from the server
  */
 -(void) goOnline {
-    if([BNetworkManager sharedManager].a.lastOnline && [[BNetworkManager sharedManager].a.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
-        [[BNetworkManager sharedManager].a.lastOnline setLastOnlineForUser:self.currentUserModel];
+    if(NM.lastOnline && [NM.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
+        [NM.lastOnline setLastOnlineForUser:self.currentUserModel];
     }
 }
 

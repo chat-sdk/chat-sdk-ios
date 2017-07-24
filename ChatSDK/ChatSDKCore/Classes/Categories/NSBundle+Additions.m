@@ -16,8 +16,12 @@
 }
 
 +(NSBundle *) bundleWithFramework: (NSString *) framework name: (NSString *) name {
-    NSString * path = [NSString stringWithFormat:@"Frameworks/%@.framework/%@", framework, name];
+    NSString * path = [self filePathWithFramework:framework name:name];
     return [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:path ofType:@"bundle"]];
+}
+
++(NSString *) filePathWithFramework: (NSString *) framework name: (NSString *) name {
+    return [NSString stringWithFormat:@"Frameworks/%@.framework/%@", framework, name];
 }
 
 @end

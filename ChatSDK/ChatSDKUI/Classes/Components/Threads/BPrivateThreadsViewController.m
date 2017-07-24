@@ -22,7 +22,7 @@
     self = [super initWithNibName:Nil bundle:[NSBundle chatUIBundle]];
     if (self) {
         self.title = [NSBundle t:bConversations];
-        self.tabBarItem.image = [UIImage imageNamed: [NSBundle res: @"icn_30_chat.png"]];
+        self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_chat.png"];
 
     }
     return self;
@@ -64,7 +64,7 @@
         hud.label.text = [NSBundle t:bCreatingThread];
         
         // Create group with group name
-        [[BNetworkManager sharedManager].a.core createThreadWithUsers:users name:groupName threadCreated:^(NSError *error, id<PThread> thread) {
+        [NM.core createThreadWithUsers:users name:groupName threadCreated:^(NSError *error, id<PThread> thread) {
             if (!error) {
                 [self pushChatViewControllerWithThread:thread];
             }
@@ -107,8 +107,7 @@
 
 -(void) reloadData {
     [_threads removeAllObjects];
-    [_threads addObjectsFromArray:[[BNetworkManager sharedManager].a.core threadsWithType:bThreadTypePrivateGroup]];
-    [_threads addObjectsFromArray:[[BNetworkManager sharedManager].a.core threadsWithType:bThreadType1to1]];
+    [_threads addObjectsFromArray:[NM.core threadsWithType:bThreadFilterPrivateThread]];
     [super reloadData];
 }
 

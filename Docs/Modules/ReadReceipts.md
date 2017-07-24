@@ -1,7 +1,7 @@
 ## Installation
 
 + Download and unzip the module
-+ Add the folder `ReadReceipts` to `ChatSDK/ChatSDKFirebase`
++ Add the folder `ReadReceipts` to `ChatSDKFirebase`
 + Add the pod to the `Podfile`
 ```
     pod "ChatSDKFirebase/ReadReceipts", :path => "../ChatSDKFirebase"

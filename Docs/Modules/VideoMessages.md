@@ -1,7 +1,7 @@
 ## Installation
 
 + Download and unzip the module
-+ Add the folder `VideoMessages` to `ChatSDK/ChatSDKFirebase`
++ Add the folder `VideoMessages` to `ChatSDKFirebase`
 + Add the pod to the `Podfile`
 ```
     pod "ChatSDKFirebase/VideoMessages", :path => "../ChatSDKFirebase"

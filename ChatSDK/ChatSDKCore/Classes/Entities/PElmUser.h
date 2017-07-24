@@ -17,8 +17,9 @@
 -(NSString *) name;
 
 // Should return a UIImage for RXPromise success
--(RXPromise *) loadProfileThumbnail: (BOOL) force;
+//-(RXPromise *) loadProfileThumbnail: (BOOL) force;
 -(UIImage *) defaultImage;
+-(NSString *) imageURL;
 
 @end
 

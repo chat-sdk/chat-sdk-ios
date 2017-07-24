@@ -9,6 +9,11 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
+  
+  s.pod_target_xcconfig = { 
+      "ENABLE_BITCODE" => 'false'
+  }
+
 
   s.subspec 'AudioMessages' do |am|
 
@@ -89,6 +94,19 @@ Pod::Spec.new do |s|
     vm.dependency 'ChatSDKCore'
     vm.dependency 'ChatSDKFirebaseAdapter'
     vm.dependency 'ChatSDKUI'
+
+  end
+
+  s.subspec 'Broadcast' do |br|
+
+    br.source_files = ['Broadcast/Classes/**/*']
+    br.resource_bundles = {
+      'ChatBroadcast' => ['Broadcast/Assets/**/*', 'Broadcast/Interface/**/*']
+    }
+
+    br.dependency 'ChatSDKCore'
+    br.dependency 'ChatSDKFirebaseAdapter'
+    br.dependency 'ChatSDKUI'
 
   end
   

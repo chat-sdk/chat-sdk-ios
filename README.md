@@ -5,7 +5,7 @@
 
 Chat SDK is a fully featured open source instant messaging framework for iOS. Chat SDK is fully featured, scalable and flexible and follows the following key principles:
 
-- **Open Source.** The Chat SDK is open source under the MIT license.
+- **Open Source.** The Chat SDK is open source under the MIT license for compiled binaries
 - **Full data control.** You have full and exclusive access to the user's chat data
 - **Quick integration.** Chat SDK is fully featured out of the box
 - **Firebase** Powered by [Google Firebase](https://firebase.google.com/)
@@ -24,6 +24,7 @@ A demo of the project is available on the App Store.
 - User profiles
 - User search
 - Powered by Firebase
+- Firebase UI
 - [Cross Platform - see Android Version](https://github.com/chat-sdk/chat-sdk-android)
 
 <img src="http://img.chatcatapp.com/chat-sdk-3.jpg" />
@@ -61,7 +62,8 @@ We're very excited about the project and we're looking for other people to get i
 + Helping to write adapters for other services such as Layer, Pusher, Pubnub etc... 
 + Write a tutorial - **we pay $100** for quality tutorials
 
-If you're interested please email me at **[team@chatsdk.co](mailto:team@chatsdk.co)**.
+If you're interested please review the [Contributing
+Document](https://github.com/chat-sdk/chat-sdk-ios/blob/master/CONTRIBUTING.md) for details of our development flow and the CLA then email me at [**team@chatsdk.co**](mailto:team@chatsdk.co).
 
 ## Apps that use Chat SDK
 
@@ -69,20 +71,6 @@ If you're interested please email me at **[team@chatsdk.co](mailto:team@chatsdk.
 + [Runbuddy](https://itunes.apple.com/us/app/run-buddy/id1050833009?mt=8)
 
 If you have an app that uses the Chat SDK let us know and we'll add a link. 
-
-
-## The license
-This project uses the MIT license which is a commercially friendly open source license. The license has the following features:
-
-+ Commercial use is allowed
-+ You can modify, distribute and sublicense the source code
-+ The work is provided "as is". You may not hold the author liable.
-+ You must include the copyright notice
-+ You must include the license 
-
-## Wiki
-
-We have a lot more information on our [**Wiki**](https://github.com/chat-sdk/chat-sdk-ios/wiki) so make sure to check it out! 
 
 ## Running the demo project
 This repository contains a fully functional version of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
@@ -254,6 +242,92 @@ For full documentation of Firebase configuration checkout the complete guide and
 Firebase secures your data by allowing you to write rules to govern who can access the database and what can be written. On the Firebase dashboard click **Database** then the **Rules** tab. 
 
 Copy the contents of the **rules.json** file into the rules and click publish. 
+
+## Firebase UI
+
+We've now added support for Firebase UI to the project. To get around some issues with the [Firebase pods](https://github.com/chat-sdk/chat-sdk-ios/wiki/Issues-with-Firebase-Pods), we needed to integrate the Firebase UI code with the Chat SDK. 
+
+To add Firebase UI to your project you need to add the following to your `Podfile`.
+
+```
+  pod "ChatSDKFirebaseAdapter/AuthBase", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Phone", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Database", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Twitter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Facebook", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Storage", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "ChatSDKFirebaseAdapter/Google", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+```
+
+To add Firebase UI as the default login provider for the app you should do the following:
+
+1. Import the libraries that you need to the App Delegate header file
+
+  ```
+  #import <ChatSDKFirebaseAdapter/FUIAuth.h>
+  #import <ChatSDKFirebaseAdapter/FirebaseAuthUI.h>
+  #import <ChatSDKFirebaseAdapter/FUIPhoneAuth.h>
+  ```
+  
+2. Implement the `FUIAuthDelegate`
+
+  ```
+  @interface AppDelegate : UIResponder <UIApplicationDelegate, FUIAuthDelegate> {
+  ```
+
+3. In `didFinishLaunchingWithOptions` setup the providers that you need:
+
+  ```
+  FIRAuth * auth = [FIRAuth auth];
+  FUIAuth * authUI = [FUIAuth authUIWithAuth:auth];
+  
+  // This allows us to be notified when authentication finishes
+  authUI.delegate = self;
+
+  // Add phone authentication    
+  FUIPhoneAuth * phone = [[FUIPhoneAuth alloc] initWithAuthUI:authUI];
+    
+  // Add the phone provider  
+  [authUI setProviders:@[phone]];
+  
+  FUIAuthPickerViewController * controller = [[FUIAuthPickerViewController alloc] initWithAuthUI:authUI];
+  
+  // Present the controller as the default authentication controller
+  [BNetworkManager sharedManager].a.auth.challengeViewController = [[UINavigationController alloc] initWithRootViewController:controller];
+  ```
+
+4. Make sure that you've done the necessary configuration for your login providers - see [instructions](https://github.com/firebase/FirebaseUI-iOS#mandatory-sample-project-configuration) and the Firebase [authentication documentation](https://firebase.google.com/docs/auth/).
+5. Finall add the delegate method: 
+
+```
+- (void)authUI:(FUIAuth *)authUI
+didSignInWithUser:(nullable FIRUser *)user
+         error:(nullable NSError *)error {
+
+    if(!error) {
+        [user getIDTokenWithCompletion:^(NSString * token, NSError * error) {
+            if (!error) {
+                
+                NSDictionary * loginInfo = @{bLoginTypeKey: @(bAccountTypeCustom),
+                                             bLoginCustomToken: token};
+                
+                [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:loginInfo].thenOnMain(^id(id<PUser> user) {
+                    return Nil;
+                }, ^id(NSError * error) {
+                    // Handle error
+                    return Nil;
+                });
+            }
+            else {
+                // Handle error
+            }
+        }];
+    }
+    else {
+        // Handle error
+    }
+}
+```
 
 ## Social Login
 
@@ -502,7 +576,33 @@ So a more complete example would look like this:
 4. Make sure that the “Build Active Architecture Only” setting is the same for both the main project and the pods project. 
 5. Check the build settings in the Xcode project and check which fields are in bold (this means that their value has been overridden and CocoaPods can't access them). If you press backspace while selecting those fields, their values will be set to the default value.
 
+## The license
 
+We offer a choice of two license for this app. You can either use the [Chat SDK](https://chatsdk.co/chat-sdk-license/) license or the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license. 
+
+Most Chat SDK users either want to add the Chat SDK to an app that will be released to the App Store or they want to use the Chat SDK in a project for their client. The **Chat SDK** license gives you complete flexibility to do this for free.
+
+**Chat SDK License Summary**
+
++ License does not expire.
++ Can be used for creating unlimited applications
++ Can be distributed in binary or object form only
++ Commercial use allowed
++ Can modify source-code but cannot distribute modifications (derivative works)
+
+If a user wants to distribute the Chat SDK source code, we feel that any additions or modifications they make to the code should be contributed back to the project. The GPLv3 license ensures that if source code is distributed, it must remain open source and available to the community.
+
+**GPLv3 License Summary**
+
++ Can modify and distribute source code
++ Commerical use allowed
++ Cannot sublicense or hold liable
++ Must include original license
++ Must disclose source 
+
+**What does this mean?**
+
+Please check out the [Licensing FAQ](https://github.com/chat-sdk/chat-sdk-ios/blob/master/LICENSE.md) for more information.
 
  
 

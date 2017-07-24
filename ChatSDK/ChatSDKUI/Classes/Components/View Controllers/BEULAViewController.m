@@ -38,7 +38,7 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style: UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
     self.navigationItem.leftBarButtonItem = backButton;
     
-    NSString * filePath = [[NSBundle mainBundle] pathForResource:[NSBundle res: @"EULA"] ofType:@"plist"];
+    NSString * filePath = [[NSBundle chatUIBundle] pathForResource:@"EULA" ofType:@"plist"];
     NSDictionary * dict = [NSDictionary dictionaryWithContentsOfFile:filePath];
     
     NSArray * EULATerms = [NSArray arrayWithArray:[dict objectForKey:bEULAEnglish]];

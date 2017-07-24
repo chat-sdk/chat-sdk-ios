@@ -109,6 +109,7 @@
  * @brief Get a list of all threads
  */
 -(NSArray<PThread> *) threadsWithType: (bThreadType) type;
+-(NSArray<PThread> *) threadsWithType:(bThreadType)type includeDeleted: (BOOL) includeDeleted includeEmpty: (BOOL) includeEmpty;
 
 -(id<PUser>) userForEntityID: (NSString *) entityID;
 
@@ -123,6 +124,10 @@
 -(void) sendLocalSystemMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID;
 -(void) sendLocalSystemMessageWithText:(NSString *)text type: (bSystemMessageType) type withThreadEntityID:(NSString *)threadID;
 
+/**
+ * @brief Get a list of threads with a particular type that contain a particluar set of users
+ */
+-(NSArray *) threadsWithUsers: (NSArray *) users type: (bThreadType) type;
 
 @end
 

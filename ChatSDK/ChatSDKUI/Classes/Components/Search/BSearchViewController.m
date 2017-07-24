@@ -51,11 +51,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if ([[BNetworkManager sharedManager].a.search respondsToSelector:@selector(availableIndexes)]) {
+    if ([NM.search respondsToSelector:@selector(availableIndexes)]) {
         // Get the search terms...
         [self startActivityIndicator];
 
-        [[BNetworkManager sharedManager].a.search availableIndexes].thenOnMain(^id(NSArray * indexes) {
+        [NM.search availableIndexes].thenOnMain(^id(NSArray * indexes) {
             searchTermButton.hidden = !indexes.count;
             _searchTermViewController = [[BSearchIndexViewController alloc] initWithIndexes: indexes withCallback:^(NSArray * index) {
                 [searchTermButton setTitle:index.key forState:UIControlStateNormal];
@@ -194,12 +194,12 @@
     
     NSArray * indexes = _currentSearchIndex.value ? @[_currentSearchIndex.value] : Nil;
     
-    [[BNetworkManager sharedManager].a.search usersForIndexes:indexes withValue:text limit: 10 userAdded: ^(id<PUser> user) {
+    [NM.search usersForIndexes:indexes withValue:text limit: 10 userAdded: ^(id<PUser> user) {
         
         // Make sure we run this on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            if (user != [BNetworkManager sharedManager].a.core.currentUserModel) {
+            if (user != NM.currentUser) {
                 // Only display a user if they have a name set
                 
                 // Check the users entityID to make sure they're not in the exclude list
@@ -239,7 +239,7 @@
     
     BOOL shouldSearch = [newString stringByReplacingOccurrencesOfString:@" " withString:@""].length;
     
-    if (shouldSearch && newString.length > 0) {
+    if (shouldSearch && newString.length > 2) {
         [self searchWithText:newString];
     }
     

@@ -33,7 +33,7 @@
             
             FIRUser * user = [FIRAuth auth].currentUser;
             if (user) {
-                return [self handleFAUser:user].thenOnMain(Nil, ^id(NSError * error) {
+                return [self loginWithFirebaseUser:user].thenOnMain(Nil, ^id(NSError * error) {
                     return Nil;
                 });
             }
@@ -42,7 +42,7 @@
     
     if (authenticated) {
         //        [promise resolveWithResult:self.currentUserModel];
-        [promise resolveWithResult:[self handleFAUser:[FIRAuth auth].currentUser]];
+        [promise resolveWithResult:[self loginWithFirebaseUser:[FIRAuth auth].currentUser]];
     }
     else {
         [promise rejectWithReason:Nil];
@@ -103,14 +103,14 @@
     };
     
     promise.thenOnMain(^id(FIRUser * firebaseUser) {
-        return [self handleFAUser: firebaseUser];
+        return [self loginWithFirebaseUser: firebaseUser];
     }, Nil);
     
     // Depending on the login method we need to authenticate with Firebase
     switch ([details[bLoginTypeKey] intValue]) {
         case bAccountTypeFacebook: {
-            if ([BNetworkManager sharedManager].a.socialLogin) {
-                [[BNetworkManager sharedManager].a.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
+            if (NM.socialLogin) {
+                [NM.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
                     FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:token];
                     //[promise resolveWithResult:credential];
                     [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
@@ -126,8 +126,8 @@
         case bAccountTypeTwitter:
         {
          
-            if ([BNetworkManager sharedManager].a.socialLogin) {
-                [[BNetworkManager sharedManager].a.socialLogin loginWithTwitter].thenOnMain(^id(NSArray * array) {
+            if (NM.socialLogin) {
+                [NM.socialLogin loginWithTwitter].thenOnMain(^id(NSArray * array) {
                     FIRAuthCredential * credential = [FIRTwitterAuthProvider credentialWithToken:array.firstObject
                                                                                           secret:array.lastObject];
                     [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
@@ -144,8 +144,8 @@
         // TODO: Test this
         case bAccountTypeGoogle:
         {
-            if ([BNetworkManager sharedManager].a.socialLogin) {
-                [[BNetworkManager sharedManager].a.socialLogin loginWithGoogle].thenOnMain(^id(NSArray * array) {
+            if (NM.socialLogin) {
+                [NM.socialLogin loginWithGoogle].thenOnMain(^id(NSArray * array) {
                     FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:array.firstObject
                                                                                       accessToken:array.lastObject];
                     [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
@@ -169,8 +169,6 @@
             break;
         case bAccountTypeRegister:
         {
-            RXPromise * p2 = [RXPromise new];
-            
             [[FIRAuth auth] createUserWithEmail:details[bLoginEmailKey] password:details[bLoginPasswordKey] completion:handleResult];
         }
             break;
@@ -185,7 +183,7 @@
     return promise;
 }
 
--(RXPromise *) handleFAUser: (FIRUser *) firebaseUser {
+-(RXPromise *) loginWithFirebaseUser: (FIRUser *) firebaseUser {
     
     RXPromise * promise = [RXPromise new];
     
@@ -197,7 +195,7 @@
     
     // Get the token
     RXPromise * tokenPromise = [RXPromise new];
-    [firebaseUser getTokenWithCompletion:^(NSString * token, NSError * error) {
+    [firebaseUser getIDTokenWithCompletion:^(NSString * token, NSError * error) {
         if (!error) {
             [tokenPromise resolveWithResult:token];
         }
@@ -220,14 +218,16 @@
             // Update the user from the remote server
             return [user once].thenOnMain(^id(id<PUserWrapper> user_) {
                 
-                [[BNetworkManager sharedManager].a.core save];
+                [NM.hook executeHookWithName:bHookUserAuthFinished data:@{bHookUserAuthFinished_PUser_User: user.model}];
+                
+                [NM.core save];
                 
                 _userListenersAdded = YES;
                 
                 // Add listeners here
                 [BStateManager userOn: user.entityID];
                 
-                [[BNetworkManager sharedManager].a.core setUserOnline];
+                [NM.core setUserOnline];
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
                 

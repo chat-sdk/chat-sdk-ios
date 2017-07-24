@@ -70,6 +70,8 @@
 -(void) hideKeyboard;
 -(void) setAudioEnabled: (BOOL) enabled;
 
+-(void) setTextInputDisabled: (BOOL) disabled;
+
 // To be overridden
 -(void) addObservers;
 -(void) removeObservers;

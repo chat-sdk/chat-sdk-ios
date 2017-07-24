@@ -80,7 +80,7 @@
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [[BNetworkManager sharedManager].a.auth authenticateWithCachedToken].thenOnMain(^id(id<PUser> user) {
+    [NM.auth authenticateWithCachedToken].thenOnMain(^id(id<PUser> user) {
         if (!user) {
             [self showLoginScreen];
         }
@@ -94,9 +94,9 @@
 }
 
 -(void) showLoginScreen {
-    if (![BNetworkManager sharedManager].a.auth.userAuthenticated) {
+    if (!NM.auth.userAuthenticated) {
         if (!_loginViewController) {
-            _loginViewController = [BNetworkManager sharedManager].a.auth.challengeViewController;
+            _loginViewController = NM.auth.challengeViewController;
         }
         [self presentViewController:_loginViewController
                            animated:YES
@@ -104,8 +104,8 @@
     }
     else {
         // Once we are authenticated then start updating the users location
-        if([BNetworkManager sharedManager].a.nearbyUsers) {
-            [[BNetworkManager sharedManager].a.nearbyUsers startUpdatingUserLocation];
+        if(NM.nearbyUsers) {
+            [NM.nearbyUsers startUpdatingUserLocation];
         }
     }
 }
@@ -113,7 +113,7 @@
 // #6704 Start bug fix for v3.0.2
 // If the user changes tab they must be online
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    [[BNetworkManager sharedManager].a.core setUserOnline];
+    [NM.core setUserOnline];
 }
 // End bug fix for v3.0.2
 
@@ -121,7 +121,7 @@
     
     // The message view open with this thread?
     // Get the number of unread messages
-    int count = [BNetworkManager sharedManager].a.core.currentUserModel.unreadMessageCount;
+    int count = NM.currentUser.unreadMessageCount;
     [self setBadge:count];
     
     // This way does not set the tab bar number

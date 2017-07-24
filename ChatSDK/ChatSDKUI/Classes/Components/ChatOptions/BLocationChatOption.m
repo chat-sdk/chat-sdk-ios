@@ -56,7 +56,7 @@
         
         CLLocation * location = locations.lastObject;
         
-        if ([BNetworkManager sharedManager].a.locationMessage) {
+        if (NM.locationMessage) {
             [_promise resolveWithResult:[self.parent.delegate sendLocationMessage:location]];
             
             [self.parent.delegate reloadData];

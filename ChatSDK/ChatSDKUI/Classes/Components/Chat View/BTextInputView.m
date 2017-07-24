@@ -46,8 +46,8 @@
         // Create an options button which shows an action sheet
         _optionsButton = [UIButton buttonWithType:UIButtonTypeCustom];
         
-        [_optionsButton setImage:[NSBundle imageNamed:@"icn_24_options.png" framework:@"ChatSDKUI" bundle:@"ChatUI"] forState:UIControlStateNormal];
-        [_optionsButton setImage:[NSBundle imageNamed:@"icn_24_keyboard.png" framework:@"ChatSDKUI" bundle:@"ChatUI"] forState:UIControlStateSelected];
+        [_optionsButton setImage:[NSBundle chatUIImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
+        [_optionsButton setImage:[NSBundle chatUIImageNamed:@"icn_24_keyboard.png"] forState:UIControlStateSelected];
         
         [_optionsButton addTarget:self action:@selector(optionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 
@@ -160,7 +160,7 @@
     _micButtonEnabled = enabled;
     if (enabled) {
         [_sendButton setTitle:Nil forState:UIControlStateNormal];
-        [_sendButton setImage:[UIImage imageNamed:[NSBundle res: @"icn_24_mic.png"]]
+        [_sendButton setImage:[NSBundle chatUIImageNamed: @"icn_24_mic.png"]
                      forState:UIControlStateNormal];
     }
     else {

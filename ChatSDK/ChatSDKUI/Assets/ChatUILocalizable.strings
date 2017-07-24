@@ -16,12 +16,14 @@
 "bUserCreatedError" = "User could not be created";
 "bContacts" = "Contacts";
 "bConversations" = "Conversations";
+"bBroadcast" = "Broadcasts";
 "bThreadCreationError" = "Thread creation failed";
 "bChatRooms" = "Chat Rooms";
 "bPickFriends" = "Pick Friends";
 "bBack" = "Back";
 "bCompose" = "Compose";
 "bLoadingFriends" = "Loading Friends";
+"bLoading" = "Loading";
 "bErrorLoadingFriends" = "Error loading friends";
 "bInvalidSelection" = "Invalid selection";
 "bSelectAtLeastOneFriend" = "Select at least one friend";
@@ -145,6 +147,8 @@
 "bStickerMessagesNotSupported" = "Sticker messages are not supported";
 "bLocationMessagesNotSupported" = "Location messages are not supported";
 "bVideoMessagesNotSupported" = "Video messages are not supported";
+
+"bRefreshingUsers" = "Message Burst";
 
 "" = "";
 

@@ -29,7 +29,7 @@
         default:
             break;
     }
-    return key.length && ([BNetworkManager sharedManager].a.socialLogin || accountType == bAccountTypeAnonymous) ? YES : NO;
+    return key.length && (NM.socialLogin || accountType == bAccountTypeAnonymous) ? YES : NO;
 }
 
 -(NSString *) currentUserEntityID {

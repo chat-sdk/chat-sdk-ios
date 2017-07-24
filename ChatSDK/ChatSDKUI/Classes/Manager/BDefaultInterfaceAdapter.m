@@ -60,17 +60,19 @@
     return controller;
 }
 
--(UIViewController *) chatViewControllerWithThread: (id<PThread>) thread {
+-(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread {
     return [[BChatViewController alloc] initWithThread:thread];
 }
 
--(NSArray *) tabBarViewControllers {
-    NSArray * defaultTabs = @[self.privateThreadsViewController,
-                              self.publicThreadsViewController,
-                              self.contactsViewController,
-                              [self profileViewControllerWithUser: Nil]];
+-(NSArray *) defaultTabBarViewControllers {
+    return @[self.privateThreadsViewController,
+             self.publicThreadsViewController,
+             self.contactsViewController,
+             [self profileViewControllerWithUser: Nil]];
+}
 
-    NSMutableArray * tabs = [NSMutableArray arrayWithArray:defaultTabs];
+-(NSArray *) tabBarViewControllers {
+    NSMutableArray * tabs = [NSMutableArray arrayWithArray:[self defaultTabBarViewControllers]];
    
     for(NSArray * tab in _additionalTabBarViewControllers) {
         [tabs insertObject:tab.firstObject atIndex:[tab.lastObject intValue]];
@@ -91,9 +93,9 @@
    
     NSMutableArray * options = [NSMutableArray new];
     
-    BOOL videoEnabled = [BNetworkManager sharedManager].a.videoMessage != Nil;
-    BOOL imageEnabled = [BNetworkManager sharedManager].a.imageMessage != Nil;
-    BOOL locationEnabled = [BNetworkManager sharedManager].a.locationMessage != Nil;
+    BOOL videoEnabled = NM.videoMessage != Nil;
+    BOOL imageEnabled = NM.imageMessage != Nil;
+    BOOL locationEnabled = NM.locationMessage != Nil;
     
     if (imageEnabled && videoEnabled) {
         [options addObject:[[BMediaChatOption alloc] initWithType:bPictureTypeCameraVideo]];

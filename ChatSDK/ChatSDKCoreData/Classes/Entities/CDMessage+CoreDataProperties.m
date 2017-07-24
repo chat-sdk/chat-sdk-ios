@@ -27,5 +27,6 @@
 @dynamic thread;
 @dynamic user;
 @dynamic status;
+@dynamic meta;
 
 @end

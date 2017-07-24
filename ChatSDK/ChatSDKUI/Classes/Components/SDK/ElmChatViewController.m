@@ -36,9 +36,9 @@
 @synthesize tableView;
 @synthesize delegate;
 
-- (id)initWithDelegate: (id<ElmChatViewDelegate>) delegate
+- (id)initWithDelegate: (id<ElmChatViewDelegate>) delegate_
 {
-    self.delegate = delegate;
+    self.delegate = delegate_;
     self = [super initWithNibName:@"BChatViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {
         
@@ -242,6 +242,10 @@
 
 -(void) stopTyping {
     _subtitleLabel.text = _subtitleText;
+}
+
+-(void) setTextInputDisabled: (BOOL) disabled {
+    _textInputView.hidden = disabled;
 }
 
 -(void) setAudioEnabled:(BOOL)enabled {
@@ -451,8 +455,8 @@
         [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
     }
     
-    if([BNetworkManager sharedManager].a.videoMessage) {
-        if ([cell isKindOfClass:[BNetworkManager sharedManager].a.videoMessage.messageCellClass]) {
+    if(NM.videoMessage) {
+        if ([cell isKindOfClass:NM.videoMessage.messageCellClass]) {
             
             // Only allow the user to click if the image is not still loading hence the alpha is 1
             if (cell.imageView.alpha == 1) {
@@ -501,29 +505,23 @@
 
 #pragma Message Delegate
 
--(void) sendTextMessage: (NSString *) message {
+-(RXPromise *) sendTextMessage: (NSString *) message {
 
     // Typing indicator
     // Once a user sends a message they are no longer typing
     [self userFinishedTypingWithState: bChatStateActive];
     
     NSString * newMessage = [message stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    
-    [self handleMessageSend:[delegate sendText:newMessage]];
-    
-    [self reloadData];
+    return [self handleMessageSend:[delegate sendText:newMessage]];
 }
 
--(void) sendImageMessage: (UIImage *) image {
+-(RXPromise *) sendImageMessage: (UIImage *) image {
     [self addObservers];
-
-    [self handleMessageSend:[delegate sendImage: image]];
-
-    [self reloadData];
+    return [self handleMessageSend:[delegate sendImage: image]];
 }
 
--(void) handleMessageSend: (RXPromise *) promise {
-    promise.thenOnMain(^id(id success) {
+-(RXPromise *) handleMessageSend: (RXPromise *) promise {
+    return promise.thenOnMain(^id(id success) {
         [self scrollToBottomOfTable:YES];
         return Nil;
     }, ^id(NSError * error) {
@@ -547,18 +545,15 @@
 
 -(RXPromise *) sendVideoMessage: (NSData *) data withCoverImage: (UIImage *) image {
     [self addObservers];
-    [self handleMessageSend:[delegate sendVideo:data withCoverImage:image]];
-    [self reloadData];
+    return [self handleMessageSend:[delegate sendVideo:data withCoverImage:image]];
 }
 
-- (void) sendStickerMessage: (NSString *)stickerName {
-    [self handleMessageSend:[delegate sendSticker: stickerName]];
-    [self reloadData];
+- (RXPromise *) sendStickerMessage: (NSString *)stickerName {
+    return [self handleMessageSend:[delegate sendSticker: stickerName]];
 }
 
--(void) sendLocationMessage: (CLLocation *) location {
-    [self handleMessageSend:[delegate sendLocation: location]];
-    [self reloadData];
+-(RXPromise *) sendLocationMessage: (CLLocation *) location {
+    return [self handleMessageSend:[delegate sendLocation: location]];
 }
 
 -(BOOL) showOptions {
@@ -622,7 +617,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // We can only flag posts in public threads
-    return delegate.threadType & bThreadTypePublic ? YES : NO;
+    return delegate.threadType & bThreadFilterPublic ? YES : NO;
 }
 
 // This only works for iOS8
@@ -766,6 +761,27 @@
 -(void) reloadData {
     [tableView reloadData];
     [self scrollToBottomOfTable:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    float scrollViewHeight = scrollView.frame.size.height;
+    float scrollContentSizeHeight = scrollView.contentSize.height;
+    float scrollOffset = scrollView.contentOffset.y;
+    
+    if (scrollOffset == 0)
+    {
+        // then we are at the top
+    }
+    else if (scrollOffset + scrollViewHeight == scrollContentSizeHeight)
+    {
+        
+    }
+    if(scrollOffset < 50) {
+    }
+    if([delegate respondsToSelector:@selector(viewDidScroll:withOffset:)]) {
+        [delegate viewDidScroll:scrollView withOffset:scrollOffset];
+    }
 }
 
 #pragma Utility Methods
