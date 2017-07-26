@@ -12,7 +12,7 @@
 //@import Firebase
 //#import <Firebase/Firebase.h>
 
-//@import FirebaseDatabase;
+//<Firebase/FirebaseDatabase.h>
 //@import Firebase;
 //#import <Firebase/Firebase.h>
 #import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>

@@ -127,7 +127,7 @@
         }
         else {
             // TODO: Add limit
-            startDate = [_model.lastMessageAdded dateByAddingTimeInterval:-bDays * 3650];
+            startDate = [[NSDate date] dateByAddingTimeInterval:-bDays * 3650];
         }
         
         // If thread is deleted
@@ -195,6 +195,14 @@
                 }
             }];
         });
+        
+        [[FIRDatabaseReference threadMessagesRef:_model.entityID] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
+            CCMessageWrapper * wrapper = [CCMessageWrapper messageWithSnapshot:snapshot];
+            id<PMessage> message = wrapper.model;
+            [self.model removeMessage: message];
+            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageRemoved object:Nil userInfo:@{bNotificationMessageRemovedKeyMessage: wrapper.model}];
+
+        }];
         
         return promise;
         
@@ -408,7 +416,6 @@
                              b_Name: _model.name ? _model.name : @"",
                              b_Type: _model.type.integerValue & bThreadFilterPrivate ? @(bThreadTypePrivateV3) : @(bThreadTypePublicV3),
                              b_TypeV4: _model.type,
-                             b_LastMessageAdded: [BFirebaseCoreHandler dateToTimestamp:_model.lastMessageAdded],
                              b_CreatorEntityID: _model.creator.entityID}};
 }
 
@@ -449,10 +456,6 @@
         _model.name = name;
     }
     
-    NSNumber * lastMessageAdded = value[b_LastMessageAdded];
-    if (lastMessageAdded && [lastMessageAdded doubleValue]) {
-        _model.lastMessageAdded = [BFirebaseCoreHandler timestampToDate:lastMessageAdded];
-    }
 }
 
 -(RXPromise *) push {
@@ -486,7 +489,10 @@
     
     RXPromise * promise = [RXPromise new];
     // Add the user entities to the thread too
-    [threadUsersRef setValue:@{bNullString: @""} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    // TODO: check this
+    NSString * status = [self.model.creator.entityID isEqualToString:entityID] ? bStatusOwner : bStatusMember;
+    
+    [threadUsersRef setValue:@{b_Status: status} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
             [BEntity pushThreadUsersUpdated:self.model.entityID];
             [promise resolveWithResult:self];
@@ -503,6 +509,22 @@
     
     return promise;
 }
+
+-(RXPromise *) pushLastMessage: (NSDictionary *) messageData {
+    RXPromise * promise = [RXPromise new];
+    
+    [[[FIRDatabaseReference threadRef:_model.entityID] child:b_LastMessage] setValue:messageData withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+        if(!error) {
+            [promise resolveWithResult:Nil];
+        }
+        else {
+            [promise rejectWithReason:error];
+        }
+    }];
+    
+    return promise;
+}
+
 
 -(RXPromise *) removeUserWithEntityID: (NSString *) entityID {
     FIRDatabaseReference * threadUsersRef = [[FIRDatabaseReference threadUsersRef:_model.entityID] child:entityID];

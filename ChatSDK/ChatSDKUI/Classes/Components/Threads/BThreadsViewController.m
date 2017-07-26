@@ -79,6 +79,9 @@
         // Move thread to top
         [self reloadData];
     }];
+    _messageObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+        [self reloadData];
+    }];
     _userObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         [self reloadData];
     }];

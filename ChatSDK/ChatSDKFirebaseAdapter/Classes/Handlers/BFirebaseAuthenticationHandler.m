@@ -220,6 +220,12 @@
                 
                 [NM.hook executeHookWithName:bHookUserAuthFinished data:@{bHookUserAuthFinished_PUser: user.model}];
                 
+                NSString * avatarURL = [user.model imageURL];
+                if(!avatarURL || !avatarURL.length) {
+                    NSString * imageURL = [NSString stringWithFormat:@"http://flathash.com/%@.png", user.model.name];
+                    [user.model setImageURL:[imageURL stringByReplacingOccurrencesOfString:@" " withString:@""]];
+                }
+                
                 [NM.core save];
                 
                 _userListenersAdded = YES;

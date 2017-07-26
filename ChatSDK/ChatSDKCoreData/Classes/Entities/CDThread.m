@@ -69,6 +69,16 @@
     }
 }
 
+-(void) removeMessage: (id<PMessage>) message {
+    ((CDMessage *)message).thread = Nil;
+    [[BStorageManager sharedManager].a deleteEntity:message];
+    
+    if([self.messagesWorkingList containsObject:message]) {
+        [self.messagesWorkingList removeObject:message];
+    }
+}
+
+
 -(void) setDeleted:(NSNumber *)deleted_ {
     self.deleted_ = deleted_;
 }

@@ -133,7 +133,7 @@
         return [self addUsers:usersToAdd toThread:threadModel];
         
     },^id(NSError * error) {
-        [[BStorageManager sharedManager].a undo];
+        //[[BStorageManager sharedManager].a undo];
         
         if (threadCreated != Nil) {
             threadCreated(error, Nil);

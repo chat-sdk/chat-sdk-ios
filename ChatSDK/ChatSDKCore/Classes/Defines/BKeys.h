@@ -38,6 +38,10 @@
 #define b_Date @"date"
 #define b_UserFirebaseID @"user-firebase-id"
 #define b_CreatorEntityID @"creator-entity-id"
+#define b_SenderEntityID @"sender-entity-id"
+#define b_LastMessage @"lastMessage"
+#define b_UserName @"userName"
+#define b_ReadPath @"read"
 
 #define b_FirebaseID @"firebase-id"
 #define b_ThreadFirebaseID @"thread-firebase-id"
@@ -54,14 +58,16 @@
 #define b_NekStatus @"nek-status"
 #define b_Picture @"picture"
 #define b_PictureIsSilhouette @"picture-is-silhouette"
-#define b_LastMessageAdded @"last-message-added"
 #define b_LastUpdated @"last-updated"
 #define b_Thumbnail @"thumbnail"
 #define b_Online @"online"
 #define b_Message @"message"
 #define b_Status @"status"
 #define b_InvitedBy @"invitedBy"
+#define b_Status @"status"
 
+#define bStatusMember @"member"
+#define bStatusOwner @"owner"
 
 // Paths
 #define bDetailsPath @"details"
@@ -80,7 +86,6 @@
 #define bAudioPath @"audio"
 #define bVideoPath @"video"
 #define bUpdatedPath @"updated"
-#define bReadPath @"read"
 #define bFlaggedKey @"flagged"
 #define bLocationPath @"location"
 

@@ -83,13 +83,23 @@
     return promise;
 }
 
+-(NSDictionary *) lastMessageData {
+    return @{b_Payload: _model.textString,
+             b_JSON: _model.text,
+             b_Type: _model.type,
+             b_Date: [FIRServerValue timestamp],
+             b_UserFirebaseID: _model.userModel.entityID,
+             b_UserName: self.model.userModel.name}; // TODO: Remove this
+
+}
+
 -(NSDictionary *) serialize {
     return @{b_Payload: _model.textString,
              b_JSON: _model.text,
              b_Type: _model.type,
              b_Date: [FIRServerValue timestamp],
              b_UserFirebaseID: _model.userModel.entityID,
-             bReadPath: self.initialReadReceipts};
+             b_ReadPath: self.initialReadReceipts};
 }
 
 -(NSDictionary *) initialReadReceipts {
@@ -145,7 +155,7 @@
         _model.date = [BFirebaseCoreHandler timestampToDate:date];
     }
     
-    NSDictionary * readReceipts = value[bReadPath];
+    NSDictionary * readReceipts = value[b_ReadPath];
     if (readReceipts) {
         [_model setReadStatus:readReceipts];
         // TODO: Remove this
@@ -180,7 +190,9 @@
 -(RXPromise *) send {
     if (_model.thread) {
         return [self push].thenOnMain(^id(id success) {
-            [BEntity pushThreadMessagesUpdated:_model.thread.entityID];
+            [[CCThreadWrapper threadWithModel:_model.thread] pushLastMessage:[self lastMessageData]].thenOnMain(^id(id success) {
+                return [BEntity pushThreadMessagesUpdated:_model.thread.entityID];
+            },Nil);
             return success;
         }, Nil);
     }
@@ -189,11 +201,12 @@
     }
 }
 
+
 -(RXPromise *) flag {
     RXPromise * promise = [RXPromise new];
     
     NSDictionary * data = @{b_CreatorEntityID: NM.currentUser.entityID,
-                            b_UserFirebaseID: _model.userModel.entityID,
+                            b_SenderEntityID: _model.userModel.entityID,
                             b_Message: _model.textString,
                             b_Date: [FIRServerValue timestamp]};
     

@@ -46,6 +46,7 @@
 -(UIImage *) imageAsImage;
 -(UIImage *) defaultImage;
 -(NSString *) imageURL;
+-(void) setImageURL: (NSString *) url;
 
 -(void) setThumbnail: (NSData *) image;
 -(NSData *) thumbnail;

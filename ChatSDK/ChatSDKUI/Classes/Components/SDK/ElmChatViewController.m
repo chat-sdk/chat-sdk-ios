@@ -618,7 +618,8 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // We can only flag posts in public threads
-    return delegate.threadType & bThreadFilterPublic ? YES : NO;
+    id<PElmMessage> message = [self messageForIndexPath:indexPath];
+    return ![message.userModel isEqual:NM.currentUser];
 }
 
 // This only works for iOS8
@@ -638,7 +639,7 @@
 
     }];
     
-    button.backgroundColor = message.flagged.intValue ? [UIColor greenColor] : [UIColor orangeColor]; //arbitrary color
+    button.backgroundColor = message.flagged.intValue ? [UIColor darkGrayColor] : [UIColor redColor];
     
     return @[button];
 }

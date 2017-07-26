@@ -19,6 +19,8 @@
         // Configure app for Facebook login
         [FIRApp configure];
         
+//        [[FIRAuth auth] signOut:Nil];
+        
         self.core = [[BFirebaseCoreHandler alloc] init];
         self.upload = [[BFirebaseUploadHandler alloc] init];
         self.auth = [[BFirebaseAuthenticationHandler alloc] init];

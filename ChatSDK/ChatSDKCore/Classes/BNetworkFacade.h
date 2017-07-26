@@ -39,6 +39,9 @@
 #define bNotificationMessageAdded @"bNMessageAdded"
 #define bNotificationMessageAddedKeyMessage @"bNMessageAddedKeyMessage"
 
+#define bNotificationMessageRemoved @"bNMessageRemoved"
+#define bNotificationMessageRemovedKeyMessage @"bNMessageRemovedKeyMessage"
+
 #define bNotificationMessageUpdated @"bNMessageUpdated"
 #define bNotificationMessageUpdatedKeyMessage @"bNMessageUpdatedKeyMessage"
 

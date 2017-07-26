@@ -30,7 +30,7 @@
     id<PUser> currentUserModel = NM.currentUser;
     
     threadModel.creator = currentUserModel;
-    threadModel.type = @(bThreadFilterPublic);
+    threadModel.type = @(bThreadTypePublicGroup);
     threadModel.name = name;
     threadModel.entityID = entityID ? entityID : Nil;
     
@@ -63,7 +63,7 @@
         return promise;
         
     },^id(NSError * error) {
-        [[BStorageManager sharedManager].a undo];
+        //[[BStorageManager sharedManager].a undo];
         return error;
     });
     

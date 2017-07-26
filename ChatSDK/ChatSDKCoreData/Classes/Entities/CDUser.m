@@ -228,6 +228,11 @@
     return [self metaStringForKey:bUserPictureURLKey];
 }
 
+-(void) setImageURL: (NSString *) url {
+    [self setMetaString:url forKey:bUserPictureURLKey];
+    [self setMetaString:url forKey:bUserPictureURLThumbnailKey];
+}
+
 // TODO: Remove UI dependency on CoreData
 -(UIImage *) defaultImage {
     return [NSBundle imageNamed:bDefaultProfileImage framework:@"ChatSDKUI" bundle:@"ChatUI"];

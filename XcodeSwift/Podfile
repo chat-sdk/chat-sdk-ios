@@ -4,7 +4,7 @@ use_frameworks!
 
 target 'ChatSDKSwift' do
 
-  pod 'FirebaseCommunity', :path => '../firebase-ios-sdk/FirebaseCommunity.podspec'
+#   pod 'Firebase', :path => '../firebase-ios-sdk/Firebase.podspec'
   
   pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
   pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"

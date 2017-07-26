@@ -59,7 +59,7 @@
         UIImage * image = [UIImage imageWithData: _user.thumbnail];
         image = image ? image : _user.defaultImage;
 
-        [profilePictureButton sd_setImageWithURL:[_user metaStringForKey:bUserPictureURLKey]
+        [profilePictureButton sd_setImageWithURL:[NSURL URLWithString:[_user metaStringForKey:bUserPictureURLKey]]
                                         forState:UIControlStateNormal
                                 placeholderImage:image];
     }
@@ -368,14 +368,19 @@
 
 - (IBAction)blockButtonPressed:(id)sender {
     if(NM.blocking) {
-        if(![NM.blocking isBlocked:_user]) {
-            [NM.blocking blockUser:_user];
+        if(![NM.blocking isBlocked:_user.entityID]) {
+            [NM.blocking blockUser:_user.entityID].thenOnMain(^id(id success) {
+                [self updateBlockButton];
+                return Nil;
+            }, Nil);
         }
         else {
-            [NM.blocking unblockUser:_user];
+            [NM.blocking unblockUser:_user.entityID].thenOnMain(^id(id success) {
+                [self updateBlockButton];
+                return Nil;
+            }, Nil);
         }
     }
-    [self updateBlockButton];
 }
 
 -(void) updateBlockButton {
@@ -384,7 +389,7 @@
 
     self.blockButton.hidden = !NM.blocking || [_user isEqual:NM.currentUser];
     if(NM.blocking) {
-        self.blockButton.selected = [NM.blocking isBlocked:_user];
+        self.blockButton.selected = [NM.blocking isBlocked:_user.entityID];
     }
 }
 

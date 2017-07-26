@@ -424,7 +424,7 @@
     // Get the user's reference
     FIRDatabaseReference * userThreadsRef = [[FIRDatabaseReference userThreadsRef:_model.entityID]child:entityID];
 
-    [userThreadsRef setValue:@{b_InvitedBy: NM.currentUser} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    [userThreadsRef setValue:@{b_InvitedBy: NM.currentUser.entityID} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
             [BEntity pushUserThreadsUpdated:self.model.entityID];
             [promise resolveWithResult:self];
