@@ -18,10 +18,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'FirebaseAdapter' do |fi| 
 
-    fi.pod_target_xcconfig = { 
-      "ENABLE_BITCODE" => 'false'
-    }
-  
     fi.dependency 'ChatSDKCore'  
 #     fi.dependency 'ChatSDKFirebaseAdapter/FirebaseFrameworks'
     fi.dependency 'Firebase/Core'
