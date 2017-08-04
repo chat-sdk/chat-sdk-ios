@@ -32,6 +32,7 @@
 +(NSString *) backendlessSecretKey;
 +(NSString *) backendlessVersionKey;
 +(NSString *) timeFormat;
++(NSString *) firebaseCloudMessagingServerKey;
 
 +(id) s: (NSArray *) parameters;
 +(NSNumber *) number_s: (NSArray *) parameters;

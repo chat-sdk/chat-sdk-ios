@@ -106,6 +106,7 @@
 #define bUserStatusTextKey @"bUserStatusTextKey"
 #define bUserNameKey @"name"
 #define bUserEmailKey @"email"
+#define bUserPushTokenKey @"pushToken"
 #define bUserPhoneKey @"phone"
 #define bUserPrefixKey @"user"
 #define bUserPictureURLKey @"pictureURL"

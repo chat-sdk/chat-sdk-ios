@@ -18,15 +18,7 @@
 // with push notifications
 -(void) pushForMessage: (id<PMessage>) message {
     if (message.thread.type.intValue & bThreadFilterPrivate) {
-        for (id<PUser> user in message.thread.users) {
-            id<PUser> currentUserModel = NM.currentUser;
-            if (![user isEqual:currentUserModel]) {
-                if(!user.online.boolValue) {
-                    NSLog(@"Sending push to: %@", user.name);
-                    [self pushToUsers:@[user] withMessage:message];
-                }
-            }
-        }
+        [self pushToUsers:message.thread.users.allObjects withMessage:message];
     }
 }
 
@@ -39,7 +31,7 @@
     NSMutableArray * userChannels = [NSMutableArray new];
     id<PUser> currentUserModel = NM.currentUser;
     for (id<PUser> user in users) {
-        if(![user isEqual:currentUserModel])
+        if(![user isEqual:currentUserModel] && !user.online.boolValue)
             [userChannels addObject:user.pushChannel];
     }
     
@@ -106,7 +98,7 @@
 }
 
 -(NSString *) safeChannel: (NSString *) channel {
-    return [channel stringByReplacingOccurrencesOfString:@"@" withString:@"_a_"];
+    return [[channel stringByReplacingOccurrencesOfString:@"@" withString:@"a"] stringByReplacingOccurrencesOfString:@"." withString:@"d"];
 }
 
 
