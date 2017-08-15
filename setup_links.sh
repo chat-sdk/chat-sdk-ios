@@ -1,0 +1,32 @@
+firebasePath="../../ChatSDK/ChatSDKFirebase"
+modulePath="../../ChatSDK/ChatSDKModules"
+
+rm "ChatSDKFirebase/AudioMessages"
+rm "ChatSDKFirebase/Blocking"
+rm "ChatSDKFirebase/Broadcast"
+rm "ChatSDKFirebase/ContactBook"
+rm "ChatSDKFirebase/NearbyUsers"
+rm "ChatSDKFirebase/PushAndFileStorage"
+rm "ChatSDKFirebase/ReadReceipts"
+rm "ChatSDKFirebase/SocialLogin"
+rm "ChatSDKFirebase/TypingIndicator"
+rm "ChatSDKFirebase/VideoMessages"
+
+rm "ChatSDKModules/KeyboardOverlayOptions"
+rm "ChatSDKModules/StickerMessages"
+
+echo "$firebasePath/AudioMessages"
+
+ln -s "$firebasePath/AudioMessages" "ChatSDKFirebase/AudioMessages"
+ln -s "$firebasePath/Blocking" "ChatSDKFirebase/Blocking"
+ln -s "$firebasePath/Broadcast" "ChatSDKFirebase/Broadcast"
+ln -s "$firebasePath/ContactBook" "ChatSDKFirebase/ContactBook"
+ln -s "$firebasePath/NearbyUsers" "ChatSDKFirebase/NearbyUsers"
+ln -s "$firebasePath/PushAndFileStorage" "ChatSDKFirebase/PushAndFileStorage"
+ln -s "$firebasePath/ReadReceipts" "ChatSDKFirebase/ReadReceipts"
+ln -s "$firebasePath/SocialLogin" "ChatSDKFirebase/SocialLogin"
+ln -s "$firebasePath/TypingIndicator" "ChatSDKFirebase/TypingIndicator"
+ln -s "$firebasePath/VideoMessages" "ChatSDKFirebase/VideoMessages"
+ 
+ln -s "$modulePath/KeyboardOverlayOptions" "ChatSDKModules/KeyboardOverlayOptions"
+ln -s "$modulePath/StickerMessages" "ChatSDKModules/StickerMessages"

@@ -33,16 +33,16 @@
 //#import <ChatSDKFirebase/NearbyUsers.h>
 //#endif
 //
-//#if __has_include(<ChatSDKModules/StickerMessages.h>)
-//#import <ChatSDKModules/StickerMessages.h>
+//#if __has_include("StickerMessages.h>)
+//#import "StickerMessages.h>
 //#endif
 //
 //#if __has_include(<ChatSDKFirebase/ContactBook.h>)
 //#import <ChatSDKFirebase/ContactBook.h>
 //#endif
 //
-//#if __has_include(<ChatSDKModules/KeyboardOverlayOptions.h>)
-//#import <ChatSDKModules/KeyboardOverlayOptions.h>
+//#if __has_include("KeyboardOverlayOptions.h>)
+//#import "KeyboardOverlayOptions.h>
 //#endif
 
 #endif /* BModules_h */

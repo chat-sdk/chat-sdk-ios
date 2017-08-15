@@ -9,7 +9,7 @@
 #import "BStateManager.h"
 
 #import <ChatSDKCore/ChatCore.h>
-#import "ChatFirebaseAdapter.h"
+#import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
 
 @implementation BStateManager
 
@@ -17,7 +17,7 @@
     
     id<PUser> user = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bUserEntity];
     
-    NSDictionary * data = @{bHookUserOn_PUser: user};
+    NSDictionary * data = @{bHookUserOn_PUser_User: user};
     [NM.hook executeHookWithName:bHookUserOn data:data];
     
     FIRDatabaseReference * threadsRef = [FIRDatabaseReference userThreadsRef:entityID];

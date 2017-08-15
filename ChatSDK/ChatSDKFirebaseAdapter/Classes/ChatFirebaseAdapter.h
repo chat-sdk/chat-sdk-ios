@@ -9,25 +9,37 @@
 #ifndef ChatFirebaseAdapter_h
 #define ChatFirebaseAdapter_h
 
+//#import <Firebase/FirebaseAuth.h>
+
+//#import <Firebase/FirebaseDatabase.h>
+//#import <Firebase/FirebaseAuth.h>
+//#import <Firebase/FirebaseStorage.h>
+//#import <Firebase/FirebaseCore.h>
 #import <Firebase/Firebase.h>
+//#import <FirebaseCore/FirebaseCore.h>
+//#import <FirebaseAnalytics/FirebaseAnalytics.h>
+//#import <FirebaseDatabase/FirebaseDatabase.h>
+//#import <FirebaseAuth/FirebaseAuth.h>
 
-#import <ChatSDKFirebaseAdapter/NSManagedObject+Status.h>
+#import "NSManagedObject+Status.h"
 
-#import <ChatSDKFirebaseAdapter/CCThreadWrapper.h>
-#import <ChatSDKFirebaseAdapter/CCUserWrapper.h>
-#import <ChatSDKFirebaseAdapter/CCMessageWrapper.h>
-#import <ChatSDKFirebaseAdapter/BStateManager.h>
+#import "CCThreadWrapper.h"
+#import "CCUserWrapper.h"
+#import "CCMessageWrapper.h"
+#import "BStateManager.h"
+#import "BFirebaseUsersHandler.h"
+#import "BEntity.h"
 
-#import <ChatSDKFirebaseAdapter/Firebase+Paths.h>
+#import "Firebase+Paths.h"
 
-#import <ChatSDKFirebaseAdapter/BFirebaseNetworkAdapter.h>
+#import "BFirebaseNetworkAdapter.h"
 
-#import <ChatSDKFirebaseAdapter/BFirebaseCoreHandler.h>
-#import <ChatSDKFirebaseAdapter/BFirebaseUploadHandler.h>
-#import <ChatSDKFirebaseAdapter/BFirebaseAuthenticationHandler.h>
-#import <ChatSDKFirebaseAdapter/BFirebaseSearchHandler.h>
-#import <ChatSDKFirebaseAdapter/BFirebaseModerationHandler.h>
-#import <ChatSDKFirebaseAdapter/BFirebasePublicThreadHandler.h>
+#import "BFirebaseCoreHandler.h"
+#import "BFirebaseAuthenticationHandler.h"
+#import "BFirebaseSearchHandler.h"
+#import "BFirebaseModerationHandler.h"
+#import "BFirebasePublicThreadHandler.h"
+#import "BFirebaseUsersHandler.h"
 
 
 

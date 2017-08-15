@@ -8,7 +8,7 @@
 
 #import "Firebase+Paths.h"
 
-#import "ChatFirebaseAdapter.h"
+#import <FirebaseDatabase/FirebaseDatabase.h>
 
 #import <ChatSDKCore/BSettingsManager.h>
 #import <ChatSDKCore/BKeys.h>

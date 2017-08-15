@@ -13,15 +13,15 @@
 @implementation BFirebaseBlockingHandler
 
 -(RXPromise *) blockUser: (id<PUser>) user {
-    return Nil;
+    
 }
 
 -(RXPromise *) unblockUser: (id<PUser>) user {
-    return Nil;
+    
 }
 
 -(BOOL) isBlocked: (id<PUser>) user {
-    return Nil;
+    
 }
 
 @end

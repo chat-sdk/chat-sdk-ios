@@ -9,7 +9,7 @@
 #import "BFirebaseNetworkAdapter.h"
 
 #import <ChatSDKCore/ChatCore.h>
-#import "ChatFirebaseAdapter.h"
+#import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
 
 @implementation BFirebaseNetworkAdapter
 
@@ -19,15 +19,13 @@
         // Configure app for Facebook login
         [FIRApp configure];
         
-//        [[FIRAuth auth] signOut:Nil];
-        
         self.core = [[BFirebaseCoreHandler alloc] init];
+        self.upload = [[BFirebaseUploadHandler alloc] init];
         self.auth = [[BFirebaseAuthenticationHandler alloc] init];
         self.search = [[BFirebaseSearchHandler alloc] init];
         self.moderation = [[BFirebaseModerationHandler alloc] init];
         self.contact = [[BBaseContactHandler alloc] init];
         self.publicThread = [[BFirebasePublicThreadHandler alloc] init];
-//        self.users = [[BFirebaseUsersHandler alloc] init];
 
     }
     return self;

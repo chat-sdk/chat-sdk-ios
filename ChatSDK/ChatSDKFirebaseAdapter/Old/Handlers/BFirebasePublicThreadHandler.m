@@ -8,8 +8,8 @@
 
 #import "BFirebasePublicThreadHandler.h"
 
-#import "ChatFirebaseAdapter.h"
-//#import <ChatSDKCore/ChatCore.h>
+#import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
+#import <ChatSDKCore/ChatCore.h>
 
 @implementation BFirebasePublicThreadHandler
 
@@ -30,7 +30,7 @@
     id<PUser> currentUserModel = NM.currentUser;
     
     threadModel.creator = currentUserModel;
-    threadModel.type = @(bThreadTypePublicGroup);
+    threadModel.type = @(bThreadFilterPublic);
     threadModel.name = name;
     threadModel.entityID = entityID ? entityID : Nil;
     
@@ -63,7 +63,7 @@
         return promise;
         
     },^id(NSError * error) {
-        //[[BStorageManager sharedManager].a undo];
+        [[BStorageManager sharedManager].a undo];
         return error;
     });
     
