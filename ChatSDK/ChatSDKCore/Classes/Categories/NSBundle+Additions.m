@@ -11,6 +11,12 @@
 @implementation NSBundle(Additions)
 
 +(UIImage *) imageNamed: (NSString *) name framework: (NSString *) framework bundle: (NSString *) bundle {
+    // Try to find it in the main budle first
+    UIImage * image = [UIImage imageNamed:name];
+    if(image) {
+        return image;
+    }
+    
     NSString * path = [NSString stringWithFormat:@"Frameworks/%@.framework/%@.bundle/%@", framework, bundle, name];
     return [UIImage imageNamed:path];
 }

@@ -9,6 +9,15 @@
 #ifndef PUserHandler_h
 #define PUserHandler_h
 
+@protocol PUsersHandler <NSObject>
+
+@optional
+
+-(NSArray *) allUsers;
+-(void) allUsersOn;
+-(void) allUsersOff;
+
+@end
 
 
 #endif /* PUserHandler_h */

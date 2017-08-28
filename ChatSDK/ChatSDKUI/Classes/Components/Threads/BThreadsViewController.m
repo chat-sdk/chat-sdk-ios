@@ -79,6 +79,9 @@
         // Move thread to top
         [self reloadData];
     }];
+    _messageObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+        [self reloadData];
+    }];
     _userObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         [self reloadData];
     }];
@@ -159,19 +162,19 @@
         message = [thread messagesOrderedByDateDesc].firstObject;
         
         if (message.type.intValue == bMessageTypeImage) {
-            text = [NSBundle t:bImageMessage];
+            text = [NSBundle core_t:bImageMessage];
         }
         else if(message.type.intValue == bMessageTypeLocation) {
-            text = [NSBundle t:bLocationMessage];
+            text = [NSBundle core_t:bLocationMessage];
         }
         else if(message.type.intValue == bMessageTypeAudio) {
-            text = [NSBundle t:bAudioMessage];
+            text = [NSBundle core_t:bAudioMessage];
         }
         else if(message.type.intValue == bMessageTypeVideo) {
-            text = [NSBundle t:bVideoMessage];
+            text = [NSBundle core_t:bVideoMessage];
         }
         else if(message.type.intValue == bMessageTypeSticker) {
-            text = [NSBundle t:bStickerMessage];
+            text = [NSBundle core_t:bStickerMessage];
         }
         else {
             text = message.textString;

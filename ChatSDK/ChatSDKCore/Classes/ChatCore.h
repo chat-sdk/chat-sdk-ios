@@ -29,7 +29,6 @@
 #import <ChatSDKCore/BBaseHookHandler.h>
 
 #import <ChatSDKCore/BCoreUtilities.h>
-#import <ChatSDKCore/BModules.h>
 
 #import <ChatSDKCore/PEntity.h>
 #import <ChatSDKCore/PEntityWrapper.h>
@@ -43,6 +42,7 @@
 #import <ChatSDKCore/PUserAccount.h>
 #import <ChatSDKCore/PUserWrapper.h>
 #import <ChatSDKCore/PGroup.h>
+#import <ChatSDKCore/PModule.h>
 
 #import <ChatSDKCore/PElmMessage.h>
 #import <ChatSDKCore/PElmThread.h>
@@ -68,6 +68,7 @@
 #import <ChatSDKCore/PStickerMessageHandler.h>
 #import <ChatSDKCore/BStorageAdapter.h>
 #import <ChatSDKCore/PSocialLoginHandler.h>
+#import <ChatSDKCore/NSBundle+ChatCore.h>
 
 #import <ChatSDKCore/BHook.h>
 #import <ChatSDKCore/PHookHandler.h>

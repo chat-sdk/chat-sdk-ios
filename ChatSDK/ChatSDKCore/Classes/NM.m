@@ -88,6 +88,10 @@
     return [BNetworkManager sharedManager].a.socialLogin;
 }
 
++(id<PUsersHandler>) users {
+    return [BNetworkManager sharedManager].a.users;
+}
+
 +(id<PUser>) currentUser {
     return NM.core.currentUserModel;
 }

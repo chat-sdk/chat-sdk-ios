@@ -11,7 +11,7 @@
 
 #import <ChatSDKCore/ChatCore.h>
 #import <ChatSDKUI/ChatUI.h>
-#import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
+#import "ChatFirebaseAdapter.h"
 #import <ChatSDKCoreData/ChatCoreData.h>
 
 

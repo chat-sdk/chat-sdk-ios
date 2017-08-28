@@ -8,6 +8,8 @@
 
 #import "RXPromise+PromiseKit.h"
 
+/*
+
 @implementation RXPromise(PromiseKit)
 
 -(AnyPromise *) promiseKitThen {
@@ -25,3 +27,5 @@
 
 
 @end
+ 
+ */

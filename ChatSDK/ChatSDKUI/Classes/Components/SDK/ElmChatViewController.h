@@ -71,6 +71,7 @@
 -(void) setAudioEnabled: (BOOL) enabled;
 
 -(void) setTextInputDisabled: (BOOL) disabled;
+-(void) setTableViewBottomContentInset: (float) inset;
 
 // To be overridden
 -(void) addObservers;

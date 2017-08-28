@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 
 #import <RXPromise/RXPromise.h>
-#import <PromiseKit/PromiseKit.h>
+//@import PromiseKit;
 
+/*
 @interface RXPromise(PromiseKit)
 
 -(AnyPromise *) promiseKitThen;
 
 @end
+*/

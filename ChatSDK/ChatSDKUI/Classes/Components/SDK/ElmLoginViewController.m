@@ -227,6 +227,10 @@
 
 -(void) showHUD: (NSString *) message {
     
+    if(_hud) {
+        [MBProgressHUD hideHUDForView:splashView animated:NO];
+    }
+    
     //if (!_hud) {
         _hud = [MBProgressHUD showHUDAddedTo:splashView animated:NO];
         _hud.label.text = message;

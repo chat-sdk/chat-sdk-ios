@@ -11,19 +11,15 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = ['Classes/**/*']
+  s.resource_bundles = {
+    'ChatCore' => ['Assets/**/*']
+  }
 
   s.dependency 'RXPromise', '~> 1.0'
-  s.dependency 'PromiseKit'
+#   s.dependency 'PromiseKit'
   s.dependency 'Reachability', '~> 3.0'
   s.dependency 'AFNetworking', '~>3.1.0'
   
-  s.pod_target_xcconfig = { 
-      "ENABLE_BITCODE" => 'false'
-  }
-
-  s.user_target_xcconfig = {
-      "ENABLE_BITCODE" => 'false'
-  }
 
     
 end

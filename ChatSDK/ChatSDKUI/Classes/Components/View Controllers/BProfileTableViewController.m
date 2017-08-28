@@ -50,6 +50,8 @@
     if (!_user) {
         _user = currentUser;
     }
+    [self updateBlockButton];
+
 }
 
 -(void) loadUserImage {
@@ -57,7 +59,7 @@
         UIImage * image = [UIImage imageWithData: _user.thumbnail];
         image = image ? image : _user.defaultImage;
 
-        [profilePictureButton sd_setImageWithURL:[_user metaStringForKey:bUserPictureURLKey]
+        [profilePictureButton sd_setImageWithURL:[NSURL URLWithString:[_user metaStringForKey:bUserPictureURLKey]]
                                         forState:UIControlStateNormal
                                 placeholderImage:image];
     }
@@ -82,7 +84,12 @@
     if ([_user.entityID isEqualToString:currentUser.entityID]) {
         // Add a logout button
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bLogout] style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
-        self.navigationItem.leftBarButtonItem = Nil;
+        if([BInterfaceManager sharedManager].a.settingsViewController) {
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle chatUIImageNamed:@"icn_25_settings.png"] style:UIBarButtonItemStylePlain target:self action:@selector(openSettings)];
+        }
+        else {
+            self.navigationItem.leftBarButtonItem = Nil;
+        }
         
         [self currentUserProfile:YES];
     }
@@ -127,6 +134,10 @@
     [self updateUserAndIndexes];
     
     _resetUser = YES;
+}
+
+-(void) openSettings {
+    [self.navigationController pushViewController:[BInterfaceManager sharedManager].a.settingsViewController animated:YES];
 }
 
 -(void) startChatWithUser {
@@ -225,7 +236,7 @@
         //_picker.allowsEditing = YES; // This allows the user to crop their image
     }
     
-    _picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
     _resetUser = NO;
     
@@ -353,6 +364,33 @@
 
 -(void) keyboardDidHide: (NSNotification *) notification {
     self.navigationItem.rightBarButtonItem.enabled = YES;
+}
+
+- (IBAction)blockButtonPressed:(id)sender {
+    if(NM.blocking) {
+        if(![NM.blocking isBlocked:_user.entityID]) {
+            [NM.blocking blockUser:_user.entityID].thenOnMain(^id(id success) {
+                [self updateBlockButton];
+                return Nil;
+            }, Nil);
+        }
+        else {
+            [NM.blocking unblockUser:_user.entityID].thenOnMain(^id(id success) {
+                [self updateBlockButton];
+                return Nil;
+            }, Nil);
+        }
+    }
+}
+
+-(void) updateBlockButton {
+    [self.blockButton setTitle:[NSBundle t:bBlock] forState:UIControlStateNormal];
+    [self.blockButton setTitle:[NSBundle t:bUnblock] forState:UIControlStateSelected];
+
+    self.blockButton.hidden = !NM.blocking || [_user isEqual:NM.currentUser];
+    if(NM.blocking) {
+        self.blockButton.selected = [NM.blocking isBlocked:_user.entityID];
+    }
 }
 
 @end

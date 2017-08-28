@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDKCore/PUserHandler.h>
+#import <ChatSDKCore/PUsersHandler.h>
 
 @interface BFirebaseUsersHandler : NSObject {
     BOOL _allUsersOn;

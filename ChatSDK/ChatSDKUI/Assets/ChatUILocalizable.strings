@@ -79,11 +79,6 @@
 "bParticipants" = "Participants";
 "bActiveParticipants" = "Active Participants";
 "bNoActiveParticipants" = "No Active Participants";
-"bImageMessage" = "Image Message";
-"bLocationMessage" = "Location Message";
-"bAudioMessage" = "Audio Message";
-"bVideoMessage" = "Video Message";
-"bStickerMessage" = "Sticker Message";
 "bDone" = "Done";
 "bEdit" = "Edit";
 "bNoMessages" = "No messages...";

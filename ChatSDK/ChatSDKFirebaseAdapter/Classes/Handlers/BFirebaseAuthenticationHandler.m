@@ -9,6 +9,7 @@
 #import "BFirebaseAuthenticationHandler.h"
 
 #import <ChatSDKCore/ChatCore.h>
+#import "ChatFirebaseAdapter.h"
 
 @implementation BFirebaseAuthenticationHandler
 
