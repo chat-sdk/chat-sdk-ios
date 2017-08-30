@@ -115,9 +115,11 @@
 		<key>firebase</key>
 		<dict>
 			<key>root_path</key>
-			<string>use_frameworks_beta_4</string>
+			<string>chat_sdk_web</string>
 			<key>storage_path</key>
 			<string>gs://chat-sdk-v4.appspot.com</string>
+			<key>cloud_messaging_server_key</key>
+			<string>AAAA_WvJyeI:APA91bFIDYoxnbFTub61SKCh8-RZrElzdkZpzyV3paGFlRWonMzq33zQmQW3ub5hDXLuRaipwtoHSoDKXkZlN5DRb_EYdrxtaDptmvZKCYBPKI-4RqTK9wVLOJvgc5X3bVWLfpNSJO_tLK2pnmhfpHDw2Zs-5L2yug</string>
 		</dict>
 		<key>google</key>
 		<dict>

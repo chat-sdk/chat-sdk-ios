@@ -48,7 +48,6 @@
                                                                                             target:self
                                                                                             action:@selector(addContacts)];
     
-    
     if (!searchController) {
         
         searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
@@ -111,6 +110,14 @@
     
     __weak BContactsViewController * weakSelf = self;
     
+    NSDictionary * searchControllerNamesForType = [BInterfaceManager sharedManager].a.additionalSearchControllerNames;
+    
+    if(searchControllerNamesForType.allKeys.count == 0) {
+        // Just use name search
+        [self openSearchViewWithType:bSearchTypeNameSearch];
+        return;
+    }
+    
     // We want to create an action sheet which will allow users to choose how they add their contacts
     UIAlertController * view = [UIAlertController alertControllerWithTitle:[NSBundle t:bSearch] message:Nil preferredStyle:UIAlertControllerStyleActionSheet];
     view.popoverPresentationController.barButtonItem = self.navigationItem.rightBarButtonItem;
@@ -122,7 +129,6 @@
     }];
     
     // Add additional options
-    NSDictionary * searchControllerNamesForType = [BInterfaceManager sharedManager].a.additionalSearchControllerNames;
     for (NSString * key in searchControllerNamesForType.allKeys) {
         UIAlertAction * action = [UIAlertAction actionWithTitle:searchControllerNamesForType[key]
                                                              style:UIAlertActionStyleDefault

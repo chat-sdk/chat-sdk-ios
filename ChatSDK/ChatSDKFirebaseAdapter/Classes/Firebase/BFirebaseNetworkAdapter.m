@@ -27,7 +27,7 @@
         self.moderation = [[BFirebaseModerationHandler alloc] init];
         self.contact = [[BBaseContactHandler alloc] init];
         self.publicThread = [[BFirebasePublicThreadHandler alloc] init];
-//        self.users = [[BFirebaseUsersHandler alloc] init];
+        self.users = [[BFirebaseUsersHandler alloc] init];
 
     }
     return self;

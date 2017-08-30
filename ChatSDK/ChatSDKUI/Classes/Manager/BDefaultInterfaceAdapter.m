@@ -197,4 +197,8 @@
     return Nil;
 }
 
+-(UIColor *) colorForName: (NSString *) name {
+    return Nil;
+}
+
 @end

@@ -3,12 +3,25 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
 target 'ChatSDKSwift' do
+
+#   pod 'Firebase', :path => '../firebase-ios-sdk/Firebase.podspec'
   
   pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
   pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"
   pod "ChatSDKCoreData", :path => "../ChatSDK/ChatSDKCoreData"
 
-  pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  pod "Firebase/Auth"  
+  pod "Firebase/Database"  
+  pod "Firebase/Messaging"  
+  pod "Firebase/Storage"  
+  pod "Firebase/AdMob"
+
+  pod 'TwitterKit', '2.3'
+  pod 'GoogleSignIn'
+  pod 'FBSDKLoginKit'
+
+
+#  pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
 
 #   pod "ChatSDKFirebaseAdapter/AuthBase", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
 #   pod "ChatSDKFirebaseAdapter/Phone", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
@@ -25,14 +38,12 @@ target 'ChatSDKSwift' do
 #   pod "ChatSDKFirebase/ReadReceipts", :path => "../../ChatSDK/ChatSDKFirebase"
 #   pod "ChatSDKFirebase/NearbyUsers", :path => "../../ChatSDK/ChatSDKFirebase"
 
+#   pod "ChatSDKFirebase/Blocking", :path => "../../ChatSDK/ChatSDKFirebase"
+
 #   pod "TwoFactorAuth", :path => "../../ChatSDK/TwoFactorAuth"
 
 #   pod "ChatSDKModules/StickerMessages", :path => "../../ChatSDK/ChatSDKModules"
 #   pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../../ChatSDK/ChatSDKModules"
 	
-#   pod 'GoogleSignIn'
-#   pod 'TwitterKit'
-#   pod 'FBSDKLoginKit'
-#   pod 'Backendless'
 	
 end

@@ -9,17 +9,7 @@
 #ifndef ChatFirebaseAdapter_h
 #define ChatFirebaseAdapter_h
 
-//#import <Firebase/FirebaseAuth.h>
-
-//#import <Firebase/FirebaseDatabase.h>
-//#import <Firebase/FirebaseAuth.h>
-//#import <Firebase/FirebaseStorage.h>
-//#import <Firebase/FirebaseCore.h>
 #import <Firebase/Firebase.h>
-//#import <FirebaseCore/FirebaseCore.h>
-//#import <FirebaseAnalytics/FirebaseAnalytics.h>
-//#import <FirebaseDatabase/FirebaseDatabase.h>
-//#import <FirebaseAuth/FirebaseAuth.h>
 
 #import "NSManagedObject+Status.h"
 

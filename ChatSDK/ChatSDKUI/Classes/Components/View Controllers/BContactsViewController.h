@@ -13,7 +13,7 @@
 @protocol PUserConnection;
 
 @interface BContactsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchResultsUpdating> {
-    NSMutableArray<PUserConnection> * _contacts;
+    NSMutableArray * _contacts;
     __strong BSearchViewController * _searchViewController;
     
     id _internetConnectionObserver;

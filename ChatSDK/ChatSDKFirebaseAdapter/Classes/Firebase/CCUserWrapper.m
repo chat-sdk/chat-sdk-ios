@@ -149,17 +149,23 @@
                 [user setImage:UIImagePNGRepresentation(image)];
                 [user setThumbnail:UIImagePNGRepresentation(thumbnail)];
                 
-                return [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
-                    
-                    // Set the meta data
-                    [user setMetaString:urls[bImagePath] forKey:bPictureURLKey];
-                    [user setMetaString:urls[bThumbnailPath] forKey:bPictureURLThumbnailKey];
-                    
-                    return [user loadProfileImage:NO].thenOnMain(^id(UIImage * image) {
+                if(NM.upload) {
+                    return [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
                         
-                        return [NM.core pushUser];
+                        // Set the meta data
+                        [user setMetaString:urls[bImagePath] forKey:bPictureURLKey];
+                        [user setMetaString:urls[bThumbnailPath] forKey:bPictureURLThumbnailKey];
+                        
+                        return [user loadProfileImage:NO].thenOnMain(^id(UIImage * image) {
+                            
+                            return [NM.core pushUser];
+                        }, Nil);
                     }, Nil);
-                }, Nil);
+                }
+                else {
+                    return [NM.core pushUser];
+                }
+                
             }
             return image;
         }, Nil);

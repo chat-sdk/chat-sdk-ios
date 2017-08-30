@@ -18,7 +18,8 @@ XcodeSwift/Pods
 XcodeSwift/Podfile.lock
 XcodeSnapchat/
 XcodeTest/
-XcodeTestAll/
+<<<<<<< HEAD
+XcodeTest2/
 XcodeTed/
 XcodeXMPP/
 FirebaseUI-iOS/
@@ -26,3 +27,10 @@ firebase-ios-sdk/
 XcodeTestAll/
 ChatSDKDemo/
 Xcode*
+=======
+XcodeTestAll/
+XcodeTed/
+firebase-ios-sdk/
+FirebaseUI-iOS/
+XcodeXMPP/
+>>>>>>> firebase_community

@@ -13,4 +13,9 @@
 //#import "BFirebaseSocialLoginHandler.h"
 //#import "BBackendlessPushHandler.h"
 
+#import "ChatFirebaseAdapter.h"
+#import "BFirebaseSocialLoginModule.h"
+#import "BFirebasePushModule.h"
+#import "BFirebaseFileStorageModule.h"
+
 #endif /* ChatSDK_Bridging_Header_h */

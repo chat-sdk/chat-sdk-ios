@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <ChatSDKCore/PInterfaceFacade.h>
 
+#define bColorMessageLink @"bColorMessageLink"
+
 @class BPrivateThreadsViewController;
 @class BPublicThreadsViewController;
 @class BContactsViewController;
