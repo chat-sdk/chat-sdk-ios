@@ -158,9 +158,7 @@ All the paths in the instructions will be provided assuming this project structu
   >**Note**  
   >There are currently ongoing issues with the Firebase pods which make it very difficult for us to include the Chat SDK Firebase Adapter in a development pod. Until these issues are resolved, the easiest approach is to drag the files into Xcode directly. 
   
-6. Simlinking. Alternatively, you can add the `FirebaseNetworkAdapter` using a simlink. This allows you to have one copy of the code which can be referenced by multiple Xcode projects. To setup the simlinks you need to locate the **setup_links.sh** script. This should be added to your Xcode project where you want to setup the simlinks. Run the script using `sh setup_links.sh`. Enter the path to the **ChatSDK** folder contining the Chat SDK project. If you use the default project structure, you can just leave this blank (the default path is `../../`). Then open Xcode and add the simlink folders using the normal process.   
-
-**LINK HERE ^^** 
+6. Simlinking. Alternatively, you can add the `FirebaseNetworkAdapter` using a simlink. This allows you to have one copy of the code which can be referenced by multiple Xcode projects. To setup the simlinks you need to locate the [**setup_links.sh**](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Xcode/ChatSDK%20Demo/setup_links.sh) script. This should be added to your Xcode project where you want to setup the simlinks. Run the script using `sh setup_links.sh`. Enter the path to the **ChatSDK** folder contining the Chat SDK project. If you use the default project structure, you can just leave this blank (the default path is `../../`). Then open Xcode and add the simlink folders using the normal process.   
 
 7. Open the **App Delegate** add the following code to initialise the chat
 
