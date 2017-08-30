@@ -39,9 +39,11 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 - [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
 - [Sticker messages](http://chatsdk.co/downloads/sticker-messages/)
 - [Contact book integration](http://chatsdk.co/downloads/contact-book-integration/)
-- Social Login
-- Push Notifications
-- File Storage
+- [User Blocking](http://chatsdk.co/downloads/user-blocking-for-ios/)
+- [Social Login](https://github.com/chat-sdk/chat-sdk-ios#social-login)
+- [Push Notifications](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
+- [File Storage](https://github.com/chat-sdk/chat-sdk-ios#file-storage)
+- [Firebase UI](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)
 
 ## Help spread the word
 Chat SDK is free and open source. If you like the project help us spread the word by:
@@ -284,7 +286,7 @@ To install a module you should use the following steps:
 
 ### Social Login
 
-The social login module allows you to support user authentication using some popular social networks including Twitter, Facebook and Google Plus. 
+The [social login module](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase/FirebaseSocialLogin) allows you to support user authentication using some popular social networks including Twitter, Facebook and Google Plus. 
 
 After adding the **SocialLogin** files to your Xcode project, add the following to your Podfile:
 
@@ -353,7 +355,7 @@ Follow the social login [setup guides](https://github.com/chat-sdk/chat-sdk-ios/
 
 The Push Notification module allows you to send free push notifications using Firebase Clound Messenger.
 
-After adding the **PushNotifications** module to your Xcode project, add the following to the App Delegate to enable the module.
+After adding the [Push Notifications](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase/FirebasePush) module to your Xcode project, add the following to the App Delegate to enable the module.
 
 **Objective C**
 
@@ -411,7 +413,7 @@ Then follow the Firebase Push notification [setup guide](https://github.com/chat
 
 ### File Storage
 
-The File Storage module allows you to send image messages. These messages are stored on the Firebase server. 
+The [File Storage module](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase/FirebaseFileStorage) allows you to send image messages. These messages are stored on the Firebase server. 
 
 After adding the files to your Xcode project, add the following to the App Delegate to enable the module.
 
@@ -448,7 +450,7 @@ Ensure that the file storage path has been setup.
 
 ### Firebase UI
 
-The File UI module allows you to use the native Firebase user interface for authentication.
+The [File UI module](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase/FirebaseUI) allows you to use the native Firebase user interface for authentication.
 
 After adding the files to your Xcode project, add the following to the App Delegate to enable the module.
 
