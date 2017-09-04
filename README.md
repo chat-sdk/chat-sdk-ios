@@ -155,7 +155,7 @@ All the paths in the instructions will be provided assuming this project structu
   
 4. Run `pod install`
   
-5. Add the **ChatSDKFirebaseAdapter** code directly to your Xcode project. Copy the **ChatSDKFirebaseAdapter** folder from `chat-sdk-ios/Xcode/ChatSDKDemo/ChatSDKFirebaseAdapter` into your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **ChatSDKFirebaseAdapter** folder. 
+5. Add the **ChatSDKFirebaseAdapter** code directly to your Xcode project. Copy the **ChatSDKFirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebaseAdapter/Classes](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebaseAdapter/Classes) into your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **ChatSDKFirebaseAdapter** folder. 
 
   >**Note**  
   >There are currently ongoing issues with the Firebase pods which make it very difficult for us to include the Chat SDK Firebase Adapter in a development pod. Until these issues are resolved, the easiest approach is to drag the files into Xcode directly. 
@@ -264,10 +264,10 @@ There are a number of free and premium extensions that can be added to the Chat 
 
 For the following modules:
 
-+ Firebase File Storage (free)
-+ Firebase Push Notifications (free)
-+ Firebase Social Login (free)
-+ User Blocking
+- Firebase File Storage (free)
+- Firebase Push Notifications (free)
+- Firebase Social Login (free)
+- User Blocking
 - [Typing indicator](http://chatsdk.co/downloads/typing-indicator/)
 - [Read receipts](http://chatsdk.co/downloads/read-receipts/)
 - [Location based chat](http://chatsdk.co/downloads/location-based-chat/)
@@ -275,7 +275,7 @@ For the following modules:
 - [Video messages](http://chatsdk.co/downloads/video-messages/)
 - [Contact book integration](http://chatsdk.co/downloads/contact-book-integration/)
 
-The free modules are located in the `chat-sdk-ios/ChatSDKFirebase` folder. The premium modules can be purchased and downloaded from the link provided. 
+The free modules are located in the [chat-sdk-ios/ChatSDKFirebase](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase) folder. The premium modules can be purchased and downloaded from the link provided. 
 
 To install a module you should use the following steps:
 

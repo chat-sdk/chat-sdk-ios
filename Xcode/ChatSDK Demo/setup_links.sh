@@ -13,19 +13,19 @@ rm $adapterDir
 
 if [$path -eq ""] 
 then
-  path="../../"
+  path="../.."
 fi
-chatPath="$path$adapterPath"
-firebaseModulesPath="$path$firebaseModulesDir"
-modulesPath="$path$modulesDir"
+chatPath="$path/$adapterPath"
+firebaseModulesPath="$path/$firebaseModulesDir"
+modulesPath="$path/$modulesDir"
 
 echo "Creating simlink to $chatPath"
-ln -s $chatPath ChatSDKFirebaseAdapter
+ln -s "$chatPath" ChatSDKFirebaseAdapter
 
 # Create a simlink to the Firebase modules path
 echo "Creating simlink to $firebaseModulesPath"
-ln -s $firebaseModulesPath ChatSDKFirebase
+ln -s "$firebaseModulesPath" ChatSDKFirebase
 
 # Create a simlink to the modules path
 echo "Creating simlink to $modulesPath"
-ln -s $modulesPath ChatSDKModules
+ln -s "$modulesPath" ChatSDKModules
