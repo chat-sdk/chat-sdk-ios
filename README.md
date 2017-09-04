@@ -109,7 +109,7 @@ _And more... so check it out!_
 
 ### Project Structure
 
-We've tried to make it as easy as possible to add Chat SDK to your project. However since it's it's a relatively complex project with a lot of dependencies (and because of some issues with Cocoapods) the setup needs to be handeled carefully. 
+We've tried to make it as easy as possible to add Chat SDK to your project. However since it's it's a relatively complex project with a lot of dependencies (and because of some issues with Cocoapods) the setup needs to be handled carefully. 
 
 So that things run smoothly, we recommend that you keep the Chat SDK library in the folder outside your Xcode project folder. A typical structure would look like this:
 
