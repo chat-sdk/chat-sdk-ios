@@ -46,6 +46,7 @@
 -(UIImage *) imageAsImage;
 -(UIImage *) defaultImage;
 -(NSString *) imageURL;
+-(void) setImageURL: (NSString *) url;
 
 -(void) setThumbnail: (NSData *) image;
 -(NSData *) thumbnail;
@@ -68,7 +69,7 @@
 -(void) setMetaDictionary: (NSDictionary *) dict;
 -(NSDictionary *) metaDictionary;
 
--(void) addContact: (id<PUser>) user;
+//-(void) addContact: (id<PUser>) user;
 -(NSArray *) getContacts;
 -(void) setMetaValue: (id) value forKey: (NSString *) key;
 -(id) metaValueForKey: (NSString *) key;

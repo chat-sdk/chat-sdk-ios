@@ -29,5 +29,6 @@
 }
 
 - (id)initWithThread: (id<PThread>) thread;
+- (void) updateSubtitle;
 
 @end

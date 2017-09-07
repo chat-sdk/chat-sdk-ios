@@ -6,17 +6,7 @@
 //  Copyright (c) 2014 deluge. All rights reserved.
 //
 
-//#import <Foundation/Foundation.h>
-//#import "Firebase.h"
-//#import <Firebase/Firebase.h>
-//@import Firebase
-//#import <Firebase/Firebase.h>
-
-//@import FirebaseDatabase;
-//@import Firebase;
-//#import <Firebase/Firebase.h>
-#import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
-
+#import "ChatFirebaseAdapter.h"
 
 @class FIRDatabaseReference;
 
@@ -46,7 +36,5 @@
 // Indexes
 +(FIRDatabaseReference *) indexRef;
 +(FIRDatabaseReference *) searchIndexRef;
-
--(FIRDatabaseReference *) child: (NSString *) component;
 
 @end

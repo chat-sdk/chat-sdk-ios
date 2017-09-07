@@ -11,12 +11,12 @@
 @interface BFirebaseCoreHandler : BAbstractCoreHandler
 
 /**
- * @brief
+ * @brief Convert a date object to a Firebase timestamp
  */
 +(NSNumber *) dateToTimestamp: (NSDate *) date;
 
 /**
- * @brief
+ * @brief Convert a Firebase timestamp to a date object
  */
 +(NSDate *) timestampToDate: (NSNumber *) timestamp;
 

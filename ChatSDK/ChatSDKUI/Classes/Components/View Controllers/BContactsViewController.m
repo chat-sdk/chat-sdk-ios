@@ -33,6 +33,9 @@
         self.title = [NSBundle t:bContacts];
         self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_contact.png"];
         _contacts = [NSMutableArray new];
+        [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+            [self reloadData];
+        }];
     }
     return self;
 }
@@ -44,10 +47,6 @@
     self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                             target:self
                                                                                             action:@selector(addContacts)];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [self reloadData];
-    }];
     
     if (!searchController) {
         
@@ -111,10 +110,17 @@
     
     __weak BContactsViewController * weakSelf = self;
     
+    NSDictionary * searchControllerNamesForType = [BInterfaceManager sharedManager].a.additionalSearchControllerNames;
+    
+    if(searchControllerNamesForType.allKeys.count == 0) {
+        // Just use name search
+        [self openSearchViewWithType:bSearchTypeNameSearch];
+        return;
+    }
+    
     // We want to create an action sheet which will allow users to choose how they add their contacts
     UIAlertController * view = [UIAlertController alertControllerWithTitle:[NSBundle t:bSearch] message:Nil preferredStyle:UIAlertControllerStyleActionSheet];
     view.popoverPresentationController.barButtonItem = self.navigationItem.rightBarButtonItem;
-    
     
     UIAlertAction * nameSearch = [UIAlertAction actionWithTitle:[NSBundle t:bSearchWithName]
                                                           style:UIAlertActionStyleDefault
@@ -123,7 +129,6 @@
     }];
     
     // Add additional options
-    NSDictionary * searchControllerNamesForType = [BInterfaceManager sharedManager].a.additionalSearchControllerNames;
     for (NSString * key in searchControllerNamesForType.allKeys) {
         UIAlertAction * action = [UIAlertAction actionWithTitle:searchControllerNamesForType[key]
                                                              style:UIAlertActionStyleDefault

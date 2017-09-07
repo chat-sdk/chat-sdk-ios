@@ -254,13 +254,14 @@
     if (first && last) {
         return bMessagePositionSingle;
     }
-    if (first && !last) {
+    else if (first && !last) {
         return bMessagePositionFirst;
     }
-    if (!first && last) {
+    else if (!first && last) {
         return bMessagePositionLast;
     }
-    if (!first && !last) {
+    //if (!first && !last) {
+    else {
         return bMessagePositionMiddle;
     }
 }

@@ -20,6 +20,7 @@
 //-(RXPromise *) loadProfileThumbnail: (BOOL) force;
 -(UIImage *) defaultImage;
 -(NSString *) imageURL;
+-(UIImage *) imageAsImage;
 
 @end
 

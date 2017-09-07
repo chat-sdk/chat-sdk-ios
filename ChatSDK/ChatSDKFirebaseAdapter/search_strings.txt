@@ -1,7 +1,0 @@
-<FirebaseAuthUI/
-<FirebasePhoneAuthUI/
-<FirebaseDatabaseUI/
-<FirebaseFacebookAuthUI/
-<FirebaseGoogleAuthUI/
-<FirebaseStorageUI/
-<FirebaseTwitterAuthUI/

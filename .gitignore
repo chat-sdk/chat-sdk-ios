@@ -2,13 +2,28 @@
 BModules.h.default
 Xcode/Build
 Xcode/ChatSDK Demo.xcworkspace
+Xcode/ChatSDK Demo.xcodeproj/xcuserdata
+Xcode/ChatSDK Demo/ChatSDKFirebase
+Xcode/ChatSDK Demo/ChatSDKFirebaseAdapter
+Xcode/ChatSDK Demo/ChatSDKModules
 Xcode/Pods
 Xcode/Podfile.lock
 XcodeSwift/Build
 XcodeSwift/ChatSDKSwift.xcworkspace
+XcodeSwift/ChatSDKSwift.xcodeproj/xcuserdata
+XcodeSwift/ChatSDKSwift/ChatSDKFirebase
+XcodeSwift/ChatSDKSwift/ChatSDKFirebaseAdapter
+XcodeSwift/ChatSDKSwift/ChatSDKModules
 XcodeSwift/Pods
 XcodeSwift/Podfile.lock
 XcodeSnapchat/
 XcodeTest/
-XcodeTest2/
+XcodeTestAll/
 XcodeTed/
+XcodeXMPP/
+FirebaseUI-iOS/
+firebase-ios-sdk/
+XcodeTestAll/
+ChatSDKDemo/
+Xcode*
+setup_links.sh

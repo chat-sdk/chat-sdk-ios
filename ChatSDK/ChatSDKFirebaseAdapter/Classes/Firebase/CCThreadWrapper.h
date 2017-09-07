@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 deluge. All rights reserved.
 //
 
-#import <ChatSDKFirebaseAdapter/BEntity.h>
+#import "BEntity.h"
 #import <ChatSDKCore/PThreadWrapper.h>
 
 @class CCUserWrapper;
@@ -100,5 +100,10 @@
  * @brief Update the class object from Firebase once
  */
 -(RXPromise *) once;
+
+/**
+ * @brief Set the last message on the thread (used by the web client)
+ */
+-(RXPromise *) pushLastMessage: (NSDictionary *) messageData;
 
 @end

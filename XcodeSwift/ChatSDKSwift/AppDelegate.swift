@@ -10,12 +10,6 @@ import UIKit
 import ChatSDKCore
 import ChatSDKUI
 import ChatSDKCoreData
-import ChatSDKFirebaseAdapter
-
-//import ChatSDKFirebase
-//import ChatSDKModules
-//import TwoFactorAuth
-
 
 @UIApplicationMain
 /* Two Factor Auth */
@@ -32,6 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         BInterfaceManager.shared().a = BDefaultInterfaceAdapter.init()
         BNetworkManager.shared().a = BFirebaseNetworkAdapter.init()
         BStorageManager.shared().a = BCoreDataManager.init()
+        
+        BFirebaseSocialLoginModule.init().activate(with: application, withOptions: launchOptions);
+        BFirebaseFileStorageModule.init().activate();
+        BFirebasePushModule.init().activate(with: application, withOptions: launchOptions);
         
         /* Social Login */
         //BNetworkManager.shared().a.setSocialLogin(BFirebaseSocialLoginHandler.init())
@@ -55,11 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //BKeyboardOverlayOptionsModule.init().activate()
         //BStickerMessageModule.init().activate()
         
-        /* Two Factor Authentication */
-        //verifyViewController = BVerifyViewController(nibName: nil, bundle: nil)
-        //verifyViewController?.delegate = self
-        //BNetworkManager.shared().a.auth().setChallenge(verifyViewController)
-        
         let mainViewController = BAppTabBarController.init(nibName: nil, bundle: nil)
         BNetworkManager.shared().a.auth().setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
         
@@ -71,38 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    /* Start Two Factor Authentication Code */
-    
-//    func numberVerified(withToken token: String) {
-//        let dict = [bLoginTypeKey: bAccountTypeCustom.rawValue, bLoginCustomToken: token] as [String : Any]
-//        
-//        let promise = BNetworkManager.shared().a.auth().authenticate(with: dict)
-//        _ = promise!.promiseKitThen().then { (result: Any?) in
-//            
-//            if (result is Error) {
-//                BTwoFactorAuthUtils.alertWithError((result as! Error).localizedDescription)
-//                // Still need to remove the HUD else we get stuck
-//                self.authenticationFinished(error: result)
-//            }
-//            else {
-//                self.authenticationFinished(error: nil)
-//            }
-//
-//            return AnyPromise.promiseWithValue(result)
-//        }
-//    }
-//    
-//    func authenticationFinished(error: Any?) {
-//        if error == nil {
-//            verifyViewController?.dismiss(animated: true, completion: {() -> Void in
-//                self.verifyViewController?.phoneNumber?.text = ""
-//            })
-//        }
-//        verifyViewController?.hideHUD()
-//    }
-    
-    /* End Two Factor Authentication Code */
-
     func applicationWillResignActive(_ application: UIApplication) {}
     func applicationDidEnterBackground(_ application: UIApplication) {}
     func applicationWillEnterForeground(_ application: UIApplication) {}

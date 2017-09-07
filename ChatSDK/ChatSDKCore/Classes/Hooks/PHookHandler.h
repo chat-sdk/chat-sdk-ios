@@ -10,10 +10,13 @@
 #define PHookHandler_h
 
 #define bHookUserAuthFinished @"bHookUserAuthFinished"
-#define bHookUserAuthFinished_PUser_User @"bHookUserAuthFinished_PUser_User"
+#define bHookUserAuthFinished_PUser @"bHookUserAuthFinished_PUser"
 
 #define bHookUserOn @"bHookUserOn"
-#define bHookUserOn_PUser_User @"bHookUserOn_PUser_User"
+#define bHookUserOn_PUser @"bHookUserOn_PUser"
+
+#define bHookMessageRecieved @"bHookMessageRecieved"
+#define bHookMessageReceived_PMessage @"bHookMessageReceived_PMessage"
 
 @class BHook;
 

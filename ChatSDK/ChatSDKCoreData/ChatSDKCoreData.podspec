@@ -18,11 +18,6 @@ Pod::Spec.new do |s|
   s.frameworks = 'UIKit', 'CoreData'
   s.dependency 'ChatSDKCore'
 
-  # For compatibility with the XMPP Adapter
-  s.pod_target_xcconfig = { 
-      "ENABLE_BITCODE" => 'false'
-  }
-
     
 end
 

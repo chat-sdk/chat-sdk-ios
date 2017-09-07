@@ -13,7 +13,7 @@
 
 // TODO: Implement this
 -(RXPromise *) getLastOnlineForUser: (id<PUser>) user {
-    
+    return Nil;
 }
 
 @end

@@ -99,11 +99,6 @@
 #define bNoActiveParticipants @"bNoActiveParticipants"
 #define bTapHereForContactInfo @"bTapHereForContactInfo"
 
-#define bImageMessage @"bImageMessage"
-#define bLocationMessage @"bLocationMessage"
-#define bAudioMessage @"bAudioMessage"
-#define bVideoMessage @"bVideoMessage"
-#define bStickerMessage @"bStickerMessage"
 #define bProfile @"bProfile"
 #define bDone @"bDone"
 #define bEdit @"bEdit"
@@ -154,6 +149,8 @@
 #define bLocationMessagesNotSupported @"bLocationMessagesNotSupported"
 #define bVideoMessagesNotSupported @"bVideoMessagesNotSupported"
 
+#define bBlock @"bBlock"
+#define bUnblock @"bUnblock"
 
 @interface NSBundle (ChatUI)
 

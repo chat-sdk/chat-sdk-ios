@@ -31,7 +31,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
     
-    _editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit"
+    _editButton = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bEdit]
                                                    style:UIBarButtonItemStylePlain
                                                   target:self
                                                   action:@selector(editButtonPressed:)];

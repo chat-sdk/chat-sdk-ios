@@ -82,6 +82,7 @@ typedef enum {
 -(void) addUser: (id<PUser>) user;
 -(void) removeUser:(id<PUser>) user;
 -(void) addMessage: (id<PMessage>) message;
+-(void) removeMessage: (id<PMessage>) message;
 
 -(NSString *) displayName;
 

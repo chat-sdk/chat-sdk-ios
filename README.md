@@ -39,9 +39,11 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 - [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
 - [Sticker messages](http://chatsdk.co/downloads/sticker-messages/)
 - [Contact book integration](http://chatsdk.co/downloads/contact-book-integration/)
-- [Push notifications](http://chatsdk.co/downloads/backendless-push-notifications/)
-- [Social Login](https://chatsdk.co/downloads/firebase-social-login/)
-- [Two Factor Authentication](https://chatsdk.co/downloads/two-factor-authentication/)
+- [User Blocking](http://chatsdk.co/downloads/user-blocking-for-ios/)
+- [Social Login](https://github.com/chat-sdk/chat-sdk-ios#social-login)
+- [Push Notifications](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
+- [File Storage](https://github.com/chat-sdk/chat-sdk-ios#file-storage)
+- [Firebase UI](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)
 
 ## Help spread the word
 Chat SDK is free and open source. If you like the project help us spread the word by:
@@ -76,16 +78,16 @@ If you have an app that uses the Chat SDK let us know and we'll add a link.
 This repository contains a fully functional version of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
 
 1. Clone Chat SDK  
-2. Run ```pod install``` in the **Xcode** directory  
-3. Open the ```Chat SDK Firebase.xcworkspace``` file in Xcode  
+2. Run `pod install` in the **Xcode** directory  
+3. Open the `Chat SDK Firebase.xcworkspace` file in Xcode  
 4. Compile and run
 
 ## Swift Version
 The Chat SDK is fully compatible with Swift projects and contains a Swift demo project. 
 
 1. Clone Chat SDK  
-2. Run ```pod install``` in the **XcodeSwift** directory  
-3. Open the ```ChatSDKSwift.xcworkspace``` file in Xcode  
+2. Run `pod install` in the **XcodeSwift** directory  
+3. Open the `ChatSDKSwift.xcworkspace` file in Xcode  
 4. Compile and run 
 
 ## Setup Service
@@ -104,56 +106,73 @@ We have a number of additional guides available on our [Wiki](https://github.com
 _And more... so check it out!_
 
 ## Integration with an existing project
-It's easy to integrate the Chat SDK with an existing project. For more detail and a walkthrough video checkout the wiki [here](https://github.com/chat-sdk/chat-sdk-ios/wiki/Chat-SDK-iOS:-Adding-Chat-SDK-to-your-existing-project).
 
-1. Clone the Chat SDK  
-2. Add the Chat SDK development pods to your Podfile  
+### Project Structure
+
+We've tried to make it as easy as possible to add Chat SDK to your project. However since it's it's a relatively complex project with a lot of dependencies (and because of some issues with Cocoapods) the setup needs to be handled carefully. 
+
+So that things run smoothly, we recommend that you keep the Chat SDK library in the folder outside your Xcode project folder. A typical structure would look like this:
+
+```
+ChatSDK
+---- ChatSDKCore
+---- ChatSDKCoreData
+---- ChatSDKFirebaseAdapter
+---- ChatSDKUI
+
+YourProject
+---- YourProject.xcodeproj
+---- YouProject
+-------- [.m and .h files]
+---- Podfile
+```
+
+All the paths in the instructions will be provided assuming this project structure. If you use a different structure, you will need to modify the paths accordingly. 
+
+### Adding the Chat SDK To your project
+
+1. Download or clone the Chat SDK and put the library files in a convenient location
+2. Add the Chat SDK development pods to your Podfile
 
   ```
-    pod "ChatSDK", :path => "[Path to ChatSDK folder]"
-  ```
-
-  > **Note**  
-  > Chat SDK supports push notifications but this requires the installation of an     additional free module. This guide includes the additional steps necessary to setup push notifications. These steps will be marked with a comment. 
-
-  For push notifications you should download the free [BackendlessPushHandler](http://chatsdk.co/downloads/backendless-push-notifications/) module. 
-
-  ```
+  use_frameworks!
   pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
   pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"
   pod "ChatSDKCoreData", :path => "../ChatSDK/ChatSDKCoreData"
-  pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
   ```
-  
-  >**Note**
-  >Make sure to use the `use_frameworks!` flag in your Podfile. If you want to use the old version which doesn't use dynamic frameworks checkout the `master_no_frameworks` branch. However, you should bear in mind that we are no longer actively developing this branch. 
 
-  >**Note**
-  >If you see an error saying that `Firebase.h` can't be found you need to make sure that the framework search path is set correctly. Open the ChatSDKFirebaseAdapter.podspec file and verify that the following path is correct:
-  
+  >**Note**  
+  >The path can be absolute or relative but you need to make sure it's correct for your project. The path should be from the location of the Podfile to the folder containing the Chat SDK podspec. Make sure to use the `use_frameworks!` flag. 
+
+3. Add additional support pods. These are external pods that are needed by the Chat SDK
+
   ```
-  s.user_target_xcconfig = {
-      "FRAMEWORK_SEARCH_PATHS" => '"${PODS_ROOT}/../../ChatSDK/ChatSDKFirebaseAdapter/Frameworks"'
-  }
+  pod "Firebase/Auth"  
+  pod "Firebase/Database"  
+  pod "Firebase/Messaging"  
+  pod "Firebase/Storage"  
   ```
   
-3. Run ```Pod install```  
-4. Copy the **GooglerService-Info.plist** file into your main project target folder  
-5. Copy the following rows from the demo ChatSDK **Info.plist** file to your project's **Info.plist**  
-  1. `chat_sdk` row
-  2. `App Transport Security Settings` row
-  3. `URL types` row
-  4. `FacebookAppID` row
-  5. Privacy rows appropriate for your project (location, photo library, microphone, camera etc)
-6. Open the **App Delegate** add the following code to initialise the chat
+4. Run `pod install`
+  
+5. Add the **ChatSDKFirebaseAdapter** code directly to your Xcode project. Copy the **ChatSDKFirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebaseAdapter/Classes](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebaseAdapter/Classes) into your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **ChatSDKFirebaseAdapter** folder. 
+
+  >**Note**  
+  >There are currently ongoing issues with the Firebase pods which make it very difficult for us to include the Chat SDK Firebase Adapter in a development pod. Until these issues are resolved, the easiest approach is to drag the files into Xcode directly. 
+  
+6. Simlinking. Alternatively, you can add the `FirebaseNetworkAdapter` using a simlink. This allows you to have one copy of the code which can be referenced by multiple Xcode projects. To setup the simlinks you need to locate the [**setup_links.sh**](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Xcode/ChatSDK%20Demo/setup_links.sh) script. This should be added to your Xcode project where you want to setup the simlinks. Run the script using `sh setup_links.sh`. Enter the path to the **ChatSDK** folder contining the Chat SDK project. If you use the default project structure, you can just leave this blank (the default path is `../../`). Then open Xcode and add the simlink folders using the normal process.   
+
+7. Open the **App Delegate** add the following code to initialise the chat
 
   **Objective C**
 
+  _AppDelegate.m -> application: didFinishLaunchingWithOptions:_
+  
   ```
   #import <ChatSDKCore/ChatCore.h>
   #import <ChatSDKUI/ChatUI.h>
-  #import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
   #import <ChatSDKCoreData/ChatCoreData.h>
+  #import "ChatFirebaseAdapter.h"
   ```
 
   Add the following code to the start of your didFinishLaunchingWithOptions function:
@@ -179,11 +198,18 @@ It's easy to integrate the Chat SDK with an existing project. For more detail an
   
   **Swift**
   
+  _AppDelegate.swift_
+  
   ```
   import ChatSDKCore
   import ChatSDKUI
   import ChatSDKCoreData
-  import ChatSDKFirebaseAdapter
+  ```
+
+    Add the following to your briding header
+  
+  ```
+  #import "ChatFirebaseAdapter.h"
   ```
   
   Add the following code to the start of your didFinishLaunchingWithOptions function:
@@ -200,41 +226,314 @@ It's easy to integrate the Chat SDK with an existing project. For more detail an
   self.window?.rootViewController = mainViewController;
   self.window?.makeKeyAndVisible();
   ```
-  
+    
+6. The Chat SDK is now added to your project
+
 ## Firebase Setup
 
-[Firebase](http://firebase.google.com) is a real-time data and storage service provided by Google. Firebase is free up to around 20k daily active users. 
-
-For full documentation of Firebase configuration checkout the complete guide and walkthrough video [here](https://github.com/chat-sdk/chat-sdk-ios/wiki/Chat-SDK-iOS:-Firebase-Configuration).
-
-**Create a Firebase account**
-
-1. Go to the [Firebase website](https://console.firebase.google.com/) and create an account
-2. Create a new project on the dashboard
-3. Click on your project and click through to database (left hand menu)
-  
-**Add Firebase details to your project Info.plist**
-
-1. Open your new project and click database in the left menu
-2. Copy the URL at the top of your browser e.g. `https://appname.firebaseio.com/`
-3. Modify the URL into the following format: `gs://appname.appspot.com`
-4. Copy the modified URL into your plist field: **chat_sdk** -> **firebase** -> **storage_path**
-5. Enter a custom `root_path`
-
-  >**Note:**  
-  >The root path is the initial path which your ChatSDK data will be stored on Firebase. It allows you to use a single Firebase database for multiple versions of your project. For example you could create a ```/live``` path and a ```/testing``` path. This allows you to test new features without fear of corrupting your current data model.  
-
-**Configure your Firebase iOS App**
-
-1. In your Firebase project, click the cog at the top of the page
-2. Select Project settings
-3. Click to add an iOS App
-4. Enter your BundleID
-5. Click through the remaining steps (all this code has already been added)
-6. Copy the **GoogleService-Info.plist** into your main project folder (replace the previous one copied from ChatSDK)
+1. Go to the [Firebase](http://firebase.com/) website and sign up
+2. Go to the [Firebase console](https://console.firebase.google.com/) and make a new project
+3. Click **Add project**
+4. Choose a name and a location
+5. Click **Settings** (the gear icon). On the General tab, click **Add Firebase to your iOS app**
+6. Enter your bundle ID
+7. Download the **GoogleServices** file and add it to the root of your Xcode project
 
   >**Note:**  
   >It is worth opening your downloaded ```GoogleService-Info.plist``` and checking there is an ```API_KEY``` field included. Sometimes Firebase's automatic download doesn’t include this in the plist. To rectify, just re-download the plist from the project settings menu.  
+
+8. Next add the Chat SDK specific settings. Open the demo Chat SDK project and locat the **chat_sdk** entry in the **Info.plist** file. Copy this entry into the **Info.plist** file in your project.
+9. Expand the entry and then expand the **firebase** settings. Set the `root_path` to a value of your choice. Set the `storage_path` to the value found in the Firebase console under the storage tab. 
+  
+  >**Note**  
+  >The root path variable allows you to run multiple Chat SDK instances on one Firebase account. Each different root path will represent a completely separate set of Firebase data. This can be useful for testing because you could have separate test and prod root paths.
+   
+10. Copy the following rows from the demo ChatSDK **Info.plist** file to your project's **Info.plist**  
+  1. `App Transport Security Settings`
+  2. `URL types`
+  3. `FacebookAppID`
+  4. All the privacy rows. These will allow the app to access the camera, location and address book
+
+11. In the Firebase dashboard click **Authentication -> Sign-in method** and enable all the appropriate methods 
+
+## Module Setup
+
+There are a number of free and premium extensions that can be added to the Chat SDK. 
+
+### Firebase Modules
+
+For the following modules:
+
+- Firebase File Storage (free)
+- Firebase Push Notifications (free)
+- Firebase Social Login (free)
+- User Blocking
+- [Typing indicator](http://chatsdk.co/downloads/typing-indicator/)
+- [Read receipts](http://chatsdk.co/downloads/read-receipts/)
+- [Location based chat](http://chatsdk.co/downloads/location-based-chat/)
+- [Audio messages](http://chatsdk.co/downloads/audio-messages/)
+- [Video messages](http://chatsdk.co/downloads/video-messages/)
+- [Contact book integration](http://chatsdk.co/downloads/contact-book-integration/)
+
+The free modules are located in the [chat-sdk-ios/ChatSDKFirebase](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase) folder. The premium modules can be purchased and downloaded from the link provided. 
+
+To install a module you should use the following steps:
+
+1. Copy the module code into your Xcode source folder and add the files to yoru project from inside Xcode. If you are using the Simlink you can use the simlink script (mentioned above) and then just add a link to the **ChatSDKFirebase** folder to Xcode.
+2. Add any necessary dependencies to your Podfile
+3. Import the module's header file (or add it to the bridging header for a Swift project)
+4. Activate the module in `AppDelegate.m` fil
+
+### Social Login
+
+The [social login module](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase/FirebaseSocialLogin) allows you to support user authentication using some popular social networks including Twitter, Facebook and Google Plus. 
+
+After adding the **SocialLogin** files to your Xcode project, add the following to your Podfile:
+
+```
+pod 'TwitterKit', '2.3'
+pod 'GoogleSignIn'
+pod 'FBSDKLoginKit'
+```
+
+**Objective C**
+
+_AppDelegate.m -> application: didFinishLaunchingWithOptions:_
+
+```
+ #import "BFirebaseSocialLoginModule.h"
+
+[[[BFirebaseSocialLoginModule alloc] init] activateWithApplication:application withOptions:launchOptions];
+
+```
+
+Also add this function:
+
+```
+// During the Facebook login flow, your app passes control to the Facebook iOS app or Facebook in a mobile browser.
+// After authentication, your app will be called back with the session information.
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    if ([BNetworkManager sharedManager].a.socialLogin) {
+        return [[BNetworkManager sharedManager].a.socialLogin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    }
+    return NO;
+}
+```
+
+**Swift**
+
+_[YourProject]-Bridging-Header.h_
+
+```
+ #import "BFirebaseSocialLoginModule.h"
+```
+
+_AppDelegate.swift_
+
+```
+BFirebaseSocialLoginModule.init().activate(with: application, withOptions: launchOptions);
+```
+
+Also add this function:
+
+```
+func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    if(BNetworkManager.shared().a.socialLogin() != nil) {
+        return BNetworkManager.shared().a.socialLogin().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+    return false
+}
+```
+
+Follow the social login [setup guides](https://github.com/chat-sdk/chat-sdk-ios/wiki). 
+
+### Push Notifications
+
+The Push Notification module allows you to send free push notifications using Firebase Clound Messenger.
+
+After adding the [Push Notifications](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase/FirebasePush) module to your Xcode project, add the following to the App Delegate to enable the module.
+
+**Objective C**
+
+_AppDelegate.m -> application: didFinishLaunchingWithOptions:_
+
+```
+ #import "BFirebasePushModule.h"
+
+[[[BFirebasePushModule alloc] init] activateWithApplication:application withOptions:launchOptions];
+```
+
+Also add these functions:
+
+```
+-(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [[BNetworkManager sharedManager].a.push application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+-(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [[BNetworkManager sharedManager].a.push application:application didReceiveRemoteNotification:userInfo];
+}
+```
+
+**Swift**
+
+_[YourProject]-Bridging-Header.h_
+
+```
+ #import "BFirebasePushModule.h"
+```
+
+_AppDelegate.swift_
+
+```
+BFirebasePushModule.init().activate(with: application, withOptions: launchOptions);
+```
+
+Also add these functions:
+
+```
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    if (BNetworkManager.shared().a.push() != nil) {
+        BNetworkManager.shared().a.push().application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+    }
+}
+    
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    if (BNetworkManager.shared().a.push() != nil) {
+        BNetworkManager.shared().a.push().application(application, didReceiveRemoteNotification: userInfo)
+    }
+}
+```
+
+Then follow the Firebase Push notification [setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/FIrebase-Push-Notification-Setup). 
+
+### File Storage
+
+The [File Storage module](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase/FirebaseFileStorage) allows you to send image messages. These messages are stored on the Firebase server. 
+
+After adding the files to your Xcode project, add the following to the App Delegate to enable the module.
+
+**Objective C**
+
+_AppDelegate.m -> application: didFinishLaunchingWithOptions:_
+
+```
+ #import "BFirebaseFileStorageModule.h"
+
+[[[BFirebaseFileStorageModule alloc] init] activate];
+```
+
+**Swift**
+
+_[YourProject]-Bridging-Header.h_
+
+```
+ #import "BFirebaseFileStorageModule.h"
+```
+
+_AppDelegate.swift_
+
+```
+BFirebaseFileStorageModule.init().activate();
+```
+
+Ensure that the file storage path has been setup. 
+
+1. Go to the [Firebase console](https://console.firebase.google.com/)
+2. Click the **Storage** tab
+3. Copy the storage URL which starts with `gs://`
+4. Paste it into your **Info.plist** file at the location **chat_sdk** -> **firebase** -> **storage_path**
+
+### Firebase UI
+
+The [File UI module](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase/FirebaseUI) allows you to use the native Firebase user interface for authentication.
+
+After adding the files to your Xcode project, add the following to the App Delegate to enable the module.
+
+**Objective C**
+
+_AppDelegate.m -> application: didFinishLaunchingWithOptions:_
+
+```
+ #import "BFirebaseUIModule.h"
+
+[[[BFirebaseUIModule alloc] init] activateWithProviders: @[]];
+```
+
+**Swift**
+
+_[YourProject]-Bridging-Header.h_
+
+```
+ #import "BFirebaseUIModule.h"
+```
+
+_AppDelegate.swift_
+
+```
+BFirebaseUIModule.init().activate(withProviders: []);
+```
+
+You should pass in array of the `FUIAuthProvider` objects you want to support. 
+
+Also add the following to your Podfile depending on which authentication methods you want to support:
+
+```
+pod 'FirebaseUI/Facebook', '~> 4.0'
+pod 'FirebaseUI/Google', '~> 4.0'
+pod 'FirebaseUI/Twitter', '~> 4.0'
+pod 'FirebaseUI/Phone', '~> 4.0'
+```
+
+Then run `pod install`.
+
+>**Note**
+>If you want to Firebase Auth UI make sure you comment out the following line:
+
+```
+BNetworkManager.shared().a.auth().setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
+```
+
+### Other Modules
+
+For the following modules:
+
+- [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
+- [Sticker messages](http://chatsdk.co/downloads/sticker-messages/)
+- [Contact book integration](http://chatsdk.co/downloads/contact-book-integration/)
+
+These modules are distributed as development pods. After you've downloaded the module, unzip it and add it to the **ChatSDKModules** folder. Then:
+
+1. Open your Podfile
+2. Add the line:
+  
+  ```
+  ChatSDKModules/[ModuleName], :path => "[Path to ChatSDKModules folder]"
+  ```
+3. Run `pod install`
+4. In your _AppDelegate -> application: didFinishLaunchingWithOptions:_ add the following
+
+  **Objective C**
+
+  ```
+  #import "B[ModuleName]Module.h"
+  
+  [[[B[ModuleName]Module alloc] init] activate];
+  ```
+  
+  **Swift**
+
+  __AppDelegate.swift__
+  
+  ```
+  import ChatSDKModules
+  
+  B[Module Name]Module.init().activate()
+  ```
 
 
 #### Security Rules
@@ -242,127 +541,6 @@ For full documentation of Firebase configuration checkout the complete guide and
 Firebase secures your data by allowing you to write rules to govern who can access the database and what can be written. On the Firebase dashboard click **Database** then the **Rules** tab. 
 
 Copy the contents of the **rules.json** file into the rules and click publish. 
-
-## Firebase UI
-
-We've now added support for Firebase UI to the project. To get around some issues with the [Firebase pods](https://github.com/chat-sdk/chat-sdk-ios/wiki/Issues-with-Firebase-Pods), we needed to integrate the Firebase UI code with the Chat SDK. 
-
-To add Firebase UI to your project you need to add the following to your `Podfile`.
-
-```
-  pod "ChatSDKFirebaseAdapter/AuthBase", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-  pod "ChatSDKFirebaseAdapter/Phone", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-  pod "ChatSDKFirebaseAdapter/Database", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-  pod "ChatSDKFirebaseAdapter/Twitter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-  pod "ChatSDKFirebaseAdapter/Facebook", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-  pod "ChatSDKFirebaseAdapter/Storage", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-  pod "ChatSDKFirebaseAdapter/Google", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-```
-
-To add Firebase UI as the default login provider for the app you should do the following:
-
-1. Import the libraries that you need to the App Delegate header file
-
-  ```
-  #import <ChatSDKFirebaseAdapter/FUIAuth.h>
-  #import <ChatSDKFirebaseAdapter/FirebaseAuthUI.h>
-  #import <ChatSDKFirebaseAdapter/FUIPhoneAuth.h>
-  ```
-  
-2. Implement the `FUIAuthDelegate`
-
-  ```
-  @interface AppDelegate : UIResponder <UIApplicationDelegate, FUIAuthDelegate> {
-  ```
-
-3. In `didFinishLaunchingWithOptions` setup the providers that you need:
-
-  ```
-  FIRAuth * auth = [FIRAuth auth];
-  FUIAuth * authUI = [FUIAuth authUIWithAuth:auth];
-  
-  // This allows us to be notified when authentication finishes
-  authUI.delegate = self;
-
-  // Add phone authentication    
-  FUIPhoneAuth * phone = [[FUIPhoneAuth alloc] initWithAuthUI:authUI];
-    
-  // Add the phone provider  
-  [authUI setProviders:@[phone]];
-  
-  FUIAuthPickerViewController * controller = [[FUIAuthPickerViewController alloc] initWithAuthUI:authUI];
-  
-  // Present the controller as the default authentication controller
-  [BNetworkManager sharedManager].a.auth.challengeViewController = [[UINavigationController alloc] initWithRootViewController:controller];
-  ```
-
-4. Make sure that you've done the necessary configuration for your login providers - see [instructions](https://github.com/firebase/FirebaseUI-iOS#mandatory-sample-project-configuration) and the Firebase [authentication documentation](https://firebase.google.com/docs/auth/).
-5. Finall add the delegate method: 
-
-```
-- (void)authUI:(FUIAuth *)authUI
-didSignInWithUser:(nullable FIRUser *)user
-         error:(nullable NSError *)error {
-
-    if(!error) {
-        [user getIDTokenWithCompletion:^(NSString * token, NSError * error) {
-            if (!error) {
-                
-                NSDictionary * loginInfo = @{bLoginTypeKey: @(bAccountTypeCustom),
-                                             bLoginCustomToken: token};
-                
-                [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:loginInfo].thenOnMain(^id(id<PUser> user) {
-                    return Nil;
-                }, ^id(NSError * error) {
-                    // Handle error
-                    return Nil;
-                });
-            }
-            else {
-                // Handle error
-            }
-        }];
-    }
-    else {
-        // Handle error
-    }
-}
-```
-
-## Social Login
-
-If you want to log in using Facebook, Twitter and Google Plus you can do that by downloading the Social Login [module](https://chatsdk.co/downloads/firebase-social-login/). The social login installation instructions are available [here](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Docs/Modules/SocialLogin.md). 
-
-## Backendless Set up for push notifications
-
-Push notifications are handled be a separate plugin. To enable push notifications using [Backendless](http://backendless.com/) you can checkout the [push notification guide](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Docs/Modules/Backendless.md). 
-
-Backendless provide 50,000 free pushes per month. 
-
-Configuring your project with Backendless is very simple due to the large amount of documentation Backendless provide. 
-
-To get started with Backendless you need to complete the following steps:
-
-1. Create an account on [Backendless](https://backendless.com/)
-2. Create a new app on the dashboard
-3. Navigate to your app settings (Manage -> App Settings) and copy the following keys into your plist
-  1. The AppID (**chat_sdk** -> **backendless** -> **app_id**) 
-  2. The iOS Secret Key (**chat_sdk** -> **backendless** -> **app_secret**) 
-  3. The App Version Key (**chat_sdk** -> **backendless** -> **app_secret**) 
-
-You have now added the custom keys to your project. Next, you need to configure the certificates to enable push notifications. 
-
-Backendless provide extremely detailed documentation for this and we recommend you to work through this to set up Push Notifications correctly. You can find the iOS Push Notification guide [here](https://backendless.com/ios-push-notifications-with-backendless/).
-
->**Note:**  
->There have been some instances of the push notifications not being sent and received until the app has been uploaded to iTunes Connect. We recommend carefully configuring Push Notifications before uploading your app and testing it with TestFlight before final release.
-
-Your project is now set up with the Chat SDK. 
-
->**Note:**  
->Don’t forget that it is still using many of our test accounts for social media.
-
-You find complete documentation to set these up here.
 
 ## Integrating the Chat SDK with an existing login system
 
@@ -387,7 +565,7 @@ To generate a token, you should follow the Firebase [custom authentication guide
 
 In PHP, an implementation may look like this:
 
-```php
+```
 // Get your service account's email address and private key from the JSON key file
 $service_account_email = "abc-123@a-b-c-123.iam.gserviceaccount.com";
 $private_key = "-----BEGIN PRIVATE KEY-----...";
@@ -456,8 +634,7 @@ The Chat SDK uses CoreData to persist it's data. This includes a user object whi
 
 Whenever the user updates their details in your app, they should also update the information that is used by Chat SDK. 
 
-```ObjC
-
+```
 id<PUser> user = [BNetworkManager sharedManager].a.core.currentUserModel;
 
 user.name = @"Name goes here";
@@ -480,7 +657,6 @@ user.phoneNumber = @"Number goes here"
     
     return urls;
 }, Nil);
-
 ```
 
 ### Logging out
@@ -515,12 +691,11 @@ The Chat SDK API is based around the network manager and a series of handlers. A
 BNetworkManager.shared().a.handler_name() function: to: call:]
 ```
 
-
 ##### Searching for a user
 
 For example, to search for a user you could use the search handler:
 
-```ObjC
+```
 -(RXPromise *) usersForIndexes: (NSArray *) indexes withValue: (NSString *) value limit: (int) limit userAdded: (void(^)(id<PUser> user)) userAdded;
 ```
 
@@ -532,19 +707,20 @@ You can also see example implementations of these handlers by looking at the `BF
 
 To start a chat you can use the core handler. 
 
-```ObjC
+```
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
                        threadCreated: (void(^)(NSError * error, id<PThread> thread)) thread;
 ```
+
 When this method completes, the thread will have been created on Firebase and all the users will have been added. You could then open the thread using the interface adapter. 
 
-```ObjC
+```
 UIViewController * chatViewController = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
 ```
 
 So a more complete example would look like this:
 
-```ObjC
+```
 -(void) startChatWithUser {
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.label.text = [NSBundle t:bCreatingThread];

@@ -9,7 +9,7 @@
 #import "BFirebaseCoreHandler.h"
 
 #import <ChatSDKCore/ChatCore.h>
-#import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
+#import "ChatFirebaseAdapter.h"
 
 
 @implementation BFirebaseCoreHandler
@@ -133,7 +133,7 @@
         return [self addUsers:usersToAdd toThread:threadModel];
         
     },^id(NSError * error) {
-        [[BStorageManager sharedManager].a undo];
+        //[[BStorageManager sharedManager].a undo];
         
         if (threadCreated != Nil) {
             threadCreated(error, Nil);
@@ -147,7 +147,7 @@
 }
 
 
--(RXPromise *) addUsers: (NSArray<PUser> *) users toThread: (id<PThread>) threadModel {
+-(RXPromise *) addUsers: (NSArray *) users toThread: (id<PThread>) threadModel {
     
     CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
     
@@ -161,7 +161,7 @@
     return [RXPromise all: promises];
 }
 
--(RXPromise *) removeUsers: (NSArray<PUser> *) users fromThread: (id<PThread>) threadModel {
+-(RXPromise *) removeUsers: (NSArray *) users fromThread: (id<PThread>) threadModel {
     
     CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
     
@@ -187,11 +187,11 @@
 
 // TODO: Implement this
 -(RXPromise *) leaveThread: (id<PThread>) thread {
-    
+    return Nil;
 }
 
 -(RXPromise *) joinThread: (id<PThread>) thread {
-    
+    return Nil;
 }
 
 -(RXPromise *) sendMessage: (id<PMessage>) messageModel {
@@ -206,15 +206,15 @@
 
 // TODO: Implement these
 -(RXPromise *) setChatState: (bChatState) state forThread: (id<PThread>) thread {
-    
+    return Nil;
 }
 
 -(RXPromise *) acceptSubscriptionRequestForUser: (id<PUser>) user {
-    
+    return Nil;
 }
 
 -(RXPromise *) rejectSubscriptionRequestForUser: (id<PUser>) user {
-    
+    return Nil;
 }
 
 #pragma Private methods

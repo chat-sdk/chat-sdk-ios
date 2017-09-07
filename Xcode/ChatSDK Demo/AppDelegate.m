@@ -11,25 +11,13 @@
 
 #import <ChatSDKCore/ChatCore.h>
 #import <ChatSDKUI/ChatUI.h>
-#import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
 #import <ChatSDKCoreData/ChatCoreData.h>
+#import "ChatFirebaseAdapter.h"
 
+#import "BFirebaseSocialLoginModule.h"
+#import "BFirebasePushModule.h"
+#import "BFirebaseFileStorageModule.h"
 
-//#import <ChatSDKFirebase/NearbyUsers.h>
-//#import <ChatSDKFirebase/AudioMessages.h>
-//#import <ChatSDKFirebase/NearbyUsers.h>
-//#import <ChatSDKFirebase/ReadReceipts.h>
-//#import <ChatSDKFirebase/TypingIndicator.h>
-//#import <ChatSDKFirebase/VideoMessages.h>
-//#import <ChatSDKFirebase/ContactBook.h>
-//
-//#import <ChatSDKModules/KeyboardOverlayOptions.h>
-//#import <ChatSDKModules/StickerMessages.h>
-
-//#import "BBackendlessPushHandler.h"
-//#import "BBackendlessUploadHandler.h"
-
-//#import "BFirebaseSocialLoginHandler.h"
 
 @interface AppDelegate ()
 
@@ -63,13 +51,12 @@
     //[[[BKeyboardOverlayOptionsModule alloc] init] activate];
     
     /* Social Login */
-    //[BNetworkManager sharedManager].a.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
-    //[[BNetworkManager sharedManager].a.socialLogin application: application didFinishLaunchingWithOptions:launchOptions];
+    [[[BFirebaseSocialLoginModule alloc] init] activateWithApplication:application withOptions:launchOptions];
+    
+    [[[BFirebasePushModule alloc] init] activateWithApplication:application withOptions:launchOptions];
+    
+    [[[BFirebaseFileStorageModule alloc] init] activate];
 
-    /* Two Factor Authentication */
-    //_verifyViewController = [[BVerifyViewController alloc] initWithNibName:nil bundle:nil];;
-    //_verifyViewController.delegate = self;
-    //[BNetworkManager sharedManager].a.auth.challengeViewController = _verifyViewController;
 
     // This is the main view that contains the tab bar
     UIViewController * mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
@@ -77,44 +64,12 @@
     // Set the login screen
     [BNetworkManager sharedManager].a.auth.challengeViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
     
-    /* Backendless Push handler */
-    //BBackendlessPushHandler * pushHandler = [[BBackendlessPushHandler alloc] initWithAppKey:[BSettingsManager backendlessAppId] secretKey:[BSettingsManager backendlessSecretKey] versionKey:[BSettingsManager backendlessVersionKey]];
-    //[[BNetworkManager sharedManager].a setPush:pushHandler];
-    //[[BNetworkManager sharedManager].a.push registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
 
     // Set the root view controller
     [self.window setRootViewController:mainViewController];
     
     return YES;
 }
-
-/* Two Factor Authentication Code */
-
-//-(void) numberVerifiedWithToken:(NSString *)token {
-//    [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeCustom),
-//                                                                         bLoginCustomToken: token}].thenOnMain(^id(id<PUser> user) {
-//        [self authenticationFinishedWithUser:user];
-//        return Nil;
-//    }, ^id(NSError * error) {
-//        [BTwoFactorAuthUtils alertWithError: error.localizedDescription];
-//        
-//        // Still need to remove the HUD else we get stuck
-//        
-//        [self authenticationFinishedWithUser:nil];
-//        return Nil;
-//    });
-//}
-//
-//-(void) authenticationFinishedWithUser: (id<PUser>) user {
-//    if (user) {
-//        [_verifyViewController dismissViewControllerAnimated:YES completion:^{
-//            _verifyViewController.phoneNumber.text = @"";
-//        }];
-//    }
-//    [_verifyViewController hideHUD];
-//}
-
-/* End Two Factor Authentication Code */
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {

@@ -1,0 +1,17 @@
+//
+//  BFirebaseSocialLoginModule.h
+//  ChatSDK Demo
+//
+//  Created by Ben on 8/29/17.
+//  Copyright © 2017 deluge. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <ChatSDKCore/PModule.h>
+#import <UIKit/UIKit.h>
+
+@interface BFirebaseSocialLoginModule : NSObject
+
+-(void) activateWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions;
+
+@end

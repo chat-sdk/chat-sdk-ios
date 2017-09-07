@@ -446,11 +446,12 @@
             _locationViewNavigationController = [[UINavigationController alloc] initWithRootViewController:_locationViewController];
         }
         
-        CLLocationCoordinate2D coord = [BCoreUtilities locationForString: cell.message.textString];
+        float longitude = [[cell.message textAsDictionary][bMessageLongitude] floatValue];
+        float latitude = [[cell.message textAsDictionary][bMessageLatitude] floatValue];
         
         // Set the location and display the controller
-        _locationViewController.region = [BCoreUtilities regionForLongitude:coord.longitude latitude:coord.latitude];
-        _locationViewController.annotation = [BCoreUtilities annotationForLongitude:coord.longitude latitude:coord.latitude];
+        _locationViewController.region = [BCoreUtilities regionForLongitude:longitude latitude:latitude];
+        _locationViewController.annotation = [BCoreUtilities annotationForLongitude:longitude latitude:latitude];
 
         [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
     }
@@ -617,7 +618,8 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // We can only flag posts in public threads
-    return delegate.threadType & bThreadFilterPublic ? YES : NO;
+    id<PElmMessage> message = [self messageForIndexPath:indexPath];
+    return ![message.userModel isEqual:NM.currentUser];
 }
 
 // This only works for iOS8
@@ -637,7 +639,7 @@
 
     }];
     
-    button.backgroundColor = message.flagged.intValue ? [UIColor greenColor] : [UIColor orangeColor]; //arbitrary color
+    button.backgroundColor = message.flagged.intValue ? [UIColor darkGrayColor] : [UIColor redColor];
     
     return @[button];
 }

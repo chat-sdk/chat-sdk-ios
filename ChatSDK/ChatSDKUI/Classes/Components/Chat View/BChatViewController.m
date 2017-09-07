@@ -90,6 +90,12 @@
         [self updateMessages];
         
     }];
+    
+    _messageObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+        [self updateMessages];
+    }];
+
+    
     _userObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         [self updateMessages];
     }];
@@ -151,6 +157,7 @@
 
 -(RXPromise *) handleMessageSend: (RXPromise *) promise {
     [self updateMessages];
+    [NM.core save];
     //[self reloadData];
     return promise;
 }
@@ -210,10 +217,10 @@
 
 -(RXPromise *) setMessageFlagged: (id<PElmMessage>) message isFlagged: (BOOL) flagged {
     if (flagged) {
-        return [NM.moderation flagMessage:message.entityID];
+        return [NM.moderation unflagMessage:message.entityID];
     }
     else {
-        return [NM.moderation unflagMessage:message.entityID];
+        return [NM.moderation flagMessage:message.entityID];
     }
     
 }

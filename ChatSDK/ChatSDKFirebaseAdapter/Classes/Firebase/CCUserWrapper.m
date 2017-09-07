@@ -8,9 +8,9 @@
 
 #import "CCUserWrapper.h"
 
-#import <ChatSDKFirebaseAdapter/NSManagedObject+Status.h>
+#import "NSManagedObject+Status.h"
 
-#import <ChatSDKFirebaseAdapter/ChatFirebaseAdapter.h>
+#import "ChatFirebaseAdapter.h"
 #import <ChatSDKCore/ChatCore.h>
 
 
@@ -149,17 +149,23 @@
                 [user setImage:UIImagePNGRepresentation(image)];
                 [user setThumbnail:UIImagePNGRepresentation(thumbnail)];
                 
-                return [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
-                    
-                    // Set the meta data
-                    [user setMetaString:urls[bImagePath] forKey:bPictureURLKey];
-                    [user setMetaString:urls[bThumbnailPath] forKey:bPictureURLThumbnailKey];
-                    
-                    return [user loadProfileImage:NO].thenOnMain(^id(UIImage * image) {
+                if(NM.upload) {
+                    return [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
                         
-                        return [NM.core pushUser];
+                        // Set the meta data
+                        [user setMetaString:urls[bImagePath] forKey:bPictureURLKey];
+                        [user setMetaString:urls[bThumbnailPath] forKey:bPictureURLThumbnailKey];
+                        
+                        return [user loadProfileImage:NO].thenOnMain(^id(UIImage * image) {
+                            
+                            return [NM.core pushUser];
+                        }, Nil);
                     }, Nil);
-                }, Nil);
+                }
+                else {
+                    return [NM.core pushUser];
+                }
+                
             }
             return image;
         }, Nil);
@@ -248,7 +254,7 @@
     [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
         if(![snapshot.value isEqual: [NSNull null]]) {
             [promise resolveWithResult:[self deserializeMeta:snapshot.value].thenOnMain(^id(id success) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:Nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: self.model}];
                 return self;
             }, Nil)];
         }
@@ -282,7 +288,7 @@
         if(![snapshot.value isEqual: [NSNull null]]) {
             
             self.model.online = [snapshot.value isEqualToNumber:@1] ? @(YES) : @(NO);
-            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:Nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: self.model}];
         }
     }];
     
@@ -305,6 +311,7 @@
     
     [ref updateChildValues:[self serialize] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
+            [BEntity pushUserMetaUpdated:self.model.entityID];
             
             // We only want to do this if we are logged in
             if (NM.auth.userAuthenticated) {
@@ -346,11 +353,6 @@
 
 -(RXPromise *) deserialize: (NSDictionary *) value {
     
-    NSString * uid = value[b_AuthenticationID];
-    if (uid) {
-        _model.entityID = uid;
-    }
-    
     NSNumber * online = value[b_Online];
     if (online) {
         _model.online = online;
@@ -360,10 +362,7 @@
 }
 
 -(NSDictionary *) serialize {
-
-    return @{b_AuthenticationID: self.entityID,
-             
-             b_Meta: _model.metaDictionary};
+    return @{b_Meta: _model.metaDictionary};
 }
 
 -(RXPromise *) deserializeMeta: (NSDictionary *) value {
@@ -431,8 +430,9 @@
     // Get the user's reference
     FIRDatabaseReference * userThreadsRef = [[FIRDatabaseReference userThreadsRef:_model.entityID]child:entityID];
 
-    [userThreadsRef setValue:@{bNullString: @""} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    [userThreadsRef setValue:@{b_InvitedBy: NM.currentUser.entityID} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
+            [BEntity pushUserThreadsUpdated:self.model.entityID];
             [promise resolveWithResult:self];
         }
         else {
@@ -451,6 +451,7 @@
     
     [userThreadsRef removeValueWithCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
+            [BEntity pushUserThreadsUpdated:self.model.entityID];
             [promise resolveWithResult:self];
         }
         else {

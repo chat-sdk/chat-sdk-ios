@@ -7,7 +7,17 @@ target 'ChatSDK Demo' do
   pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
   pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"
   pod "ChatSDKCoreData", :path => "../ChatSDK/ChatSDKCoreData"
-  pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
+  
+  pod 'TwitterKit', '2.3'
+  pod 'GoogleSignIn'
+  pod 'FBSDKLoginKit'
+
+  pod "Firebase/Auth"  
+  pod "Firebase/Database"  
+  pod "Firebase/Messaging"  
+  pod "Firebase/Storage"  
+  
+  pod 'FirebaseUI/Phone', '~> 4.0'
 
 #   pod "ChatSDKFirebaseAdapter/AuthBase", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
 #   pod "ChatSDKFirebaseAdapter/Phone", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
@@ -33,5 +43,6 @@ target 'ChatSDK Demo' do
 #   pod 'TwitterKit'
 #   pod 'FBSDKLoginKit'
 #   pod 'Backendless'
+	
 	
 end

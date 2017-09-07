@@ -17,6 +17,7 @@
 @class BFriendsListViewController;
 @class BChatOption;
 
+
 @protocol PInterfaceFacade <NSObject>
 
 -(UIViewController *) privateThreadsViewController;
@@ -45,6 +46,9 @@
 
 -(void) addTabBarViewController: (UIViewController *) controller atIndex: (int) index;
 -(NSDictionary *) additionalSearchControllerNames;
+-(UIViewController *) settingsViewController;
+
+-(UIColor *) colorForName: (NSString *) name;
 
 @end
 

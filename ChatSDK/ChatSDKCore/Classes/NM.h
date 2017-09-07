@@ -36,6 +36,7 @@
 +(id<PUser>) currentUser;
 +(id) handler: (NSString *) name;
 +(id<PHookHandler>) hook;
++(id<PUsersHandler>) users;
 +(BOOL) isMe: (id<PUser>) user;
 
 @end

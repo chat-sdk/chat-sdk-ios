@@ -6,11 +6,12 @@
 //  Copyright (c) 2015 deluge. All rights reserved.
 //
 
-#import <ChatSDKFirebaseAdapter/BEntity.h>
+#import "BEntity.h"
 #import <ChatSDKCore/PMessageWrapper.h>
 
 @class CDMessage;
 @class FIRDatabaseReference;
+@class FIRDataSnapshot;
 
 @interface CCMessageWrapper : BEntity <PMessageWrapper> {
     id<PMessage> _model;
