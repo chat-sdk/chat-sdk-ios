@@ -8,7 +8,6 @@
 
 #import "BTextInputView.h"
 #import <ChatSDKCore/ChatCore.h>
-#import <ChatSDKUI/ChatUI.h>
 
 #define bMargin 4.0
 
@@ -22,7 +21,7 @@
 
 @implementation BTextInputView
 
-//@synthesize textView = _textView;
+@synthesize textView = _textView;
 @synthesize maxLines, minLines;
 @synthesize messageDelegate;
 @synthesize optionsButton = _optionsButton;
@@ -68,8 +67,12 @@
         UIBarButtonItem * sendItem = [[UIBarButtonItem alloc] initWithCustomView:_sendButton];
 
         // Create a text view
-        _textView = [[UITextView alloc] init];
-        _textView.delegate = self;
+        _textView = [[HKWTextView alloc] init];
+        
+        // If we use the mentions functionality we need to set the external delegate
+        // This is the way to set the UITextView delegate to keep mentions functionality working
+        _textView.simpleDelegate = self;
+        
         _textView.scrollEnabled = YES;
         _textView.backgroundColor = [UIColor clearColor];
         

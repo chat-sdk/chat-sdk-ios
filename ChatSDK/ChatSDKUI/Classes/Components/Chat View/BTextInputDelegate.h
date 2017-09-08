@@ -11,6 +11,7 @@
 @protocol BTextInputDelegate <NSObject>
 
 -(RXPromise *) sendTextMessage: (NSString *) message;
+-(RXPromise *) sendTextMessage: (NSString *) message withMeta: (NSDictionary *)meta;
 
 // Return whether we should mark the button as selected
 -(BOOL) showOptions;

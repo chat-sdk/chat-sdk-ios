@@ -162,9 +162,12 @@
     return promise;
 }
 
+-(RXPromise *) sendText: (NSString *) text withMeta:(NSDictionary *)meta {
+    return [self handleMessageSend:[NM.core sendMessageWithText:text withThreadEntityID:_thread.entityID withMetaData:meta]];
+}
+
 -(RXPromise *) sendText: (NSString *) text {
-    return [self handleMessageSend:[NM.core sendMessageWithText:text
-                                                                            withThreadEntityID:_thread.entityID]];
+    return [self handleMessageSend:[NM.core sendMessageWithText:text withThreadEntityID:_thread.entityID]];
 }
 
 -(RXPromise *) sendImage: (UIImage *) image {
