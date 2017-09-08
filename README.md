@@ -275,14 +275,14 @@ For the following modules:
 - [Video messages](http://chatsdk.co/downloads/video-messages/)
 - [Contact book integration](http://chatsdk.co/downloads/contact-book-integration/)
 
-The free modules are located in the [chat-sdk-ios/ChatSDKFirebase](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase) folder. The premium modules can be purchased and downloaded from the link provided. 
+The free modules are located in the [chat-sdk-ios/ChatSDKFirebase](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDKFirebase) folder. The premium modules can be purchased and downloaded from the links provided above. 
 
 To install a module you should use the following steps:
 
-1. Copy the module code into your Xcode source folder and add the files to yoru project from inside Xcode. If you are using the Simlink you can use the simlink script (mentioned above) and then just add a link to the **ChatSDKFirebase** folder to Xcode.
+1. Copy the module code into your Xcode source folder and add the files to your project from inside Xcode. If you are using the Simlink you can use the simlink script (mentioned above) and then just add a link to the **ChatSDKFirebase** folder to Xcode.
 2. Add any necessary dependencies to your Podfile
 3. Import the module's header file (or add it to the bridging header for a Swift project)
-4. Activate the module in `AppDelegate.m` fil
+4. Activate the module in the `AppDelegate.m` file
 
 ### Social Login
 
