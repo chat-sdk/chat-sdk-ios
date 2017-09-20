@@ -31,6 +31,7 @@
     message.read = @YES;
     message.flagged = @NO;
     // message.placeholder = UIImageJPEGRepresentation(image, 0.6);
+    message.metaDictionary = @{};
     
     // Set the text initally - we'll update it when we've uploaded the screenshots for Android
     // This allows the map view to show their current location immediately

@@ -39,8 +39,7 @@
     message.delivered = @NO;
     message.read = @YES;
     message.flagged = @NO;
-    
-    [message setMetaDictionary:meta];
+    message.metaDictionary = meta;
     
     return [self sendMessage:message];
 }
@@ -127,6 +126,7 @@
     message.delivered = @YES;
     message.read = @YES;
     message.flagged = @NO;
+    message.metaDictionary = @{};
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded
