@@ -81,6 +81,9 @@
 #define bSave @"bSave"
 #define bSaving @"bSaving"
 #define bGroupName @"bGroupName"
+#define bInviteByEmail @"bInviteByEmail"
+#define bInviteContact @"bInviteContact"
+#define bInviteBySMS @"bInviteBySMS"
 
 #define bTo @"bTo"
 #define bEnterNamesHere @"bEnterNamesHere"

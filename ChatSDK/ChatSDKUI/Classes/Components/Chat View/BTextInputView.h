@@ -10,7 +10,7 @@
 #import "BTextInputDelegate.h"
 #import <ChatSDKCore/bChatState.h>
 
-@interface BTextInputView : UIToolbar<UITextViewDelegate> {
+@interface BTextInputView : UIView<UITextViewDelegate> {
     UITextView * _textView;
     UIButton * _optionsButton;
     UILabel * _placeholderLabel;

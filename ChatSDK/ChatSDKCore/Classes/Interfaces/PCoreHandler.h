@@ -32,6 +32,7 @@
  * @brief Mark the user as online
  */
 -(void) setUserOnline;
+-(void) setUserOffline;
 
 /**
  * @brief Connect to the server

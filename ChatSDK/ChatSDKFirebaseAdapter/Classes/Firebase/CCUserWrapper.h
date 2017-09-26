@@ -80,7 +80,6 @@
  * @brief Manually set the user's status to offline
  */
 -(void) goOffline;
-
 /**
  * @brief Remove a thread from the user on disconnect
  */

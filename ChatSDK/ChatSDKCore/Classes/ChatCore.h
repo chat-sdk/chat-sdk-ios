@@ -72,6 +72,7 @@
 
 #import <ChatSDKCore/BHook.h>
 #import <ChatSDKCore/PHookHandler.h>
+#import <ChatSDKCore/BNotificationObserverList.h>
 
 #import <ChatSDKCore/BBaseContactHandler.h>
 #import <ChatSDKCore/BBaseImageMessageHandler.h>

@@ -9,18 +9,17 @@
 #import <UIKit/UIKit.h>
 #import <ChatSDKCore/PThreadWrapper.h>
 
+@class BNotificationObserverList;
+
 @interface BThreadsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UITabBarDelegate, UIAlertViewDelegate> {
     UIBarButtonItem * _editButton;
-    
-    id _threadObserver;
-    id _messageObserver;
-    id _userObserver;
-    id _internetConnectionObserver;
     
     NSMutableArray * _threads;
     BOOL _slideToDeleteDisabled;
     id _typingObserver;
     NSMutableDictionary * _threadTypingMessages;
+    
+    BNotificationObserverList * _notificationList;
 }
 
 @property (nonatomic, readwrite) UITableView *tableView;

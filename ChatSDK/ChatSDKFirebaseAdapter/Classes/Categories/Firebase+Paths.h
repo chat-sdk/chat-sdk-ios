@@ -14,7 +14,6 @@
 
 
 +(FIRDatabaseReference *) firebaseRef;
-
 // Users
 +(FIRDatabaseReference *) usersRef;
 +(FIRDatabaseReference *) userRef: (NSString *) firebaseID;
@@ -36,5 +35,7 @@
 // Indexes
 +(FIRDatabaseReference *) indexRef;
 +(FIRDatabaseReference *) searchIndexRef;
+
++(FIRDatabaseReference *) onlineRef: (NSString *) userID;
 
 @end

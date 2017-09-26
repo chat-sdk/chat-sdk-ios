@@ -23,7 +23,16 @@
     // Before we create the thread start an undo grouping
     // that means that if it fails we can undo changed to the database
     [[BStorageManager sharedManager].a beginUndoGroup];
-    id<PThread> threadModel = [[BStorageManager sharedManager].a createEntity:bThreadEntity];
+
+    id<PThread> threadModel = Nil;
+
+    if(entityID) {
+        threadModel = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bThreadEntity];
+    }
+    
+    if(!threadModel) {
+        threadModel = [[BStorageManager sharedManager].a createEntity:bThreadEntity];
+    }
     
     threadModel.creationDate = [NSDate date];
     

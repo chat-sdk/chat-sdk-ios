@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <StaticDataTableViewController/StaticDataTableViewController.h>
 
+@class BNotificationObserverList;
 @protocol PUser;
 
 @interface BDetailedProfileTableViewController : StaticDataTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
@@ -22,7 +23,7 @@
     BOOL _phoneIndexed;
     BOOL _emailIndexed;
     
-    id _userObserver;
+    BNotificationObserverList * _notificationList;
 }
 
 @property (nonatomic, readwrite) id<PUser> overrideUser;

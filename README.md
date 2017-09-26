@@ -109,7 +109,7 @@ _And more... so check it out!_
 
 ### Project Structure
 
-We've tried to make it as easy as possible to add Chat SDK to your project. However since it's it's a relatively complex project with a lot of dependencies (and because of some issues with Cocoapods) the setup needs to be handled carefully. 
+We've tried to make it as easy as possible to add Chat SDK to your project. However since it's it's a relatively complex project with a lot of dependencies (and because of some issues with Cocoapods) the setup needs to be handeled carefully. 
 
 So that things run smoothly, we recommend that you keep the Chat SDK library in the folder outside your Xcode project folder. A typical structure would look like this:
 
@@ -279,10 +279,10 @@ The free modules are located in the [chat-sdk-ios/ChatSDKFirebase](https://githu
 
 To install a module you should use the following steps:
 
-1. Copy the module code into your Xcode source folder and add the files to yoru project from inside Xcode. If you are using the Simlink you can use the simlink script (mentioned above) and then just add a link to the **ChatSDKFirebase** folder to Xcode.
+1. Copy the module code into your Xcode source folder and add the files to your project from inside Xcode. If you are using the Simlink you can use the simlink script (mentioned above) and then just add a link to the **ChatSDKFirebase** folder to Xcode.
 2. Add any necessary dependencies to your Podfile
 3. Import the module's header file (or add it to the bridging header for a Swift project)
-4. Activate the module in `AppDelegate.m` fil
+4. Activate the module in `AppDelegate.m` following the instructions below
 
 ### Social Login
 

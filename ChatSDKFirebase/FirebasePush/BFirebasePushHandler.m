@@ -54,8 +54,8 @@
     // Set the push key when authentication finishes
     BHook * hook = [BHook hook:^(NSDictionary * data) {
         _authFinished = YES;
-        [self updateUserPushToken];
-        if(self.tokenRefreshed != Nil) {
+        
+        if(self.tokenRefreshed != Nil && [self updateUserPushToken]) {
             self.tokenRefreshed();
         }
     }];
@@ -73,12 +73,9 @@
     NSLog(@"FCM registration token: %@", fcmToken);
     
     _userPushToken = fcmToken;
-    [self updateUserPushToken];
     
-    if(_authFinished) {
-        if(self.tokenRefreshed != Nil) {
-            self.tokenRefreshed();
-        }
+    if(_authFinished && self.tokenRefreshed != Nil && [self updateUserPushToken]) {
+        self.tokenRefreshed();
     }
 }
 
@@ -88,13 +85,15 @@
     NSLog(@"Success");
 }
 
--(void) updateUserPushToken {
+-(BOOL) updateUserPushToken {
     if(_userPushToken && _userPushToken.length && NM.currentUser) {
         NSString * currentToken = [NM.currentUser metaValueForKey:bUserPushTokenKey];
         if(![currentToken isEqualToString: _userPushToken]) {
             [NM.currentUser setMetaValue:_userPushToken forKey:bUserPushTokenKey];
+            return YES;
         }
     }
+    return NO;
 }
 
 

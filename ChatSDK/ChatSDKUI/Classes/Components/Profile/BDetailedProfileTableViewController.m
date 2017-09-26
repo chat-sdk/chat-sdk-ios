@@ -48,6 +48,7 @@
     if ((self = [super initWithCoder:aDecoder])) {
         self.title = [NSBundle t:bProfile];
         [self updateTabBarIcon];
+        _notificationList = [BNotificationObserverList new];
     }
     return self;
 }
@@ -98,14 +99,16 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    _userObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [self refreshInterfaceAnimated:NO];
-    }];
+    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self refreshInterfaceAnimated:NO];
+        });
+    }]];
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:_userObserver];
+    [_notificationList dispose];
 }
 
 -(void) refreshInterfaceAnimated: (BOOL) animated {

@@ -77,7 +77,9 @@
     [self loadUserImage];
     
     _keyboardObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:Nil usingBlock:^(NSNotification * n) {
-        [self updateUserAndIndexes];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self updateUserAndIndexes];
+        });
     }];
     
     // This needs to be added here so it is reloaded each time

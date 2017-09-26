@@ -34,10 +34,6 @@ static BCoreDataManager * manager;
 
 -(id) init {
     if ((self = [super init])) {
-        
-//        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:Nil queue:0 usingBlock:^(NSNotification * notification) {
-//            [self save];
-//        }];
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:Nil queue:0 usingBlock:^(NSNotification * notification) {
             [self save];
         }];
@@ -46,10 +42,12 @@ static BCoreDataManager * manager;
 }
 
 -(void) save {
-    NSError * error;
-    if (![self.managedObjectContext save:&error]) {
-        NSLog(@"Save error: %@", error.localizedDescription);
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSError * error;
+        if (![self.managedObjectContext save:&error]) {
+            NSLog(@"Save error: %@", error.localizedDescription);
+        }
+    });
 }
 
 -(NSArray *) fetchEntitiesWithName: (NSString *) entityName {

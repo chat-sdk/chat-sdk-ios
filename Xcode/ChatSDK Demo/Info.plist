@@ -128,7 +128,7 @@
 		<key>firebase</key>
 		<dict>
 			<key>root_path</key>
-			<string>chat_sdk_web</string>
+			<string>firebase_v4_web_new</string>
 			<key>storage_path</key>
 			<string>gs://chat-sdk-v4.appspot.com</string>
 			<key>cloud_messaging_server_key</key>

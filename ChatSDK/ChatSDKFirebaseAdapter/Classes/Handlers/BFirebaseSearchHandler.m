@@ -15,29 +15,34 @@
 
 -(RXPromise *) usersForIndex: (NSString *) index withValue: (NSString *) value limit: (int) limit userAdded: (void(^)(id<PUser> user)) userAdded {
     RXPromise * promise = [RXPromise new];
-    
-    if(!index || !index.length || !value || !value.length) {
-        // TODO: Localise this
-        [promise rejectWithReason:[NSError errorWithDomain:@"" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Index or value is blank"}]];
-    }
-    else {
-        NSString * childPath = [NSString stringWithFormat:@"%@/%@", bMetaDataPath, index];
-        FIRDatabaseQuery * query = [[FIRDatabaseReference usersRef] queryOrderedByChild: childPath];
-        query = [query queryStartingAtValue:value];
-        query = [query queryLimitedToFirst:limit];
-        
-        [query observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
-            if(snapshot.value != [NSNull null]) {
-                for(NSString * key in [snapshot.value allKeys]) {
-                    CCUserWrapper * wrapper = [CCUserWrapper userWithSnapshot:[snapshot childSnapshotForPath:key]];
-                    if(![wrapper.model isEqual:NM.currentUser]) {
-                        userAdded(wrapper.model);
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        if(!index || !index.length || !value || !value.length) {
+            // TODO: Localise this
+            [promise rejectWithReason:[NSError errorWithDomain:@"" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Index or value is blank"}]];
+        }
+        else {
+            NSString * childPath = [NSString stringWithFormat:@"%@/%@", bMetaDataPath, index];
+            FIRDatabaseQuery * query = [[FIRDatabaseReference usersRef] queryOrderedByChild: childPath];
+            query = [query queryStartingAtValue:value];
+            query = [query queryLimitedToFirst:limit];
+            
+            [query observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+                if(snapshot.value != [NSNull null]) {
+                    for(NSString * key in [snapshot.value allKeys]) {
+                        NSDictionary * meta = snapshot.value[key][bMetaDataPath];
+                        if(meta && [meta[index] containsString:value]) {
+                            CCUserWrapper * wrapper = [CCUserWrapper userWithSnapshot:[snapshot childSnapshotForPath:key]];
+                            if(![wrapper.model isEqual:NM.currentUser]) {
+                                userAdded(wrapper.model);
+                            }
+                        }
                     }
                 }
-            }
-            [promise resolveWithResult:Nil];
-        }];
-    }
+                [promise resolveWithResult:Nil];
+            }];
+        }
+    });
     
     return promise;
 }

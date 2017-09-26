@@ -144,6 +144,9 @@
 "bVideoMessagesNotSupported" = "Video messages are not supported";
 
 "bRefreshingUsers" = "Message Burst";
+"bInviteContact" = "Invite Contact";
+"bInviteByEmail" = "Email";
+"bInviteBySMS" = "SMS";
 
 "" = "";
 

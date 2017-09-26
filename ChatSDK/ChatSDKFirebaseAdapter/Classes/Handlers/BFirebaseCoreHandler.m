@@ -34,6 +34,13 @@
     [[CCUserWrapper userWithModel:user] goOnline];
 }
 
+-(void) setUserOffline {
+    id<PUser> user = self.currentUserModel;
+    if(!user || !user.entityID) {
+        return;
+    }
+    [[CCUserWrapper userWithModel:user] goOffline];
+}
 -(void) goOnline {
     [super goOnline];
     [FIRDatabaseReference goOnline];

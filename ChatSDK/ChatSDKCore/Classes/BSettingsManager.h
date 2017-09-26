@@ -38,4 +38,6 @@
 +(NSNumber *) number_s: (NSArray *) parameters;
 +(NSString *) string_s: (NSArray *) parameters;
 
++(NSString *) property: (NSString *) property forModule: (NSString *) module;
+
 @end
