@@ -33,9 +33,7 @@
         self.title = [NSBundle t:bContacts];
         self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_contact.png"];
         _contacts = [NSMutableArray new];
-        [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-            [self reloadData];
-        }];
+        _notificationList = [BNotificationObserverList new];
     }
     return self;
 }
@@ -89,10 +87,21 @@
     
     [self updateButtonStatusForInternetConnection];
     
-    _internetConnectionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification object:nil queue:Nil usingBlock:^(NSNotification * notification) {
-        
-        [self updateButtonStatusForInternetConnection];
-    }];
+    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
+                                                                             object:Nil
+                                                                              queue:Nil
+                                                                         usingBlock:^(NSNotification * notification) {
+                                                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                 [self reloadData];
+                                                                             });
+                                                                         }]];
+
+    
+    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification object:nil queue:Nil usingBlock:^(NSNotification * notification) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self updateButtonStatusForInternetConnection];
+        });
+    }]];
     
     // We need to call this to ensure the search controller is correctly formatted when the view is shown
     [self viewDidLayoutSubviews];
@@ -101,9 +110,10 @@
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
+    [_notificationList dispose];
+    
     // This removes the active search once a user goes back to this page
     searchController.active = NO;
-    [[NSNotificationCenter defaultCenter] removeObserver:_internetConnectionObserver];
 }
 
 -(void) addContacts {

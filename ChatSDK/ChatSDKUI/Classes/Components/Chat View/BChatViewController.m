@@ -15,13 +15,14 @@
 
 - (id)initWithThread: (id<PThread>) thread
 {
-    _thread = thread;
-    
-    // Reset the working list (so we don't load any more messages than necessary)
-    [_thread resetMessages];
-    self = [super initWithDelegate:self];
     if (self) {
+        _thread = thread;
+        
+        // Reset the working list (so we don't load any more messages than necessary)
+        [_thread resetMessages];
+        self = [super initWithDelegate:self];
         _messageCache = [NSMutableArray new];
+        _notificationList = [BNotificationObserverList new];
     }
     return self;
 }
@@ -67,61 +68,81 @@
     
     id<PUser> currentUserModel = NM.currentUser;
     
-    _readReceiptObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationReadReceiptUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [self updateMessages];
-    }];
+    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationReadReceiptUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self updateMessages];
+        });
+    }]];
     
-    _messageObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageAdded object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        
-        id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
-        
-        if (![messageModel.thread isEqual:_thread.model] && [currentUserModel.threads containsObject:_thread] && messageModel) {
+    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageAdded object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
             
-            // If we are in chat and receive a message in another chat then vibrate the phone
-            if (![messageModel.userModel isEqual:currentUserModel]) {
-                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+            if (![messageModel.thread isEqual:_thread.model] && [currentUserModel.threads containsObject:_thread] && messageModel) {
+                
+                // If we are in chat and receive a message in another chat then vibrate the phone
+                if (![messageModel.userModel isEqual:currentUserModel]) {
+                    AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+                }
             }
-        }
-        else {
-            [NM.readReceipt markRead:_thread.model];
-        }
-        messageModel.delivered = @YES;
-        
-        [self updateMessages];
-        
-    }];
+            else {
+                [NM.readReceipt markRead:_thread.model];
+            }
+            messageModel.delivered = @YES;
+            
+            [self updateMessages];
+        });
+    }]];
     
-    _messageObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [self updateMessages];
-    }];
+    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved
+                                                                                object:Nil
+                                                                                 queue:Nil
+                                                                            usingBlock:^(NSNotification * notification) {
+                                                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                        [self updateMessages];
+                                                                                    });
+                                                                                });
+    }]];
 
     
-    _userObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [self updateMessages];
-    }];
+    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
+                                                                      object:Nil
+                                                                       queue:Nil
+                                                                  usingBlock:^(NSNotification * notification) {
+                                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                                          [self updateMessages];
+                                                                      });
+    }]];
     
-    _typingObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationTypingStateChanged object:nil queue:Nil usingBlock:^(NSNotification * notification) {
-        id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
-        if ([thread isEqual: _thread]) {
-            [self startTypingWithMessage:notification.userInfo[bNotificationTypingStateChangedKeyMessage]];
-        }
-    }];
+    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationTypingStateChanged
+                                                                        object:nil
+                                                                         queue:Nil
+                                                                    usingBlock:^(NSNotification * notification) {
+                                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                                            id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
+                                                                            if ([thread isEqual: _thread]) {
+                                                                                [self startTypingWithMessage:notification.userInfo[bNotificationTypingStateChangedKeyMessage]];
+                                                                            }
+                                                                        });
+    }]];
     
     
-    _threadUsersObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadUsersUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [self updateSubtitle];
-    }];
+    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadUsersUpdated
+                                                                             object:Nil
+                                                                              queue:Nil
+                                                                         usingBlock:^(NSNotification * notification) {
+                                                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                 [self updateSubtitle];
+                                                                            });
+    }]];
     
 }
 
 -(void) removeObservers {
     [super removeObservers];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:_messageObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:_userObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:_typingObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:_threadUsersObserver];
-    
+    [_notificationList dispose];
 }
 
 -(void) viewWillAppear:(BOOL)animated {

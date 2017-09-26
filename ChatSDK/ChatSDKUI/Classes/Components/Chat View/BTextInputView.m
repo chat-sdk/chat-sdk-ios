@@ -32,7 +32,8 @@
     self = [super init];
     if (self) {
         
-        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
+//        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
+        self.backgroundColor = [UIColor whiteColor];
         
         // Decide how many lines the message should have
         minLines = bMinLines;
@@ -44,16 +45,23 @@
 
         // Create an options button which shows an action sheet
         _optionsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self addSubview:_optionsButton];
+
+        _textView = [[HKWTextView alloc] init];
+        // If we use the mentions functionality we need to set the external delegate
+        // This is the way to set the UITextView delegate to keep mentions functionality working
+        _textView.simpleDelegate = self;
+      
+        [self addSubview: _textView];
+
+        // Add a send button
+        _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self addSubview: _sendButton];
         
         [_optionsButton setImage:[NSBundle chatUIImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
         [_optionsButton setImage:[NSBundle chatUIImageNamed:@"icn_24_keyboard.png"] forState:UIControlStateSelected];
         
         [_optionsButton addTarget:self action:@selector(optionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-
-        UIBarButtonItem * optionsItem = [[UIBarButtonItem alloc] initWithCustomView:_optionsButton];
-        
-        // Add a send button
-        _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         
         NSString * sendButtonTitle = [NSBundle t:bSend];
         [_sendButton setTitle:sendButtonTitle forState:UIControlStateNormal];
@@ -63,15 +71,6 @@
         
         // We don't want to send a message if they touch up outside the button area
         [_sendButton addTarget:self action:@selector(sendButtonCancelled) forControlEvents:UIControlEventTouchUpOutside];
-        
-        UIBarButtonItem * sendItem = [[UIBarButtonItem alloc] initWithCustomView:_sendButton];
-
-        // Create a text view
-        _textView = [[HKWTextView alloc] init];
-        
-        // If we use the mentions functionality we need to set the external delegate
-        // This is the way to set the UITextView delegate to keep mentions functionality working
-        _textView.simpleDelegate = self;
         
         _textView.scrollEnabled = YES;
         _textView.backgroundColor = [UIColor clearColor];
@@ -87,11 +86,6 @@
         else {
             _textView.contentInset = UIEdgeInsetsMake(-6.0, -1.0, -6.0, 0.0);
         }
-        
-        UIBarButtonItem * textItem = [[UIBarButtonItem alloc] initWithCustomView:_textView];
-        
-        // Add the buttons to the toolbar
-        self.items = [NSArray arrayWithObjects:optionsItem, textItem, sendItem, nil];
 
         // Constrain the elements
         _optionsButton.keepLeftInset.equal = bMargin +keepRequired;
@@ -122,7 +116,7 @@
         
         _placeholderLabel.keepBottomInset.equal = 0;
         _placeholderLabel.keepTopInset.equal = 0;
-        _placeholderLabel.keepLeftOffsetTo(_optionsButton).equal = bMargin + 3;
+        _placeholderLabel.keepLeftOffsetTo(_optionsButton).equal = bMargin + 4;
         _placeholderLabel.keepWidth.equal = 200;
         [_placeholderLabel setBackgroundColor:[UIColor clearColor]];
         
@@ -137,11 +131,19 @@
         
         [self updateInterfaceForReachabilityStateChange];
         
-//        [[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification object:nil queue:Nil usingBlock:^(NSNotification * notification) {
-//            self updateBu
-//            
-//            [self updateButtonStatusForInternetConnection];
-//        }];
+        CGSize mainViewSize = self.bounds.size;
+        CGFloat borderWidth = 0.5;
+        UIView * topView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, mainViewSize.width, borderWidth)];
+
+        UIView * topMarginView = [[UIView alloc] initWithFrame:CGRectZero];
+        topMarginView.backgroundColor = [UIColor lightGrayColor];
+        
+        [self addSubview:topMarginView];
+        
+        topMarginView.keepTopInset.equal = 0 + keepRequired;
+        topMarginView.keepLeftInset.equal = 0 + keepRequired;
+        topMarginView.keepRightInset.equal = 0 + keepRequired;
+        topMarginView.keepHeight.equal = 0.5 + keepRequired;
         
         [self resizeToolbar];
     }
@@ -290,7 +292,6 @@
         [self setMicButtonEnabled:YES];
     }
     
-    [textView setContentOffset:CGPointZero animated:NO];
     
     [self resizeToolbar];
 
@@ -302,18 +303,34 @@
 
 
 -(void) resizeToolbar {
-    float newHeight = MAX(_textView.contentSize.height, _textView.font.lineHeight);//[self getTextBoxTextHeight];
-    newHeight = MAX(_textView.font.lineHeight, [self measureHeightOfUITextView:_textView]);
+    
+    float originalHeight = self.keepHeight.equal;
+    
+//    float newHeight = MAX(_textView.contentSize.height, _textView.font.lineHeight);//[self getTextBoxTextHeight];
+    float newHeight = MAX(_textView.font.lineHeight, [self measureHeightOfUITextView:_textView]);
     
     // Calcualte the new textview height
     float textBoxHeight = newHeight + bTextViewVerticalPadding;
-    
+
     // Set the toolbar height - the text view will resize automatically
     // using autolayout
     self.keepHeight.equal = bMargin * 2 + textBoxHeight;
     
-    [self setNeedsUpdateConstraints];
-    //[self layoutIfNeeded];
+    float delta = self.keepHeight.equal - originalHeight;
+    
+    if(fabsf(delta) > 0.01) {
+        [self.superview setNeedsUpdateConstraints];
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            //[self setNeedsUpdateConstraints];
+            [self.superview layoutIfNeeded];
+            [_textView setContentOffset:CGPointZero animated:NO];
+
+            if(messageDelegate != Nil) {
+                [messageDelegate didResizeTextInputViewWithDelta:delta];
+            }
+        }];
+    }
 }
 
 - (CGFloat)measureHeightOfUITextView:(UITextView *)textView

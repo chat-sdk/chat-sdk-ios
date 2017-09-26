@@ -14,15 +14,6 @@
 #import <ChatSDKCore/ChatCore.h>
 #import <ChatSDKUI/ChatUI.h>
 
-//
-//#import <ChatSDKUI/ChatUI.h>
-//#import <ChatSDK/BCoreDefines.h>
-//#import <ChatSDK/PAudioMessageHandler.h>
-//#import <ChatSDK/PVideoMessageHandler.h>
-//#import <ChatSDK/PStickerMessageHandler.h>
-//#import <ChatSDK/BCoreUtilities.h>
-//
-//#import <ChatSDK/PElmThread.h>
 
 // The distance to the bottom of the screen you need to be for the tableView to snap you to the bottom
 #define bTableViewRefreshHeight 300
@@ -585,6 +576,13 @@
     return [_optionsHandler hide];
 }
 
+-(void) didResizeTextInputViewWithDelta:(float)delta {
+    if (fabsf(delta) > 0.01) {
+        [self setTableViewBottomContentInsetWithDelta:delta];
+        [self scrollToBottomOfTable:NO];
+    }
+}
+
 -(void) hideKeyboard {
     [_textInputView resignFirstResponder];
 }
@@ -756,6 +754,13 @@
     insets.bottom = inset;
     tableView.contentInset = insets;
 }
+
+-(void) setTableViewBottomContentInsetWithDelta: (float) delta {
+    UIEdgeInsets insets = tableView.contentInset;
+    insets.bottom += delta;
+    tableView.contentInset = insets;
+}
+
 
 -(void) scrollToBottomOfTable: (BOOL) animated {
     NSInteger lastSection = tableView.numberOfSections - 1;

@@ -10,21 +10,17 @@
 #import <ChatSDKUI/ElmChatViewController.h>
 #import <ChatSDKUI/ElmChatViewDelegate.h>
 
+@class BNotificationObserverList;
 @protocol PThread;
 
 @interface BChatViewController : ElmChatViewController<ElmChatViewDelegate> {
     id<PThread> _thread;
     
-    id _messageObserver;
-    id _userObserver;
-    id _typingObserver;
-    id _readReceiptObserver;
-    id _threadUsersObserver;
-    
     BOOL _usersViewLoaded;
     
     NSMutableArray * _messageCache;
     BOOL _messageCacheDirty;
+    BNotificationObserverList * _notificationList;
 
 }
 

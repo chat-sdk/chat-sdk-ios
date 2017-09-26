@@ -11,8 +11,7 @@
 #import <ChatSDKCore/bChatState.h>
 #import <ChatSDKUI/ChatUI.h>
 
-@interface BTextInputView : UIToolbar<UITextViewDelegate> {
-    
+@interface BTextInputView : UIView<UITextViewDelegate> {
     UIButton * _optionsButton;
     UILabel * _placeholderLabel;
     UIColor * _placeholderColor;

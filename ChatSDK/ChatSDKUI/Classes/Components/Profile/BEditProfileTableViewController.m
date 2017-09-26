@@ -57,10 +57,6 @@
     _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
     [self.view addGestureRecognizer:_tapRecognizer];
     
-//    _keyboardObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:Nil usingBlock:^(NSNotification * n) {
-//        [self updateUserAndIndexes];
-//    }];
-    
     // Update the user's details
     id<PUser> user = NM.currentUser;
 

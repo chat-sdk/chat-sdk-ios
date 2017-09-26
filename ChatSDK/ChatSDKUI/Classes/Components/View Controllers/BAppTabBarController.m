@@ -57,19 +57,29 @@
     
     // When a message is recieved we increase the messages tab number
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationBadgeUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [weakSelf updateBadge];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf updateBadge];
+        });
     }];
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageAdded object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [weakSelf updateBadge];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf updateBadge];
+        });
     }];
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [weakSelf updateBadge];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf updateBadge];
+        });
     }];
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadRead object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [weakSelf updateBadge];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf updateBadge];
+        });
     }];
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadDeleted object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [weakSelf updateBadge];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf updateBadge];
+        });
     }];
     
     

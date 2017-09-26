@@ -88,6 +88,7 @@
 #define bUpdatedPath @"updated"
 #define bFlaggedKey @"flagged"
 #define bLocationPath @"location"
+#define bTimeKey @"time"
 
 #define bLoginTypeKey @"login-type"
 #define bLoginEmailKey @"login-email"

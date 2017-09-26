@@ -18,6 +18,7 @@
 #define bTwitterKey @"twitter"
 #define bGoogleKey @"google"
 #define bBackendlessKey @"backendless"
+#define bModules @"modules"
 
 #define bEnabledKey @"enabled"
 #define bPathKey @"path"
@@ -146,6 +147,14 @@
 
 +(NSString *) backendlessVersionKey {
     return [self string_s:@[bBackendlessKey, bAppVersion]];
+}
+
++(NSString *) property: (NSString *) property forModule: (NSString *) module {
+    NSDictionary * modules = self.settings[bModules];
+    if(modules) {
+        return modules[module][property];
+    }
+    return @{};
 }
 
 

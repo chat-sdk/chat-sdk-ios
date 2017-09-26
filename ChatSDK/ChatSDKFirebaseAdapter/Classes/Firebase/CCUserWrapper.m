@@ -286,10 +286,14 @@
     
     [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
         if(![snapshot.value isEqual: [NSNull null]]) {
-            
             self.model.online = [snapshot.value isEqualToNumber:@1] ? @(YES) : @(NO);
-            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: self.model}];
         }
+        else {
+            self.model.online = @NO;
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated
+                                                            object:Nil
+                                                          userInfo:@{bNotificationUserUpdated_PUser: self.model}];
     }];
     
     return promise;
@@ -468,11 +472,18 @@
     FIRDatabaseReference * userOnlineRef = [FIRDatabaseReference userOnlineRef:self.entityID];
     [userOnlineRef setValue:@YES];
     [userOnlineRef onDisconnectSetValue:@NO];
+
+    FIRDatabaseReference * onlineRef = [FIRDatabaseReference onlineRef:self.entityID];
+    [onlineRef setValue:@{bTimeKey: [FIRServerValue timestamp],
+                          bUID: _model.entityID}];
+    
+    [onlineRef onDisconnectSetValue:@NO];
 }
 
 -(void) goOffline {
-    FIRDatabaseReference * userOnlineRef = [FIRDatabaseReference userOnlineRef:self.entityID];
-    [userOnlineRef setValue:@NO];
+    [[FIRDatabaseReference userOnlineRef:self.entityID] removeValue];
+    [[FIRDatabaseReference onlineRef:self.entityID] removeValue];
+//    [userOnlineRef setValue:@NO];
 }
 
 -(void) removeThreadOnDisconnect: (NSString *) entityID {

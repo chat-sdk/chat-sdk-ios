@@ -64,14 +64,17 @@
     [super viewDidAppear:animated];
     
     _internetConnectionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification object:nil queue:Nil usingBlock:^(NSNotification * notification) {
-        
-        if (![Reachability reachabilityForInternetConnection].isReachable) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (![Reachability reachabilityForInternetConnection].isReachable) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+        });
     }];
     
     _threadUsersObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadUsersUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        [self reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self reloadData];
+        });
     }];
 }
 
