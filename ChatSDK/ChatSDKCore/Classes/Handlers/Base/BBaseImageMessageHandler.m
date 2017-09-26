@@ -45,7 +45,6 @@
     message.read = @YES;
     message.flagged = @NO;
     message.placeholder = UIImageJPEGRepresentation([self imageWithScaledImage:image], 0.6);
-    message.metaDictionary = @{};
     
     return [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
         

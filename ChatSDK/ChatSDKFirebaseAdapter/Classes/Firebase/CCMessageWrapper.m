@@ -100,7 +100,7 @@
              b_Date: [FIRServerValue timestamp],
              b_UserFirebaseID: _model.userModel.entityID,
              b_ReadPath: self.initialReadReceipts,
-             b_Meta: _model.metaDictionary};
+             b_Meta: _model.metaDictionary ? _model.metaDictionary : @{}};
 }
 
 -(NSDictionary *) initialReadReceipts {
@@ -163,7 +163,7 @@
         //[_model setReadReceipts:readReceipts];
     }
     
-    NSDictionary * meta = value[bMetaDataPath];
+    NSDictionary * meta = value[b_Meta];
     if (meta) {
         [_model setMetaDictionary:meta];
     }

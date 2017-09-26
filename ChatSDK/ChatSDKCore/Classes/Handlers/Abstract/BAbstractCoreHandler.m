@@ -45,7 +45,7 @@
 }
 
 -(RXPromise *) sendMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID {
-    return [self sendMessageWithText:text withThreadEntityID:threadID withMetaData:@{}];
+    return [self sendMessageWithText:text withThreadEntityID:threadID withMetaData:nil];
 }
 
 
@@ -126,7 +126,6 @@
     message.delivered = @YES;
     message.read = @YES;
     message.flagged = @NO;
-    message.metaDictionary = @{};
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded
