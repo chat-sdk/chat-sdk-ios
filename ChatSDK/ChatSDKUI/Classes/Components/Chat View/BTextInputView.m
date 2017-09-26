@@ -22,7 +22,7 @@
 
 @implementation BTextInputView
 
-//@synthesize textView = _textView;
+@synthesize textView = _textView;
 @synthesize maxLines, minLines;
 @synthesize messageDelegate;
 @synthesize optionsButton = _optionsButton;
@@ -48,7 +48,10 @@
         _optionsButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self addSubview:_optionsButton];
 
-        _textView = [[UITextView alloc] init];
+        // Create the new HKWTextView
+        _textView = [[HKWTextView alloc] init];
+        _textView.simpleDelegate = self;
+        
         [self addSubview: _textView];
 
         // Add a send button
@@ -69,8 +72,6 @@
         // We don't want to send a message if they touch up outside the button area
         [_sendButton addTarget:self action:@selector(sendButtonCancelled) forControlEvents:UIControlEventTouchUpOutside];
         
-        // Create a text view
-        _textView.delegate = self;
         _textView.scrollEnabled = YES;
         _textView.backgroundColor = [UIColor clearColor];
         

@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "BTextInputDelegate.h"
 #import <ChatSDKCore/bChatState.h>
+#import <Hakawai/HKWTextView.h>
 
 @interface BTextInputView : UIView<UITextViewDelegate> {
-    UITextView * _textView;
+    
     UIButton * _optionsButton;
     UILabel * _placeholderLabel;
     UIColor * _placeholderColor;
@@ -23,7 +24,7 @@
 
 @property (weak, nonatomic, readwrite) id<BTextInputDelegate> messageDelegate;
 
-//@property (nonatomic, readwrite) UITextView * textView;
+@property (nonatomic, readwrite) HKWTextView * textView;
 
 @property (nonatomic, readwrite) NSInteger maxLines;
 @property (nonatomic, readwrite) NSInteger minLines;
