@@ -45,6 +45,8 @@
 -(NSURL *) thumbnailURL;
 -(bMessageReadStatus) readStatus;
 
+-(NSDictionary *) metaDictionary;
+
 @end
 
 
