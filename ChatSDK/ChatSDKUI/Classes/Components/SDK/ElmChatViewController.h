@@ -25,8 +25,6 @@
     
     NSArray<BMessageSection *> * _messages;
     
-    BTextInputView * _textInputView;
-    
     UIGestureRecognizer * _tapRecognizer;
     
     BImageViewController * _imageViewController;
@@ -50,6 +48,9 @@
     
     id<PChatOptionsHandler> _optionsHandler;
 }
+
+// This allows our chatView subclass to access the textInputView
+@property (nonatomic, weak) BTextInputView * textInputView;
 
 @property (weak, nonatomic) IBOutlet UITableView * tableView;
 @property (nonatomic, readwrite, weak) id<ElmChatViewDelegate> delegate;

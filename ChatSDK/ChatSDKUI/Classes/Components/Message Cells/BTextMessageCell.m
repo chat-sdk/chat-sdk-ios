@@ -45,12 +45,42 @@
 -(void) setMessage: (id<PElmMessage, PMessageLayout>) message withColorWeight:(float)colorWeight {
     [super setMessage:message withColorWeight:colorWeight];
     
-    textView.text = message.textString;
-    textView.font = [UIFont systemFontOfSize:bDefaultFontSize];
+    NSArray * mentions = message.metaDictionary[bMentionsPath];
     
-    textView.textColor = [BCoreUtilities colorWithHexString:bDefaultTextColor];
+    if (mentions) {
+        
+        textView.textColor = [BCoreUtilities colorWithHexString:bDefaultTextColor];
+        
+        NSMutableAttributedString * attrString = [[NSMutableAttributedString alloc] initWithString:message.textString];
+        
+        // Loop through the string and separate the strings
+        
+        for (NSDictionary * dict in mentions) {
+            
+            NSNumber * location = dict[@"location"];
+            NSString * name = dict[@"name"];
+            
+            NSRange range = NSMakeRange(location.integerValue, name.length);
+            
+            if (dict[@"type"] && [dict[@"type"] isEqual:@1]) {
+                [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:range];
+            }
+            else {
+                [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:range];
+            }
+        }
+        
+        textView.attributedText = attrString;
+        textView.font = [UIFont systemFontOfSize:bDefaultFontSize];
+    }
+    else {
+        
+        textView.text = message.textString;
+        textView.font = [UIFont systemFontOfSize:bDefaultFontSize];
+        
+        textView.textColor = [BCoreUtilities colorWithHexString:bDefaultTextColor];
+    }
 }
-
 
 #pragma Cell Properties
 

@@ -10,16 +10,6 @@
 #import <ChatSDKCore/ChatCore.h>
 #import <ChatSDKUI/ChatUI.h>
 
-#define bMargin 4.0
-
-// The amount of padding (above + below) the text
-// i.e. textView height = text height + padding
-#define bTextViewVerticalPadding 5.72
-
-#define bFontSize 19
-#define bMaxLines 5
-#define bMinLines 1
-
 @implementation BTextInputView
 
 @synthesize textView = _textView;

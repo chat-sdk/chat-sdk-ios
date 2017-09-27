@@ -99,7 +99,9 @@
              b_Type: _model.type,
              b_Date: [FIRServerValue timestamp],
              b_UserFirebaseID: _model.userModel.entityID,
-             b_ReadPath: self.initialReadReceipts};
+             b_ReadPath: self.initialReadReceipts,
+             b_Meta: _model.metaDictionary ? _model.metaDictionary : @{}
+             };
 }
 
 -(NSDictionary *) initialReadReceipts {
@@ -160,6 +162,11 @@
         [_model setReadStatus:readReceipts];
         // TODO: Remove this
         //[_model setReadReceipts:readReceipts];
+    }
+    
+    NSDictionary * meta = value[b_Meta];
+    if (meta) {
+        [_model setMetaDictionary:meta];
     }
     
     // Assign this message to a user

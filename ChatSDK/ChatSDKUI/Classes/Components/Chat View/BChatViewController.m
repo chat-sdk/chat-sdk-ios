@@ -48,6 +48,9 @@
     }
     
     [super setAudioEnabled: NM.audioMessage != Nil];
+    
+    // If we have mention functionality we need to give the textInputView access to the thread
+    self.textInputView.thread = _thread;
 }
 
 -(void) updateSubtitle {
@@ -183,9 +186,13 @@
     return promise;
 }
 
+-(RXPromise *) sendText: (NSString *) text withMeta:(NSDictionary *)meta {
+    return [self handleMessageSend:[NM.core sendMessageWithText:text withThreadEntityID:_thread.entityID withMetaData:meta]];
+}
+
 -(RXPromise *) sendText: (NSString *) text {
     return [self handleMessageSend:[NM.core sendMessageWithText:text
-                                                                            withThreadEntityID:_thread.entityID]];
+                                             withThreadEntityID:_thread.entityID]];
 }
 
 -(RXPromise *) sendImage: (UIImage *) image {

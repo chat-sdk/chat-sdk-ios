@@ -21,8 +21,7 @@
     return self;
 }
 
-
--(RXPromise *) sendMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID {
+-(RXPromise *) sendMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID withMetaData: (NSDictionary *)meta {
     
     // Set the URLs for the images and save it in CoreData
     [[BStorageManager sharedManager].a beginUndoGroup];
@@ -40,10 +39,14 @@
     message.delivered = @NO;
     message.read = @YES;
     message.flagged = @NO;
+    message.metaDictionary = meta;
     
     return [self sendMessage:message];
 }
 
+-(RXPromise *) sendMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID {
+    return [self sendMessageWithText:text withThreadEntityID:threadID withMetaData:nil];
+}
 
 -(RXPromise *) sendMessage: (id<PMessage>) messageModel {
     // This is an abstract method which must be overridden

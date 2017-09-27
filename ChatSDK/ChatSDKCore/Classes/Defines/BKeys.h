@@ -78,6 +78,7 @@
 #define bThreadsPath @"threads"
 #define bPublicThreadsPath @"public-threads"
 #define bMetaDataPath @"meta"
+#define bMentionsPath @"mentions"
 #define bOnlinePath @"online"
 #define bIndexPath @"index"
 #define bSearchIndexPath @"searchIndex"

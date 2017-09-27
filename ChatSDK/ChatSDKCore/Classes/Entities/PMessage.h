@@ -125,6 +125,9 @@ typedef enum {
 -(void) setMetaValue: (id) value forKey: (NSString *) key;
 -(id) metaValueForKey: (NSString *) key;
 
+-(void) setMetaDictionary: (NSDictionary *) dict;
+-(NSDictionary *) metaDictionary;
+
 //- (BOOL)firstMessageFromUser;
 - (BOOL)lastMessageFromUser;
 -(id<PMessage>) nextMessage;

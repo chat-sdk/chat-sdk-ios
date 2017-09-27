@@ -14,6 +14,7 @@
 #import <ChatSDKCore/ChatCore.h>
 #import <ChatSDKUI/ChatUI.h>
 
+#import <ChatSDKUI/BMentionTextInputView.h>
 
 // The distance to the bottom of the screen you need to be for the tableView to snap you to the bottom
 #define bTableViewRefreshHeight 300
@@ -24,6 +25,7 @@
 
 @implementation ElmChatViewController
 
+@synthesize textInputView = _textInputView;
 @synthesize tableView;
 @synthesize delegate;
 
@@ -59,7 +61,8 @@
 
 // The text input view sits on top of the keyboard
 -(void) setupTextInputView {
-    _textInputView = [[BTextInputView alloc] init];
+    //_textInputView = [[BTextInputView alloc] init];
+    _textInputView = [[BMentionTextInputView alloc] init];
     _textInputView.messageDelegate = self;
     
     
@@ -496,6 +499,16 @@
 }
 
 #pragma Message Delegate
+
+-(RXPromise *) sendTextMessage: (NSString *) message withMeta: (NSDictionary *)meta {
+
+    // Typing indicator
+    // Once a user sends a message they are no longer typing
+    [self userFinishedTypingWithState: bChatStateActive];
+
+    NSString * newMessage = [message stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    return [self handleMessageSend:[delegate  sendText:newMessage withMeta:meta]];
+}
 
 -(RXPromise *) sendTextMessage: (NSString *) message {
 

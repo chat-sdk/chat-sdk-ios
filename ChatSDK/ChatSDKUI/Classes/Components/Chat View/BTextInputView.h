@@ -10,6 +10,18 @@
 #import "BTextInputDelegate.h"
 #import <ChatSDKCore/bChatState.h>
 #import <Hakawai/HKWTextView.h>
+#import <ChatSDKCore/ChatCore.h>
+
+// These are in the header so our subclasses can access them
+#define bMargin 4.0
+
+// The amount of padding (above + below) the text
+// i.e. textView height = text height + padding
+#define bTextViewVerticalPadding 5.72
+
+#define bFontSize 19
+#define bMaxLines 5
+#define bMinLines 1
 
 @interface BTextInputView : UIView<UITextViewDelegate> {
     
@@ -21,6 +33,10 @@
     BOOL _audioEnabled;
     BOOL _micButtonEnabled;
 }
+
+// We want a global thread property to allow the mention view to know the users in the current thread
+// We add this here so we can access it in our MentionSubclass
+@property (nonatomic, weak) id<PThread> thread;
 
 @property (weak, nonatomic, readwrite) id<BTextInputDelegate> messageDelegate;
 
