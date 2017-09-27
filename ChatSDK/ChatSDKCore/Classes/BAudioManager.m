@@ -14,6 +14,7 @@ static BAudioManager * manager;
 
 @synthesize recorder = _recorder;
 @synthesize currentAudioURL = _currentAudioURL;
+@synthesize player = _player;
 
 +(BAudioManager *) sharedManager {
     
