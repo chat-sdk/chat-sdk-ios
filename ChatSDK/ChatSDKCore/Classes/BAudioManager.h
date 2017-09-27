@@ -17,11 +17,13 @@
 @interface BAudioManager : NSObject <AVAudioRecorderDelegate, AVAudioPlayerDelegate> {
     
     AVAudioRecorder * _recorder;
-    AVPlayer * _player;
     
     // This promise allows us to see when a URL is ready to play - we can return it in one of the avplayers delegate methods
     RXPromise * _loadingPromise;
 }
+
+// Making this a property allows us to retain it if the app closes
+@property (nonatomic, strong) AVPlayer * player;
 
 // This allows us to compare the current URL with one we are trying to set (play, pause etc)
 @property (nonatomic, strong) NSURL * currentAudioURL;
