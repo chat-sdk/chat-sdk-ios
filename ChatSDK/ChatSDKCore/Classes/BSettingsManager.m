@@ -17,7 +17,6 @@
 #define bSettingsKey @"settings"
 #define bTwitterKey @"twitter"
 #define bGoogleKey @"google"
-#define bBackendlessKey @"backendless"
 #define bModules @"modules"
 
 #define bEnabledKey @"enabled"
@@ -135,18 +134,6 @@
 // Turn on whether users can access the BUsersViewController from the chat view
 +(BOOL) userChatInfoEnabled {
     return [[self number_s:@[bSettingsKey, bUserChatInfoEnabledKey]] boolValue];
-}
-
-+(NSString *) backendlessAppId {
-    return [self string_s:@[bBackendlessKey, bAppIDKey]];
-}
-
-+(NSString *) backendlessSecretKey {
-    return [self string_s:@[bBackendlessKey, bAppSecret]];
-}
-
-+(NSString *) backendlessVersionKey {
-    return [self string_s:@[bBackendlessKey, bAppVersion]];
 }
 
 +(NSString *) property: (NSString *) property forModule: (NSString *) module {

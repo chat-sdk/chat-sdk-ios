@@ -28,9 +28,6 @@
 +(BOOL) appBadgeEnabled;
 +(BOOL) userChatInfoEnabled;
 
-+(NSString *) backendlessAppId;
-+(NSString *) backendlessSecretKey;
-+(NSString *) backendlessVersionKey;
 +(NSString *) timeFormat;
 +(NSString *) firebaseCloudMessagingServerKey;
 
