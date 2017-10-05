@@ -111,15 +111,6 @@
 			<key>enabled</key>
 			<true/>
 		</dict>
-		<key>backendless</key>
-		<dict>
-			<key>app_id</key>
-			<string>AE35C50E-1AAB-2504-FF20-954F03262700</string>
-			<key>app_secret</key>
-			<string>A6A59449-5B5A-8F18-FF83-4822E4492A00</string>
-			<key>app_version</key>
-			<string>v1</string>
-		</dict>
 		<key>facebook</key>
 		<dict>
 			<key>app_id</key>

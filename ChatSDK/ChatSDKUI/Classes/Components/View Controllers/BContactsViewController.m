@@ -75,7 +75,14 @@
     
     // This code fixes a small issue when the search view is shown for the first time
     if (_contacts.count) {
-        [self.tableView setContentOffset:CGPointMake(0, -20) animated:NO];
+        
+        // iOS 11 seems to require a different offset to keep the search controller hidden
+        if ([UIDevice currentDevice].systemVersion.intValue >= 11) {
+            [self.tableView setContentOffset:CGPointMake(0, -8) animated:NO];
+        }
+        else {
+            [self.tableView setContentOffset:CGPointMake(0, -20) animated:NO];
+        }
     }
     else {
         [self.tableView setContentOffset:CGPointMake(0, self.searchController.searchBar.frame.size.height) animated:NO];

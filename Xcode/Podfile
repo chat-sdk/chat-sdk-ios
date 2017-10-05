@@ -42,7 +42,5 @@ target 'ChatSDK Demo' do
 #   pod 'GoogleSignIn'
 #   pod 'TwitterKit'
 #   pod 'FBSDKLoginKit'
-#   pod 'Backendless'
-	
 	
 end
