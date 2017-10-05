@@ -497,6 +497,16 @@
 
 #pragma Message Delegate
 
+-(RXPromise *) sendTextMessage: (NSString *) message withMeta: (NSDictionary *)meta {
+    
+    // Typing indicator
+    // Once a user sends a message they are no longer typing
+    [self userFinishedTypingWithState: bChatStateActive];
+    
+    NSString * newMessage = [message stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    return [self handleMessageSend:[delegate  sendText:newMessage withMeta:meta]];
+}
+
 -(RXPromise *) sendTextMessage: (NSString *) message {
 
     // Typing indicator

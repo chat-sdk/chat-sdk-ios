@@ -18,6 +18,7 @@
 #import <CountryPicker/CountryPicker.h>
 #import <RXPromise/RXPromise.h>
 #import <Reachability/Reachability.h>
+#import <Hakawai/Hakawai-umbrella.h>
 
 // Elements
 

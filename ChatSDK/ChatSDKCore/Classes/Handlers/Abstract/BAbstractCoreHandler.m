@@ -21,27 +21,31 @@
     return self;
 }
 
-
--(RXPromise *) sendMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID {
+-(RXPromise *) sendMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID withMetaData: (NSDictionary *)meta {
     
     // Set the URLs for the images and save it in CoreData
     [[BStorageManager sharedManager].a beginUndoGroup];
     
     id<PMessage> message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
-
+    
     id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
     [thread addMessage: message];
-
+    
     message.type = @(bMessageTypeText);
     [message setTextAsDictionary:@{bMessageTextKey: text}];
-
+    
     message.date = [NSDate date];
     message.userModel = self.currentUserModel;
     message.delivered = @NO;
     message.read = @YES;
     message.flagged = @NO;
+    message.metaDictionary = meta;
     
     return [self sendMessage:message];
+}
+
+-(RXPromise *) sendMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID {
+    return [self sendMessageWithText:text withThreadEntityID:threadID withMetaData:nil];
 }
 
 

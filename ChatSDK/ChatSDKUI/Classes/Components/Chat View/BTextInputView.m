@@ -8,7 +8,6 @@
 
 #import "BTextInputView.h"
 #import <ChatSDKCore/ChatCore.h>
-#import <ChatSDKUI/ChatUI.h>
 
 #define bMargin 4.0
 
@@ -22,7 +21,7 @@
 
 @implementation BTextInputView
 
-//@synthesize textView = _textView;
+@synthesize textView = _textView;
 @synthesize maxLines, minLines;
 @synthesize messageDelegate;
 @synthesize optionsButton = _optionsButton;
@@ -48,7 +47,11 @@
         _optionsButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self addSubview:_optionsButton];
 
-        _textView = [[UITextView alloc] init];
+        _textView = [[HKWTextView alloc] init];
+        // If we use the mentions functionality we need to set the external delegate
+        // This is the way to set the UITextView delegate to keep mentions functionality working
+        _textView.simpleDelegate = self;
+      
         [self addSubview: _textView];
 
         // Add a send button
@@ -69,8 +72,6 @@
         // We don't want to send a message if they touch up outside the button area
         [_sendButton addTarget:self action:@selector(sendButtonCancelled) forControlEvents:UIControlEventTouchUpOutside];
         
-        // Create a text view
-        _textView.delegate = self;
         _textView.scrollEnabled = YES;
         _textView.backgroundColor = [UIColor clearColor];
         
