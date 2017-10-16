@@ -166,7 +166,7 @@
 
 // TODO: add the user index to user/index
 #pragma Depricated
--(RXPromise *) updateIndexForUser: (id<PUser>) userModel {
+-(RXPromise *) updateIndexForUser: (id<PUser>) userModel  {
     
     RXPromise * promise = [RXPromise new];
     

@@ -18,6 +18,8 @@ typedef enum {
     bMessageTypeVideo,
     bMessageTypeSystem,
     bMessageTypeSticker,
+    bMessageTypeFile,
+    bMessageTypeCustom,
 } bMessageType;
 
 typedef enum {

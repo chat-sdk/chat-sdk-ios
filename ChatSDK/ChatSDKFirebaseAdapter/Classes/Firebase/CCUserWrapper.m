@@ -98,6 +98,7 @@
             profilePictureSet = YES;
         }
         
+        
 //        id<PUserAccount> account = [_model accountWithType:bAccountTypeFacebook];
 //        if (!account) {
 //            account = [[BStorageManager sharedManager].a createEntity:bUserAccountEntity];
@@ -109,7 +110,7 @@
     // Must set name before robot image to ensure they are different
     // Must be set outside of the provider loop as anonymous logins don't user data prodivers
     if (!_model.name) {
-        NSString * tempName = [@"User " stringByAppendingFormat:@"%i", arc4random() % 9999];
+        NSString * tempName = [@"ChatSDK" stringByAppendingFormat:@"%i", arc4random() % 9999];
         _model.name = tempName;
     }
     
@@ -123,7 +124,7 @@
         [self.model setImage:UIImagePNGRepresentation(defaultImage)];
         [self.model setThumbnail:UIImagePNGRepresentation(thumbnail)];
         
-        //[self setRobotProfilePicture];
+        [self setPersonProfilePicture];
     }
     
     // Setup the message color defaults
@@ -175,9 +176,14 @@
 }
 
 - (void)setRobotProfilePicture {
-    
     NSString * name = [self.model.name stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSString * url = [@"https://robohash.org/" stringByAppendingFormat:@"%@.png", name];
+    [self setProfilePictureWithImageURL:url];
+}
+
+-(void) setPersonProfilePicture {
+    NSString * name = [self.model.name stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString * url = [@"http://flathash.com/%@.png" stringByAppendingFormat: name];
     [self setProfilePictureWithImageURL:url];
 }
 

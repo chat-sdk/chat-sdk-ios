@@ -78,6 +78,7 @@
         [self setLoginInfo:Nil];
         
         [[NSNotificationCenter  defaultCenter] postNotificationName:bNotificationBadgeUpdated object:Nil];
+                
         [promise resolveWithResult:Nil];
     }
     else {
@@ -86,7 +87,7 @@
     return promise;
 }
 
--(RXPromise *) authenticateWithDictionary: (NSDictionary *) details {
+-(RXPromise *) authenticate: (BAccountDetails *) details {
     
     RXPromise * promise = [RXPromise new];
     
@@ -105,7 +106,7 @@
     }, Nil);
     
     // Depending on the login method we need to authenticate with Firebase
-    switch ([details[bLoginTypeKey] intValue]) {
+    switch (details.type) {
         case bAccountTypeFacebook: {
             if (NM.socialLogin) {
                 [NM.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
@@ -123,7 +124,6 @@
             break;
         case bAccountTypeTwitter:
         {
-         
             if (NM.socialLogin) {
                 [NM.socialLogin loginWithTwitter].thenOnMain(^id(NSArray * array) {
                     FIRAuthCredential * credential = [FIRTwitterAuthProvider credentialWithToken:array.firstObject
@@ -156,18 +156,17 @@
             }
         }
             break;
-        case bAccountTypePassword:
+        case bAccountTypeUsername:
         {
-            [[FIRAuth auth] signInWithEmail:details[bLoginEmailKey] password:details[bLoginPasswordKey] completion:handleResult];
+            [[FIRAuth auth] signInWithEmail:details.username password:details.password completion:handleResult];
         }
             break;
         case bAccountTypeCustom:
-            
-            [[FIRAuth auth] signInWithCustomToken:details[bLoginCustomToken] completion:handleResult];
+            [[FIRAuth auth] signInWithCustomToken:details.token completion:handleResult];
             break;
         case bAccountTypeRegister:
         {
-            [[FIRAuth auth] createUserWithEmail:details[bLoginEmailKey] password:details[bLoginPasswordKey] completion:handleResult];
+            [[FIRAuth auth] createUserWithEmail:details.username password:details.password completion:handleResult];
         }
             break;
         case bAccountTypeAnonymous: {
@@ -218,11 +217,6 @@
                 
                 [NM.hook executeHookWithName:bHookUserAuthFinished data:@{bHookUserAuthFinished_PUser: user.model}];
                 
-                NSString * avatarURL = [user.model imageURL];
-                if(!avatarURL || !avatarURL.length) {
-                    NSString * imageURL = [NSString stringWithFormat:@"http://flathash.com/%@.png", user.model.name];
-                    [user.model setImageURL:[imageURL stringByReplacingOccurrencesOfString:@" " withString:@""]];
-                }
                 
                 [NM.core save];
                 

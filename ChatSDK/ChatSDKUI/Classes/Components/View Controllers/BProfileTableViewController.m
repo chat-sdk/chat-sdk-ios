@@ -339,8 +339,6 @@
         
         [profilePictureButton setImage:_user.defaultImage forState:UIControlStateNormal];
         
-        // Reset the user in the message cache
-        [[BMessageCache sharedCache] clear];
         
         // Set the user object to nil so that we will load the new user when reloading it
         _user = nil;

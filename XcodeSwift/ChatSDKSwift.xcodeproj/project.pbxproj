@@ -37,6 +37,7 @@
 		B5081AE91F56DA7F0015417B /* BGoogleLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5081ADD1F56DA7F0015417B /* BGoogleLoginViewController.xib */; };
 		B5081AEA1F56DA7F0015417B /* icn_200_google@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5081ADE1F56DA7F0015417B /* icn_200_google@3x.png */; };
 		B5081B0E1F56DBE00015417B /* BFirebaseFileStorageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B5081B0D1F56DBE00015417B /* BFirebaseFileStorageModule.m */; };
+		B51B8EF51F82D1CA00920A32 /* TestInterfaceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B8EF41F82D1CA00920A32 /* TestInterfaceAdapter.swift */; };
 		E0B40CBFF82242CA7A068C9B /* Pods_ChatSDKSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49984E496C1AAC43FD13FB54 /* Pods_ChatSDKSwift.framework */; };
 /* End PBXBuildFile section */
 
@@ -104,6 +105,7 @@
 		B5081AE01F56DA7F0015417B /* SocialLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialLogin.h; sourceTree = "<group>"; };
 		B5081B0C1F56DBE00015417B /* BFirebaseFileStorageModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseFileStorageModule.h; sourceTree = "<group>"; };
 		B5081B0D1F56DBE00015417B /* BFirebaseFileStorageModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseFileStorageModule.m; sourceTree = "<group>"; };
+		B51B8EF41F82D1CA00920A32 /* TestInterfaceAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestInterfaceAdapter.swift; path = ChatSDKSwift/TestInterfaceAdapter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 		ACF7BE6D1C8D8AD7003E8983 = {
 			isa = PBXGroup;
 			children = (
+				B51B8EF41F82D1CA00920A32 /* TestInterfaceAdapter.swift */,
 				ACF7BE781C8D8AD7003E8983 /* ChatSDKSwift */,
 				ACF7BE771C8D8AD7003E8983 /* Products */,
 				E015E77CA0F6ACD8F4540CE4 /* Pods */,
@@ -466,6 +469,7 @@
 				B5081A471F56B4670015417B /* BStateManager.m in Sources */,
 				B5081A4D1F56B4670015417B /* BFirebaseCoreHandler.m in Sources */,
 				B5081AE61F56DA7F0015417B /* BFirebaseSocialLoginModule.m in Sources */,
+				B51B8EF51F82D1CA00920A32 /* TestInterfaceAdapter.swift in Sources */,
 				B5081A4C1F56B4670015417B /* BFirebaseBlockingHandler.m in Sources */,
 				B5081AE41F56DA7F0015417B /* BFirebasePushModule.m in Sources */,
 				B5081AE81F56DA7F0015417B /* BGoogleLoginViewController.m in Sources */,

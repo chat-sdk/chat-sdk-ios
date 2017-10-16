@@ -129,7 +129,7 @@ YourProject
 
 All the paths in the instructions will be provided assuming this project structure. If you use a different structure, you will need to modify the paths accordingly. 
 
-### Adding the Chat SDK To your project
+### Adding the Chat SDK to your project
 
 1. Download or clone the Chat SDK and put the library files in a convenient location
 2. Add the Chat SDK development pods to your Podfile
@@ -540,7 +540,7 @@ These modules are distributed as development pods. After you've downloaded the m
 
 Firebase secures your data by allowing you to write rules to govern who can access the database and what can be written. On the Firebase dashboard click **Database** then the **Rules** tab. 
 
-Copy the contents of the **rules.json** file into the rules and click publish. 
+Copy the contents of the [**rules.json**](https://github.com/chat-sdk/chat-sdk-ios/blob/master/rules.json) file into the rules and click publish.
 
 ## Integrating the Chat SDK with an existing login system
 

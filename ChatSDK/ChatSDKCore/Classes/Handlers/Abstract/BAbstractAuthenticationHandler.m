@@ -32,6 +32,42 @@
     return key.length && (NM.socialLogin || accountType == bAccountTypeAnonymous) ? YES : NO;
 }
 
+-(RXPromise *) authenticateWithDictionary:(NSDictionary *)details {
+    BAccountDetails * accountDetails;
+    switch ([details[bLoginTypeKey] intValue]) {
+        case bAccountTypeFacebook:
+            accountDetails = [BAccountDetails facebook];
+            break;
+        case bAccountTypeTwitter:
+            accountDetails = [BAccountDetails twitter];
+            break;
+        case bAccountTypeGoogle:
+            accountDetails = [BAccountDetails google];
+            break;
+        case bAccountTypeUsername:
+            accountDetails = [BAccountDetails username: details[bLoginEmailKey] password:details[bLoginPasswordKey]];
+            break;
+        case bAccountTypeCustom:
+            accountDetails = [BAccountDetails token: details[bLoginCustomToken]];
+            break;
+        case bAccountTypeRegister:
+            accountDetails = [BAccountDetails signUp: details[bLoginEmailKey] password:details[bLoginPasswordKey]];
+        case bAccountTypeAnonymous:
+            accountDetails = [BAccountDetails anonymous];
+            break;
+        default:
+            break;
+    }
+    
+    if(accountDetails) {
+        return [self authenticate: accountDetails];
+    }
+    else {
+        // TODO: Localize
+        return [RXPromise rejectWithReason:[NSError errorWithDomain:@"" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Login credentials invalid"}]];
+    }
+}
+
 -(NSString *) currentUserEntityID {
     return [[NSUserDefaults standardUserDefaults] dictionaryForKey:bCurrentUserLoginInfo][bAuthenticationIDKey];
 }
@@ -55,9 +91,6 @@
 /**
  * @brief Authenticate with Firebase
  */
--(RXPromise *) authenticateWithDictionary: (NSDictionary *) details {
-    assert(NO);
-}
 
 /**
  * @brief Checks whether the user has been authenticated this session

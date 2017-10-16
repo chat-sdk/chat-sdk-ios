@@ -108,7 +108,7 @@
     
     [containerView addSubview:_titleLabel];
     _titleLabel.keepInsets.equal = 0;
-    _titleLabel.keepBottomInset.equal = 10;
+    _titleLabel.keepBottomInset.equal = 15;
     
     _subtitleLabel = [[UILabel alloc] init];
     _subtitleLabel.textAlignment = NSTextAlignmentCenter;
@@ -549,6 +549,7 @@
 }
 
 -(BOOL) showOptions {
+    // TODO: Check this
     [_textInputView becomeFirstResponder];
     
     if (_optionsHandler.keyboardView) {
@@ -583,6 +584,7 @@
     return self;
 }
 
+// TODO: Change this to handleMessageSend
 -(void) chatOptionActionExecuted:(RXPromise *)promise {
     [self handleMessageSend:promise];
     promise.thenOnMain(^id(id success) {

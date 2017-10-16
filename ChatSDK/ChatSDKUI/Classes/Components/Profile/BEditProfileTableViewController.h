@@ -16,9 +16,8 @@
 #define GregorianCalendar NSGregorianCalendar
 #endif
 
-@interface BEditProfileTableViewController : UITableViewController<CountryPickerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate> {
+@interface BEditProfileTableViewController : UITableViewController<CountryPickerDelegate, UITextViewDelegate> {
     UITapGestureRecognizer * _tapRecognizer;
-    NSMutableArray * _ages;
     BOOL _didLogout;
     id _keyboardObserver;
     float _statusTextViewHeight;
@@ -29,7 +28,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *locationTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *genderSegmentControl;
 @property (weak, nonatomic) IBOutlet CountryPicker *countryPickerView;
-@property (weak, nonatomic) IBOutlet UIDatePicker *dateOfBirthPicker;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *allowInvitesFromSegmentControl;
 @property (nonatomic, readonly) BOOL didLogout;
 

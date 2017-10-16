@@ -19,7 +19,7 @@
 
 
 -(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super init])) {
+    if ((self = [self init])) {
         super.delegate = self;
     }
     return self;
@@ -56,7 +56,7 @@
 }
 
 -(RXPromise *) loginWithUsername: (NSString *) username password: (NSString *) password {
-    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypePassword),
+    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeUsername),
                                                                                 bLoginEmailKey: username,
                                                                                 bLoginPasswordKey: password}];
 

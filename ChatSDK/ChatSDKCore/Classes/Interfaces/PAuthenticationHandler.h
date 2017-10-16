@@ -11,8 +11,7 @@
 
 #import <RXPromise/RXPromise.h>
 #import <ChatSDKCore/BAccountTypes.h>
-
-#import "BAccountTypes.h"
+#import <ChatSDKCore/BAccountDetails.h>
 
 @protocol PAuthenticationHandler <NSObject>
 
@@ -25,6 +24,7 @@
  * @brief Authenticate with Firebase
  */
 -(RXPromise *) authenticateWithDictionary: (NSDictionary *) details;
+-(RXPromise *) authenticate: (BAccountDetails *) details;
 
 /**
  * @brief Checks whether the user has been authenticated this session

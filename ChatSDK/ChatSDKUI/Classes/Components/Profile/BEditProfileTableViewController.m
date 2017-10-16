@@ -24,30 +24,11 @@
 @synthesize locationTextField;
 @synthesize genderSegmentControl;
 @synthesize countryPickerView;
-@synthesize dateOfBirthPicker;
 @synthesize allowInvitesFromSegmentControl;
 @synthesize didLogout = _didLogout;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _ages = [NSMutableArray new];
-    
-    //NSCalendar * gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:GregorianCalendar];//[NSCalendar calendarWithIdentifier:NSGregorianCalendar];
-    //int year = [gregorian component:NSYearCalendarUnit fromDate:[NSDate date]];
-    
-    // NSDateFormatter to separate the Year and Month from currentDate
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"yyyy"];
-    
-    //NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:currentDate];
-    
-    int year = [[df stringFromDate:[NSDate date]] integerValue];
-    
-    for (int i = year; i >= 1920; i--) {
-        [_ages addObject:[NSString stringWithFormat:@"%i", i]];
-    }
-    
     
 }
 
@@ -74,13 +55,6 @@
     
     [countryPickerView setSelectedCountryCode:countryCode animated:NO];
 
-    //NSDate * date = user.dateOfBirth;
-
-    //if (date) {
-    //    [dateOfBirthPicker setDate:date];
-    //}
-    
-    
 }
 
 
@@ -90,25 +64,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
-
-- (void)countryPicker:(CountryPicker *)picker didSelectCountryWithName:(NSString *)name code:(NSString *)code {
-
-}
-
-// returns the number of 'columns' to display.
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-// returns the # of rows in each component..
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return _ages.count;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return _ages[row];
-}
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -163,9 +118,6 @@
     NSString * gender = genderSegmentControl.selectedSegmentIndex ? @"F" : @"M";
     [user setMetaString: gender forKey:bGender];
     [user setMetaString:countryPickerView.selectedCountryCode forKey:bCountry];
-
-    NSString * dateOfBirth = [NSString stringWithFormat:@"%.0f", dateOfBirthPicker.date.timeIntervalSince1970 * 1000]; // Convert to miliseconds
-    [user setMetaString:dateOfBirth forKey:bDateOfBirth];
     
     BOOL pushRequired = NO;
     for (NSString * key in user.model.metaDictionary) {
@@ -178,15 +130,6 @@
     if (pushRequired) {
         [NM.core pushUser];
     }
-    
-
-        
-//        [[BNetworkManager sharedManager].adapter updateIndexForUser:user].thenOnMain(Nil, ^id(NSError * error) {
-//            [UIView alertWithTitle:bErrorTitle withError:error];
-//            return error;
-//        });
-    
-
     
 }
 
@@ -229,15 +172,6 @@
     }
     return YES;
 }
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.section == bAccountSection && indexPath.row == bLogoutRow) {
-//        [self logout];
-//    }
-//    if (indexPath.section == bUtilitySection && indexPath.row == bClearCacheRow) {
-//        [[BCoreDataManager sharedManager] deleteAllData];
-//    }
-//}
 
 - (IBAction)logoutButtonPressed:(id)sender {
     [self logout];

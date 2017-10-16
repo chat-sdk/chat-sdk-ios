@@ -63,9 +63,10 @@
             [self deserialize:snapshot.value];
             [promise resolveWithResult:self];
             
-            if(NM.readReceipt) {
-                [NM.readReceipt updateReadReceiptsForThread:self.model];
-            }
+            // TODO: Move this to inside the read receipt module
+//            if(NM.readReceipt) {
+//                [NM.readReceipt updateReadReceiptsForThread:self.model];
+//            }
 
         }
         else {

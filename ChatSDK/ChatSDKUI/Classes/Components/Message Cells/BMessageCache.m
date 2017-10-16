@@ -36,6 +36,12 @@ static BMessageCache * cache;
     if ((self = [super init])) {
         _messageInfo = [NSMutableDictionary new];
         _messageBubbleImages = [NSMutableDictionary new];
+        
+        // Clear the cache when the user logs out
+        [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationLogout object:Nil queue:0 usingBlock:^(NSNotification * notification) {
+            [self clear];
+        }];
+        
     }
     return self;
 }

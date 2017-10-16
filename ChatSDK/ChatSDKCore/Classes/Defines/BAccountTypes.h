@@ -10,7 +10,7 @@
 #define BAccountTypes_h
 
 typedef enum {
-    bAccountTypePassword = 1,
+    bAccountTypeUsername = 1,
     bAccountTypeFacebook = 2,
     bAccountTypeTwitter = 3,
     //    bAccountTypeGithub = -1,
