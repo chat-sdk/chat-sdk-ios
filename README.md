@@ -71,6 +71,7 @@ Document](https://github.com/chat-sdk/chat-sdk-ios/blob/master/CONTRIBUTING.md) 
 
 + [Parlor](http://parlor.me/)
 + [Runbuddy](https://itunes.apple.com/us/app/run-buddy/id1050833009?mt=8)
++ [INDX01](https://itunes.apple.com/us/app/keynote/id1265222713?mt=8)
 
 If you have an app that uses the Chat SDK let us know and we'll add a link. 
 

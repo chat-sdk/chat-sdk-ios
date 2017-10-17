@@ -25,6 +25,7 @@
 // RXPromise.success - not used
 // RXPromise.error - return NSError to display
 -(RXPromise *) sendText: (NSString *) text;
+-(RXPromise *) sendText: (NSString *) text withMeta: (NSDictionary *)meta;
 -(RXPromise *) sendImage: (UIImage *) image;
 -(RXPromise *) sendLocation: (CLLocation *) location;
 -(RXPromise *) sendAudio: (NSData *) audio withDuration: (double) duration;

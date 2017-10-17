@@ -56,7 +56,7 @@
     
     text = [NSString stringWithFormat:@"%@: %@", message.userModel.name, text];
     
-    // How can we increment the badge number wih backendless
+    // How can we increment the badge number
     NSDictionary * dict = @{bAction: @"",
                             bContent: text,
                             bAlert: text,

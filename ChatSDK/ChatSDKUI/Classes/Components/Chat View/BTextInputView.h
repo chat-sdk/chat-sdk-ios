@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "BTextInputDelegate.h"
 #import <ChatSDKCore/bChatState.h>
+#import <ChatSDKUI/ChatUI.h>
 
 @interface BTextInputView : UIView<UITextViewDelegate> {
-    UITextView * _textView;
     UIButton * _optionsButton;
     UILabel * _placeholderLabel;
     UIColor * _placeholderColor;
@@ -23,7 +23,8 @@
 
 @property (weak, nonatomic, readwrite) id<BTextInputDelegate> messageDelegate;
 
-//@property (nonatomic, readwrite) UITextView * textView;
+// This is a property so we can access it from our mentions view
+@property (nonatomic, readwrite) HKWTextView * textView;
 
 @property (nonatomic, readwrite) NSInteger maxLines;
 @property (nonatomic, readwrite) NSInteger minLines;

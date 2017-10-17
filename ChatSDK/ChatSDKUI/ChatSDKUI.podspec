@@ -23,6 +23,7 @@ Pod::Spec.new do |s|
   s.dependency 'CountryPicker', '~> 1.0'
   s.dependency 'DateTools', '~> 1.0'
   s.dependency 'TOCropViewController', '~> 2.0'
+  s.dependency 'Hakawai', '~> 5.0.0'
   
   s.dependency 'ChatSDKCore'
    
