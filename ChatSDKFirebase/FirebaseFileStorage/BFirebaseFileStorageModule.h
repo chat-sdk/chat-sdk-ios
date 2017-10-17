@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDKCore/PModule.h>
+#import <ChatSDK/PModule.h>
 
 @interface BFirebaseFileStorageModule : NSObject<PModule>
 

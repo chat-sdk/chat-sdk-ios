@@ -6,9 +6,7 @@ target 'ChatSDKSwift' do
 
 #   pod 'Firebase', :path => '../firebase-ios-sdk/Firebase.podspec'
   
-  pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
-  pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"
-  pod "ChatSDKCoreData", :path => "../ChatSDK/ChatSDKCoreData"
+  pod "ChatSDK", :path => "../"
 
   pod "Firebase/Auth"  
   pod "Firebase/Database"  

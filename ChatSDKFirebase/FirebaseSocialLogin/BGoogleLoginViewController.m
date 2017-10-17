@@ -10,8 +10,8 @@
 #import "BSettingsManager.h"
 #import "KeepLayout.h"
 
-#import <ChatSDKCore/ChatCore.h>
-#import <ChatSDKUI/ChatUI.h>
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
 
 @interface BGoogleLoginViewController ()
 

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDKCore/BAbstractUploadHandler.h>
+#import <ChatSDK/BAbstractUploadHandler.h>
 
 @interface BFirebaseUploadHandler : BAbstractUploadHandler
 

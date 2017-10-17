@@ -11,8 +11,8 @@
 #import <RXPromise/RXPromise.h>
 #import <FirebaseStorage/FirebaseStorage.h>
 
-#import <ChatSDKCore/BSettingsManager.h>
-#import <ChatSDKCore/BCoreUtilities.h>
+#import <ChatSDK/BSettingsManager.h>
+#import <ChatSDK/BCoreUtilities.h>
 
 #define bStorageBucket @"files"
 

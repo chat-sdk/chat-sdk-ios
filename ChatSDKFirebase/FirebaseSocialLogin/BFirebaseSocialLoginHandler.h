@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDKCore/PSocialLoginHandler.h>
+#import <ChatSDK/PSocialLoginHandler.h>
 
 @interface BFirebaseSocialLoginHandler : NSObject<PSocialLoginHandler>
 

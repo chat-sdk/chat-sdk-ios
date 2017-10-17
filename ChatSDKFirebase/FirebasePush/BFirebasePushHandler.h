@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDKCore/BAbstractPushHandler.h>
+#import <ChatSDK/BAbstractPushHandler.h>
 #import <FirebaseMessaging/FirebaseMessaging.h>
 
 @interface BFirebasePushHandler : BAbstractPushHandler<FIRMessagingDelegate> {

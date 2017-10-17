@@ -8,7 +8,7 @@
 
 #import "BFirebaseSocialLoginModule.h"
 #import "SocialLogin.h"
-#import <ChatSDKCore/ChatCore.h>
+#import <ChatSDK/ChatCore.h>
 
 @implementation BFirebaseSocialLoginModule
 

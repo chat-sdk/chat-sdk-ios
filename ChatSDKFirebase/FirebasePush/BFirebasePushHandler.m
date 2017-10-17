@@ -9,7 +9,7 @@
 #import "BFirebasePushHandler.h"
 #import <UIKit/UIKit.h>
 #import <AFNetworking/AFNetworking.h>
-#import <ChatSDKCore/ChatCore.h>
+#import <ChatSDK/ChatCore.h>
 
 @implementation BFirebasePushHandler
 

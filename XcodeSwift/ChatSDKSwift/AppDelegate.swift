@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import ChatSDKCore
-import ChatSDKUI
-import ChatSDKCoreData
+import ChatSDK
 
 @UIApplicationMain
 /* Two Factor Auth */

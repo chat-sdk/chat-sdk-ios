@@ -9,8 +9,8 @@
 #import "BGoogleHelper.h"
 
 #import <RXPromise/RXPromise.h>
-#import <ChatSDKUI/ChatUI.h>
-#import <ChatSDKCore/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/ChatCore.h>
 #import "BGoogleLoginViewController.h"
 
 @implementation BGoogleHelper

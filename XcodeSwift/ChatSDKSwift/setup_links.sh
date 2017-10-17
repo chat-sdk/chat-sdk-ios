@@ -1,13 +1,12 @@
 #!/bin/bash
-echo "Enter the path to the ChatSDK folder or leave blank to use the default path (../../)"
+echo "Enter the relative path to the ChatSDK.podspec file or leave blank to use the default path (../../)"
 read path
 
 adapterDir="ChatSDKFirebaseAdapter"
-chatDir="ChatSDK"
 firebaseModulesDir="ChatSDKFirebase"
 modulesDir="ChatSDKModules"
 
-adapterPath="$chatDir/$adapterDir/Classes"
+adapterPath="$adapterDir/Classes"
 
 rm $adapterDir
 

@@ -8,7 +8,7 @@
 
 #import "BFirebaseSocialLoginHandler.h"
 
-#import <ChatSDKCore/ChatCore.h>
+#import <ChatSDK/ChatCore.h>
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>

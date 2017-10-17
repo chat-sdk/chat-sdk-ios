@@ -9,9 +9,9 @@
 #import "AppDelegate.h"
 
 
-#import <ChatSDKCore/ChatCore.h>
-#import <ChatSDKUI/ChatUI.h>
-#import <ChatSDKCoreData/ChatCoreData.h>
+#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/ChatCoreData.h>
 #import "ChatFirebaseAdapter.h"
 
 #import "BFirebaseSocialLoginModule.h"
