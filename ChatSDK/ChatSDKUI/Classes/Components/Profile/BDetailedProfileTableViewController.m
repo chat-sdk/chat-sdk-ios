@@ -27,7 +27,6 @@
 @synthesize nameLabel;
 @synthesize statusTextView;
 @synthesize locationLabel;
-@synthesize ageLabel;
 @synthesize overrideUser;
 
 @synthesize addFriendImageView;
@@ -40,7 +39,6 @@
 
 @synthesize statusCell;
 @synthesize locationCell;
-@synthesize ageCell;
 @synthesize addFriendCell;
 @synthesize blockUserCell;
 

@@ -16,9 +16,6 @@
 #define bUsers @"users"
 #define bGender @"gender"
 
-#define bYearOfBirth @"yearOfBirth"
-
-#define bDateOfBirth @"dateOfBirth"
 #define bAllowInvites @"allowInvites"
 
 #endif /* BDetailedProfileDefines_h */
