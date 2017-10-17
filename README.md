@@ -115,17 +115,17 @@ We've tried to make it as easy as possible to add Chat SDK to your project. Howe
 So that things run smoothly, we recommend that you keep the Chat SDK library in the folder outside your Xcode project folder. A typical structure would look like this:
 
 ```
-ChatSDK
----- ChatSDKCore
----- ChatSDKCoreData
----- ChatSDKFirebaseAdapter
----- ChatSDKUI
+- ChatSDKCore
+- ChatSDKCoreData
+- ChatSDKFirebaseAdapter
+- ChatSDKUI
+- ChatSDK.podspec
 
-YourProject
----- YourProject.xcodeproj
----- YouProject
--------- [.m and .h files]
----- Podfile
+- YourProject
+- /---- YourProject.xcodeproj
+- /---- YouProject
+- /---- /---- [.m and .h files]
+- /---- Podfile
 ```
 
 All the paths in the instructions will be provided assuming this project structure. If you use a different structure, you will need to modify the paths accordingly. 
