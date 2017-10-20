@@ -4,7 +4,7 @@ use_frameworks!
 
 target 'ChatSDK Demo' do
   
-  pod "ChatSDK", :path => "../"
+  pod "ChatSDK"
   
   pod 'TwitterKit', '2.3'
   pod 'GoogleSignIn'

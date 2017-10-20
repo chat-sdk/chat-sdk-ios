@@ -227,8 +227,8 @@
 }
 
 -(RXPromise *) sendSystemMessage: (NSString *) text {
-    return [self handleMessageSend:[[BNetworkManager sharedManager].a.stickerMessage sendMessageWithSticker:text
-                                                                                         withThreadEntityID:_thread.entityID]];
+    return [self handleMessageSend:[[BNetworkManager sharedManager].a.core sendLocalSystemMessageWithText:text
+                                                                                       withThreadEntityID:_thread.entityID]];
 }
 
 -(RXPromise *) sendSticker: (NSString *) name {

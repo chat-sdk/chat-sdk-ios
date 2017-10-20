@@ -11,6 +11,7 @@
 
 @interface BFirebasePushModule : NSObject
 
--(void) activateWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions;
+-(void) activateForFirebaseWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions ;
+-(void) activateForXMPPWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions;
 
 @end

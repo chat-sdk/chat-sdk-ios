@@ -14,7 +14,7 @@
 
 @implementation BFirebasePushModule
 
--(void) activateWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions {
+-(void) activateForFirebaseWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions {
     BFirebasePushHandler * pushHandler = [[BFirebasePushHandler alloc] init];
     // We add this here because with different backends we may do different things
     pushHandler.tokenRefreshed = ^{
@@ -24,5 +24,14 @@
     [pushHandler registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
 }
 
+-(void) activateForXMPPWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions {
+    BFirebasePushHandler * pushHandler = [[BFirebasePushHandler alloc] init];
+    // We add this here because with different backends we may do different things
+    pushHandler.tokenRefreshed = ^{
+        [NM.core goOnline];
+    };
+    [BNetworkManager sharedManager].a.push = pushHandler;
+    [pushHandler registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
+}
 
 @end

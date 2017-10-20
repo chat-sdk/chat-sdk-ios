@@ -53,9 +53,9 @@
     /* Social Login */
     [[[BFirebaseSocialLoginModule alloc] init] activateWithApplication:application withOptions:launchOptions];
     
-    [[[BFirebasePushModule alloc] init] activateWithApplication:application withOptions:launchOptions];
+    [[[BFirebasePushModule alloc] init] activateForFirebaseWithApplication:application withOptions:launchOptions];
     
-    [[[BFirebaseFileStorageModule alloc] init] activate];
+    [[[BFirebaseFileStorageModule alloc] init] activateForFirebase];
 
 
     // This is the main view that contains the tab bar

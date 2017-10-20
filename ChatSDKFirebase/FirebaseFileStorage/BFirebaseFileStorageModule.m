@@ -9,10 +9,16 @@
 #import "BFirebaseFileStorageModule.h"
 #import <ChatSDK/ChatCore.h>
 #import "BFirebaseUploadHandler.h"
+#import <Firebase/Firebase.h>
 
 @implementation BFirebaseFileStorageModule
 
--(void) activate {
+-(void) activateForFirebase {
+    [BNetworkManager sharedManager].a.upload = [[BFirebaseUploadHandler alloc] init];
+}
+
+-(void) activateForXMPP {
+    [FIRApp configure];
     [BNetworkManager sharedManager].a.upload = [[BFirebaseUploadHandler alloc] init];
 }
 
