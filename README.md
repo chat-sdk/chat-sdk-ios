@@ -116,6 +116,8 @@ So that things run smoothly, we recommend that you keep the Chat SDK Firebase Ad
 
 ```
 - ChatSDKFirebaseAdapter
+- ChatSDKModules
+- ChatSDKFirebase
 
 - YourProject
 - /---- YourProject.xcodeproj
@@ -219,7 +221,7 @@ All the paths in the instructions will be provided assuming this project structu
   ```
     
 8. The Chat SDK is now added to your project
-9. If you want to send location or image messages **don't forget** to configure the [Firebase File Storage](https://github.com/chat-sdk/chat-sdk-ios#file-storage) module. 
+9. Add the [Firebase File Storage](https://github.com/chat-sdk/chat-sdk-ios#file-storage) module which is required for image and location messages and user profile avatars. 
 
 ## Firebase Setup
 

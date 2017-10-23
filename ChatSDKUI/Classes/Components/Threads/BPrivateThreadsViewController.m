@@ -95,7 +95,7 @@
 //    if (editingStyle == UITableViewCellEditingStyleDelete )
 //    {
 //        id<PThread> thread = _threads[indexPath.row];
-//        [[BNetworkManager sharedManager].adapter deleteThread:thread];
+//        [[NMdapter deleteThread:thread];
 //        [self reloadData];
 //    }
 //}

@@ -14,7 +14,7 @@
 
 -(void) activateWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions {
     [BNetworkManager sharedManager].a.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
-    [[BNetworkManager sharedManager].a.socialLogin application: application didFinishLaunchingWithOptions:launchOptions];
+    [NM.socialLogin application: application didFinishLaunchingWithOptions:launchOptions];
 }
 
 @end

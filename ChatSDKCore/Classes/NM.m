@@ -13,83 +13,83 @@
 @implementation NM
 
 +(id<PCoreHandler>) core {
-    return [BNetworkManager sharedManager].a.core;
+    return [NM.core;
 }
 
 +(id<PAuthenticationHandler>) auth {
-    return [BNetworkManager sharedManager].a.auth;
+    return [NM.auth;
 }
 
 +(id<PUploadHandler>) upload {
-    return [BNetworkManager sharedManager].a.upload;
+    return [NM.upload;
 }
 
 +(id<PVideoMessageHandler>) videoMessage {
-    return [BNetworkManager sharedManager].a.videoMessage;
+    return [NM.videoMessage;
 }
 
 +(id<PAudioMessageHandler>) audioMessage {
-    return [BNetworkManager sharedManager].a.audioMessage;
+    return [NM.audioMessage;
 }
 
 +(id<PImageMessageHandler>) imageMessage {
-    return [BNetworkManager sharedManager].a.imageMessage;
+    return [NM.imageMessage;
 }
 
 +(id<PLocationMessageHandler>) locationMessage {
-    return [BNetworkManager sharedManager].a.locationMessage;
+    return [NM.locationMessage;
 }
 
 +(id<PPushHandler>) push {
-    return [BNetworkManager sharedManager].a.push;
+    return [NM.push;
 }
 
 +(id<PContactHandler>) contact {
-    return [BNetworkManager sharedManager].a.contact;
+    return [NM.contact;
 }
 
 +(id<PTypingIndicatorHandler>) typingIndicator {
-    return [BNetworkManager sharedManager].a.typingIndicator;
+    return [NM.typingIndicator;
 }
 
 +(id<PModerationHandler>) moderation {
-    return [BNetworkManager sharedManager].a.moderation;
+    return [NM.moderation;
 }
 
 +(id<PSearchHandler>) search {
-    return [BNetworkManager sharedManager].a.search;
+    return [NM.search;
 }
 
 +(id<PPublicThreadHandler>) publicThread {
-    return [BNetworkManager sharedManager].a.publicThread;
+    return [NM.publicThread;
 }
 
 +(id<PBlockingHandler>) blocking {
-    return [BNetworkManager sharedManager].a.blocking;
+    return [NM.blocking;
 }
 
 +(id<PLastOnlineHandler>) lastOnline {
-    return [BNetworkManager sharedManager].a.lastOnline;
+    return [NM.lastOnline;
 }
 
 +(id<PNearbyUsersHandler>) nearbyUsers {
-    return [BNetworkManager sharedManager].a.nearbyUsers;
+    return [NM.nearbyUsers;
 }
 
 +(id<PReadReceiptHandler>) readReceipt {
-    return [BNetworkManager sharedManager].a.readReceipt;
+    return [NM.readReceipt;
 }
 
 +(id<PStickerMessageHandler>) stickerMessage {
-    return [BNetworkManager sharedManager].a.stickerMessage;
+    return [NM.stickerMessage;
 }
 
 +(id<PSocialLoginHandler>) socialLogin {
-    return [BNetworkManager sharedManager].a.socialLogin;
+    return [NM.socialLogin;
 }
 
 +(id<PUsersHandler>) users {
-    return [BNetworkManager sharedManager].a.users;
+    return [NM.users;
 }
 
 +(id<PUser>) currentUser {
@@ -101,11 +101,11 @@
 }
 
 +(id) handler: (NSString *) name {
-    return [[BNetworkManager sharedManager].a handlerWithName:name];
+    return [[NM handlerWithName:name];
 }
 
 +(id<PHookHandler>) hook {
-    return [BNetworkManager sharedManager].a.hook;
+    return [NM.hook;
 }
 
 

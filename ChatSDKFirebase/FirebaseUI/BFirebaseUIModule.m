@@ -28,7 +28,7 @@
     FUIAuthPickerViewController * controller = [[FUIAuthPickerViewController alloc] initWithAuthUI:authUI];
     
     // Present the controller as the default authentication controller
-    [BNetworkManager sharedManager].a.auth.challengeViewController = [[UINavigationController alloc] initWithRootViewController:controller];
+    [NM.auth.challengeViewController = [[UINavigationController alloc] initWithRootViewController:controller];
 }
 
 - (void)authUI:(FUIAuth *)authUI didSignInWithUser:(nullable FIRUser *)user error:(nullable NSError *)error {
@@ -39,7 +39,7 @@
                 NSDictionary * loginInfo = @{bLoginTypeKey: @(bAccountTypeCustom),
                                              bLoginCustomToken: token};
                 
-                [[BNetworkManager sharedManager].a.auth authenticateWithDictionary:loginInfo].thenOnMain(^id(id<PUser> user) {
+                [[NM.auth authenticateWithDictionary:loginInfo].thenOnMain(^id(id<PUser> user) {
                     [self notifyDelegate:Nil];
                     return Nil;
                 }, ^id(NSError * error) {

@@ -172,7 +172,7 @@
     __weak BContactsViewController * weakSelf = self;
     
     UIViewController * vc = [[BInterfaceManager sharedManager].a searchViewControllerWithType:type
-                                                                               excludingUsers:[BNetworkManager sharedManager].a.contact.contacts
+                                                                               excludingUsers:NM.contact.contacts
                                                                                    usersAdded:^(NSArray * users) {
                                                                                    [weakSelf addUsers:users];
                                                                                    [weakSelf dismissViewControllerAnimated:YES completion:Nil];
@@ -190,7 +190,7 @@
             
             // Add observers to the user just added
             [NM.core observeUser:user.entityID];
-            [[BNetworkManager sharedManager].a.contact addContact:user withType:bUserConnectionTypeContact];
+            [NM.contact addContact:user withType:bUserConnectionTypeContact];
         }
     }
     
@@ -264,7 +264,7 @@
     
     NSString * searchString = searchController_.searchBar.text.lowercaseString;
     
-    NSArray<PUserConnection> * allContacts = [[BNetworkManager sharedManager].a.contact connectionsWithType:bUserConnectionTypeContact];
+    NSArray<PUserConnection> * allContacts = [NM.contact connectionsWithType:bUserConnectionTypeContact];
     
     [_contacts removeAllObjects];
     
