@@ -13,83 +13,83 @@
 @implementation NM
 
 +(id<PCoreHandler>) core {
-    return [NM.core;
+    return self.a.core;
 }
 
 +(id<PAuthenticationHandler>) auth {
-    return [NM.auth;
+    return self.a.auth;
 }
 
 +(id<PUploadHandler>) upload {
-    return [NM.upload;
+    return self.a.upload;
 }
 
 +(id<PVideoMessageHandler>) videoMessage {
-    return [NM.videoMessage;
+    return self.a.videoMessage;
 }
 
 +(id<PAudioMessageHandler>) audioMessage {
-    return [NM.audioMessage;
+    return self.a.audioMessage;
 }
 
 +(id<PImageMessageHandler>) imageMessage {
-    return [NM.imageMessage;
+    return self.a.imageMessage;
 }
 
 +(id<PLocationMessageHandler>) locationMessage {
-    return [NM.locationMessage;
+    return self.a.locationMessage;
 }
 
 +(id<PPushHandler>) push {
-    return [NM.push;
+    return self.a.push;
 }
 
 +(id<PContactHandler>) contact {
-    return [NM.contact;
+    return self.a.contact;
 }
 
 +(id<PTypingIndicatorHandler>) typingIndicator {
-    return [NM.typingIndicator;
+    return self.a.typingIndicator;
 }
 
 +(id<PModerationHandler>) moderation {
-    return [NM.moderation;
+    return self.a.moderation;
 }
 
 +(id<PSearchHandler>) search {
-    return [NM.search;
+    return self.a.search;
 }
 
 +(id<PPublicThreadHandler>) publicThread {
-    return [NM.publicThread;
+    return self.a.publicThread;
 }
 
 +(id<PBlockingHandler>) blocking {
-    return [NM.blocking;
+    return self.a.blocking;
 }
 
 +(id<PLastOnlineHandler>) lastOnline {
-    return [NM.lastOnline;
+    return self.a.lastOnline;
 }
 
 +(id<PNearbyUsersHandler>) nearbyUsers {
-    return [NM.nearbyUsers;
+    return self.a.nearbyUsers;
 }
 
 +(id<PReadReceiptHandler>) readReceipt {
-    return [NM.readReceipt;
+    return self.a.readReceipt;
 }
 
 +(id<PStickerMessageHandler>) stickerMessage {
-    return [NM.stickerMessage;
+    return self.a.stickerMessage;
 }
 
 +(id<PSocialLoginHandler>) socialLogin {
-    return [NM.socialLogin;
+    return self.a.socialLogin;
 }
 
 +(id<PUsersHandler>) users {
-    return [NM.users;
+    return self.a.users;
 }
 
 +(id<PUser>) currentUser {
@@ -101,11 +101,15 @@
 }
 
 +(id) handler: (NSString *) name {
-    return [[NM handlerWithName:name];
+    return [self.a handlerWithName:name];
 }
 
 +(id<PHookHandler>) hook {
-    return [NM.hook;
+    return self.a.hook;
+}
+    
++(id<BNetworkFacade>) a {
+    return [BNetworkManager sharedManager].a;
 }
 
 

@@ -1,4 +1,10 @@
-## v4.3.3
+## 4.3.4
+
+Fixed:
+
+https://github.com/chat-sdk/chat-sdk-ios/issues/92
+
+## 4.3.3
 
 Updated Pod structure to make repository compatible with CocoaPods trunk.
 
