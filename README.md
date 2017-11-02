@@ -91,11 +91,11 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
 3. Open the `ChatSDKSwift.xcworkspace` file in Xcode  
 4. Compile and run 
 
-## Setup Service
+## Check out the development guide
 
-We provide extensive documentation on Github but if you’re a non-technical user or want to save yourself some work you can take advantage of our [setup and integration service](http://chatsdk.co/downloads/chat-sdk-setup-service/).
+We've written a [comprehensive Development Guide](https://github.com/chat-sdk/docs) which is available in the docs repository. 
 
-## Explore the Wiki
+If you thing that something is missing, you can post a new issue and we will update the guide. 
 
 We have a number of additional guides available on our [Wiki](https://github.com/chat-sdk/chat-sdk-ios/wiki) including:
 
@@ -104,7 +104,9 @@ We have a number of additional guides available on our [Wiki](https://github.com
 - [Facebook login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/ChatSDK-iOS:-Facebook-login)
 - [Twitter login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/ChatSDK-iOS:-Twitter-Login)
 
-_And more... so check it out!_
+## Setup Service
+
+We provide extensive documentation on Github but if you’re a non-technical user or want to save yourself some work you can take advantage of our [setup and integration service](http://chatsdk.co/downloads/chat-sdk-setup-service/).
 
 ## Integration with an existing project
 
