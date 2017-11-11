@@ -74,5 +74,6 @@
 #import <ChatSDK/PChatOptionsHandler.h>
 #import <ChatSDK/BChatOptionsActionSheet.h>
 #import <ChatSDK/BMessageCache.h>
+#import <ChatSDK/BMainControllerLifecycleHelper.h>
 
 #endif /* ChatUI_h */

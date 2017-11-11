@@ -70,10 +70,10 @@ static BMessageCache * cache;
     // Color
     NSString * colorString = Nil;
     if (isMine) {
-        colorString = bDefaultMessageColorMe;
+        colorString = [BChatSDK shared].configuration.messageColorMe;
     }
     else {
-        colorString = bDefaultMessageColorReply;
+        colorString = [BChatSDK shared].configuration.messageColorReply;
     }
 
     NSString * imageIdentifier = [NSString stringWithFormat:@"%@%@%i%f", bubbleImageName, colorString, isMine, weight];

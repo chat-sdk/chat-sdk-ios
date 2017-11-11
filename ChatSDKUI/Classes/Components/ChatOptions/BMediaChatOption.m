@@ -128,7 +128,7 @@
         NSData * videoData = [NSData dataWithContentsOfURL:videoURL];
         
         UIImage * cover = [self thumbnailImageForVideo:videoURL atTime:0.1];
-        cover = [self drawImage:cover withBadge:[NSBundle chatUIImageNamed:@"play-button.png"]];
+//        cover = [self drawImage:cover withBadge:[NSBundle chatUIImageNamed:@"play-button.png"]];
         
         // Send video to the chat view
         if(NM.videoMessage) {
@@ -179,19 +179,6 @@
     return thumbnailImage;
 }
 
-// SS-V
--(UIImage *)drawImage:(UIImage*)profileImage withBadge:(UIImage *)badge {
-    
-    UIGraphicsBeginImageContextWithOptions(profileImage.size, NO, 0.0f);
-    
-    // Add the extra image in the centre and make its size a third of the width of the picture
-    [profileImage drawInRect:CGRectMake(0, 0, profileImage.size.width, profileImage.size.height)];
-    [badge drawInRect:CGRectMake(profileImage.size.width/2 - profileImage.size.width/6, profileImage.size.height/2 - profileImage.size.width/6, profileImage.size.width/3, profileImage.size.width/3)];
-    
-    UIImage * resultImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return resultImage;
-}
 
 
 @end

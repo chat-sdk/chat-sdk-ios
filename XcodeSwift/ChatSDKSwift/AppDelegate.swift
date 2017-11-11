@@ -20,14 +20,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        let config = BConfiguration.init();
+        BChatSDK.initialize(config);
+        
         /* Set up main adapters */
         BInterfaceManager.shared().a = BDefaultInterfaceAdapter.init()
         BNetworkManager.shared().a = BFirebaseNetworkAdapter.init()
         BStorageManager.shared().a = BCoreDataManager.init()
         
         BFirebaseSocialLoginModule.init().activate(with: application, withOptions: launchOptions);
-        BFirebaseFileStorageModule.init().activate();
-        BFirebasePushModule.init().activate(with: application, withOptions: launchOptions);
+        BFirebaseFileStorageModule.init().activateForFirebase();
+        BFirebasePushModule.init().activateForFirebase(with: application, withOptions: launchOptions);
         
         /* Social Login */
         //BNetworkManager.shared().a.setSocialLogin(BFirebaseSocialLoginHandler.init())

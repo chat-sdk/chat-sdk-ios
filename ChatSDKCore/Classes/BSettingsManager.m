@@ -31,6 +31,7 @@
 #define bTimeFormat @"time_format"
 #define bApiKey @"api_key"
 #define bSecretKey @"secret"
+#define bFirebaseStorageBucket @"STORAGE_BUCKET"
 
 #define bAppBadgeEnabledKey @"app_badge_enabled"
 #define bUserChatInfoEnabledKey @"user_chat_info_enabled"
@@ -107,7 +108,9 @@
 }
 
 +(NSString *) firebaseStoragePath {
-    return [self string_s:@[bFirebaseKey, bStorageKey]];
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
+    return [@"gs://" stringByAppendingString:dict[bFirebaseStorageBucket]];
 }
 
 +(NSString *) firebaseRootPath {

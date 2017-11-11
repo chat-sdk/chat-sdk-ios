@@ -36,12 +36,17 @@
         
         _usersToExclude = excludedUsers;
         self.usersSelected = action;
+        _showKeyboardOnLoad = YES;
     }
     return self;
 }
 
 -(void) setExcludedUsers: (NSArray *) excludedUsers {
     _usersToExclude = excludedUsers;
+}
+
+-(void) showKeyboardOnLoad: (BOOL) showKeyboard {
+    _showKeyboardOnLoad = showKeyboard;
 }
 
 -(void) setSelectedAction: (void(^)(NSArray * users)) action {
@@ -103,7 +108,7 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (!_users.count) {
+    if (!_users.count && _showKeyboardOnLoad) {
         [searchBox becomeFirstResponder];
     }
     

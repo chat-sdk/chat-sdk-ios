@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class BMainControllerLifecycleHelper;
+
 @interface BAppTabBarController : UITabBarController<UITabBarControllerDelegate> {
     UIViewController * _loginViewController;
+    BMainControllerLifecycleHelper * _helper;
 }
 
 

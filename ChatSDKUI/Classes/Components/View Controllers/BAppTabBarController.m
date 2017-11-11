@@ -20,18 +20,28 @@
 
 @implementation BAppTabBarController
 
+-(id) init {
+    if((self = [super init])) {
+    }
+    return self;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+    
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if(!_helper) {
+        _helper = [[BMainControllerLifecycleHelper alloc] init];
+    }
+    
+    [_helper viewDidLoad: self];
     
     self.delegate = self;
     
@@ -43,12 +53,6 @@
                                                       object:Nil
                                                        queue:Nil
                                                   usingBlock:^(NSNotification * sender) {
-        
-                                                      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                          [self showLoginScreen];
-                                                      });
-//        [self showLoginScreen];
-        
         // Resets the view which the tab bar loads on
         [self setSelectedIndex:0];
     }];
@@ -82,9 +86,8 @@
         });
     }];
     
-    
-    NSNumber * badge = [[NSUserDefaults standardUserDefaults] stringForKey:bMessagesBadgeValueKey];
-    [self setBadge: badge.intValue];
+    NSInteger badge = [[NSUserDefaults standardUserDefaults] integerForKey:bMessagesBadgeValueKey];
+    [self setBadge: badge];
     
 }
 
@@ -95,35 +98,10 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    [NM.auth authenticateWithCachedToken].thenOnMain(^id(id<PUser> user) {
-        if (!user) {
-            [self showLoginScreen];
-        }
+    [_helper viewDidAppear].thenOnMain(^id(id<PUser> user) {
         [self updateBadge];
-        
         return Nil;
-    },^id(NSError * error) {
-        [self showLoginScreen];
-        return Nil;
-    });
-}
-
--(void) showLoginScreen {
-    if (!NM.auth.userAuthenticated) {
-        if (!_loginViewController) {
-            _loginViewController = NM.auth.challengeViewController;
-        }
-        [self presentViewController:_loginViewController
-                           animated:YES
-                         completion:Nil];
-    }
-    else {
-        // Once we are authenticated then start updating the users location
-        if(NM.nearbyUsers) {
-            [NM.nearbyUsers startUpdatingUserLocation];
-        }
-    }
+    }, Nil);
 }
 
 // #6704 Start bug fix for v3.0.2
@@ -147,16 +125,16 @@
 }
 
 // TODO - move this to a more appropriate place in the code
--(void) setBadge: (int) badge {
+-(void) setBadge: (NSInteger) badge {
     
     NSInteger privateThreadIndex = [[BInterfaceManager sharedManager].a.tabBarViewControllers indexOfObject:[BInterfaceManager sharedManager].a.privateThreadsViewController];
 
     // Using self.tabbar will correctly set the badge for the specific index
-    NSString * badgeString = badge == 0 ? Nil : [NSString stringWithFormat:@"%i", badge];
+    NSString * badgeString = badge == 0 ? Nil : [NSString stringWithFormat:@"%i", (int) badge];
     [self.tabBar.items objectAtIndex:privateThreadIndex].badgeValue = badgeString;
     
     // Save the value to defaults
-    [[NSUserDefaults standardUserDefaults] setObject:@(badge) forKey:bMessagesBadgeValueKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:badge forKey:bMessagesBadgeValueKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     if ([BSettingsManager appBadgeEnabled]) {

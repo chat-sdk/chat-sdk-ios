@@ -91,7 +91,7 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
 3. Open the `ChatSDKSwift.xcworkspace` file in Xcode  
 4. Compile and run 
 
-## Check out the development guide
+## Check out the Development Guide
 
 We've written a [comprehensive Development Guide](https://github.com/chat-sdk/docs) which is available in the docs repository. 
 
@@ -239,7 +239,7 @@ All the paths in the instructions will be provided assuming this project structu
   >It is worth opening your downloaded ```GoogleService-Info.plist``` and checking there is an ```API_KEY``` field included. Sometimes Firebase's automatic download doesn’t include this in the plist. To rectify, just re-download the plist from the project settings menu.  
 
 8. Next add the Chat SDK specific settings. Open the demo Chat SDK project and locat the **chat_sdk** entry in the **Info.plist** file. Copy this entry into the **Info.plist** file in your project.
-9. Expand the entry and then expand the **firebase** settings. Set the `root_path` to a value of your choice. Set the `storage_path` to the value found in the Firebase console under the storage tab. 
+9. Expand the entry and then expand the **firebase** settings. Set the `root_path` to a value of your choice. 
   
   >**Note**  
   >The root path variable allows you to run multiple Chat SDK instances on one Firebase account. Each different root path will represent a completely separate set of Firebase data. This can be useful for testing because you could have separate test and prod root paths.
@@ -437,13 +437,6 @@ _AppDelegate.swift_
 ```
 BFirebaseFileStorageModule.init().activateForFirebase();
 ```
-
-Ensure that the file storage path has been setup. 
-
-1. Go to the [Firebase console](https://console.firebase.google.com/)
-2. Click the **Storage** tab
-3. Copy the storage URL which starts with `gs://`
-4. Paste it into your **Info.plist** file at the location **chat_sdk** -> **firebase** -> **storage_path**
 
 ### Firebase UI
 

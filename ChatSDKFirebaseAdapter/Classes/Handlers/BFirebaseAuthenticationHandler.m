@@ -41,8 +41,13 @@
     }
     
     if (authenticated) {
-        //        [promise resolveWithResult:self.currentUserModel];
-        [promise resolveWithResult:[self loginWithFirebaseUser:[FIRAuth auth].currentUser]];
+        // If the user listeners have been added then authenticate completed successfully
+        if(_userAuthenticatedThisSession) {
+            return [RXPromise resolveWithResult:NM.currentUser];
+        }
+        else {
+            [promise resolveWithResult:[self loginWithFirebaseUser:[FIRAuth auth].currentUser]];
+        }
     }
     else {
         [promise rejectWithReason:Nil];
@@ -70,7 +75,7 @@
         
         [NM.core goOffline];
 
-        _userListenersAdded = NO;
+        _userAuthenticatedThisSession = NO;
         
         // Post a notification
         [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationLogout object:Nil];
@@ -211,16 +216,14 @@
         
         CCUserWrapper * user = [CCUserWrapper userWithAuthUserData:firebaseUser];
         
-        if (!_userListenersAdded) {
+        if (!_userAuthenticatedThisSession) {
+            _userAuthenticatedThisSession = YES;
             // Update the user from the remote server
             return [user once].thenOnMain(^id(id<PUserWrapper> user_) {
                 
                 [NM.hook executeHookWithName:bHookUserAuthFinished data:@{bHookUserAuthFinished_PUser: user.model}];
                 
-                
                 [NM.core save];
-                
-                _userListenersAdded = YES;
                 
                 // Add listeners here
                 [BStateManager userOn: user.entityID];

@@ -13,7 +13,6 @@
 #import "ChatFirebaseAdapter.h"
 #import <ChatSDK/ChatCore.h>
 
-
 @implementation CCUserWrapper
 
 +(id) userWithAuthUserData: (FIRUser *) data {
@@ -128,8 +127,9 @@
     }
     
     // Setup the message color defaults
+    // TODO: Maybe remove this...
     if (!_model.messageColor || !_model.messageColor.length) {
-        _model.messageColor = [BCoreUtilities colorToString:[BCoreUtilities colorWithHexString:bDefaultMessageColorMe]];
+        _model.messageColor = [BCoreUtilities colorToString:[BCoreUtilities colorWithHexString:[BChatSDK shared].configuration.messageColorMe]];
     }
 }
 

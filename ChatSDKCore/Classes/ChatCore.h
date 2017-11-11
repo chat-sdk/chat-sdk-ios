@@ -70,6 +70,8 @@
 #import <ChatSDK/PSocialLoginHandler.h>
 #import <ChatSDK/NSBundle+ChatCore.h>
 #import <ChatSDK/BAccountDetails.h>
+#import <ChatSDK/BChatSDK.h>
+#import <ChatSDK/BConfiguration.h>
 
 #import <ChatSDK/BHook.h>
 #import <ChatSDK/PHookHandler.h>
