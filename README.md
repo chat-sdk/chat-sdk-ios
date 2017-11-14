@@ -127,10 +127,7 @@ We provide extensive documentation on Github but if you’re a non-technical use
 
   You can see how to add it via symlink [here](https://github.com/chat-sdk/chat-sdk-ios#adding-the-firebase-adapter-source-code).
 
-6. Open the **App Delegate** add the following code to initialise the chat:
-
-  >**Note**  
-  >The root path variable allows you to run multiple Chat SDK instances on one Firebase account. Each different root path will represent a completely separate set of Firebase data. This can be useful for testing because you could have separate **test** and **prod** root paths.
+6. Open the **App Delegate** add the following code to initialise the chat
 
   **Objective C**
 
@@ -170,7 +167,7 @@ We provide extensive documentation on Github but if you’re a non-technical use
   import ChatSDK
   ```
 
-    Add the following to your briding header
+  Add the following to your bridging header
   
   ```
   #import "ChatFirebaseAdapter.h"
@@ -194,6 +191,10 @@ We provide extensive documentation on Github but if you’re a non-technical use
   self.window?.rootViewController = mainViewController;
   self.window?.makeKeyAndVisible();
   ```
+  
+  ##### The Root Path
+
+  >The root path variable allows you to run multiple Chat SDK instances on one Firebase account. Each different root path will represent a completely separate set of Firebase data. This can be useful for testing because you could have separate **test** and **prod** root paths.
       
 7. The Chat SDK is now added to your project
 8. Add the [Firebase File Storage](https://github.com/chat-sdk/chat-sdk-ios#file-storage) module which is required for image and location messages and user profile avatars. 
