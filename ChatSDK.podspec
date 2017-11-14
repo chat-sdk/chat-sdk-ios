@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.3.5"
+  s.version          = "4.3.6"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -58,5 +58,24 @@ Pod::Spec.new do |s|
 	  ui.dependency 'ChatSDK/CoreData'
   
   end
+
+#  s.subspec 'FirebaseAdapter' do |fb|
+
+# 	  fb.source_files = ['ChatSDK/Classes/**/*']
+# 	  fb.resource_bundles = {
+# 		'ChatUI' => ['ChatSDKUI/Assets/**/*', 'ChatSDKUI/Interface/**/*']
+# 	  }
+
+#     fb.dependency 'Firebase/Core'
+#     fb.dependency 'Firebase/Auth'
+#     fb.dependency 'Firebase/Database'
+#     fb.dependency 'Firebase/Storage'
+#     fb.dependency 'Firebase/Messaging'
+ 
+#     fb.vendored_frameworks = "ChatSDKFirebaseAdapter/Frameworks/FirebaseAdapter.framework"
+#   
+# 	fb.dependency 'ChatSDK/CoreData'
+#   
+#   end
     
 end

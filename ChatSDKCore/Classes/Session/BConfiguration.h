@@ -11,6 +11,7 @@
 
 @property (nonatomic, readwrite) NSString * messageColorMe;
 @property (nonatomic, readwrite) NSString * messageColorReply;
+@property (nonatomic, readwrite) NSString * rootPath;
 
 +(BConfiguration *) configuration;
 

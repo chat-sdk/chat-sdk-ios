@@ -12,11 +12,13 @@
 
 @synthesize messageColorMe;
 @synthesize messageColorReply;
+@synthesize rootPath;
 
 -(id) init {
     if((self = [super init])) {
         messageColorMe = bDefaultMessageColorMe;
         messageColorReply = bDefaultMessageColorReply;
+        rootPath = @"default";
     }
     return self;
 }

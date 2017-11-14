@@ -91,50 +91,21 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
 3. Open the `ChatSDKSwift.xcworkspace` file in Xcode  
 4. Compile and run 
 
-## Check out the Development Guide
-
-We've written a [comprehensive Development Guide](https://github.com/chat-sdk/docs) which is available in the docs repository. 
-
-If you thing that something is missing, you can post a new issue and we will update the guide. 
-
-We have a number of additional guides available on our [Wiki](https://github.com/chat-sdk/chat-sdk-ios/wiki) including:
-
-- [Exploring the Chat SDK Architecture](https://github.com/chat-sdk/chat-sdk-ios/wiki/Exploring-the-Chat-SDK-Architecture)
-- [Calculating the cost of different backends](https://github.com/chat-sdk/blog/wiki/Messaging-service-price-comparison)
-- [Facebook login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/ChatSDK-iOS:-Facebook-login)
-- [Twitter login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/ChatSDK-iOS:-Twitter-Login)
-
-## Setup Service
+### Setup Service
 
 We provide extensive documentation on Github but if you’re a non-technical user or want to save yourself some work you can take advantage of our [setup and integration service](http://chatsdk.co/downloads/chat-sdk-setup-service/).
 
-## Integration with an existing project
+## Adding the Chat SDK to your project
+###### Quick start guide - it takes about 10 minutes!
 
-### Project Structure
 
-We've tried to make it as easy as possible to add Chat SDK to your project. However since it's it's a relatively complex project with a lot of dependencies (and because of some issues with Cocoapods) the setup needs to be handeled carefully. 
 
-So that things run smoothly, we recommend that you keep the Chat SDK Firebase Adapter library in the folder outside your Xcode project folder. A typical structure would look like this:
 
-```
-- ChatSDKFirebaseAdapter
-- ChatSDKModules
-- ChatSDKFirebase
 
-- YourProject
-- /---- YourProject.xcodeproj
-- /---- YouProject
-- /---- /---- [.m and .h files]
-- /---- /---- setup_links.sh
-- /---- Podfile
-```
-
-All the paths in the instructions will be provided assuming this project structure. If you use a different structure, you will need to modify the paths accordingly. 
 
 ### Adding the Chat SDK to your project
 
-1. Download or clone the Chat SDK and put the library files in a convenient location
-2. Add the Chat SDK development pods to your Podfile
+1. Add the Chat SDK development pods to your Podfile
 
   ```
   use_frameworks!
@@ -151,15 +122,15 @@ All the paths in the instructions will be provided assuming this project structu
   ```
   
 4. Run `pod install` or `pod update` to get the latest version of the code.
-  
-5. You can add the **ChatSDKFirebaseAdapter** code directly to your Xcode project or add it via symlink (see step 6). Copy the **ChatSDKFirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebaseAdapter/Classes](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebaseAdapter/Classes) into your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **ChatSDKFirebaseAdapter** folder. 
+
+5. Copy the **ChatSDKFirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebaseAdapter/Classes](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebaseAdapter/Classes) into your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **ChatSDKFirebaseAdapter** folder.
+
+  You can see how to add it via symlink [here](https://github.com/chat-sdk/chat-sdk-ios#adding-the-firebase-adapter-source-code).
+
+6. Open the **App Delegate** add the following code to initialise the chat:
 
   >**Note**  
-  >There are currently ongoing issues with the Firebase pods which make it very difficult for us to include the Chat SDK Firebase Adapter in a pod. Until these issues are resolved, the easiest approach is to drag the files into Xcode directly. 
-  
-6. **Symlinking**. Alternatively, you can add the `FirebaseNetworkAdapter` using a symlink. This allows you to have one copy of the library which can be referenced by multiple Xcode projects. To setup the symlinks you need to locate the [**setup_links.sh**](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Xcode/ChatSDK%20Demo/setup_links.sh) script. This should be added to your Xcode project where you want to setup the symlinks (see [Project Structure](https://github.com/chat-sdk/chat-sdk-ios#project-structure)). Run the script using `sh setup_links.sh`. Enter the relative path to the ChatSDKFirebaseAdapter folder. If you use the default project structure, you can just leave this blank (the default path is `../../`). Then open Xcode and add the symlink folders using the normal process.   
-
-7. Open the **App Delegate** add the following code to initialise the chat
+  >The root path variable allows you to run multiple Chat SDK instances on one Firebase account. Each different root path will represent a completely separate set of Firebase data. This can be useful for testing because you could have separate **test** and **prod** root paths.
 
   **Objective C**
 
@@ -175,16 +146,14 @@ All the paths in the instructions will be provided assuming this project structu
   Add the following code to the start of your didFinishLaunchingWithOptions function:
 
   ```
-  // Create a network adapter to communicate with Firebase
-  // The network adapter handles network traffic
+  BConfiguration * config = [BConfiguration configuration];
+  config.rootPath = @"test";
+  [BChatSDK initialize:config]
+  
   [BNetworkManager sharedManager].a = [[BFirebaseNetworkAdapter alloc] init];
-    
-  // Set the default interface manager
   [BInterfaceManager sharedManager].a = [[BDefaultInterfaceAdapter alloc] init];
-
   [BStorageManager sharedManager].a = [[BCoreDataManager alloc] init];
   
-  // This is the main view that contains the tab bar
   UIViewController * mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
 
   // Set the login screen
@@ -210,6 +179,10 @@ All the paths in the instructions will be provided assuming this project structu
   Add the following code to the start of your didFinishLaunchingWithOptions function:
 
   ```
+  let config = BConfiguration.init();
+  config.rootPath! = "test"
+  BChatSDK.initialize(config);
+  
   BInterfaceManager.shared().a = BDefaultInterfaceAdapter.init()
   BNetworkManager.shared().a = BFirebaseNetworkAdapter.init()
   BStorageManager.shared().a = BCoreDataManager.init()
@@ -221,9 +194,9 @@ All the paths in the instructions will be provided assuming this project structu
   self.window?.rootViewController = mainViewController;
   self.window?.makeKeyAndVisible();
   ```
-    
-8. The Chat SDK is now added to your project
-9. Add the [Firebase File Storage](https://github.com/chat-sdk/chat-sdk-ios#file-storage) module which is required for image and location messages and user profile avatars. 
+      
+7. The Chat SDK is now added to your project
+8. Add the [Firebase File Storage](https://github.com/chat-sdk/chat-sdk-ios#file-storage) module which is required for image and location messages and user profile avatars. 
 
 ## Firebase Setup
 
@@ -237,12 +210,6 @@ All the paths in the instructions will be provided assuming this project structu
 
   >**Note:**  
   >It is worth opening your downloaded ```GoogleService-Info.plist``` and checking there is an ```API_KEY``` field included. Sometimes Firebase's automatic download doesn’t include this in the plist. To rectify, just re-download the plist from the project settings menu.  
-
-8. Next add the Chat SDK specific settings. Open the demo Chat SDK project and locat the **chat_sdk** entry in the **Info.plist** file. Copy this entry into the **Info.plist** file in your project.
-9. Expand the entry and then expand the **firebase** settings. Set the `root_path` to a value of your choice. 
-  
-  >**Note**  
-  >The root path variable allows you to run multiple Chat SDK instances on one Firebase account. Each different root path will represent a completely separate set of Firebase data. This can be useful for testing because you could have separate test and prod root paths.
    
 10. Copy the following rows from the demo ChatSDK **Info.plist** file to your project's **Info.plist**  
   1. `App Transport Security Settings`
@@ -251,6 +218,25 @@ All the paths in the instructions will be provided assuming this project structu
   4. All the privacy rows. These will allow the app to access the camera, location and address book
 
 11. In the Firebase dashboard click **Authentication -> Sign-in method** and enable all the appropriate methods 
+
+### Conclusion
+
+Congratulations! 🎉🎉 You've just turned your app into a fully featured instant messenger! Keep reading below to learn how to further customize the Chat SDK.
+
+# Next Steps
+
+## Check out the Development Guide
+
+We've written a [comprehensive Development Guide](https://github.com/chat-sdk/docs) which is available in the docs repository. 
+
+If you thing that something is missing, you can post a new issue and we will update the guide. 
+
+We have a number of additional guides available on our [Wiki](https://github.com/chat-sdk/chat-sdk-ios/wiki) including:
+
+- [Exploring the Chat SDK Architecture](https://github.com/chat-sdk/chat-sdk-ios/wiki/Exploring-the-Chat-SDK-Architecture)
+- [Calculating the cost of different backends](https://github.com/chat-sdk/blog/wiki/Messaging-service-price-comparison)
+- [Facebook login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/ChatSDK-iOS:-Facebook-login)
+- [Twitter login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/ChatSDK-iOS:-Twitter-Login)
 
 ## Module Setup
 
@@ -733,6 +719,44 @@ So a more complete example would look like this:
     }
 }
 ```
+
+### Adding the Firebase Adapter Source Code
+
+#### Recommended Project Structure
+
+We've tried to make it as easy as possible to add Chat SDK to your project. However since it's it's a relatively complex project with a lot of dependencies (and because of some issues with Cocoapods) the setup needs to be handeled carefully. 
+
+So that things run smoothly, we recommend that you keep the Chat SDK Firebase Adapter library in the folder outside your Xcode project folder. A typical structure would look like this:
+
+```
+- ChatSDKFirebaseAdapter
+- ChatSDKModules
+- ChatSDKFirebase
+
+- YourProject
+- /---- YourProject.xcodeproj
+- /---- YouProject
+- /---- /---- [.m and .h files]
+- /---- /---- setup_links.sh
+- /---- Podfile
+```
+
+All the paths in the instructions will be provided assuming this project structure. If you use a different structure, you will need to modify the paths accordingly. 
+
+You can add the Chat SDK Firebase Adapter in two ways:
+
+#### Drag and drop
+
+Copy the **ChatSDKFirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebaseAdapter/Classes](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebaseAdapter/Classes) into your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **ChatSDKFirebaseAdapter** folder. 
+
+  >**Note**  
+  >There are currently ongoing issues with the Firebase pods which make it very difficult for us to include the Chat SDK Firebase Adapter in a pod. Until these issues are resolved, the easiest approach is to drag the files into Xcode directly. 
+  
+#### Symlink
+  
+Adding via symlink allows you to have one copy of the Firebase adapter source code which can be referenced by multiple Xcode projects. The idea is to create a symbolic link inside your Xcode project to the folder containing the source code which is outside of the project. This way you can reference the same code with multiple projects. 
+
+To setup the symlinks you need to locate the [**setup_links.sh**](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Xcode/ChatSDK%20Demo/setup_links.sh) script. This should be added to your Xcode project where you want to setup the symlinks (see [Project Structure](https://github.com/chat-sdk/chat-sdk-ios#project-structure)). Run the script using `sh setup_links.sh`. Enter the relative path to the ChatSDKFirebaseAdapter folder. If you use the default project structure, you can just leave this blank (the default path is `../../`). Then open Xcode and add the symlink folders using the normal process.  
 
 ## Troubleshooting Cocoapods
 

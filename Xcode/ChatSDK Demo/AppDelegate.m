@@ -32,6 +32,10 @@
     // The network adapter handles network traffic
     [BNetworkManager sharedManager].a = [[BFirebaseNetworkAdapter alloc] init];
     
+    BConfiguration * config = [BConfiguration configuration];
+    config.rootPath = @"test";
+    [BChatSDK initialize:config];
+    
     // Set the default interface manager
     [BInterfaceManager sharedManager].a = [[BDefaultInterfaceAdapter alloc] init];
 

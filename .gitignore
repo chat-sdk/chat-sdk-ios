@@ -40,6 +40,7 @@ INDX420/
 Old/
 XcodeStefan/
 XcodeFirebaseWithPods/
+FirebaseAdapter/
 
 # Ignore these in subfolders, but track in root of repo
 ChatSDKFirebase/

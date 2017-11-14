@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         let config = BConfiguration.init();
+        config.rootPath! = "firebase_v4_web_new_4"
         BChatSDK.initialize(config);
         
         /* Set up main adapters */

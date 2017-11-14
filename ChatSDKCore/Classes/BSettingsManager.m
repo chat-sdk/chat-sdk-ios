@@ -7,6 +7,7 @@
 //
 
 #import "BSettingsManager.h"
+#import <ChatSDK/ChatCore.h>
 
 #define bMainKey @"chat_sdk"
 
@@ -107,14 +108,18 @@
     return [self string_s:@[bFirebaseKey, bCloudMessagingServerKey]];
 }
 
-+(NSString *) firebaseStoragePath {
-    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
-    return [@"gs://" stringByAppendingString:dict[bFirebaseStorageBucket]];
-}
+//+(NSString *) firebaseStoragePath {
+//    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+//    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
+//    return [@"gs://" stringByAppendingString:dict[bFirebaseStorageBucket]];
+//}
 
 +(NSString *) firebaseRootPath {
-    return [self string_s:@[bFirebaseKey, bRootPathKey]];
+    NSString * path = [self string_s:@[bFirebaseKey, bRootPathKey]];
+    if(!path) {
+        path = [BChatSDK shared].configuration.rootPath;
+    }
+    return path;
 }
 
 +(NSString *) parseAppId {
