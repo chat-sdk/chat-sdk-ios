@@ -61,8 +61,17 @@
         [self startActivityIndicator];
 
         [NM.search availableIndexes].thenOnMain(^id(NSArray * indexes) {
+            
+            NSMutableArray * nonRequiredIndexes = [NSMutableArray new];
+            
+            for(NSArray * index in indexes) {
+                if(![index required]) {
+                    [nonRequiredIndexes addObject:index];
+                }
+            }
+            
             searchTermButton.hidden = !indexes.count;
-            _searchTermViewController = [[BSearchIndexViewController alloc] initWithIndexes: indexes withCallback:^(NSArray * index) {
+            _searchTermViewController = [[BSearchIndexViewController alloc] initWithIndexes: nonRequiredIndexes withCallback:^(NSArray * index) {
                 [searchTermButton setTitle:index.key forState:UIControlStateNormal];
                 _currentSearchIndex = index;
             }];

@@ -17,16 +17,33 @@
     return Nil;
 }
 
-//-(BOOL) isEqual:(NSArray *) array {
-//    return [self.firstObject isEqual:array.firstObject];
-//}
++(id) keyPair:(NSString *)key value:(NSString *)value required: (BOOL) required {
+    if (key && value) {
+        return @[key, value, @(required)];
+    }
+    return Nil;
+}
 
 -(NSString *) key {
-    return self.firstObject;
+    if(self.count >= 1) {
+        return self[0];
+    }
+    return Nil;
 }
 
 -(NSString *) value {
-    return self.lastObject;
+    if(self.count >= 2) {
+        return self[1];
+    }
+    return self;
 }
+
+-(BOOL) required {
+    if(self.count >= 3) {
+        return [self[2] boolValue];
+    }
+    return NO;
+}
+
 
 @end
