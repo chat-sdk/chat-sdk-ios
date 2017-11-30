@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -95,7 +95,7 @@
                 <constraint firstAttribute="trailing" secondItem="JsS-ef-lBV" secondAttribute="trailing" id="PH0-zY-8YJ"/>
                 <constraint firstItem="Wh4-DE-p3Z" firstAttribute="centerY" secondItem="srU-DS-lfu" secondAttribute="centerY" id="QK8-Yj-DTW"/>
                 <constraint firstAttribute="bottom" secondItem="RHx-Ni-2pY" secondAttribute="bottom" priority="750" id="QcP-8Z-724"/>
-                <constraint firstItem="srU-DS-lfu" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="85" id="k2p-k4-0zY"/>
+                <constraint firstItem="srU-DS-lfu" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" priority="750" constant="85" id="k2p-k4-0zY"/>
                 <constraint firstItem="RHx-Ni-2pY" firstAttribute="top" secondItem="srU-DS-lfu" secondAttribute="bottom" constant="20" id="np8-fq-9vq"/>
                 <constraint firstItem="eyX-m1-56q" firstAttribute="trailing" secondItem="srU-DS-lfu" secondAttribute="trailing" constant="-10" id="wGD-gB-qaL"/>
             </constraints>
@@ -103,9 +103,4 @@
             <point key="canvasLocation" x="83" y="380"/>
         </view>
     </objects>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>

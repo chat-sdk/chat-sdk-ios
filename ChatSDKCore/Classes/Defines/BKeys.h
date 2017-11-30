@@ -92,6 +92,7 @@
 
 #define bLoginTypeKey @"login-type"
 #define bLoginEmailKey @"login-email"
+#define bLoginUsernameKey @"login-email"
 #define bLoginPasswordKey @"login-password"
 #define bLoginCustomToken @"custom-token"
 

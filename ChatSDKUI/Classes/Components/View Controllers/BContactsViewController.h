@@ -17,6 +17,7 @@
     NSMutableArray * _contacts;
     __strong BSearchViewController * _searchViewController;
     BNotificationObserverList * _notificationList;
+    float _initialTableYOffset;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

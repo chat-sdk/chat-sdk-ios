@@ -52,6 +52,7 @@
             break;
         case bAccountTypeRegister:
             accountDetails = [BAccountDetails signUp: details[bLoginEmailKey] password:details[bLoginPasswordKey]];
+            break;
         case bAccountTypeAnonymous:
             accountDetails = [BAccountDetails anonymous];
             break;
@@ -70,6 +71,15 @@
 
 -(NSString *) currentUserEntityID {
     return [[NSUserDefaults standardUserDefaults] dictionaryForKey:bCurrentUserLoginInfo][bAuthenticationIDKey];
+}
+
+-(void) saveAccountDetails: (BAccountDetails *) details {
+    [self setLoginInfo:@{bLoginUsernameKey: details.username,
+                         bLoginPasswordKey: details.password}];
+}
+
+-(BAccountDetails *) getSavedAccountDetails {
+    return [BAccountDetails username:self.loginInfo[bLoginUsernameKey] password:self.loginInfo[bLoginPasswordKey]];
 }
 
 -(void) setLoginInfo: (NSDictionary *) info {

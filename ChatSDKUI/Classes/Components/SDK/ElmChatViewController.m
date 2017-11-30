@@ -65,7 +65,9 @@
     
     [self.view addSubview:_textInputView];
     
-    _textInputView.keepBottomInset.equal = 0;
+//    [_textInputView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:0];
+
+    _textInputView.keepBottomInset.equal = [self textInputViewBottomInset];
     _textInputView.keepLeftInset.equal = 0;
     _textInputView.keepRightInset.equal = 0;
     
@@ -503,18 +505,12 @@
     // Once a user sends a message they are no longer typing
     [self userFinishedTypingWithState: bChatStateActive];
     
-    NSString * newMessage = [message stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    NSString * newMessage = [message stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     return [self handleMessageSend:[delegate  sendText:newMessage withMeta:meta]];
 }
 
 -(RXPromise *) sendTextMessage: (NSString *) message {
-
-    // Typing indicator
-    // Once a user sends a message they are no longer typing
-    [self userFinishedTypingWithState: bChatStateActive];
-    
-    NSString * newMessage = [message stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    return [self handleMessageSend:[delegate sendText:newMessage]];
+    return [self sendTextMessage:message withMeta:Nil];
 }
 
 -(RXPromise *) sendImageMessage: (UIImage *) image {
@@ -722,8 +718,10 @@
     CGRect keyboardBounds = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     
     _keyboardOverlay.frame = keyboardBounds;
-
-    _textInputView.keepBottomInset.equal = 0;
+    
+//    [_textInputView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:0];
+    
+    _textInputView.keepBottomInset.equal = [self textInputViewBottomInset];
     [self.view setNeedsUpdateConstraints];
     
     [UIView beginAnimations:Nil context:Nil];
@@ -741,6 +739,15 @@
     // Disable the gesture recognizer so cell taps are recognized
     _tapRecognizer.enabled = NO;
     
+}
+
+-(float) textInputViewBottomInset {
+    // Fix for the iPhone X
+    // Move the text input up to avoid the bottom area
+    if([UIScreen mainScreen].nativeBounds.size.height == 2436) {
+        return 30;
+    }
+    return 0;
 }
 
 -(void) keyboardDidHide: (NSNotification *) notification {

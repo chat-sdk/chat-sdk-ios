@@ -219,7 +219,11 @@
         
     cell.profileImageView.image = thread.imageForThread;
     
-    cell.unreadView.hidden = !thread.unreadMessageCount;
+//    cell.unreadView.hidden = !thread.unreadMessageCount;
+    
+    int unreadCount = thread.unreadMessageCount;
+    cell.unreadMessagesLabel.hidden = !unreadCount;
+    cell.unreadMessagesLabel.text = [@(unreadCount) stringValue];
     
     // Add the typing indicator
     NSString * typingText = _threadTypingMessages[thread.entityID];
@@ -250,6 +254,30 @@
     }
 }
 
+// Fix divider lines not being full width on the iPad
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [self.tableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleDelete;
 }
@@ -270,7 +298,6 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     return !_slideToDeleteDisabled;
 }
 

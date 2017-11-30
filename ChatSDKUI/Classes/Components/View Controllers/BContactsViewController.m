@@ -34,6 +34,7 @@
         self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_contact.png"];
         _contacts = [NSMutableArray new];
         _notificationList = [BNotificationObserverList new];
+        _initialTableYOffset = -1;
     }
     return self;
 }
@@ -55,7 +56,6 @@
         searchController.searchBar.delegate = self;
         
         self.tableView.tableHeaderView = searchController.searchBar;
-        [searchController.searchBar sizeToFit];
         self.definesPresentationContext = YES;
     }
     
@@ -66,6 +66,7 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [searchController.searchBar sizeToFit];
     [self reloadData];
 }
 
@@ -73,20 +74,24 @@
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
+    if(_initialTableYOffset == -1) {
+        _initialTableYOffset = tableView.contentOffset.y;
+    }
+    
     // This code fixes a small issue when the search view is shown for the first time
     if (_contacts.count) {
         
-        // iOS 11 seems to require a different offset to keep the search controller hidden
-        if ([UIDevice currentDevice].systemVersion.intValue >= 11) {
-            [self.tableView setContentOffset:CGPointMake(0, -8) animated:NO];
-        }
-        else {
-            [self.tableView setContentOffset:CGPointMake(0, -20) animated:NO];
-        }
+        UISearchBar * searchBar = [searchController searchBar];
+        CGSize size = searchBar.intrinsicContentSize;
+        
+        [self.tableView setContentOffset:CGPointMake(0, _initialTableYOffset + size.height) animated:NO];
+
     }
     else {
-        [self.tableView setContentOffset:CGPointMake(0, self.searchController.searchBar.frame.size.height) animated:NO];
+        [self.tableView setContentOffset:CGPointMake(0, self.searchController.searchBar.fh) animated:NO];
     }
+//    [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -171,8 +176,13 @@
     
     __weak BContactsViewController * weakSelf = self;
     
+    NSMutableArray * excludedUsers = [NSMutableArray new];
+    for(id<PUserConnection> connection in NM.contact.contacts) {
+        [excludedUsers addObject:connection.user];
+    }
+    
     UIViewController * vc = [[BInterfaceManager sharedManager].a searchViewControllerWithType:type
-                                                                               excludingUsers:NM.contact.contacts
+                                                                               excludingUsers:excludedUsers
                                                                                    usersAdded:^(NSArray * users) {
                                                                                    [weakSelf addUsers:users];
                                                                                    [weakSelf dismissViewControllerAnimated:YES completion:Nil];

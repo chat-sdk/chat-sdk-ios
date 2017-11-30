@@ -56,32 +56,27 @@
 }
 
 -(RXPromise *) loginWithUsername: (NSString *) username password: (NSString *) password {
-    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeUsername),
-                                                                                bLoginEmailKey: username,
-                                                                                bLoginPasswordKey: password}];
-
+    return [NM.auth authenticate:[BAccountDetails username:username password:password]];
 }
 
 -(RXPromise *) registerWithUsername: (NSString *) username password: (NSString *) password {
-    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeRegister),
-                                                                                bLoginEmailKey: username,
-                                                                                bLoginPasswordKey: password}];
+    return [NM.auth authenticate:[BAccountDetails signUp:username password:password]];
 }
 
 -(RXPromise *) facebook {
-    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeFacebook)}];
+    return [NM.auth authenticate:[BAccountDetails facebook]];
 }
 
 -(RXPromise *) twitter {
-    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeTwitter)}];
+    return [NM.auth authenticate:[BAccountDetails twitter]];
 }
 
 -(RXPromise *) googlePlus {
-    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeGoogle)}];
+    return [NM.auth authenticate:[BAccountDetails google]];
 }
 
 -(RXPromise *) anonymous {
-    return [NM.auth authenticateWithDictionary:@{bLoginTypeKey: @(bAccountTypeAnonymous)}];
+    return [NM.auth authenticate:[BAccountDetails anonymous]];
 }
 
 

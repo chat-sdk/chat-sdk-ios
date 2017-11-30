@@ -33,7 +33,7 @@
         _selectedUsers = [NSMutableArray new];
         
         self.title = [NSBundle t: bSearch];
-        
+       
         _usersToExclude = excludedUsers;
         self.usersSelected = action;
         _showKeyboardOnLoad = YES;
@@ -84,6 +84,16 @@
         searchTermButton.hidden = YES;
     }
 
+    // Fix for the iPhone X
+    // For some reason, the text view has no border...
+    if([UIScreen mainScreen].nativeBounds.size.height == 2436) {
+        self.searchBox.layer.borderColor = [BCoreUtilities colorWithHexString:@"e2e2e2"].CGColor;
+        self.searchBox.layer.borderWidth = 1;
+        self.searchBox.layer.cornerRadius = 5;
+    }
+
+    self.searchBox.keepTopInset.equal = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height + 10 + keepRequired;
+    
     // Add a tap recognizer to dismiss the keyboard
     _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
     
@@ -180,6 +190,7 @@
     // Get the user
     id<PUser> user = _users[indexPath.row];
     [cell setUser:user];
+    cell.statusImageView.hidden = YES;
         
     if ([_selectedUsers containsObject:user]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -217,6 +228,8 @@
             if (user != NM.currentUser) {
                 // Only display a user if they have a name set
                 
+                
+            
                 // Check the users entityID to make sure they're not in the exclude list
                 if (!_usersToExclude || ![_usersToExclude containsObject:user]) {
                     if (user.name.length) {

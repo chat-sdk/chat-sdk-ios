@@ -23,7 +23,14 @@
     self.messageTextView.userInteractionEnabled = NO;
     self.unreadView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     self.unreadView.layer.borderWidth = 1.0;
-    self.unreadView.layer.cornerRadius = self.unreadView.fh/2.0;
+    self.unreadView.layer.cornerRadius = self.unreadView.fh / 2.0;
+    
+    self.unreadMessagesLabel.layer.cornerRadius = 5;
+    self.unreadMessagesLabel.clipsToBounds = YES;
+    
+    self.preservesSuperviewLayoutMargins = NO;
+    self.separatorInset = UIEdgeInsetsZero;
+    self.layoutMargins = UIEdgeInsetsZero;
 }
 
 -(void) setIsOnline: (BOOL) isOnline {

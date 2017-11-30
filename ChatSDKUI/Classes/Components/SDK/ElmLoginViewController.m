@@ -175,6 +175,7 @@
                     return Nil;
                 }, ^id(NSError * error) {
                     [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+                    [self hideHUD];
                     return Nil;
                 });
 }

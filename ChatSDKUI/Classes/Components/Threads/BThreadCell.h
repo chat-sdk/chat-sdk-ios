@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UITextView *messageTextView;
 @property (weak, nonatomic) IBOutlet UIView *unreadView;
+@property (weak, nonatomic) IBOutlet UILabel *unreadMessagesLabel;
 
 -(void) setIsOnline: (BOOL) isOnline;
 -(void) startTypingWithMessage: (NSString *) message;

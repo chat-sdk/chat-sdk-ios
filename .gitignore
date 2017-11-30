@@ -41,6 +41,8 @@ Old/
 XcodeStefan/
 XcodeFirebaseWithPods/
 FirebaseAdapter/
+XcodeChatcat/
+XcodeXMPPXolile/
 
 # Ignore these in subfolders, but track in root of repo
 ChatSDKFirebase/

@@ -236,8 +236,8 @@ We have a number of additional guides available on our [Wiki](https://github.com
 
 - [Exploring the Chat SDK Architecture](https://github.com/chat-sdk/chat-sdk-ios/wiki/Exploring-the-Chat-SDK-Architecture)
 - [Calculating the cost of different backends](https://github.com/chat-sdk/blog/wiki/Messaging-service-price-comparison)
-- [Facebook login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/ChatSDK-iOS:-Facebook-login)
-- [Twitter login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/ChatSDK-iOS:-Twitter-Login)
+- [Facebook login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/Chat-SDK-iOS:-Facebook-login)
+- [Twitter login setup guide](https://github.com/chat-sdk/chat-sdk-ios/wiki/Chat-SDK-iOS:-Twitter-Login)
 
 ## Module Setup
 

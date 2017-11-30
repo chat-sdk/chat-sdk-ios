@@ -19,7 +19,12 @@
     
     NSString * time = [formatter stringFromDate:self];
     
-    if ([self daysAgo] == 1) {
+    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:self];
+    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:[NSDate date]];
+
+    // We check if the last date was in the last few days
+    // Then check if it was exactly yesterday
+    if ([self daysAgo] < 3 && today.day == otherDay.day + 1) {
         time = [NSBundle t: bYesterday];
     }
     else if (self.daysAgo > 1 && self.daysAgo < 7) {
@@ -27,7 +32,7 @@
         time = [formatter stringFromDate:self];
     }
     else if (self.daysAgo >= 7) {
-        [formatter setDateFormat:@"MM/yy"];
+        [formatter setDateFormat:@"dd/MM/yy"];
         time = [formatter stringFromDate:self];
     }
     return time;

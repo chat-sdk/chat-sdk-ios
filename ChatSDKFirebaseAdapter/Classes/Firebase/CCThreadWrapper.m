@@ -177,11 +177,16 @@
                     // Add the message to this thread;
                     [self.model addMessage:message.model];
                     
+                    [NM.core save];
+                    
                     if (newMessage) {
                         // TODO: Maybe change here
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded object:Nil userInfo:@{bNotificationMessageAddedKeyMessage: message.model}];
+                            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded
+                                                                                object:Nil
+                                                                              userInfo:@{bNotificationMessageAddedKeyMessage: message.model}];
+                            
                             NSLog(@"Message: %@, %@", message.model.textString, message.model.date);
                             
                             if(NM.readReceipt) {
@@ -240,6 +245,19 @@
         }
     }];
     
+    [threadUsersRef observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+        if (![snapshot.value isEqual: [NSNull null]]) {
+            for(NSString * userEntityID in [snapshot.value allKeys]) {
+                if(snapshot.value[userEntityID][bDeletedKey]) {
+                    // Update the thread
+                    CCUserWrapper * user = [CCUserWrapper userWithEntityID:userEntityID];
+                     [_model removeUser:user.model];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadUsersUpdated object:Nil];
+                }
+            }
+        }
+    }];
+    
     [threadUsersRef observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
         if (![snapshot.value isEqual: [NSNull null]]) {
             // Update the thread
@@ -292,7 +310,7 @@
     
     // Delete all messages
     for(id<PMessage> m in _model.allMessages) {
-        [[BStorageManager sharedManager].a deleteEntity:m];
+        [_model removeMessage:m];
     }
     
     [[BStorageManager sharedManager].a endUndoGroup];

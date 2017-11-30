@@ -56,10 +56,8 @@
 
 -(void) loadUserImage {
     if(_user) {
-        UIImage * image = [UIImage imageWithData: _user.thumbnail];
-        image = image ? image : _user.defaultImage;
-
-        [profilePictureButton sd_setImageWithURL:[NSURL URLWithString:[_user metaStringForKey:bUserPictureURLKey]]
+        UIImage * image = _user.imageAsImage;
+        [profilePictureButton sd_setImageWithURL:[NSURL URLWithString:_user.imageURL]
                                         forState:UIControlStateNormal
                                 placeholderImage:image];
     }

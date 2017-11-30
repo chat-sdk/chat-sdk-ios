@@ -32,13 +32,8 @@
     //self.profileImageView.layer.borderWidth = 2;
     self.statusImageView.layer.cornerRadius = 6;
     self.stateLabel.text = @"";
-
-    if (user.thumbnail) {
-        self.profileImageView.image = [UIImage imageWithData:user.thumbnail];
-    }
-    else {
-        self.profileImageView.image = user.defaultImage;
-    }
+    
+    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString: user.imageURL] placeholderImage:user.imageAsImage];
     
     self.title.text = user.name;
     self.subtitle.text = user.statusText;
