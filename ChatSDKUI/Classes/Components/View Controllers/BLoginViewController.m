@@ -42,7 +42,10 @@
     [NM.auth authenticateWithCachedToken].thenOnMain(^id(id success) {
         [self authenticationFinished];
         return Nil;
-    }, Nil);
+    }, ^id(NSError * error) {
+        [self hideHUD];
+        return Nil;
+    });
     
     self.facebookButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeFacebook];    
     self.twitterButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeTwitter];

@@ -12,6 +12,7 @@
 @property (nonatomic, readwrite) NSString * messageColorMe;
 @property (nonatomic, readwrite) NSString * messageColorReply;
 @property (nonatomic, readwrite) NSString * rootPath;
+@property (nonatomic, readwrite) BOOL appBadgeEnabled;
 
 +(BConfiguration *) configuration;
 

@@ -1,3 +1,18 @@
+## 4.3.8
+
+- Incorrect thread order when deleting a thread
+- Text clipped in search view
+- Existing contacts showing up in search view
+- Incorrect date formatting in thread view
+- Show the number of unread messages in the thread view
+- Fix #61 Inaccurate date ago label after passing midnight
+- Fix divider lines not being full width on the thread view on the iPad
+- Fix #93 Delete thread proposed fix
+- Fix issues with iPhone X
+- Fix issues with image loading on profile and search screens
+- Fix broken links in readme
+- Added a button to open location in Google Maps
+
 ## 4.3.4
 
 Fixed:

@@ -25,7 +25,6 @@
 +(NSString *) parseClientKey;
 +(BOOL) anonymousLoginEnabled;
 
-+(BOOL) appBadgeEnabled;
 +(BOOL) userChatInfoEnabled;
 
 +(NSString *) timeFormat;

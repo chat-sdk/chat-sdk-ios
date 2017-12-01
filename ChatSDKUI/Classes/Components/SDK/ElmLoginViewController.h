@@ -34,7 +34,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (weak, nonatomic) IBOutlet UIButton *googleButton;
 
-@property (weak, nonatomic) IBOutlet UIImageView *splashView;
 @property (nonatomic, readwrite, weak) id<ElmLoginViewDelegate> delegate;
 
 -(void) showHUD: (NSString *) message;

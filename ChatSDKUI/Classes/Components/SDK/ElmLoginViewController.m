@@ -31,8 +31,6 @@
 
 @synthesize delegate;
 
-@synthesize splashView;
-
 -(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if ((self = [self init])) {
         
@@ -230,14 +228,11 @@
 -(void) showHUD: (NSString *) message {
     
     if(_hud) {
-        [MBProgressHUD hideHUDForView:splashView animated:NO];
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
     }
     
-    //if (!_hud) {
-        _hud = [MBProgressHUD showHUDAddedTo:splashView animated:NO];
-        _hud.label.text = message;
-        //[_hud hide:NO];
-    //}
+    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    _hud.label.text = message;
     
     // Sometimes there are operations that take a very small amount of time
     // to complete - this messes up the animation. Really we only want to show the
@@ -247,8 +242,6 @@
 
 -(void) showHudNow {
     [_hud showAnimated:YES];
-    [splashView fadeToAlpha:1.0 withTime:0.3];
-    //[self.view bringSubviewToFront:_hud];
 }
 
 -(void) hideHUD {
@@ -260,8 +253,6 @@
     _timer = Nil;
     
     [_hud hideAnimated:duration == 0 ? NO : YES];
-    
-    [splashView fadeToAlpha:0.0 withTime:duration];
 }
 
 -(void) authenticationFinished {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,7 +19,6 @@
                 <outlet property="loginButton" destination="WlM-w5-GCE" id="0Ks-nv-itY"/>
                 <outlet property="passwordField" destination="pTU-Xn-wwY" id="5Ng-zd-Z1v"/>
                 <outlet property="registerButton" destination="HeC-qI-71z" id="JFX-Gj-bHI"/>
-                <outlet property="splashView" destination="vmY-9M-YJg" id="bgX-9M-HHL"/>
                 <outlet property="twitterButton" destination="ffH-hL-IDK" id="RLb-ik-Dbg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -158,9 +157,6 @@
                         <action selector="registerButtonPressed:" destination="-1" eventType="touchUpInside" id="iIh-Cf-sI9"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="splash_full.png" translatesAutoresizingMaskIntoConstraints="NO" id="vmY-9M-YJg">
-                    <rect key="frame" x="0.0" y="-499" width="375" height="667"/>
-                </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -168,11 +164,9 @@
                 <constraint firstItem="ffH-hL-IDK" firstAttribute="top" secondItem="WlM-w5-GCE" secondAttribute="bottom" constant="8" id="5DH-yG-bWF"/>
                 <constraint firstItem="eMk-xT-irR" firstAttribute="leading" secondItem="Hre-W7-hiD" secondAttribute="leading" id="6Ji-al-QVh"/>
                 <constraint firstAttribute="centerX" secondItem="Yy7-xO-WLG" secondAttribute="centerX" id="DSr-aG-cOx"/>
-                <constraint firstItem="vmY-9M-YJg" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="DkN-ez-LgP"/>
                 <constraint firstItem="ySd-IY-GlQ" firstAttribute="leading" secondItem="ffH-hL-IDK" secondAttribute="trailing" constant="10" id="ESS-fr-BBR"/>
                 <constraint firstItem="WlM-w5-GCE" firstAttribute="top" secondItem="pTU-Xn-wwY" secondAttribute="bottom" constant="18" id="F4G-Gb-hDN"/>
                 <constraint firstItem="8xt-b0-3Uh" firstAttribute="top" secondItem="ffH-hL-IDK" secondAttribute="top" id="FHn-sg-N5c"/>
-                <constraint firstItem="vmY-9M-YJg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="J9D-Lh-dr9"/>
                 <constraint firstItem="ySd-IY-GlQ" firstAttribute="top" secondItem="ffH-hL-IDK" secondAttribute="top" id="MZf-Bl-5Fz"/>
                 <constraint firstItem="Hre-W7-hiD" firstAttribute="top" secondItem="ffH-hL-IDK" secondAttribute="bottom" constant="8" id="PaO-n9-o4A"/>
                 <constraint firstItem="eMk-xT-irR" firstAttribute="trailing" secondItem="Hre-W7-hiD" secondAttribute="trailing" id="TTR-mH-T3I"/>
@@ -180,10 +174,8 @@
                 <constraint firstAttribute="centerX" secondItem="ffH-hL-IDK" secondAttribute="centerX" id="UtO-Ba-FFG"/>
                 <constraint firstItem="KCJ-rr-kr4" firstAttribute="top" secondItem="iqu-5d-jZf" secondAttribute="bottom" constant="8" id="WVM-wF-tWu"/>
                 <constraint firstItem="pTU-Xn-wwY" firstAttribute="top" secondItem="Yy7-xO-WLG" secondAttribute="bottom" constant="20" id="bZU-lA-e1a"/>
-                <constraint firstAttribute="bottom" secondItem="vmY-9M-YJg" secondAttribute="bottom" id="bid-rz-L3P"/>
                 <constraint firstAttribute="centerX" secondItem="pTU-Xn-wwY" secondAttribute="centerX" id="eRO-RT-mpB"/>
                 <constraint firstItem="WlM-w5-GCE" firstAttribute="leading" secondItem="pTU-Xn-wwY" secondAttribute="leading" id="gpE-gs-xkY"/>
-                <constraint firstAttribute="trailing" secondItem="vmY-9M-YJg" secondAttribute="trailing" id="h9W-Ph-71R"/>
                 <constraint firstItem="WlM-w5-GCE" firstAttribute="top" secondItem="HeC-qI-71z" secondAttribute="top" id="hK9-2l-FGL"/>
                 <constraint firstItem="HeC-qI-71z" firstAttribute="leading" secondItem="WlM-w5-GCE" secondAttribute="trailing" constant="10" id="l7i-2N-mKZ"/>
                 <constraint firstAttribute="centerX" secondItem="KCJ-rr-kr4" secondAttribute="centerX" id="r93-WL-sUP"/>
@@ -200,11 +192,5 @@
         <image name="icn_50_facebook.png" width="50" height="50"/>
         <image name="icn_50_google.png" width="50" height="50"/>
         <image name="icn_50_twitter.png" width="50" height="50"/>
-        <image name="splash_full.png" width="320" height="568"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>

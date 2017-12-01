@@ -13,12 +13,14 @@
 @synthesize messageColorMe;
 @synthesize messageColorReply;
 @synthesize rootPath;
+@synthesize appBadgeEnabled;
 
 -(id) init {
     if((self = [super init])) {
         messageColorMe = bDefaultMessageColorMe;
         messageColorReply = bDefaultMessageColorReply;
         rootPath = @"default";
+        appBadgeEnabled = YES;
     }
     return self;
 }

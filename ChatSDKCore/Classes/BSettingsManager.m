@@ -34,7 +34,6 @@
 #define bSecretKey @"secret"
 #define bFirebaseStorageBucket @"STORAGE_BUCKET"
 
-#define bAppBadgeEnabledKey @"app_badge_enabled"
 #define bUserChatInfoEnabledKey @"user_chat_info_enabled"
 
 @implementation BSettingsManager
@@ -132,11 +131,6 @@
 
 +(NSString *) timeFormat {
     return [self string_s:@[bSettingsKey, bTimeFormat]];
-}
-
-// Turn on whether the app badge reflects how many unread messages there are
-+(BOOL) appBadgeEnabled {
-    return [[self number_s:@[bSettingsKey, bAppBadgeEnabledKey]] boolValue];
 }
 
 // Turn on whether users can access the BUsersViewController from the chat view

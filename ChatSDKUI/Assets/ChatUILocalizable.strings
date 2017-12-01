@@ -39,6 +39,7 @@
 "bAdd" = "Add";
 "bCreatingThread" = "Creating thread";
 "bLogoutErrorTitle" = "Logout error";
+"bAuthenticating" = "Authenticating";
 
 "bFlagged" = "Flagged";
 "bFlag" = "Flag";

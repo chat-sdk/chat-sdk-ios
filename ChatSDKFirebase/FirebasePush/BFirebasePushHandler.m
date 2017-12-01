@@ -164,7 +164,8 @@
 //                            bIOSSound: bDefault};
 //
     NSDictionary * dict = @{@"body": text,
-                            @"title": message.userModel.name};
+                            @"title": message.userModel.name,
+                            @"badge": @1};
 
     [self pushToChannels:userChannels withData:dict];
 }
