@@ -26,6 +26,8 @@
 #define bPickFriends @"bPickFriends"
 
 #define bBack @"bBack"
+#define bOpenInMaps @"bOpenInMaps"
+#define bLocation @"bLocation"
 #define bCompose @"bCompose"
 #define bCreateGroup @"bCreateGroup"
 

@@ -113,9 +113,6 @@
     phoneNumberField.text = _user.phoneNumber;
     phoneNumberField.placeholder = [NSBundle t:bPhoneNumber];
     
-    // Make sure we always have an image set just in case
-    [self refreshUserProfilePicture];
-    
     _didLogout = NO;
     
     // Observe for keyboard appear and disappear notifications
@@ -314,15 +311,6 @@
     phoneNumberField.userInteractionEnabled = isCurrent;
     
     profilePictureButton.userInteractionEnabled = isCurrent;
-}
-
-- (void)refreshUserProfilePicture {
-    
-    // This function ensures the user has a profile picture set
-    if (!profilePictureButton.currentBackgroundImage) {
-        UIImage * image = [UIImage imageWithData:_user.image] ? [UIImage imageWithData:_user.image] : [NSBundle chatUIImageNamed:bDefaultPlaceholderImage];
-        [profilePictureButton setImage:image forState:UIControlStateNormal];
-    }
 }
 
 -(void) logout {
