@@ -30,6 +30,7 @@
 @property (nonatomic, readwrite) NSInteger minLines;
 @property (nonatomic, readwrite) UIButton * optionsButton;
 @property (nonatomic, readwrite) UIButton * sendButton;
+@property (nonatomic, readonly) UILabel * placeholderLabel;
 
 -(void) setAudioEnabled: (BOOL) audioEnabled;
 -(BOOL) resignFirstResponder;

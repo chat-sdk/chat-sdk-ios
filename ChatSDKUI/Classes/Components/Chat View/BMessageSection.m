@@ -14,14 +14,14 @@
 
 @implementation BMessageSection
 
--(id) initWithMessages: (NSArray *) messages {
+-(instancetype) initWithMessages: (NSArray *) messages {
     if((self = [self init])) {
         [_messages addObjectsFromArray:messages];
     }
     return self;
 }
 
--(id) init {
+-(instancetype) init {
     if ((self = [super init])) {
         _messages = [NSMutableArray new];
     }

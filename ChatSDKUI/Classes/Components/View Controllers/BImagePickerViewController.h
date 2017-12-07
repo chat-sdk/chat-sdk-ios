@@ -22,6 +22,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) id<BImagePickerDelegate> delegate;
 
-- (id)initWithType: (UIImagePickerControllerSourceType) type;
+-(instancetype) initWithType: (UIImagePickerControllerSourceType) type;
 
 @end

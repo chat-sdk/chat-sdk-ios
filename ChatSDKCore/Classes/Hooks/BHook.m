@@ -12,11 +12,11 @@
     void(^_function)(NSDictionary * properties);
 }
 
-+(id) hook: (void(^)(NSDictionary *)) function {
++(instancetype) hook: (void(^)(NSDictionary *)) function {
     return [[self alloc] initWithFunction:function];
 }
 
--(id) initWithFunction: (void(^)(NSDictionary *)) function {
+-(instancetype) initWithFunction: (void(^)(NSDictionary *)) function {
     if((self = [self init])) {
         _function = function;
     }

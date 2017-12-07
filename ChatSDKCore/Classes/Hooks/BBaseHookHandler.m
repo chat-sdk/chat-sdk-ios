@@ -13,7 +13,7 @@
     NSMutableDictionary * _hooks;
 }
 
--(id) init {
+-(instancetype) init {
     if((self = [super init])) {
         _hooks = [NSMutableDictionary new];
     }

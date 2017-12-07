@@ -13,7 +13,7 @@
 
 @implementation BChatViewController
 
-- (id)initWithThread: (id<PThread>) thread
+-(instancetype) initWithThread: (id<PThread>) thread
 {
     if (self) {
         _thread = thread;
@@ -278,7 +278,7 @@
         [_messageCache removeAllObjects];
         
         NSArray * messages = [_thread messagesOrderedByDateAsc];
-        id<PMessage> lastMessageDate;
+        NSDate * lastMessageDate;
         BMessageSection * section;
         
         for (id<PMessage> message in messages) {

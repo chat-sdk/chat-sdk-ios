@@ -25,7 +25,7 @@
 @synthesize tableView;
 @synthesize searchController;
 
-- (id)init
+-(instancetype) init
 {
     self = [super initWithNibName:@"BContactsViewController" bundle:[NSBundle chatUIBundle]];
     

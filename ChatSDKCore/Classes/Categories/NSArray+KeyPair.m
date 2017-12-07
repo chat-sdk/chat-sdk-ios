@@ -10,14 +10,14 @@
 
 @implementation NSArray(KeyPair)
 
-+(id) keyPair:(NSString *)key value:(NSString *)value {
++(instancetype) keyPair:(NSString *)key value:(NSString *)value {
     if (key && value) {
         return @[key, value];
     }
     return Nil;
 }
 
-+(id) keyPair:(NSString *)key value:(NSString *)value required: (BOOL) required {
++(instancetype) keyPair:(NSString *)key value:(NSString *)value required: (BOOL) required {
     if (key && value) {
         return @[key, value, @(required)];
     }

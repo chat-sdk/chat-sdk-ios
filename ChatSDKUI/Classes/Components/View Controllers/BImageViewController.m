@@ -19,7 +19,7 @@
 @synthesize imageView;
 @synthesize image;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+-(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:@"BImageViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {

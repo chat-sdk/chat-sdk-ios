@@ -44,7 +44,7 @@
 
 @property (nonatomic, readwrite) int maximumSelectedUsers;
 
-- (id)initWithUsersToExclude: (NSArray<PUser> *) users;
+-(instancetype) initWithUsersToExclude: (NSArray<PUser> *) users;
 
 -(void) setUsersToExclude: (NSArray *) users;
 -(void) setSelectedUsers: (NSArray *) users;

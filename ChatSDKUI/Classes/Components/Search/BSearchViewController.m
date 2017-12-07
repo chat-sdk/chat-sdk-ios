@@ -24,8 +24,14 @@
 @synthesize searchTermButton;
 @synthesize activityView;
 @synthesize usersSelected;
+@synthesize addButton = _addButton;
+@synthesize selectedUsers = _selectedUsers;
 
-- (id)initWithUsersToExclude: (NSArray *) excludedUsers selectedAction: (void(^)(NSArray * users)) action {
+-(instancetype) initWithUsersToExclude: (NSArray *) excludedUsers {
+    return [self initWithUsersToExclude:excludedUsers selectedAction:Nil];
+}
+
+-(instancetype) initWithUsersToExclude: (NSArray *) excludedUsers selectedAction: (void(^)(NSArray * users)) action {
     
     self = [super initWithNibName:@"BSearchViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {
@@ -86,13 +92,14 @@
 
     // Fix for the iPhone X
     // For some reason, the text view has no border...
-    if([UIScreen mainScreen].nativeBounds.size.height == 2436) {
-        self.searchBox.layer.borderColor = [BCoreUtilities colorWithHexString:@"e2e2e2"].CGColor;
-        self.searchBox.layer.borderWidth = 1;
-        self.searchBox.layer.cornerRadius = 5;
-    }
+//    if([UIScreen mainScreen].nativeBounds.size.height == 2436) {
+//        self.searchBox.layer.borderColor = [BCoreUtilities colorWithHexString:@"e2e2e2"].CGColor;
+//        self.searchBox.layer.borderWidth = 1;
+//        self.searchBox.layer.cornerRadius = 5;
+//    }
 
     self.searchBox.keepTopInset.equal = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height + 10 + keepRequired;
+    self.searchBox.placeholder = [NSBundle t:bSearch];
     
     // Add a tap recognizer to dismiss the keyboard
     _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];

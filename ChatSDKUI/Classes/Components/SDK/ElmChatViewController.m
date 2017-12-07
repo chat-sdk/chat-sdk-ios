@@ -27,7 +27,7 @@
 @synthesize tableView;
 @synthesize delegate;
 
-- (id)initWithDelegate: (id<ElmChatViewDelegate>) delegate_
+-(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate_
 {
     self.delegate = delegate_;
     self = [super initWithNibName:@"BChatViewController" bundle:[NSBundle chatUIBundle]];
@@ -59,7 +59,7 @@
 
 // The text input view sits on top of the keyboard
 -(void) setupTextInputView {
-    _textInputView = [[BTextInputView alloc] init];
+    _textInputView = [[BInterfaceManager sharedManager].a textInputView];
     _textInputView.messageDelegate = self;
     
     
@@ -703,7 +703,7 @@
     // the messages to scroll under the keyboard
     [UIView animateWithDuration:0.3 animations:^ {
         [self setTableViewBottomContentInset:keyboardBoundsConverted.size.height + _textInputView.fh];
-        [tableView.keepBottomOffsetTo(_textInputView) remove];
+        [tableView.keepBottomOffsetTo(_textInputView) deactivate];
     }];
     
     // Enable the tap gesture recognizer to hide the keyboard

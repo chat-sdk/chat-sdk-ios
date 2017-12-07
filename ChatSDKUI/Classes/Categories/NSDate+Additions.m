@@ -31,7 +31,7 @@
         [formatter setDateFormat:@"EEEE"];
         time = [formatter stringFromDate:self];
     }
-    else if (self.daysAgo >= 7) {
+    else if (self.daysAgo >= 7) {   
         [formatter setDateFormat:@"dd/MM/yy"];
         time = [formatter stringFromDate:self];
     }

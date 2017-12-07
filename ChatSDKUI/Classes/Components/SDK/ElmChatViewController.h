@@ -56,7 +56,7 @@
 
 @property (strong, nonatomic) MPMoviePlayerController * videoPlayer;
 
-- (id)initWithDelegate: (id<ElmChatViewDelegate>) delegate;
+-(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate;
 
 -(void) setTitle: (NSString *) title;
 -(void) setSubtitle: (NSString *) subtitle;

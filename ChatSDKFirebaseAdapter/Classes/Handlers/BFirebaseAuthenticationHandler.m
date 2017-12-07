@@ -245,5 +245,18 @@
     
 }
 
+-(RXPromise *) resetPasswordWithCredential: (NSString *) credential {
+    RXPromise * promise = [RXPromise new];
+    [[FIRAuth auth] sendPasswordResetWithEmail:credential completion:^(NSError *_Nullable error) {
+        if(!error) {
+            [promise resolveWithResult:Nil];
+        }
+        else {
+            [promise rejectWithReason:error];
+        }
+    }];
+    return promise;
+}
+
 
 @end

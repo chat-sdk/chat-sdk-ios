@@ -10,8 +10,8 @@
 
 @interface BHook : NSObject
 
-+(id) hook: (void(^)(NSDictionary *)) function;
--(id) initWithFunction: (void(^)(NSDictionary *)) function;
++(instancetype) hook: (void(^)(NSDictionary *)) function;
+-(instancetype) initWithFunction: (void(^)(NSDictionary *)) function;
 -(void) execute: (NSDictionary *) properties;
 
 @end

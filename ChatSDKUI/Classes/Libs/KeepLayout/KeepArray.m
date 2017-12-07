@@ -43,7 +43,7 @@
 - (KeepGroupAttribute *)keep_groupAttributeForSelector:(SEL)selector relatedView:(KPView *)relatedView {
     KeepAssert([self keep_onlyContainsViews], @"%@ can only be called on array of View objects", NSStringFromSelector(selector));
     
-    NSMutableArray *builder = [[NSMutableArray alloc] initWithCapacity:self.count];
+    NSMutableArray<KeepAttribute *> *builder = [[NSMutableArray alloc] initWithCapacity:self.count];
     for (KPView *view in self) {
         KeepAttribute *(^block)(KPView *) = [view valueForKeyPath:NSStringFromSelector(selector)];
         [builder addObject:block(relatedView)];
@@ -207,6 +207,16 @@
 }
 
 
+- (KeepAttribute *)keepFirstBaselineInset {
+    return [self keep_groupAttributeForSelector:_cmd];
+}
+
+
+- (KeepAttribute *)keepLastBaselineInset {
+    return [self keep_groupAttributeForSelector:_cmd];
+}
+
+
 - (KeepAttribute *)keepInsets {
     return [self keep_groupAttributeForSelector:_cmd];
 }
@@ -231,6 +241,69 @@
 
 - (void)keepInsets:(KPEdgeInsets)insets {
     [self keepInsets:insets priority:KeepPriorityRequired];
+}
+
+
+
+
+
+#pragma mark Superview Safe Insets
+
+
+- (KeepAttribute *)keepLeftSafeInset {
+    return [self keep_groupAttributeForSelector:_cmd];
+}
+
+
+- (KeepAttribute *)keepRightSafeInset {
+    return [self keep_groupAttributeForSelector:_cmd];
+}
+
+
+- (KeepAttribute *)keepLeadingSafeInset {
+    return [self keep_groupAttributeForSelector:_cmd];
+}
+
+
+- (KeepAttribute *)keepTrailingSafeInset {
+    return [self keep_groupAttributeForSelector:_cmd];
+}
+
+
+- (KeepAttribute *)keepTopSafeInset {
+    return [self keep_groupAttributeForSelector:_cmd];
+}
+
+
+- (KeepAttribute *)keepBottomSafeInset {
+    return [self keep_groupAttributeForSelector:_cmd];
+}
+
+
+- (KeepAttribute *)keepSafeInsets {
+    return [self keep_groupAttributeForSelector:_cmd];
+}
+
+
+- (KeepAttribute *)keepHorizontalSafeInsets {
+    return [self keep_groupAttributeForSelector:_cmd];
+}
+
+
+- (KeepAttribute *)keepVerticalSafeInsets {
+    return [self keep_groupAttributeForSelector:_cmd];
+}
+
+
+- (void)keepSafeInsets:(KPEdgeInsets)insets priority:(KeepPriority)priority {
+    [self keep_invoke:_cmd each:^(KPView *view) {
+        [view keepSafeInsets:insets priority:priority];
+    }];
+}
+
+
+- (void)keepSafeInsets:(KPEdgeInsets)insets {
+    [self keepSafeInsets:insets priority:KeepPriorityRequired];
 }
 
 
@@ -413,6 +486,20 @@
 }
 
 
+- (KeepRelatedAttributeBlock)keepFirstBaselineOffsetTo {
+    return ^KeepAttribute *(KPView *view) {
+        return [self keep_groupAttributeForSelector:_cmd relatedView:view];
+    };
+}
+
+
+- (KeepRelatedAttributeBlock)keepLastBaselineOffsetTo {
+    return ^KeepAttribute *(KPView *view) {
+        return [self keep_groupAttributeForSelector:_cmd relatedView:view];
+    };
+}
+
+
 - (void)keepHorizontalOffsets:(KeepValue)value {
     [self keep_invoke:_cmd eachTwo:^(KPView *this, KPView *next) {
         this.keepRightOffsetTo(next).equal = value;
@@ -430,6 +517,13 @@
 - (void)keepVerticalOffsets:(KeepValue)value {
     [self keep_invoke:_cmd eachTwo:^(KPView *this, KPView *next) {
         this.keepBottomOffsetTo(next).equal = value;
+    }];
+}
+
+
+- (void)keepBaselineOffsets:(KeepValue)value {
+    [self keep_invoke:_cmd eachTwo:^(KPView *this, KPView *next) {
+        this.keepLastBaselineOffsetTo(next).equal = value;
     }];
 }
 
@@ -510,13 +604,6 @@
 }
 
 
-- (KeepRelatedAttributeBlock)keepBaselineAlignTo {
-    return ^KeepAttribute *(KPView *view) {
-        return [self keep_groupAttributeForSelector:_cmd relatedView:view];
-    };
-}
-
-
 - (KeepRelatedAttributeBlock)keepFirstBaselineAlignTo {
     return ^KeepAttribute *(KPView *view) {
         return [self keep_groupAttributeForSelector:_cmd relatedView:view];
@@ -580,11 +667,6 @@
 }
 
 
-- (void)keepBaselineAlignments:(KeepValue)value {
-    [self keep_alignedSelector:_cmd invokeSelector:@selector(keepBaselineAlignTo) value:value];
-}
-
-
 - (void)keepFirstBaselineAlignments:(KeepValue)value {
     [self keep_alignedSelector:_cmd invokeSelector:@selector(keepFirstBaselineAlignTo) value:value];
 }
@@ -632,11 +714,6 @@
 
 - (void)keepHorizontallyAligned {
     [self keep_alignedSelector:_cmd invokeSelector:@selector(keepHorizontalAlignTo) value:0];
-}
-
-
-- (void)keepBaselineAligned {
-    [self keep_alignedSelector:_cmd invokeSelector:@selector(keepBaselineAlignTo) value:0];
 }
 
 

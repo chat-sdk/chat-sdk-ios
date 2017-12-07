@@ -34,7 +34,7 @@
 // If we create it with a thread then we look at who is in the thread and make sure they don't come up on the lists
 // If we are creating a new thread then we don't mind
 
-- (id)initWithUsersToExclude: (NSArray<PUser> *) users {
+-(instancetype) initWithUsersToExclude: (NSArray<PUser> *) users {
     if ((self = [self init])) {
         self.title = [NSBundle t:bPickFriends];
         [_contactsToExclude addObjectsFromArray:users];
@@ -42,7 +42,7 @@
     return self;
 }
 
--(id) init {
+-(instancetype) init {
     self = [super initWithNibName:@"BFriendsListViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {
         self.title = [NSBundle t:bPickFriends];

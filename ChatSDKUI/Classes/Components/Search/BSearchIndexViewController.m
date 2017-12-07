@@ -26,7 +26,7 @@
 @synthesize indexSelected;
 @synthesize selectedIndex = _selectedIndex;
 
--(id) initWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback {
+-(instancetype) initWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback {
     if((self = [super initWithNibName:Nil bundle:[NSBundle chatUIBundle]])) {
         _indexes = [[NSMutableArray alloc] initWithArray:indexes];
         _selectedIndex = [NSArray keyPair:[[NSUserDefaults standardUserDefaults] stringForKey:bSelectedIndexName]

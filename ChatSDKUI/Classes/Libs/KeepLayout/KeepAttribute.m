@@ -32,6 +32,11 @@
 }
 
 
+- (BOOL)isRelatedToView:(UIView *)view {
+    return NO;
+}
+
+
 
 
 
@@ -63,21 +68,67 @@
 }
 
 
-- (CGFloat)required {
+
+
+
+#pragma mark Swift Compatibility
+
+
+- (KeepValue_Decomposed)decomposed_equal {
     KeepValue equal = self.equal;
-    return (KeepValueGetPriority(equal) == KeepPriorityRequired? equal : NAN);
+    return (KeepValue_Decomposed){
+        .value = equal,
+        .priority = KeepValueGetPriority(equal),
+    };
 }
 
 
-- (void)setRequired:(CGFloat)value {
-    self.equal = KeepRequired(value);
+- (KeepValue_Decomposed)decomposed_min {
+    KeepValue min = self.min;
+    return (KeepValue_Decomposed){
+        .value = min,
+        .priority = KeepValueGetPriority(min),
+    };
 }
 
 
-#pragma mark Remove
+- (KeepValue_Decomposed)decomposed_max {
+    KeepValue max = self.max;
+    return (KeepValue_Decomposed){
+        .value = max,
+        .priority = KeepValueGetPriority(max),
+    };
+}
 
 
-- (void)remove {
+- (void)setDecomposed_equal:(KeepValue_Decomposed)decomposed {
+    self.equal = KeepValueMake(decomposed.value, decomposed.priority);
+}
+
+
+- (void)setDecomposed_min:(KeepValue_Decomposed)decomposed {
+    self.min = KeepValueMake(decomposed.value, decomposed.priority);
+}
+
+
+- (void)setDecomposed_max:(KeepValue_Decomposed)decomposed {
+    self.max = KeepValueMake(decomposed.value, decomposed.priority);
+}
+
+
+
+
+
+#pragma mark Activation
+
+
+- (BOOL)isActive {
+    NSAssert(NO, @"-[%@ %@] is abstract", KeepAttribute.class, NSStringFromSelector(_cmd));
+    return NO;
+}
+
+
+- (void)deactivate {
     NSAssert(NO, @"-[%@ %@] is abstract", KeepAttribute.class, NSStringFromSelector(_cmd));
 }
 
@@ -92,7 +143,7 @@
     va_list list;
     va_start(list, first);
     
-    NSMutableArray *attributes = [[NSMutableArray alloc] init];
+    NSMutableArray<KeepAttribute *> *attributes = [[NSMutableArray alloc] init];
     KeepAttribute *attribute = first;
     while (attribute) {
         [attributes addObject:attribute];
@@ -102,15 +153,6 @@
     va_end(list);
     
     return [[KeepGroupAttribute alloc] initWithAttributes:attributes];
-}
-
-
-+ (KeepRemovableGroup *)removableChanges:(void(^)(void))block {
-    KeepRemovableGroup *removableGroup = [[KeepRemovableGroup alloc] init];
-    [KeepRemovableGroup setCurrent:removableGroup];
-    block();
-    [KeepRemovableGroup setCurrent:nil];
-    return removableGroup;
 }
 
 
@@ -163,28 +205,32 @@
 
 @interface KeepSimpleAttribute ()
 
-@property (nonatomic, readwrite, weak) KPView *view;
-@property (nonatomic, readwrite, assign) NSLayoutAttribute layoutAttribute;
-@property (nonatomic, readwrite, weak) KPView *relatedView;
-@property (nonatomic, readwrite, assign) NSLayoutAttribute relatedLayoutAttribute;
-@property (nonatomic, readwrite, weak) KPView *constraintView;
+@property (weak) KPView *view;
+@property NSLayoutAttribute layoutAttribute;
+@property (weak) KPView *relatedView;
+@property (weak) KPLayoutGuide *relatedGuide;
+@property NSLayoutAttribute relatedLayoutAttribute;
 
-@property (nonatomic, readwrite, assign) CGFloat coefficient;
+@property CGFloat coefficient;
 
-@property (nonatomic, readwrite, strong) KeepLayoutConstraint *equalConstraint;
-@property (nonatomic, readwrite, strong) KeepLayoutConstraint *maxConstraint;
-@property (nonatomic, readwrite, strong) KeepLayoutConstraint *minConstraint;
+@property KeepLayoutConstraint *equalConstraint;
+@property KeepLayoutConstraint *maxConstraint;
+@property KeepLayoutConstraint *minConstraint;
 
-- (instancetype)initWithView:(KPView *)view
-             layoutAttribute:(NSLayoutAttribute)layoutAttribute
-                 relatedView:(KPView *)relatedView
-      relatedLayoutAttribute:(NSLayoutAttribute)superviewLayoutAttribute
-                 coefficient:(CGFloat)coefficient;
 - (KeepLayoutConstraint *)createConstraintWithRelation:(NSLayoutRelation)relation value:(KeepValue)value;
-- (void)addConstraint:(KeepLayoutConstraint *)constraint;
-- (void)applyValue:(KeepValue)value forConstraint:(KeepLayoutConstraint *)constraint relation:(NSLayoutRelation)relation;
-- (void)removeConstraint:(KeepLayoutConstraint *)constraint;
+- (KeepLayoutConstraint *)applyValue:(KeepValue)value forConstraint:(KeepLayoutConstraint *)constraint relation:(NSLayoutRelation)relation;
 - (void)setNameForConstraint:(KeepLayoutConstraint *)constraint relation:(NSLayoutRelation)relation value:(KeepValue)value;
+- (void)activateConstraint:(KeepLayoutConstraint *)constraint active:(BOOL)active;
+
+@end
+
+
+
+@interface KeepAtomic ()
+
++ (instancetype)current;
+- (void)addAttribute:(KeepAttribute *)attribute forRelation:(NSLayoutRelation)relation;
+- (void)addConstraint:(KeepLayoutConstraint *)constraint active:(BOOL)active;
 
 @end
 
@@ -212,7 +258,7 @@
 
 - (instancetype)initWithView:(KPView *)view
              layoutAttribute:(NSLayoutAttribute)layoutAttribute
-                 relatedView:(KPView *)relatedView
+                 relatedView:(id<KeepViewOrGuide>)relatedViewOrGuide
       relatedLayoutAttribute:(NSLayoutAttribute)relatedLayoutAttribute
                  coefficient:(CGFloat)coefficient {
     self = [super init];
@@ -228,12 +274,37 @@
         
         self.view = view;
         self.layoutAttribute = layoutAttribute;
-        self.relatedView = relatedView;
+        
+        if ([relatedViewOrGuide isKindOfClass:KPView.class]) {
+            self.relatedView = (KPView*)relatedViewOrGuide;
+        }
+        if ([relatedViewOrGuide isKindOfClass:KPLayoutGuide.class]) {
+            self.relatedGuide = (KPLayoutGuide*)relatedViewOrGuide;
+        }
+        
         self.relatedLayoutAttribute = relatedLayoutAttribute;
-        self.constraintView = (relatedView? [view commonSuperview:relatedView] : view);
         self.coefficient = coefficient;
     }
     return self;
+}
+
+
+- (BOOL)isRelatedToView:(UIView *)askedView {
+    if (askedView == nil) return NO;
+    
+    UIView *relatedView = self.relatedView;
+    UILayoutGuide *relatedGuide = self.relatedGuide;
+    
+    if (relatedView == askedView) {
+        return YES; /// Simple relation.
+    }
+    if (relatedGuide) {
+        return (relatedGuide.owningView == askedView); /// Related to guide that belongs to this view.
+    }
+    if (relatedView == nil) {
+        return (self.view == askedView); /// Related to owner view.
+    }
+    return NO;
 }
 
 
@@ -249,25 +320,34 @@
 }
 
 
-- (void)addConstraint:(KeepLayoutConstraint *)constraint {
-    [self.constraintView addConstraint:constraint];
-}
-
-
-- (void)applyValue:(KeepValue)value forConstraint:(KeepLayoutConstraint *)constraint relation:(NSLayoutRelation)relation {
+- (KeepLayoutConstraint *)applyValue:(KeepValue)value forConstraint:(KeepLayoutConstraint *)constraint relation:(NSLayoutRelation)relation {
     NSAssert(NO, @"-[%@ %@] is abstract", KeepSimpleAttribute.class, NSStringFromSelector(_cmd));
+    return nil;
 }
 
 
-- (void)removeConstraint:(KeepLayoutConstraint *)constraint {
-    [self.constraintView removeConstraint:constraint];
+- (BOOL)isActive {
+    return (self.equalConstraint.isActive || self.maxConstraint.isActive || self.minConstraint.isActive);
 }
 
 
-- (void)remove {
-    [self removeConstraint:self.equalConstraint]; self.equalConstraint = nil;
-    [self removeConstraint:self.maxConstraint]; self.maxConstraint = nil;
-    [self removeConstraint:self.minConstraint]; self.minConstraint = nil;
+- (void)activateConstraint:(KeepLayoutConstraint *)constraint active:(BOOL)active {
+    if (constraint.active != active) {
+        KeepAtomic *atomic = [KeepAtomic current];
+        if (atomic) {
+            [atomic addConstraint:constraint active:active];
+        }
+        else {
+            [constraint setActive:active];
+        }
+    }
+}
+
+
+- (void)deactivate {
+    self.equal = KeepNone;
+    self.max = KeepNone;
+    self.min = KeepNone;
 }
 
 
@@ -277,89 +357,57 @@
 #pragma mark Values
 
 
-- (void)setEqual:(KeepValue)equal {
-    equal = KeepValueSetDefaultPriority(equal, KeepPriorityRequired);
-    [super setEqual:equal];
-    
-    if (KeepValueIsNone(equal)) {
-        [self removeConstraint:self.equalConstraint]; self.equalConstraint = nil;
-        return;
-    }
-    
-    NSLayoutRelation relation = NSLayoutRelationEqual;
-    
-    if ( ! self.equalConstraint) {
-        self.equalConstraint = [self createConstraintWithRelation:relation value:equal];
-        [self setNameForConstraint:self.equalConstraint relation:relation value:equal];
-        [self addConstraint:self.equalConstraint];
+- (KeepLayoutConstraint *)adjustConstraint:(KeepLayoutConstraint *)constraint forRelation:(NSLayoutRelation)relation value:(KeepValue)value {
+    BOOL isNone = KeepValueIsNone(value);
+    if (isNone) {
+        [self activateConstraint:constraint active:NO];
+        constraint = nil;
     }
     else {
-        [self applyValue:equal forConstraint:self.equalConstraint relation:relation];
-        [self setNameForConstraint:self.equalConstraint relation:relation value:equal];
+        value = KeepValueSetDefaultPriority(value, KeepPriorityRequired);
+        if ( ! constraint) {
+            constraint = [self createConstraintWithRelation:relation value:value];
+        }
+        else {
+            constraint = [self applyValue:value forConstraint:constraint relation:relation];
+        }
+        [self activateConstraint:constraint active:YES];
+        [self setNameForConstraint:constraint relation:relation value:value];
+        [[KeepAtomic current] addAttribute:self forRelation:relation];
     }
-    
-    [[KeepRemovableGroup current] addAttribute:self forRelation:relation];
+    return constraint;
+}
+
+
+- (void)setEqual:(KeepValue)equal {
+    KeepValue adjustedEqual = KeepValueSetDefaultPriority(equal, KeepPriorityRequired);
+    [super setEqual:adjustedEqual];
+    self.equalConstraint = [self adjustConstraint:self.equalConstraint forRelation:NSLayoutRelationEqual value:equal];
 }
 
 
 - (void)setMax:(KeepValue)max {
-    max = KeepValueSetDefaultPriority(max, KeepPriorityRequired);
-    [super setMax:max];
-    
-    if (KeepValueIsNone(max)) {
-        [self removeConstraint:self.maxConstraint]; self.maxConstraint = nil;
-        return;
-    }
-    
-    NSLayoutRelation relation = NSLayoutRelationLessThanOrEqual;
-    
-    if ( ! self.maxConstraint) {
-        self.maxConstraint = [self createConstraintWithRelation:relation value:max];
-        [self setNameForConstraint:self.maxConstraint relation:relation value:max];
-        [self addConstraint:self.maxConstraint];
-    }
-    else {
-        [self applyValue:max forConstraint:self.maxConstraint relation:relation];
-        [self setNameForConstraint:self.maxConstraint relation:relation value:max];
-    }
-    
-    [[KeepRemovableGroup current] addAttribute:self forRelation:relation];
+    KeepValue adjustedMax = KeepValueSetDefaultPriority(max, KeepPriorityRequired);
+    [super setMax:adjustedMax];
+    self.maxConstraint = [self adjustConstraint:self.maxConstraint forRelation:NSLayoutRelationLessThanOrEqual value:max];
 }
 
 
 - (void)setMin:(KeepValue)min {
-    min = KeepValueSetDefaultPriority(min, KeepPriorityRequired);
-    [super setMin:min];
-    
-    if (KeepValueIsNone(min)) {
-        [self removeConstraint:self.minConstraint]; self.minConstraint = nil;
-        return;
-    }
-    
-    NSLayoutRelation relation = NSLayoutRelationGreaterThanOrEqual;
-    
-    if ( ! self.minConstraint) {
-        self.minConstraint = [self createConstraintWithRelation:relation value:min];
-        [self setNameForConstraint:self.minConstraint relation:relation value:min];
-        [self addConstraint:self.minConstraint];
-    }
-    else {
-        [self applyValue:min forConstraint:self.minConstraint relation:relation];
-        [self setNameForConstraint:self.minConstraint relation:relation value:min];
-    }
-    
-    [[KeepRemovableGroup current] addAttribute:self forRelation:relation];
+    KeepValue adjustedMin = KeepValueSetDefaultPriority(min, KeepPriorityRequired);
+    [super setMin:adjustedMin];
+    self.minConstraint = [self adjustConstraint:self.minConstraint forRelation:NSLayoutRelationGreaterThanOrEqual value:min];
 }
 
 
 
 - (void)setNameForConstraint:(KeepLayoutConstraint *)constraint relation:(NSLayoutRelation)relation value:(KeepValue)value {
 #ifdef DEBUG
-    NSDictionary *relationNames = @{
-                                    @(NSLayoutRelationEqual) : @"equal to",
-                                    @(NSLayoutRelationGreaterThanOrEqual) : @"at least",
-                                    @(NSLayoutRelationLessThanOrEqual) : @"at most",
-                                    };
+    NSDictionary<NSNumber *, NSString *> *relationNames = @{
+                                                            @(NSLayoutRelationEqual) : @"equal to",
+                                                            @(NSLayoutRelationGreaterThanOrEqual) : @"at least",
+                                                            @(NSLayoutRelationLessThanOrEqual) : @"at most",
+                                                            };
     [constraint name:@"%@ %@ %@ with %@ priority", self.name, [relationNames objectForKey:@(relation)], @((double)value), KeepPriorityDescription(KeepValueGetPriority(value))];
 #endif
 }
@@ -398,18 +446,29 @@
     }
     KeepLayoutConstraint *constraint = [KeepLayoutConstraint constraintWithItem:self.view attribute:self.layoutAttribute
                                                                     relatedBy:relation
-                                                                       toItem:self.relatedView attribute:self.relatedLayoutAttribute
+                                                                         toItem:self.relatedView ?: self.relatedGuide attribute:self.relatedLayoutAttribute
                                                                    multiplier:1 constant:value * self.coefficient];
     constraint.priority = KeepValueGetPriority(value);
     return constraint;
 }
 
 
-- (void)applyValue:(KeepValue)value forConstraint:(KeepLayoutConstraint *)constraint relation:(NSLayoutRelation)relation {
-    constraint.constant = value * self.coefficient;
-    if (constraint.priority != KeepValueGetPriority(value)) {
+- (KeepLayoutConstraint *)applyValue:(KeepValue)value forConstraint:(KeepLayoutConstraint *)constraint relation:(NSLayoutRelation)relation {
+    BOOL wasRequired = (constraint.priority == KeepPriorityRequired);
+    BOOL isRequired = (KeepValueGetPriority(value) == KeepPriorityRequired);
+    if (isRequired != wasRequired) {
+        /// “Priorities may not change from non-required to required or visa versa.”
+        [self activateConstraint:constraint active:NO];
+        constraint = [self createConstraintWithRelation:relation value:value];
+        [self activateConstraint:constraint active:YES];
+        
+    }
+    else if ( ! isRequired) {
         constraint.priority = KeepValueGetPriority(value);
     }
+    constraint.constant = value * self.coefficient;
+    
+    return constraint;
 }
 
 
@@ -443,32 +502,18 @@
 - (KeepLayoutConstraint *)createConstraintWithRelation:(NSLayoutRelation)relation value:(KeepValue)value {
     KeepLayoutConstraint *constraint = [KeepLayoutConstraint constraintWithItem:self.view attribute:self.layoutAttribute
                                                                     relatedBy:relation
-                                                                       toItem:self.relatedView attribute:self.relatedLayoutAttribute
+                                                                       toItem:self.relatedView ?: self.relatedGuide attribute:self.relatedLayoutAttribute
                                                                    multiplier:value * self.coefficient constant:0];
     constraint.priority = KeepValueGetPriority(value);
     return constraint;
 }
 
 
-- (void)applyValue:(KeepValue)value forConstraint:(KeepLayoutConstraint *)constraint relation:(NSLayoutRelation)relation {
-    // Since multiplier is not read/write proeperty, we need to re-add the whole constraint again.
-    [self removeConstraint:constraint];
-    constraint = [self createConstraintWithRelation:constraint.relation value:value];
-    
-    // TODO: Better solution
-    switch (relation) {
-        case NSLayoutRelationEqual:
-            self.equalConstraint = constraint;
-            break;
-        case NSLayoutRelationGreaterThanOrEqual:
-            self.minConstraint = constraint;
-            break;
-        case NSLayoutRelationLessThanOrEqual:
-            self.maxConstraint = constraint;
-            break;
-    }
-    [self setNameForConstraint:constraint relation:relation value:value];
-    [self addConstraint:constraint];
+- (KeepLayoutConstraint *)applyValue:(KeepValue)value forConstraint:(KeepLayoutConstraint *)constraint relation:(NSLayoutRelation)relation {
+    [self activateConstraint:constraint active:NO];
+    constraint = [self createConstraintWithRelation:relation value:value];
+    [self activateConstraint:constraint active:YES];
+    return constraint;
 }
 
 
@@ -491,7 +536,7 @@
 @interface KeepGroupAttribute ()
 
 
-@property (nonatomic, readwrite, strong) id<NSFastEnumeration> attributes;
+@property id<NSFastEnumeration> attributes;
 
 
 @end
@@ -523,6 +568,17 @@
     }
     return self;
 }
+
+
+- (BOOL)isRelatedToView:(UIView *)view {
+    for (KeepAttribute *attribute in self.attributes) {
+        if ( ! [attribute isRelatedToView:view]) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
 
 
 
@@ -581,11 +637,23 @@
 
 
 
-#pragma mark Remove
+#pragma mark Activation
 
 
-- (void)remove {
-    for (KeepAttribute *attribute in self.attributes) [attribute remove];
+- (BOOL)isActive {
+    for (KeepAttribute *attribute in self.attributes) {
+        if (attribute.isActive) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+
+- (void)deactivate {
+    for (KeepAttribute *attribute in self.attributes) {
+        [attribute deactivate];
+    }
 }
 
 
@@ -605,13 +673,14 @@
 #pragma mark -
 
 
-@interface KeepRemovableGroup ()
+@interface KeepAtomic ()
 
+@property (readonly) NSMutableSet<KeepAttribute *> *equalAttributes;
+@property (readonly) NSMutableSet<KeepAttribute *> *minAttributes;
+@property (readonly) NSMutableSet<KeepAttribute *> *maxAttributes;
 
-@property (nonatomic, readwrite, strong) NSMutableSet *equalAttributes;
-@property (nonatomic, readwrite, strong) NSMutableSet *minAttributes;
-@property (nonatomic, readwrite, strong) NSMutableSet *maxAttributes;
-
+@property (readonly) NSMutableArray<NSLayoutConstraint *> *activeConstraints;
+@property (readonly) NSMutableArray<NSLayoutConstraint *> *inactiveConstraints;
 
 @end
 
@@ -619,7 +688,7 @@
 
 
 
-@implementation KeepRemovableGroup
+@implementation KeepAtomic
 
 
 
@@ -631,11 +700,28 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.equalAttributes = [[NSMutableSet alloc] init];
-        self.minAttributes = [[NSMutableSet alloc] init];
-        self.maxAttributes = [[NSMutableSet alloc] init];
+        self->_equalAttributes = [[NSMutableSet alloc] init];
+        self->_minAttributes = [[NSMutableSet alloc] init];
+        self->_maxAttributes = [[NSMutableSet alloc] init];
+        
+        self->_activeConstraints = [NSMutableArray new];
+        self->_inactiveConstraints = [NSMutableArray new];
+        
     }
     return self;
+}
+
+
++ (KeepAtomic *)layout:(void (^)(void))block {
+    KeepAtomic *atomic = [KeepAtomic new];
+    [KeepAtomic setCurrent:atomic];
+    block();
+    [KeepAtomic setCurrent:nil];
+    [NSLayoutConstraint deactivateConstraints:atomic.inactiveConstraints];
+    [NSLayoutConstraint activateConstraints:atomic.activeConstraints];
+    [atomic.activeConstraints removeAllObjects];
+    [atomic.inactiveConstraints removeAllObjects];
+    return atomic;
 }
 
 
@@ -645,16 +731,24 @@
 #pragma mark Building
 
 
-static KeepRemovableGroup *staticCurrent = nil;
+static NSMutableArray<KeepAtomic *> *KeepAtomicStack = nil;
 
 
-+ (KeepRemovableGroup *)current {
-    return staticCurrent;
++ (KeepAtomic *)current {
+    return KeepAtomicStack.lastObject;
 }
 
 
-+ (void)setCurrent:(KeepRemovableGroup *)current {
-    staticCurrent = current;
++ (void)setCurrent:(KeepAtomic *)current {
+    if ( ! KeepAtomicStack) {
+        KeepAtomicStack = [NSMutableArray array];
+    }
+    if (current) {
+        [KeepAtomicStack addObject:current];
+    }
+    else {
+        [KeepAtomicStack removeLastObject];
+    }
 }
 
 
@@ -667,16 +761,36 @@ static KeepRemovableGroup *staticCurrent = nil;
 }
 
 
+- (void)addConstraint:(KeepLayoutConstraint *)constraint active:(BOOL)active {
+    if (active) {
+        [self.activeConstraints addObject:constraint];
+    }
+    else {
+        [self.inactiveConstraints addObject:constraint];
+    }
+}
 
 
 
-#pragma mark Setting Values
+
+
+#pragma mark Activation
+
+
+- (void)deactivate {
+    [KeepAtomic layout:^{
+        for (KeepAttribute *attribute in self.equalAttributes) attribute.equal = KeepNone;
+        for (KeepAttribute *attribute in self.minAttributes) attribute.min = KeepNone;
+        for (KeepAttribute *attribute in self.maxAttributes) attribute.max = KeepNone;
+    }];
+    [self.equalAttributes removeAllObjects];
+    [self.minAttributes removeAllObjects];
+    [self.maxAttributes removeAllObjects];
+}
 
 
 - (void)remove {
-    for (KeepAttribute *attribute in self.equalAttributes) attribute.equal = KeepNone;
-    for (KeepAttribute *attribute in self.minAttributes) attribute.min = KeepNone;
-    for (KeepAttribute *attribute in self.maxAttributes) attribute.max = KeepNone;
+    [self deactivate];
 }
 
 

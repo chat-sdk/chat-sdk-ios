@@ -10,7 +10,7 @@
 
 @implementation BNotificationObserverList
 
--(id) init {
+-(instancetype) init {
     if((self = [super init])) {
         _observers = [NSMutableArray new];
     }

@@ -32,7 +32,7 @@ static BCoreDataManager * manager;
     return manager;
 }
 
--(id) init {
+-(instancetype) init {
     if ((self = [super init])) {
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:Nil queue:0 usingBlock:^(NSNotification * notification) {
             [self save];

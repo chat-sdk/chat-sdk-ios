@@ -29,7 +29,7 @@ static BAudioManager * manager;
     return manager;
 }
 
--(id) init {
+-(instancetype) init {
     if ((self = [super init])) {
     }
     return self;

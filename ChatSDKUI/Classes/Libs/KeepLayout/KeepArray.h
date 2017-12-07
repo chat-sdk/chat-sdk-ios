@@ -32,25 +32,25 @@
 #pragma mark Dimensions: Grouped
 
 /// Grouped attribute for Width of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepWidth;
+@property (readonly) KeepAttribute *keepWidth;
 
 /// Grouped attribute for Height of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepHeight;
+@property (readonly) KeepAttribute *keepHeight;
 
 /// Grouped attribute for Size (Width + Height) of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepSize;
+@property (readonly) KeepAttribute *keepSize;
 
 /// Grouped attribute for Aspect Ratio of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepAspectRatio;
+@property (readonly) KeepAttribute *keepAspectRatio;
 
 /// Grouped attribute for Relative Width of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepWidthTo;
+@property (readonly) KeepRelatedAttributeBlock keepWidthTo;
 
 /// Grouped attribute for Relative Height of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepHeightTo;
+@property (readonly) KeepRelatedAttributeBlock keepHeightTo;
 
 /// Grouped attribute for Relative Size of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepSizeTo;
+@property (readonly) KeepRelatedAttributeBlock keepSizeTo;
 
 
 
@@ -93,31 +93,37 @@
 #pragma mark Superview Insets: Grouped
 
 /// Grouped attribute for Left Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepLeftInset;
+@property (readonly) KeepAttribute *keepLeftInset;
 
 /// Grouped attribute for Right Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepRightInset;
+@property (readonly) KeepAttribute *keepRightInset;
 
 /// Grouped attribute for Leading Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepLeadingInset;
+@property (readonly) KeepAttribute *keepLeadingInset;
 
 /// Grouped attribute for Trailing Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepTrailingInset;
+@property (readonly) KeepAttribute *keepTrailingInset;
 
 /// Grouped attribute for Top Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepTopInset;
+@property (readonly) KeepAttribute *keepTopInset;
 
 /// Grouped attribute for Bottom Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepBottomInset;
+@property (readonly) KeepAttribute *keepBottomInset;
+
+/// Grouped attribute for First Baseline Inset of contained views.
+@property (nonatomic, readonly) KeepAttribute *keepFirstBaselineInset;
+
+/// Grouped attribute for Last Baseline Inset of contained views.
+@property (nonatomic, readonly) KeepAttribute *keepLastBaselineInset;
 
 /// Grouped attribute for All Insets of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepInsets;
+@property (readonly) KeepAttribute *keepInsets;
 
 /// Grouped attribute for Horizontal Insets of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepHorizontalInsets;
+@property (readonly) KeepAttribute *keepHorizontalInsets;
 
 /// Grouped attribute for Vertical Insets of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepVerticalInsets;
+@property (readonly) KeepAttribute *keepVerticalInsets;
 
 
 
@@ -134,34 +140,78 @@
 
 
 #pragma mark -
+#pragma mark Superview Safe Insets: Grouped
+
+/// Grouped attribute for Left Safe Inset of contained views.
+@property (readonly) KeepAttribute *keepLeftSafeInset API_AVAILABLE(ios(11));
+
+/// Grouped attribute for Right Safe Inset of contained views.
+@property (readonly) KeepAttribute *keepRightSafeInset API_AVAILABLE(ios(11));
+
+/// Grouped attribute for Leading Safe Inset of contained views.
+@property (readonly) KeepAttribute *keepLeadingSafeInset API_AVAILABLE(ios(11));
+
+/// Grouped attribute for Trailing Safe Inset of contained views.
+@property (readonly) KeepAttribute *keepTrailingSafeInset API_AVAILABLE(ios(11));
+
+/// Grouped attribute for Top Safe Inset of contained views.
+@property (readonly) KeepAttribute *keepTopSafeInset API_AVAILABLE(ios(11));
+
+/// Grouped attribute for Bottom Safe Inset of contained views.
+@property (readonly) KeepAttribute *keepBottomSafeInset API_AVAILABLE(ios(11));
+
+/// Grouped attribute for All Safe Insets of contained views.
+@property (readonly) KeepAttribute *keepSafeInsets API_AVAILABLE(ios(11));
+
+/// Grouped attribute for Horizontal Safe Insets of contained views.
+@property (readonly) KeepAttribute *keepHorizontalSafeInsets API_AVAILABLE(ios(11));
+
+/// Grouped attribute for Vertical Safe Insets of contained views.
+@property (readonly) KeepAttribute *keepVerticalSafeInsets API_AVAILABLE(ios(11));
+
+
+
+#pragma mark Superview Safe Insets: Forwarded
+
+/// Forwards to contained views.
+- (void)keepSafeInsets:(KPEdgeInsets)insets priority:(KeepPriority)priority API_AVAILABLE(ios(11));
+
+/// Forwards to contained views. Use is discouraged.
+- (void)keepSafeInsets:(KPEdgeInsets)insets API_AVAILABLE(ios(11));
+
+
+
+
+
+#pragma mark -
 #pragma mark Superview Margin Insets: Grouped
 
 /// Grouped attribute for Left Margin Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepLeftMarginInset;
+@property (readonly) KeepAttribute *keepLeftMarginInset;
 
 /// Grouped attribute for Right Margin Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepRightMarginInset;
+@property (readonly) KeepAttribute *keepRightMarginInset;
 
 /// Grouped attribute for Leading Margin Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepLeadingMarginInset;
+@property (readonly) KeepAttribute *keepLeadingMarginInset;
 
 /// Grouped attribute for Trailing Margin Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepTrailingMarginInset;
+@property (readonly) KeepAttribute *keepTrailingMarginInset;
 
 /// Grouped attribute for Top Margin Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepTopMarginInset;
+@property (readonly) KeepAttribute *keepTopMarginInset;
 
 /// Grouped attribute for Bottom Margin Inset of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepBottomMarginInset;
+@property (readonly) KeepAttribute *keepBottomMarginInset;
 
 /// Grouped attribute for All Margin Insets of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepMarginInsets;
+@property (readonly) KeepAttribute *keepMarginInsets;
 
 /// Grouped attribute for Horizontal Margin Insets of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepHorizontalMarginInsets;
+@property (readonly) KeepAttribute *keepHorizontalMarginInsets;
 
 /// Grouped attribute for Vertical Margin Insets of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepVerticalMarginInsets;
+@property (readonly) KeepAttribute *keepVerticalMarginInsets;
 
 
 
@@ -181,13 +231,13 @@
 #pragma mark Center: Grouped
 
 /// Grouped attribute for Horizontal Center of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepHorizontalCenter;
+@property (readonly) KeepAttribute *keepHorizontalCenter;
 
 /// Grouped attribute for Vertical Center of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepVerticalCenter;
+@property (readonly) KeepAttribute *keepVerticalCenter;
 
 /// Grouped attribute for Both Center Axis of contained views.
-@property (nonatomic, readonly) KeepAttribute *keepCenter;
+@property (readonly) KeepAttribute *keepCenter;
 
 
 
@@ -225,22 +275,28 @@
 #pragma mark Offsets: Grouped
 
 /// Grouped attribute for Left Offset of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepLeftOffsetTo;
+@property (readonly) KeepRelatedAttributeBlock keepLeftOffsetTo;
 
 /// Grouped attribute for Right Offset of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepRightOffsetTo;
+@property (readonly) KeepRelatedAttributeBlock keepRightOffsetTo;
 
 /// Grouped attribute for Leading Offset of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepLeadingOffsetTo;
+@property (readonly) KeepRelatedAttributeBlock keepLeadingOffsetTo;
 
 /// Grouped attribute for Trailing Offset of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepTrailingOffsetTo;
+@property (readonly) KeepRelatedAttributeBlock keepTrailingOffsetTo;
 
 /// Grouped attribute for Top Offset of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepTopOffsetTo;
+@property (readonly) KeepRelatedAttributeBlock keepTopOffsetTo;
 
 /// Grouped attribute for Bottom Offset of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepBottomOffsetTo;
+@property (readonly) KeepRelatedAttributeBlock keepBottomOffsetTo;
+
+/// Grouped attribute for First Baseline Offset of contained views.
+@property (nonatomic, readonly) KeepRelatedAttributeBlock keepFirstBaselineOffsetTo;
+
+/// Grouped attribute for Last Baseline Offset of contained views.
+@property (nonatomic, readonly) KeepRelatedAttributeBlock keepLastBaselineOffsetTo;
 
 
 
@@ -248,13 +304,16 @@
 /// Convenience methods applied to whole array, in the order they are in array.
 
 /// All contained views will share the same Horizontal Offset (left to right) using given priority. First view will keep Right Offset to second view and so on.
-- (void)keepHorizontalOffsets:(KeepValue)value;
+- (void)keepHorizontalOffsets:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will share the same Leading Offset (depends on writing direction) using given priority. First view will keep Leading Offset to second view and so on.
-- (void)keepLeadingOffsets:(KeepValue)value;
+- (void)keepLeadingOffsets:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will share the same Vertical Offset (top to bottom) using given priority. First view will keep Bottom Offset to second view and so on.
-- (void)keepVerticalOffsets:(KeepValue)value;
+- (void)keepVerticalOffsets:(KeepValue)value KEEP_SWIFT_AWAY;
+
+/// All contained views will share the same Baseline Offset (top to bottom) using given priority. First view will keep Last Baseline Offset to second view’ First Baseline and so on.
+- (void)keepBaselineOffsets:(KeepValue)value KEEP_SWIFT_AWAY;
 
 
 
@@ -264,110 +323,101 @@
 #pragma mark Alignments: Grouped
 
 /// Grouped attribute for Left Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepLeftAlignTo;
+@property (readonly) KeepRelatedAttributeBlock keepLeftAlignTo;
 
 /// Grouped attribute for Right Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepRightAlignTo;
+@property (readonly) KeepRelatedAttributeBlock keepRightAlignTo;
 
 /// Grouped attribute for Leading Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepLeadingAlignTo;
+@property (readonly) KeepRelatedAttributeBlock keepLeadingAlignTo;
 
 /// Grouped attribute for Trailing Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepTrailingAlignTo;
+@property (readonly) KeepRelatedAttributeBlock keepTrailingAlignTo;
 
 /// Grouped attribute for Top Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepTopAlignTo;
+@property (readonly) KeepRelatedAttributeBlock keepTopAlignTo;
 
 /// Grouped attribute for Bottom Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepBottomAlignTo;
+@property (readonly) KeepRelatedAttributeBlock keepBottomAlignTo;
 
 /// Grouped attribute for All 4 Edge Alignments of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepEdgeAlignTo;
+@property (readonly) KeepRelatedAttributeBlock keepEdgeAlignTo;
 
 /// Grouped attribute for Vertical Center Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepVerticalAlignTo;
+@property (readonly) KeepRelatedAttributeBlock keepVerticalAlignTo;
 
 /// Grouped attribute for Horizontal Center Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepHorizontalAlignTo;
+@property (readonly) KeepRelatedAttributeBlock keepHorizontalAlignTo;
 
 /// Grouped attribute for Both Center Axis Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepCenterAlignTo;
-
-/// Grouped attribute for Baseline Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepBaselineAlignTo __deprecated_msg("You should use .keepFirstBaselineAlignTo or .keepLastBaselineAlignTo");
+@property (readonly) KeepRelatedAttributeBlock keepCenterAlignTo;
 
 /// Grouped attribute for First Baseline Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepFirstBaselineAlignTo;
+@property (readonly) KeepRelatedAttributeBlock keepFirstBaselineAlignTo;
 
 /// Grouped attribute for Last Baseline Alignment of contained views.
-@property (nonatomic, readonly) KeepRelatedAttributeBlock keepLastBaselineAlignTo;
+@property (readonly) KeepRelatedAttributeBlock keepLastBaselineAlignTo;
 
 
 #pragma mark Alignments: Batch Convenience
 /// Convenience methods applied to whole array, in the order they are in array.
 
 /// All contained views will share the same Left Alignment. First view will keep Left Alignment (with offset) with second view and so on.
-- (void)keepLeftAlignments:(KeepValue)value;
+- (void)keepLeftAlignments:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will be aligned to the left. First view will keep Left Alignment with second view and so on.
 - (void)keepLeftAligned;
 
 /// All contained views will share the same Right Alignment. First view will keep Right Alignment (with offset) with second view and so on.
-- (void)keepRightAlignments:(KeepValue)value;
+- (void)keepRightAlignments:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will be aligned to the right. First view will keep Right Alignment with second view and so on.
 - (void)keepRightAligned;
 
 /// All contained views will share the same Leading Alignment. First view will keep Leading Alignment (with offset) with second view and so on.
-- (void)keepLeadingAlignments:(KeepValue)value;
+- (void)keepLeadingAlignments:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will be aligned to the leading side. First view will keep Leading Alignment with second view and so on.
 - (void)keepLeadingAligned;
 
 /// All contained views will share the same Trailing Alignment. First view will keep Trailing Alignment (with offset) with second view and so on.
-- (void)keepTrailingAlignments:(KeepValue)value;
+- (void)keepTrailingAlignments:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will be aligned to the trailing side. First view will keep Trailing Alignment with second view and so on.
 - (void)keepTrailingAligned;
 
 /// All contained views will share the same Top Alignment. First view will keep Top Alignment (with offset) with second view and so on.
-- (void)keepTopAlignments:(KeepValue)value;
+- (void)keepTopAlignments:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will be aligned to the top. First view will keep Top Alignment with second view and so on.
 - (void)keepTopAligned;
 
 /// All contained views will share the same Bottom Alignment. First view will keep Bottom Alignment (with offset) with second view and so on.
-- (void)keepBottomAlignments:(KeepValue)value;
+- (void)keepBottomAlignments:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will be aligned to the bottom. First view will keep Bottom Alignment with second view and so on.
 - (void)keepBottomAligned;
 
 /// All contained views will share the same Vertical Center Alignment. First view will keep Vertical Center Alignment (with offset) with second view and so on.
-- (void)keepVerticalAlignments:(KeepValue)value;
+- (void)keepVerticalAlignments:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will vertically aligned. First view will keep Vertical Center Alignment with second view and so on.
 - (void)keepVerticallyAligned;
 
 /// All contained views will share the same Horizontal Center Alignment. First view will keep Horizontal Center Alignment (with offset) with second view and so on.
-- (void)keepHorizontalAlignments:(KeepValue)value;
+- (void)keepHorizontalAlignments:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will horizontally aligned. First view will keep Horizontal Center Alignment with second view and so on.
 - (void)keepHorizontallyAligned;
 
-/// All contained views will share the same Baseline Alignment. First view will keep Baseline Alignment (with offset) with second view and so on.
-- (void)keepBaselineAlignments:(KeepValue)value __deprecated_msg("You should use -keepFirstBaselineAlignments: or -keepLastBaselineAlignments:");
-
-/// All contained views will be baseline aligned. First view will keep Baseline Alignment with second view and so on.
-- (void)keepBaselineAligned __deprecated_msg("You should use -keepFirstBaselineAligned or -keepLastBaselineAligned");
-
 /// All contained views will share the same First Baseline Alignment. First view will keep First Baseline Alignment (with offset) with second view and so on.
-- (void)keepFirstBaselineAlignments:(KeepValue)value;
+- (void)keepFirstBaselineAlignments:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will be aligned to their first baseline. First view will keep First Baseline Alignment with second view and so on.
 - (void)keepFirstBaselineAligned;
 
 /// All contained views will share the same Last Baseline Alignment. First view will keep Last Baseline Alignment (with offset) with second view and so on.
-- (void)keepLastBaselineAlignments:(KeepValue)value;
+- (void)keepLastBaselineAlignments:(KeepValue)value KEEP_SWIFT_AWAY;
 
 /// All contained views will aligned to their last baseline. First view will keep Last Baseline Alignment with second view and so on.
 - (void)keepLastBaselineAligned;

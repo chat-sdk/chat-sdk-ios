@@ -31,14 +31,14 @@
 
 @synthesize delegate;
 
--(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+-(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if ((self = [self init])) {
         
     }
     return self;
 }
 
-- (id)init
+-(instancetype) init
 {
     self = [super initWithNibName:@"BLoginViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {

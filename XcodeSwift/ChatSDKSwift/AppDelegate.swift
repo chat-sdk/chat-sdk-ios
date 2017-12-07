@@ -55,12 +55,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //BKeyboardOverlayOptionsModule.init().activate()
         //BStickerMessageModule.init().activate()
         
+        
+        
+//        NM.hook().add(BHook.init(function: { (user: [AnyHashable: Any]?) -> Void in
+//
+//            let block = NM.core().pushUser().thenOnMain;
+//            _ = block!({(result: Any?) -> Any? in
+//
+//                return result
+//            }, {(error: Error?) -> Any? in
+//
+//                return error
+//            })
+//
+//        }), withName: bHookUserAuthFinished)
+
+        
         let mainViewController = BAppTabBarController.init(nibName: nil, bundle: nil)
         BNetworkManager.shared().a.auth().setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
         
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = mainViewController;
         self.window?.makeKeyAndVisible();
+        
         
         // Override point for customization after application launch.
         return true

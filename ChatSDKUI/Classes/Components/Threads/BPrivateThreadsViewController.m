@@ -17,7 +17,7 @@
 
 @implementation BPrivateThreadsViewController
 
-- (id)init
+-(instancetype) init
 {
     self = [super initWithNibName:Nil bundle:[NSBundle chatUIBundle]];
     if (self) {

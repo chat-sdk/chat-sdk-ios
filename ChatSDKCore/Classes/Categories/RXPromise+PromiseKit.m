@@ -13,7 +13,7 @@
 @implementation RXPromise(PromiseKit)
 
 -(AnyPromise *) promiseKitThen {
-    
+ 
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         self.thenOnMain(^id(id success) {
             resolve(success);
@@ -25,7 +25,7 @@
     }];
 }
 
-
 @end
  
  */
+

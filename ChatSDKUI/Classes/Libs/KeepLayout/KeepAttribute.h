@@ -10,7 +10,7 @@
 
 
 
-@class KeepRemovableGroup;
+@class KeepAtomic;
 
 
 
@@ -24,33 +24,40 @@
 
 #pragma mark Values
 /// Value with priority to be applied to underlaying constraints.
-@property (nonatomic, readwrite, assign) KeepValue equal; /// Constraint with relation Equal
-@property (nonatomic, readwrite, assign) KeepValue max; /// Constraint with relation GreaterThanOrEqual
-@property (nonatomic, readwrite, assign) KeepValue min; /// Constraint with relation LessThanOrEqual
+@property KeepValue equal KEEP_SWIFT_AWAY NS_SWIFT_NAME(incompatible_equal); ///< Constraint with relation Equal
+@property KeepValue max KEEP_SWIFT_AWAY NS_SWIFT_NAME(incompatible_max); ///< Constraint with relation GreaterThanOrEqual
+@property KeepValue min KEEP_SWIFT_AWAY NS_SWIFT_NAME(incompatible_min); ///< Constraint with relation LessThanOrEqual
 
-@property (nonatomic, readwrite, assign) CGFloat required __deprecated_msg("Assign number directly to .equal = x; Magic!"); /// Proxy for Equal relation with Required priority.
+- (void)keepAt:(KeepValue)equal min:(KeepValue)min KEEP_SWIFT_AWAY;
+- (void)keepAt:(KeepValue)equal max:(KeepValue)max KEEP_SWIFT_AWAY;
+- (void)keepAt:(KeepValue)equal min:(KeepValue)min max:(KeepValue)max KEEP_SWIFT_AWAY;
+- (void)keepMin:(KeepValue)min max:(KeepValue)max KEEP_SWIFT_AWAY;
 
-- (void)keepAt:(KeepValue)equal min:(KeepValue)min;
-- (void)keepAt:(KeepValue)equal max:(KeepValue)max;
-- (void)keepAt:(KeepValue)equal min:(KeepValue)min max:(KeepValue)max;
-- (void)keepMin:(KeepValue)min max:(KeepValue)max;
+- (BOOL)isRelatedToView:(KPView *)view;
+
+#pragma mark Swift Compatibility
+/// Don’t use these directly. They are exposed for Swift extension to avoid KeepValue type.
+
+@property KeepValue_Decomposed decomposed_equal;
+@property KeepValue_Decomposed decomposed_max;
+@property KeepValue_Decomposed decomposed_min;
 
 
-#pragma mark Remove
-/// Removes all constraints managed by this attribute from view hierarchy.
-- (void)remove;
+#pragma mark Activation
+/// Whether at least one constraint is active.
+@property (readonly) BOOL isActive;
+/// Disables all managed constraints.
+- (void)deactivate;
 
 
 #pragma mark Grouping
 /// Allows you to create groups of attributes. Grouped attribute forwards all methods to its children.
 + (KeepAttribute *)group:(KeepAttribute *)first, ... NS_REQUIRES_NIL_TERMINATION;
-/// Executes block and return group of all changed attributes. Call -remove on returned object to discard all changed attribute values.
-+ (KeepRemovableGroup *)removableChanges:(void(^)(void))block;
 
 
 #pragma mark Debugging
 /// Debugging helper. Name of attribute is a part of its `-description`
-@property (nonatomic, readwrite, copy) NSString *name;
+@property (copy) NSString *name;
 - (instancetype)name:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2);
 
 
@@ -58,6 +65,27 @@
 @end
 
 
+
+@interface KeepAtomic : NSObject
+
+/// Executes block and returns group of all changed attributes.
++ (KeepAtomic *)layout:(void(^)(void))block;
+/// Disables all managed constraints.
+- (void)deactivate;
+
+@end
+
+
+
+
+
+
+
+/// Private protocol.
+/// Used as common type for Views and Layout Guides.
+@protocol KeepViewOrGuide <NSObject> @end
+@interface KPView (KeepViewOrGuide) <KeepViewOrGuide> @end
+@interface KPLayoutGuide (KeepViewOrGuide) <KeepViewOrGuide> @end
 
 
 
@@ -68,11 +96,11 @@
 /// Properties that don't change in time.
 - (instancetype)initWithView:(KPView *)view
              layoutAttribute:(NSLayoutAttribute)layoutAttribute
-                 relatedView:(KPView *)relatedView
+                 relatedView:(id<KeepViewOrGuide>)relatedViewOrGuide
       relatedLayoutAttribute:(NSLayoutAttribute)relatedLayoutAttribute
                  coefficient:(CGFloat)coefficient;
 /// Multiplier of values: equal, min and max
-@property (nonatomic, readonly, assign) CGFloat coefficient;
+@property (readonly) CGFloat coefficient;
 
 @end
 
@@ -97,22 +125,9 @@
 @interface KeepGroupAttribute : KeepAttribute
 
 - (instancetype)initWithAttributes:(id<NSFastEnumeration>)attributes;
-@property (nonatomic, readonly, strong) id<NSFastEnumeration> attributes;
+@property (readonly) id<NSFastEnumeration> attributes;
 
 @end
 
-
-
-/// Private class.
-/// The `+removableChanges:` method returns instance of this class.
-@interface KeepRemovableGroup : NSObject
-
-+ (KeepRemovableGroup *)current;
-+ (void)setCurrent:(KeepRemovableGroup *)current;
-- (void)addAttribute:(KeepAttribute *)attribute forRelation:(NSLayoutRelation)relation;
-
-- (void)remove;
-
-@end
 
 

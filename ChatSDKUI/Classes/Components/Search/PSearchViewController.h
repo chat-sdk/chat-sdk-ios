@@ -11,7 +11,8 @@
 
 @protocol PSearchViewController <NSObject>
 
-- (id)initWithUsersToExclude: (NSArray *) excludedUsers selectedAction: (void(^)(NSArray * users)) action;
+-(instancetype) initWithUsersToExclude: (NSArray *) excludedUsers selectedAction: (void(^)(NSArray * users)) action;
+- (instancetype) initWithUsersToExclude: (NSArray *) excludedUsers;
 -(void) setExcludedUsers: (NSArray *) excludedUsers;
 -(void) setSelectedAction: (void(^)(NSArray * users)) action;
 -(NSString *) name;

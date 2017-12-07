@@ -14,7 +14,7 @@
 
 @implementation BMediaChatOption
 
--(id) initWithType: (bPictureType) type {
+-(instancetype) initWithType: (bPictureType) type {
     if((self = [self init])) {
         _type = type;
     }

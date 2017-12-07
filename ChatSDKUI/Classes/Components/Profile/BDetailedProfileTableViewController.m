@@ -42,7 +42,7 @@
 @synthesize addFriendCell;
 @synthesize blockUserCell;
 
--(id) initWithCoder:(NSCoder *)aDecoder {
+-(instancetype) initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         self.title = [NSBundle t:bProfile];
         [self updateTabBarIcon];

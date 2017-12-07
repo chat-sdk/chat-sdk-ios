@@ -14,12 +14,12 @@
 @protocol PModerationHandler <NSObject>
 
 /**
- * @brief
+ * @brief Flag a message for moderation
  */
 - (RXPromise *) flagMessage: (NSString *)messageID;
 
 /**
- * @brief
+ * @brief Unflag a message for moderation
  */
 - (RXPromise *) unflagMessage: (NSString *)messageID;
 

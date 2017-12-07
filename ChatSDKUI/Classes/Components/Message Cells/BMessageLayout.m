@@ -19,7 +19,7 @@
     return [[self alloc] initWithMessage:message];
 }
 
--(id) initWithMessage: (id<PElmMessage>) message {
+-(instancetype) initWithMessage: (id<PElmMessage>) message {
     if((self = [self init])) {
         _message = message;
     }

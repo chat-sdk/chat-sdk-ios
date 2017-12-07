@@ -25,7 +25,7 @@ static BNetworkManager * manager;
     return manager;
 }
 
--(id) init {
+-(instancetype) init {
     if ((self = [super init])) {
 
         [[NSNotificationCenter defaultCenter] addObserver:self

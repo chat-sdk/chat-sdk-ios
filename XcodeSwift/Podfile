@@ -17,6 +17,8 @@ target 'ChatSDKSwift' do
   pod 'TwitterKit', '2.3'
   pod 'GoogleSignIn'
   pod 'FBSDKLoginKit'
+  
+  pod "PromiseKit", "~> 4.4"
 
 
 #  pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"

@@ -29,6 +29,7 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, readwrite) NSArray * selectedUsers;
 
 @property (weak, nonatomic) IBOutlet UITextField *searchBox;
 @property (nonatomic, readwrite, copy) void(^usersSelected)(NSArray * users);
@@ -38,6 +39,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *noUsersFoundLabel;
 @property (weak, nonatomic) IBOutlet UIView *noUsersFoundView;
 
-- (id)initWithUsersToExclude: (NSArray *) excludedUsers;
+@property (nonatomic, readwrite) UIBarButtonItem * addButton;
+
+
+-(void) addButtonPressed;
 
 @end

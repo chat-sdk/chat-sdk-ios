@@ -10,8 +10,8 @@
 
 @interface NSArray(KeyPair)
 
-+(id) keyPair: (NSString *) name value: (NSString *) index;
-+(id) keyPair:(NSString *)key value:(NSString *)value required: (BOOL) required;
++(instancetype)  keyPair: (NSString *) name value: (NSString *) index;
++(instancetype)  keyPair:(NSString *)key value:(NSString *)value required: (BOOL) required;
 
 -(NSString *) key;
 -(NSString *) value;

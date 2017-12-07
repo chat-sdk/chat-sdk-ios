@@ -24,7 +24,7 @@
 
 @property (nonatomic, readwrite) UITableView *tableView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
+-(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 
 -(void) pushChatViewControllerWithThread: (id<PThread>) thread;
 -(void) reloadData;

@@ -69,6 +69,8 @@
 -(UIViewController *) challengeViewController;
 -(void) setChallengeViewController: (UIViewController *) viewController;
 
+-(RXPromise *) resetPasswordWithCredential: (NSString *) credential;
+
 @end
 
 #endif /* PAuthenticationHandler_h */

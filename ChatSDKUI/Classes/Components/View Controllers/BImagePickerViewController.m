@@ -20,7 +20,7 @@
 @synthesize imageView;
 @synthesize delegate;
 
-- (id)initWithType: (UIImagePickerControllerSourceType) type
+-(instancetype) initWithType: (UIImagePickerControllerSourceType) type
 {
     self = [super initWithNibName:Nil bundle:Nil];
     if (self) {

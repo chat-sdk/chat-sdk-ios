@@ -25,7 +25,7 @@
 @synthesize user = _user;
 
 // TODO: Move these images to settings
--(id) initWithCoder:(NSCoder *)aDecoder {
+-(instancetype) initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         self.title = [NSBundle t:bProfile];
         self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_profile.png"];

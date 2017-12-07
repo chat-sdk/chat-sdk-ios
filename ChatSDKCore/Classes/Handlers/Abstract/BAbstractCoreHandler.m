@@ -12,7 +12,7 @@
 
 @implementation BAbstractCoreHandler
 
--(id) init {
+-(instancetype) init {
     if ((self = [super init])) {
         // Start checking if we are connected to the internet
         [[Reachability reachabilityForInternetConnection] startNotifier];
@@ -209,14 +209,14 @@
 /**
  * @brief Add users to a thread
  */
--(RXPromise *) addUsers: (NSArray<PUser> *) userIDs toThread: (id<PThread>) threadModel {
+-(RXPromise *) addUsers: (NSArray *) users toThread: (id<PThread>) threadModel {
     assert(NO);
 }
 
 /**
  * @brief Remove users from a thread
  */
--(RXPromise *) removeUsers: (NSArray<PUser> *) userIDs fromThread: (id<PThread>) threadModel {
+-(RXPromise *) removeUsers: (NSArray *) users fromThread: (id<PThread>) threadModel {
     assert(NO);
 }
 

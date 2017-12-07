@@ -9,7 +9,7 @@
 
 @implementation BAccountDetails
 
-+(id) username: (NSString *) username password: (NSString *) password {
++(instancetype) username: (NSString *) username password: (NSString *) password {
     BAccountDetails * details = [self new];
     details.type = bAccountTypeUsername;
     details.username = username;
@@ -17,7 +17,7 @@
     return details;
 }
 
-+(id) signUp: (NSString *) username password: (NSString *) password {
++(instancetype) signUp: (NSString *) username password: (NSString *) password {
     BAccountDetails * details = [self new];
     details.type = bAccountTypeRegister;
     details.username = username;
@@ -25,31 +25,31 @@
     return details;
 }
 
-+(id) facebook {
++(instancetype) facebook {
     BAccountDetails * details = [self new];
     details.type = bAccountTypeFacebook;
     return details;
 }
 
-+(id) twitter {
++(instancetype) twitter {
     BAccountDetails * details = [self new];
     details.type = bAccountTypeTwitter;
     return details;
 }
 
-+(id) google {
++(instancetype) google {
     BAccountDetails * details = [self new];
     details.type = bAccountTypeGoogle;
     return details;
 }
 
-+(id) anonymous {
++(instancetype) anonymous {
     BAccountDetails * details = [self new];
     details.type = bAccountTypeAnonymous;
     return details;
 }
 
-+(id) token: (NSString *) token {
++(instancetype) token: (NSString *) token {
     BAccountDetails * details = [self new];
     details.type = bAccountTypeCustom;
     return details;

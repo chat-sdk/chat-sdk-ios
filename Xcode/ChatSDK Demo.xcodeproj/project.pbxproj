@@ -41,6 +41,11 @@
 		B5385E8A1F9641D60086D5E5 /* BFirebasePublicThreadHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5385E731F9641D60086D5E5 /* BFirebasePublicThreadHandler.m */; };
 		B5385E8B1F9641D60086D5E5 /* BFirebaseModerationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5385E771F9641D60086D5E5 /* BFirebaseModerationHandler.m */; };
 		B5385E8C1F9641D60086D5E5 /* BFirebaseCoreHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5385E7C1F9641D60086D5E5 /* BFirebaseCoreHandler.m */; };
+		B57E84911FD5955B0052F777 /* BSyncDataPusher.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E848A1FD5955A0052F777 /* BSyncDataPusher.m */; };
+		B57E84921FD5955B0052F777 /* BSyncDataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E848C1FD5955A0052F777 /* BSyncDataFetcher.m */; };
+		B57E84931FD5955B0052F777 /* BInviteSyncItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E848D1FD5955A0052F777 /* BInviteSyncItem.m */; };
+		B57E84941FD5955B0052F777 /* BSyncDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E848F1FD5955A0052F777 /* BSyncDataManager.m */; };
+		B57E84951FD5955B0052F777 /* BSyncItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E84901FD5955A0052F777 /* BSyncItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +115,19 @@
 		B5385E7A1F9641D60086D5E5 /* BFirebaseUsersHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseUsersHandler.h; sourceTree = "<group>"; };
 		B5385E7B1F9641D60086D5E5 /* BFirebasePublicThreadHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebasePublicThreadHandler.h; sourceTree = "<group>"; };
 		B5385E7C1F9641D60086D5E5 /* BFirebaseCoreHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseCoreHandler.m; sourceTree = "<group>"; };
+		B57E84841FD5955A0052F777 /* BSyncDataPusher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncDataPusher.h; sourceTree = "<group>"; };
+		B57E84851FD5955A0052F777 /* ChatSDKSyncData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatSDKSyncData.h; sourceTree = "<group>"; };
+		B57E84861FD5955A0052F777 /* BInviteSyncItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BInviteSyncItem.h; sourceTree = "<group>"; };
+		B57E84871FD5955A0052F777 /* BSyncDataFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncDataFetcher.h; sourceTree = "<group>"; };
+		B57E84881FD5955A0052F777 /* BSyncItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncItem.h; sourceTree = "<group>"; };
+		B57E84891FD5955A0052F777 /* BSyncDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncDataManager.h; sourceTree = "<group>"; };
+		B57E848A1FD5955A0052F777 /* BSyncDataPusher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSyncDataPusher.m; sourceTree = "<group>"; };
+		B57E848B1FD5955A0052F777 /* BSyncItemDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncItemDelegate.h; sourceTree = "<group>"; };
+		B57E848C1FD5955A0052F777 /* BSyncDataFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSyncDataFetcher.m; sourceTree = "<group>"; };
+		B57E848D1FD5955A0052F777 /* BInviteSyncItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BInviteSyncItem.m; sourceTree = "<group>"; };
+		B57E848E1FD5955A0052F777 /* BSyncDataListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncDataListener.h; sourceTree = "<group>"; };
+		B57E848F1FD5955A0052F777 /* BSyncDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSyncDataManager.m; sourceTree = "<group>"; };
+		B57E84901FD5955A0052F777 /* BSyncItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSyncItem.m; sourceTree = "<group>"; };
 		C1E0C00DE6291F2AF340F82F /* Pods-ChatSDK Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -155,6 +173,7 @@
 		AC7BD9991E0874B400C785EE /* ChatSDK Demo */ = {
 			isa = PBXGroup;
 			children = (
+				B57E84831FD5955A0052F777 /* SyncData */,
 				B5385E581F9641D60086D5E5 /* Classes */,
 				B5081AEB1F56DA910015417B /* FirebaseFileStorage */,
 				B5081AF01F56DA910015417B /* FirebasePush */,
@@ -288,6 +307,26 @@
 				B5385E7C1F9641D60086D5E5 /* BFirebaseCoreHandler.m */,
 			);
 			path = Handlers;
+			sourceTree = "<group>";
+		};
+		B57E84831FD5955A0052F777 /* SyncData */ = {
+			isa = PBXGroup;
+			children = (
+				B57E84841FD5955A0052F777 /* BSyncDataPusher.h */,
+				B57E84851FD5955A0052F777 /* ChatSDKSyncData.h */,
+				B57E84861FD5955A0052F777 /* BInviteSyncItem.h */,
+				B57E84871FD5955A0052F777 /* BSyncDataFetcher.h */,
+				B57E84881FD5955A0052F777 /* BSyncItem.h */,
+				B57E84891FD5955A0052F777 /* BSyncDataManager.h */,
+				B57E848A1FD5955A0052F777 /* BSyncDataPusher.m */,
+				B57E848B1FD5955A0052F777 /* BSyncItemDelegate.h */,
+				B57E848C1FD5955A0052F777 /* BSyncDataFetcher.m */,
+				B57E848D1FD5955A0052F777 /* BInviteSyncItem.m */,
+				B57E848E1FD5955A0052F777 /* BSyncDataListener.h */,
+				B57E848F1FD5955A0052F777 /* BSyncDataManager.m */,
+				B57E84901FD5955A0052F777 /* BSyncItem.m */,
+			);
+			path = SyncData;
 			sourceTree = "<group>";
 		};
 		C8B54BE9273467F07490747B /* Frameworks */ = {
@@ -487,8 +526,11 @@
 				B5081B031F56DA910015417B /* BFirebaseUploadHandler.m in Sources */,
 				B5081AC81F56C04B0015417B /* AppDelegate.m in Sources */,
 				B5385E821F9641D60086D5E5 /* CCUserWrapper.m in Sources */,
+				B57E84911FD5955B0052F777 /* BSyncDataPusher.m in Sources */,
+				B57E84931FD5955B0052F777 /* BInviteSyncItem.m in Sources */,
 				B5385E7D1F9641D60086D5E5 /* CCThreadWrapper.m in Sources */,
 				B5385E881F9641D60086D5E5 /* BFirebaseLastOnlineHandler.m in Sources */,
+				B57E84941FD5955B0052F777 /* BSyncDataManager.m in Sources */,
 				B5385E861F9641D60086D5E5 /* BFirebaseSearchHandler.m in Sources */,
 				B5081AC91F56C04B0015417B /* main.m in Sources */,
 				B5385E871F9641D60086D5E5 /* BFirebaseBlockingHandler.m in Sources */,
@@ -496,6 +538,7 @@
 				B5385E851F9641D60086D5E5 /* BFirebaseUsersHandler.m in Sources */,
 				B5385E831F9641D60086D5E5 /* NSManagedObject+Status.m in Sources */,
 				B5385E811F9641D60086D5E5 /* BStateManager.m in Sources */,
+				B57E84951FD5955B0052F777 /* BSyncItem.m in Sources */,
 				B5385E7F1F9641D60086D5E5 /* BEntity.m in Sources */,
 				B5081B071F56DA910015417B /* BFirebaseSocialLoginModule.m in Sources */,
 				B5081B081F56DA910015417B /* BGoogleHelper.m in Sources */,
@@ -503,6 +546,7 @@
 				B5081B061F56DA910015417B /* BFirebaseSocialLoginHandler.m in Sources */,
 				B5081B051F56DA910015417B /* BFirebasePushModule.m in Sources */,
 				B5385E8C1F9641D60086D5E5 /* BFirebaseCoreHandler.m in Sources */,
+				B57E84921FD5955B0052F777 /* BSyncDataFetcher.m in Sources */,
 				B5385E841F9641D60086D5E5 /* Firebase+Paths.m in Sources */,
 				B5385E8B1F9641D60086D5E5 /* BFirebaseModerationHandler.m in Sources */,
 				B5081B091F56DA910015417B /* BGoogleLoginViewController.m in Sources */,

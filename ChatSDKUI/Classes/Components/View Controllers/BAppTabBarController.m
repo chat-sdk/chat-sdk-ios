@@ -20,13 +20,13 @@
 
 @implementation BAppTabBarController
 
--(id) init {
+-(instancetype) init {
     if((self = [super init])) {
     }
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+-(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
     

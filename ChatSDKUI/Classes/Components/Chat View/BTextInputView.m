@@ -26,10 +26,10 @@
 @synthesize messageDelegate;
 @synthesize optionsButton = _optionsButton;
 @synthesize sendButton = _sendButton;
+@synthesize placeholderLabel = _placeholderLabel;
 
-- (id)init
-{
-    self = [super init];
+-(instancetype) initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) {
         
 //        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];

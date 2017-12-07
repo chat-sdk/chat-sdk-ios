@@ -20,7 +20,7 @@
 @synthesize region;
 @synthesize annotation;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+-(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     
     self = [super initWithNibName:@"BLocationViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {

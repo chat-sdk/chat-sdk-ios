@@ -15,7 +15,7 @@
 
 @protocol PChatOptionsHandler <NSObject>
 
--(id) initWithChatViewController: (BChatViewController *) chatViewController;
+-(instancetype) initWithChatViewController: (BChatViewController *) chatViewController;
 
 -(BOOL) show;
 -(BOOL) hide;

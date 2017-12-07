@@ -13,7 +13,7 @@
 
 @implementation BChatOptionsActionSheet
 
--(id) initWithChatViewController: (BChatViewController *) chatViewController {
+-(instancetype) initWithChatViewController: (BChatViewController *) chatViewController {
     if((self = [self init])) {
         _chatViewController = chatViewController;
         

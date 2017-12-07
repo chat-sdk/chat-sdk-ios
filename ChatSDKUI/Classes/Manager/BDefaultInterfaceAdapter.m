@@ -17,7 +17,7 @@
 
 @implementation BDefaultInterfaceAdapter
 
--(id) init {
+-(instancetype) init {
     if((self = [super init])) {
         _additionalChatOptions = [NSMutableArray new];
         _additionalTabBarViewControllers = [NSMutableArray new];
@@ -199,6 +199,10 @@
 
 -(UIColor *) colorForName: (NSString *) name {
     return Nil;
+}
+
+-(BTextInputView *) textInputView {
+    return [[BTextInputView alloc] initWithFrame:CGRectZero];
 }
 
 @end

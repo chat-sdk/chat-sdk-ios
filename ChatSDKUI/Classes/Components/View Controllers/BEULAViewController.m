@@ -22,7 +22,7 @@
 
 @synthesize textView;
 
-- (id)init {
+-(instancetype) init {
     
     self = [super initWithNibName:@"BEULAViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {

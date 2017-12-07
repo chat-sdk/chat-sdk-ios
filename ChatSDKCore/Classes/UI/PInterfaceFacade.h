@@ -16,7 +16,7 @@
 @class BChatViewController;
 @class BFriendsListViewController;
 @class BChatOption;
-
+@class BTextInputView;
 
 @protocol PInterfaceFacade <NSObject>
 
@@ -27,8 +27,10 @@
 -(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude;
 -(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread;
 -(NSArray *) defaultTabBarViewControllers;
+-(BTextInputView *) textInputView;
 
 -(UIViewController *) searchViewControllerWithType: (NSString *) type excludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded;
+-(UIViewController *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded;
 
 -(void) addSearchViewController: (UIViewController<PSearchViewController> *) controller withType: (NSString *) type withName: (NSString *) name;
 -(void) removeSearchViewControllerWithType: (NSString *) type;

@@ -29,7 +29,7 @@
 
 @synthesize tableView;
 
-- (id)initWithThread: (id<PThread>) thread {
+-(instancetype) initWithThread: (id<PThread>) thread {
 
     self = [super initWithNibName:@"BUsersViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {

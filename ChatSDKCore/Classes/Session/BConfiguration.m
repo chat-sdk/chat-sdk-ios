@@ -15,7 +15,7 @@
 @synthesize rootPath;
 @synthesize appBadgeEnabled;
 
--(id) init {
+-(instancetype) init {
     if((self = [super init])) {
         messageColorMe = bDefaultMessageColorMe;
         messageColorReply = bDefaultMessageColorReply;

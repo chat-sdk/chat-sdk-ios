@@ -32,7 +32,7 @@ static BMessageCache * cache;
     return cache;
 }
 
--(id) init {
+-(instancetype) init {
     if ((self = [super init])) {
         _messageInfo = [NSMutableDictionary new];
         _messageBubbleImages = [NSMutableDictionary new];

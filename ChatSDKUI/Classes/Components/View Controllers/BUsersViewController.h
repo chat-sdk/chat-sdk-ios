@@ -27,6 +27,6 @@
 
 @property (weak, nonatomic) IBOutlet UITableView * tableView;
 
-- (id)initWithThread: (id<PThread>) thread;
+-(instancetype) initWithThread: (id<PThread>) thread;
 
 @end

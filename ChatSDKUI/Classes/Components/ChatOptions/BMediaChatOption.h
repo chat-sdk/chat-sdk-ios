@@ -20,6 +20,6 @@
     bPictureType _type;
 }
 
--(id) initWithType: (bPictureType) type;
+-(instancetype) initWithType: (bPictureType) type;
 
 @end

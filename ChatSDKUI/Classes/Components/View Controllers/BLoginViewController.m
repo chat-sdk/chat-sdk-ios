@@ -18,14 +18,14 @@
 @implementation BLoginViewController
 
 
--(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+-(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if ((self = [self init])) {
         super.delegate = self;
     }
     return self;
 }
 
-- (id)init
+-(instancetype) init
 {
     self = [super init];
     if (self) {

@@ -36,26 +36,32 @@
     layoutView.backgroundColor = [UIColor clearColor];
     [self.view insertSubview:layoutView atIndex:0];
     
-    layoutView.keepHorizontalMarginInsets.equal = 0;
-    
-    KeepLayoutConstraint *topAlign = [KeepLayoutConstraint constraintWithItem:layoutView
-                                                                    attribute:NSLayoutAttributeTop
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.topLayoutGuide
-                                                                    attribute:NSLayoutAttributeBottom
-                                                                   multiplier:1
-                                                                     constant:0];
-    [topAlign name:@"align top of <%@ %p> to top layout guide of <%@ %p>", layoutView.class, layoutView, self.class, self];
-    KeepLayoutConstraint *bottomAlign = [KeepLayoutConstraint constraintWithItem:layoutView
-                                                                       attribute:NSLayoutAttributeBottom
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:self.bottomLayoutGuide
-                                                                       attribute:NSLayoutAttributeTop
-                                                                      multiplier:1
-                                                                        constant:0];
-    [bottomAlign name:@"align bottom of <%@ %p> to bottom layout guide of <%@ %p>", layoutView.class, layoutView, self.class, self];
-    
-    [self.view addConstraints:@[ topAlign, bottomAlign ]];
+    if (@available(iOS 11.0, *)) {
+        layoutView.keepSafeInsets.equal = 0;
+    }
+    else {
+        layoutView.keepHorizontalInsets.equal = 0;
+        
+        KeepLayoutConstraint *topAlign = [KeepLayoutConstraint constraintWithItem:layoutView
+                                                  attribute:NSLayoutAttributeTop
+                                                  relatedBy:NSLayoutRelationEqual
+                                                     toItem:self.topLayoutGuide
+                                                  attribute:NSLayoutAttributeBottom
+                                                 multiplier:1
+                                                   constant:0];
+        [topAlign name:@"align top of <%@ %p> to top layout guide of <%@ %p>", layoutView.class, layoutView, self.class, self];
+        
+        KeepLayoutConstraint *bottomAlign = [KeepLayoutConstraint constraintWithItem:layoutView
+                                                     attribute:NSLayoutAttributeBottom
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.bottomLayoutGuide
+                                                     attribute:NSLayoutAttributeBottom
+                                                    multiplier:1
+                                                      constant:0];
+        [bottomAlign name:@"align bottom of <%@ %p> to bottom of safe area layout guide of <%@ %p>", layoutView.class, layoutView, self.class, self];
+        
+        [KeepLayoutConstraint activateConstraints:@[topAlign, bottomAlign]];
+    }
     
     objc_setAssociatedObject(self, _cmd, layoutView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     return layoutView;

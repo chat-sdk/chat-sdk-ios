@@ -11,7 +11,7 @@
 
 
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 
 
 #else
@@ -26,7 +26,10 @@ const KPOffset KPOffsetZero = (KPOffset){.horizontal = 0, .vertical = 0};
 extern NSString *KeepPriorityDescription(KeepPriority priority) {
     NSString *name = @"";
     
-    if (priority >= (KeepPriorityRequired + KeepPriorityHigh) / 2) {
+    if (priority > KeepPriorityRequired || isnan(priority) || priority <= 0) {
+        name = @"undefined";
+    }
+    else if (priority >= (KeepPriorityRequired + KeepPriorityHigh) / 2) {
         priority -= KeepPriorityRequired;
         name = @"required";
     }
@@ -44,7 +47,7 @@ extern NSString *KeepPriorityDescription(KeepPriority priority) {
     }
     
     if (priority) {
-        name = [name stringByAppendingFormat:@"(%@%i)", (priority > 0? @"+" : @""), (uint32_t)priority];
+        name = [name stringByAppendingFormat:@"(%+g)", priority];
     }
     
     return name;
@@ -60,7 +63,9 @@ double KeepValueGetPriority(KeepValue value) {
 
 
 KeepValue KeepValueSetDefaultPriority(KeepValue value, KeepPriority priority) {
-    if (KeepValueGetPriority(value) <= 0) {
+    if (KeepValueIsNone(value)) return KeepNone;
+    
+    if (KeepValueGetPriority(value) == 0) {
         return KeepValueMake(value, priority);
     }
     else {
