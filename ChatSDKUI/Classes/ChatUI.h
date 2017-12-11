@@ -9,7 +9,6 @@
 #ifndef ChatUI_h
 #define ChatUI_h
 
-#import "KeepLayout.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <TOCropViewController/TOCropViewController.h>
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -19,6 +18,7 @@
 #import <RXPromise/RXPromise.h>
 #import <Reachability/Reachability.h>
 #import <Hakawai/Hakawai-umbrella.h>
+#import <KeepLayout/KeepLayout.h>
 
 // Elements
 
@@ -36,7 +36,6 @@
 #import <ChatSDK/NSDate+Additions.h>
 
 #import <ChatSDK/BThreadCell.h>
-
 
 #import <ChatSDK/BProfileTableViewController.h>
 #import <ChatSDK/BChatViewController.h>

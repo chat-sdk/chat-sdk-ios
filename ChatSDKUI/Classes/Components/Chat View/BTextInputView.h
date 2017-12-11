@@ -7,21 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BTextInputDelegate.h"
+#import <ChatSDK/PSendBarDelegate.h>
+#import <ChatSDK/PSendBar.h>
 #import <ChatSDK/bChatState.h>
 #import <ChatSDK/ChatUI.h>
 
-@interface BTextInputView : UIView<UITextViewDelegate> {
+@interface BTextInputView : UIView<UITextViewDelegate, PSendBar> {
     UIButton * _optionsButton;
     UILabel * _placeholderLabel;
     UIColor * _placeholderColor;
     UIColor * _textColor;
+    id<PSendBarDelegate> _delegate;
     
     BOOL _audioEnabled;
     BOOL _micButtonEnabled;
 }
 
-@property (weak, nonatomic, readwrite) id<BTextInputDelegate> messageDelegate;
+@property (weak, nonatomic, readwrite) id<PSendBarDelegate> sendBarDelegate;
 
 // This is a property so we can access it from our mentions view
 @property (nonatomic, readwrite) HKWTextView * textView;

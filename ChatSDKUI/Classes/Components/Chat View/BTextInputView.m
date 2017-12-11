@@ -23,7 +23,7 @@
 
 @synthesize textView = _textView;
 @synthesize maxLines, minLines;
-@synthesize messageDelegate;
+@synthesize sendBarDelegate = _sendBarDelegate;
 @synthesize optionsButton = _optionsButton;
 @synthesize sendButton = _sendButton;
 @synthesize placeholderLabel = _placeholderLabel;
@@ -185,8 +185,8 @@
             return;
         }
         
-        if (messageDelegate && [messageDelegate respondsToSelector:@selector(sendTextMessage:)]) {
-            [messageDelegate sendTextMessage:_textView.text];
+        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(sendTextMessage:)]) {
+            [_sendBarDelegate sendTextMessage:_textView.text];
         }
         _textView.text = @"";
         [self textViewDidChange:_textView];
@@ -194,14 +194,14 @@
     else {
         
         // This is where the button is released so we want to finish recording and send
-        if (messageDelegate && [messageDelegate respondsToSelector:@selector(sendAudioMessage:duration:)]) {
+        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(sendAudioMessage:duration:)]) {
             [[BAudioManager sharedManager] finishRecording];
             
             // Return the recording url and duration in an array
             NSURL * audioURL = [BAudioManager sharedManager].recorder.url;
             NSData * audioData = [NSData dataWithContentsOfURL:audioURL];
             
-            [messageDelegate sendAudioMessage: audioData
+            [_sendBarDelegate sendAudioMessage: audioData
                               duration: [BAudioManager sharedManager].recordingLength];
         }
     }
@@ -223,13 +223,13 @@
 -(void) optionsButtonPressed {
     BOOL select = NO;
     if (_optionsButton.selected) {
-        if (messageDelegate && [messageDelegate respondsToSelector:@selector(showOptions)]) {
-            select = [messageDelegate hideOptions];
+        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(showOptions)]) {
+            select = [_sendBarDelegate hideOptions];
         }
     }
     else {
-        if (messageDelegate && [messageDelegate respondsToSelector:@selector(showOptions)]) {
-            select = [messageDelegate showOptions];
+        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(showOptions)]) {
+            select = [_sendBarDelegate showOptions];
         }
     }
     if(select) {
@@ -265,8 +265,8 @@
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
     // Typing Indicator
-    if (messageDelegate && [messageDelegate respondsToSelector:@selector(typing)]) {
-        [messageDelegate typing];
+    if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(typing)]) {
+        [_sendBarDelegate typing];
     }
     
     // Workout if adding this text will cause the box to become too long
@@ -326,8 +326,8 @@
             [self.superview layoutIfNeeded];
             [_textView setContentOffset:CGPointZero animated:NO];
 
-            if(messageDelegate != Nil) {
-                [messageDelegate didResizeTextInputViewWithDelta:delta];
+            if(_sendBarDelegate != Nil) {
+                [_sendBarDelegate didResizeTextInputViewWithDelta:delta];
             }
         }];
     }
@@ -395,6 +395,10 @@
 
 -(void) becomeFirstResponder {
     [_textView becomeFirstResponder];
+}
+
+-(void) setSendBarDelegate:(id<PSendBarDelegate>)delegate {
+    _sendBarDelegate = delegate;
 }
 
 @end

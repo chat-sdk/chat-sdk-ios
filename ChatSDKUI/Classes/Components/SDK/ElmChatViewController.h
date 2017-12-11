@@ -6,14 +6,14 @@
 //  Copyright (c) 2013 deluge. All rights reserved.
 //
 
-#import <ChatSDK/BTextInputDelegate.h>
+#import <ChatSDK/PSendBarDelegate.h>
 #import <ChatSDK/bChatState.h>
 #import <ChatSDK/BChatOptionDelegate.h>
 #import <ChatSDK/PElmMessage.h>
 #import <ChatSDK/ElmChatViewDelegate.h>
 
-
 @protocol PChatOptionsHandler;
+@protocol PSendBar;
 
 @class MPMoviePlayerController;
 @class BTextInputView;
@@ -21,11 +21,11 @@
 @class BLocationViewController;
 @class BMessageSection;
 
-@interface ElmChatViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, BTextInputDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, BChatOptionDelegate> {
+@interface ElmChatViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, PSendBarDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, BChatOptionDelegate> {
     
     NSArray<BMessageSection *> * _messages;
     
-    BTextInputView * _textInputView;
+    UIView<PSendBar> * _sendBarView;
     
     UIGestureRecognizer * _tapRecognizer;
     

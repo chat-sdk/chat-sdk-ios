@@ -13,6 +13,7 @@
 @protocol PThread;
 @protocol PChatOptionsHandler;
 @protocol PSearchViewController;
+@protocol PSendBar;
 @class BChatViewController;
 @class BFriendsListViewController;
 @class BChatOption;
@@ -27,7 +28,7 @@
 -(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude;
 -(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread;
 -(NSArray *) defaultTabBarViewControllers;
--(BTextInputView *) textInputView;
+-(UIView<PSendBar> *) sendBarView;
 
 -(UIViewController *) searchViewControllerWithType: (NSString *) type excludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded;
 -(UIViewController *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded;

@@ -54,6 +54,7 @@ Pod::Spec.new do |s|
 	  ui.dependency 'DateTools', '~> 1.0'
 	  ui.dependency 'TOCropViewController', '~> 2.0'
 	  ui.dependency 'Hakawai', '~> 5.0.0'
+	  ui.dependency 'ChatSDKKeepLayout'
 
 	  ui.dependency 'ChatSDK/CoreData'
   

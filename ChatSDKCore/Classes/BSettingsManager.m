@@ -23,7 +23,7 @@
 #define bEnabledKey @"enabled"
 #define bPathKey @"path"
 #define bCloudMessagingServerKey @"cloud_messaging_server_key"
-#define bStorageKey @"storage_path"
+
 #define bAppIDKey @"app_id"
 #define bAppSecret @"app_secret"
 #define bAppVersion @"app_version"

@@ -59,21 +59,20 @@
 
 // The text input view sits on top of the keyboard
 -(void) setupTextInputView {
-    _textInputView = [[BInterfaceManager sharedManager].a textInputView];
-    _textInputView.messageDelegate = self;
+    _sendBarView = [[BInterfaceManager sharedManager].a sendBarView];
+    [_sendBarView setSendBarDelegate:self];
     
+    [self.view addSubview:_sendBarView];
     
-    [self.view addSubview:_textInputView];
-    
-//    [_textInputView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:0];
+//    [_sendBarView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:0];
 
-    _textInputView.keepBottomInset.equal = [self textInputViewBottomInset];
-    _textInputView.keepLeftInset.equal = 0;
-    _textInputView.keepRightInset.equal = 0;
+    _sendBarView.keepBottomInset.equal = [self textInputViewBottomInset];
+    _sendBarView.keepLeftInset.equal = 0;
+    _sendBarView.keepRightInset.equal = 0;
     
     // Constrain the table to the top of the toolbar
-    tableView.keepBottomOffsetTo(_textInputView).equal =  -_textInputView.fh;
-    [self setTableViewBottomContentInset:_textInputView.fh];
+    tableView.keepBottomOffsetTo(_sendBarView).equal =  -_sendBarView.fh;
+    [self setTableViewBottomContentInset:_sendBarView.fh];
 }
 
 -(void) registerMessageCells {
@@ -96,7 +95,7 @@
 
 // The naivgation bar has three functions
 // 1 - Shows the name of the chat
-// 2 - Show's a message or the list of users
+// 2 - Show's a message or the list of usersBTextInputView
 // 3 - Show's who's typing
 -(void) setupNavigationBar {
     
@@ -135,7 +134,7 @@
     _keyboardOverlay.backgroundColor = [UIColor whiteColor];
     
     _optionsHandler = [[BInterfaceManager sharedManager].a chatOptionsHandlerWithChatViewController:self];
-    [_optionsHandler setDelegate: self];
+    [_optionsHandler setOptionsDelegate: self];
     
     if(_optionsHandler.keyboardView) {
         [_keyboardOverlay addSubview:_optionsHandler.keyboardView];
@@ -238,11 +237,11 @@
 }
 
 -(void) setTextInputDisabled: (BOOL) disabled {
-    _textInputView.hidden = disabled;
+    _sendBarView.hidden = disabled;
 }
 
 -(void) setAudioEnabled:(BOOL)enabled {
-    [_textInputView setAudioEnabled: enabled];
+    [_sendBarView setAudioEnabled: enabled];
 }
 
 // Typing Indicator
@@ -556,7 +555,7 @@
 
 -(BOOL) showOptions {
     // TODO: Check this
-    [_textInputView becomeFirstResponder];
+    [_sendBarView becomeFirstResponder];
     
     if (_optionsHandler.keyboardView) {
         _keyboardOverlay.alpha = 1;
@@ -567,7 +566,7 @@
 }
 
 -(BOOL) hideOptions {
-    [_textInputView becomeFirstResponder];
+    [_sendBarView becomeFirstResponder];
     _keyboardOverlay.alpha = 0;
     _keyboardOverlay.userInteractionEnabled = NO;
     return [_optionsHandler hide];
@@ -581,7 +580,7 @@
 }
 
 -(void) hideKeyboard {
-    [_textInputView resignFirstResponder];
+    [_sendBarView resignFirstResponder];
 }
 
 #pragma BChatOptionDelegate
@@ -670,7 +669,7 @@
     [UIView commitAnimations];
     
     // Set the new constraints
-    _textInputView.keepBottomInset.equal = keyboardBoundsConverted.size.height;
+    _sendBarView.keepBottomInset.equal = keyboardBoundsConverted.size.height;
     
     [[UIApplication sharedApplication].windows.lastObject addSubview: _keyboardOverlay];
     _keyboardOverlay.frame = keyboardBounds;
@@ -702,8 +701,8 @@
     // and add y displacement by adding an offset instead. This allows
     // the messages to scroll under the keyboard
     [UIView animateWithDuration:0.3 animations:^ {
-        [self setTableViewBottomContentInset:keyboardBoundsConverted.size.height + _textInputView.fh];
-        [tableView.keepBottomOffsetTo(_textInputView) deactivate];
+        [self setTableViewBottomContentInset:keyboardBoundsConverted.size.height + _sendBarView.fh];
+        [tableView.keepBottomOffsetTo(_sendBarView) deactivate];
     }];
     
     // Enable the tap gesture recognizer to hide the keyboard
@@ -719,9 +718,9 @@
     
     _keyboardOverlay.frame = keyboardBounds;
     
-//    [_textInputView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:0];
+//    [_sendBarView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:0];
     
-    _textInputView.keepBottomInset.equal = [self textInputViewBottomInset];
+    _sendBarView.keepBottomInset.equal = [self textInputViewBottomInset];
     [self.view setNeedsUpdateConstraints];
     
     [UIView beginAnimations:Nil context:Nil];
@@ -732,7 +731,7 @@
     [self.view layoutIfNeeded];
     
     // Set the inset so it's correct when we animate back to normal
-    [self setTableViewBottomContentInset:_textInputView.fh];
+    [self setTableViewBottomContentInset:_sendBarView.fh];
 
     [UIView commitAnimations];
     
@@ -753,7 +752,7 @@
 -(void) keyboardDidHide: (NSNotification *) notification {
     // Do the reverse process to above. So the table sticks back to
     // the toolbar again
-    tableView.keepBottomOffsetTo(_textInputView).equal = -_textInputView.fh;
+    tableView.keepBottomOffsetTo(_sendBarView).equal = -_sendBarView.fh;
     [_keyboardOverlay removeFromSuperview];
 
 }

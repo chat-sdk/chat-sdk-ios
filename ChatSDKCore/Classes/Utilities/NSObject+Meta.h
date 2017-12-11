@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PHasMeta.h"
+#import <ChatSDK/PHasMeta.h>
 
 @interface NSObject(Meta)<PHasMeta>
 

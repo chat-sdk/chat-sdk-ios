@@ -8,7 +8,7 @@
 
 @class RXPromise;
 
-@protocol BTextInputDelegate <NSObject>
+@protocol PSendBarDelegate <NSObject>
 
 -(RXPromise *) sendTextMessage: (NSString *) message;
 -(RXPromise *) sendTextMessage: (NSString *) message withMeta: (NSDictionary *)meta;

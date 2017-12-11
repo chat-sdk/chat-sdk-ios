@@ -201,7 +201,7 @@
     return Nil;
 }
 
--(BTextInputView *) textInputView {
+-(UIView<PSendBar> *) sendBarView {
     return [[BTextInputView alloc] initWithFrame:CGRectZero];
 }
 
