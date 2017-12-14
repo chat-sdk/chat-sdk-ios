@@ -52,6 +52,7 @@
 +(instancetype) token: (NSString *) token {
     BAccountDetails * details = [self new];
     details.type = bAccountTypeCustom;
+    details.token = token;
     return details;
 }
 

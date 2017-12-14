@@ -589,17 +589,14 @@ bLoginCustomToken: token}].thenOnMain(^id(id<PUser> user) {
 ```
 let dict = [bLoginTypeKey: bAccountTypeCustom.rawValue, bLoginCustomToken: token] as [String : Any]
 
-let promise = BNetworkManager.shared().a.auth().authenticate(with: dict)
-_ = promise!.promiseKitThen().then { (result: Any?) in
-    if (result is Error) {
-        // Login Failure
-    }
-    else {
-        // Login Success
-    }
-    return AnyPromise.promiseWithValue(result)
-}
-
+let block = BNetworkManager.shared().a.auth().authenticate(with: dict).thenOnMain
+_ = block!({(result: Any?) -> Any? in
+      // Login Success
+      return result
+  }, {(error: Error?) -> Any? in
+      // Login Failure
+      return error
+  })
 ```
 
 >**Note:**  
