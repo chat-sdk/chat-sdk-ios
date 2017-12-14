@@ -71,7 +71,7 @@
 }
 
 -(NSArray *) threadsWithType:(bThreadType)type {
-    return [self threadsWithType:type includeDeleted:NO includeEmpty:NO];
+    return [self threadsWithType:type includeDeleted:NO includeEmpty:[BChatSDK shared].configuration.showEmptyChats];
 }
 
 -(NSArray *) threadsWithType:(bThreadType)type includeDeleted: (BOOL) includeDeleted includeEmpty: (BOOL) includeEmpty {

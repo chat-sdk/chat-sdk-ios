@@ -26,6 +26,7 @@
 
 @synthesize tableView;
 @synthesize delegate;
+@synthesize sendBarView = _sendBarView;
 
 -(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate_
 {
@@ -518,6 +519,7 @@
 }
 
 -(RXPromise *) handleMessageSend: (RXPromise *) promise {
+    [self reloadData];
     return promise.thenOnMain(^id(id success) {
         [self scrollToBottomOfTable:YES];
         return Nil;

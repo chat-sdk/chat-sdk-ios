@@ -14,6 +14,9 @@
 @synthesize messageColorReply;
 @synthesize rootPath;
 @synthesize appBadgeEnabled;
+@synthesize defaultUserName;
+@synthesize defaultUserNamePrefix;
+@synthesize showEmptyChats;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -21,6 +24,9 @@
         messageColorReply = bDefaultMessageColorReply;
         rootPath = @"default";
         appBadgeEnabled = YES;
+        defaultUserNamePrefix = @"ChatSDK";
+        defaultUserName = [defaultUserNamePrefix stringByAppendingFormat:@"%i", arc4random() % 999];
+        showEmptyChats = NO;
     }
     return self;
 }

@@ -109,8 +109,7 @@
     // Must set name before robot image to ensure they are different
     // Must be set outside of the provider loop as anonymous logins don't user data prodivers
     if (!_model.name) {
-        NSString * tempName = [@"ChatSDK" stringByAppendingFormat:@"%i", arc4random() % 9999];
-        _model.name = tempName;
+        _model.name = [BChatSDK shared].configuration.defaultUserName;
     }
     
     if (!profilePictureSet && ![self.model metaStringForKey:bPictureURLKey]) {

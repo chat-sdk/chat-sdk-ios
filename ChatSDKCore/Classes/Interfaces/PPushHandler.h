@@ -39,6 +39,7 @@
 
 -(void) pushToChannels: (NSArray *) channels withData:(NSDictionary *) data;
 -(void) pushForMessage: (id<PMessage>) message;
+-(void) pushToUsers: (NSArray *) users withData: (NSDictionary *) data;
 
 @end
 

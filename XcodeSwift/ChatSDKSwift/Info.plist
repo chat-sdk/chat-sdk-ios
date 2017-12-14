@@ -125,7 +125,7 @@
 			<key>cloud_messaging_server_key</key>
 			<string>AAAA_WvJyeI:APA91bFIDYoxnbFTub61SKCh8-RZrElzdkZpzyV3paGFlRWonMzq33zQmQW3ub5hDXLuRaipwtoHSoDKXkZlN5DRb_EYdrxtaDptmvZKCYBPKI-4RqTK9wVLOJvgc5X3bVWLfpNSJO_tLK2pnmhfpHDw2Zs-5L2yug</string>
 			<key>root_path</key>
-			<string>demo_11</string>
+			<string>firebase_v4_web_new_4_test</string>
 			<key>storage_path</key>
 			<string>gs://chat-sdk-v4.appspot.com</string>
 		</dict>

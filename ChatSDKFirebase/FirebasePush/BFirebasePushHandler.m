@@ -116,18 +116,6 @@
 
 -(void) pushToUsers: (NSArray *) users withMessage: (id<PMessage>) message {
     
-    // We're identifying each user using push channels. This means that
-    // when a user signs up, they register with parse on a particular
-    // channel. In this case user_[user id] this means that we can
-    // send a push to a specific user if we know their user id.
-    NSMutableArray * userChannels = [NSMutableArray new];
-    id<PUser> currentUserModel = NM.currentUser;
-    for (id<PUser> user in users) {
-        NSString * pushToken = [user metaValueForKey:bUserPushTokenKey];
-        if(![user isEqual:currentUserModel] && pushToken /* && !user.online.boolValue */)
-            [userChannels addObject:pushToken];
-    }
-    
     // Format the message that we're going to push
     NSString * text = message.textString;
     
@@ -167,7 +155,24 @@
                             @"title": message.userModel.name,
                             @"badge": @1};
 
-    [self pushToChannels:userChannels withData:dict];
+    [self pushToUsers:users withData:dict];
+}
+
+-(void) pushToUsers: (NSArray *) users withData: (NSDictionary *) data {
+    // We're identifying each user using push channels. This means that
+    // when a user signs up, they register with parse on a particular
+    // channel. In this case user_[user id] this means that we can
+    // send a push to a specific user if we know their user id.
+    NSMutableArray * userChannels = [NSMutableArray new];
+    id<PUser> currentUserModel = NM.currentUser;
+    for (id<PUser> user in users) {
+        NSString * pushToken = [user metaValueForKey:bUserPushTokenKey];
+        if(![user isEqual:currentUserModel] && pushToken /* && !user.online.boolValue */)
+            [userChannels addObject:pushToken];
+    }
+    
+    [self pushToChannels:userChannels withData:data];
+
 }
 
 -(void) pushToChannels: (NSArray *) channels withData:(NSDictionary *) data {

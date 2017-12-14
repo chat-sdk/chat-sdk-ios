@@ -88,6 +88,10 @@
 #import <ChatSDK/BCoreDefines.h>
 #import <ChatSDK/NM.h>
 
+#import <ChatSDK/PAction.h>
+#import <ChatSDK/BSelectLocationAction.h>
+#import <ChatSDK/BSelectMediaAction.h>
+
 #import <ChatSDK/bPictureTypes.h>
 
 #endif /* ChatCore_h */

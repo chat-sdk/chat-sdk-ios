@@ -70,4 +70,8 @@
     
 }
 
+-(void) setOptionsDelegate:(id<BChatOptionDelegate>)delegate {
+    self.delegate = delegate;
+}
+
 @end

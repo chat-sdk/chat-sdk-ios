@@ -246,7 +246,7 @@
                     }
                 }
             }
-            _users.sortUsersInAlphabeticalOrder;
+            [_users sortUsersInAlphabeticalOrder];
             
             [tableView reloadData];
             

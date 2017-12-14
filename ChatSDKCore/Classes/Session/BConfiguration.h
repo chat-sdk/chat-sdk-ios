@@ -13,6 +13,9 @@
 @property (nonatomic, readwrite) NSString * messageColorReply;
 @property (nonatomic, readwrite) NSString * rootPath;
 @property (nonatomic, readwrite) BOOL appBadgeEnabled;
+@property (nonatomic, readwrite) NSString * defaultUserName;
+@property (nonatomic, readwrite) NSString * defaultUserNamePrefix;
+@property (nonatomic, readwrite) BOOL showEmptyChats;
 
 +(BConfiguration *) configuration;
 

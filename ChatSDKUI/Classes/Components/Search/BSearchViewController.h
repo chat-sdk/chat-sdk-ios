@@ -43,5 +43,6 @@
 
 
 -(void) addButtonPressed;
+-(void) clearAndReload;
 
 @end

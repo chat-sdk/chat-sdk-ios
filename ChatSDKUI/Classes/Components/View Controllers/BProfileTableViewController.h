@@ -33,8 +33,7 @@
     // For example once we have finished viewing another user's profile we don't want to retain a link to it
     BOOL _resetUser;
 }
-
-//- (void)initialiseWithConnection: (id<PUserConnection>) connection;
+@property (weak, nonatomic) IBOutlet UIView *cell0;
 
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumberField;
