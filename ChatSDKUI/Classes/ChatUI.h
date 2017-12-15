@@ -75,4 +75,9 @@
 #import <ChatSDK/BMessageCache.h>
 #import <ChatSDK/BMainControllerLifecycleHelper.h>
 
+#import <ChatSDK/PAction.h>
+#import <ChatSDK/BSelectLocationAction.h>
+#import <ChatSDK/BSelectMediaAction.h>
+
+
 #endif /* ChatUI_h */

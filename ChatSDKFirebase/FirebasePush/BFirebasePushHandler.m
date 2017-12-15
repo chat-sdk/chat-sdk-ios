@@ -153,7 +153,9 @@
 //
     NSDictionary * dict = @{@"body": text,
                             @"title": message.userModel.name,
-                            @"badge": @1};
+                            @"badge": @1,
+                            @"chat_sdk_thread_entity_id": message.thread.entityID,
+                            @"chat_sdk_user_entity_id": message.userModel.entityID};
 
     [self pushToUsers:users withData:dict];
 }

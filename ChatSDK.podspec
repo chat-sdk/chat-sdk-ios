@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.3.10"
+  s.version          = "4.3.11"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -59,6 +59,8 @@ Pod::Spec.new do |s|
 	  ui.dependency 'ChatSDKKeepLayout'
 
 	  ui.dependency 'ChatSDK/CoreData'
+	  
+	  ui.frameworks = 'CoreLocation'
   
   end
 
