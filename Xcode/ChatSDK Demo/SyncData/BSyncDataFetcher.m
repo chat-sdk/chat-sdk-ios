@@ -10,7 +10,8 @@
 
 #import <ChatSDK/ChatCore.h>
 #import "ChatFirebaseAdapter.h"
-#import "SyncData.h"
+#import "BSyncItem.h"
+#import "BSyncDataListener.h"
 
 @implementation BSyncDataFetcher
 

@@ -34,10 +34,10 @@
 
 -(FIRDatabaseReference *) ref {
     if(_entityID) {
-        return [[[[FIRDatabaseReference firebaseRef] child: bBaseDataPath] child:[self getPath]] child:_entityID];
+        return [[[[FIRDatabaseReference firebaseRef] child: bBaseDataPath] child:[self path]] child:_entityID];
     }
     else {
-        FIRDatabaseReference * ref = [[[[FIRDatabaseReference firebaseRef] child: bBaseDataPath] child:[self getPath]] childByAutoId];
+        FIRDatabaseReference * ref = [[[[FIRDatabaseReference firebaseRef] child: bBaseDataPath] child:[self path]] childByAutoId];
         _entityID = ref.key;
         return ref;
     }
