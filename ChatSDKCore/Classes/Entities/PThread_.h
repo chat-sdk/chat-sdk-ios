@@ -104,5 +104,17 @@ typedef enum {
 -(UIImage *)imageForThread;
 -(NSDate *) orderDate;
 
+-(RXPromise *) loadThreadImage: (BOOL) force;
+-(RXPromise *) loadThreadThumbnail: (BOOL) force;
+
+-(void) setMetaDictionary: (NSDictionary *) dict;
+-(NSDictionary *) metaDictionary;
+
+-(void) setImage: (NSData *) image;
+-(NSData *) image;
+
+-(void) setThumbnail: (NSData *) thumbnail;
+-(NSData *) thumbnail;
+
 @end
 

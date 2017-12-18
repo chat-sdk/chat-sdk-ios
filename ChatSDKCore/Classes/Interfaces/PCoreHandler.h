@@ -56,6 +56,12 @@
  * Register block to:
  * - Handle thread creation
  */
+-(RXPromise *) createThreadWithUsers: (NSArray *)users
+                                name: (NSString *)name
+                               image: (NSString *)imageUrl
+                           thumbnail: (NSString *)thumbnailUrl
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated;
+
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
                                 name: (NSString *) name
                        threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated;

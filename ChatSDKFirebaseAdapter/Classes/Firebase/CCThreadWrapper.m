@@ -435,7 +435,8 @@
                              b_Name: _model.name ? _model.name : @"",
                              b_Type: _model.type.integerValue & bThreadFilterPrivate ? @(bThreadTypePrivateV3) : @(bThreadTypePublicV3),
                              b_TypeV4: _model.type,
-                             b_CreatorEntityID: _model.creator.entityID}};
+                             b_CreatorEntityID: _model.creator.entityID,
+                             b_Meta: _model.metaDictionary ? _model.metaDictionary : @{}}};
 }
 
 -(void) deserialize: (NSDictionary *) value {
@@ -475,6 +476,36 @@
         _model.name = name;
     }
     
+    NSDictionary * meta = value[b_Meta];
+    if (meta) {
+        [self deserializeMeta:meta];
+    }
+}
+
+-(RXPromise *) deserializeMeta: (NSDictionary *) value {
+    // Get the user's meta data
+    NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:_model.metaDictionary];
+    NSDictionary * newMeta = value;
+    
+    // Check to see if the image has changed
+    BOOL thumbnailChanged = ![meta[bPictureURLThumbnailKey] isEqualToString:newMeta[bPictureURLThumbnailKey]];
+    BOOL imageChanged = ![meta[bPictureURLKey] isEqualToString:newMeta[bPictureURLKey]];
+    
+    for (NSString * key in [newMeta allKeys]) {
+        if (![meta[key] isEqual:newMeta[key]]) {
+            meta[key] = newMeta[key];
+        }
+    }
+    
+    if (meta) {
+        [_model setMetaDictionary:meta];
+    }
+    
+    NSMutableArray * promises = [NSMutableArray new];
+    [promises addObject:[_model loadThreadThumbnail:thumbnailChanged]];
+    [promises addObject:[_model loadThreadImage:imageChanged]];
+
+    return [RXPromise all:promises];
 }
 
 -(RXPromise *) push {

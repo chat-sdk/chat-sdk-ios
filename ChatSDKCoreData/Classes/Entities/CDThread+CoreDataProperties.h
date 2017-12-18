@@ -31,6 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSSet<CDMessage *> *messages;
 @property (nullable, nonatomic, retain) NSSet<CDUser *> *users;
 
+@property (nullable, nonatomic, retain) NSData *image;
+@property (nullable, nonatomic, retain) NSData *thumbnail;
+
 @end
 
 @interface CDThread (CoreDataGeneratedAccessors)

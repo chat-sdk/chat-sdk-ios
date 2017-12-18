@@ -15,8 +15,9 @@
 
 #define bContactsSection 0
 #define bSectionCount 1
+#define bGroupNameViewHeight 62
 
-@interface BFriendsListViewController ()
+@interface BFriendsListViewController()
 
 @end
 
@@ -30,6 +31,7 @@
 @synthesize groupNameView;
 @synthesize groupNameTextField;
 @synthesize maximumSelectedUsers;
+@synthesize groupImageButton;
 
 // If we create it with a thread then we look at who is in the thread and make sure they don't come up on the lists
 // If we are creating a new thread then we don't mind
@@ -129,7 +131,7 @@
 
 -(void) setGroupNameHidden: (BOOL) hidden duration: (float) duration {
     [self.view keepAnimatedWithDuration: duration layout:^{
-        groupNameView.keepTopInset.equal = hidden ? -46 : 0;
+        groupNameView.keepTopInset.equal = hidden ? -bGroupNameViewHeight : 0;
     }];
     if (!hidden) {
         self.navigationItem.rightBarButtonItem.enabled = groupNameTextField.text.length;
@@ -149,11 +151,39 @@
         return;
     }
     else {
-        [self dismissViewControllerAnimated:YES completion:^{
-            if (self.usersToInvite != Nil) {
-                self.usersToInvite(_selectedContacts, groupNameTextField.text);
-            }
-        }];
+        
+        if (groupImage) {
+            
+            MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [_tokenField resignFirstResponder];
+            hud.label.text = [NSBundle t:bCreatingThread];
+            
+            // Now reduce the image to 200x200 for the profile picture
+            UIImage * image = [groupImage resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
+            UIImage * thumbnail = [groupImage resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
+            
+            // Set the image now
+            [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                
+                [self dismissViewControllerAnimated:YES completion:^{
+                    if (self.usersToInvite != Nil) {
+                        self.usersToInvite(_selectedContacts, groupNameTextField.text, urls[bImagePath], urls[bThumbnailPath]);
+                    }
+                }];
+                
+                return urls;
+            }, Nil);
+        }
+        else {
+            
+            [self dismissViewControllerAnimated:YES completion:^{
+                if (self.usersToInvite != Nil) {
+                    self.usersToInvite(_selectedContacts, groupNameTextField.text, nil, nil);
+                }
+            }];
+        }
     }
 }
 
@@ -385,6 +415,43 @@
     self.navigationItem.rightBarButtonItem.enabled = connected;
 }
 
+#pragma Thread Image
 
+- (IBAction)threadImageButtonPressed:(id)sender {
+    
+    if (!_picker) {
+        _picker = [[UIImagePickerController alloc] init];
+        _picker.delegate = self;
+    }
+    
+    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    
+    [self presentViewController:_picker animated:YES completion:Nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    UIImage * image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    [picker dismissViewControllerAnimated:YES completion:^{
+        
+        TOCropViewController * cropViewController = [[TOCropViewController alloc] initWithCroppingStyle:TOCropViewCroppingStyleCircular image:image];
+        
+        cropViewController.aspectRatioPreset = TOCropViewControllerAspectRatioPresetSquare;
+        cropViewController.resetAspectRatioEnabled = NO; // Clicking reset will keep the square aspect ration
+        cropViewController.aspectRatioPickerButtonHidden = YES; // Disable users picking their own aspect ration
+        cropViewController.delegate = self;
+        
+        [self presentViewController:cropViewController animated:YES completion:nil];
+    }];
+}
+
+- (void)cropViewController:(TOCropViewController *)cropViewController didCropToImage:(UIImage *)image withRect:(CGRect)cropRect angle:(NSInteger)angle {
+
+    // We only want to upload the image once we create the thread
+    [groupImageButton setBackgroundImage:image forState:UIControlStateNormal];
+    groupImage = image;
+    [cropViewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end

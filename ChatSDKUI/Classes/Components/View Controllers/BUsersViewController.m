@@ -181,7 +181,8 @@
         flvc.rightBarButtonActionTitle = [NSBundle t:bAdd];
         
         // The friends view controller will give us a list of users to invite
-        flvc.usersToInvite = ^(NSArray * users, NSString * groupName){
+        
+        flvc.usersToInvite = ^(NSArray * users, NSString * groupName, NSString * imageUrl, NSString * thumbnailUrl){
             
             [NM.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
                 [UIView alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];

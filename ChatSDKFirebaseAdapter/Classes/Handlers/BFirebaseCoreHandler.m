@@ -73,7 +73,7 @@
     return threads;
 }
 
--(RXPromise *) createThreadWithUsers: (NSArray *) users name: (NSString *) name threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+-(RXPromise *) createThreadWithUsers: (NSArray *) users name: (NSString *) name image: (NSString *)imageUrl thumbnail: (NSString *)thumbnailUrl threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
     
     id<PUser> currentUser = self.currentUserModel;
     
@@ -129,6 +129,9 @@
     threadModel.type = usersToAdd.count == 2 ? @(bThreadType1to1) : @(bThreadTypePrivateGroup);
     threadModel.name = name;
     
+    [threadModel setMetaString:imageUrl forKey:bPictureURLKey];
+    [threadModel setMetaString:thumbnailUrl forKey:bPictureURLThumbnailKey];
+    
     CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
     
     return [thread push].thenOnMain(^id(id<PThread> thread) {
@@ -149,10 +152,13 @@
     });
 }
 
+-(RXPromise *) createThreadWithUsers: (NSArray *) users name: (NSString *) name threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+    return [self createThreadWithUsers:users name:name image:nil thumbnail:nil threadCreated:threadCreated];
+}
+
 -(RXPromise *) createThreadWithUsers: (NSArray *) users threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
     return [self createThreadWithUsers:users name:nil threadCreated:threadCreated];
 }
-
 
 -(RXPromise *) addUsers: (NSArray *) users toThread: (id<PThread>) threadModel {
     

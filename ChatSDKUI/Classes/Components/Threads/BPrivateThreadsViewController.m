@@ -58,13 +58,14 @@
     BFriendsListViewController * flvc = (BFriendsListViewController *) [[BInterfaceManager sharedManager].a friendsViewControllerWithUsersToExclude:@[]];
     
     // The friends view controller will give us a list of users to invite
-    flvc.usersToInvite = ^(NSArray * users, NSString * groupName){
+    flvc.usersToInvite = ^(NSArray * users, NSString * groupName, NSString * imageUrl, NSString * thumbnailUrl) {
         
         MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.label.text = [NSBundle t:bCreatingThread];
         
         // Create group with group name
-        [NM.core createThreadWithUsers:users name:groupName threadCreated:^(NSError *error, id<PThread> thread) {
+        [NM.core createThreadWithUsers:users name:groupName image:imageUrl thumbnail:thumbnailUrl threadCreated:^(NSError *error, id<PThread> thread) {
+            
             if (!error) {
                 [self pushChatViewControllerWithThread:thread];
             }

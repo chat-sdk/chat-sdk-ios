@@ -29,4 +29,7 @@
 @dynamic messages;
 @dynamic users;
 
+@dynamic image;
+@dynamic thumbnail;
+
 @end
