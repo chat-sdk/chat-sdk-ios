@@ -362,7 +362,10 @@
     
     messageCell.navigationController = self.navigationController;
     
+    // Add a gradient to the cells
+    //float colorWeight = ((float) indexPath.row / (float) self.messages.count) * 0.15 + 0.85;
     float colorWeight = 1;
+    
     [messageCell setMessage:message withColorWeight:colorWeight];
     
     return messageCell;
