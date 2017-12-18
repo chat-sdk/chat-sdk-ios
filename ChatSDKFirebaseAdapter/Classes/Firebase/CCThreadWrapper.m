@@ -478,6 +478,7 @@
     
     NSDictionary * meta = value[b_Meta];
     if (meta) {
+        // We don't need to access this when it returns - only need it to set the images if they are not already set
         [self deserializeMeta:meta];
     }
 }

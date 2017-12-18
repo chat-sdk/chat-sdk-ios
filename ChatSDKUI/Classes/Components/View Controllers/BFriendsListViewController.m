@@ -154,25 +154,25 @@
         
         if (groupImage) {
             
+            [self.view endEditing:YES];
             MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            [_tokenField resignFirstResponder];
-            hud.label.text = [NSBundle t:bCreatingThread];
+            hud.label.text = [NSBundle t:bUploadingImage];
             
             // Now reduce the image to 200x200 for the profile picture
             UIImage * image = [groupImage resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
             UIImage * thumbnail = [groupImage resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
-            
+
             // Set the image now
             [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
-                
+
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-                
+
                 [self dismissViewControllerAnimated:YES completion:^{
                     if (self.usersToInvite != Nil) {
                         self.usersToInvite(_selectedContacts, groupNameTextField.text, urls[bImagePath], urls[bThumbnailPath]);
                     }
                 }];
-                
+
                 return urls;
             }, Nil);
         }

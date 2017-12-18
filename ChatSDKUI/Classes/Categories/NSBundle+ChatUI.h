@@ -49,6 +49,7 @@
 
 #define bAdd @"bAdd"
 #define bCreatingThread @"bCreatingThread"
+#define bUploadingImage @"bUploadingImage"
 #define bLogoutErrorTitle @"bLogoutErrorTitle"
 
 #define bSearch @"bSearch"

@@ -38,6 +38,7 @@
 "bAdded" = "Added";
 "bAdd" = "Add";
 "bCreatingThread" = "Creating thread";
+"bUploadingImage" = "Uploading image";
 "bLogoutErrorTitle" = "Logout error";
 "bAuthenticating" = "Authenticating";
 

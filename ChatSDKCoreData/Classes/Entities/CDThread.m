@@ -197,6 +197,7 @@
 // TODO: Move this to UI module
 - (UIImage *)imageForThread {
     
+    // If the thread has an image set then use this instead of a custom image
     if (self.thumbnail) {
         return [UIImage imageWithData:self.thumbnail];
     }
