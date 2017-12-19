@@ -15,6 +15,7 @@
 
 #define bContactsSection 0
 #define bSectionCount 1
+#define bMaxTokenHeight 104
 
 @interface BFriendsListViewController ()
 
@@ -25,15 +26,14 @@
 @synthesize tableView;
 @synthesize usersToInvite;
 @synthesize rightBarButtonActionTitle;
-@synthesize _tokenField;
-@synthesize _tokenView;
+@synthesize tokenField;
+@synthesize tokenView;
 @synthesize groupNameView;
 @synthesize groupNameTextField;
 @synthesize maximumSelectedUsers;
 
-// If we create it with a thread then we look at who is in the thread and make sure they don't come up on the lists
-// If we are creating a new thread then we don't mind
-
+// If we are creating a thread we want to have the group name field
+// If we are adding users we never want to show this field
 -(instancetype) initWithUsersToExclude: (NSArray<PUser> *) users {
     if ((self = [self init])) {
         self.title = [NSBundle t:bPickFriends];
@@ -46,9 +46,10 @@
     self = [super initWithNibName:@"BFriendsListViewController" bundle:[NSBundle chatUIBundle]];
     if (self) {
         self.title = [NSBundle t:bPickFriends];
-        _selectedContacts = [NSMutableArray new];
         _contacts = [NSMutableArray new];
         _contactsToExclude = [NSMutableArray new];
+        _selectedContacts = [NSMutableArray new];
+        _selectedNames = [NSMutableArray new];
     }
     return self;
 }
@@ -65,17 +66,17 @@
     // Takes into account the status and navigation bar
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    self.names = [NSMutableArray array];
-    _tokenField.delegate = self;
-    _tokenField.dataSource = self;
-    _tokenField.placeholderText = [NSBundle t:bEnterNamesHere];
-    _tokenField.toLabelText = [NSBundle t:bTo];
-    _tokenField.userInteractionEnabled = YES;
+    tokenField.delegate = self;
+    tokenField.dataSource = self;
+    tokenField.placeholderText = [NSBundle t:bEnterNamesHere];
+    tokenField.toLabelText = [NSBundle t:bTo];
+    tokenField.userInteractionEnabled = YES;
+    tokenField.maxHeight = bMaxTokenHeight;
     
-    [_tokenField setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
+    [tokenField setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
     
-    _tokenView.layer.borderWidth = 0.5;
-    _tokenView.layer.borderColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0].CGColor;
+    tokenView.layer.borderWidth = 0.5;
+    tokenView.layer.borderColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0].CGColor;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
@@ -183,7 +184,6 @@
     
     BUserCell * cell = [tableView_ dequeueReusableCellWithIdentifier:bUserCellIdentifier];
     
-    
     id<PUser> user;
     if (indexPath.section == bContactsSection) {
         user = _contacts[indexPath.row];
@@ -207,7 +207,7 @@
     [tableView_ deselectRowAtIndexPath:indexPath animated:YES];
     
     [UIView animateWithDuration:0.2 animations:^{
-        _tokenView.keepHeight.equal = _tokenField.bounds.size.height;
+        tokenView.keepHeight.equal = tokenField.bounds.size.height;
     }];
     
     [self reloadData];
@@ -219,9 +219,8 @@
     if (text.length) {
         
         [UIView animateWithDuration:0.2 animations:^{
-            _tokenView.keepHeight.equal = _tokenField.bounds.size.height;
+            tokenView.keepHeight.equal = tokenField.bounds.size.height;
         }];
-        
     }
     _filterByName = text;
     [self reloadData];
@@ -230,64 +229,68 @@
 // This is when we press enter in the text field
 - (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text {
     
-    [_tokenField reloadData];
+    [tokenField reloadData];
     [self reloadData];
     
-    [_tokenField resignFirstResponder];
+    [tokenField resignFirstResponder];
 }
 
 // This is when we delete a token
 - (void)tokenField:(VENTokenField *)tokenField didDeleteTokenAtIndex:(NSUInteger)index {
     
-    [self deselectUserWithName:[self.names objectAtIndex:index]];
+    [self deselectUser:[_selectedContacts objectAtIndex: index]];
     
     [UIView animateWithDuration:0.2 animations:^{
-        _tokenView.keepHeight.equal = _tokenField.bounds.size.height;
+        tokenView.keepHeight.equal = tokenField.bounds.size.height;
     }];
 }
 
 #pragma mark - VENTokenFieldDataSource
 
 - (NSString *)tokenField:(VENTokenField *)tokenField titleForTokenAtIndex:(NSUInteger)index {
-    return self.names[index];
+    return _selectedNames[index];
 }
 
 - (NSUInteger)numberOfTokensInTokenField:(VENTokenField *)tokenField {
-    return self.names.count;
+    return _selectedNames.count;
 }
 
 - (void) selectUser: (id<PUser>) user {
     
     if(_selectedContacts.count < maximumSelectedUsers || maximumSelectedUsers <= 0) {
         [_selectedContacts addObject:user];
-        
-        [self.names addObject:user.name];
+        [_selectedNames addObject:user.name];
         
         _filterByName = Nil;
-        [_tokenField reloadData];
+        [tokenField reloadData];
         
-        [self setGroupNameHidden:_selectedContacts.count < 2 || _contactsToExclude.count > 0 duration:0.4];
+        // We never want to show this if we are adding users (and therefore have users to exclude)
+        [self setGroupNameHidden:_selectedContacts.count < 2 || _contactsToExclude.count duration:0.4];
         
         [self reloadData];
     }
-    
 }
 
-// TODO: This will fail if there are two users with the same name...
-- (void) deselectUserWithName: (NSString *) name {
+- (void) deselectUser: (id<PUser>) user {
     
-    // Get the user we are removing
-    for (id<PUser> user in _selectedContacts) {
-        if ([name caseInsensitiveCompare:user.name] == NSOrderedSame) {
-            [_selectedContacts removeObject:user];
-            break;
+    if ([_selectedContacts containsObject:user]) {
+
+        // We want to then remove the same index
+        NSInteger index = [_selectedContacts indexOfObject:user];
+        
+        if ([_selectedNames[index] isEqualToString:user.name]) {
+            [_selectedNames removeObjectAtIndex:index];
+            [_selectedContacts removeObjectAtIndex:index];
+        }
+        else {
+            NSLog(@"Name synchronisation error");
         }
     }
     
-    [self.names removeObject:name];
-    [_tokenField reloadData];
+    [tokenField reloadData];
     
-    [self setGroupNameHidden:_selectedContacts.count + _contactsToExclude.count < 2 duration:0.4];
+    // We never want to show this if we are adding users (and therefore have users to exclude)
+    [self setGroupNameHidden:_selectedContacts.count < 2 || _contactsToExclude.count duration:0.4];
     
     [self reloadData];
 }
@@ -340,7 +343,6 @@
     [self reloadData];
 }
 
-
 #pragma keyboard notifications
 
 -(void) keyboardWillShow: (NSNotification *) notification {
@@ -354,7 +356,8 @@
     NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     
     // Set the new constraints
-    tableView.keepBottomInset.equal = keyboardBoundsConverted.size.height;
+    [self setTableViewBottomContentInset:keyboardBoundsConverted.size.height];
+    
     [self.view setNeedsUpdateConstraints];
     
     // Animate using this style because for some reason using blocks doesn't give a smooth animation
@@ -370,9 +373,15 @@
 
 -(void) keyboardWillHide: (NSNotification *) notification {
     
-    // Reduced code as there were slight issues with teh table reloading
-    tableView.keepBottomInset.equal = 0;
+    // Fix - to ensure the tableView can scroll above the keyboard
+    [self setTableViewBottomContentInset:0];
     [self.view setNeedsUpdateConstraints];
+}
+
+-(void) setTableViewBottomContentInset: (float) inset {
+    UIEdgeInsets insets = tableView.contentInset;
+    insets.bottom = inset;
+    tableView.contentInset = insets;
 }
 
 -(void) dismissView {
@@ -384,7 +393,5 @@
     BOOL connected = [Reachability reachabilityForInternetConnection].isReachable;
     self.navigationItem.rightBarButtonItem.enabled = connected;
 }
-
-
 
 @end

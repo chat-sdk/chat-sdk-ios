@@ -178,6 +178,7 @@
         // Use initWithThread here to make sure we don't show any users already in the thread
         // Show the friends view controller
         BFriendsListViewController * flvc = [[BInterfaceManager sharedManager].a friendsViewControllerWithUsersToExclude:_thread.users.allObjects];
+        
         flvc.rightBarButtonActionTitle = [NSBundle t:bAdd];
         
         // The friends view controller will give us a list of users to invite

@@ -26,6 +26,7 @@
     NSMutableArray * _contacts;
     NSMutableArray * _selectedContacts;
     NSMutableArray * _contactsToExclude;
+    NSMutableArray * _selectedNames;
     
     NSString * _filterByName;
     id _internetConnectionObserver;
@@ -36,9 +37,8 @@
 @property (nonatomic, readwrite) NSString * rightBarButtonActionTitle;
 @property (nonatomic, readwrite) NSArray * (^overrideContacts)();
 
-@property (weak, nonatomic) IBOutlet VENTokenField * _tokenField;
-@property (strong, nonatomic) NSMutableArray * names;
-@property (weak, nonatomic) IBOutlet UIView * _tokenView;
+@property (weak, nonatomic) IBOutlet VENTokenField * tokenField;
+@property (weak, nonatomic) IBOutlet UIView * tokenView;
 @property (weak, nonatomic) IBOutlet UITextField * groupNameTextField;
 @property (weak, nonatomic) IBOutlet UIView * groupNameView;
 
