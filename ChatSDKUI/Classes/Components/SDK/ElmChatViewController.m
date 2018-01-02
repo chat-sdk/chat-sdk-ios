@@ -348,7 +348,18 @@
     
     BMessageCell<BMessageDelegate> * messageCell;
     
-    messageCell = [tableView_ dequeueReusableCellWithIdentifier:message.type.stringValue];
+    // We want to check if the message is a premium type but without the libraries added
+    // Without this check the app crashes if the user doesn't have premium cell types
+    if ((![BNetworkManager sharedManager].a.stickerMessage && message.type.integerValue == bMessageTypeSticker) ||
+        (![BNetworkManager sharedManager].a.videoMessage && message.type.integerValue == bMessageTypeVideo) ||
+        (![BNetworkManager sharedManager].a.audioMessage && message.type.integerValue == bMessageTypeAudio)) {
+        
+        messageCell = [tableView_ dequeueReusableCellWithIdentifier:@"0"];
+    }
+    else {
+        messageCell = [tableView_ dequeueReusableCellWithIdentifier:message.type.stringValue];
+    }
+    
     messageCell.navigationController = self.navigationController;
     
     // Add a gradient to the cells
