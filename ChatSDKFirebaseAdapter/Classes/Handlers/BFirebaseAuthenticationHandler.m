@@ -188,7 +188,7 @@
 -(RXPromise *) loginWithFirebaseUser: (FIRUser *) firebaseUser {
     
     RXPromise * promise = [RXPromise new];
-    
+
     // If the user isn't authenticated they'll need to login
     if (!firebaseUser) {
         [promise rejectWithReason:Nil];

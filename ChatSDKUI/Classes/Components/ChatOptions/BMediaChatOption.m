@@ -70,7 +70,7 @@
                 return [self.parent.delegate sendVideoMessage:action.videoData withCoverImage:action.coverImage];
             }
         }
-        if(_type == bPictureTypeAlbumVideo || _type == bPictureTypeCameraVideo) {
+        if(_type == bPictureTypeAlbumVideo || _type == bPictureTypeCameraVideo || _type == bPictureTypeAlbumImage) {
             // Send video to the chat view
             if(NM.imageMessage) {
                 return [self.parent.delegate sendImageMessage:action.photo];

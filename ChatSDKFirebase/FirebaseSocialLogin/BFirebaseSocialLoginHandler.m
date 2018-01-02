@@ -116,7 +116,7 @@
         // TODO: Check this
         FBSDKLoginManager * manager = [[FBSDKLoginManager alloc] init];
         [manager logInWithReadPermissions:@[] handler:^(FBSDKLoginManagerLoginResult * result, NSError * error) {
-            if(!error) {
+            if(!error && [FBSDKAccessToken currentAccessToken].tokenString != Nil) {
                 [promise resolveWithResult:[FBSDKAccessToken currentAccessToken].tokenString];
             }
             else {
