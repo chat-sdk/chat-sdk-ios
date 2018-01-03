@@ -19,13 +19,15 @@ A demo of the project is available on the App Store.
 - Private and group messages
 - Public chat rooms
 - Username / password, Facebook, Twitter, Anonymous and custom login
-- Push notifications
+- Phone number authentication
+- Push notifications (using FCM)
 - Text, Image and Location messages
 - User profiles
 - User search
 - Powered by Firebase
 - Firebase UI
-- [Cross Platform - see Android Version](https://github.com/chat-sdk/chat-sdk-android)
+- [Android Version](https://github.com/chat-sdk/chat-sdk-android)
+- [Web Version](https://github.com/chat-sdk/chat-sdk-web)
 
 <img src="http://img.chatcatapp.com/chat-sdk-3.jpg" />
 
