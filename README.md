@@ -10,10 +10,10 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 - **Quick integration.** Chat SDK is fully featured out of the box
 - **Firebase** Powered by [Google Firebase](https://firebase.google.com/)
 
-A demo of the project is available on the App Store.  
+<!--A demo of the project is available on the App Store.  
 
 <a target="_blank" href="https://itunes.apple.com/us/app/chatcat/id962537653?mt=8"><img src="http://www.binpress.com/uploads/store33364/itunes-app-store-logo.png" width="290" height="100" alt="App Store" /></a>
-
+-->
 ## Features
 
 - Private and group messages
