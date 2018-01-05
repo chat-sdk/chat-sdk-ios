@@ -54,6 +54,7 @@
 @property (weak, nonatomic) IBOutlet UITableView * tableView;
 @property (nonatomic, readwrite, weak) id<ElmChatViewDelegate> delegate;
 @property (nonatomic, readonly) UIView<PSendBar> * sendBarView;
+@property (nonatomic, readonly) UILabel * titleLabel;
 
 @property (strong, nonatomic) MPMoviePlayerController * videoPlayer;
 

@@ -27,6 +27,7 @@
 @synthesize tableView;
 @synthesize delegate;
 @synthesize sendBarView = _sendBarView;
+@synthesize titleLabel = _titleLabel;
 
 -(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate_
 {
