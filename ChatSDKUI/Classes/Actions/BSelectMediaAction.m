@@ -7,6 +7,7 @@
 
 #import "BSelectMediaAction.h"
 #import <ChatSDK/ChatCore.h>
+#import <ChatSDK/ChatUI.h>
 
 @implementation BSelectMediaAction
 
@@ -81,13 +82,60 @@
         // If we are dealing with a video then we want to return to the chat view and post the video
         NSURL * videoURL = (NSURL *)[info objectForKey:UIImagePickerControllerMediaURL];
         
-        _videoData = [NSData dataWithContentsOfURL:videoURL];
         _coverImage = [self thumbnailImageForVideo:videoURL atTime:0.1];
         
-        [_promise resolveWithResult: Nil];
-        _promise = Nil;
+        NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString * documentsDirectory = [paths firstObject];
+        NSString * name = [BCoreUtilities.getUUID stringByAppendingString:@".mp4"];
+        NSString * dataPath = [documentsDirectory stringByAppendingPathComponent:name];
         
-        [picker dismissViewControllerAnimated:YES completion:Nil];
+        // Convert the video so Android can play it too
+        AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:videoURL options:nil];
+        
+        NSURL * videoTransmissionURL = [NSURL fileURLWithPath:dataPath];
+        
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:avAsset presetName:AVAssetExportPresetPassthrough];
+        exportSession.outputURL = videoTransmissionURL;
+        exportSession.outputFileType = AVFileTypeMPEG4;
+        exportSession.shouldOptimizeForNetworkUse = YES;
+    
+        CMTime start = CMTimeMakeWithSeconds(0.0, 0);
+        CMTimeRange range = CMTimeRangeMake(start, avAsset.duration);
+        exportSession.timeRange = range;
+        
+        MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:picker.view animated:YES];
+        // TODO: Localize
+        hud.label.text = @"Converting";
+        
+        [exportSession exportAsynchronouslyWithCompletionHandler:^{
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:picker.view animated:YES];
+                
+                switch ([exportSession status]) {
+                    case AVAssetExportSessionStatusFailed:
+                        NSLog(@"Export failed: %@", [[exportSession error] localizedDescription]);
+                        [_promise rejectWithReason:exportSession.error];
+                        break;
+                    case AVAssetExportSessionStatusCancelled:
+                        NSLog(@"Export canceled");
+                        [_promise rejectWithReason:exportSession.error];
+                        break;
+                    default:
+                        _videoData = [NSData dataWithContentsOfURL:videoTransmissionURL];
+                        [_promise resolveWithResult: Nil];
+                        break;
+                }
+                
+                _promise = Nil;
+                
+                [picker dismissViewControllerAnimated:YES completion:Nil];
+                
+            });
+
+        }];
+
     }
 }
 

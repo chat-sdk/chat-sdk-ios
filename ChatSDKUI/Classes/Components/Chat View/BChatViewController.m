@@ -220,8 +220,8 @@
 -(RXPromise *) sendVideo: (NSData *) video withCoverImage: (UIImage *) coverImage {
     if (NM.videoMessage) {
         return [self handleMessageSend:[NM.videoMessage sendMessageWithVideo:video
-                                                                                                 coverImage:coverImage
-                                                                                         withThreadEntityID:_thread.entityID]];
+                                                                  coverImage:coverImage
+                                                          withThreadEntityID:_thread.entityID]];
     }
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bVideoMessagesNotSupported];
 }
