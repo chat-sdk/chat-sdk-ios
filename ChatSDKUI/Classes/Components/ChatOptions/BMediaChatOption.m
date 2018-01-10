@@ -64,17 +64,11 @@
 - (RXPromise * ) execute {
     BSelectMediaAction * action =  [[BSelectMediaAction alloc] initWithType:_type viewController:self.parent.delegate.currentViewController];
     return [action execute].thenOnMain(^id(id success) {
-        if(_type == bPictureTypeAlbumVideo || _type == bPictureTypeCameraVideo) {
-            // Send video to the chat view
-            if(NM.videoMessage) {
-                return [self.parent.delegate sendVideoMessage:action.videoData withCoverImage:action.coverImage];
-            }
+        if(action.videoData && action.coverImage && NM.videoMessage) {
+            return [self.parent.delegate sendVideoMessage:action.videoData withCoverImage:action.coverImage];
         }
-        if(_type == bPictureTypeAlbumVideo || _type == bPictureTypeCameraVideo || _type == bPictureTypeAlbumImage) {
-            // Send video to the chat view
-            if(NM.imageMessage) {
-                return [self.parent.delegate sendImageMessage:action.photo];
-            }
+        else if(action.photo && NM.imageMessage) {
+            return [self.parent.delegate sendImageMessage:action.photo];
         }
         return Nil;
     }, Nil);

@@ -80,6 +80,11 @@
             [_model setMetaString:email forKey:bEmailKey];
         }
 
+        NSString * phoneNumber = provider.phoneNumber;
+        if (phoneNumber && !_model.phoneNumber) {
+            [_model setMetaString:phoneNumber forKey:bPhoneKey];
+        }
+
         NSString * profileURL = [provider.photoURL absoluteString];
         if (profileURL && ![self.model metaStringForKey:bPictureURLKey]) {
             
