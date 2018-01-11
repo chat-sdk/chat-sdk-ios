@@ -48,7 +48,7 @@
 
 // An array of dictionaries containing dictionaries
 // @{(Class) tableViewCellClass, (NSNumber *) messageType }
--(NSArray *) customCellTypes;
+-(NSMutableArray *) customCellTypes;
 
 
 @end

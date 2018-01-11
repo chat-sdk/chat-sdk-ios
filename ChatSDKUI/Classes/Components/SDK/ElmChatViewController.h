@@ -75,6 +75,8 @@
 -(void) setTextInputDisabled: (BOOL) disabled;
 -(void) setTableViewBottomContentInset: (float) inset;
 
+-(void) registerMessageCells;
+
 // To be overridden
 -(void) addObservers;
 -(void) removeObservers;

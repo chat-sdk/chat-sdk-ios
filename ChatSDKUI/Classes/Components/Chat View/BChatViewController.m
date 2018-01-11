@@ -316,7 +316,7 @@
     return _thread.type.intValue;
 }
 
--(NSArray *) customCellTypes {
+-(NSMutableArray *) customCellTypes {
     NSMutableArray * types = [NSMutableArray new];
     
     if(NM.audioMessage) {
@@ -333,6 +333,7 @@
 
     return types;
 }
+
 
 -(void) navigationBarTapped {
     _usersViewLoaded = YES;
