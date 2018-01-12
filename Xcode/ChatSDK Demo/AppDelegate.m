@@ -95,6 +95,13 @@
     return NO;
 }
 
+-(BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    if ([BNetworkManager sharedManager].a.socialLogin) {
+        return [[BNetworkManager sharedManager].a.socialLogin application: app openURL: url options: options];
+    }
+    return NO;
+}
+
 -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[BNetworkManager sharedManager].a.push application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }

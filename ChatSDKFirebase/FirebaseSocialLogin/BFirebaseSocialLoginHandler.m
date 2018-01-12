@@ -51,6 +51,13 @@
     //[FBSDKAppEvents activateApp];
 }
 
+-(BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    if ([[url scheme] isEqualToString:[NSString stringWithFormat:@"fb%@", [BSettingsManager facebookAppId]]]) {
+        return [[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options];
+    }
+    return NO;
+}
+
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
@@ -115,7 +122,8 @@
                 
         // TODO: Check this
         FBSDKLoginManager * manager = [[FBSDKLoginManager alloc] init];
-        [manager logInWithReadPermissions:@[] handler:^(FBSDKLoginManagerLoginResult * result, NSError * error) {
+        
+        [manager logInWithReadPermissions:@[@"public_profile", @"email"] handler:^(FBSDKLoginManagerLoginResult * result, NSError * error) {
             if(!error && [FBSDKAccessToken currentAccessToken].tokenString != Nil) {
                 [promise resolveWithResult:[FBSDKAccessToken currentAccessToken].tokenString];
             }
