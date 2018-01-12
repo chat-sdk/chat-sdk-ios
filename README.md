@@ -125,7 +125,7 @@ We provide extensive documentation on Github but if you’re a non-technical use
   
 4. Run `pod install` or `pod update` to get the latest version of the code.
 
-5. Copy the **ChatSDKFirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebaseAdapter/Classes](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebaseAdapter/Classes) into your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **ChatSDKFirebaseAdapter** folder.
+5. Copy the **FirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebase/FirebaseAdapter](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebase/FirebaseAdapter) into the source code directory of your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **FirebaseAdapter** folder.
 
   You can see how to add it via symlink [here](https://github.com/chat-sdk/chat-sdk-ios#adding-the-firebase-adapter-source-code).
 
@@ -265,7 +265,7 @@ The free modules are located in the [chat-sdk-ios/ChatSDKFirebase](https://githu
 
 To install a module you should use the following steps:
 
-1. Copy the module code into your Xcode source folder and add the files to your project from inside Xcode. If you are using the Symlink you can use the symlink script (mentioned above) and then just add a link to the **ChatSDKFirebase** folder to Xcode.
+1. Copy the module code into your Xcode source code folder and add the files to your project from inside Xcode. If you are using a symlink you can use the symlink script (mentioned above) and then just add a link to the **ChatSDKFirebase** folder to Xcode.
 2. Add any necessary dependencies to your Podfile
 3. Import the module's header file (or add it to the bridging header for a Swift project)
 4. Activate the module in the `AppDelegate.m` file
@@ -729,7 +729,6 @@ We've tried to make it as easy as possible to add Chat SDK to your project. Howe
 So that things run smoothly, we recommend that you keep the Chat SDK Firebase Adapter library in the folder outside your Xcode project folder. A typical structure would look like this:
 
 ```
-- ChatSDKFirebaseAdapter
 - ChatSDKModules
 - ChatSDKFirebase
 
@@ -747,7 +746,7 @@ You can add the Chat SDK Firebase Adapter in two ways:
 
 #### Drag and drop
 
-Copy the **ChatSDKFirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebaseAdapter/Classes](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebaseAdapter/Classes) into your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **ChatSDKFirebaseAdapter** folder. 
+Copy the **FirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebase/FirebaseAdapter/Classes](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebase/FirebaseAdapter/Classes) into your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **FirebaseAdapter** folder. 
 
   >**Note**  
   >There are currently ongoing issues with the Firebase pods which make it very difficult for us to include the Chat SDK Firebase Adapter in a pod. Until these issues are resolved, the easiest approach is to drag the files into Xcode directly. 
@@ -756,7 +755,7 @@ Copy the **ChatSDKFirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFir
   
 Adding via symlink allows you to have one copy of the Firebase adapter source code which can be referenced by multiple Xcode projects. The idea is to create a symbolic link inside your Xcode project to the folder containing the source code which is outside of the project. This way you can reference the same code with multiple projects. 
 
-To setup the symlinks you need to locate the [**setup_links.sh**](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Xcode/ChatSDK%20Demo/setup_links.sh) script. This should be added to your Xcode project where you want to setup the symlinks (see [Project Structure](https://github.com/chat-sdk/chat-sdk-ios#project-structure)). Run the script using `sh setup_links.sh`. Enter the relative path to the ChatSDKFirebaseAdapter folder. If you use the default project structure, you can just leave this blank (the default path is `../../`). Then open Xcode and add the symlink folders using the normal process.  
+To setup the [symlinks](https://kb.iu.edu/d/abbe) you need to find the [**setup_links.sh**](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Xcode/ChatSDK%20Demo/setup_links.sh) script. This should be added to your Xcode project where you want to setup the symlinks (see [Project Structure](https://github.com/chat-sdk/chat-sdk-ios#project-structure)). Run the script by opening the folder in the terminal and running `sh setup_links.sh`. Enter the path to the ChatSDKFirebase folder (you can also find the `chat-sdk-ios` folder in Finder and drag and drop it into the terminal). If you use the default project structure, you can just leave this blank (the default path is `../../`). Then open Xcode and add the symlink folders using the normal process.  
 
 ## Troubleshooting Cocoapods
 

@@ -17,6 +17,7 @@
 @synthesize defaultUserName;
 @synthesize defaultUserNamePrefix;
 @synthesize showEmptyChats;
+@synthesize allowUsersToCreatePublicChats;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -27,6 +28,7 @@
         defaultUserNamePrefix = @"ChatSDK";
         defaultUserName = [defaultUserNamePrefix stringByAppendingFormat:@"%i", arc4random() % 999];
         showEmptyChats = NO;
+        allowUsersToCreatePublicChats = NO;
     }
     return self;
 }

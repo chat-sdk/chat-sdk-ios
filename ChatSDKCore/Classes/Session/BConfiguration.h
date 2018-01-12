@@ -16,6 +16,7 @@
 @property (nonatomic, readwrite) NSString * defaultUserName;
 @property (nonatomic, readwrite) NSString * defaultUserNamePrefix;
 @property (nonatomic, readwrite) BOOL showEmptyChats;
+@property (nonatomic, readwrite) BOOL allowUsersToCreatePublicChats;
 
 +(BConfiguration *) configuration;
 
