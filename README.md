@@ -337,6 +337,40 @@ func application(_ application: UIApplication, open url: URL, sourceApplication:
 
 Follow the social login [setup guides](https://github.com/chat-sdk/chat-sdk-ios/wiki). 
 
+#### Facebook
+
+1. On the [Facebook developer](https://developers.facebook.com/) site get the **App ID** and **App Secret**
+2. Go to the [Firebase Console](https://console.firebase.google.com/) and open the **Auth** section
+3. On the **Sign in method** tab, enable the **Facebook** sign-in method and specify the **App ID** and **App Secret** you got from Facebook.
+4. Then, make sure your **OAuth redirect URI** (e.g. `my-app-12345.firebaseapp.com/__/auth/handler`) is listed as one of your **OAuth redirect URIs** in your Facebook app's settings page on the Facebook for Developers site in the **Product Settings > Facebook Login** config
+5. Open your projects Info.plist
+6. Add a new entry `FacebookAppID` then add your Facebook App ID
+7. Then open the `chat_sdk -> facebook` entry and add your AppID in the `app_id` field
+8. Open `URL types -> Item 0 -> URL Schemes` and then add your AppID with "fb" at the front (e.g. fb0123456789). 
+9. Add a new item to the plist called `LSApplicationQueriesSchemes` of type `Array`. Add a new entry `fbauth2`. 
+
+#### Twitter
+
+1. [Register your app](https://apps.twitter.com/) as a developer application on Twitter and get your app's **API Key** and **API Secret**.
+2. In the [Firebase console](https://console.firebase.google.com/), open the **Auth** section.
+3. On the **Sign in method** tab, enable the **Twitter** sign-in method and specify the **API Key** and **API Secret** you got from Twitter.
+4. Then, make sure your Firebase **OAuth redirect URI** (e.g. `my-app-12345.firebaseapp.com/__/auth/handler`) is set as your **Callback URL** in your app's settings page on your [Twitter app's config](https://apps.twitter.com/).
+5. Open your projects **Info.plist**
+6. Open **chat_sdk -> twitter**
+7. Add your Consumer Key to the **api_key** field
+8. Add your Consumer Secret to the **secret** field
+9. Open URL types and add a new item of type `Dictionary`
+10. Add two entries `Document Role`: `Editor` and `URL Schemes`: `Array`
+11. Add your Consumer Key prefixed with `twitterkit-` as an item in the new `URL Schemes` array. e.g. `twitterkit-0123456789`
+
+#### Google
+  
+1. In the [Firebase console](https://console.firebase.google.com/), open the **Auth** section.
+2. On the **Sign in method** tab, enable the **Google** sign-in method and click **Save**.
+3. Open your projects **Info.plist**
+4. Open **chat_sdk -> google**
+5. Add your Client Key to the **client_key** field
+  
 ### Push Notifications
 
 The Push Notification module allows you to send free push notifications using Firebase Clound Messenger.

@@ -83,10 +83,6 @@
     return [self string_s:@[bTwitterKey, bSecretKey]];
 }
 
-+(NSString *) googleApiKey {
-    return [self string_s:@[bGoogleKey, bApiKey]];
-}
-
 +(NSString *) googleClientKey {
     return [self string_s:@[bGoogleKey, bClientKey]];
 }
@@ -106,12 +102,6 @@
 +(NSString *) firebaseCloudMessagingServerKey {
     return [self string_s:@[bFirebaseKey, bCloudMessagingServerKey]];
 }
-
-//+(NSString *) firebaseStoragePath {
-//    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
-//    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
-//    return [@"gs://" stringByAppendingString:dict[bFirebaseStorageBucket]];
-//}
 
 +(NSString *) firebaseRootPath {
     NSString * path = [self string_s:@[bFirebaseKey, bRootPathKey]];

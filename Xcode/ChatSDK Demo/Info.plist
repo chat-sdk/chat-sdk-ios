@@ -106,11 +106,6 @@
 	</array>
 	<key>chat_sdk</key>
 	<dict>
-		<key>anonymous</key>
-		<dict>
-			<key>enabled</key>
-			<true/>
-		</dict>
 		<key>facebook</key>
 		<dict>
 			<key>app_id</key>
@@ -125,8 +120,6 @@
 		</dict>
 		<key>google</key>
 		<dict>
-			<key>api_key</key>
-			<string>test</string>
 			<key>client_key</key>
 			<string>1088435112418-11bedtu385j8r22bm2t92crdk7c2pc1j.apps.googleusercontent.com</string>
 		</dict>

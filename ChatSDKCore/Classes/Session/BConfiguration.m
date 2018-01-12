@@ -18,6 +18,10 @@
 @synthesize defaultUserNamePrefix;
 @synthesize showEmptyChats;
 @synthesize allowUsersToCreatePublicChats;
+@synthesize googleLoginEnabled;
+@synthesize twitterLoginEnabled;
+@synthesize facebookLoginEnabled;
+@synthesize anonymousLoginEnabled;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -29,6 +33,13 @@
         defaultUserName = [defaultUserNamePrefix stringByAppendingFormat:@"%i", arc4random() % 999];
         showEmptyChats = NO;
         allowUsersToCreatePublicChats = NO;
+        
+        facebookLoginEnabled = YES;
+        twitterLoginEnabled = YES;
+        googleLoginEnabled = YES;
+        
+        anonymousLoginEnabled = YES;
+        
     }
     return self;
 }

@@ -12,7 +12,6 @@
 
 +(NSString *) twitterApiKey;
 +(NSString *) facebookAppId;
-+(NSString *) googleApiKey;
 +(NSString *) googleClientKey;
 
 +(NSString *) twitterSecret;

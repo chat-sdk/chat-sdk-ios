@@ -17,19 +17,19 @@
     switch (accountType) {
         case bAccountTypeFacebook:
             key = [BSettingsManager facebookAppId];
-            break;
+            return key.length && NM.socialLogin && [BChatSDK shared].configuration.facebookLoginEnabled;
         case bAccountTypeTwitter:
             key = [BSettingsManager twitterApiKey];
-            break;
+            return key.length && NM.socialLogin && [BChatSDK shared].configuration.twitterLoginEnabled;
         case bAccountTypeGoogle:
-            key = [BSettingsManager googleApiKey];
-            break;
+            key = [BSettingsManager googleClientKey];
+            return key.length && [BChatSDK shared].configuration.googleLoginEnabled && NM.socialLogin;
         case bAccountTypeAnonymous:
-            key = [BSettingsManager anonymousLoginEnabled] ? @"YES" : @"";
+            return [BChatSDK shared].configuration.anonymousLoginEnabled;
         default:
             break;
     }
-    return key.length && (NM.socialLogin || accountType == bAccountTypeAnonymous) ? YES : NO;
+    return NO;
 }
 
 -(RXPromise *) authenticateWithDictionary:(NSDictionary *)details {
@@ -113,6 +113,14 @@
  * @brief Logout the user from the current account
  */
 -(RXPromise *) logout {
+    assert(NO);
+}
+
+- (RXPromise *)authenticate:(BAccountDetails *)details {
+    assert(NO);
+}
+
+- (RXPromise *)resetPasswordWithCredential:(NSString *)credential {
     assert(NO);
 }
 
