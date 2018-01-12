@@ -125,7 +125,7 @@ We provide extensive documentation on Github but if you’re a non-technical use
   
 4. Run `pod install` or `pod update` to get the latest version of the code.
 
-5. Copy the **FirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebase/FirebaseAdapter](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebase/FirebaseAdapter) into the source code directory of your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **FirebaseAdapter** folder.
+5. Copy the ** FirebaseNetworkAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebase/FirebaseNetworkAdapter](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebase/FirebaseNetworkAdapter) into the source code directory of your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **FirebaseNetworkAdapter** folder.
 
   You can see how to add it via symlink [here](https://github.com/chat-sdk/chat-sdk-ios#adding-the-firebase-adapter-source-code).
 
@@ -746,7 +746,7 @@ You can add the Chat SDK Firebase Adapter in two ways:
 
 #### Drag and drop
 
-Copy the **FirebaseAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebase/FirebaseAdapter/Classes](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebase/FirebaseAdapter/Classes) into your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **FirebaseAdapter** folder. 
+Copy the **FirebaseNetworkAdapter** folder from [chat-sdk-ios/ChatSDK/ChatSDKFirebase/FirebaseNetworkAdapter](https://github.com/chat-sdk/chat-sdk-ios/tree/master/ChatSDK/ChatSDKFirebase/FirebaseNetworkAdapter) into your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **FirebaseNetworkAdapter** folder. 
 
   >**Note**  
   >There are currently ongoing issues with the Firebase pods which make it very difficult for us to include the Chat SDK Firebase Adapter in a pod. Until these issues are resolved, the easiest approach is to drag the files into Xcode directly. 
