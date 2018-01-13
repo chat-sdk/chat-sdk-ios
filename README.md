@@ -147,7 +147,7 @@ We provide extensive documentation on Github but if you’re a non-technical use
   ```
   BConfiguration * config = [BConfiguration configuration];
   config.rootPath = @"test";
-  [BChatSDK initialize:config]
+  [BChatSDK initialize:config];
   
   [BNetworkManager sharedManager].a = [[BFirebaseNetworkAdapter alloc] init];
   [BInterfaceManager sharedManager].a = [[BDefaultInterfaceAdapter alloc] init];
