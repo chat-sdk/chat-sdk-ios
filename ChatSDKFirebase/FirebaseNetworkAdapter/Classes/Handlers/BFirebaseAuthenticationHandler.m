@@ -68,7 +68,9 @@
     RXPromise * promise = [RXPromise new];
     
     // Stop observing the user
-    [BStateManager userOff: self.currentUserEntityID];
+    if(self.currentUserEntityID) {
+        [BStateManager userOff: self.currentUserEntityID];
+    }
     
     NSError * error = Nil;
     if([[FIRAuth auth] signOut:&error]) {

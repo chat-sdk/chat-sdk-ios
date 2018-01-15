@@ -64,23 +64,20 @@ Pod::Spec.new do |s|
   
   end
 
-#  s.subspec 'FirebaseAdapter' do |fb|
+ s.subspec 'FirebaseAdapter' do |fb|
 
-# 	  fb.source_files = ['ChatSDK/Classes/**/*']
-# 	  fb.resource_bundles = {
-# 		'ChatUI' => ['ChatSDKUI/Assets/**/*', 'ChatSDKUI/Interface/**/*']
-# 	  }
+	fb.source_files = ['ChatSDKFirebase/FirebaseNetworkAdapter/Classes/**/*']
 
-#     fb.dependency 'Firebase/Core'
-#     fb.dependency 'Firebase/Auth'
-#     fb.dependency 'Firebase/Database'
-#     fb.dependency 'Firebase/Storage'
-#     fb.dependency 'Firebase/Messaging'
+    fb.dependency 'Firebase/Core'
+    fb.dependency 'Firebase/Auth'
+    fb.dependency 'Firebase/Database'
+    fb.dependency 'Firebase/Storage'
+    fb.dependency 'Firebase/Messaging'
  
 #     fb.vendored_frameworks = "ChatSDKFirebaseAdapter/Frameworks/FirebaseAdapter.framework"
-#   
-# 	fb.dependency 'ChatSDK/CoreData'
-#   
-#   end
+  
+	fb.dependency 'ChatSDK/Core'
+  
+  end
     
 end
