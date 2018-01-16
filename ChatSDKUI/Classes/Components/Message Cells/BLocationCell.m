@@ -45,7 +45,10 @@
     // Set the location and display the controller
     MKCoordinateRegion region = [BCoreUtilities regionForLongitude:coord.longitude latitude:coord.latitude];
     MKPointAnnotation * annotation = [BCoreUtilities annotationForLongitude:coord.longitude latitude:coord.latitude];
-    
+
+    mapView.showsScale = NO;
+    mapView.showsCompass = NO;
+
     [mapView setRegion:region animated:NO];
     [mapView addAnnotation:annotation];
     [mapView selectAnnotation:annotation animated:NO];

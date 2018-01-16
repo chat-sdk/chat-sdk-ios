@@ -23,7 +23,10 @@
 }
 
 -(RXPromise *) execute {
-    return [[[BSelectLocationAction alloc] init] execute].thenOnMain(^id(id location) {
+    if(_action == Nil) {
+        _action = [[BSelectLocationAction alloc] init];
+    }
+    return [_action execute].thenOnMain(^id(id location) {
         return [self.parent.delegate sendLocationMessage:location];
     }, Nil);
 }

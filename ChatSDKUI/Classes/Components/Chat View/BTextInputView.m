@@ -178,6 +178,9 @@
 
 -(void) sendButtonPressed {
     
+    [_sendBarDelegate.view hideAllToasts];
+    [self cancelRecordingToastTimer];
+
     if (!_micButtonEnabled) {
         
         // Check if the message is empty
@@ -211,13 +214,32 @@
 - (void)sendButtonHeld {
     if (_micButtonEnabled) {
         [[BAudioManager sharedManager] startRecording];
+        _recordingToastTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                                target:self
+                                                              selector:@selector(showRecordingToast)
+                                                              userInfo:Nil
+                                                               repeats:NO];
+    }
+}
+
+-(void) showRecordingToast {
+    [_sendBarDelegate.view makeToast:[NSBundle t:bRecording]
+                            duration:100
+                            position:[NSValue valueWithCGPoint: CGPointMake(_sendBarDelegate.view.frame.size.width / 2.0, _sendBarDelegate.view.frame.size.height - 120)]];
+}
+
+-(void) cancelRecordingToastTimer {
+    if(_recordingToastTimer) {
+        [_recordingToastTimer invalidate];
+        _recordingToastTimer = Nil;
     }
 }
 
 // If the user touches up off the button we cancel the recording
 - (void)sendButtonCancelled {
-    
+    [self cancelRecordingToastTimer];
     [[BAudioManager sharedManager] finishRecording];
+    [_sendBarDelegate.view hideAllToasts];
 }
 
 -(void) optionsButtonPressed {
@@ -298,9 +320,6 @@
     // If the text area is empty show the placeholder
     _placeholderLabel.hidden = ![textView.text isEqualToString:@""];
 }
-
-
-
 
 -(void) resizeToolbar {
     

@@ -57,6 +57,7 @@ Pod::Spec.new do |s|
 	  ui.dependency 'TOCropViewController', '~> 2.0'
 	  ui.dependency 'Hakawai', '~> 5.0.0'
 	  ui.dependency 'ChatSDKKeepLayout'
+	  ui.dependency 'Toast', '~>4.0.0'
 
 	  ui.dependency 'ChatSDK/CoreData'
 	  

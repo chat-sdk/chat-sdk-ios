@@ -111,7 +111,8 @@
 "bNoNewUsersFoundForThisSearch" = "No new users found for this search";
 
 "bDefaultThreadName" = "Thread";
-"bHoldToSendAudioMessageError" = "Hold to send audio message. Audio messages must be longer than 2 seconds";
+"bHoldToSendAudioMessageError" = "Hold to send audio message. Audio messages must be longer than 1 second";
+"bRecording" = "Recording";
 
 "bAddFriend" = "Add Friend";
 "bRemoveFriend" = "Remove Friend";

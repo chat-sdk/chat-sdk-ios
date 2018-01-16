@@ -79,5 +79,7 @@
 #import <ChatSDK/BSelectLocationAction.h>
 #import <ChatSDK/BSelectMediaAction.h>
 
+#import <Toast/Toast.h>
+
 
 #endif /* ChatUI_h */

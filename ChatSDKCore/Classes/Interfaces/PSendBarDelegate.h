@@ -20,6 +20,7 @@
 -(void) sendAudioMessage: (NSData *) data duration:(double) seconds;
 -(void) typing;
 -(void) didResizeTextInputViewWithDelta: (float) delta;
+-(UIView *) view;
 
 
 @end

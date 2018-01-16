@@ -543,12 +543,15 @@
 
 -(void) sendAudioMessage: (NSData *) data duration: (double) seconds {
     
-    if (seconds > 2) {
+    if (seconds > 1) {
         [self handleMessageSend:[delegate sendAudio:data withDuration:seconds]];
     }
     else {
-        [UIView alertWithTitle:[NSBundle t:bErrorTitle]
-                   withMessage:[NSBundle t: bHoldToSendAudioMessageError]];
+        // TODO: Make the tost position above the text bar programatically
+        [self.view makeToast:[NSBundle t:bHoldToSendAudioMessageError]
+                    duration:2
+                    position:[NSValue valueWithCGPoint: CGPointMake(self.view.frame.size.width / 2.0, self.view.frame.size.height - 120)]];
+
     }
     
     [self reloadData];

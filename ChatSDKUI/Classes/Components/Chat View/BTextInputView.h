@@ -17,7 +17,8 @@
     UILabel * _placeholderLabel;
     UIColor * _placeholderColor;
     UIColor * _textColor;
-    id<PSendBarDelegate> _delegate;
+    
+    NSTimer * _recordingToastTimer;
     
     BOOL _audioEnabled;
     BOOL _micButtonEnabled;
