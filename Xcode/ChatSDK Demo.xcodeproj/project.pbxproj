@@ -25,7 +25,6 @@
 		B5081B091F56DA910015417B /* BGoogleLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5081AFD1F56DA910015417B /* BGoogleLoginViewController.m */; };
 		B5081B0A1F56DA910015417B /* BGoogleLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5081AFE1F56DA910015417B /* BGoogleLoginViewController.xib */; };
 		B5081B0B1F56DA910015417B /* icn_200_google@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5081AFF1F56DA910015417B /* icn_200_google@3x.png */; };
-		B576633D2008DB87006D87B2 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = B57663092008DB86006D87B2 /* LICENSE */; };
 		B576633E2008DB87006D87B2 /* BSyncDataPusher.m in Sources */ = {isa = PBXBuildFile; fileRef = B57663132008DB86006D87B2 /* BSyncDataPusher.m */; };
 		B576633F2008DB87006D87B2 /* BSyncDataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B57663152008DB86006D87B2 /* BSyncDataFetcher.m */; };
 		B57663402008DB87006D87B2 /* BInviteSyncItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B57663162008DB86006D87B2 /* BInviteSyncItem.m */; };
@@ -83,7 +82,6 @@
 		B5081AFF1F56DA910015417B /* icn_200_google@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icn_200_google@3x.png"; sourceTree = "<group>"; };
 		B5081B001F56DA910015417B /* PGoogleLoginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGoogleLoginDelegate.h; sourceTree = "<group>"; };
 		B5081B011F56DA910015417B /* SocialLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialLogin.h; sourceTree = "<group>"; };
-		B57663092008DB86006D87B2 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		B576630B2008DB86006D87B2 /* ChatFirebaseAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatFirebaseAdapter.h; sourceTree = "<group>"; };
 		B576630D2008DB86006D87B2 /* BSyncDataPusher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncDataPusher.h; sourceTree = "<group>"; };
 		B576630E2008DB86006D87B2 /* ChatSDKSyncData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatSDKSyncData.h; sourceTree = "<group>"; };
@@ -248,7 +246,6 @@
 		B57663082008DB86006D87B2 /* FirebaseNetworkAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				B57663092008DB86006D87B2 /* LICENSE */,
 				B576630A2008DB86006D87B2 /* Classes */,
 			);
 			name = FirebaseNetworkAdapter;
@@ -414,7 +411,6 @@
 				AC7BD9AA1E0874B400C785EE /* LaunchScreen.storyboard in Resources */,
 				AC7BD9BF1E096E9000C785EE /* GoogleService-Info.plist in Resources */,
 				B5081B0B1F56DA910015417B /* icn_200_google@3x.png in Resources */,
-				B576633D2008DB87006D87B2 /* LICENSE in Resources */,
 				AC7BD9A71E0874B400C785EE /* Assets.xcassets in Resources */,
 				B5081B0A1F56DA910015417B /* BGoogleLoginViewController.xib in Resources */,
 				AC7BD9A51E0874B400C785EE /* Main.storyboard in Resources */,
@@ -451,6 +447,7 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/StaticDataTableViewController/StaticDataTableViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast/Toast.framework",
 				"${BUILT_PRODUCTS_DIR}/VENTokenField/VENTokenField.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -477,6 +474,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StaticDataTableViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOCropViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VENTokenField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -493,14 +491,17 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle,
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

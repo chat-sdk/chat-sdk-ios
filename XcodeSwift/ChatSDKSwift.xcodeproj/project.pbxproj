@@ -21,7 +21,6 @@
 		B5081AE91F56DA7F0015417B /* BGoogleLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5081ADD1F56DA7F0015417B /* BGoogleLoginViewController.xib */; };
 		B5081AEA1F56DA7F0015417B /* icn_200_google@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5081ADE1F56DA7F0015417B /* icn_200_google@3x.png */; };
 		B5081B0E1F56DBE00015417B /* BFirebaseFileStorageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B5081B0D1F56DBE00015417B /* BFirebaseFileStorageModule.m */; };
-		B57663882008F26E006D87B2 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = B57663542008F26E006D87B2 /* LICENSE */; };
 		B57663892008F26E006D87B2 /* BSyncDataPusher.m in Sources */ = {isa = PBXBuildFile; fileRef = B576635E2008F26E006D87B2 /* BSyncDataPusher.m */; };
 		B576638A2008F26E006D87B2 /* BSyncDataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B57663602008F26E006D87B2 /* BSyncDataFetcher.m */; };
 		B576638B2008F26E006D87B2 /* BInviteSyncItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B57663612008F26E006D87B2 /* BInviteSyncItem.m */; };
@@ -78,7 +77,6 @@
 		B5081B0C1F56DBE00015417B /* BFirebaseFileStorageModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseFileStorageModule.h; sourceTree = "<group>"; };
 		B5081B0D1F56DBE00015417B /* BFirebaseFileStorageModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseFileStorageModule.m; sourceTree = "<group>"; };
 		B52556CB1FB1ED4E0035F796 /* ChatSDKSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatSDKSwift.entitlements; sourceTree = "<group>"; };
-		B57663542008F26E006D87B2 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		B57663562008F26E006D87B2 /* ChatFirebaseAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatFirebaseAdapter.h; sourceTree = "<group>"; };
 		B57663582008F26E006D87B2 /* BSyncDataPusher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncDataPusher.h; sourceTree = "<group>"; };
 		B57663592008F26E006D87B2 /* ChatSDKSyncData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatSDKSyncData.h; sourceTree = "<group>"; };
@@ -222,7 +220,6 @@
 		B57663532008F26E006D87B2 /* FirebaseNetworkAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				B57663542008F26E006D87B2 /* LICENSE */,
 				B57663552008F26E006D87B2 /* Classes */,
 			);
 			name = FirebaseNetworkAdapter;
@@ -399,7 +396,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B57663882008F26E006D87B2 /* LICENSE in Resources */,
 				ACF7BE841C8D8AD7003E8983 /* LaunchScreen.storyboard in Resources */,
 				AC11A8831D5B128400EBFDFD /* GoogleService-Info.plist in Resources */,
 				B5081AE91F56DA7F0015417B /* BGoogleLoginViewController.xib in Resources */,
@@ -423,7 +419,8 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -458,6 +455,7 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/StaticDataTableViewController/StaticDataTableViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast/Toast.framework",
 				"${BUILT_PRODUCTS_DIR}/VENTokenField/VENTokenField.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -485,6 +483,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StaticDataTableViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOCropViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VENTokenField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
