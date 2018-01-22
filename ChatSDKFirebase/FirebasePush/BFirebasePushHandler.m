@@ -204,7 +204,7 @@
         [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         
         NSDictionary *params = @{@"to": channel,
-                                 @"notification": data};
+                                 @"data": data};
         
         [manager POST:@"https://fcm.googleapis.com/fcm/send" parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject) {
             NSLog(@"JSON: %@", responseObject);
