@@ -89,7 +89,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_name.png" translatesAutoresizingMaskIntoConstraints="NO" id="fay-EN-v1F">
                                                     <rect key="frame" x="8" y="4" width="36" height="36"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="36" id="LFS-VA-zHF"/>
+                                                        <constraint firstAttribute="width" priority="900" constant="36" id="LFS-VA-zHF"/>
                                                         <constraint firstAttribute="height" constant="36" id="th3-M6-aIj"/>
                                                     </constraints>
                                                 </imageView>
@@ -124,7 +124,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_phone.png" translatesAutoresizingMaskIntoConstraints="NO" id="HES-fj-vpu">
                                                     <rect key="frame" x="8" y="4" width="36" height="36"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="36" id="2E1-wc-lyS"/>
+                                                        <constraint firstAttribute="width" priority="900" constant="36" id="2E1-wc-lyS"/>
                                                         <constraint firstAttribute="height" constant="36" id="yfj-Vj-CCA"/>
                                                     </constraints>
                                                 </imageView>
@@ -160,7 +160,7 @@
                                                     <rect key="frame" x="8" y="4" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="36" id="Am5-sm-cLa"/>
-                                                        <constraint firstAttribute="width" constant="36" id="O34-ub-2RZ"/>
+                                                        <constraint firstAttribute="width" priority="900" constant="36" id="O34-ub-2RZ"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
@@ -188,10 +188,13 @@
                         <outlet property="cell0" destination="xLb-n9-a5M" id="6XA-8a-7CO"/>
                         <outlet property="emailCell" destination="2qf-Qm-axE" id="Lq1-IY-djC"/>
                         <outlet property="emailField" destination="5rN-rQ-91R" id="0wf-ic-oCz"/>
+                        <outlet property="emailImageView" destination="LrI-gN-jQ6" id="hSp-oS-A8u"/>
                         <outlet property="nameCell" destination="P7g-yo-UhE" id="LSf-HA-Afs"/>
                         <outlet property="nameField" destination="fLk-Vs-HfW" id="TAC-iR-ZUU"/>
+                        <outlet property="nameImageView" destination="fay-EN-v1F" id="iOz-fP-ClR"/>
                         <outlet property="phoneNumberCell" destination="fPp-Dw-LET" id="AHA-vl-izj"/>
                         <outlet property="phoneNumberField" destination="jLn-qd-LKf" id="8Et-gr-l8e"/>
+                        <outlet property="phoneNumberImageView" destination="HES-fj-vpu" id="2j9-Gl-kbd"/>
                         <outlet property="profilePictureButton" destination="OfV-Y5-yv1" id="oxU-De-Wh2"/>
                     </connections>
                 </tableViewController>

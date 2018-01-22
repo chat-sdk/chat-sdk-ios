@@ -26,6 +26,7 @@
     BOOL _showKeyboardOnLoad;
     
     UIBarButtonItem * _addButton;
+    UISearchController * _searchController;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

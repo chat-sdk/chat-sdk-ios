@@ -26,6 +26,7 @@ Pod::Spec.new do |s|
 	  core.dependency 'AFNetworking', '~>3.1.0'
 
 #     core.frameworks = 'CoreLocation'
+      core.frameworks = 'SafariServices'
   
   end
 

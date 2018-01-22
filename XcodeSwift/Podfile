@@ -14,7 +14,7 @@ target 'ChatSDKSwift' do
   pod "Firebase/Storage"  
   pod "Firebase/AdMob"
 
-  pod 'TwitterKit', '~> 3.0'
+  pod 'TwitterKit'
   pod 'GoogleSignIn'
   pod 'FBSDKLoginKit'
   

@@ -72,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         
         let mainViewController = BAppTabBarController.init(nibName: nil, bundle: nil)
-        BNetworkManager.shared().a.auth().setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
+        NM.auth().setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
         
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = mainViewController;
@@ -88,30 +88,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {}
     func applicationWillTerminate(_ application: UIApplication) {}
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        if(BNetworkManager.shared().a.socialLogin() != nil) {
-           BNetworkManager.shared().a.socialLogin().applicationDidBecomeActive(application)
-        }
-    }
-
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        if (BNetworkManager.shared().a.push() != nil) {
-            BNetworkManager.shared().a.push().application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+        if (NM.push() != nil) {
+            NM.push().application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
         }
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if (BNetworkManager.shared().a.push() != nil) {
-            BNetworkManager.shared().a.push().application(application, didReceiveRemoteNotification: userInfo)
+        if (NM.push() != nil) {
+            NM.push().application(application, didReceiveRemoteNotification: userInfo)
         }
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         if(BNetworkManager.shared().a.socialLogin() != nil) {
-            return BNetworkManager.shared().a.socialLogin().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+            return NM.socialLogin().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
         }
         return false
     }
-
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if(NM.socialLogin() != nil) {
+            return NM.socialLogin().application(app, open: url, options: options)
+        }
+        return false
+    }
 }
 

@@ -41,6 +41,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *profilePictureButton;
 @property (weak, nonatomic) IBOutlet UIButton *blockButton;
 
+@property (weak, nonatomic) IBOutlet UIImageView *nameImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *phoneNumberImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *emailImageView;
+
 @property (weak, nonatomic) IBOutlet UITableViewCell *nameCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *phoneNumberCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;

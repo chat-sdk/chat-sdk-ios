@@ -43,6 +43,9 @@
         _usersToExclude = excludedUsers;
         self.usersSelected = action;
         _showKeyboardOnLoad = YES;
+        
+        
+        
     }
     return self;
 }

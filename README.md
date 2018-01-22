@@ -277,7 +277,7 @@ The [social login module](https://github.com/chat-sdk/chat-sdk-ios/tree/master/C
 After adding the **SocialLogin** files to your Xcode project, add the following to your Podfile:
 
 ```
-pod 'TwitterKit', '2.3'
+pod 'TwitterKit',
 pod 'GoogleSignIn'
 pod 'FBSDKLoginKit'
 ```
@@ -296,15 +296,20 @@ _AppDelegate.m -> application: didFinishLaunchingWithOptions:_
 Also add this function:
 
 ```
-// During the Facebook login flow, your app passes control to the Facebook iOS app or Facebook in a mobile browser.
-// After authentication, your app will be called back with the session information.
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-    if ([BNetworkManager sharedManager].a.socialLogin) {
-        return [[BNetworkManager sharedManager].a.socialLogin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    if (NM.socialLogin) {
+        return [NM.socialLogin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    }
+    return NO;
+}
+
+-(BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    if (NM.socialLogin) {
+        return [NM.socialLogin application: app openURL: url options: options];
     }
     return NO;
 }
@@ -329,7 +334,14 @@ Also add this function:
 ```
 func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
     if(BNetworkManager.shared().a.socialLogin() != nil) {
-        return BNetworkManager.shared().a.socialLogin().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+        return NM.socialLogin().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+    return false
+}
+    
+func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    if(NM.socialLogin() != nil) {
+        return NM.socialLogin().application(app, open: url, options: options)
     }
     return false
 }
@@ -391,11 +403,11 @@ Also add these functions:
 
 ```
 -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [[BNetworkManager sharedManager].a.push application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    [NM.push application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 -(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [[BNetworkManager sharedManager].a.push application:application didReceiveRemoteNotification:userInfo];
+    [NM.push application:application didReceiveRemoteNotification:userInfo];
 }
 ```
 
@@ -417,14 +429,14 @@ Also add these functions:
 
 ```
 func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    if (BNetworkManager.shared().a.push() != nil) {
-        BNetworkManager.shared().a.push().application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+    if (NM.push() != nil) {
+        NM.push().application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
     }
 }
     
 func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    if (BNetworkManager.shared().a.push() != nil) {
-        BNetworkManager.shared().a.push().application(application, didReceiveRemoteNotification: userInfo)
+    if (NM.push() != nil) {
+        NM.push().application(application, didReceiveRemoteNotification: userInfo)
     }
 }
 ```

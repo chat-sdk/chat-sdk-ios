@@ -66,20 +66,13 @@
     UIViewController * mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
 
     // Set the login screen
-    [BNetworkManager sharedManager].a.auth.challengeViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
+    NM.auth.challengeViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
     
 
     // Set the root view controller
     [self.window setRootViewController:mainViewController];
     
     return YES;
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    if ([BNetworkManager sharedManager].a.socialLogin) {
-        [[BNetworkManager sharedManager].a.socialLogin applicationDidBecomeActive:application];
-    }
 }
 
 // During the Facebook login flow, your app passes control to the Facebook iOS app or Facebook in a mobile browser.
@@ -89,25 +82,25 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-    if ([BNetworkManager sharedManager].a.socialLogin) {
-        return [[BNetworkManager sharedManager].a.socialLogin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    if (NM.socialLogin) {
+        return [NM.socialLogin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     }
     return NO;
 }
 
 -(BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    if ([BNetworkManager sharedManager].a.socialLogin) {
-        return [[BNetworkManager sharedManager].a.socialLogin application: app openURL: url options: options];
+    if (NM.socialLogin) {
+        return [NM.socialLogin application: app openURL: url options: options];
     }
     return NO;
 }
 
 -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [[BNetworkManager sharedManager].a.push application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    [NM.push application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 -(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [[BNetworkManager sharedManager].a.push application:application didReceiveRemoteNotification:userInfo];
+    [NM.push application:application didReceiveRemoteNotification:userInfo];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {}
