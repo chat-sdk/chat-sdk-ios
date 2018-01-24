@@ -44,11 +44,25 @@
         self.usersSelected = action;
         _showKeyboardOnLoad = YES;
         
+//        _searchController = [[UISearchController alloc] initWithSearchResultsController:Nil];
+//        _searchController.searchResultsUpdater = self;
+//        _searchController.delegate = self;
+//        _searchController.searchBar.delegate = self;
+//
+//        _searchController.hidesNavigationBarDuringPresentation = NO;
+//        _searchController.dimsBackgroundDuringPresentation = YES;
+        
+//        self.navigationItem.titleView = _searchController.searchBar;
+//        self.definesPresentationContext = YES;
         
         
     }
     return self;
 }
+
+//- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+//    NSLog(@"Now");
+//}
 
 -(void) setExcludedUsers: (NSArray *) excludedUsers {
     _usersToExclude = excludedUsers;

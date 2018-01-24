@@ -45,7 +45,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.1088435112418-11bedtu385j8r22bm2t92crdk7c2pc1j</string>
+				<string>com.googleusercontent.apps.1088435112418-4cm46hg39okkf0skj2h5roj1q62anmec</string>
 			</array>
 		</dict>
 		<dict>
@@ -53,7 +53,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>twitterkit-Z3J6PaTNFIZOpZ4OGPUXi3Zty</string>
+				<string>twitterkit-Kqprq5b6bVeEfcMAGoHzUmB3I</string>
 			</array>
 		</dict>
 	</array>
@@ -121,14 +121,7 @@
 		<key>google</key>
 		<dict>
 			<key>client_key</key>
-			<string>1088435112418-11bedtu385j8r22bm2t92crdk7c2pc1j.apps.googleusercontent.com</string>
-		</dict>
-		<key>parse</key>
-		<dict>
-			<key>app_id</key>
-			<string></string>
-			<key>client_key</key>
-			<string></string>
+			<string>1088435112418-4cm46hg39okkf0skj2h5roj1q62anmec.apps.googleusercontent.com</string>
 		</dict>
 		<key>settings</key>
 		<dict>
@@ -140,9 +133,9 @@
 		<key>twitter</key>
 		<dict>
 			<key>api_key</key>
-			<string>Z3J6PaTNFIZOpZ4OGPUXi3Zty</string>
+			<string>Kqprq5b6bVeEfcMAGoHzUmB3I</string>
 			<key>secret</key>
-			<string>HeISRl8w3uNcMoLtCexpSRP3NE0DHqbF6hS0B6YxNaVgsRRqU1</string>
+			<string>hPd9HCt3PLnifQFrGHJWi6pSZ5jF7kcHKXuoqB8GJpSDAlVcLq</string>
 		</dict>
 	</dict>
 </dict>

@@ -19,41 +19,19 @@
 // the user is authenticated
 -(RXPromise *) authenticateWithCachedToken {
     
-    RXPromise * promise = [RXPromise new];
-    
     BOOL authenticated = [self userAuthenticated];
-    
-    if (!authenticated) {
-        // Do we have a token?
-        NSDictionary * loginInfo = [self loginInfo];
-        
-        NSString * token = loginInfo ? loginInfo[bTokenKey] : Nil;
-        
-        if (token && token.length) {
-            
-            FIRUser * user = [FIRAuth auth].currentUser;
-            if (user) {
-                return [self loginWithFirebaseUser:user].thenOnMain(Nil, ^id(NSError * error) {
-                    return Nil;
-                });
-            }
-        }
-    }
-    
     if (authenticated) {
         // If the user listeners have been added then authenticate completed successfully
         if(_userAuthenticatedThisSession) {
             return [RXPromise resolveWithResult:NM.currentUser];
         }
         else {
-            [promise resolveWithResult:[self loginWithFirebaseUser:[FIRAuth auth].currentUser]];
+            return [self loginWithFirebaseUser:[FIRAuth auth].currentUser];
         }
     }
     else {
-        [promise rejectWithReason:Nil];
+        return [RXPromise rejectWithReason:Nil];
     }
-    
-    return promise;
 }
 
 -(BOOL) userAuthenticated {
@@ -108,7 +86,7 @@
         }
     };
     
-    promise.thenOnMain(^id(FIRUser * firebaseUser) {
+    promise = promise.thenOnMain(^id(FIRUser * firebaseUser) {
         return [self loginWithFirebaseUser: firebaseUser];
     }, Nil);
     
@@ -189,12 +167,9 @@
 
 -(RXPromise *) loginWithFirebaseUser: (FIRUser *) firebaseUser {
     
-    RXPromise * promise = [RXPromise new];
-
     // If the user isn't authenticated they'll need to login
     if (!firebaseUser) {
-        [promise rejectWithReason:Nil];
-        return promise;
+        return [RXPromise resolveWithResult:Nil];
     }
     
     // Get the token
@@ -234,13 +209,14 @@
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
                 
-                return [user push];
+                [user push];
+                
+                return user.model;
                 
             }, Nil);
         }
         else {
-            [promise resolveWithResult:user.model];
-            return promise;
+            return user.model;
         }
         
     }, Nil);

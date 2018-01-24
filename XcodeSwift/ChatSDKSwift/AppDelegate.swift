@@ -56,7 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //BStickerMessageModule.init().activate()
         
         
-        
 //        NM.hook().add(BHook.init(function: { (user: [AnyHashable: Any]?) -> Void in
 //
 //            let block = NM.core().pushUser().thenOnMain;

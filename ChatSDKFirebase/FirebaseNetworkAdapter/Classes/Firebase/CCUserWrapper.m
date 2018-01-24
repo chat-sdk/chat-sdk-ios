@@ -337,7 +337,7 @@
             }
         }
         else {
-            
+            [promise rejectWithReason:error];
         }
     }];
     

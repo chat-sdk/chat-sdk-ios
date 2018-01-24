@@ -667,7 +667,7 @@
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				INFOPLIST_FILE = ChatSDKSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.deluge.ChatSDKSwift3;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChatSDKSwift/ChatSDK-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -684,7 +684,7 @@
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				INFOPLIST_FILE = ChatSDKSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.deluge.ChatSDKSwift3;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChatSDKSwift/ChatSDK-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

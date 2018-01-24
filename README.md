@@ -218,7 +218,8 @@ We provide extensive documentation on Github but if you’re a non-technical use
   1. `App Transport Security Settings`
   2. `URL types`
   3. `FacebookAppID`
-  4. All the privacy rows. These will allow the app to access the camera, location and address book
+  4. Make sure that the URL types are all set correctly. The URL type for your app should be set to your bundle `id`
+  5. All the privacy rows. These will allow the app to access the camera, location and address book
 
 11. In the Firebase dashboard click **Authentication -> Sign-in method** and enable all the appropriate methods 
 

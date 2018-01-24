@@ -12,7 +12,7 @@
 @class MBProgressHUD;
 @class BSearchIndexViewController;
 
-@interface BSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, PSearchViewController> {
+@interface BSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, PSearchViewController /* ,UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating */> {
     
     NSMutableArray * _users;
     NSMutableArray * _selectedUsers;
@@ -26,7 +26,7 @@
     BOOL _showKeyboardOnLoad;
     
     UIBarButtonItem * _addButton;
-    UISearchController * _searchController;
+//    UISearchController * _searchController;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
