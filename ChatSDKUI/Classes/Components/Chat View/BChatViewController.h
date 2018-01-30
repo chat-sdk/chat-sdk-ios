@@ -24,6 +24,9 @@
 
 }
 
+@property (nonatomic, readonly) id<PThread> thread;
+@property (nonatomic, readwrite) BOOL usersViewLoaded;
+
 -(instancetype) initWithThread: (id<PThread>) thread;
 - (void) updateSubtitle;
 

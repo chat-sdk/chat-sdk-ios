@@ -96,6 +96,8 @@
 -(RXPromise *) loginWithTwitter {
    
     RXPromise * promise = [RXPromise new];
+    
+    
     [[Twitter sharedInstance] logInWithCompletion:^(TWTRSession *session, NSError *error) {
         if (!error) {
             [promise resolveWithResult:@[session.authToken, session.authTokenSecret]];

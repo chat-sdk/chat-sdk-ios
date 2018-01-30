@@ -13,6 +13,9 @@
 
 @implementation BChatViewController
 
+@synthesize thread = _thread;
+@synthesize usersViewLoaded = _usersViewLoaded;
+
 -(instancetype) initWithThread: (id<PThread>) thread
 {
     if (self) {
@@ -31,7 +34,7 @@
     [super viewDidLoad];
     
     // Set the title
-    [self setTitle:_thread.displayName ? _thread.displayName : [NSBundle t: bDefaultThreadName]];
+    [self updateTitle];
     
     // Set the subtitle
     [self updateSubtitle];
@@ -134,9 +137,14 @@
                                                                          usingBlock:^(NSNotification * notification) {
                                                                              dispatch_async(dispatch_get_main_queue(), ^{
                                                                                  [self updateSubtitle];
+                                                                                 [self updateTitle];
                                                                             });
     }]];
     
+}
+
+-(void) updateTitle {
+    [self setTitle:_thread.displayName ? _thread.displayName : [NSBundle t: bDefaultThreadName]];
 }
 
 -(void) removeObservers {
