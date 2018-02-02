@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PModule.h>
 
-@interface BFirebaseFileStorageModule : NSObject
-
--(void) activateForFirebase;
--(void) activateForXMPP;
+@interface BFirebaseFileStorageModule : NSObject<PModule>
 
 @end

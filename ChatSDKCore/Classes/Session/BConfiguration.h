@@ -21,6 +21,8 @@
 @property (nonatomic, readwrite) BOOL facebookLoginEnabled;
 @property (nonatomic, readwrite) BOOL twitterLoginEnabled;
 @property (nonatomic, readwrite) BOOL anonymousLoginEnabled;
+@property (nonatomic, readwrite) NSString * defaultServer;
+
 
 +(BConfiguration *) configuration;
 

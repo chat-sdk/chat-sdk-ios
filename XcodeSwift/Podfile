@@ -17,33 +17,9 @@ target 'ChatSDKSwift' do
   pod 'TwitterKit'
   pod 'GoogleSignIn'
   pod 'FBSDKLoginKit'
-  
-  pod "PromiseKit", "~> 4.4"
 
-
-#  pod "ChatSDKFirebaseAdapter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-
-#   pod "ChatSDKFirebaseAdapter/AuthBase", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-#   pod "ChatSDKFirebaseAdapter/Phone", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-#   pod "ChatSDKFirebaseAdapter/Database", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-#   pod "ChatSDKFirebaseAdapter/Twitter", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-#   pod "ChatSDKFirebaseAdapter/Facebook", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-#   pod "ChatSDKFirebaseAdapter/Storage", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-#   pod "ChatSDKFirebaseAdapter/Google", :path => "../ChatSDK/ChatSDKFirebaseAdapter"
-  	
-#   pod "ChatSDKFirebase/TypingIndicator", :path => "../../ChatSDK/ChatSDKFirebase"
-#   pod "ChatSDKFirebase/VideoMessages", :path => "../../ChatSDK/ChatSDKFirebase"
-#   pod "ChatSDKFirebase/AudioMessages", :path => "../../ChatSDK/ChatSDKFirebase"
-#   pod "ChatSDKFirebase/ContactBook", :path => "../../ChatSDK/ChatSDKFirebase"
-#   pod "ChatSDKFirebase/ReadReceipts", :path => "../../ChatSDK/ChatSDKFirebase"
-#   pod "ChatSDKFirebase/NearbyUsers", :path => "../../ChatSDK/ChatSDKFirebase"
-
-#   pod "ChatSDKFirebase/Blocking", :path => "../../ChatSDK/ChatSDKFirebase"
-
-#   pod "TwoFactorAuth", :path => "../../ChatSDK/TwoFactorAuth"
-
-#   pod "ChatSDKModules/StickerMessages", :path => "../../ChatSDK/ChatSDKModules"
-#   pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../../ChatSDK/ChatSDKModules"
-	
+#   pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
+#   pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"
+#   pod "ChatSDKModules/ContactBook", :path => "../ChatSDKModules"
 	
 end

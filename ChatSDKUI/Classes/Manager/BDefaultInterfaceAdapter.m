@@ -49,6 +49,10 @@
     return [[BFriendsListViewController alloc] initWithUsersToExclude:usersToExclude];
 }
 
+-(UIViewController *) appTabBarViewController {
+    return [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
+}
+
 -(UIViewController *) profileViewControllerWithUser: (id<PUser>) user {
     
     UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Profile"

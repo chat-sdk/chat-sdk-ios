@@ -10,8 +10,8 @@
 #import <ChatSDK/PModule.h>
 #import <UIKit/UIKit.h>
 
-@interface BFirebaseSocialLoginModule : NSObject
+@interface BFirebaseSocialLoginModule : NSObject<PModule>
 
--(void) activateWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions;
+-(void) activate;
 
 @end

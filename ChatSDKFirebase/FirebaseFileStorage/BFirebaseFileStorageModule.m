@@ -13,13 +13,15 @@
 
 @implementation BFirebaseFileStorageModule
 
--(void) activateForFirebase {
-    [BNetworkManager sharedManager].a.upload = [[BFirebaseUploadHandler alloc] init];
-}
-
--(void) activateForXMPP {
-    [FIRApp configure];
-    [BNetworkManager sharedManager].a.upload = [[BFirebaseUploadHandler alloc] init];
+-(void) activate {}
+-(void) activateWithServer:(NSString *)server {
+    if([server isEqualToString:bServerFirebase]) {
+        [BNetworkManager sharedManager].a.upload = [[BFirebaseUploadHandler alloc] init];
+    }
+    else if([server isEqualToString:bServerXMPP]) {
+        [FIRApp configure];
+        [BNetworkManager sharedManager].a.upload = [[BFirebaseUploadHandler alloc] init];
+    }
 }
 
 @end

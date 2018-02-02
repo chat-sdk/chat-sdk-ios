@@ -25,8 +25,10 @@
 -(UIViewController *) publicThreadsViewController;
 -(UIViewController *) contactsViewController;
 -(UIViewController *) profileViewControllerWithUser: (id<PUser>) user ;
+-(UIViewController *) appTabBarViewController;
 -(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude;
 -(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread;
+
 -(NSArray *) defaultTabBarViewControllers;
 -(UIView<PSendBar> *) sendBarView;
 

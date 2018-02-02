@@ -12,9 +12,8 @@
 
 @implementation BFirebaseSocialLoginModule
 
--(void) activateWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions {
+-(void) activate {
     [BNetworkManager sharedManager].a.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
-    [NM.socialLogin application: application didFinishLaunchingWithOptions:launchOptions];
 }
 
 @end

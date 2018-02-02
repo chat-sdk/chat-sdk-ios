@@ -187,7 +187,7 @@
 
 -(void) setPersonProfilePicture {
     NSString * name = [self.model.name stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString * url = [@"http://flathash.com/%@.png" stringByAppendingFormat: name];
+    NSString * url = [@"http://flathash.com/%@.png" stringByAppendingFormat: @"%@", name];
     [self setProfilePictureWithImageURL:url];
 }
 
@@ -204,16 +204,33 @@
 
 -(RXPromise *) once {
     
-    NSString * token = NM.auth.loginInfo[bTokenKey];
+//    NSString * token = NM.auth.loginInfo[bTokenKey];
+//    FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
+//
+//    return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {
+//
+//        return [self deserialize:response].thenOnMain(^id(id success) {
+//            return self;
+//        }, Nil);
+//
+//    }, Nil);
+    
     FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
     
-    return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {
-        
-        return [self deserialize:response].thenOnMain(^id(id success) {
-            return self;
-        }, Nil);
-        
-    }, Nil);
+    RXPromise * promise = [RXPromise new];
+    
+    [ref observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+        if(![snapshot.value isEqual: [NSNull null]]) {
+            [promise resolveWithResult: [self deserialize:snapshot.value].thenOnMain(^id(id success) {
+                return self;
+            }, Nil)];
+        }
+        else {
+            [promise resolveWithResult:Nil];
+        }
+    }];
+    return promise;
+    
 }
 
 -(RXPromise *) on {
@@ -487,7 +504,7 @@
     [onlineRef setValue:@{bTimeKey: [FIRServerValue timestamp],
                           bUID: _model.entityID}];
     
-    [onlineRef onDisconnectSetValue:@NO];
+    [onlineRef onDisconnectRemoveValue];
 }
 
 -(void) goOffline {

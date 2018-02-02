@@ -46,6 +46,7 @@
 		B57663502008DB87006D87B2 /* BFirebasePublicThreadHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B57663332008DB86006D87B2 /* BFirebasePublicThreadHandler.m */; };
 		B57663512008DB87006D87B2 /* BFirebaseModerationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B57663372008DB86006D87B2 /* BFirebaseModerationHandler.m */; };
 		B57663522008DB87006D87B2 /* BFirebaseCoreHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B576633C2008DB86006D87B2 /* BFirebaseCoreHandler.m */; };
+		B5E5F1EA20237B67001BB30D /* BFirebaseNetworkAdapterModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E5F1E920237B67001BB30D /* BFirebaseNetworkAdapterModule.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -128,6 +129,8 @@
 		B576633A2008DB86006D87B2 /* BFirebaseUsersHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseUsersHandler.h; sourceTree = "<group>"; };
 		B576633B2008DB86006D87B2 /* BFirebasePublicThreadHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebasePublicThreadHandler.h; sourceTree = "<group>"; };
 		B576633C2008DB86006D87B2 /* BFirebaseCoreHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseCoreHandler.m; sourceTree = "<group>"; };
+		B5E5F1E820237B67001BB30D /* BFirebaseNetworkAdapterModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BFirebaseNetworkAdapterModule.h; path = Firebase/BFirebaseNetworkAdapterModule.h; sourceTree = "<group>"; };
+		B5E5F1E920237B67001BB30D /* BFirebaseNetworkAdapterModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BFirebaseNetworkAdapterModule.m; path = Firebase/BFirebaseNetworkAdapterModule.m; sourceTree = "<group>"; };
 		C1E0C00DE6291F2AF340F82F /* Pods-ChatSDK Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -260,6 +263,8 @@
 				B576631A2008DB86006D87B2 /* Firebase */,
 				B57663272008DB86006D87B2 /* Categories */,
 				B576632C2008DB86006D87B2 /* Handlers */,
+				B5E5F1E820237B67001BB30D /* BFirebaseNetworkAdapterModule.h */,
+				B5E5F1E920237B67001BB30D /* BFirebaseNetworkAdapterModule.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -491,17 +496,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -541,6 +541,7 @@
 				B57663512008DB87006D87B2 /* BFirebaseModerationHandler.m in Sources */,
 				B57663502008DB87006D87B2 /* BFirebasePublicThreadHandler.m in Sources */,
 				B576634F2008DB87006D87B2 /* BFirebaseAuthenticationHandler.m in Sources */,
+				B5E5F1EA20237B67001BB30D /* BFirebaseNetworkAdapterModule.m in Sources */,
 				B5081AC91F56C04B0015417B /* main.m in Sources */,
 				B576633E2008DB87006D87B2 /* BSyncDataPusher.m in Sources */,
 				B57663442008DB87006D87B2 /* CCMessageWrapper.m in Sources */,

@@ -136,7 +136,5 @@
 			<string>hPd9HCt3PLnifQFrGHJWi6pSZ5jF7kcHKXuoqB8GJpSDAlVcLq</string>
 		</dict>
 	</dict>
-	<key>two_factor_auth_server_path</key>
-	<string>http://http://twofactorauth.chatcatapp.com</string>
 </dict>
 </plist>

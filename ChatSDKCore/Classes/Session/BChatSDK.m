@@ -7,6 +7,7 @@
 
 #import "BChatSDK.h"
 #import "BConfiguration.h"
+#import <ChatSDK/ChatCore.h>
 
 @implementation BChatSDK
 
@@ -27,8 +28,23 @@ static BChatSDK * instance;
     return instance;
 }
 
-+(void) initialize: (BConfiguration *) config {
++(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions {
     [self shared]->_configuration = config;
+    [BModuleHelper activateCoreModules];
+    [BModuleHelper activateModules];
+    [self application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
++(void) activateModules {
+    [BModuleHelper activateModules];
+}
+
++(void) activateModulesForFirebase {
+    [BModuleHelper activateModulesForFirebase];
+}
+
++(void) activateModulesForXMPP {
+    [BModuleHelper activateModulesForXMPP];
 }
 
 // If the configuration isn't set, return a default value
@@ -38,5 +54,60 @@ static BChatSDK * instance;
     }
     return _configuration;
 }
+
+// During the Facebook login flow, your app passes control to the Facebook iOS app or Facebook in a mobile browser.
+// After authentication, your app will be called back with the session information.
++(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if (NM.socialLogin) {
+        return [NM.socialLogin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    }
+    return NO;
+}
+
++(BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    if (NM.socialLogin) {
+        return [NM.socialLogin application: app openURL: url options: options];
+    }
+    return NO;
+}
+
++(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    if(NM.push) {
+        [NM.push application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    }
+}
+
++(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    if(NM.push) {
+        [NM.push application:application didReceiveRemoteNotification:userInfo];
+    }
+}
+
++(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    if(NM.push) {
+        [NM.push registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
+    }
+    if(NM.socialLogin) {
+        [NM.socialLogin application:application didFinishLaunchingWithOptions:launchOptions];
+    }
+    return YES;
+}
+
+// Authenticate using a Firebase token
++(RXPromise *) authenticateWithToken: (NSString *) token {
+    return [BIntegrationHelper authenticateWithToken:token];
+}
+
+// Update the username image and image url safely i.e. this method will wait until
+// the user has been authenticated correctly by using the post auth hook
++(void) updateUserWithName: (NSString *) name image: (UIImage *) image url: (NSString *) url {
+    [BIntegrationHelper updateUserWithName:name image:image url:url];
+}
+
+// Logout
++(RXPromise *) logout {
+    return [BIntegrationHelper logout];
+}
+
 
 @end

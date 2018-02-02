@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <ChatSDK/PModule.h>
 
-@interface BFirebasePushModule : NSObject
+@interface BFirebasePushModule : NSObject<PModule>
 
--(void) activateForFirebaseWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions ;
--(void) activateForXMPPWithApplication: (UIApplication *) application withOptions: (NSDictionary *) launchOptions;
+-(void) activate;
 
 @end

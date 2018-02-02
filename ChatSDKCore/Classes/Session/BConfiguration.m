@@ -6,7 +6,7 @@
 //
 
 #import "BConfiguration.h"
-#import <ChatSDK/BCoreDefines.h>
+#import <ChatSDK/ChatCore.h>
 
 @implementation BConfiguration
 
@@ -22,6 +22,7 @@
 @synthesize twitterLoginEnabled;
 @synthesize facebookLoginEnabled;
 @synthesize anonymousLoginEnabled;
+@synthesize defaultServer;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -39,6 +40,7 @@
         googleLoginEnabled = YES;
         
         anonymousLoginEnabled = YES;
+        defaultServer = bServerXMPP;
         
     }
     return self;

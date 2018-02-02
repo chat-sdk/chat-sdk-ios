@@ -1,8 +1,8 @@
 {
   "rules": {
-    
+        
     "$root": {
-
+      
       // Clients can write a time value indexed by their user ID
       // The time must be now
       "time": {
@@ -35,8 +35,8 @@
                "$message_id": {
 
                  // The user who flagged the message can read and write
-                  ".read": "root.child($root+'/users/'+auth.uid).exists() && data.child('creator-entity-id').val() == auth.uid",
-                  ".write":"root.child($root+'/users/'+auth.uid).exists()",
+                  ".read": "!data.exists() || (data.child('creator-entity-id').val() == auth.uid)",
+                  ".write":"!data.exists() || (data.child('creator-entity-id').val() == auth.uid)",
 
                  // The message and thread must exist
                   ".validate": "root.child($root + '/threads/' + $thread_id + '/messages/' + $message_id).exists()",
@@ -55,15 +55,15 @@
           }
         }
       },
-
+        
       "public-threads": {
+        
+        ".read": "auth != null",
+        
         "$thread_id": {
-          // Only users who have a profile can create and read
-          // public threads
-          ".read": "root.child($root+'/users/'+auth.uid).exists()",
 
           // Only the creator could delete a public chat room
-          ".write":"root.child($root+'/users/'+auth.uid).exists() && (!data.exists() || (data.exists() && root.child($root + '/threads/' + $thread_id + '/details/creator-entity-id').val() == auth.uid))",
+          ".write":"root.child($root+'/users/'+auth.uid).exists() && (!data.exists() || root.child($root + '/threads/' + $thread_id + '/details/creator-entity-id').val() == auth.uid)",
         }
       },
 
@@ -71,12 +71,13 @@
         "$thread_id": {
 
           // The only thread users can read the thread
-          ".read": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
+          // Anyone can read a public thread
+          ".read": "data.child('users/'+auth.uid).exists() || data.child('details/type').val() == 1  || data.child('details/type_v4').val() == 4",
             
           "details": {
 
             // Any user can make a new thread. Only the creator can change the details 
-            ".write": "data.val() == null || (data.child('details/creator-entity-id').val() == auth.uid)",
+            ".write": "!data.exists() || (data.child('creator-entity-id').val() == auth.uid)",
 
             "creation-date": {
               // This can only be set on creation - the time must be the current time
@@ -84,11 +85,12 @@
             },
 
             "name": {
+              ".validate": "newData.val().length < 100"
             },
 
             "creator-entity-id": {
-              // The user must exist
-              ".validate": "root.child($root+'/users/'+newData.val()).exists()"
+              // A room could be created by the server
+              ".validate": "newData.val() == auth.uid"
             },
 
             "type": {
@@ -112,10 +114,10 @@
 
           "lastMessage": {
             
-            ".write": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
+            ".write": "!data.exists() || data.parent().parent().child('users/' + auth.uid).exists()",
 
             "type": {
-              // Can only be set on message creation must be 0 - 5
+              // Can only be set on message creation must be 0 - 6
               ".validate": "newData.val() >=0 && newData.val() <= 6"
              },
 
@@ -128,7 +130,9 @@
 
           "updated": {
             
-            ".write": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
+            // Allow the client to update the thread if they are a member
+            // or if it's a public thread
+            ".write": "!data.exists() || data.parent().child('users/' + auth.uid).exists()|| data.parent().child('details/type').val() == 1  || data.parent().child('details/type_v4').val() == 4",
               
             "details": {
               ".validate": "newData.val() == now"
@@ -137,7 +141,7 @@
               ".validate": "newData.val() == now"
             },
             "users": {
-              ".validate": "newData.val() == now"
+              //".validate": "newData.val() == now"
             }
           },
 
@@ -145,9 +149,10 @@
 
             "$message_id": {
 
-              // Either if the message doesn't exist or if the user who wants to modify the 
-              // message is the original sender
-              ".write": "(root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists() && !data.exists()) || (data.exists() && data.child('user-firebase-id').val() == auth.uid)",
+              // The user must be in the user list. 
+              // Any user can make a new message
+              // Only the sender can modify a message
+              ".write": "data.parent().parent().child('users/' + auth.uid).exists() && (!data.exists() || data.child('user-firebase-id').val() == auth.uid)",
 
               "date": {
                 // Must be current time
@@ -155,29 +160,37 @@
               },
 
               "payload": {
-                // Must be current time
                 ".validate": "newData.val() != null"
               },
 
               "type": {
-                // Can only be set on message creation must be 0 - 5
-                ".validate": "data.val() == null && (newData.val() >=0 && newData.val() <= 6)"
+                // Can only be set on message creation must be 0 - 6
+                ".validate": "!data.exists() && (newData.val() >=0 && newData.val() <= 6)"
               },
 
               "user-firebase-id": {
                 // Can only be set on message creation - a user can only mark a message with their uid
-                ".validate": "data.val() == null && newData.val() == auth.uid"
+                ".validate": "!data.exists() && newData.val() == auth.uid"
               },
 
               "read": {
-                // TODO
+                "$user_id": {
+                  ".write": "auth.uid == $user_id && root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
+                  "status": {
+                    //".validate": "newData.val() >= -2 && newData.val() <= 2"
+                  }
+                }
               }
             }
           },
             
+          "typing": {
+            "$user_id": {
+              ".write": "auth.uid == $user_id"
+            }
+          },
+            
           "users": {
-
-            ".write": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
 
             // TODO: Implement this
             // For a user to be added to the thread, they should exist in the users area,
@@ -188,10 +201,8 @@
             //              (root.child($root+'/threads/'+$thread_id+'/details/type').val() == 0 &&
             //                (root.child($root+'/threads/'+$thread_id+'/details/creator-entity-id').val() == auth.uid ||
             //                root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()))",
-
             // The user must be a member of the thread to see which users exist
             //".read": "root.child($root+'/threads/'+$thread_id+'/users/'+auth.uid).exists()",
-
             // Anyone can add to a public group
             // To write to a private group you must be the creator or a member
             //".write": "(root.child($root+'/threads/'+$thread_id+'/details/type').val() == 1 &&
@@ -202,95 +213,105 @@
 
             "$user_id": {
 
+              // Members can add users and the creator can too
+              ".write": "data.parent().parent().child('users/' + auth.uid).exists() || data.parent().parent().child('details/creator-entity-id').val() == auth.uid",
+              
+               // Add this back in - this is removed because it will prevent us from
+               // creating a thread with a user who doesn't exist. This is a problem
+               // for the migration
               ".validate": "root.child($root+'/users/'+$user_id).exists()",
-
-              "status": {
-                // The user ID should exist
-                ".validate": "(newData.val() == 'owner' && root.child($root+'/threads/'+$thread_id+'/details/creator-entity-id').val() == $user_id) || newData.val() == 'member'"
+              
+                "status": {
+                // Only the thread creator can be the owner
+                ".validate": "(newData.val() == 'owner' && data.parent().parent().parent().child('details/creator-entity-id').val() == $user_id) || newData.val() == 'member'"
               }
             }
           }
         }
       },
-
+        
       "users": {
         
-        // Any registered user can read the data
-        ".read": "root.child($root+'/users/'+auth.uid).exists()",
-        ".indexOn": ["meta/name", "meta/phone", "meta/email"],
+       ".indexOn": ["meta/name", "meta/phone", "meta/email"],
 
-        "$user_id": {
-
-
-          // Only users can write to their own profile
-          ".write": "auth.uid == $user_id",
-
-          "last-online": {
-            ".validate": "newData.val() == now"
-          },
+         ".read": "data.child(auth.uid).exists() || !data.child(auth.uid).exists()",
+         
+          "$user_id": {
+ 
+            "last-online": {
+              ".write": "auth.uid == $user_id",
+              ".validate": "newData.val() == now"
+            },
             
-          "meta": {
-            
-          },
-            
-          "online": {
-            ".validate": "newData.val() == true || newData.val() == false"
-          },
-            
-          "updated": {
             "meta": {
-              ".validate": "newData.val() == now"
-            }, 
-            "threads": {
-              ".validate": "newData.val() == now"
-            } 
-          },
+              ".write": "auth.uid == $user_id",
+            },
+              
+            "blocked": {
+              "$blocked_user_id": {
+                ".write": "auth.uid == $user_id",
+                ".validate": "data.parent().parent().parent().child($blocked_user_id).exists()"
+              }
+            },
+            
+            "online": {
+              ".write": "auth.uid == $user_id",
+              ".validate": "newData.val() == true || newData.val() == false"
+            },
+            
+            "updated": {
+              "meta": {
+                ".write": "data.parent().parent().parent().child(auth.uid).exists()",
+                ".validate": "newData.val() == now"
+              }, 
+              "threads": {
+                ".write": "data.parent().parent().parent().child(auth.uid).exists()",
+                ".validate": "newData.val() == now"
+              } 
+            },
+            
+              "threads": {
+             
+                "$thread_id": {
 
-          "threads": {
-             "$thread_id": {
-               ".write": "root.child($root+'/users/'+auth.uid).exists()",
+                  // The writing user should have a user profile
+                  ".write": "root.child($root+'/users/'+auth.uid).exists()",
+               
+                  // The thread sholud exist
+                  ".validate": "root.child($root+'/threads/'+$thread_id).exists()"
+
              }
           }
         }
       },
-
+        
       "searchIndex": {
-
         // Any authenticated user can read the data
         ".read": "root.child($root+'/users/'+auth.uid).exists()",
-
         // Index the items to improve search performance
         ".indexOn": ["name", "email", "phone"],
-
         "$user_id": {
-
           // We can only write to the index related to our user
           ".write": "$user_id == auth.uid",
-
         }
       },
-
+        
       // GeoFire Rules or location based chat
       "location": {
       // Allow anyone to read the GeoFire index
       ".read": true,
-
       // Index each location's geohash for faster querying
       ".indexOn": ["g"],
-
       // Schema validation
       "$key": {
         // Allow anyone to add, update, or remove keys in the GeoFire index
         ".write": true,
-
         // Key validation
         ".validate": "newData.hasChildren(['g', 'l']) && newData.getPriority().length <= 22 && newData.getPriority().length > 0",
-
         // Geohash validation
         "g": {
           ".validate": "newData.val() == newData.parent().getPriority()"
         },
-
         // Location coordinates validation
         "l": {
           "0" : {
@@ -303,14 +324,12 @@
             ".validate": false
           }
         },
-
         // Don't allow any other keys to be written
         "$other": {
           ".validate": false
         }
       }
     }
-
     }
   }
 }
