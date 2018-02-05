@@ -52,6 +52,13 @@
     self.googleButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeGoogle];
     self.anonymousButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeAnonymous];
     
+    if(BChatSDK.shared.configuration.loginScreenLogoImage) {
+        self.chatImageView.image = BChatSDK.shared.configuration.loginScreenLogoImage;
+    }
+    if(BChatSDK.shared.configuration.loginScreenAppName) {
+        self.titleLabel.text = BChatSDK.shared.configuration.loginScreenAppName;
+    }
+    
 }
 
 -(void) viewWillDisappear:(BOOL)animated {

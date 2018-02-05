@@ -5,7 +5,7 @@
 
 Chat SDK is a fully featured open source instant messaging framework for iOS. Chat SDK is fully featured, scalable and flexible and follows the following key principles:
 
-- **Open Source.** The Chat SDK is open source under the MIT license for compiled binaries
+- **Open Source.** The Chat SDK is open source and free for commerical apps ([see license](https://github.com/chat-sdk/chat-sdk-ios#the-license))
 - **Full data control.** You have full and exclusive access to the user's chat data
 - **Quick integration.** Chat SDK is fully featured out of the box
 - **Firebase** Powered by [Google Firebase](https://firebase.google.com/)
@@ -19,15 +19,17 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 - Private and group messages
 - Public chat rooms
 - Username / password, Facebook, Twitter, Anonymous and custom login
-- Phone number authentication
-- Push notifications (using FCM)
+- [Phone number authentication](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)
+- Free Push notifications (using [FCM](https://firebase.google.com/docs/cloud-messaging/))
 - Text, Image and Location messages
 - User profiles
 - User search
-- Powered by Firebase
-- Firebase UI
-- [Android Version](https://github.com/chat-sdk/chat-sdk-android)
-- [Web Version](https://github.com/chat-sdk/chat-sdk-web)
+- [Scalable](https://firebase.google.com/docs/database/usage/limits) - Supports over 400k monthly users
+- Powered by [Google Firebase](https://firebase.google.com/) or [XMPP](https://chatsdk.co/xmpp-2/)
+- [Firebase UI](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui) support
+- [Native Android Version](https://github.com/chat-sdk/chat-sdk-android)
+- [Native Web Version](https://github.com/chat-sdk/chat-sdk-web)
+- [Powerful flexible API](https://github.com/chat-sdk/docs)
 
 <img src="http://img.chatcatapp.com/chat-sdk-3.jpg" />
 
@@ -71,11 +73,24 @@ Document](https://github.com/chat-sdk/chat-sdk-ios/blob/master/CONTRIBUTING.md) 
 
 ## Apps that use Chat SDK
 
+Here are the apps we know about that are using Chat SDK. If you've relased an app that uses the framework let us know and we'll add it to the list:
+
 + [Parlor](http://parlor.me/)
 + [Runbuddy](https://itunes.apple.com/us/app/run-buddy/id1050833009?mt=8)
 + [INDX01](https://itunes.apple.com/us/app/keynote/id1265222713?mt=8)
 
-If you have an app that uses the Chat SDK let us know and we'll add a link. 
+Stats:
+
+
+## Setup Service and consulting
+
+##### Setup Service
+
+We provide extensive documentation on Github but if you’re a non-technical user or want to save yourself some work you can take advantage of our [setup and integration service](http://chatsdk.co/downloads/chat-sdk-setup-service/).
+
+##### Consulting services
+
+We are specialists in real-time application development including: Firebase, Firestore, XMPP and WebRTC for iOS and Android. If you need help integrating the Chat SDK with your app or another app development project email us at [team@chatsdk.co](mailto: team@chatsdk.co). 
 
 ## Running the demo project
 This repository contains a fully functional version of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
@@ -92,10 +107,6 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
 2. Run `pod install` in the **XcodeSwift** directory  
 3. Open the `ChatSDKSwift.xcworkspace` file in Xcode  
 4. Compile and run 
-
-### Setup Service
-
-We provide extensive documentation on Github but if you’re a non-technical user or want to save yourself some work you can take advantage of our [setup and integration service](http://chatsdk.co/downloads/chat-sdk-setup-service/).
 
 ## Adding the Chat SDK to your project
 ###### Quick start guide - it takes about 10 minutes!

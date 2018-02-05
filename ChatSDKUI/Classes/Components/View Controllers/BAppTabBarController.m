@@ -86,6 +86,24 @@
         });
     }];
     
+    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationPresentChatView object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            id<PThread> thread = notification.userInfo[bNotificationPresentChatView_PThread];
+            if(thread) {
+                // Set the tab to the private threads screen
+                NSArray * vcs = [[BInterfaceManager sharedManager].a tabBarViewControllers];
+                NSInteger index = [vcs indexOfObject:[BInterfaceManager sharedManager].a.privateThreadsViewController];
+                
+                
+                if(index != NSNotFound) {
+                    [self setSelectedIndex:index];
+                    UIViewController * chatViewController = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
+                    [((UINavigationController *)self.viewControllers[index]) pushViewController:chatViewController animated:YES];
+                }
+            }
+        });
+    }];
+    
     NSInteger badge = [[NSUserDefaults standardUserDefaults] integerForKey:bMessagesBadgeValueKey];
     [self setBadge: badge];
     

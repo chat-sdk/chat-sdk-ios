@@ -363,6 +363,7 @@
 				AC7BD9951E0874B400C785EE /* Resources */,
 				4760E04A5E85E1B9BFAE1396 /* [CP] Embed Pods Frameworks */,
 				9932F27FAB31530A45B47BEE /* [CP] Copy Pods Resources */,
+				B5030DB2202883D0001BF175 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -507,6 +508,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		B5030DB2202883D0001BF175 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
 		};
 		BB6D2899AF0D0B8D70D3138C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

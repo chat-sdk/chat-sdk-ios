@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let config = BConfiguration.init();
         config.rootPath! = "test"
-        config.allowUsersToCreatePublicChats = true
+        config.allowUsersToCreatePublicChats = false
         BChatSDK.initialize(config, app: application, options: launchOptions)
         
         self.window = UIWindow.init(frame: UIScreen.main.bounds)

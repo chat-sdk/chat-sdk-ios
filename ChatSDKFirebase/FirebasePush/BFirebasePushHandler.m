@@ -11,6 +11,9 @@
 #import <AFNetworking/AFNetworking.h>
 #import <ChatSDK/ChatCore.h>
 
+#define bPushThreadEntityID @"chat_sdk_thread_entity_id"
+#define bPushUserEntityID @"chat_sdk_user_entity_id"
+
 @implementation BFirebasePushHandler
 
 -(instancetype) init {
@@ -100,7 +103,11 @@
 - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     if (application.applicationState != UIApplicationStateActive) {
         // TODO: Do we need to show the notficaiton?
-        
+        NSString * threadEntityID = userInfo[bPushThreadEntityID];
+        if(threadEntityID) {
+            id<PThread> thread = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:threadEntityID withType:bThreadEntity];
+            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationPresentChatView object:Nil userInfo: @{bNotificationPresentChatView_PThread: thread}];
+        }
     }
 }
 
@@ -151,11 +158,11 @@
 //                            bBadge: @"Increment",
 //                            bIOSSound: bDefault};
 //
-    NSDictionary * dict = @{@"body": text,
-                            @"title": message.userModel.name,
+    NSDictionary * dict = @{@"title": message.userModel.name,
+                            @"body": text,
                             @"badge": @1,
-                            @"chat_sdk_thread_entity_id": message.thread.entityID,
-                            @"chat_sdk_user_entity_id": message.userModel.entityID};
+                            bPushThreadEntityID: message.thread.entityID,
+                            bPushUserEntityID: message.userModel.entityID};
 
     [self pushToUsers:users withData:dict];
 }
@@ -204,6 +211,7 @@
         [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         
         NSDictionary *params = @{@"to": channel,
+                                 @"notification": data,
                                  @"data": data};
         
         [manager POST:@"https://fcm.googleapis.com/fcm/send" parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject) {

@@ -15,8 +15,19 @@ target 'ChatSDK Demo' do
   pod "Firebase/Messaging"  
   pod "Firebase/Storage"  
   
-#   pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
-#   pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"
-#   pod "ChatSDKModules/ContactBook", :path => "../ChatSDKModules"
+  #pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
+  #pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"
+  #pod "ChatSDKModules/ContactBook", :path => "../ChatSDKModules"
+
+  #### Optional ####
+
+  # Crashlytics see: https://firebase.google.com/docs/crashlytics/get-started?authuser=0
+
+  pod 'Fabric', '~> 1.7.2'
+  pod 'Crashlytics', '~> 3.9.3'
+  
+  # Firebase performance 
+
+  pod 'Firebase/Performance'
 	
 end

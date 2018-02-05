@@ -23,6 +23,7 @@
 @synthesize facebookLoginEnabled;
 @synthesize anonymousLoginEnabled;
 @synthesize defaultServer;
+@synthesize shouldOpenChatWhenPushNotificationClicked;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -41,6 +42,8 @@
         
         anonymousLoginEnabled = YES;
         defaultServer = bServerXMPP;
+        
+        shouldOpenChatWhenPushNotificationClicked = YES;
         
     }
     return self;

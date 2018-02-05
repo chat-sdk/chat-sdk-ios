@@ -52,6 +52,9 @@
 #define bNotificationThreadDeleted @"bNThreadDeleted"
 #define bNotificationBadgeUpdated @"bNBadgeUpdated"
 
+#define bNotificationPresentChatView @"bNPresentChatView"
+#define bNotificationPresentChatView_PThread @"bNPresentChatView_PThread"
+
 #define bNotificationThreadUsersUpdated @"bNThreadUsersUpdated"
 
 #define bNotificationReadReceiptUpdated @"bNReadReceiptUpdated"

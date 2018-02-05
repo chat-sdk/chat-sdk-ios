@@ -204,33 +204,33 @@
 
 -(RXPromise *) once {
     
-//    NSString * token = NM.auth.loginInfo[bTokenKey];
+    NSString * token = NM.auth.loginInfo[bTokenKey];
+    FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
+
+    return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {
+
+        return [self deserialize:response].thenOnMain(^id(id success) {
+            return self;
+        }, Nil);
+
+    }, Nil);
+    
 //    FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
 //
-//    return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {
+//    RXPromise * promise = [RXPromise new];
 //
-//        return [self deserialize:response].thenOnMain(^id(id success) {
-//            return self;
-//        }, Nil);
+//    [ref observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+//        if(![snapshot.value isEqual: [NSNull null]]) {
+//            [promise resolveWithResult: [self deserialize:snapshot.value].thenOnMain(^id(id success) {
+//                return self;
+//            }, Nil)];
+//        }
+//        else {
+//            [promise resolveWithResult:Nil];
+//        }
+//    }];
 //
-//    }, Nil);
-    
-    FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
-    
-    RXPromise * promise = [RXPromise new];
-    
-    [ref observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
-        if(![snapshot.value isEqual: [NSNull null]]) {
-            [promise resolveWithResult: [self deserialize:snapshot.value].thenOnMain(^id(id success) {
-                return self;
-            }, Nil)];
-        }
-        else {
-            [promise resolveWithResult:Nil];
-        }
-    }];
-    return promise;
-    
+//    return promise;
 }
 
 -(RXPromise *) on {
@@ -410,6 +410,8 @@
             meta[key] = newMeta[key];
         }
     }
+    
+    
     
     if (meta) {
         [_model setMetaDictionary:meta];

@@ -25,10 +25,13 @@
     
     BConfiguration * config = [BConfiguration configuration];
     config.rootPath = @"test";
+    config.allowUsersToCreatePublicChats = NO;
     [BChatSDK initialize:config app:application options:launchOptions];
-
+ 
+    UIViewController * rootViewController = [BInterfaceManager sharedManager].a.appTabBarViewController;
+    
     // Set the root view controller
-    [self.window setRootViewController:[BInterfaceManager sharedManager].a.appTabBarViewController];
+    [self.window setRootViewController:rootViewController];
     
     return YES;
 }

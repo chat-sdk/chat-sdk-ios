@@ -77,7 +77,7 @@
     RXPromise * promise = [RXPromise new];
     
     // Create a completion block to handle the login result
-    void(^handleResult)() = ^(FIRUser * firebaseUser, NSError * error) {
+    void(^handleResult)(FIRUser * firebaseUser, NSError * error) = ^(FIRUser * firebaseUser, NSError * error) {
         if (!error) {
             [promise resolveWithResult:firebaseUser];
         }
@@ -101,7 +101,7 @@
 
                     return Nil;
                 }, ^id (NSError * error) {
-                    handleResult(error, Nil);
+                    handleResult(Nil, error);
                     return Nil;
                 });
             }
@@ -197,7 +197,7 @@
             _userAuthenticatedThisSession = YES;
             // Update the user from the remote server
             return [user once].thenOnMain(^id(id<PUserWrapper> user_) {
-                
+            
                 [NM.hook executeHookWithName:bHookUserAuthFinished data:@{bHookUserAuthFinished_PUser: user.model}];
                 
                 [NM.core save];
