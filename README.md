@@ -272,13 +272,13 @@ There are a number of configuration options available. Check out the [BConfigura
 
 Any of the Chat SDK views can be added into your app. Checkout the [PInterfaceFacade](https://github.com/chat-sdk/chat-sdk-ios/blob/master/ChatSDKCore/Classes/UI/PInterfaceFacade.h) for options. You can add a any view using the following pattern. Here we are using the interface service to get the particular view. 
 
-**Objective-C**
+*Objective-C*
 
 ```
 UIViewController * privateThreadsViewController = [[BInterfaceManager sharedManager].a privateThreadsViewController];
 ```
 
-**Swift**
+*Swift*
 
 ```
 let privateThreadsViewController = BInterfaceManager.shared().a.privateThreadsViewController()
@@ -302,13 +302,13 @@ At the most basic level, you need to do the following:
 
 1. Authenticate the Chat SDK when your app authenticates. The best way to do this is to generate a custom token on your server following [this guide](https://github.com/chat-sdk/docs#custom-authentication). Then use this method to initialize the Chat SDK:
 
-  **Objective-C**
+  *Objective-C*
 
   ```
   [BIntegrationHelper authenticateWithToken:@"your token"];
   ```
 
-  **Swift**
+  *Swift*
 
   ```
   BIntegrationHelper.authenticate(withToken: "your token")
@@ -316,13 +316,13 @@ At the most basic level, you need to do the following:
 
 2. Update the Chat SDK user's name and image whenever your user's name or image changes. You can do this using the following method:
 
-  **Objective-C**
+  *Objective-C*
 
   ```
   [BIntegrationHelper updateUserWithName:@"Name" image: image url: imageURL];
   ```
 
-  **Swift**
+  *Swift*
 
   ```
   BIntegrationHelper.updateUser(withName: "Name", image: image, url: imageURL)
@@ -330,13 +330,13 @@ At the most basic level, you need to do the following:
 
 3. Logout of the Chat SDK whenever your app logs out. A good place to do this is whenever your login screen is displayed:
 
-  **Objective-C**
+  *Objective-C*
 
   ```
   [BIntegrationHelper logout];
   ```
 
-  **Swift**
+  *Swift*
 
   ```
   BIntegrationHelper.logout()
