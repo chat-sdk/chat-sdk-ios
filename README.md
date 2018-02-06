@@ -258,7 +258,7 @@ Congratulations! 🎉🎉 You've just turned your app into a fully featured inst
 
 # Next Steps
 
-#### Configuration
+### Configuration
 
 There are a number of configuration options available. Check out the [BConfiguration](https://github.com/chat-sdk/chat-sdk-ios/blob/master/ChatSDKCore/Classes/Session/BConfiguration.h) class. Using this class you can do things like:
 
@@ -268,7 +268,7 @@ There are a number of configuration options available. Check out the [BConfigura
 - Show or hide empty chats
 - etc...
 
-#### Use Chat SDK views in your app
+### Use Chat SDK views in your app
 
 Any of the Chat SDK views can be added into your app. Checkout the [PInterfaceFacade](https://github.com/chat-sdk/chat-sdk-ios/blob/master/ChatSDKCore/Classes/UI/PInterfaceFacade.h) for options. You can add a any view using the following pattern. Here we are using the interface service to get the particular view. 
 
@@ -284,7 +284,7 @@ UIViewController * privateThreadsViewController = [[BInterfaceManager sharedMana
 let privateThreadsViewController = BInterfaceManager.shared().a.privateThreadsViewController()
 ```
 
-#### Checkout the full development documentation
+### Checkout the full development documentation
 
 The [documentation](https://github.com/chat-sdk/docs#custom-authentication) contains guides for the following:
 
@@ -294,7 +294,7 @@ The [documentation](https://github.com/chat-sdk/docs#custom-authentication) cont
 4. Common code examples
 5. Customizing the user interface
 
-#### Integrate the Chat SDK with your existing app
+### Integrate the Chat SDK with your existing app
 
 To do that, you can take advantage of the `BIntegrationHelper` class. This makes provides some helper methods to make it easier to integrate the Chat SDK with your app. 
 
