@@ -108,7 +108,7 @@
     id<PUser> user = NM.currentUser;
     
     // Get the user's starting meta
-    NSDictionary * oldMeta = user.model.metaDictionary;
+    NSDictionary * oldMeta = [user.model metaDictionary];
     
     [user setMetaString:statusTextView.text forKey:bDescription];
     
@@ -120,8 +120,8 @@
     [user setMetaString:countryPickerView.selectedCountryCode forKey:bCountry];
     
     BOOL pushRequired = NO;
-    for (NSString * key in user.model.metaDictionary) {
-        if (![oldMeta[key] isEqual: user.model.metaDictionary[key]]) {
+    for (NSString * key in [user.model metaDictionary]) {
+        if (![oldMeta[key] isEqual: [user.model metaDictionary][key]]) {
             pushRequired = YES;
             break;
         }
