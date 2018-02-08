@@ -84,23 +84,30 @@
 }
 
 -(NSDictionary *) lastMessageData {
-    return @{b_Payload: _model.textString,
-             b_JSON: _model.text,
-             b_Type: _model.type,
-             b_Date: [FIRServerValue timestamp],
-             b_UserFirebaseID: _model.userModel.entityID,
-             b_UserName: self.model.userModel.name}; // TODO: Remove this
-
+    NSMutableDictionary * data = self.serialize;
+    data[b_UserName] = self.model.userModel.name; // TODO: Remove this
+    [data removeObjectForKey:b_ReadPath];
+    [data removeObjectForKey:b_Meta];
+    return data;
 }
 
--(NSDictionary *) serialize {
-    return @{b_Payload: _model.textString,
-             b_JSON: _model.text,
-             b_Type: _model.type,
-             b_Date: [FIRServerValue timestamp],
-             b_UserFirebaseID: _model.userModel.entityID,
-             b_ReadPath: self.initialReadReceipts,
-             b_Meta: _model.metaDictionary ? _model.metaDictionary : @{}};
+-(NSMutableDictionary *) serialize {
+    NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:@{b_Type: _model.type,
+                                                                                 b_Date: [FIRServerValue timestamp],
+                                                                                 b_UserFirebaseID: _model.userModel.entityID,
+                                                                                 b_ReadPath: self.initialReadReceipts,
+                                                                                 b_Meta: _model.metaDictionary ? _model.metaDictionary : @{}}];
+    if([BChatSDK config].includeMessagePayload) {
+        dict[b_Payload] = _model.textString;
+    }
+    if([BChatSDK config].includeMessageJSON) {
+        dict[b_JSON] = _model.text;
+    }
+    if([BChatSDK config].includeMessageJSONV2) {
+        dict[b_JSONV2] = _model.json;
+    }
+
+    return dict;
 }
 
 -(NSDictionary *) initialReadReceipts {
@@ -134,18 +141,24 @@
     
     RXPromise * promise = [RXPromise new];
     
-    // Version 4 uses a JSON string so if this property is set, we use it!
-    NSString * json = value[b_JSON];
-    if (json) {
-        [_model setText:json];
+    NSDictionary * json2 = value[b_JSONV2];
+    if(json2) {
+        [_model setJson:json2];
     }
     else {
-        NSString * payload = value[b_Payload];
-        if (payload) {
-            [self handlePayload:payload];
+        // Version 4 uses a JSON string so if this property is set, we use it!
+        NSString * json = value[b_JSON];
+        if (json) {
+            [_model setText:json];
+        }
+        else {
+            NSString * payload = value[b_Payload];
+            if (payload) {
+                [self handlePayload:payload];
+            }
         }
     }
-        
+    
     NSNumber * messageType = value[b_Type];
     if (messageType) {
         _model.type = messageType;

@@ -33,6 +33,7 @@
 // Underscore keys
 #define b_Payload @"payload"
 #define b_JSON @"JSON"
+#define b_JSONV2 @"json_v2"
 #define b_Type @"type"
 #define b_TypeV4 @"type_v4"
 #define b_Date @"date"

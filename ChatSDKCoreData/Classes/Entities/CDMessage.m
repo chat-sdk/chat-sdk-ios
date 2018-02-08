@@ -175,22 +175,29 @@
 }
 
 -(NSError *) setTextAsDictionary: (NSDictionary *) dict {
+    self.json = dict;
+    
+    // Needed to support API 2
     NSError * error;
     NSData * jsonData = [NSJSONSerialization  dataWithJSONObject:dict options:0 error:&error];
     NSString * myString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
+
     self.text = myString;
     return error;
+    
 }
 
 -(NSDictionary *) textAsDictionary {
-    NSData *data =[self.text dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary * response;
-    NSError * error;
-    if(data!=nil){
-        response = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if(!self.json) {
+        NSData *data =[self.text dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary * response;
+        NSError * error;
+        if(data!=nil){
+            response = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+        }
+        self.json = response;
     }
-    return response;
+    return self.json;
 }
 
 -(NSString *) color {
@@ -200,30 +207,6 @@
 -(id<PMessage>) model {
     return self;
 }
-
-//- (BOOL)lastMessageFromUser {
-//    
-//    NSArray * messages = self.thread.messagesOrderedByDateAsc;
-//    NSInteger index = [messages indexOfObject:self];
-//    
-//    id<PMessage> nextMessage = Nil;
-//    
-//    // This means this message is the latest message
-//    if (index == messages.count - 1) {
-//        return YES;
-//    }
-//    else {
-//        // We have checked we are not the last in the array therefore we allocate the next message
-//        nextMessage = messages[index + 1];
-//    }
-//    
-//    // If the next message is by the same user then return NO
-//    if ([nextMessage.userModel.entityID isEqualToString:self.userModel.entityID]) {
-//        return NO;
-//    }
-//    
-//    return YES;
-//}
 
 -(bMessagePosition) messagePosition {
     NSArray * messages = self.thread.messagesOrderedByDateAsc;
@@ -275,6 +258,13 @@
 }
 
 -(id<PMessage>) nextMessage {
+    if(_nextMessage) {
+        return _nextMessage;
+    }
+    else {
+        
+    }
+    
     NSArray * messages = self.thread.messagesOrderedByDateAsc;
     NSInteger index = [messages indexOfObject:self];
     if (index < messages.count-1) {

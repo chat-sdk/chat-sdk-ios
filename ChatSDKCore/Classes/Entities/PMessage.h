@@ -64,6 +64,9 @@ typedef enum {
 
 -(NSString *) textString;
 
+-(NSDictionary *) json;
+-(void) setJson: (NSDictionary *) json;
+
 /**
  * @brief Message type - Text, image, location
  * @param type NSNumber(bMessageType) Message type enum

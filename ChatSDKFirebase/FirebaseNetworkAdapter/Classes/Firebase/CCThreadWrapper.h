@@ -106,4 +106,8 @@
  */
 -(RXPromise *) pushLastMessage: (NSDictionary *) messageData;
 
+-(RXPromise *) pushMeta;
+-(void) metaOn;
+-(void) metaOff;
+
 @end

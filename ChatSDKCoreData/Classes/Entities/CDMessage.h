@@ -16,7 +16,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CDMessage : NSManagedObject<PEntity, PMessage, PMessageWrapper>
+@interface CDMessage : NSManagedObject<PEntity, PMessage, PMessageWrapper> {
+    id<PMessage> _nextMessage;
+}
 
 -(NSComparisonResult) compare: (id<PMessage>) message;
 

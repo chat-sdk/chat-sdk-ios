@@ -111,14 +111,19 @@
               ".validate": "newData.val() == 1 || newData.val() == 2 || newData.val() == 4  || newData.val() == 8 || newData.val() == 16 || newData.val() == 32"
             }
           },
+            
+          "meta": {
+            // Any user can make a new thread. Only the creator can change the details 
+            ".write": "!data.exists() || (data.child('creator-entity-id').val() == auth.uid)",
+          },
 
           "lastMessage": {
             
-            ".write": "!data.exists() || data.parent().parent().child('users/' + auth.uid).exists()",
+            ".write": "!data.exists() || data.parent().child('users/' + auth.uid).exists()",
 
             "type": {
               // Can only be set on message creation must be 0 - 6
-              ".validate": "newData.val() >=0 && newData.val() <= 6"
+              ".validate": "newData.val() >= 0 && newData.val() <= 6"
              },
 
             "user-firebase-id": {
@@ -214,7 +219,7 @@
             "$user_id": {
 
               // Members can add users and the creator can too
-              ".write": "data.parent().parent().child('users/' + auth.uid).exists() || data.parent().parent().child('details/creator-entity-id').val() == auth.uid",
+              ".write": "data.parent().parent().child('users/' + auth.uid).exists() || data.parent().parent().child('details/creator-entity-id').val() == auth.uid || data.parent().parent().child('details/type').val() == 1  || data.parent().parent().child('details/type_v4').val() == 4",
               
                // Add this back in - this is removed because it will prevent us from
                // creating a thread with a user who doesn't exist. This is a problem

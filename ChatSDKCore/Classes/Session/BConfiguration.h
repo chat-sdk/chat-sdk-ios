@@ -57,6 +57,24 @@
 // bServerXMPP
 @property (nonatomic, readwrite) NSString * defaultServer;
 
+// Message data properties
+// This should be used for backwards compatibility with v3 of the project
+@property (nonatomic, readwrite) BOOL includeMessagePayload;
+
+// This should be enabled for compatibility with any version less than 4.3.x
+@property (nonatomic, readwrite) BOOL includeMessageJSON;
+
+// In the future we will be moving towards using native JSON for the message payload enable this for 4.4.x+
+@property (nonatomic, readwrite) BOOL includeMessageJSONV2;
+
+#define bChatSDK_API_1 @"3.x"
+#define bChatSDK_API_2 @"4.0.0 - 4.3.18"
+#define bChatSDK_API_3 @"4.4.0+"
+
+// Configure Chat SDK to support the API levels of choice
+// The default version supports all API levels
+-(void) configureForCompatibilityWithVersions: (NSArray *) versions;
+
 +(BConfiguration *) configuration;
 
 @end

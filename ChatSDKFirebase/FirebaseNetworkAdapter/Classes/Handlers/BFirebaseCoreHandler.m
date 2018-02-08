@@ -16,7 +16,10 @@
 
 -(RXPromise *) pushUser {
     [self save];
-    return [self.currentUser push];
+    if(self.currentUser && self.currentUser.entityID) {
+        return [self.currentUser push];
+    }
+    else return [RXPromise rejectWithReason:Nil];
 }
 
 -(id<PUser>) currentUserModel {

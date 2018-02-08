@@ -67,7 +67,6 @@
 -(NSString *) metaStringForKey: (NSString *) key;
 
 -(void) setMetaDictionary: (NSDictionary *) dict;
--(NSDictionary *) metaDictionary;
 
 //-(void) addContact: (id<PUser>) user;
 -(NSArray *) getContacts;

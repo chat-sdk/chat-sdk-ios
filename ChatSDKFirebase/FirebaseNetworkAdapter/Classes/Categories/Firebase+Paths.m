@@ -85,6 +85,10 @@
     return [[self threadRef:firebaseID] child:bTypingPath];
 }
 
++(FIRDatabaseReference *) threadMetaRef: (NSString *) firebaseID {
+    return [[self threadRef:firebaseID] child:bMetaDataPath];
+}
+
 #pragma Indexes
 
 +(FIRDatabaseReference *) indexRef {

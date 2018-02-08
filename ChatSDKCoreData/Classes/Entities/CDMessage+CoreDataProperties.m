@@ -28,5 +28,6 @@
 @dynamic user;
 @dynamic status;
 @dynamic meta;
+@dynamic json;
 
 @end

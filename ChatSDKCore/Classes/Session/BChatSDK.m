@@ -109,5 +109,9 @@ static BChatSDK * instance;
     return [BIntegrationHelper logout];
 }
 
++(BConfiguration *) config {
+    return [self shared].configuration;
+}
+
 
 @end

@@ -56,6 +56,7 @@
 #define bNotificationPresentChatView_PThread @"bNPresentChatView_PThread"
 
 #define bNotificationThreadUsersUpdated @"bNThreadUsersUpdated"
+#define bNotificationThreadMetaUpdated @"bNThreadMetaUpdated"
 
 #define bNotificationReadReceiptUpdated @"bNReadReceiptUpdated"
 #define bNotificationReadReceiptUpdatedKeyMessage @"bNReadReceiptUpdatedKeyMessage"

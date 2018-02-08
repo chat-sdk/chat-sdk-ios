@@ -215,13 +215,50 @@
     }, Nil);
 }
 
-
-
 -(void) messagesOff {
     
     ((NSManagedObject *)_model).messagesOn = NO;
     
     FIRDatabaseReference * ref = [FIRDatabaseReference threadMessagesRef:_model.entityID];
+    [ref removeAllObservers];
+}
+
+-(RXPromise *) pushMeta {
+    RXPromise * promise = [RXPromise new];
+    FIRDatabaseReference * ref = [FIRDatabaseReference threadMetaRef:_model.entityID];
+    [ref updateChildValues: [_model metaDictionary] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+        if(!error) {
+            [promise resolveWithResult:Nil];
+        }
+        else {
+            [promise resolveWithResult:error];
+        }
+    }];
+    return promise;
+}
+
+-(void) metaOn {
+    if (((NSManagedObject *)_model).metaOn) {
+        return;
+    }
+    ((NSManagedObject *)_model).metaOn = YES;
+
+    FIRDatabaseReference * ref = [FIRDatabaseReference threadMetaRef:_model.entityID];
+    [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+        if(snapshot.value != [NSNull null]) {
+            for(NSString * key in snapshot.value) {
+                [_model setMetaValue:snapshot.value[key] forKey:key];
+                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadMetaUpdated object:Nil];
+            }
+        }
+    }];
+}
+
+-(void) metaOff {
+    
+    ((NSManagedObject *)_model).metaOn = NO;
+    
+    FIRDatabaseReference * ref = [FIRDatabaseReference threadMetaRef:_model.entityID];
     [ref removeAllObservers];
 }
 
@@ -419,16 +456,6 @@
     });
     return promise;
 }
-
-//-(RXPromise *) usersMetaOn {
-//    return [self pathOn:bUsersPath callback:^(FDataSnapshot * snapshot) {
-//        // Set the user's value
-//    }];
-//}
-
-//-(void) usersMetaOff {
-//    [self pathOff: bUsersPath];
-//}
 
 -(NSDictionary *) serialize {
     return @{bDetailsPath: @{b_CreationDate: [FIRServerValue timestamp],

@@ -17,6 +17,7 @@
 @property (nonatomic, readonly) BConfiguration * configuration;
 
 +(BChatSDK *) shared;
++(BConfiguration *) config;
 
 // Application lifecycle methods - should be called from App Delegate
 +(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions;

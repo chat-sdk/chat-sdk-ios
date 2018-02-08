@@ -28,6 +28,7 @@
 +(FIRDatabaseReference *) threadMessagesRef: (NSString *) firebaseID;
 +(FIRDatabaseReference *) threadTypingRef: (NSString *) firebaseID;
 +(FIRDatabaseReference *) threadUsersRef: (NSString *) firebaseID;
++(FIRDatabaseReference *) threadMetaRef: (NSString *) firebaseID;
 
 // Flagged
 +(FIRDatabaseReference *) flaggedRefWithThread: (NSString *) threadID message: (NSString *) messageID;
