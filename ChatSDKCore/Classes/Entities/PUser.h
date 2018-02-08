@@ -10,13 +10,13 @@
 
 #import "BUserConnectionType.h"
 #import "PElmUser.h"
+#import "PHasMeta.h"
 
 @class RXPromise;
 @protocol PUserConnection;
 @protocol PThread;
 @protocol PUserAccount;
 @protocol PEntity;
-@protocol PHasMeta;
 
 @protocol PUser <PEntity, PHasMeta, PElmUser>
 
@@ -63,15 +63,8 @@
 -(void) setStatusText: (NSString *) statusText;
 -(NSString *) statusText;
 
--(void) setMetaString: (NSString *) value forKey: (NSString *) key;
--(NSString *) metaStringForKey: (NSString *) key;
-
--(void) setMetaDictionary: (NSDictionary *) dict;
-
 //-(void) addContact: (id<PUser>) user;
 -(NSArray *) getContacts;
--(void) setMetaValue: (id) value forKey: (NSString *) key;
--(id) metaValueForKey: (NSString *) key;
 
 -(void) setMessageColor: (NSString *) color;
 -(NSString *) messageColor;
