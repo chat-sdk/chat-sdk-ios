@@ -101,6 +101,8 @@
 
 -(BOOL) isMe;
 
+// Needed for CocoaPods install
+-(NSDictionary *) metaDictionary;
 
 @end
 
