@@ -28,6 +28,11 @@
         textView.editable = NO;
         textView.userInteractionEnabled = YES;
         textView.scrollEnabled = YES;
+
+        textView.font = [UIFont systemFontOfSize:bDefaultFontSize];
+        if([BChatSDK config].messageTextFont) {
+            textView.font = [BChatSDK config].messageTextFont;
+        }
         
         UIColor * linkColor = [[BInterfaceManager sharedManager].a colorForName:bColorMessageLink];
         if(linkColor) {
@@ -46,8 +51,14 @@
     [super setMessage:message withColorWeight:colorWeight];
     
     textView.text = message.textString;
-    textView.font = [UIFont systemFontOfSize:bDefaultFontSize];
     
+    if([BChatSDK config].messageTextColorMe && message.userModel.isMe) {
+        textView.textColor = [BCoreUtilities colorWithHexString:[BChatSDK config].messageTextColorMe];
+    }
+    if([BChatSDK config].messageTextColorReply && !message.userModel.isMe) {
+        textView.textColor = [BCoreUtilities colorWithHexString:[BChatSDK config].messageTextColorReply];
+    }
+
     textView.textColor = [BCoreUtilities colorWithHexString:bDefaultTextColor];
 }
 

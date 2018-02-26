@@ -41,11 +41,11 @@
                                                         <action selector="profilePictureButtonPressed:" destination="S0e-Qh-Mjd" eventType="touchDown" id="cVT-2U-zJX"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="30M-Bh-PZ3">
+                                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="30M-Bh-PZ3" userLabel="Right Action">
                                                     <rect key="frame" x="259" y="11" width="100" height="50"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="CT6-3g-CXl"/>
-                                                        <constraint firstAttribute="width" constant="100" id="DeK-xT-C1p"/>
+                                                        <constraint firstAttribute="height" priority="900" constant="50" id="CT6-3g-CXl"/>
+                                                        <constraint firstAttribute="width" priority="900" constant="100" id="DeK-xT-C1p"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -56,14 +56,35 @@
                                                         <color key="titleColor" red="0.29803921570000003" green="0.68235294120000001" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="blockButtonPressed:" destination="S0e-Qh-Mjd" eventType="touchUpInside" id="G4X-YW-I9l"/>
+                                                        <action selector="rightActionButtonPressed:" destination="S0e-Qh-Mjd" eventType="touchUpInside" id="8Xt-hW-l34"/>
+                                                    </connections>
+                                                </button>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D60-Pb-WCA" userLabel="Left Action">
+                                                    <rect key="frame" x="8" y="7" width="100" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" priority="900" constant="100" id="GcG-ZH-sSd"/>
+                                                        <constraint firstAttribute="height" priority="900" constant="50" id="cwE-Cg-XTa"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <state key="normal" title="Left Action">
+                                                        <color key="titleColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <state key="selected">
+                                                        <color key="titleColor" red="0.29803921570000003" green="0.68235294120000001" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="leftActionButtonPressed:" destination="S0e-Qh-Mjd" eventType="touchUpInside" id="wvr-gE-IWC"/>
+                                                        <action selector="rightActionButtonPressed:" destination="S0e-Qh-Mjd" eventType="touchUpInside" id="hJG-H9-acc"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="topMargin" secondItem="30M-Bh-PZ3" secondAttribute="top" id="C3l-nK-7SZ"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="30M-Bh-PZ3" secondAttribute="trailing" id="Imw-7S-f0Z"/>
+                                                <constraint firstItem="D60-Pb-WCA" firstAttribute="leading" secondItem="xLb-n9-a5M" secondAttribute="leading" constant="8" id="LFm-PX-L0M"/>
                                                 <constraint firstAttribute="centerX" secondItem="OfV-Y5-yv1" secondAttribute="centerX" id="sJ8-Aq-ftj"/>
+                                                <constraint firstItem="D60-Pb-WCA" firstAttribute="top" secondItem="xLb-n9-a5M" secondAttribute="top" constant="8" id="wHE-Ps-loa"/>
                                                 <constraint firstAttribute="centerY" secondItem="OfV-Y5-yv1" secondAttribute="centerY" id="xKX-gH-OpV"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -184,11 +205,11 @@
                     <navigationItem key="navigationItem" id="VoR-HS-EXd"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="blockButton" destination="30M-Bh-PZ3" id="ly2-YJ-Rx6"/>
                         <outlet property="cell0" destination="xLb-n9-a5M" id="6XA-8a-7CO"/>
                         <outlet property="emailCell" destination="2qf-Qm-axE" id="Lq1-IY-djC"/>
                         <outlet property="emailField" destination="5rN-rQ-91R" id="0wf-ic-oCz"/>
                         <outlet property="emailImageView" destination="LrI-gN-jQ6" id="hSp-oS-A8u"/>
+                        <outlet property="leftActionButton" destination="D60-Pb-WCA" id="wtw-pK-wUl"/>
                         <outlet property="nameCell" destination="P7g-yo-UhE" id="LSf-HA-Afs"/>
                         <outlet property="nameField" destination="fLk-Vs-HfW" id="TAC-iR-ZUU"/>
                         <outlet property="nameImageView" destination="fay-EN-v1F" id="iOz-fP-ClR"/>
@@ -196,6 +217,7 @@
                         <outlet property="phoneNumberField" destination="jLn-qd-LKf" id="8Et-gr-l8e"/>
                         <outlet property="phoneNumberImageView" destination="HES-fj-vpu" id="2j9-Gl-kbd"/>
                         <outlet property="profilePictureButton" destination="OfV-Y5-yv1" id="oxU-De-Wh2"/>
+                        <outlet property="rightActionButton" destination="30M-Bh-PZ3" id="7or-68-IAw"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pey-Dk-Pyc" userLabel="First Responder" sceneMemberID="firstResponder"/>

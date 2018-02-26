@@ -19,6 +19,8 @@
 -(RXPromise *) twitter;
 -(RXPromise *) googlePlus;
 -(RXPromise *) anonymous;
+-(RXPromise *) resetPasswordWithCredential: (NSString *) credential;
+-(NSString *) usernamePlaceholder;
 
 @end
 

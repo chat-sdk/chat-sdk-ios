@@ -28,11 +28,18 @@ static BChatSDK * instance;
     return instance;
 }
 
-+(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions {
++(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceFacade>) adapter {
     [self shared]->_configuration = config;
     [BModuleHelper activateCoreModules];
+    if(adapter) {
+        [BInterfaceManager sharedManager].a = adapter;
+    }
     [BModuleHelper activateModules];
     [self application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
++(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions {
+    [self initialize:config app:application options:launchOptions interfaceAdapter:Nil];
 }
 
 +(void) activateModules {

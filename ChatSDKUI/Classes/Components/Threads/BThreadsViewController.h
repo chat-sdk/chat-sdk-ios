@@ -23,6 +23,7 @@
 }
 
 @property (nonatomic, readwrite) UITableView *tableView;
+@property (nonatomic, readwrite) NSMutableArray * threads;
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 

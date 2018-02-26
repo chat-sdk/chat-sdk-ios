@@ -22,6 +22,7 @@
 @implementation BThreadsViewController
 
 @synthesize tableView;
+@synthesize threads = _threads;
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -182,12 +183,10 @@
     
     NSString * text = [NSBundle t:bNoMessages];
     
-    id<PMessage> message = Nil;
+    id<PMessage> message = [thread messagesOrderedByDateDesc].firstObject;
     
     // TODO: move this into one method
-    if (thread.allMessages.count) {
-        // Get the last message
-        message = [thread messagesOrderedByDateDesc].firstObject;
+    if (message) {
         
         if (message.type.intValue == bMessageTypeImage) {
             text = [NSBundle core_t:bImageMessage];
@@ -214,6 +213,18 @@
     }
     else {
         cell.dateLabel.text = @"";
+    }
+    
+    if([BChatSDK config].threadTimeFont) {
+        cell.dateLabel.font = [BChatSDK config].threadTimeFont;
+    }
+    
+    if([BChatSDK config].threadTitleFont) {
+        cell.titleLabel.font = [BChatSDK config].threadTitleFont;
+    }
+
+    if([BChatSDK config].threadSubtitleFont) {
+        cell.messageTextView.font = [BChatSDK config].threadSubtitleFont;
     }
 
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];

@@ -13,6 +13,13 @@
 
 @implementation CDThread
 
+-(instancetype) init {
+    if((self = [super init])) {
+        [self optimizeMessageProperties];
+    }
+    return self;
+}
+
 -(NSMutableArray *) messagesWorkingList {
     if(!_messagesWorkingList) {
         _messagesWorkingList = [NSMutableArray new];
@@ -23,47 +30,93 @@
 
 -(void) resetMessages {
     [_messagesWorkingList removeAllObjects];
-    
-    NSArray * messages = [self orderMessagesByDateDesc:self.allMessages];
+    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:bMessageWorkingListInitialSize ascending:NO]];
 
-    for(int i = 0; i < bMessageWorkingListInitialSize; i++) {
-        if(i < messages.count) {
-            [_messagesWorkingList addObject:messages[i]];
-        }
-        else {
-            break;
-        }
-    }
+    //
+    NSFetchRequest * request = [[NSFetchRequest alloc] init];
+    [request setFetchLimit:bMessageWorkingListInitialSize];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]];
+    
+    [_messagesWorkingList addObjectsFromArray:[[BStorageManager sharedManager].a executeFetchRequest:request
+                                                                                          entityName:bMessageEntity
+                                                                                           predicate:Nil]];
+    
+//    NSArray * messages = [self orderMessagesByDateDesc:self.allMessages];
+//
+//    for(int i = 0; i < bMessageWorkingListInitialSize; i++) {
+//        if(i < messages.count) {
+//            [_messagesWorkingList addObject:messages[i]];
+//        }
+//        else {
+//            break;
+//        }
+//    }
+}
+
+-(NSArray *) loadMessagesWithCount: (int) count ascending: (BOOL) ascending {
+    NSFetchRequest * request = [[NSFetchRequest alloc] init];
+    [request setFetchLimit:count];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:ascending]];
+    
+    return [[BStorageManager sharedManager].a executeFetchRequest:request
+                                                       entityName:bMessageEntity
+                                                        predicate:Nil];
 }
 
 // Adds extra messages to the
--(NSArray *) loadMoreMessages: (int) numberOfMessages {
+-(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages {
     
-    NSArray * allMessages = [self orderMessagesByDateAsc:self.allMessages];
+    // Get the next batch of messages
+    [_messagesWorkingList removeAllObjects];
+    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:_messagesWorkingList.count + numberOfMessages ascending:YES]];
     
-    // The endIndex of the last message to add
-    NSInteger endIndex = allMessages.count - self.messagesWorkingList.count - 1;
+//    NSArray * allMessages = [self orderMessagesByDateAsc:self.allMessages];
+//
+//    // The endIndex of the last message to add
+//    NSInteger endIndex = allMessages.count - self.messagesWorkingList.count - 1;
+//
+//    NSMutableArray * messages = [NSMutableArray new];
+//
+//    // Loop backwards from the end index adding the messages to the working list
+//    for(NSInteger i = endIndex; i > endIndex - numberOfMessages; i--) {
+//        if(i >= 0) {
+//            [messages addObject:allMessages[i]];
+//        }
+//    }
+//
+//    [_messagesWorkingList addObjectsFromArray:messages];
     
-    NSMutableArray * messages = [NSMutableArray new];
-    
-    // Loop backwards from the end index adding the messages to the working list
-    for(NSInteger i = endIndex; i > endIndex - numberOfMessages; i--) {
-        if(i >= 0) {
-            [messages addObject:allMessages[i]];
+    return _messagesWorkingList;
+}
+
+-(void) optimizeMessageProperties {
+    NSArray * messages = self.messagesOrderedByDateAsc;
+    for(int i = 0; i < messages.count; i++) {
+        CDMessage * message = (CDMessage *) messages[i];
+        if(!message.lastMessage && i > 0) {
+            message.lastMessage = messages[i - 1];
         }
+        if(![message metaValueForKey:bMessageSenderIsMe]) {
+            [message setMetaValue:@(message.userModel.isMe) forKey:bMessageSenderIsMe];
+        }
+        [message updatePosition];
     }
-    
-    [_messagesWorkingList addObjectsFromArray:messages];
-    
-    return messages;
 }
 
 -(NSArray *) allMessages {
     return self.messages.allObjects;
 }
 
+-(BOOL) hasMessages {
+    return self.messagesWorkingList.count > 0;
+}
+
 -(void) addMessage: (id<PMessage>) message {
     ((CDMessage *) message).thread = self;
+    
+    [[message lazyLastMessage] updatePosition];
+    
+    
     if(![self.messagesWorkingList containsObject:message]) {
         [self.messagesWorkingList addObject:message];
     }
@@ -77,7 +130,6 @@
         [self.messagesWorkingList removeObject:message];
     }
 }
-
 
 -(void) setDeleted:(NSNumber *)deleted_ {
     self.deleted_ = deleted_;
@@ -222,7 +274,7 @@
             return [NSBundle imageNamed:bDefaultPublicGroupImage framework:@"ChatSDK" bundle:@"ChatUI"];
         }
         else {
-            return [NSBundle imageNamed:bDefaultProfileImage framework:@"ChatSDK" bundle:@"ChatUI"];
+            return [BChatSDK config].defaultBlankAvatar;
         }
     }
     else if (users.count == 1) {

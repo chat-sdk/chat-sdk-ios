@@ -96,9 +96,8 @@ static BCoreDataManager * manager;
     return [self fetchEntitiesWithName:entityName withPredicate:Nil];
 }
 
--(NSArray *) fetchEntitiesWithName: (NSString *) entityName withPredicate: (NSPredicate *) predicate {
-    @synchronized(self.managedObjectContext)  {
-        NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
+-(id) executeFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate {
+    @synchronized(self.managedObjectContext) {
         [fetchRequest setIncludesPendingChanges:YES];
         NSEntityDescription * entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.managedObjectContext];
         if (!entity) {
@@ -118,6 +117,10 @@ static BCoreDataManager * manager;
         
         return entities;
     }
+}
+
+-(NSArray *) fetchEntitiesWithName: (NSString *) entityName withPredicate: (NSPredicate *) predicate {
+    return [self executeFetchRequest:[[NSFetchRequest alloc] init] entityName:entityName predicate:predicate];
 }
 
 -(id) fetchEntityWithID: (NSString *) entityID withType: (NSString *) type {

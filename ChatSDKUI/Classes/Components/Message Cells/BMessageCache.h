@@ -13,17 +13,11 @@
 
 @interface BMessageCache : NSObject {
     NSMutableDictionary * _messageBubbleImages;
-    NSMutableDictionary * _messageInfo;
-    NSString * _currentUserEntityID;
 }
 
 +(BMessageCache *) sharedCache;
 
 -(UIImage *) bubbleForMessage: (id<PElmMessage>) message withColorWeight: (float) weight ;
 
--(BOOL) isMine: (id<PElmMessage>) message;
--(void) clear;
--(bMessagePosition) positionForMessage: (id<PElmMessage>) message;
--(id<PElmMessage>) nextMessageForMessage: (id<PElmMessage>) message;
 
 @end

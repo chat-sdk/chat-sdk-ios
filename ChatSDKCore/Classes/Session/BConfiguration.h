@@ -28,6 +28,14 @@
 // Should empty chats be shown in the threads view?
 @property (nonatomic, readwrite) BOOL showEmptyChats;
 
+// User profile image
+@property (nonatomic, readwrite) NSString * defaultAvatarURL;
+
+// Which image should be used if no avatar is set
+@property (nonatomic, readwrite) UIImage * defaultBlankAvatar;
+
+@property (nonatomic, readwrite) NSString * timeFormat;
+
 // Can users make new public chats. It's recommended to set this to no otherwise
 // users will create a large number of chats
 @property (nonatomic, readwrite) BOOL allowUsersToCreatePublicChats;
@@ -45,8 +53,27 @@
 // The app name text displayed on the login screen
 @property (nonatomic, readwrite) NSString * loginScreenAppName;
 
+// Login username / email placeholder text
+@property (nonatomic, readwrite) NSString * loginUsernamePlaceholder;
+
 // When a push notification is clicked, should the chat screen be opened
 @property(nonatomic, readwrite) BOOL shouldOpenChatWhenPushNotificationClicked;
+
+// Allow the owner of a public thread to delete it
+@property (nonatomic, readwrite) BOOL allowPublicThreadDeletion;
+
+// Message fonts
+@property (nonatomic, readwrite) UIFont * messageTextFont;
+@property (nonatomic, readwrite) NSString * messageTextColorMe;
+@property (nonatomic, readwrite) NSString * messageTextColorReply;
+
+@property (nonatomic, readwrite) UIFont * messageTimeFont;
+@property (nonatomic, readwrite) UIFont * messageNameFont;
+
+@property (nonatomic, readwrite) UIFont * threadTitleFont;
+@property (nonatomic, readwrite) UIFont * threadTimeFont;
+@property (nonatomic, readwrite) UIFont * threadSubtitleFont;
+
 
 // Chat SDK can auto-detect and install modules. Some modules need to a different setup
 // procedure depending on which server is being used - Firebase or XMPP. If only one

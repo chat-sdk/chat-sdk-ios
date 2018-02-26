@@ -11,6 +11,8 @@
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
 
+#define defaultCellHeight 
+
 @interface BProfileTableViewController ()
 
 @end
@@ -51,6 +53,8 @@
         _user = currentUser;
     }
     [self updateBlockButton];
+    
+    
 
 }
 
@@ -352,7 +356,7 @@
     self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
-- (IBAction)blockButtonPressed:(id)sender {
+- (IBAction)rightActionButtonPressed:(id)sender {
     if(NM.blocking) {
         if(![NM.blocking isBlocked:_user.entityID]) {
             [NM.blocking blockUser:_user.entityID].thenOnMain(^id(id success) {
@@ -369,14 +373,20 @@
     }
 }
 
--(void) updateBlockButton {
-    [self.blockButton setTitle:[NSBundle t:bBlock] forState:UIControlStateNormal];
-    [self.blockButton setTitle:[NSBundle t:bUnblock] forState:UIControlStateSelected];
+- (IBAction)leftActionButtonPressed:(id)sender {
 
-    self.blockButton.hidden = !NM.blocking || [_user isEqual:NM.currentUser];
+}
+
+-(void) updateBlockButton {
+    [self.rightActionButton setTitle:[NSBundle t:bBlock] forState:UIControlStateNormal];
+    [self.rightActionButton setTitle:[NSBundle t:bUnblock] forState:UIControlStateSelected];
+
+    self.rightActionButton.hidden = !NM.blocking || [_user isEqual:NM.currentUser];
     if(NM.blocking) {
-        self.blockButton.selected = [NM.blocking isBlocked:_user.entityID];
+        self.rightActionButton.selected = [NM.blocking isBlocked:_user.entityID];
     }
 }
+
+
 
 @end

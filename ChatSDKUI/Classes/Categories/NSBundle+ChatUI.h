@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #define bLogout @"bLogout"
+#define bSettings @"bSettings"
 #define bAuthenticating @"bAuthenticating"
 #define bLogginIn @"bLogginIn"
 //#define bProfile @"bProfile"
@@ -26,6 +27,7 @@
 #define bPickFriends @"bPickFriends"
 
 #define bBack @"bBack"
+#define bImageSaved @"bImageSaved"
 #define bOpenInMaps @"bOpenInMaps"
 #define bLocation @"bLocation"
 #define bCompose @"bCompose"
@@ -64,6 +66,10 @@
 #define bThreadName @"bThreadName"
 #define bCancel @"bCancel"
 #define bOk @"bOk"
+#define bReset @"bReset"
+#define bForgotPassword @"bForgotPassword"
+#define bEnterCredentialToResetPassword @"bEnterCredentialToResetPassword"
+#define bPasswordResetSuccess @"bPasswordResetSuccess"
 #define bUnableToCreateThread @"bUnableToCreateThread"
 #define bChat @"bChat"
 #define bOptions @"bOptions"

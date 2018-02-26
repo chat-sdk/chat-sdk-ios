@@ -81,7 +81,7 @@
     
     for(id<PThread> thread in allThreads) {
         if(thread.type.intValue & bThreadFilterPrivate) {
-            if(thread.type.intValue & type  && (!thread.deleted_.boolValue || includeDeleted) && (thread.allMessages.count || includeEmpty)) {
+            if(thread.type.intValue & type  && (!thread.deleted_.boolValue || includeDeleted) && (thread.hasMessages || includeEmpty)) {
                 [threads addObject:thread];
             }
         }

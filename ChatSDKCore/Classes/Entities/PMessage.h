@@ -23,11 +23,11 @@ typedef enum {
 } bMessageType;
 
 typedef enum {
-    bMessagePositionFirst = 0x1,
-    bMessagePositionLast = 0x2,
-    bMessagePositionMiddle = bMessagePositionFirst & bMessagePositionLast,
-    bMessagePositionSingle = bMessagePositionFirst | bMessagePositionLast,
-} bMessagePosition;
+    bMessagePosFirst = 0x1,
+    bMessagePosLast = 0x2,
+    bMessagePosMiddle = bMessagePosFirst & bMessagePosLast,
+    bMessagePosSingle = bMessagePosFirst | bMessagePosLast,
+} bMessagePos;
 
 #define bMessageTextKey @"text"
 
@@ -44,6 +44,12 @@ typedef enum {
 #define bMessageLatitude @"latitude"
 #define bMessageAudioURL @"audio-url"
 #define bMessageAudioLength @"audio-length"
+
+// Is the message the first, last or a middle message
+#define bMessagePosition @"position"
+
+// TODO: Is this really needed?
+#define bMessageSenderIsMe @"sender-is-me"
 
 #define bMessageOriginalThreadEntityID @"original-thread-entity-id"
 
@@ -133,12 +139,13 @@ typedef enum {
 -(void) setMetaDictionary: (NSDictionary *) dict;
 -(NSDictionary *) metaDictionary;
 
-//- (BOOL)firstMessageFromUser;
-- (BOOL)lastMessageFromUser;
--(id<PMessage>) nextMessage;
--(bMessagePosition) messagePosition;
+-(bMessagePos) messagePosition;
+-(BOOL) senderIsMe;
+-(id<PMessage>) lazyNextMessage;
+-(id<PMessage>) lazyLastMessage;
+-(void) updatePosition;
 
-- (BOOL)showUserNameLabelForPosition: (bMessagePosition) position;
+- (BOOL)showUserNameLabelForPosition: (bMessagePos) position;
 
 /**
  * @brief Message flagged on server for moderator attention

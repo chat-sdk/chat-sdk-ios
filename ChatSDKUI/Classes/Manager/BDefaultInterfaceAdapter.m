@@ -30,6 +30,19 @@
     [_additionalTabBarViewControllers addObject:@[controller, @(index)]];
 }
 
+-(void) removeTabBarViewControllerAtIndex: (int) index {
+    int i = 0;
+    BOOL found = false;
+    for(NSArray * array in _additionalTabBarViewControllers) {
+        if([array[1] intValue] == index) {
+            found = true;
+            break;
+        }
+        i++;
+    }
+    [_additionalTabBarViewControllers removeObjectAtIndex:i];
+}
+
 -(UIViewController *) privateThreadsViewController {
     if (!_privateThreadsViewController) {
         _privateThreadsViewController = [[BPrivateThreadsViewController alloc] init];
@@ -62,6 +75,10 @@
 
     controller.user = user;
     return controller;
+}
+
+-(UIViewController *) eulaViewController {
+    return [[BEULAViewController alloc] init];
 }
 
 -(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread {

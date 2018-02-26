@@ -31,12 +31,6 @@
 }
 
 -(NSDictionary *) metaDictionary {
-//    if (self.impl_meta) {
-//        return [NSKeyedUnarchiver unarchiveObjectWithData:self.impl_meta];
-//    }
-//    else {
-//        return @{};
-//    }
     return [self impl_meta];
 }
 

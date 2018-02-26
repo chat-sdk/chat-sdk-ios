@@ -208,45 +208,9 @@
     return self;
 }
 
--(bMessagePosition) messagePosition {
-    NSArray * messages = self.thread.messagesOrderedByDateAsc;
-    NSInteger index = [messages indexOfObject:self];
-    
-    id<PMessage> lastMessage = Nil;
-    id<PMessage> nextMessage = Nil;
-    
-    // We need to check to see if it's the first message from a user
-    if (index > 0) {
-        lastMessage = messages[index - 1];
-    }
-    if (index < messages.count - 1) {
-        nextMessage = messages[index + 1];
-    }
-    
-    BOOL first = NO;
-    if (!lastMessage || ![lastMessage.userModel isEqual:self.userModel]) {
-        first = YES;
-    }
-    
-    BOOL last = NO;
-    if (!nextMessage || ![nextMessage.userModel isEqual:self.userModel]) {
-        last  = YES;
-    }
-    
-    // A lone message
-    if (first && last) {
-        return bMessagePositionSingle;
-    }
-    else if (first && !last) {
-        return bMessagePositionFirst;
-    }
-    else if (!first && last) {
-        return bMessagePositionLast;
-    }
-    //if (!first && !last) {
-    else {
-        return bMessagePositionMiddle;
-    }
+-(bMessagePos) messagePosition {
+    [self updateOptimizationProperties];
+    return [[self metaValueForKey:bMessagePosition] intValue];
 }
 
 -(NSString *) textString {
@@ -257,45 +221,20 @@
     [self setTextAsDictionary:@{bMessageTextKey: text ? text : @""}];
 }
 
--(id<PMessage>) nextMessage {
-    if(_nextMessage) {
-        return _nextMessage;
-    }
-    else {
-        
-    }
-    
-    NSArray * messages = self.thread.messagesOrderedByDateAsc;
-    NSInteger index = [messages indexOfObject:self];
-    if (index < messages.count-1) {
-        return messages[index+1];
-    }
-    else {
-        return Nil;
-    }
-}
-
 // This helps us know if we want to show it in the thread
-- (BOOL)showUserNameLabelForPosition: (bMessagePosition) position {
-    if (self.isMine) {
+- (BOOL)showUserNameLabelForPosition: (bMessagePos) position {
+    if (self.senderIsMe) {
         return NO;
     }
     
-    if (!(position & bMessagePositionLast)) {
+    if (!(position & bMessagePosLast)) {
         return NO;
     }
     if (self.thread.type.integerValue & bThreadFilterPublic || self.thread.users.count > 2) {
         return YES;
     }
-    //    if (!self.userModel) {
-    //        return NO;
-    //    }
-    
-    return NO;
-}
 
--(BOOL) isMine {
-    return [NM.currentUser isEqual:self.userModel];
+    return NO;
 }
 
 -(void) setReadStatus:(NSDictionary *)status {
@@ -306,7 +245,7 @@
     if (!self.status) {
         return bMessageReadStatusNone;
     }
-    
+
     NSDictionary * status = self.status;
     if(status && uid) {
         NSDictionary * userStatus = status[uid];
@@ -373,6 +312,67 @@
 
 -(id) metaValueForKey: (NSString *) key {
     return self.meta[key];
+}
+
+-(BOOL) senderIsMe {
+    if(![self metaValueForKey:bMessageSenderIsMe]) {
+        [self updateOptimizationProperties];
+    }
+    return [[self metaValueForKey:bMessageSenderIsMe] boolValue];
+}
+
+// We store certain shortcuts for optimization purposes
+// Message position
+// Sender is me
+// Next and last message
+// Update these if necessary
+-(void) updateOptimizationProperties {
+    if(!self.lastMessage || !self.nextMessage) {
+        NSArray * messages = self.thread.messagesOrderedByDateAsc;
+        NSInteger index = [messages indexOfObject:self];
+        
+        if(index != NSNotFound) {
+            if(!self.lastMessage && index > 0) {
+                self.lastMessage = messages[index - 1];
+            }
+        }
+    }
+    
+    if(![self metaValueForKey:bMessageSenderIsMe]) {
+        BOOL isMe = self.userModel.isMe;
+        [self setMetaValue:@(isMe) forKey:bMessageSenderIsMe];
+    }
+    
+    [self updatePosition];
+}
+
+-(void) updatePosition {
+    BOOL isFirst = !self.lastMessage || self.lastMessage.senderIsMe != self.senderIsMe;
+    BOOL isLast = !self.nextMessage || self.nextMessage.senderIsMe != self.senderIsMe;
+    
+    int position = 0;
+    if (isFirst) {
+        position = position | bMessagePosFirst;
+    }
+    if (isLast) {
+        position = position | bMessagePosLast;
+    }
+    
+    [self setMetaValue:@(position) forKey:bMessagePosition];
+}
+
+-(CDMessage *) lazyLastMessage {
+    if(!self.lastMessage) {
+        [self updateOptimizationProperties];
+    }
+    return self.lastMessage;
+}
+
+-(CDMessage *) lazyNextMessage {
+    if(!self.nextMessage) {
+        [self updateOptimizationProperties];
+    }
+    return self.nextMessage;
 }
 
 

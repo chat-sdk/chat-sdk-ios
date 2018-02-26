@@ -42,15 +42,24 @@
         [self.contentView addSubview:_profilePicture];
         
         _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
+        
         _timeLabel.font = [UIFont italicSystemFontOfSize:12];
+        if([BChatSDK config].messageTimeFont) {
+            _timeLabel.font = [BChatSDK config].messageTimeFont;
+        }
+
         _timeLabel.textColor = [UIColor lightGrayColor];
         _timeLabel.userInteractionEnabled = NO;
         
         [self.contentView addSubview:_timeLabel];
 
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
-        _nameLabel.font = [UIFont boldSystemFontOfSize:bDefaultUserNameLabelSize];
         _nameLabel.userInteractionEnabled = NO;
+        
+        _nameLabel.font = [UIFont boldSystemFontOfSize:bDefaultUserNameLabelSize];
+        if([BChatSDK config].messageNameFont) {
+            _nameLabel.font = [BChatSDK config].messageNameFont;
+        }
         
         _readMessageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         [self setReadStatus:bMessageReadStatusNone];
@@ -104,7 +113,7 @@
     // Set the message for later use
     _message = message;
     
-    BOOL isMine = [[BMessageCache sharedCache] isMine:message];
+    BOOL isMine = message.senderIsMe;
     if (isMine) {
         [self setReadStatus:message.readStatus];
     }
@@ -112,8 +121,8 @@
         [self setReadStatus:bMessageReadStatusHide];
     }
     
-    bMessagePosition position = [[BMessageCache sharedCache] positionForMessage:message];
-    id<PElmMessage> nextMessage = [[BMessageCache sharedCache] nextMessageForMessage:message];
+    bMessagePos position = message.messagePosition;
+    id<PElmMessage> nextMessage = message.lazyNextMessage;
     
     // Set the bubble to be the correct color
     bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message withColorWeight:colorWeight];
@@ -123,7 +132,7 @@
     //[[AsyncImageLoader sharedLoader] cancelLoadingImagesForTarget:_profilePicture];
 
     // We only want to show the user picture if it is the latest message from the user
-    if (position & bMessagePositionLast) {
+    if (position & bMessagePosLast) {
         if (message.userModel) {
             _profilePicture.hidden = NO;
             if(message.userModel.imageURL) {

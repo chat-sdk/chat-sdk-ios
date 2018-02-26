@@ -26,6 +26,7 @@
 -(UIViewController *) contactsViewController;
 -(UIViewController *) profileViewControllerWithUser: (id<PUser>) user ;
 -(UIViewController *) appTabBarViewController;
+-(UIViewController *) eulaViewController;
 -(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude;
 -(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread;
 
@@ -50,6 +51,8 @@
 -(void) removeChatOption: (BChatOption *) option;
 
 -(void) addTabBarViewController: (UIViewController *) controller atIndex: (int) index;
+-(void) removeTabBarViewControllerAtIndex: (int) index;
+
 -(NSDictionary *) additionalSearchControllerNames;
 -(UIViewController *) settingsViewController;
 

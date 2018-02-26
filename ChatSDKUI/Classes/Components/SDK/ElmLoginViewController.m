@@ -200,7 +200,7 @@
 }
 
 - (IBAction)termsAndConditionsButtonPressed:(id)sender {
-    BEULAViewController * vc = [[BEULAViewController alloc] init];
+    BEULAViewController * vc = [BInterfaceManager sharedManager].a.eulaViewController;
     UINavigationController * nvc = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nvc animated:YES completion:Nil];
 }
@@ -288,6 +288,51 @@
     anonymousButton.alpha = connected ? 1 : 0.6;
 }
 
+- (IBAction)forgotPasswordPressed:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSBundle t:bForgotPassword]
+                                                                   message:[NSBundle t:bEnterCredentialToResetPassword]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *submit = [UIAlertAction actionWithTitle:[NSBundle t:bOk] style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                       if (alert.textFields.count > 0) {
+                                                           UITextField *textField = [alert.textFields firstObject];
+                                                           [self impl_resetPasswordWithCredential:textField.text];
+                                                       }
+                                                   }];
+    
+    UIAlertAction * cancel = [UIAlertAction actionWithTitle:[NSBundle t:bCancel] style:UIAlertActionStyleCancel handler:Nil];
+    
+    [alert addAction:submit];
+    [alert addAction:cancel];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = delegate.usernamePlaceholder;
+    }];
+    
+    [self presentViewController:alert animated:YES completion:Nil];
+    
+}
 
+-(void) impl_resetPasswordWithCredential: (NSString *) credential {
+    [delegate resetPasswordWithCredential:credential].thenOnMain(^id(id success) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSBundle t:bSuccess]
+                                                                       message:[NSBundle t:bEnterCredentialToResetPassword]
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * cancel = [UIAlertAction actionWithTitle:[NSBundle t:bOk] style:UIAlertActionStyleCancel handler:Nil];
+        [alert addAction:cancel];
+        
+        [self presentViewController:alert animated:YES completion:Nil];
+        return Nil;
+    }, ^id(NSError * error) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSBundle t:bErrorTitle]
+                                                                       message:[error localizedDescription]
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * cancel = [UIAlertAction actionWithTitle:[NSBundle t:bOk] style:UIAlertActionStyleCancel handler:Nil];
+        [alert addAction:cancel];
+        [self presentViewController:alert animated:YES completion:Nil];
+        return Nil;
+    });
+}
 
 @end

@@ -9,6 +9,7 @@
 
 @class BConfiguration;
 @class RXPromise;
+@protocol PInterfaceFacade;
 
 @interface BChatSDK : NSObject {
     BConfiguration * _configuration;
@@ -21,6 +22,7 @@
 
 // Application lifecycle methods - should be called from App Delegate
 +(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions;
++(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceFacade>) adapter;
 
 +(BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
 +(BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options;

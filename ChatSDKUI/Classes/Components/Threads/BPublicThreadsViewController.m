@@ -33,7 +33,7 @@
     
     [super viewDidLoad];
     
-    _slideToDeleteDisabled = YES;
+    _slideToDeleteDisabled = ![BChatSDK config].allowPublicThreadDeletion;
     
     // Add new group button
     if([BChatSDK shared].configuration.allowUsersToCreatePublicChats) {
@@ -41,9 +41,6 @@
                                                                                                 target:self
                                                                                                 action:@selector(createThread)];
     }
-    
-    
-    
 }
 
 -(void) createThread {

@@ -39,7 +39,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumberField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UIButton *profilePictureButton;
-@property (weak, nonatomic) IBOutlet UIButton *blockButton;
+@property (weak, nonatomic) IBOutlet UIButton *rightActionButton;
+@property (weak, nonatomic) IBOutlet UIButton *leftActionButton;
 
 @property (weak, nonatomic) IBOutlet UIImageView *nameImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *phoneNumberImageView;
@@ -51,5 +52,11 @@
 
 //@property (nonatomic, readwrite) id<PUserConnection> userConnection;
 @property (nonatomic, readwrite) id<PUser> user;
+
+-(void) logout;
+-(void) loadUserImage;
+
+- (IBAction)leftActionButtonPressed:(id)sender;
+- (IBAction)rightActionButtonPressed:(id)sender;
 
 @end

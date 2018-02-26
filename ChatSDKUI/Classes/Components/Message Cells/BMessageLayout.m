@@ -90,7 +90,7 @@
 }
 
 -(float) nameHeight {
-    bMessagePosition pos = [[BMessageCache sharedCache] positionForMessage:_message];
+    bMessagePos pos = [_message messagePosition];
     // Do we want to show the users name label
     if ([_message showUserNameLabelForPosition:pos]) {
         return bUserNameHeight;

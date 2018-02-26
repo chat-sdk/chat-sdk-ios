@@ -48,8 +48,9 @@
     [self activateModuleForName:@"BReadReceiptsModule"];
     [self activateModuleForName:@"BTypingIndicatorModule"];
     [self activateModuleForName:@"BStickerMessageModule"];
-    [self activateModuleForName:@"BKeyboardOverlayOptionsModule"];
+    [self activateModuleForName:@"BDiagnosticModule"];
     [self activateModuleForName:@"BContactBookModule"];
+    [self activateModuleForName:@"BKeyboardOverlayOptionsModule"];
 }
 
 +(void) activateCoreModules {

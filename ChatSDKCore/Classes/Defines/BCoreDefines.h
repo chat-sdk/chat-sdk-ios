@@ -28,6 +28,4 @@
 #define bDefaultUserNameLabelSize 14
 #define bDefaultTextColor @"000000"
 
-#define bDefaultTimeFormat @"HH:mm"
-
 #endif /* BCoreDefines_h */

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -133,7 +133,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMk-xT-irR">
-                    <rect key="frame" x="77.5" y="543.5" width="220" height="30"/>
+                    <rect key="frame" x="77.5" y="637" width="220" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="ADO-9i-GFR"/>
                     </constraints>
@@ -158,6 +158,17 @@
                         <action selector="registerButtonPressed:" destination="-1" eventType="touchUpInside" id="iIh-Cf-sI9"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y5g-BS-zPe">
+                    <rect key="frame" x="136" y="551" width="102" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="WYH-gp-pcq"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <state key="normal" title="Forgot password"/>
+                    <connections>
+                        <action selector="forgotPasswordPressed:" destination="-1" eventType="touchUpInside" id="M9b-bc-6hp"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -170,21 +181,23 @@
                 <constraint firstItem="8xt-b0-3Uh" firstAttribute="top" secondItem="ffH-hL-IDK" secondAttribute="top" id="FHn-sg-N5c"/>
                 <constraint firstItem="ySd-IY-GlQ" firstAttribute="top" secondItem="ffH-hL-IDK" secondAttribute="top" id="MZf-Bl-5Fz"/>
                 <constraint firstItem="Hre-W7-hiD" firstAttribute="top" secondItem="ffH-hL-IDK" secondAttribute="bottom" constant="8" id="PaO-n9-o4A"/>
+                <constraint firstItem="Y5g-BS-zPe" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="R48-WV-fdH"/>
                 <constraint firstItem="eMk-xT-irR" firstAttribute="trailing" secondItem="Hre-W7-hiD" secondAttribute="trailing" id="TTR-mH-T3I"/>
                 <constraint firstAttribute="centerX" secondItem="iqu-5d-jZf" secondAttribute="centerX" id="UgC-PW-pSB"/>
                 <constraint firstAttribute="centerX" secondItem="ffH-hL-IDK" secondAttribute="centerX" id="UtO-Ba-FFG"/>
                 <constraint firstItem="KCJ-rr-kr4" firstAttribute="top" secondItem="iqu-5d-jZf" secondAttribute="bottom" constant="8" id="WVM-wF-tWu"/>
                 <constraint firstItem="pTU-Xn-wwY" firstAttribute="top" secondItem="Yy7-xO-WLG" secondAttribute="bottom" constant="20" id="bZU-lA-e1a"/>
                 <constraint firstAttribute="centerX" secondItem="pTU-Xn-wwY" secondAttribute="centerX" id="eRO-RT-mpB"/>
+                <constraint firstItem="Y5g-BS-zPe" firstAttribute="top" secondItem="Hre-W7-hiD" secondAttribute="bottom" constant="7.5" id="g05-pX-Hxb"/>
                 <constraint firstItem="WlM-w5-GCE" firstAttribute="leading" secondItem="pTU-Xn-wwY" secondAttribute="leading" id="gpE-gs-xkY"/>
                 <constraint firstItem="WlM-w5-GCE" firstAttribute="top" secondItem="HeC-qI-71z" secondAttribute="top" id="hK9-2l-FGL"/>
                 <constraint firstItem="HeC-qI-71z" firstAttribute="leading" secondItem="WlM-w5-GCE" secondAttribute="trailing" constant="10" id="l7i-2N-mKZ"/>
+                <constraint firstAttribute="bottom" secondItem="eMk-xT-irR" secondAttribute="bottom" id="pRU-e8-RcL"/>
                 <constraint firstAttribute="centerX" secondItem="KCJ-rr-kr4" secondAttribute="centerX" id="r93-WL-sUP"/>
                 <constraint firstItem="HeC-qI-71z" firstAttribute="trailing" secondItem="Hre-W7-hiD" secondAttribute="trailing" id="t0o-vi-x8U"/>
                 <constraint firstItem="ffH-hL-IDK" firstAttribute="leading" secondItem="8xt-b0-3Uh" secondAttribute="trailing" constant="10" id="tw8-ui-6hq"/>
                 <constraint firstItem="WlM-w5-GCE" firstAttribute="leading" secondItem="Hre-W7-hiD" secondAttribute="leading" id="uU9-Ij-7so"/>
                 <constraint firstAttribute="centerY" secondItem="iqu-5d-jZf" secondAttribute="centerY" priority="800" constant="150" id="wiS-c3-8h1"/>
-                <constraint firstItem="eMk-xT-irR" firstAttribute="top" secondItem="Hre-W7-hiD" secondAttribute="bottom" id="zRa-bZ-VMa"/>
             </constraints>
         </view>
     </objects>

@@ -162,7 +162,7 @@
     int i = 0;
     for (id<PThread> thread in self.threads) {
         if (thread.type.intValue & bThreadFilterPrivate) {
-            for (id<PMessage> message in thread.allMessages) {
+            for (id<PMessage> message in thread.messagesOrderedByDateDesc) {
                 if (!message.read.boolValue) {
                     i++;
                 }
@@ -235,7 +235,7 @@
 
 // TODO: Remove UI dependency on CoreData
 -(UIImage *) defaultImage {
-    return [NSBundle imageNamed:bDefaultProfileImage framework:@"ChatSDK" bundle:@"ChatUI"];
+    return [BChatSDK config].defaultBlankAvatar;
 }
 
 -(BOOL) isMe {

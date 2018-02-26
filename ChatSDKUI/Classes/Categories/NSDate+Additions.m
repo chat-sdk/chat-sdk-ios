@@ -39,11 +39,7 @@
 }
 
 -(NSString *) timeFormat {
-    NSString * timeFormat = [BSettingsManager timeFormat];
-    if(!timeFormat) {
-        timeFormat = bDefaultTimeFormat;
-    }
-    return timeFormat;
+    return [BChatSDK config].timeFormat;
 }
 
 -(NSString *) messageTimeAt {

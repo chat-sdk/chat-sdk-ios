@@ -97,10 +97,13 @@ typedef enum {
 -(NSArray *) messagesOrderedByDateAsc;
 -(NSArray *) messagesOrderedByDateDesc;
 -(NSArray *) allMessages;
+-(BOOL) hasMessages;
 
 -(NSArray *) loadMoreMessages: (int) numberOfMessages;
 -(void) resetMessages;
 
+-(NSDictionary *) metaDictionary;
+-(void) setMetaDictionary: (NSDictionary *) meta;
 -(UIImage *)imageForThread;
 -(NSDate *) orderDate;
 

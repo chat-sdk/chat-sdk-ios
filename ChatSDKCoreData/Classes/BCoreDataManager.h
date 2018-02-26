@@ -19,6 +19,8 @@
     NSPersistentStoreCoordinator * _store;
 }
 
+
+
 //@property (nonatomic, retain, readonly) NSManagedObjectModel * managedObjectModel;
 //@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 //@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
@@ -33,6 +35,7 @@
 -(void) save;
 -(id) fetchEntityWithID: (NSString *) entityID withType: (NSString *) type;
 -(id) fetchOrCreateEntityWithPredicate: (NSPredicate *) predicate withType: (NSString *) type ;
+-(id) executeFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate;
 
 -(void) beginUndoGroup;
 -(void) endUndoGroup;

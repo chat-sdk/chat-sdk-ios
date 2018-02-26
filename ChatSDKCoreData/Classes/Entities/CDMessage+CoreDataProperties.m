@@ -29,5 +29,7 @@
 @dynamic status;
 @dynamic meta;
 @dynamic json;
+@dynamic lastMessage;
+@dynamic nextMessage;
 
 @end

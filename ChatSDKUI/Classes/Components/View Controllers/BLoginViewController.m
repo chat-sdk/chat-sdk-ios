@@ -52,6 +52,14 @@
     self.googleButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeGoogle];
     self.anonymousButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeAnonymous];
     
+    if(!self.anonymousButton.enabled) {
+        self.anonymousButton.keepHeight.equal = 0;
+    }
+    
+    if([BChatSDK config].loginUsernamePlaceholder) {
+        self.emailField.placeholder = [BChatSDK config].loginUsernamePlaceholder;
+    }
+    
     if(BChatSDK.shared.configuration.loginScreenLogoImage) {
         self.chatImageView.image = BChatSDK.shared.configuration.loginScreenLogoImage;
     }
@@ -88,6 +96,15 @@
 -(RXPromise *) anonymous {
     return [NM.auth authenticate:[BAccountDetails anonymous]];
 }
+
+-(RXPromise *) resetPasswordWithCredential: (NSString *) credential {
+    return [NM.auth resetPasswordWithCredential:credential];
+}
+
+-(NSString *) usernamePlaceholder {
+    return [BChatSDK config].loginUsernamePlaceholder;
+}
+
 
 
 @end

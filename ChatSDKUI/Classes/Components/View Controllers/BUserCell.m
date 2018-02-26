@@ -31,7 +31,7 @@
     
     //self.profileImageView.layer.borderWidth = 2;
     self.statusImageView.layer.cornerRadius = 6;
-    self.stateLabel.text = @"";
+    [self setStateLabelText:@""];
     
     [self.profileImageView sd_setImageWithURL:[NSURL URLWithString: user.imageURL] placeholderImage:user.imageAsImage];
     
@@ -44,6 +44,16 @@
     else {
         [self setOffline];
     }
+}
+
+-(void) setStateLabelText: (NSString *) state {
+    if(!state || state.length == 0) {
+        [self.statusImageView keepVerticallyCentered];
+    }
+    else {
+        self.statusImageView.keepBottomOffsetTo(self.stateLabel).equal = 5;
+    }
+    self.stateLabel.text = state;
 }
 
 -(void) setOnline {

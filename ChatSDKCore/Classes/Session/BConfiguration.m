@@ -27,6 +27,10 @@
 @synthesize includeMessagePayload;
 @synthesize includeMessageJSON;
 @synthesize includeMessageJSONV2;
+@synthesize loginUsernamePlaceholder;
+@synthesize defaultAvatarURL;
+@synthesize defaultBlankAvatar;
+@synthesize timeFormat;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -39,9 +43,13 @@
         showEmptyChats = NO;
         allowUsersToCreatePublicChats = NO;
         
+        defaultAvatarURL = [@"http://flathash.com/%@.png" stringByAppendingFormat: @"%@", defaultUserName];
+        
         facebookLoginEnabled = YES;
         twitterLoginEnabled = YES;
         googleLoginEnabled = YES;
+        
+        timeFormat = @"HH:mm";
         
         anonymousLoginEnabled = YES;
         defaultServer = bServerXMPP;
@@ -51,6 +59,8 @@
         includeMessagePayload = YES;
         includeMessageJSON = YES;
         includeMessageJSONV2 = YES;
+        
+        loginUsernamePlaceholder = Nil;
         
     }
     return self;

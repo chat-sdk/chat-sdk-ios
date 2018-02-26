@@ -32,6 +32,7 @@
 {
     [super viewDidLoad];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t: bBack] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t: bSave] style:UIBarButtonItemStylePlain target:self action:@selector(save)];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -81,6 +82,14 @@
 
 -(void) backButtonPressed {
     [self dismissViewControllerAnimated:YES completion:Nil];
+}
+
+-(void) save {
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(didFinishSavingWithError:context:), Nil);
+}
+
+-(void) didFinishSavingWithError: (NSError *) error context: (id) context  {
+    [self.view makeToast:[NSBundle t:bBack]];
 }
 
 @end

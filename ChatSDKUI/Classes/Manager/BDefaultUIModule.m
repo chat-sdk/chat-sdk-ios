@@ -15,7 +15,10 @@
     [BInterfaceManager sharedManager].a = [[BDefaultInterfaceAdapter alloc] init];
     // Set the login screen
     NM.auth.challengeViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
-
+    if(![BChatSDK config].defaultBlankAvatar) {
+        [BChatSDK config].defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage framework:@"ChatSDK" bundle:@"ChatUI"];
+    }
+    
 }
 
 @end

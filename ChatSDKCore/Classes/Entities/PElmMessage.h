@@ -29,8 +29,8 @@
 -(NSInteger) imageWidth;
 -(NSInteger) imageHeight;
 
-- (BOOL)showUserNameLabelForPosition: (bMessagePosition) position;
--(bMessagePosition) messagePosition;
+- (BOOL)showUserNameLabelForPosition: (bMessagePos) position;
+-(bMessagePos) messagePosition;
 -(id<PElmMessage>) nextMessage;
 
 -(id<PElmThread>) thread;
@@ -41,6 +41,11 @@
 
 -(NSNumber *) delivered;
 -(NSData *) placeholder;
+
+-(bMessagePos) messagePosition;
+-(BOOL) senderIsMe;
+-(id<PElmMessage>) lazyNextMessage;
+-(id<PElmMessage>) lazyLastMessage;
 
 -(NSURL *) thumbnailURL;
 -(bMessageReadStatus) readStatus;

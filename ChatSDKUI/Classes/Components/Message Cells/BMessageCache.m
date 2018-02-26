@@ -34,35 +34,28 @@ static BMessageCache * cache;
 
 -(instancetype) init {
     if ((self = [super init])) {
-        _messageInfo = [NSMutableDictionary new];
         _messageBubbleImages = [NSMutableDictionary new];
-        
-        // Clear the cache when the user logs out
-        [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationLogout object:Nil queue:0 usingBlock:^(NSNotification * notification) {
-            [self clear];
-        }];
-        
     }
     return self;
 }
 
 -(UIImage *) bubbleForMessage: (id<PElmMessage>) message withColorWeight: (float) weight {
     
-    bMessagePosition pos = [self positionForMessage:message];
-    BOOL isMine = [self isMine:message];
+    bMessagePos pos = [message messagePosition];
+    BOOL isMine = [message senderIsMe];
     
     NSString * bubbleImageName = @"";
     switch (pos) {
-        case bMessagePositionFirst:
+        case bMessagePosFirst:
             bubbleImageName = @"chat_bubble_right_0S.png";
             break;
-        case bMessagePositionMiddle:
+        case bMessagePosMiddle:
             bubbleImageName = @"chat_bubble_right_SS.png";
             break;
-        case bMessagePositionLast:
+        case bMessagePosLast:
             bubbleImageName = @"chat_bubble_right_ST.png";
             break;
-        case bMessagePositionSingle:
+        case bMessagePosSingle:
             bubbleImageName = @"chat_bubble_right_0T.png";
             break;
     }
@@ -105,78 +98,6 @@ static BMessageCache * cache;
         return image;
     }
     
-}
-
-// We want to cache any message apart from the last message because the
-// properties of the last message can still change
--(BOOL) shouldCacheMessage: (id<PElmMessage>) message {
-    return ![message isEqual:message.thread.messagesOrderedByDateAsc.lastObject];
-}
-
--(bMessagePosition) positionForMessage: (id<PElmMessage>) message {
-    bMessagePosition pos;
-    if([self isMessageCached:message]) {
-        pos = [[self infoForMessage:message][bMessagePositionKey] intValue];
-    }
-    else {
-        pos = message.messagePosition;
-        [self cacheMessage:message];
-    }
-    return pos;
-}
-
--(void) cacheMessage: (id<PElmMessage>) message {
-    if ([self shouldCacheMessage:message]) {
-
-        bMessagePosition pos = message.messagePosition;
-        id<PElmMessage> nm = message.nextMessage;
-        
-        [self infoForMessage:message][bMessagePositionKey] = @(pos);
-        [self infoForMessage:message][bNextMessageKey] = nm;
-    }
-}
-
--(id<PElmMessage>) nextMessageForMessage: (id<PElmMessage>) message {
-    id<PElmMessage> nm;
-    if([self isMessageCached:message]) {
-        nm = [self infoForMessage:message][bNextMessageKey];
-    }
-    else {
-        nm = message.nextMessage;
-        [self cacheMessage:message];
-    }
-    return nm;
-}
-
--(NSMutableDictionary *) infoForMessage: (id<PElmMessage>) message {
-    // Have we already seen this message?
-    NSMutableDictionary * messageInfo = _messageInfo[message.entityID];
-    if(!messageInfo && message.entityID) {
-        messageInfo = [NSMutableDictionary new];
-        _messageInfo[message.entityID] = messageInfo;
-    }
-    return messageInfo;
-}
-
--(BOOL) isMessageCached: (id<PElmMessage>) message {
-    return _messageInfo[message.entityID] != Nil;
-}
-
--(BOOL) isMine: (id<PElmMessage>) message {
-    return [message.userModel.entityID isEqualToString: self.currentUserEntityID];
-}
-
--(void) clear {
-    _currentUserEntityID = Nil;
-    [_messageBubbleImages removeAllObjects];
-    [_messageInfo removeAllObjects];
-}
-
--(NSString *) currentUserEntityID {
-    if(!_currentUserEntityID) {
-        _currentUserEntityID = NM.currentUser.entityID;
-    }
-    return _currentUserEntityID;
 }
 
 @end

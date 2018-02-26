@@ -7,8 +7,7 @@
 */
 
 "bLogout" = "Logout";
-
-
+"bSettings" = "Settings";
 "bLogginIn" = "Logging in";
 "bProfile" = "Profile";
 "bLoggingOut" = "Logging out";
@@ -20,8 +19,14 @@
 "bThreadCreationError" = "Thread creation failed";
 "bChatRooms" = "Chat Rooms";
 "bPickFriends" = "Pick Friends";
+"bReset" = "Reset";
+"bForgotPassword" = "Reset";
+"bEnterCredentialToResetPassword" = "Enter email to reset password";
+"bPasswordResetSuccess" = "Your password reset has been successful";
+
 "bBack" = "Back";
 "bOpenInMaps" = "Open in maps";
+"bImageSaved" = "Image saved to library";
 "bLocation" = "Location";
 "bCompose" = "Compose";
 "bLoadingFriends" = "Loading Friends";

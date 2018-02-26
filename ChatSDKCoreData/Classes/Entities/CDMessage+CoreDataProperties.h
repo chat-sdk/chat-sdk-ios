@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) id status;
 @property (nullable, nonatomic, retain) id meta;
 @property (nullable, nonatomic, retain) id json;
+@property (nullable, nonatomic, retain) CDMessage * lastMessage;
+@property (nullable, nonatomic, retain) CDMessage * nextMessage;
 
 @end
 

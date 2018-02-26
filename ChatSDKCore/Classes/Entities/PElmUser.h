@@ -21,6 +21,7 @@
 -(UIImage *) defaultImage;
 -(NSString *) imageURL;
 -(UIImage *) imageAsImage;
+-(BOOL) isMe;
 
 @end
 

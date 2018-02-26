@@ -89,6 +89,7 @@
 #import <ChatSDK/NM.h>
 #import <ChatSDK/BModuleHelper.h>
 #import <ChatSDK/BIntegrationHelper.h>
+#import <ChatSDK/NSObject+Meta.h>
 
 #import <ChatSDK/bPictureTypes.h>
 
