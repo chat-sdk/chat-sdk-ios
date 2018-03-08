@@ -14,7 +14,7 @@
 @class FIRDataSnapshot;
 
 @interface CCMessageWrapper : BEntity <PMessageWrapper> {
-    id<PMessage> _model;
+    NSObject<PMessage> * _model;
 }
 
 /**

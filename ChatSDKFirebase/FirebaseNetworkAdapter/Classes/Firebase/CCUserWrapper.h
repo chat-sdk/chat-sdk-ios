@@ -13,7 +13,7 @@
 @class FIRDataSnapshot;
 
 @interface CCUserWrapper : BEntity <PUserWrapper> {
-    id<PUser> _model;
+    NSObject<PUser> * _model;
 }
 
 +(CCUserWrapper *) userWithModel: (id<PUser>) user;

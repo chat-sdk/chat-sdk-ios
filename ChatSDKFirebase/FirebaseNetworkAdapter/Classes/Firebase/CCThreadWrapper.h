@@ -12,7 +12,7 @@
 @class CCUserWrapper;
 
 @interface CCThreadWrapper : BEntity<PThreadWrapper> {
-    id<PThread> _model;
+    NSObject<PThread> * _model;
 }
 
 /**

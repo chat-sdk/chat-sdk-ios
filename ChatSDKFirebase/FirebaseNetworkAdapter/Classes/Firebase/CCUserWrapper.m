@@ -411,8 +411,6 @@
         }
     }
     
-    
-    
     if (meta) {
         [_model setMetaDictionary:meta];
     }
