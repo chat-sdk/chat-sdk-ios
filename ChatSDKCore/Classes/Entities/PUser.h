@@ -103,6 +103,7 @@
 
 // Needed for CocoaPods install
 -(NSDictionary *) metaDictionary;
+-(void) setMetaDictionary: (NSDictionary *) meta;
 
 @end
 
