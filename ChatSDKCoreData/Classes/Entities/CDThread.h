@@ -13,7 +13,6 @@
 #import <ChatSDK/PThreadWrapper.h>
 #import <ChatSDK/PHasMeta.h>
 
-#define bMessageWorkingListInitialSize 50
 
 @class CDMessage, CDUser;
 

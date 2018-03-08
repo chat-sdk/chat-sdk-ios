@@ -14,8 +14,8 @@
 @synthesize messageColorReply;
 @synthesize rootPath;
 @synthesize appBadgeEnabled;
-@synthesize defaultUserName;
 @synthesize defaultUserNamePrefix;
+@synthesize defaultUserName = _defaultUserName;
 @synthesize showEmptyChats;
 @synthesize allowUsersToCreatePublicChats;
 @synthesize googleLoginEnabled;
@@ -31,6 +31,8 @@
 @synthesize defaultAvatarURL;
 @synthesize defaultBlankAvatar;
 @synthesize timeFormat;
+@synthesize chatMessagesToLoad;
+@synthesize pushNotificationSound;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -39,11 +41,10 @@
         rootPath = @"default";
         appBadgeEnabled = YES;
         defaultUserNamePrefix = @"ChatSDK";
-        defaultUserName = [defaultUserNamePrefix stringByAppendingFormat:@"%i", arc4random() % 999];
         showEmptyChats = NO;
         allowUsersToCreatePublicChats = NO;
         
-        defaultAvatarURL = [@"http://flathash.com/%@.png" stringByAppendingFormat: @"%@", defaultUserName];
+        defaultAvatarURL = [@"http://flathash.com/%@.png" stringByAppendingFormat: @"%@", self.defaultUserName];
         
         facebookLoginEnabled = YES;
         twitterLoginEnabled = YES;
@@ -62,8 +63,16 @@
         
         loginUsernamePlaceholder = Nil;
         
+        pushNotificationSound = @"default";
+        
+        chatMessagesToLoad = 50;
+        
     }
     return self;
+}
+
+-(void) setDefaultUserNamePrefix:(NSString *)defaultUserNamePrefix {
+     _defaultUserName = [defaultUserNamePrefix stringByAppendingFormat:@"%i", arc4random() % 999];
 }
 
 -(void) configureForCompatibilityWithVersions: (NSArray *) versions {

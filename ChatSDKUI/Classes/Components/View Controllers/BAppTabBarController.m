@@ -20,6 +20,8 @@
 
 @implementation BAppTabBarController
 
+@synthesize lifecycleHelper = _helper;
+
 -(instancetype) init {
     if((self = [super init])) {
     }

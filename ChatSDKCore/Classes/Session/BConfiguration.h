@@ -7,7 +7,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BConfiguration : NSObject
+@interface BConfiguration : NSObject {
+    NSString * _defaultUserName;
+}
 
 // Background color of messages: hex value like "FFFFFF"
 @property (nonatomic, readwrite) NSString * messageColorMe;
@@ -22,7 +24,7 @@
 
 // What will the user be called when they first sign up and before they
 // set their name
-@property (nonatomic, readwrite) NSString * defaultUserName;
+@property (nonatomic, readonly) NSString * defaultUserName;
 @property (nonatomic, readwrite) NSString * defaultUserNamePrefix;
 
 // Should empty chats be shown in the threads view?
@@ -74,6 +76,11 @@
 @property (nonatomic, readwrite) UIFont * threadTimeFont;
 @property (nonatomic, readwrite) UIFont * threadSubtitleFont;
 
+// How many messages should be loaded initially when a chat is opened
+@property (nonatomic, readwrite) int chatMessagesToLoad;
+
+// Push notification sound - name of sound file to play i.e. "mySound"
+@property (nonatomic, readwrite) NSString * pushNotificationSound;
 
 // Chat SDK can auto-detect and install modules. Some modules need to a different setup
 // procedure depending on which server is being used - Firebase or XMPP. If only one

@@ -212,6 +212,7 @@
         
         NSDictionary *params = @{@"to": channel,
                                  @"notification": data,
+                                 @"sound": [BChatSDK config].pushNotificationSound,
                                  @"data": data};
         
         [manager POST:@"https://fcm.googleapis.com/fcm/send" parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject) {

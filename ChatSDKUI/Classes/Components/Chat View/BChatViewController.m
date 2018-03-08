@@ -285,7 +285,9 @@
     if (!_messageCache || !_messageCache.count || _messageCacheDirty) {
         [_messageCache removeAllObjects];
         
-        NSArray * messages = [_thread messagesOrderedByDateAsc];
+        // Don't load any additional messages - we will already load the
+        // number of messages as defined the config.chatMessagesToLoad property
+        NSArray * messages = [_thread loadMoreMessages:0];
         NSDate * lastMessageDate;
         BMessageSection * section;
         

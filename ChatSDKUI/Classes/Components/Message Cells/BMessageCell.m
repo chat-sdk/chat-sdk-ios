@@ -126,15 +126,14 @@
     
     // Set the bubble to be the correct color
     bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message withColorWeight:colorWeight];
-    
-    // If the image has an image URL
-    //_profilePicture.hidden = YES;
-    //[[AsyncImageLoader sharedLoader] cancelLoadingImagesForTarget:_profilePicture];
 
+    // Hide profile pictures for 1-to-1 threads
+    _profilePicture.hidden = message.thread.type.intValue & bThreadType1to1;
+    
     // We only want to show the user picture if it is the latest message from the user
     if (position & bMessagePosLast) {
         if (message.userModel) {
-            _profilePicture.hidden = NO;
+//            _profilePicture.hidden = NO;
             if(message.userModel.imageURL) {
                 [_profilePicture sd_setImageWithURL:message.userModel.imageURL
                                    placeholderImage:message.userModel.defaultImage];
@@ -145,12 +144,6 @@
             else {
                 [_profilePicture setImage:message.userModel.defaultImage];
             }
-            
-            
-//            [message.userModel loadProfileThumbnail:NO].thenOnMain(^id(UIImage * image) {
-//                _profilePicture.image = image;
-//                return image;
-//            },Nil);
         }
         else {
             // If the user doesn't have a profile picture set the default profile image
@@ -161,7 +154,6 @@
     else {
         _profilePicture.image = nil;
     }
-    
     
     if (message.flagged.intValue) {
         _timeLabel.text = [NSBundle t:bFlagged];

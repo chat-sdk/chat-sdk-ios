@@ -10,6 +10,9 @@
 
 @implementation BMainControllerLifecycleHelper
 
+@synthesize loginViewController = _loginViewController;
+@synthesize mainViewController = _viewController;
+
 -(void) viewDidLoad: (UIViewController *) controller {
     
     _viewController = controller;

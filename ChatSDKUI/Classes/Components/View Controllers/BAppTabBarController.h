@@ -15,5 +15,7 @@
     BMainControllerLifecycleHelper * _helper;
 }
 
+@property (nonatomic, readwrite) BMainControllerLifecycleHelper * lifecycleHelper;
+
 
 @end

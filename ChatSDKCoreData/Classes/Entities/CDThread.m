@@ -21,6 +21,8 @@
 }
 
 -(NSMutableArray *) messagesWorkingList {
+    
+    
     if(!_messagesWorkingList) {
         _messagesWorkingList = [NSMutableArray new];
         [self resetMessages];
@@ -30,16 +32,7 @@
 
 -(void) resetMessages {
     [_messagesWorkingList removeAllObjects];
-    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:bMessageWorkingListInitialSize ascending:NO]];
-
-    //
-    NSFetchRequest * request = [[NSFetchRequest alloc] init];
-    [request setFetchLimit:bMessageWorkingListInitialSize];
-    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]];
-    
-    [_messagesWorkingList addObjectsFromArray:[[BStorageManager sharedManager].a executeFetchRequest:request
-                                                                                          entityName:bMessageEntity
-                                                                                           predicate:Nil]];
+    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:[BChatSDK config].chatMessagesToLoad ascending:NO]];
     
 //    NSArray * messages = [self orderMessagesByDateDesc:self.allMessages];
 //
@@ -57,18 +50,22 @@
     NSFetchRequest * request = [[NSFetchRequest alloc] init];
     [request setFetchLimit:count];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:ascending]];
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread = %@", self];
     
-    return [[BStorageManager sharedManager].a executeFetchRequest:request
-                                                       entityName:bMessageEntity
-                                                        predicate:Nil];
+    NSArray * messages = [[BStorageManager sharedManager].a executeFetchRequest:request
+                                                                     entityName:bMessageEntity
+                                                                      predicate:predicate];
+    
+    return messages;
 }
 
 // Adds extra messages to the
 -(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages {
     
+    NSInteger count = _messagesWorkingList.count + numberOfMessages;
     // Get the next batch of messages
     [_messagesWorkingList removeAllObjects];
-    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:_messagesWorkingList.count + numberOfMessages ascending:YES]];
+    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:count ascending:YES]];
     
 //    NSArray * allMessages = [self orderMessagesByDateAsc:self.allMessages];
 //

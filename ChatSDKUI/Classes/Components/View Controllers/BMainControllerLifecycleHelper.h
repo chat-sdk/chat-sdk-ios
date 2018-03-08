@@ -14,7 +14,11 @@
     UIViewController * _loginViewController;
 }
 
+@property (nonatomic, readwrite) UIViewController * loginViewController;
+@property (nonatomic, readwrite, weak) UIViewController * mainViewController;
+
 -(void) viewDidLoad: (UIViewController *) controller;
 -(RXPromise *) viewDidAppear;
+-(void) showLoginScreen;
 
 @end

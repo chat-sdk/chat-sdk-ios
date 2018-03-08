@@ -99,7 +99,7 @@ typedef enum {
 -(NSArray *) allMessages;
 -(BOOL) hasMessages;
 
--(NSArray *) loadMoreMessages: (int) numberOfMessages;
+-(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages;
 -(void) resetMessages;
 
 -(NSDictionary *) metaDictionary;
