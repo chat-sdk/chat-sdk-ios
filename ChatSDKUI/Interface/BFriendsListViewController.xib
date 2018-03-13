@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BFriendsListViewController">
             <connections>
-                <outlet property="_tokenField" destination="UkR-FR-EHR" id="d3f-bH-zGs"/>
-                <outlet property="_tokenView" destination="Ok8-lm-Uad" id="DPB-kg-qqK"/>
                 <outlet property="groupNameTextField" destination="Lfx-uF-C6f" id="vWr-Ix-nxW"/>
                 <outlet property="groupNameView" destination="281-dx-DD4" id="Zd7-ch-Jrc"/>
                 <outlet property="tableView" destination="3eB-zr-9l2" id="3Uy-K9-6ll"/>
+                <outlet property="tokenField" destination="UkR-FR-EHR" id="HoG-Ed-BS5"/>
+                <outlet property="tokenView" destination="Ok8-lm-Uad" id="cbN-Eo-49G"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -61,6 +61,7 @@
                         <constraint firstItem="UkR-FR-EHR" firstAttribute="leading" secondItem="Ok8-lm-Uad" secondAttribute="leading" id="PQZ-qY-97C"/>
                         <constraint firstAttribute="trailing" secondItem="UkR-FR-EHR" secondAttribute="trailing" id="Qz4-km-9Uc"/>
                         <constraint firstAttribute="height" priority="750" constant="44" id="ZqI-ur-oOm"/>
+                        <constraint firstAttribute="bottom" secondItem="UkR-FR-EHR" secondAttribute="bottom" id="t5i-Xs-NBR"/>
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3eB-zr-9l2">
@@ -88,9 +89,4 @@
             <point key="canvasLocation" x="-100.5" y="-91.5"/>
         </view>
     </objects>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>
