@@ -66,30 +66,32 @@
     CGImageRef imageRef = self.CGImage;
     
     // Build a context that's the same dimensions as the new size
-    CGContextRef bitmap = CGBitmapContextCreate(NULL,
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate(NULL,
                                                 newRect.size.width,
                                                 newRect.size.height,
                                                 CGImageGetBitsPerComponent(imageRef),
                                                 0,
-                                                CGColorSpaceCreateDeviceRGB(),
+                                                colorSpace,
                                                 //CGImageGetColorSpace(imageRef),
                                                 CGImageGetBitmapInfo(imageRef));
     
     // Rotate and/or flip the image if required by its orientation
-    CGContextConcatCTM(bitmap, transform);
+    CGContextConcatCTM(context, transform);
     
     // Set the quality level to use when rescaling
-    CGContextSetInterpolationQuality(bitmap, quality);
+    CGContextSetInterpolationQuality(context, quality);
     
     // Draw into the context; this scales the image
-    CGContextDrawImage(bitmap, transpose ? transposedRect : newRect, imageRef);
+    CGContextDrawImage(context, transpose ? transposedRect : newRect, imageRef);
     
     // Get the resized image from the context and a UIImage
-    CGImageRef newImageRef = CGBitmapContextCreateImage(bitmap);
+    CGImageRef newImageRef = CGBitmapContextCreateImage(context);
     UIImage *newImage = [UIImage imageWithCGImage:newImageRef];
     
     // Clean up
-    CGContextRelease(bitmap);
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
     CGImageRelease(newImageRef);
     
     return newImage;

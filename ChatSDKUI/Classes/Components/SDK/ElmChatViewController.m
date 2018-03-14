@@ -603,7 +603,7 @@
 }
 
 -(void) hideKeyboard {
-    [_sendBarView resignFirstResponder];
+    [_sendBarView resignTextViewFirstResponder];
 }
 
 #pragma BChatOptionDelegate

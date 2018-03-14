@@ -406,11 +406,13 @@
     _optionsButton.keepWidth.equal = hidden ? 0 : 24;
 }
 
--(BOOL) resignFirstResponder {
+-(BOOL) resignTextViewFirstResponder {
+//    [super resignFirstResponder];
     return [_textView resignFirstResponder];
 }
 
--(void) becomeFirstResponder {
+-(void) becomeTextViewFirstResponder {
+//    [super becomeFirstResponder];
     [_textView becomeFirstResponder];
 }
 

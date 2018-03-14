@@ -110,8 +110,6 @@
         
         if (_users.count) {
             
-            CGSize itemSize = CGSizeMake(0, 0);
-            
             id<PUser> user = _users[indexPath.row];
             
             cell.textLabel.text = user.name;
@@ -120,7 +118,7 @@
             cell.imageView.layer.cornerRadius = 20;
             cell.imageView.clipsToBounds = YES;
             
-            itemSize = CGSizeMake(40, 40);
+            CGSize itemSize = CGSizeMake(40, 40);
             
             UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
             CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);

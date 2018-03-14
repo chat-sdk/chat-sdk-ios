@@ -14,6 +14,8 @@
 
 -(void) setAudioEnabled:(BOOL)enabled;
 -(void) setSendBarDelegate: (id<PSendBarDelegate>) delegate;
+-(BOOL) resignTextViewFirstResponder;
+-(void) becomeTextViewFirstResponder;
 
 @end
 

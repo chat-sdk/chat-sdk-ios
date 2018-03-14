@@ -36,8 +36,8 @@
 @property (nonatomic, readonly) UILabel * placeholderLabel;
 
 -(void) setAudioEnabled: (BOOL) audioEnabled;
--(BOOL) resignFirstResponder;
--(void) becomeFirstResponder;
+-(BOOL) resignTextViewFirstResponder;
+-(void) becomeTextViewFirstResponder;
 -(void) setOptionsButtonHidden: (BOOL) hidden;
 
 @end
