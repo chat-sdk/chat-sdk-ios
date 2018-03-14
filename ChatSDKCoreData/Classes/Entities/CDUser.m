@@ -57,8 +57,8 @@
 //}
 
 // TODO: Do we need this?
--(NSArray<PUser> *) contactsWithType: (bUserConnectionType) type {
-    NSMutableArray<PUser> * users = [NSMutableArray new];
+-(NSArray *) contactsWithType: (bUserConnectionType) type {
+    NSMutableArray * users = [NSMutableArray new];
     for (id<PUserConnection> c in [self connectionsWithType:type]) {
         [users addObject: c.user];
     }

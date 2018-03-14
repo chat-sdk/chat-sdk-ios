@@ -64,8 +64,9 @@
             return 160;
         case bMessageTypeSticker:
             return 140;
+        default:
+            return bMaxMessageWidth;
     }
-    return bMaxMessageWidth;
 }
 
 -(float) textWidth: (NSString *) text {
@@ -112,8 +113,11 @@
         case bMessageTypeSystem:
         case bMessageTypeSticker:
             return 2.0;
+        case bMessageTypeCustom:
+        case bMessageTypeFile:
+        default:
+            return 0;
     }
-    return 0;
 }
 
 -(float) bubblePadding {
@@ -129,8 +133,11 @@
             return 5.0;
         case bMessageTypeSticker:
             return 0.0;
+        case bMessageTypeCustom:
+        case bMessageTypeFile:
+        default:
+            return 0;
     }
-    return 0;
 }
 
 -(float) profilePicturePadding {
@@ -141,9 +148,13 @@
         case bMessageTypeAudio:
         case bMessageTypeVideo:
         case bMessageTypeSticker:
+        case bMessageTypeSystem:
             return 4.0;
+        case bMessageTypeCustom:
+        case bMessageTypeFile:
+        default:
+            return 0;
     }
-    return 0;
 }
 
 -(float) profilePictureDiameter {

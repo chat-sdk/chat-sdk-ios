@@ -30,6 +30,10 @@
     return _messagesWorkingList;
 }
 
+-(void) clearMessageCache {
+    [_messagesWorkingList removeAllObjects];
+}
+
 -(void) resetMessages {
     [_messagesWorkingList removeAllObjects];
     [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:[BChatSDK config].chatMessagesToLoad ascending:NO]];
@@ -46,7 +50,7 @@
 //    }
 }
 
--(NSArray *) loadMessagesWithCount: (int) count ascending: (BOOL) ascending {
+-(NSArray *) loadMessagesWithCount: (NSInteger) count ascending: (BOOL) ascending {
     NSFetchRequest * request = [[NSFetchRequest alloc] init];
     [request setFetchLimit:count];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:ascending]];
@@ -109,10 +113,11 @@
 }
 
 -(void) addMessage: (id<PMessage>) message {
-    ((CDMessage *) message).thread = self;
+    CDMessage * cdMessage = (CDMessage *) message;
+    cdMessage.thread = self;
+    self.lastMessage = cdMessage;
     
     [[message lazyLastMessage] updatePosition];
-    
     
     if(![self.messagesWorkingList containsObject:message]) {
         [self.messagesWorkingList addObject:message];
@@ -154,12 +159,13 @@
     }];
 }
 
--(NSDate *) lastMessageAdded {
-    NSDate * date = self.creationDate;
-    if (self.messages.count) {
-        date = ((id<PMessage>)self.messagesOrderedByDateDesc.firstObject).date;
+-(CDMessage *) lazyLastMessage {
+    if (self.lastMessage) {
+        return self.lastMessage;
     }
-    return date;
+    else {
+        return self.messagesOrderedByDateDesc.firstObject;
+    }
 }
 
 -(NSString *) displayName {
@@ -203,7 +209,7 @@
 
 -(int) unreadMessageCount {
     int i = 0;
-    for (id<PMessage> message in self.messages) {
+    for (id<PMessage> message in _messagesWorkingList) {
         if (!message.read.boolValue) {
             i++;
         }
@@ -217,7 +223,7 @@
 
 -(void) addUser: (id<PUser>) user {
     if ([user isKindOfClass:[CDUser class]]) {
-        if (![self.users containsObject:user]) {
+        if (![self.users containsObject:(CDUser *)user]) {
             [self addUsersObject:(CDUser *)user];
         }
     }
@@ -225,7 +231,7 @@
 
 - (void)removeUser:(id<PUser>) user {
     if ([user isKindOfClass:[CDUser class]]) {
-        if ([self.users containsObject:user]) {
+        if ([self.users containsObject:(CDUser *)user]) {
             [self removeUsersObject:(CDUser *) user];
         }
     }
@@ -255,7 +261,7 @@
     NSMutableArray * tempUsers = [NSMutableArray arrayWithArray:users];
     
     // We want to remove any users who have the automatic profile picture
-    for (<PUser> user in tempUsers) {
+    for (id<PUser> user in tempUsers) {
         
         // Check if the user picture has been uploaded
         if (!user.thumbnail) {
@@ -282,7 +288,7 @@
     else {
         
         // When we get the user thumbnail image we make sure it is the size we want so resize it to be 100 x 100
-        UIImage * image1 = [[UIImage imageWithData:((<PUser>)users.firstObject).thumbnail] resizeImageToSize:CGSizeMake(100, 100)];
+        UIImage * image1 = [[UIImage imageWithData:((id<PUser>)users.firstObject).thumbnail] resizeImageToSize:CGSizeMake(100, 100)];
         
         // Then crop the image
         image1 = [image1 croppedImage:CGRectMake(25, 0, 49, 100)];
@@ -291,7 +297,7 @@
         if (users.count == 2) {
             
             // When we get the user thumbnail image we make sure it is the size we want so resize it to be 100 x 100
-            UIImage * image2 = [[UIImage imageWithData:((<PUser>)users.lastObject).thumbnail] resizeImageToSize:CGSizeMake(100, 100)];
+            UIImage * image2 = [[UIImage imageWithData:((id<PUser>)users.lastObject).thumbnail] resizeImageToSize:CGSizeMake(100, 100)];
             
             // Then crop the image
             image2 = [image2 croppedImage:CGRectMake(25, 0, 49, 100)];
@@ -305,8 +311,8 @@
         else {
             
             // Thumbnails done by using parse change
-            UIImage * image2 = [UIImage imageWithData:((<PUser>)users[1]).thumbnail];
-            UIImage * image3 = [UIImage imageWithData:((<PUser>)users[2]).thumbnail];
+            UIImage * image2 = [UIImage imageWithData:((id<PUser>)users[1]).thumbnail];
+            UIImage * image3 = [UIImage imageWithData:((id<PUser>)users[2]).thumbnail];
             
             // Combine the images
             UIGraphicsBeginImageContextWithOptions(CGSizeMake(100, 100), NO, 0.0);
@@ -325,12 +331,13 @@
 }
 
 -(NSDate *) orderDate {
-    id<PMessage> message = [self messagesOrderedByDateDesc].firstObject;
+    id<PMessage> message = self.lazyLastMessage;
     if (message) {
         return message.date;
     }
-    return self.creationDate;
+    else {
+        return self.creationDate;
+    }
 }
-
 
 @end

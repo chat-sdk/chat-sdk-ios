@@ -248,7 +248,7 @@
 
 -(void) reloadData {
     
-    NSArray<PUserConnection> * allContacts = [NM.currentUser connectionsWithType:bUserConnectionTypeContact];
+    NSArray * allContacts = [NM.currentUser connectionsWithType:bUserConnectionTypeContact];
     
     [_contacts removeAllObjects];
     [_contacts addObjectsFromArray:allContacts];
@@ -274,7 +274,7 @@
     
     NSString * searchString = searchController_.searchBar.text.lowercaseString;
     
-    NSArray<PUserConnection> * allContacts = [NM.contact connectionsWithType:bUserConnectionTypeContact];
+    NSArray * allContacts = [NM.contact connectionsWithType:bUserConnectionTypeContact];
     
     [_contacts removeAllObjects];
     

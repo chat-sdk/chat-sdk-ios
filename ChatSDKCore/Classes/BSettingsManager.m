@@ -133,7 +133,7 @@
     if(modules) {
         return modules[module][property];
     }
-    return @{};
+    return @"";
 }
 
 

@@ -34,9 +34,6 @@
 -(id<PThread>) fetchThreadWithUsers: (NSArray *) users;
 -(id) executeFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate;
 
--(id<PMessage>) messageForMessageDef: (BMessageDef *) builder;
--(id<PThread>) threadForThreadDef: (BThreadDef *) def;
-
 -(id<PMessage>) createMessageEntity;
 -(id<PThread>) createThreadEntity;
 

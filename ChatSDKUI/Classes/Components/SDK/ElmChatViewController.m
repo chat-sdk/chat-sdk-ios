@@ -335,7 +335,7 @@
     return [_messages[section] rowCount];
 }
 
--(id<PElmMessage>) messageForIndexPath: (NSIndexPath *) path {
+-(id<PElmMessage, PMessageLayout>) messageForIndexPath: (NSIndexPath *) path {
     return [_messages[path.section] messageForRow:path.row];
 }
 
@@ -345,7 +345,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<PElmMessage> message = [self messageForIndexPath:indexPath];
+    id<PElmMessage, PMessageLayout> message = [self messageForIndexPath:indexPath];
     
     BMessageCell<BMessageDelegate> * messageCell;
     
@@ -354,7 +354,7 @@
     if ((![BNetworkManager sharedManager].a.stickerMessage && message.type.integerValue == bMessageTypeSticker) ||
         (![BNetworkManager sharedManager].a.videoMessage && message.type.integerValue == bMessageTypeVideo) ||
         (![BNetworkManager sharedManager].a.audioMessage && message.type.integerValue == bMessageTypeAudio)) {
-        
+        // This is a standard text cell
         messageCell = [tableView_ dequeueReusableCellWithIdentifier:@"0"];
     }
     else {

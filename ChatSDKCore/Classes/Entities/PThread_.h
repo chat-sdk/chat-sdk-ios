@@ -73,9 +73,6 @@ typedef enum {
 -(NSString *) name;
 -(NSString *) memberListString;
 
--(void) setLastMessageAdded: (NSDate *) date;
--(NSDate *) lastMessageAdded;
-
 -(void) setDeleted: (NSNumber *) deleted;
 -(NSNumber *) deleted_;
 
@@ -88,6 +85,7 @@ typedef enum {
 
 -(NSSet *) users;
 -(id<PUser>) otherUser;
+-(id<PMessage>) lazyLastMessage;
 
 -(void) markRead;
 -(int) unreadMessageCount;
@@ -106,6 +104,7 @@ typedef enum {
 -(void) setMetaDictionary: (NSDictionary *) meta;
 -(UIImage *)imageForThread;
 -(NSDate *) orderDate;
+-(void) clearMessageCache;
 
 @end
 

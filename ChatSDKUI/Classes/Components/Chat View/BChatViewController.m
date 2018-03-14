@@ -175,6 +175,8 @@
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [_thread clearMessageCache];
+    
     // Remove the user from the thread
     if (_thread.type.intValue & bThreadFilterPublic && !_usersViewLoaded) {
         id<PUser> currentUser = NM.currentUser;
@@ -291,9 +293,9 @@
         NSDate * lastMessageDate;
         BMessageSection * section;
         
-        for (id<PMessage> message in messages) {
+        for (id<PElmMessage> message in messages) {
             // This is a new day
-            if (!lastMessageDate || abs([message.date daysFrom:lastMessageDate]) > 0) {
+            if (!lastMessageDate || labs([message.date daysFrom:lastMessageDate]) > 0) {
                 section = [[BMessageSection alloc] init];
                 [_messageCache addObject:section];
             }
@@ -357,6 +359,5 @@
     [self presentViewController:nvc animated:YES completion:nil];
     
 }
-
 
 @end

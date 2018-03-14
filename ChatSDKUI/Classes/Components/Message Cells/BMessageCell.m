@@ -133,9 +133,8 @@
     // We only want to show the user picture if it is the latest message from the user
     if (position & bMessagePosLast) {
         if (message.userModel) {
-//            _profilePicture.hidden = NO;
             if(message.userModel.imageURL) {
-                [_profilePicture sd_setImageWithURL:message.userModel.imageURL
+                [_profilePicture sd_setImageWithURL:[NSURL URLWithString: message.userModel.imageURL]
                                    placeholderImage:message.userModel.defaultImage];
             }
             else if (message.userModel.imageAsImage) {

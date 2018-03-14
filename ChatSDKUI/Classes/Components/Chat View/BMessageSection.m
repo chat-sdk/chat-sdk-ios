@@ -33,7 +33,7 @@
     return [message.date dateAgo];
 }
 
--(id<PElmMessage>) messageForRow: (int) row {
+-(id<PElmMessage, PMessageLayout>) messageForRow: (NSInteger) row {
     if (row < _messages.count) {
         return _messages[row];
     }

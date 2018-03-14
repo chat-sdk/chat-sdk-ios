@@ -44,7 +44,7 @@ static BAudioManager * manager;
         
         CGFloat currentPercent = CMTimeGetSeconds(_player.currentItem.currentTime)/CMTimeGetSeconds(_player.currentItem.duration);
         
-        if (fabsf(percent - currentPercent) > 0.01) {
+        if (fabs(percent - currentPercent) > 0.01) {
             [self setCurrentPlayTime:percent];
         }
     }
@@ -83,7 +83,7 @@ static BAudioManager * manager;
     if (object == _player && [keyPath isEqualToString:@"status"]) {
         if (_player.status == AVPlayerStatusReadyToPlay) {
             
-            NSInteger second = CMTimeGetSeconds(_player.currentItem.asset.duration);
+//            NSInteger second = CMTimeGetSeconds(_player.currentItem.asset.duration);
             
             [_loadingPromise resolveWithResult:nil];
         } else if (_player.status == AVPlayerStatusFailed) {
@@ -105,7 +105,7 @@ static BAudioManager * manager;
     // We don't need to prepare it if we are already on it
     if (![_currentAudioURL.absoluteString isEqualToString:audioURL]) {
         
-        _currentAudioURL = audioURL;
+        _currentAudioURL = [NSURL URLWithString: audioURL];
         
         AVPlayerItem * playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:audioURL]];
         _player = [[AVPlayer alloc] initWithPlayerItem:playerItem];

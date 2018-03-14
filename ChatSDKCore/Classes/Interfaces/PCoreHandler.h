@@ -67,12 +67,12 @@
 /**
  * @brief Add users to a thread
  */
--(RXPromise *) addUsers: (NSArray<PUser> *) userIDs toThread: (id<PThread>) threadModel;
+-(RXPromise *) addUsers: (NSArray *) userIDs toThread: (id<PThread>) threadModel;
 
 /**
  * @brief Remove users from a thread
  */
--(RXPromise *) removeUsers: (NSArray<PUser> *) userIDs fromThread: (id<PThread>) threadModel;
+-(RXPromise *) removeUsers: (NSArray *) userIDs fromThread: (id<PThread>) threadModel;
 
 /**
  * @brief Lazy loading of messages this method will load
@@ -109,12 +109,12 @@
 /**
  * @brief Get the messages for a particular thread
  */
--(NSArray<PMessage> *) messagesForThreadWithEntityID:(NSString *) entityID order: (NSComparisonResult) order;
+-(NSArray *) messagesForThreadWithEntityID:(NSString *) entityID order: (NSComparisonResult) order;
 
 /**
  * @brief Get a list of all threads
  */
--(NSArray<PThread> *) threadsWithType: (bThreadType) type;
+-(NSArray *) threadsWithType: (bThreadType) type;
 -(NSArray<PThread> *) threadsWithType:(bThreadType)type includeDeleted: (BOOL) includeDeleted includeEmpty: (BOOL) includeEmpty;
 
 -(id<PUser>) userForEntityID: (NSString *) entityID;

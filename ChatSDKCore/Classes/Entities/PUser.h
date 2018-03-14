@@ -83,7 +83,7 @@
 -(void) setPhoneNumber: (NSString *) phoneNumber;
 -(NSString *) phoneNumber;
 
--(NSArray<PThread> *) threads;
+-(NSArray *) threads;
 
 -(int) unreadMessageCount;
 
@@ -93,11 +93,11 @@
 
 -(id<PUser>) model;
 
--(NSArray<PUser> *) contactsWithType: (bUserConnectionType) type;
+-(NSArray *) contactsWithType: (bUserConnectionType) type;
 -(void) addConnection: (id<PUserConnection>) connection;
 -(void) removeConnection: (id<PUserConnection>) connection;
 
--(NSArray<PUserConnection> *) connectionsWithType: (bUserConnectionType) type;
+-(NSArray *) connectionsWithType: (bUserConnectionType) type;
 
 -(BOOL) isMe;
 

@@ -16,7 +16,7 @@
 -(NSNumber *) type;
 -(NSString *) displayName;
 -(NSString *) memberListAsString;
--(NSArray<PElmMessage> *) messagesOrderedByDateAsc;
+-(NSArray *) messagesOrderedByDateAsc;
 -(void) markRead;
 
 @end

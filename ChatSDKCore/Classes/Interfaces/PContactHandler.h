@@ -30,8 +30,8 @@
 /**
  * @brief Get a list of the user's contacts
  */
--(NSArray<PUser> *) contactsWithType: (bUserConnectionType) type;
--(NSArray<PUserConnection> *) connectionsWithType: (bUserConnectionType) type;
+-(NSArray *) contactsWithType: (bUserConnectionType) type;
+-(NSArray *) connectionsWithType: (bUserConnectionType) type;
 
 /**
  * @brief Add a user to contacts
