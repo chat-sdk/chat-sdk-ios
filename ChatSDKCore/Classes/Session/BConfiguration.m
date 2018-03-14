@@ -33,6 +33,8 @@
 @synthesize timeFormat;
 @synthesize chatMessagesToLoad;
 @synthesize pushNotificationSound;
+@synthesize firebaseGoogleServicesPlistName;
+@synthesize firebaseShouldConfigureAutomatically;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -66,6 +68,9 @@
         pushNotificationSound = @"default";
         
         chatMessagesToLoad = 50;
+        
+        firebaseShouldConfigureAutomatically = YES;
+        
         
     }
     return self;

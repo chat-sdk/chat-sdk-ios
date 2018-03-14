@@ -82,6 +82,14 @@
 // Push notification sound - name of sound file to play i.e. "mySound"
 @property (nonatomic, readwrite) NSString * pushNotificationSound;
 
+// Firebase options
+
+// Should the Chat SDK call [FIRApp configure];
+@property (nonatomic, readwrite) BOOL firebaseShouldConfigureAutomatically;
+
+// The name of the custom Firebase Google-Services plist file
+@property (nonatomic, readwrite) NSString * firebaseGoogleServicesPlistName;
+
 // Chat SDK can auto-detect and install modules. Some modules need to a different setup
 // procedure depending on which server is being used - Firebase or XMPP. If only one
 // network adapter is set, modules will be installed for that server but if there
