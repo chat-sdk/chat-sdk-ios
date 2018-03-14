@@ -93,6 +93,8 @@
 }
 
 -(void) viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
     [self hideHUDWithDuration:0];
     
     [[NSNotificationCenter defaultCenter] removeObserver:_internetConnectionObserver];

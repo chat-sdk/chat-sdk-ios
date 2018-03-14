@@ -34,38 +34,6 @@
     return self.user;
 }
 
-+(UIColor *) randomColor {
-    NSInteger i  = arc4random() % 9;
-    if (i == 0) {
-        return [BCoreUtilities colorWithHexString:@"eea9a4"];
-    }
-    if (i == 1) {
-        return [BCoreUtilities colorWithHexString:@"e2b27b"];
-    }
-    if (i == 2) {
-        return [BCoreUtilities colorWithHexString:@"a28daf"];
-    }
-    if (i == 3) {
-        return [BCoreUtilities colorWithHexString:@"bcc9ab"];
-    }
-    if (i == 4) {
-        return [BCoreUtilities colorWithHexString:@"f4e6b8"];
-    }
-    if (i == 5) {
-        return [BCoreUtilities colorWithHexString:@"8ebdd1"];
-    }
-    if (i == 6) {
-        return [BCoreUtilities colorWithHexString:@"c0d2a1"];
-    }
-    if (i == 7) {
-        return [BCoreUtilities colorWithHexString:@"9acccb"];
-    }
-    if (i == 8) {
-        return [BCoreUtilities colorWithHexString:@"9ccaa7"];
-    }
-    return Nil;
-}
-
 +(MKCoordinateRegion) regionForLongitude: (double) longitude latitude: (double) latitude {
     return [self regionForLongitude:longitude latitude:latitude area:bLocationDefaultArea];
 }

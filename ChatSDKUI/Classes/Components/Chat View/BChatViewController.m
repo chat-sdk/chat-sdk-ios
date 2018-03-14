@@ -360,4 +360,8 @@
     
 }
 
+-(void) dealloc {
+    NSLog(@"Dealloc Chat View Controller");
+}
+
 @end
