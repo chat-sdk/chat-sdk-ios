@@ -185,28 +185,28 @@
     
     NSString * text = [NSBundle t:bNoMessages];
     
-    id<PMessage> message = [thread messagesOrderedByDateDesc].firstObject;
+    id<PMessage> lastMessage = thread.lazyLastMessage;
     
     // TODO: move this into one method
-    if (message) {
+    if (lastMessage) {
         
-        if (message.type.intValue == bMessageTypeImage) {
+        if (lastMessage.type.intValue == bMessageTypeImage) {
             text = [NSBundle core_t:bImageMessage];
         }
-        else if(message.type.intValue == bMessageTypeLocation) {
+        else if(lastMessage.type.intValue == bMessageTypeLocation) {
             text = [NSBundle core_t:bLocationMessage];
         }
-        else if(message.type.intValue == bMessageTypeAudio) {
+        else if(lastMessage.type.intValue == bMessageTypeAudio) {
             text = [NSBundle core_t:bAudioMessage];
         }
-        else if(message.type.intValue == bMessageTypeVideo) {
+        else if(lastMessage.type.intValue == bMessageTypeVideo) {
             text = [NSBundle core_t:bVideoMessage];
         }
-        else if(message.type.intValue == bMessageTypeSticker) {
+        else if(lastMessage.type.intValue == bMessageTypeSticker) {
             text = [NSBundle core_t:bStickerMessage];
         }
         else {
-            text = message.textString;
+            text = lastMessage.textString;
         }
     }
     
@@ -259,7 +259,6 @@
 }
 
 -(void) pushChatViewControllerWithThread: (id<PThread>) thread {
-    
     if (thread) {
         UIViewController * vc = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
       

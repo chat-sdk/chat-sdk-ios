@@ -42,7 +42,6 @@
 -(NSNumber *) delivered;
 -(NSData *) placeholder;
 
--(bMessagePos) messagePosition;
 -(BOOL) senderIsMe;
 -(id<PElmMessage>) lazyNextMessage;
 -(id<PElmMessage>) lazyLastMessage;

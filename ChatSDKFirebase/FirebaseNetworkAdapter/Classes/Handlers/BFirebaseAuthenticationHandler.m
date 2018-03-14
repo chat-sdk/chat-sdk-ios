@@ -120,7 +120,7 @@
     };
     
     promise = promise.thenOnMain(^id(FIRUser * firebaseUser) {
-        return [self loginWithFirebaseUser: firebaseUser];
+        return [self loginWithFirebaseUser: firebaseUser accountDetails:details];
     }, Nil);
     
     // Depending on the login method we need to authenticate with Firebase
@@ -199,6 +199,10 @@
 }
 
 -(RXPromise *) loginWithFirebaseUser: (FIRUser *) firebaseUser {
+    return [self loginWithFirebaseUser:firebaseUser accountDetails:Nil];
+}
+
+-(RXPromise *) loginWithFirebaseUser: (FIRUser *) firebaseUser accountDetails: (BAccountDetails *) details {
     
     // If the user isn't authenticated they'll need to login
     if (!firebaseUser) {
@@ -225,6 +229,9 @@
                              bTokenKey: token ? token : @""}];
         
         CCUserWrapper * user = [CCUserWrapper userWithAuthUserData:firebaseUser];
+        if (details.name) {
+            [user.model setName:details.name];
+        }
         
         if (!_userAuthenticatedThisSession) {
             _userAuthenticatedThisSession = YES;

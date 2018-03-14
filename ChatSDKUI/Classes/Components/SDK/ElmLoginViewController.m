@@ -32,18 +32,17 @@
 @synthesize delegate;
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [self init])) {
-        
+    if ((self = [super initWithNibName:@"BLoginViewController" bundle:[NSBundle chatUIBundle]])) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
     }
     return self;
 }
 
 -(instancetype) init
 {
-    self = [super initWithNibName:@"BLoginViewController" bundle:[NSBundle chatUIBundle]];
+    self = [self initWithNibName:Nil bundle:Nil];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
     }
     return self;
 }
@@ -200,7 +199,7 @@
 }
 
 - (IBAction)termsAndConditionsButtonPressed:(id)sender {
-    BEULAViewController * vc = [BInterfaceManager sharedManager].a.eulaViewController;
+    UIViewController * vc = [BInterfaceManager sharedManager].a.eulaViewController;
     UINavigationController * nvc = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nvc animated:YES completion:Nil];
 }

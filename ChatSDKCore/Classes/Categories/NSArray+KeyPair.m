@@ -35,7 +35,7 @@
     if(self.count >= 2) {
         return self[1];
     }
-    return self;
+    return Nil;
 }
 
 -(BOOL) required {

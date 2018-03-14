@@ -133,10 +133,6 @@
         
         [self updateInterfaceForReachabilityStateChange];
         
-        CGSize mainViewSize = self.bounds.size;
-        CGFloat borderWidth = 0.5;
-        UIView * topView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, mainViewSize.width, borderWidth)];
-
         UIView * topMarginView = [[UIView alloc] initWithFrame:CGRectZero];
         topMarginView.backgroundColor = [UIColor colorWithRed: 242.0/255.0 green: 242.0/255.0 blue: 242.0/255.0 alpha: 1.0];
         

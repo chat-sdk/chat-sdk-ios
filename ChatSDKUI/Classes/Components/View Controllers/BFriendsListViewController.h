@@ -34,7 +34,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, readwrite, copy) void (^usersToInvite)(NSArray * users, NSString * groupName);
 @property (nonatomic, readwrite) NSString * rightBarButtonActionTitle;
-@property (nonatomic, readwrite) NSArray * (^overrideContacts)();
+@property (nonatomic, readwrite) NSArray * (^overrideContacts)(void);
 
 @property (weak, nonatomic) IBOutlet VENTokenField * _tokenField;
 @property (strong, nonatomic) NSMutableArray * names;
@@ -44,7 +44,7 @@
 
 @property (nonatomic, readwrite) int maximumSelectedUsers;
 
--(instancetype) initWithUsersToExclude: (NSArray<PUser> *) users;
+-(instancetype) initWithUsersToExclude: (NSArray *) users;
 
 -(void) setUsersToExclude: (NSArray *) users;
 -(void) setSelectedUsers: (NSArray *) users;

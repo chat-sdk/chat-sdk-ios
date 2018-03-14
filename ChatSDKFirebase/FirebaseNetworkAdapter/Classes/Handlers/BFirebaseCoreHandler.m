@@ -188,7 +188,7 @@
 
 -(RXPromise *) loadMoreMessagesForThread: (id<PThread>) threadModel {
     CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
-    return [thread loadMoreMessages: 10];
+    return [thread loadMoreMessages: 30];
 }
 
 -(RXPromise *) deleteThread: (id<PThread>) thread {

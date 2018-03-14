@@ -16,7 +16,7 @@
 #define GregorianCalendar NSGregorianCalendar
 #endif
 
-@interface BEditProfileTableViewController : UITableViewController<CountryPickerDelegate, UITextViewDelegate> {
+@interface BEditProfileTableViewController : UITableViewController<UITextViewDelegate> {
     UITapGestureRecognizer * _tapRecognizer;
     BOOL _didLogout;
     id _keyboardObserver;

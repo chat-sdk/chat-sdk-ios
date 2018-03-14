@@ -97,6 +97,10 @@
     assert(NO);
 }
 
+- (void)pushToUsers:(NSArray *)users withData:(NSDictionary *)data {
+    assert(NO);
+}
+
 -(NSString *) safeChannel: (NSString *) channel {
     return [[channel stringByReplacingOccurrencesOfString:@"@" withString:@"a"] stringByReplacingOccurrencesOfString:@"." withString:@"d"];
 }

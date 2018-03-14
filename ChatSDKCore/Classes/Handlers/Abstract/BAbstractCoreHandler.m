@@ -93,7 +93,7 @@
     }
     
     [threads sortUsingComparator:^(id<PThread> t1, id<PThread> t2) {
-        return [t2.lastMessageAdded compare:t1.lastMessageAdded];
+        return [t2.orderDate compare:t1.orderDate];
     }];
     
     return threads;
@@ -244,5 +244,15 @@
 -(RXPromise *) joinThread: (id<PThread>) thread {
     assert(NO);
 }
+
+- (void)setUserOffline {
+    assert(NO);
+}
+
+
+- (NSArray *)threadsWithUsers:(NSArray *)users type:(bThreadType)type {
+    assert(NO);
+}
+
 
 @end

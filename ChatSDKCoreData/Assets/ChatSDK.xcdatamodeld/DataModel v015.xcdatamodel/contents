@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D47" minimumToolsVersion="Xcode 4.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="CDGroup" representedClassName="CDGroup" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="userConnections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDUserConnection" inverseName="groups" inverseEntity="CDUserConnection" syncable="YES"/>
+    </entity>
+    <entity name="CDMessage" representedClassName="CDMessage" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="delivered" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="dirty" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="entityID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="flagged" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="json" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="meta" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="placeholder" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="read" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="resource" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="resourcePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="lastMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="nextMessage" inverseEntity="CDMessage" syncable="YES"/>
+        <relationship name="nextMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="lastMessage" inverseEntity="CDMessage" syncable="YES"/>
+        <relationship name="thread" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDThread" inverseName="messages" inverseEntity="CDThread" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="messages" inverseEntity="CDUser" syncable="YES"/>
+    </entity>
+    <entity name="CDThread" representedClassName="CDThread" syncable="YES">
+        <attribute name="apiKey" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="creatorEntityID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deleted_" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="dirty" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="entityID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasUnreadMessages" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lastMessageAdded" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="meta" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rootKey" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="threadsCreated" inverseEntity="CDUser" syncable="YES"/>
+        <relationship name="lastMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDMessage" inverseName="thread" inverseEntity="CDMessage" syncable="YES"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDUser" inverseName="threads" inverseEntity="CDUser" syncable="YES"/>
+    </entity>
+    <entity name="CDUser" representedClassName="CDUser" syncable="YES">
+        <attribute name="authenticationType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dirty" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="entityID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="lastOnline" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="messageColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="meta" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="online" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <relationship name="linkedAccounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDUserAccount" inverseName="user" inverseEntity="CDUserAccount" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="user" inverseEntity="CDMessage" syncable="YES"/>
+        <relationship name="threads" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDThread" inverseName="users" inverseEntity="CDThread" syncable="YES"/>
+        <relationship name="threadsCreated" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDThread" inverseName="creator" inverseEntity="CDThread" syncable="YES"/>
+        <relationship name="userConnections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDUserConnection" inverseName="owner" inverseEntity="CDUserConnection" syncable="YES"/>
+    </entity>
+    <entity name="CDUserAccount" representedClassName="CDUserAccount" syncable="YES">
+        <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="linkedAccounts" inverseEntity="CDUser" syncable="YES"/>
+    </entity>
+    <entity name="CDUserConnection" representedClassName="CDUserConnection" syncable="YES">
+        <attribute name="entityID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="meta" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="groups" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDGroup" inverseName="userConnections" inverseEntity="CDGroup" syncable="YES"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="userConnections" inverseEntity="CDUser" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="CDGroup" positionX="-747" positionY="-387" width="128" height="73"/>
+        <element name="CDMessage" positionX="-225" positionY="99" width="128" height="315"/>
+        <element name="CDThread" positionX="-236" positionY="-252" width="128" height="285"/>
+        <element name="CDUser" positionX="-693" positionY="-268" width="128" height="283"/>
+        <element name="CDUserAccount" positionX="-333" positionY="-396" width="128" height="88"/>
+        <element name="CDUserConnection" positionX="-945" positionY="-271" width="128" height="118"/>
+    </elements>
+</model>

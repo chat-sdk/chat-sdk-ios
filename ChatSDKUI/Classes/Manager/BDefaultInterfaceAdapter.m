@@ -13,7 +13,7 @@
 #import <ChatSDK/BChatViewController.h>
 
 #define bControllerKey @"bControllerKey"
-#define bNameKey @"bNameKey"
+#define bControllerNameKey @"bControllerNameKey"
 
 @implementation BDefaultInterfaceAdapter
 
@@ -66,7 +66,7 @@
     return [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
 }
 
--(UIViewController *) profileViewControllerWithUser: (id<PUser>) user {
+-(UIViewController *) profileViewControllerWithUser: (id<PElmUser>) user {
     
     UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Profile"
                                                           bundle:[NSBundle chatUIBundle]];
@@ -164,13 +164,13 @@
 -(NSDictionary *) additionalSearchControllerNames {
     NSMutableDictionary * nameForType = [NSMutableDictionary new];
     for(NSString * key in [_additionalSearchViewControllers allKeys]) {
-        nameForType[key] = _additionalSearchViewControllers[key][bNameKey];
+        nameForType[key] = _additionalSearchViewControllers[key][bControllerNameKey];
     }
     return nameForType;
 }
 
 -(void) addSearchViewController: (UIViewController *) controller withType: (NSString *) type withName: (NSString *) name {
-    [_additionalSearchViewControllers setObject:@{bControllerKey: controller, bNameKey: name}
+    [_additionalSearchViewControllers setObject:@{bControllerKey: controller, bControllerNameKey: name}
                                          forKey:type];
 }
 

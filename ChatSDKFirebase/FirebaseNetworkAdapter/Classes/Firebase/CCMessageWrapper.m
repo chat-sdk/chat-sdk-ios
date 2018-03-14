@@ -109,8 +109,9 @@
 -(NSDictionary *) initialReadReceipts {
     // Setup the initial read receipts
     NSMutableDictionary * readReceipts = [NSMutableDictionary new];
+    id<PUser> currentUser = NM.currentUser;
     for (id<PUser> user in self.model.thread.users) {
-        if (![user isEqual:NM.currentUser]) {
+        if (![user isEqual:currentUser]) {
             readReceipts[user.entityID] = @{b_Status: @(bMessageReadStatusNone)};
         }
     }

@@ -197,13 +197,4 @@
 }
 
 
-/**
- * @brief Get an array of the available search indexes
- */
-// TODO: maybe we should just disable this
-//-(RXPromise *) availableIndexes {
-//    return [RXPromise resolveWithResult:@[bNameKey, bEmailKey, bPhoneKey]];
-//}
-
-
 @end

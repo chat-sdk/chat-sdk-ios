@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) CDUser *creator;
 @property (nullable, nonatomic, retain) NSSet<CDMessage *> *messages;
 @property (nullable, nonatomic, retain) NSSet<CDUser *> *users;
+@property (nullable, nonatomic, retain) CDMessage * lastMessage;
 
 @end
 
