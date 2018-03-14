@@ -40,7 +40,9 @@
         }
         i++;
     }
-    [_additionalTabBarViewControllers removeObjectAtIndex:i];
+    if (found) {
+        [_additionalTabBarViewControllers removeObjectAtIndex:i];
+    }
 }
 
 -(UIViewController *) privateThreadsViewController {

@@ -140,6 +140,8 @@
 }
 
 -(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     [_selectedUsers removeAllObjects];
     
     // Observe for keyboard appear and disappear notifications
