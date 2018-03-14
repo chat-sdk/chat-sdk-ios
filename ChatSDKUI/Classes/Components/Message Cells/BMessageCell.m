@@ -22,6 +22,8 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        
+        NSLog(@"Allocate Cell %@", reuseIdentifier);
 
         // They aren't selectable
         self.selectionStyle = UITableViewCellSelectionStyleDefault;
@@ -334,13 +336,16 @@
         }
     }
     
+    NSInteger leftCapWidth = bubbleImage.leftCapWidth;
+    NSInteger topCapHeight = bubbleImage.topCapHeight;
+    
     // Write from the context to our new image
     // Make sur to copy across the orientation and scale so the bubbles render
     // properly on a retina screen
     UIImage * newImage = [[UIImage imageWithCGImage:CGBitmapContextCreateImage(context)
                                               scale:bubbleImage.scale
-                                        orientation:bubbleImage.imageOrientation] stretchableImageWithLeftCapWidth:bubbleImage.leftCapWidth
-                                                                                                             topCapHeight:bubbleImage.topCapHeight];
+                                        orientation:bubbleImage.imageOrientation] stretchableImageWithLeftCapWidth:leftCapWidth
+                                                                                                             topCapHeight:topCapHeight];
     // Free up the memory we used
     CGContextRelease(context);
     free(data);
@@ -350,6 +355,10 @@
 
 -(BOOL) supportsCopy {
     return NO;
+}
+
+-(void) dealloc {
+    NSLog(@"Dealloc cell %@", self.reuseIdentifier);
 }
 
 
