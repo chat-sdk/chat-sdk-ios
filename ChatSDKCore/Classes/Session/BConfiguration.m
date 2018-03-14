@@ -35,6 +35,8 @@
 @synthesize pushNotificationSound;
 @synthesize firebaseGoogleServicesPlistName;
 @synthesize firebaseShouldConfigureAutomatically;
+@synthesize locationMessagesEnabled;
+@synthesize imageMessagesEnabled;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -70,6 +72,9 @@
         chatMessagesToLoad = 50;
         
         firebaseShouldConfigureAutomatically = YES;
+        
+        locationMessagesEnabled = YES;
+        imageMessagesEnabled = YES;
         
         
     }
