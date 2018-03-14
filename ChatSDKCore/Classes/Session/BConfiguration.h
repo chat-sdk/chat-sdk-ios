@@ -76,6 +76,9 @@
 @property (nonatomic, readwrite) UIFont * threadTimeFont;
 @property (nonatomic, readwrite) UIFont * threadSubtitleFont;
 
+@property (nonatomic, readwrite) BOOL locationMessagesEnabled;
+@property (nonatomic, readwrite) BOOL imageMessagesEnabled;
+
 // How many messages should be loaded initially when a chat is opened
 @property (nonatomic, readwrite) int chatMessagesToLoad;
 
