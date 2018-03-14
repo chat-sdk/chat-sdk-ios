@@ -246,7 +246,7 @@
 
 +(RXPromise *) getWithPath: (NSString *) path parameters: (NSDictionary *) params {
     
-    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+    AFHTTPSessionManager * manager = [self manager];
     //manager.responseSerializer = [[AFHTTPResponseSerializer alloc] init];
     //manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
     
@@ -277,6 +277,17 @@
     }];
     
     return promise;
+}
+
++ (AFHTTPSessionManager*) manager
+{
+    static dispatch_once_t onceToken;
+    static AFHTTPSessionManager *manager = nil;
+    dispatch_once(&onceToken, ^{
+        manager = [AFHTTPSessionManager manager];
+    });
+    
+    return manager;
 }
 
 
