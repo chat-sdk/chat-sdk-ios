@@ -186,7 +186,7 @@
     id<PMessageLayout> l = [BMessageLayout layoutWithMessage:_message];
     
     // Add an extra margin if there is no profile picture
-    float margin = l.bubbleMargin + (_profilePicture.image ? 0 : 5);
+    float margin = l.bubbleMargin;
     float padding = l.bubblePadding;
     
     // Set the margins and height for message
@@ -244,6 +244,10 @@
 
     BOOL isMine = [_message.userModel isEqual:NM.currentUser];
     
+    // Extra x-margin if the profile picture isn't shown
+    // TODO: Fix this
+    float xMargin =  _profilePicture.image ? 0 : 0;
+    
     // Layout the date label this will be the full size of the cell
     // This will automatically center the text in the y direction
     // we'll set the side using text alignment
@@ -264,7 +268,7 @@
     // The bubble is translated the "margin" to the right of the profile picture
     if (!isMine) {
         [_profilePicture setViewFrameX:_profilePicture.hidden ? 0 : l.profilePicturePadding];
-        [bubbleImageView setViewFrameX:l.bubbleMargin + _profilePicture.fx + _profilePicture.fw];
+        [bubbleImageView setViewFrameX:l.bubbleMargin + _profilePicture.fx + _profilePicture.fw + xMargin];
         [_nameLabel setViewFrameX:bTimeLabelPadding];
         
         _timeLabel.textAlignment = NSTextAlignmentRight;
@@ -272,7 +276,7 @@
     }
     else {
         [_profilePicture setViewFrameX:_profilePicture.hidden ? self.contentView.fw : self.contentView.fw - _profilePicture.fw - l.profilePicturePadding];
-        [bubbleImageView setViewFrameX:_profilePicture.fx - l.bubbleWidth - l.bubbleMargin];
+        [bubbleImageView setViewFrameX:_profilePicture.fx - l.bubbleWidth - l.bubbleMargin - xMargin];
         //[_nameLabel setViewFrameX: bTimeLabelPadding];
         
         _timeLabel.textAlignment = NSTextAlignmentLeft;
