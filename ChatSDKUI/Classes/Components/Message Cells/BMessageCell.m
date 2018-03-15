@@ -348,9 +348,6 @@
     // Free up the memory we used
     CGContextRelease(context);
     free(data);
-
-    // MEM
-    CGImageRelease(image);
     CGColorSpaceRelease(colorSpace);
     
     return newImage;

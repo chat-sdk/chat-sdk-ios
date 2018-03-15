@@ -354,8 +354,7 @@
 
     [messageCell setMessage:message withColorWeight:colorWeight];
     
-    return [UITableViewCell new];
-//    return messageCell;
+    return messageCell;
 }
 
 -(void) addObservers {
