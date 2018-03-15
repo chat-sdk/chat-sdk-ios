@@ -45,7 +45,7 @@
         rootPath = @"default";
         appBadgeEnabled = YES;
         defaultUserNamePrefix = @"ChatSDK";
-        showEmptyChats = NO;
+        showEmptyChats = YES;
         allowUsersToCreatePublicChats = NO;
         
         defaultAvatarURL = [@"http://flathash.com/%@.png" stringByAppendingFormat: @"%@", self.defaultUserName];

@@ -127,6 +127,9 @@
  */
 -(void) save;
 
+// Save the data to perminent storage
+-(void) saveToStore;
+
 -(void) sendLocalSystemMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID;
 -(void) sendLocalSystemMessageWithText:(NSString *)text type: (bSystemMessageType) type withThreadEntityID:(NSString *)threadID;
 

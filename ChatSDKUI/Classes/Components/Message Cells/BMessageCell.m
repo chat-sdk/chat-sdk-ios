@@ -186,7 +186,8 @@
     
     id<PMessageLayout> l = [BMessageLayout layoutWithMessage:_message];
     
-    float margin = l.bubbleMargin;
+    // Add an extra margin if there is no profile picture
+    float margin = l.bubbleMargin + (_profilePicture.image ? 0 : 5);
     float padding = l.bubblePadding;
     
     // Set the margins and height for message

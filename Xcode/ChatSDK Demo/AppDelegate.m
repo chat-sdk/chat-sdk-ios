@@ -25,7 +25,8 @@
     
     BConfiguration * config = [BConfiguration configuration];
     config.rootPath = @"test";
-    config.allowUsersToCreatePublicChats = NO;
+    config.allowUsersToCreatePublicChats = YES;
+    config.showEmptyChats = YES;
     [BChatSDK initialize:config app:application options:launchOptions];
  
     UIViewController * rootViewController = [BInterfaceManager sharedManager].a.appTabBarViewController;
