@@ -94,9 +94,6 @@
     CGColorSpaceRelease(colorSpace);
     CGImageRelease(newImageRef);
     
-    // MEM
-//    CGImageRelease(imageRef);
-    
     return newImage;
 }
 
