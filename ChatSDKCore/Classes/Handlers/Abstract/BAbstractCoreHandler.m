@@ -9,6 +9,7 @@
 #import "BAbstractCoreHandler.h"
 
 #import <ChatSDK/ChatCore.h>
+#import <Foundation/Foundation.h>
 
 @implementation BAbstractCoreHandler
 
@@ -74,6 +75,7 @@
     return [self threadsWithType:type includeDeleted:NO includeEmpty:[BChatSDK shared].configuration.showEmptyChats];
 }
 
+// TODO: Optimize this
 -(NSArray *) threadsWithType:(bThreadType)type includeDeleted: (BOOL) includeDeleted includeEmpty: (BOOL) includeEmpty {
     
     NSMutableArray * threads = [NSMutableArray new];
@@ -101,6 +103,10 @@
 
 -(void) save {
     [[BStorageManager sharedManager].a save];
+}
+
+-(void) saveToStore {
+    [[BStorageManager sharedManager].a saveToStore];
 }
 
 -(void) sendLocalSystemMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID {

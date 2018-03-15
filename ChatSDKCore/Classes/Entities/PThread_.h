@@ -38,10 +38,6 @@ typedef enum {
     bThreadTypePrivateV3 = 0,
     bThreadTypePublicV3 = 1,
     
-} bThreadType;
-
-typedef enum {
-    
     // Filters
     bThreadFilterPrivate = bThreadType1to1 | bThreadTypePrivateGroup | bThreadTypePrivateBroadcast | bThreadTypeThreadedBroadcast,
     
@@ -52,8 +48,7 @@ typedef enum {
     
     bThreadFilterPrivateThread = bThreadTypePrivateGroup | bThreadType1to1,
     
-    
-} bThreadFilter;
+} bThreadType;
 
 @protocol PThread <PEntity, PHasMeta, PElmThread>
 

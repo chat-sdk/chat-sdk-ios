@@ -99,6 +99,7 @@ static BCoreDataManager * manager;
 -(id) executeFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate {
     @synchronized(self.managedObjectContext) {
         [fetchRequest setIncludesPendingChanges:YES];
+
         NSEntityDescription * entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.managedObjectContext];
         if (!entity) {
             return Nil;

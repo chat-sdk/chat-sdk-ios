@@ -123,6 +123,7 @@
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self updateBadge];
+    [NM.core saveToStore];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -137,6 +138,7 @@
 // If the user changes tab they must be online
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     [NM.core setUserOnline];
+    [NM.core saveToStore];
 }
 // End bug fix for v3.0.2
 

@@ -9,13 +9,13 @@
 #import "BAccountTypes.h"
 
 #import <ChatSDK/BUserConnectionType.h>
+#import <ChatSDK/PHasMeta.h>
 
 @class RXPromise;
 @protocol PUserConnection;
 @protocol PThread;
 @protocol PUserAccount;
 @protocol PEntity;
-@protocol PHasMeta;
 @protocol PElmUser;
 
 @protocol PUser <PEntity, PHasMeta, PElmUser>

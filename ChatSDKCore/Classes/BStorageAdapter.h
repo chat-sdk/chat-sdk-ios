@@ -38,6 +38,7 @@
 -(id<PThread>) createThreadEntity;
 
 -(void) save;
+-(void) saveToStore;
 
 -(id) createEntity: (NSString *) entityName;
 

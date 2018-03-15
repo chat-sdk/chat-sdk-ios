@@ -71,22 +71,6 @@
     [_messagesWorkingList removeAllObjects];
     [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:count ascending:YES]];
     
-//    NSArray * allMessages = [self orderMessagesByDateAsc:self.allMessages];
-//
-//    // The endIndex of the last message to add
-//    NSInteger endIndex = allMessages.count - self.messagesWorkingList.count - 1;
-//
-//    NSMutableArray * messages = [NSMutableArray new];
-//
-//    // Loop backwards from the end index adding the messages to the working list
-//    for(NSInteger i = endIndex; i > endIndex - numberOfMessages; i--) {
-//        if(i >= 0) {
-//            [messages addObject:allMessages[i]];
-//        }
-//    }
-//
-//    [_messagesWorkingList addObjectsFromArray:messages];
-    
     return _messagesWorkingList;
 }
 
@@ -109,7 +93,7 @@
 }
 
 -(BOOL) hasMessages {
-    return self.messagesWorkingList.count > 0;
+    return self.lazyLastMessage != Nil;
 }
 
 -(void) addMessage: (id<PMessage>) message {
