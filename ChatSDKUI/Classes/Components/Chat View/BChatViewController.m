@@ -42,9 +42,9 @@
     // Setup last online
     if (_thread.type.intValue == bThreadType1to1) {
         if(NM.lastOnline) {
+            __weak id weakSelf = self;
             [NM.lastOnline getLastOnlineForUser:_thread.otherUser].thenOnMain(^id(NSDate * date) {
-                [self setSubtitle:date.lastSeenTimeAgo];
-                
+                [weakSelf setSubtitle:date.lastSeenTimeAgo];
                 return Nil;
             }, Nil);
         }
@@ -65,15 +65,14 @@
 }
 
 -(void) addObservers {
-    [self removeObservers];
-    
     [super addObservers];
     
     id<PUser> currentUserModel = NM.currentUser;
     
+    __weak id weakSelf = self;
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationReadReceiptUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self updateMessages];
+            [weakSelf updateMessages];
         });
     }]];
     
@@ -93,7 +92,7 @@
             }
             messageModel.delivered = @YES;
             
-            [self updateMessages];
+            [weakSelf updateMessages];
         });
     }]];
     
@@ -103,7 +102,7 @@
                                                                             usingBlock:^(NSNotification * notification) {
                                                                                 dispatch_async(dispatch_get_main_queue(), ^{
                                                                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                        [self updateMessages];
+                                                                                        [weakSelf updateMessages];
                                                                                     });
                                                                                 });
     }]];
@@ -114,7 +113,7 @@
                                                                        queue:Nil
                                                                   usingBlock:^(NSNotification * notification) {
                                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                                          [self updateMessages];
+                                                                          [weakSelf updateMessages];
                                                                       });
     }]];
     
@@ -125,7 +124,7 @@
                                                                         dispatch_async(dispatch_get_main_queue(), ^{
                                                                             id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
                                                                             if ([thread isEqual: _thread]) {
-                                                                                [self startTypingWithMessage:notification.userInfo[bNotificationTypingStateChangedKeyMessage]];
+                                                                                [weakSelf startTypingWithMessage:notification.userInfo[bNotificationTypingStateChangedKeyMessage]];
                                                                             }
                                                                         });
     }]];
@@ -136,8 +135,8 @@
                                                                               queue:Nil
                                                                          usingBlock:^(NSNotification * notification) {
                                                                              dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                 [self updateSubtitle];
-                                                                                 [self updateTitle];
+                                                                                 [weakSelf updateSubtitle];
+                                                                                 [weakSelf updateTitle];
                                                                             });
     }]];
     
@@ -145,12 +144,6 @@
 
 -(void) updateTitle {
     [self setTitle:_thread.displayName ? _thread.displayName : [NSBundle t: bDefaultThreadName]];
-}
-
--(void) removeObservers {
-    [super removeObservers];
-    
-    [_notificationList dispose];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -163,13 +156,17 @@
     
     _usersViewLoaded = NO;
     
+    [self addUserToPublicThreadIfNecessary];
+    
+}
+
+-(void) addUserToPublicThreadIfNecessary {
     // For public threads we add the user when we view the thread
     // TODO: This is called multiple times... maybe move it to view did load
     if (_thread.type.intValue & bThreadFilterPublic) {
         id<PUser> user = NM.currentUser;
         [NM.core addUsers:@[user] toThread:_thread];
     }
-    
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
@@ -272,8 +269,9 @@
 
 // You can pull more messages from the server and add them to the thread object
 -(RXPromise *) loadMoreMessages {
+    __weak id weakSelf = self;
     return [NM.core loadMoreMessagesForThread:_thread].thenOnMain(^id(NSArray * messages) {
-        [self updateMessages];
+        [weakSelf updateMessages];
         return Nil;
     },^id(NSError * error) {
         return Nil;
@@ -362,8 +360,5 @@
     
 }
 
--(void) dealloc {
-    NSLog(@"Dealloc Chat View Controller");
-}
 
 @end

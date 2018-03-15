@@ -20,6 +20,7 @@
 @class BImageViewController;
 @class BLocationViewController;
 @class BMessageSection;
+@class BNotificationObserverList;
 
 @interface ElmChatViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, PSendBarDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, BChatOptionDelegate> {
     
@@ -49,6 +50,10 @@
     UIView * _keyboardOverlay;
     
     id<PChatOptionsHandler> _optionsHandler;
+    
+    BNotificationObserverList * _notificationList;
+    
+    BOOL _observersAdded;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView * tableView;

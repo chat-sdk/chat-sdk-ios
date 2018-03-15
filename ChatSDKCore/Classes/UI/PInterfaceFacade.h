@@ -14,6 +14,7 @@
 @protocol PChatOptionsHandler;
 @protocol PSearchViewController;
 @protocol PSendBar;
+@protocol BChatOptionDelegate;
 @class BChatViewController;
 @class BFriendsListViewController;
 @class BChatOption;
@@ -45,7 +46,7 @@
 -(NSArray *) tabBarNavigationViewControllers;
 
 -(NSMutableArray *) chatOptions;
--(id<PChatOptionsHandler>) chatOptionsHandlerWithChatViewController: (BChatViewController *) chatViewController;
+-(id<PChatOptionsHandler>) chatOptionsHandlerWithDelegate: (id<BChatOptionDelegate>) delegate;
 -(UIViewController *) usersViewControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent;
 -(void) addChatOption: (BChatOption *) option;
 -(void) removeChatOption: (BChatOption *) option;

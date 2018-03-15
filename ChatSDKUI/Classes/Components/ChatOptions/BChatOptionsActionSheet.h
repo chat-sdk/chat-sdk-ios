@@ -15,7 +15,6 @@
 
 @interface BChatOptionsActionSheet : NSObject<PChatOptionsHandler, UIActionSheetDelegate> {
     NSMutableArray * _options;
-    __weak BChatViewController * _chatViewController;
 }
 
 @property (nonatomic, readwrite, weak) id<BChatOptionDelegate> delegate;

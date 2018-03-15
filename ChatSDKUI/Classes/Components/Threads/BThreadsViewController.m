@@ -61,6 +61,9 @@
 }
 
 -(void) addObservers {
+    [self removeObservers];
+    __weak BThreadsViewController * weakSelf = self;
+
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageAdded
                                                                          object:Nil
                                                                           queue:Nil
@@ -79,7 +82,7 @@
                                                                              }
                                                                              
                                                                              // Move thread to top
-                                                                             [self reloadData];
+                                                                             [weakSelf reloadData];
                                                                          });
     }]];
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved
@@ -87,7 +90,7 @@
                                                                           queue:Nil
                                                                      usingBlock:^(NSNotification * notification) {
                                                                          dispatch_async(dispatch_get_main_queue(), ^{
-                                                                             [self reloadData];
+                                                                             [weakSelf reloadData];
                                                                          });
     }]];
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
@@ -95,7 +98,7 @@
                                                                        queue:Nil
                                                                   usingBlock:^(NSNotification * notification) {
                                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                                          [self reloadData];
+                                                                          [weakSelf reloadData];
                                                                       });
     }]];
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification
@@ -103,7 +106,7 @@
                                                                                      queue:Nil
                                                                                 usingBlock:^(NSNotification * notification) {
                                                                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                        [self updateButtonStatusForInternetConnection];
+                                                                                        [weakSelf updateButtonStatusForInternetConnection];
                                                                                     });
     }]];
     
@@ -114,7 +117,7 @@
                                                                         dispatch_async(dispatch_get_main_queue(), ^{
                                                                             id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
                                                                             _threadTypingMessages[thread.entityID] = notification.userInfo[bNotificationTypingStateChangedKeyMessage];
-                                                                            [self reloadData];
+                                                                            [weakSelf reloadData];
                                                                         });
     }]];
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadDeleted
@@ -122,7 +125,7 @@
                                                                          queue:Nil
                                                                     usingBlock:^(NSNotification * notification) {
                                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                                                            [self reloadData];
+                                                                            [weakSelf reloadData];
                                                                         });
     }]];
 }
@@ -323,6 +326,11 @@
     
     BOOL connected = [Reachability reachabilityForInternetConnection].isReachable;
     self.navigationItem.rightBarButtonItem.enabled = connected;
+}
+
+-(void) dealloc {
+    tableView.delegate = Nil;
+    tableView.dataSource = Nil;
 }
 
 @end
