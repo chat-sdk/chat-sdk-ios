@@ -98,21 +98,22 @@
     
     BFriendsListViewController * flvc = (BFriendsListViewController *) [[BInterfaceManager sharedManager].a friendsViewControllerWithUsersToExclude:@[]];
     
+    __weak BPrivateThreadsViewController * weakSelf = self;
     // The friends view controller will give us a list of users to invite
     flvc.usersToInvite = ^(NSArray * users, NSString * groupName){
         
-        MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
         hud.label.text = [NSBundle t:bCreatingThread];
         
         // Create group with group name
         [NM.core createThreadWithUsers:users name:groupName threadCreated:^(NSError *error, id<PThread> thread) {
             if (!error) {
-                [self pushChatViewControllerWithThread:thread];
+                [weakSelf pushChatViewControllerWithThread:thread];
             }
             else {
                 [UIView alertWithTitle:[NSBundle t:bErrorTitle] withMessage:[NSBundle t:bThreadCreationError]];
             }
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         }];
     };
     

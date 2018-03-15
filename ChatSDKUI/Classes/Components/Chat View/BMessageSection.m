@@ -40,7 +40,7 @@
     return Nil;
 }
 
--(int) rowCount {
+-(NSInteger) rowCount {
     return _messages.count;
 }
 

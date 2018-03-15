@@ -318,8 +318,6 @@
                                                  bitsPerComponent, bytesPerRow, colorSpace,
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     
-    CGColorSpaceRelease(colorSpace);
-    
     // Draw the image onto the context
     CGContextDrawImage(context, CGRectMake(0, 0, width, height), image);
     
@@ -350,6 +348,10 @@
     // Free up the memory we used
     CGContextRelease(context);
     free(data);
+
+    // MEM
+    CGImageRelease(image);
+    CGColorSpaceRelease(colorSpace);
     
     return newImage;
 }

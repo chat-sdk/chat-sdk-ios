@@ -11,6 +11,7 @@
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
 #import <ChatSDK/BChatViewController.h>
+#import <ChatSDK/BChatOptionDelegate.h>
 
 #define bControllerKey @"bControllerKey"
 #define bControllerNameKey @"bControllerNameKey"
@@ -191,11 +192,11 @@
     _chatOptionsHandler = handler;
 }
 
--(id<PChatOptionsHandler>) chatOptionsHandlerWithChatViewController: (BChatViewController *) chatViewController {
+-(id<PChatOptionsHandler>) chatOptionsHandlerWithDelegate: (id<BChatOptionDelegate>) delegate {
     if (_chatOptionsHandler) {
         return _chatOptionsHandler;
     }
-    return [[BChatOptionsActionSheet alloc] initWithChatViewController:chatViewController];
+    return [[BChatOptionsActionSheet alloc] initWithDelegate:delegate];
 }
 
 -(UIViewController *) usersViewControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent {

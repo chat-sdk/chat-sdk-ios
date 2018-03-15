@@ -10,7 +10,6 @@
 #import <ChatSDK/ElmChatViewController.h>
 #import <ChatSDK/ElmChatViewDelegate.h>
 
-@class BNotificationObserverList;
 @protocol PThread;
 
 @interface BChatViewController : ElmChatViewController<ElmChatViewDelegate> {
@@ -20,7 +19,6 @@
     
     NSMutableArray * _messageCache;
     BOOL _messageCacheDirty;
-    BNotificationObserverList * _notificationList;
 
 }
 

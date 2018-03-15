@@ -13,22 +13,22 @@
 
 @implementation BChatOptionsActionSheet
 
--(instancetype) initWithChatViewController: (BChatViewController *) chatViewController {
+-(instancetype) initWithDelegate: (id<BChatOptionDelegate>) delegate {
     if((self = [self init])) {
-        _chatViewController = chatViewController;
-        
+        self.delegate = delegate;
+
         _options = [BInterfaceManager sharedManager].a.chatOptions;
-        
+
         for(BChatOption * o in _options) {
             o.parent = self;
         }
-        
+
     }
     return self;
 }
 
 -(BOOL) show {
-    [_chatViewController hideKeyboard];
+    [_delegate hideKeyboard];
     UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:[NSBundle t:bOptions]
                                                               delegate:self
                                                      cancelButtonTitle:[NSBundle t:bCancel]
@@ -39,8 +39,7 @@
         for (BChatOption * option in _options) {
             [actionSheet addButtonWithTitle:option.title];
         }
-        
-        [actionSheet showInView:_chatViewController.view];
+        [actionSheet showInView:_delegate.view];
     }
     else {
         // TODO: hide the option button
@@ -50,7 +49,7 @@
 
 - (void)willPresentActionSheet:(UIActionSheet *)actionSheet{
     [[UIView appearanceWhenContainedIn:[UIAlertController class], nil] setTintColor:[UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1]];
-    
+
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -69,15 +68,12 @@
 }
 
 -(void) presentView: (UIView *) view {
-    
+
 }
 
 -(void) dismissView {
-    
+
 }
 
--(void) setOptionsDelegate:(id<BChatOptionDelegate>)delegate {
-    self.delegate = delegate;
-}
 
 @end
