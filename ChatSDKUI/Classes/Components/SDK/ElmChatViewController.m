@@ -348,6 +348,8 @@
 
     [messageCell setMessage:message withColorWeight:colorWeight];
     
+    NSLog(@"Make Cell: %@", message.textString);
+
     return messageCell;
 }
 
