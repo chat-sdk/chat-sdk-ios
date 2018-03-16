@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let config = BConfiguration.init();
         config.rootPath! = "test"
         config.allowUsersToCreatePublicChats = false
+        config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
+        
         BChatSDK.initialize(config, app: application, options: launchOptions)
         
         self.window = UIWindow.init(frame: UIScreen.main.bounds)

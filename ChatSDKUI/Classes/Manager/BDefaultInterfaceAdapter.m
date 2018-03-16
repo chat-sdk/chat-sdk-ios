@@ -23,6 +23,9 @@
         _additionalChatOptions = [NSMutableArray new];
         _additionalTabBarViewControllers = [NSMutableArray new];
         _additionalSearchViewControllers = [NSMutableDictionary new];
+        
+        // MEM1
+        //[[SDWebImageDownloader sharedDownloader] setShouldDecompressImages:NO];
     }
     return self;
 }

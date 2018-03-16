@@ -85,6 +85,8 @@
 // Push notification sound - name of sound file to play i.e. "mySound"
 @property (nonatomic, readwrite) NSString * pushNotificationSound;
 
+@property (nonatomic, readwrite) NSString * googleMapsApiKey;
+
 // Firebase options
 
 // Should the Chat SDK call [FIRApp configure];

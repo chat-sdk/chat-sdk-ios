@@ -7,11 +7,13 @@
 //
 
 #import "BMessageCell.h"
-#import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+
+@class BMapViewWrapper;
 
 @interface BLocationCell : BMessageCell<BMessageDelegate>
 
-@property (nonatomic, readwrite) MKMapView * mapView;
+@property (nonatomic, readwrite) BMapViewWrapper * map;
+@property (nonatomic, readwrite) UIImageView * mapImageView;
 
 @end

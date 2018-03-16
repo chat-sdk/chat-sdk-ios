@@ -853,7 +853,6 @@
     self.tableView.dataSource = Nil;
     [_typingTimer invalidate];
     _typingTimer = Nil;
-    NSLog(@"Dealloc ElmChatViewController");
 }
 
 

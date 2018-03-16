@@ -253,6 +253,19 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
 11. In the Firebase dashboard click **Authentication -> Sign-in method** and enable all the appropriate methods 
 12. Enable file storage - Click **Storage -> Get Started** 
 13. Enable [push notifications](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
+14. Enable location messages. Get a [Google Maps API](https://developers.google.com/maps/documentation/ios-sdk/get-api-key) key. Then add it during the Chat SDK configuration
+
+  **Objective C**
+  
+  ```
+  config.googleMapsApiKey = @"YOUR API KEY";
+  ```
+  
+  **Swift**
+  
+  ```
+  config.googleMapsApiKey = "YOUR API KEY"
+  ```
 
 ### Conclusion
 

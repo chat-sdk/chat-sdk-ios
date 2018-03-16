@@ -50,6 +50,7 @@
         
     [imageView sd_setImageWithURL:message.thumbnailURL
                  placeholderImage:placeholder
+                          options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages
                         completed:nil];
 }
 

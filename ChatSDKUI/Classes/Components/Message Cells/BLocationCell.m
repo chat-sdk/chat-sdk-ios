@@ -8,23 +8,28 @@
 
 #import "BLocationCell.h"
 
-#import <ChatSDK/BCoreUtilities.h>
-#import <ChatSDK/PElmMessage.h>
+#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/ChatCore.h>
 
 @implementation BLocationCell
 
-@synthesize mapView;
+@synthesize map;
+@synthesize mapImageView;
 
 -(instancetype) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        mapView = [[MKMapView alloc] init];
-        mapView.layer.cornerRadius = 10;
-        mapView.userInteractionEnabled = NO;
+//        map = [BMapViewManager sharedManager].mapFromPool;
+//        [self.bubbleImageView addSubview:map.mapView];
         
-        [self.bubbleImageView addSubview:mapView];
+        mapImageView = [[UIImageView alloc] init];
+        mapImageView.layer.cornerRadius = 10;
+        mapImageView.clipsToBounds = YES;
+        mapImageView.userInteractionEnabled = NO;
+        
+        [self.bubbleImageView addSubview:mapImageView];
         
     }
     return self;
@@ -37,21 +42,18 @@
     
     float longitude = [[self.message textAsDictionary][bMessageLongitude] floatValue];
     float latitude = [[self.message textAsDictionary][bMessageLatitude] floatValue];
-
-    CLLocationCoordinate2D coord;
-    coord.longitude = longitude;
-    coord.latitude = latitude;
     
-    // Set the location and display the controller
-    MKCoordinateRegion region = [BCoreUtilities regionForLongitude:coord.longitude latitude:coord.latitude];
-    MKPointAnnotation * annotation = [BCoreUtilities annotationForLongitude:coord.longitude latitude:coord.latitude];
-
-    mapView.showsScale = NO;
-    mapView.showsCompass = NO;
-
-    [mapView setRegion:region animated:NO];
-    [mapView addAnnotation:annotation];
-    [mapView selectAnnotation:annotation animated:NO];
+    // Load the map from Google Maps
+    NSString * api = @"https://maps.googleapis.com/maps/api/staticmap";
+    NSString * markers = [NSString stringWithFormat:@"markers=%f,%f", latitude, longitude];
+    NSString * size = [NSString stringWithFormat:@"zoom=18&size=%ix%i", bMaxMessageWidth, bMaxMessageWidth];
+    NSString * key = [NSString stringWithFormat:@"key=%@", [BChatSDK config].googleMapsApiKey];
+    NSString * url = [NSString stringWithFormat:@"%@?%@&%@&%@", api, markers, size, key];
+    
+    [mapImageView sd_setImageWithURL:url placeholderImage:Nil options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
+    
+    // Get a new map
+//    [map setLongitude:longitude withLatitude:latitude];
     
 }
 
@@ -60,7 +62,11 @@
 }
 
 -(UIView *) cellContentView {
-    return mapView;
+    return mapImageView;
+}
+
+-(void) dealloc {
+//    [[BMapViewManager sharedManager] returnToPool: map];
 }
 
 @end

@@ -16,7 +16,6 @@
 
 @implementation BLocationViewController
 
-@synthesize mapView;
 @synthesize region;
 @synthesize annotation;
 
@@ -41,9 +40,18 @@
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [mapView setRegion:region animated:NO];
-    [mapView addAnnotation:annotation];
-    [mapView selectAnnotation:annotation animated:NO];
+    _map = [BMapViewManager sharedManager].mapFromPool;
+    [self.view addSubview:_map.mapView];
+    
+    _map.mapView.keepInsets.equal = 0;
+    
+    [_map.mapView setRegion:region animated:NO];
+    [_map.mapView addAnnotation:annotation];
+    [_map.mapView selectAnnotation:annotation animated:NO];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+    [[BMapViewManager sharedManager] returnToPool:_map];
 }
 
 -(void) backButtonPressed {

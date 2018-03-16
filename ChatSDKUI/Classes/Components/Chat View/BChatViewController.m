@@ -173,7 +173,7 @@
     [super viewWillDisappear:animated];
     
     [_thread clearMessageCache];
-//    [SDImageCache.sharedImageCache clearMemory];
+    //[[SDImageCache sharedImageCache] clearMemory];
     
     // Remove the user from the thread
     if (_thread.type.intValue & bThreadFilterPublic && !_usersViewLoaded) {

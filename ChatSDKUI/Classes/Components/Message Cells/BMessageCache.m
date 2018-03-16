@@ -60,6 +60,8 @@ static BMessageCache * cache;
             break;
     }
     
+    
+    
     // Color
     NSString * colorString = Nil;
     if (isMine) {
@@ -70,6 +72,7 @@ static BMessageCache * cache;
     }
 
     NSString * imageIdentifier = [NSString stringWithFormat:@"%@%@%i%f", bubbleImageName, colorString, isMine, weight];
+    
     if(_messageBubbleImages[imageIdentifier]) {
         return _messageBubbleImages[imageIdentifier];
     }

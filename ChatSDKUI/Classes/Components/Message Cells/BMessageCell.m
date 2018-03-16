@@ -23,8 +23,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        NSLog(@"Allocate Cell %@", reuseIdentifier);
-
         // They aren't selectable
         self.selectionStyle = UITableViewCellSelectionStyleDefault;
         
@@ -137,7 +135,7 @@
         if (message.userModel) {
             if(message.userModel.imageURL) {
                 [_profilePicture sd_setImageWithURL:[NSURL URLWithString: message.userModel.imageURL]
-                                   placeholderImage:message.userModel.defaultImage];
+                                   placeholderImage:message.userModel.defaultImage options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
             }
             else if (message.userModel.imageAsImage) {
                 [_profilePicture setImage:message.userModel.imageAsImage];
@@ -298,8 +296,10 @@
 
 // Change the color of a bubble. This method takes an image and loops over
 // the pixels changing any non-zero pixels to the new color
-+(UIImage *) bubbleWithImage: (UIImage *) bubbleImage withColor: (UIColor *) color {
 
+// MEM1
++(UIImage *) bubbleWithImage: (UIImage *) bubbleImage withColor: (UIColor *) color {
+    
     // Get a CGImageRef so we can use CoreGraphics
     CGImageRef image = bubbleImage.CGImage;
     
@@ -346,11 +346,13 @@
     // Write from the context to our new image
     // Make sur to copy across the orientation and scale so the bubbles render
     // properly on a retina screen
-    UIImage * newImage = [[UIImage imageWithCGImage:CGBitmapContextCreateImage(context)
+    CGImageRef imageRef = CGBitmapContextCreateImage(context);
+    UIImage * newImage = [[UIImage imageWithCGImage:imageRef
                                               scale:bubbleImage.scale
                                         orientation:bubbleImage.imageOrientation] stretchableImageWithLeftCapWidth:leftCapWidth
                                                                                                              topCapHeight:topCapHeight];
     // Free up the memory we used
+    CGImageRelease(imageRef);
     CGContextRelease(context);
     free(data);
     CGColorSpaceRelease(colorSpace);
@@ -363,7 +365,6 @@
 }
 
 -(void) dealloc {
-    NSLog(@"Dealloc cell %@", self.reuseIdentifier);
 }
 
 

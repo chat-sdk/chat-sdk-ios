@@ -58,6 +58,9 @@
 #import <ChatSDK/BDefaultInterfaceAdapter.h>
 #import <ChatSDK/BMessageSection.h>
 
+#import <ChatSDK/BMapViewWrapper.h>
+#import <ChatSDK/BMapViewManager.h>
+
 #import <ChatSDK/BTextInputView.h>
 
 #import <ChatSDK/BTextMessageCell.h>

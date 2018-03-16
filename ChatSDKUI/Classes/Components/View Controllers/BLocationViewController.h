@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@interface BLocationViewController : UIViewController
+@class BMapViewWrapper;
 
-@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@interface BLocationViewController : UIViewController {
+    BMapViewWrapper * _map;
+}
+
 
 @property (nonatomic, readwrite) MKCoordinateRegion region;
 @property (nonatomic, readwrite) MKPointAnnotation * annotation;
