@@ -20,6 +20,7 @@
     self.profileImageView.layer.cornerRadius = self.profileImageView.fh/2.0;
     self.profileImageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     self.profileImageView.layer.borderWidth = 1.0;
+    self.profileImageView.backgroundColor = [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:242.0/255.0 alpha:1];
     self.messageTextView.userInteractionEnabled = NO;
     self.unreadView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     self.unreadView.layer.borderWidth = 1.0;

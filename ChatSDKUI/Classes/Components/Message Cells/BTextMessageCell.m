@@ -52,10 +52,12 @@
     
     textView.text = message.textString;
     
-    if([BChatSDK config].messageTextColorMe && message.userModel.isMe) {
+    BOOL isMine = [message.userModel isEqual:NM.currentUser];
+    
+    if([BChatSDK config].messageTextColorMe && isMine) {
         textView.textColor = [BCoreUtilities colorWithHexString:[BChatSDK config].messageTextColorMe];
     }
-    if([BChatSDK config].messageTextColorReply && !message.userModel.isMe) {
+    if([BChatSDK config].messageTextColorReply && !isMine) {
         textView.textColor = [BCoreUtilities colorWithHexString:[BChatSDK config].messageTextColorReply];
     }
 

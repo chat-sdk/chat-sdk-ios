@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>1088435112418-11bedtu385j8r22bm2t92crdk7c2pc1j.apps.googleusercontent.com</string>
+	<string>40746845738-66792a8pl7k901p9jc9no2kttj3j5us6.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1088435112418-11bedtu385j8r22bm2t92crdk7c2pc1j</string>
+	<string>com.googleusercontent.apps.40746845738-66792a8pl7k901p9jc9no2kttj3j5us6</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDtFbGF6AQtTQD1gJmqfYE6XuxQzlkWEZA</string>
+	<string>AIzaSyDCDN8EohLV4lQdI4G9S9cEKL19f5oUyjo</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1088435112418</string>
+	<string>40746845738</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>co.deluge.Chat-SDK</string>
+	<string>co.deluge.Chat-SDK.itumeleng</string>
 	<key>PROJECT_ID</key>
-	<string>chat-sdk-v4</string>
+	<string>friendlychat-f4be5</string>
 	<key>STORAGE_BUCKET</key>
-	<string>chat-sdk-v4.appspot.com</string>
+	<string>friendlychat-f4be5.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1088435112418:ios:cd3589784852045b</string>
+	<string>1:40746845738:ios:a053979b8c9a6d82</string>
 	<key>DATABASE_URL</key>
-	<string>https://chat-sdk-v4.firebaseio.com</string>
+	<string>https://friendlychat-f4be5.firebaseio.com</string>
 </dict>
 </plist>

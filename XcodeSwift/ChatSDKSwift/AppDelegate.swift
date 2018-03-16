@@ -22,7 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let config = BConfiguration.init();
         config.rootPath! = "test"
+        // Configure other options here...
+        
         config.allowUsersToCreatePublicChats = false
+        config.messageColorMe = "F2F2F2"
+        config.messageColorReply = "F8B519"
         BChatSDK.initialize(config, app: application, options: launchOptions)
         
         self.window = UIWindow.init(frame: UIScreen.main.bounds)

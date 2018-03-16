@@ -347,8 +347,9 @@
 }
 
 -(void) updatePosition {
-    BOOL isFirst = !self.lastMessage || self.lastMessage.senderIsMe != self.senderIsMe;
-    BOOL isLast = !self.nextMessage || self.nextMessage.senderIsMe != self.senderIsMe;
+    //BOOL isMine = [[message userModel] isEqual:NM.currentUser];
+    BOOL isFirst = !self.lastMessage || self.lastMessage.user.entityID != NM.currentUser.entityID;
+    BOOL isLast = !self.nextMessage || self.nextMessage.user.entityID  != NM.currentUser.entityID;
     
     int position = 0;
     if (isFirst) {

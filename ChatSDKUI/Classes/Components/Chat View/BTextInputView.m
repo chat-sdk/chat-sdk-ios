@@ -64,6 +64,7 @@
         [_optionsButton addTarget:self action:@selector(optionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
         NSString * sendButtonTitle = [NSBundle t:bSend];
+        [_sendButton setTintColor:[UIColor colorWithRed:248.0/255.0 green:181.0/255 blue:25.0/255.0 alpha:1]];
         [_sendButton setTitle:sendButtonTitle forState:UIControlStateNormal];
         
         [_sendButton addTarget:self action:@selector(sendButtonPressed) forControlEvents:UIControlEventTouchUpInside];

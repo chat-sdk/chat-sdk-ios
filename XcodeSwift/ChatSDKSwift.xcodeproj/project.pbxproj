@@ -426,7 +426,9 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -685,7 +687,7 @@
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				INFOPLIST_FILE = ChatSDKSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK.itumeleng";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChatSDKSwift/ChatSDK-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -702,7 +704,7 @@
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				INFOPLIST_FILE = ChatSDKSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK.itumeleng";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChatSDKSwift/ChatSDK-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

@@ -112,8 +112,7 @@
     
     // Set the message for later use
     _message = message;
-    
-    BOOL isMine = message.senderIsMe;
+    BOOL isMine = [[message userModel] isEqual:NM.currentUser];
     if (isMine) {
         [self setReadStatus:message.readStatus];
     }

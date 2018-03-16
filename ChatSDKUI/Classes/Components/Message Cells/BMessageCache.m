@@ -42,9 +42,12 @@ static BMessageCache * cache;
 -(UIImage *) bubbleForMessage: (id<PElmMessage>) message withColorWeight: (float) weight {
     
     bMessagePos pos = [message messagePosition];
-    BOOL isMine = [message senderIsMe];
+    BOOL isMine = [[message userModel] isEqual:NM.currentUser];
     
     NSString * bubbleImageName = @"";
+    if (!isMine) {
+        pos = (~pos) & 0x03;
+    }
     switch (pos) {
         case bMessagePosFirst:
             bubbleImageName = @"chat_bubble_right_0S.png";

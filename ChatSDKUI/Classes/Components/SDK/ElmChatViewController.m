@@ -107,7 +107,8 @@
     
     _titleLabel.text = [NSBundle t: bThread];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.font = [UIFont boldSystemFontOfSize:_titleLabel.font.pointSize];
+    _titleLabel.textColor = [UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1];
+    _titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
     
     [containerView addSubview:_titleLabel];
     _titleLabel.keepInsets.equal = 0;
@@ -201,6 +202,8 @@
     [_refreshControl addTarget:self action:@selector(tableRefreshed) forControlEvents:UIControlEventValueChanged];
     [tableView addSubview:_refreshControl];
     
+  
+    
     [self setupTextInputView];
     
     [self registerMessageCells];
@@ -291,9 +294,12 @@
     [super viewDidLayoutSubviews];
 }
 
+
+
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self scrollToBottomOfTable:YES];
+    self.navigationItem.backBarButtonItem.title = @"Cancel";
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
