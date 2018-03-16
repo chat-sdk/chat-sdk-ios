@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BImageViewController : UIViewController<UIScrollViewDelegate>
+@interface BImageViewController : UIViewController<UIScrollViewDelegate> {
+    UISwipeGestureRecognizer * _swipeRecognizer;
+}
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic, readwrite) UIImage * image;

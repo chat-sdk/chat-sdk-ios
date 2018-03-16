@@ -114,7 +114,7 @@
 			<key>cloud_messaging_server_key</key>
 			<string>AAAA_WvJyeI:APA91bFIDYoxnbFTub61SKCh8-RZrElzdkZpzyV3paGFlRWonMzq33zQmQW3ub5hDXLuRaipwtoHSoDKXkZlN5DRb_EYdrxtaDptmvZKCYBPKI-4RqTK9wVLOJvgc5X3bVWLfpNSJO_tLK2pnmhfpHDw2Zs-5L2yug</string>
 			<key>root_path</key>
-			<string>18_03</string>
+			<string>18_02</string>
 		</dict>
 		<key>google</key>
 		<dict>

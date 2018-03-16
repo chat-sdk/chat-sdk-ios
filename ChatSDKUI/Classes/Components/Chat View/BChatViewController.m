@@ -188,7 +188,6 @@
 -(RXPromise *) handleMessageSend: (RXPromise *) promise {
     [self updateMessages];
     [NM.core save];
-    //[self reloadData];
     return promise;
 }
 
@@ -283,6 +282,7 @@
     [self setMessages:self.messages];
 }
 
+// TODO: We could make this more efficient
 -(NSArray *) messages {
     if (!_messageCache || !_messageCache.count || _messageCacheDirty) {
         [_messageCache removeAllObjects];
