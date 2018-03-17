@@ -353,7 +353,7 @@
 
 -(void) addObservers {
     [self removeObservers];
-    __weak id weakSelf = self;
+    __weak __typeof__(self) weakSelf = self;
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf updateInterfaceForReachabilityStateChange];
@@ -431,7 +431,7 @@
             [cell.imageView bringSubviewToFront:activityIndicator];
             cell.imageView.alpha = 0.75;
             
-            __weak ElmChatViewController * weakSelf = self;
+            __weak __typeof__(self) weakSelf = self;
             [cell.imageView sd_setImageWithURL:url placeholderImage:cell.imageView.image completed: ^(UIImage * image, NSError * error, SDImageCacheType cacheType, NSURL * imageURL) {
                 
                 // Then remove it here
@@ -595,9 +595,10 @@
 // TODO: Change this to handleMessageSend
 -(void) chatOptionActionExecuted:(RXPromise *)promise {
     [self handleMessageSend:promise];
-    __weak ElmChatViewController * weakSelf = self;
+    __weak __typeof__(self) weakSelf = self;
     promise.thenOnMain(^id(id success) {
-        [weakSelf reloadData];
+        __typeof__(self) strongSelf = weakSelf;
+        [strongSelf reloadData];
         return Nil;
     }, Nil);
 }
@@ -704,8 +705,8 @@
     // Once the keyboard appears we remove the constraint to the toolbar
     // and add y displacement by adding an offset instead. This allows
     // the messages to scroll under the keyboard
-    __weak ElmChatViewController * weakSelf = self;
-    
+    __weak __typeof__(self) weakSelf = self;
+
     [UIView animateWithDuration:0.3 animations:^ {
         [weakSelf setTableViewBottomContentInset:keyboardBoundsConverted.size.height + _sendBarView.fh];
         [tableView.keepBottomOffsetTo(_sendBarView) deactivate];

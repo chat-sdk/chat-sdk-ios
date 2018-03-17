@@ -59,8 +59,8 @@
         [self setSelectedIndex:0];
     }];
     
-    __weak BAppTabBarController * weakSelf = self;
-    
+    __weak __typeof__(self) weakSelf = self;
+
     // When a message is recieved we increase the messages tab number
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationBadgeUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{

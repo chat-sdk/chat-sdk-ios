@@ -9,6 +9,8 @@
 #import "BConfiguration.h"
 #import <ChatSDK/ChatCore.h>
 
+#define bRootPathKey @"chat_sdk_root_path"
+
 @implementation BChatSDK
 
 @synthesize configuration = _configuration;
@@ -30,12 +32,17 @@ static BChatSDK * instance;
 
 +(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceFacade>) adapter {
     [self shared]->_configuration = config;
+    
     [BModuleHelper activateCoreModules];
     if(adapter) {
         [BInterfaceManager sharedManager].a = adapter;
     }
     [BModuleHelper activateModules];
     [self application:application didFinishLaunchingWithOptions:launchOptions];
+    
+    if (config.clearDataWhenRootPathChanges) {
+        [[self shared] clearDataIfRootPathChanged];
+    }
 }
 
 +(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions {
@@ -118,6 +125,19 @@ static BChatSDK * instance;
 
 +(BConfiguration *) config {
     return [self shared].configuration;
+}
+
+-(void) clearDataIfRootPathChanged {
+    NSString * rootPath = [[NSUserDefaults standardUserDefaults] stringForKey:bRootPathKey];
+    NSString * newRootPath = _configuration.rootPath;
+    if (rootPath && newRootPath && ![rootPath isEqualToString:newRootPath]) {
+        [[BStorageManager sharedManager].a deleteAllData];
+    }
+    [[BStorageManager sharedManager].a saveToStore];
+    
+    if (newRootPath) {
+        [[NSUserDefaults standardUserDefaults] setObject:newRootPath forKey:bRootPathKey];
+    }
 }
 
 

@@ -37,6 +37,8 @@
 @synthesize firebaseShouldConfigureAutomatically;
 @synthesize locationMessagesEnabled;
 @synthesize imageMessagesEnabled;
+@synthesize googleMapsApiKey;
+@synthesize clearDataWhenRootPathChanges;
 
 -(instancetype) init {
     if((self = [super init])) {

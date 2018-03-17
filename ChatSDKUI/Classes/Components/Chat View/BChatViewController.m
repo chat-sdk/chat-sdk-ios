@@ -42,7 +42,7 @@
     // Setup last online
     if (_thread.type.intValue == bThreadType1to1) {
         if(NM.lastOnline) {
-            __weak id weakSelf = self;
+            __weak __typeof__(self) weakSelf = self;
             [NM.lastOnline getLastOnlineForUser:_thread.otherUser].thenOnMain(^id(NSDate * date) {
                 [weakSelf setSubtitle:date.lastSeenTimeAgo];
                 return Nil;
@@ -69,7 +69,7 @@
     
     id<PUser> currentUserModel = NM.currentUser;
     
-    __weak id weakSelf = self;
+    __weak __typeof__(self) weakSelf = self;
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationReadReceiptUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf updateMessages];
@@ -268,7 +268,7 @@
 
 // You can pull more messages from the server and add them to the thread object
 -(RXPromise *) loadMoreMessages {
-    __weak id weakSelf = self;
+    __weak __typeof__(self) weakSelf = self;
     return [NM.core loadMoreMessagesForThread:_thread].thenOnMain(^id(NSArray * messages) {
         [weakSelf updateMessages];
         return Nil;

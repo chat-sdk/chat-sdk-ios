@@ -130,8 +130,8 @@
 
 -(void) addContacts {
     
-    __weak BContactsViewController * weakSelf = self;
-    
+    __weak __typeof__(self) weakSelf = self;
+
     NSDictionary * searchControllerNamesForType = [BInterfaceManager sharedManager].a.additionalSearchControllerNames;
     
     if(searchControllerNamesForType.allKeys.count == 0) {

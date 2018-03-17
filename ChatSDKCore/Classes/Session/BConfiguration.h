@@ -87,6 +87,9 @@
 
 @property (nonatomic, readwrite) NSString * googleMapsApiKey;
 
+// Reset the database when core data changes
+@property (nonatomic, readwrite) BOOL clearDataWhenRootPathChanges;
+
 // Firebase options
 
 // Should the Chat SDK call [FIRApp configure];

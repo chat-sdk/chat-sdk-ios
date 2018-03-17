@@ -305,7 +305,6 @@ static BCoreDataManager * manager;
         for (NSManagedObject * entity in entities) {
             [self deleteEntity:entity];
         }
-        [self save];
     }
 }
 

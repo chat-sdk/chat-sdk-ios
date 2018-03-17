@@ -62,7 +62,7 @@
 
 -(void) addObservers {
     [self removeObservers];
-    __weak BThreadsViewController * weakSelf = self;
+    __weak __typeof__(self) weakSelf = self;
 
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageAdded
                                                                          object:Nil

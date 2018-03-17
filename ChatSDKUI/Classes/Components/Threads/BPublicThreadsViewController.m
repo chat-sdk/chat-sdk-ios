@@ -68,18 +68,18 @@
             MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             hud.label.text = [NSBundle t:bCreatingThread];
             
-            __weak BPublicThreadsViewController * weakSelf;
-            
+            __weak __typeof__(self) weakSelf = self;
+
             NSString * name = [alertView textFieldAtIndex:0].text;
             [NM.publicThread createPublicThreadWithName:name].thenOnMain(^id(id<PThread> thread) {
-                
-                [weakSelf pushChatViewControllerWithThread:thread];
-                [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                __typeof__(self) strongSelf = self;
+                [strongSelf pushChatViewControllerWithThread:thread];
+                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
                 return Nil;
             }, ^id(NSError * error) {
-                
+                __typeof__(self) strongSelf = self;
                 [UIView alertWithTitle:[NSBundle t:bUnableToCreateThread] withError:error];
-                [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
                 return error;
             });
         }
