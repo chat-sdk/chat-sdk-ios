@@ -17,6 +17,7 @@
 
 // The distance to the bottom of the screen you need to be for the tableView to snap you to the bottom
 #define bTableViewRefreshHeight 300
+#define bTableViewBottomMargin 5
 
 @interface ElmChatViewController ()
 
@@ -65,7 +66,7 @@
     _sendBarView.keepRightInset.equal = 0;
     
     // Constrain the table to the top of the toolbar
-    tableView.keepBottomOffsetTo(_sendBarView).equal =  -_sendBarView.fh;
+    tableView.keepBottomOffsetTo(_sendBarView).equal = -_sendBarView.fh;
     [self setTableViewBottomContentInset:_sendBarView.fh];
 }
 
@@ -185,6 +186,7 @@
     // just to give the top message a bit more space
     UIEdgeInsets tableInsets = tableView.contentInset;
     tableInsets.top += 5;
+    tableInsets.bottom += bTableViewBottomMargin;
     tableView.contentInset = tableInsets;
     
     // Add the refresh control - drag to load more messages

@@ -10,6 +10,7 @@
 #import <ChatSDK/ChatCore.h>
 
 #define bRootPathKey @"chat_sdk_root_path"
+#define bDatabaseVersionKey @"chat_sdk_database_version"
 
 @implementation BChatSDK
 
@@ -40,8 +41,9 @@ static BChatSDK * instance;
     [BModuleHelper activateModules];
     [self application:application didFinishLaunchingWithOptions:launchOptions];
     
+    [[self shared] clearDataIfNecessary];
+    
     if (config.clearDataWhenRootPathChanges) {
-        [[self shared] clearDataIfRootPathChanged];
     }
 }
 
@@ -127,17 +129,29 @@ static BChatSDK * instance;
     return [self shared].configuration;
 }
 
--(void) clearDataIfRootPathChanged {
+-(void) clearDataIfNecessary {
     NSString * rootPath = [[NSUserDefaults standardUserDefaults] stringForKey:bRootPathKey];
     NSString * newRootPath = _configuration.rootPath;
-    if (rootPath && newRootPath && ![rootPath isEqualToString:newRootPath]) {
-        [[BStorageManager sharedManager].a deleteAllData];
-    }
-    [[BStorageManager sharedManager].a saveToStore];
+
+    NSString * databaseVersion = [[NSUserDefaults standardUserDefaults] stringForKey:bDatabaseVersionKey];
+    NSString * newDatabaseVersion = _configuration.databaseVersion;
     
+    if ([BChatSDK config].clearDataWhenRootPathChanges && rootPath && newRootPath && ![rootPath isEqualToString:newRootPath]) {
+        [[BStorageManager sharedManager].a deleteAllData];
+        [[BStorageManager sharedManager].a saveToStore];
+    }
+    else if ([BChatSDK config].clearDatabaseWhenDataVersionChanges && ![databaseVersion isEqual:newDatabaseVersion]) {
+        [[BStorageManager sharedManager].a deleteAllData];
+        [[BStorageManager sharedManager].a saveToStore];
+    }
+
     if (newRootPath) {
         [[NSUserDefaults standardUserDefaults] setObject:newRootPath forKey:bRootPathKey];
     }
+    if (newDatabaseVersion) {
+        [[NSUserDefaults standardUserDefaults] setObject:newDatabaseVersion forKey:bDatabaseVersionKey];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 

@@ -39,6 +39,8 @@
 @synthesize imageMessagesEnabled;
 @synthesize googleMapsApiKey;
 @synthesize clearDataWhenRootPathChanges;
+@synthesize databaseVersion;
+@synthesize clearDatabaseWhenDataVersionChanges;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -78,6 +80,8 @@
         locationMessagesEnabled = YES;
         imageMessagesEnabled = YES;
         
+        databaseVersion = @"1";
+        clearDatabaseWhenDataVersionChanges = NO;
         
     }
     return self;

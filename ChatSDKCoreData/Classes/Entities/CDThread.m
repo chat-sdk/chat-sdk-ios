@@ -21,8 +21,6 @@
 }
 
 -(NSMutableArray *) messagesWorkingList {
-    
-    
     if(!_messagesWorkingList) {
         _messagesWorkingList = [NSMutableArray new];
         [self resetMessages];
@@ -37,6 +35,9 @@
 -(void) resetMessages {
     [_messagesWorkingList removeAllObjects];
     [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:[BChatSDK config].chatMessagesToLoad ascending:NO]];
+    [self reverse:_messagesWorkingList];
+    
+    //
     
 //    NSArray * messages = [self orderMessagesByDateDesc:self.allMessages];
 //
@@ -50,8 +51,24 @@
 //    }
 }
 
+- (void)reverse: (NSMutableArray *) array {
+    if ([array count] <= 1)
+        return;
+    NSUInteger i = 0;
+    NSUInteger j = [array count] - 1;
+    while (i < j) {
+        [array exchangeObjectAtIndex:i
+                  withObjectAtIndex:j];
+        
+        i++;
+        j--;
+    }
+}
+
+// This will re
 -(NSArray *) loadMessagesWithCount: (NSInteger) count ascending: (BOOL) ascending {
     NSFetchRequest * request = [[NSFetchRequest alloc] init];
+    request.includesPendingChanges = YES;
     [request setFetchLimit:count];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:ascending]];
     NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread = %@", self];
@@ -63,13 +80,18 @@
     return messages;
 }
 
-// Adds extra messages to the
 -(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages {
     
     NSInteger count = _messagesWorkingList.count + numberOfMessages;
     // Get the next batch of messages
     [_messagesWorkingList removeAllObjects];
-    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:count ascending:YES]];
+    
+    // We want to get the count newest messages so we sent ascending to NO
+    // Then we have to reverse the order of the list...
+    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:count ascending:NO]];
+    
+    // Now we need to reverse the order of the list
+    [self reverse:_messagesWorkingList];
     
     return _messagesWorkingList;
 }

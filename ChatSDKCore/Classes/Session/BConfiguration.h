@@ -90,6 +90,12 @@
 // Reset the database when core data changes
 @property (nonatomic, readwrite) BOOL clearDataWhenRootPathChanges;
 
+// Database version
+@property (nonatomic, readwrite) NSString * databaseVersion;
+
+// If this databbase version changes, the database will be cleared and re-populated from Firebase
+@property (nonatomic, readwrite) BOOL clearDatabaseWhenDataVersionChanges;
+
 // Firebase options
 
 // Should the Chat SDK call [FIRApp configure];
