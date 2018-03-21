@@ -43,12 +43,16 @@
 -(void) registerFirebaseUserForChat {
     FIRUser * firebaseUser = [FIRAuth auth].currentUser;
     
-    NSString * uid = firebaseUser.uid;
+    // Get the token
+    NSString * token = FIRInstanceID.instanceID.token;
     
+    
+    NSString * uid = firebaseUser.uid;
     
     // Save the authentication ID for the current user
     // Set the current user
-    [self setLoginInfo:@{bAuthenticationIDKey: uid}];
+    [self setLoginInfo:@{bAuthenticationIDKey: uid,
+                         bTokenKey: token ? token : @""}];
     
     CCUserWrapper * user = [CCUserWrapper userWithAuthUserData:firebaseUser];
     
