@@ -40,8 +40,12 @@
     //  return ref.authData != Nil && self.currentUserModel != Nil;
 }
 
--(void) registerFirebaseUserForChat: (FIRUser *) firebaseUser {
+-(void) registerFirebaseUserForChat {
+    FIRUser * firebaseUser = [FIRAuth auth].currentUser;
+    
     NSString * uid = firebaseUser.uid;
+    
+    
     // Save the authentication ID for the current user
     // Set the current user
     [self setLoginInfo:@{bAuthenticationIDKey: uid}];
