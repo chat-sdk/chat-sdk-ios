@@ -29,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.messageColorReply = "F8B519"
         BChatSDK.initialize(config, app: application, options: launchOptions)
         
+        NM.auth().userAuthenticated()
+        
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = BInterfaceManager.shared().a.appTabBarViewController();
         self.window?.makeKeyAndVisible();

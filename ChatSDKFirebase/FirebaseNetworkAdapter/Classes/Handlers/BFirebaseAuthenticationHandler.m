@@ -35,7 +35,9 @@
 }
 
 -(BOOL) userAuthenticated {
-    
+    if([FIRAuth auth].currentUser != Nil) {
+        [self loginWithFirebaseUser: [FIRAuth auth].currentUser];
+    }
     // Return if there is a current user authenticated
     return [FIRAuth auth].currentUser != Nil;
     //  return ref.authData != Nil && self.currentUserModel != Nil;
