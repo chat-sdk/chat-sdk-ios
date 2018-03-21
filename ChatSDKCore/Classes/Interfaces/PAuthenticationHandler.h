@@ -31,6 +31,9 @@
  */
 -(BOOL) userAuthenticated;
 
+
+-(void) registerFirebaseUserForChat;
+
 /**
  * @brief Logout the user from the current account
  */

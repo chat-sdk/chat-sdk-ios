@@ -35,12 +35,32 @@
 }
 
 -(BOOL) userAuthenticated {
-    if([FIRAuth auth].currentUser != Nil) {
-        [self loginWithFirebaseUser: [FIRAuth auth].currentUser];
-    }
     // Return if there is a current user authenticated
     return [FIRAuth auth].currentUser != Nil;
     //  return ref.authData != Nil && self.currentUserModel != Nil;
+}
+
+-(void) registerFirebaseUserForChat: (FIRUser *) firebaseUser {
+    NSString * uid = firebaseUser.uid;
+    // Save the authentication ID for the current user
+    // Set the current user
+    [self setLoginInfo:@{bAuthenticationIDKey: uid}];
+    
+    CCUserWrapper * user = [CCUserWrapper userWithAuthUserData:firebaseUser];
+    
+    [NM.hook executeHookWithName:bHookUserAuthFinished data:@{bHookUserAuthFinished_PUser: user.model}];
+    
+    [NM.core save];
+    
+    // Add listeners here
+    [BStateManager userOn: user.entityID];
+    
+    [NM.core setUserOnline];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
+    
+    [user push];
+    
 }
 
 

@@ -109,6 +109,10 @@
     assert(NO);
 }
 
+-(void) registerFirebaseUserForChat {
+    assert(NO);
+}
+
 /**
  * @brief Logout the user from the current account
  */
