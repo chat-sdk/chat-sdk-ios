@@ -521,7 +521,7 @@ These modules are distributed as development pods. After you've downloaded the m
 2. Add the line:
   
   ```
-  ChatSDKModules/[ModuleName], :path => "[Path to ChatSDKModules folder]"
+  pod "ChatSDKModules/[ModuleName]", :path => "[Path to ChatSDKModules folder]"
   ```
 3. Run `pod install`
 4. The module is now active

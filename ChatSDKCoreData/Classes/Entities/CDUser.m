@@ -239,7 +239,7 @@
 }
 
 -(BOOL) isMe {
-    return [self isEqual:NM.currentUser];
+    return [self.entityID isEqualToString:NM.currentUser.entityID];
 }
 
 @end

@@ -29,6 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void) updatePosition;
 
+-(void) updateOptimizationProperties;
+-(void) clearOptimizationProperties;
+
 @end
 
 NS_ASSUME_NONNULL_END

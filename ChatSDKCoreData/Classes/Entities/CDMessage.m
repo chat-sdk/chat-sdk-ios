@@ -283,7 +283,7 @@
 }
 
 -(BOOL) senderIsMe {
-    if(![self metaValueForKey:bMessageSenderIsMe]) {
+    if([self metaValueForKey:bMessageSenderIsMe] == Nil) {
         [self updateOptimizationProperties];
     }
     return [[self metaValueForKey:bMessageSenderIsMe] boolValue];
@@ -306,12 +306,16 @@
         }
     }
     
-    if(![self metaValueForKey:bMessageSenderIsMe]) {
+    if([self metaValueForKey:bMessageSenderIsMe] == Nil) {
         BOOL isMe = self.userModel.isMe;
         [self setMetaValue:@(isMe) forKey:bMessageSenderIsMe];
     }
     
     [self updatePosition];
+}
+
+-(void) clearOptimizationProperties {
+    [self setMetaValue:Nil forKey:bMessageSenderIsMe];
 }
 
 -(void) updatePosition {
