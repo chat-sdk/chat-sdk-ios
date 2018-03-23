@@ -18,6 +18,13 @@
         // Start checking if we are connected to the internet
         [[Reachability reachabilityForInternetConnection] startNotifier];
         
+        [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationLogout
+                                                          object:Nil
+                                                           queue:Nil
+                                                      usingBlock:^(NSNotification * sender) {
+                                                          // Resets the view which the tab bar loads on
+                                                          _currentUser = Nil;
+                                                      }];
     }
     return self;
 }
@@ -160,8 +167,11 @@
  */
 -(id<PUser>) currentUserModel {
     NSString * currentUserID = NM.auth.currentUserEntityID;
-    return [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
-                                                       withType:bUserEntity];
+    if (!_currentUser) {
+        _currentUser = [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
+                                                                   withType:bUserEntity];
+    }
+    return _currentUser;
 }
 
 // TODO: Consider removing / refactoring this
