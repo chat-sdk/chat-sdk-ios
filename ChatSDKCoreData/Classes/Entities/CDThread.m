@@ -78,13 +78,8 @@
     NSArray * messages = self.messagesOrderedByDateAsc;
     for(int i = 0; i < messages.count; i++) {
         CDMessage * message = (CDMessage *) messages[i];
-        if(!message.lastMessage && i > 0) {
-            message.lastMessage = messages[i - 1];
-        }
-        if(![message metaValueForKey:bMessageSenderIsMe]) {
-            [message setMetaValue:@(message.userModel.isMe) forKey:bMessageSenderIsMe];
-        }
-        [message updatePosition];
+        [message clearOptimizationProperties];
+        [message updateOptimizationProperties];
     }
 }
 

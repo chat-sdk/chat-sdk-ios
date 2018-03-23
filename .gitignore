@@ -46,6 +46,7 @@ FirebaseAdapter/
 XcodeChatcat/
 XcodeXMPPXolile/
 XcodeLive/
+XcodePrivate/
 ChatSDKModules
 
 # Ignore these in subfolders, but track in root of repo

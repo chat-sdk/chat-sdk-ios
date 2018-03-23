@@ -12,5 +12,6 @@
 
 @interface BAbstractCoreHandler : NSObject<PCoreHandler>
 
+-(id<PThread>) createThreadWithUsers: (NSArray *) users name: (NSString *) name;
 
 @end
