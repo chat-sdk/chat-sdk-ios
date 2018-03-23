@@ -18,6 +18,13 @@
         // Start checking if we are connected to the internet
         [[Reachability reachabilityForInternetConnection] startNotifier];
         
+        [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationLogout
+                                                          object:Nil
+                                                           queue:Nil
+                                                      usingBlock:^(NSNotification * sender) {
+                                                          // Resets the view which the tab bar loads on
+                                                          _currentUser = Nil;
+                                                      }];
     }
     return self;
 }
@@ -166,8 +173,6 @@
     if (!_currentUser) {
         _currentUser = [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
                                                                    withType:bUserEntity];
-        [_currentUser optimize];
-        [self save];
     }
     return _currentUser;
 }
