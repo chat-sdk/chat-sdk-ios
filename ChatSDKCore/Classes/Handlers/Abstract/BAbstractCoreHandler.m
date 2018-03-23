@@ -170,6 +170,7 @@
     if (!_currentUser) {
         _currentUser = [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
                                                                    withType:bUserEntity];
+        [_currentUser optimize];
     }
     return _currentUser;
 }

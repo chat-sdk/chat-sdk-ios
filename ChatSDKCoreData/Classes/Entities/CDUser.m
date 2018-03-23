@@ -242,4 +242,10 @@
     return [self.entityID isEqualToString:NM.currentUser.entityID];
 }
 
+-(void) optimize {
+    for (CDThread * thread in self.threads) {
+        [thread optimize];
+    }
+}
+
 @end

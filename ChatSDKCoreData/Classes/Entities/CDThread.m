@@ -15,7 +15,6 @@
 
 -(instancetype) init {
     if((self = [super init])) {
-        [self optimizeMessageProperties];
     }
     return self;
 }
@@ -96,8 +95,8 @@
     return _messagesWorkingList;
 }
 
--(void) optimizeMessageProperties {
-    NSArray * messages = self.messagesOrderedByDateAsc;
+-(void) optimize {
+    NSArray * messages = [self loadMessagesWithCount:50 ascending:YES];
     for(int i = 0; i < messages.count; i++) {
         CDMessage * message = (CDMessage *) messages[i];
         [message clearOptimizationProperties];

@@ -105,6 +105,10 @@
 -(NSDictionary *) metaDictionary;
 -(void) setMetaDictionary: (NSDictionary *) meta;
 
+@optional
+
+-(void) optimize;
+
 @end
 
 

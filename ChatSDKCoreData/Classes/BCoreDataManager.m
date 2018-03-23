@@ -40,6 +40,8 @@ static BCoreDataManager * manager;
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillTerminateNotification object:Nil queue:0 usingBlock:^(NSNotification * notification) {
             [self saveToStore];
         }];
+        
+        
     }
     return self;
 }
