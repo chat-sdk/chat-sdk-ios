@@ -317,6 +317,8 @@
 }
 
 -(void) reloadData {
+    [_threads removeAllObjects];
+    [_threads addObjectsFromArray:[NM.core threadsWithType:bThreadFilterPrivateThread]];
     [_threads sortUsingComparator:^(id<PThread>t1, id<PThread> t2) {
         return [t2.orderDate compare:t1.orderDate];
     }];

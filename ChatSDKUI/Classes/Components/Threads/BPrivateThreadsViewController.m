@@ -46,38 +46,38 @@
     [super viewDidLoad];
     
     // Add new group button
-    //self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-//                                                                                            target:self
-//                                                                                            action:@selector(createThread)];
-    UIView *customView = [[UIView alloc]initWithFrame:(CGRectMake(0.0, 0.0, 100.0, 44.0))];
-    customView.backgroundColor = [UIColor whiteColor];
-    
-    UIButton *button = [UIButton buttonWithType: UIButtonTypeCustom];
-    [button setBackgroundImage:[NSBundle chatUIImageNamed:
-                                @"hamburger_menu_outlined"]
-                      forState:UIControlStateNormal];
-    [button setFrame:CGRectMake(32.0, 20.0, 32.0, 32.0)];
-    //[button addTarget:self action:@selector(BackBtn) forControlEvents:UIControlEventTouchUpInside];
-    //[button addTarget:self action: forControlEvents:UIControlStateNormal];
-    [customView addSubview:button];
-    
-    CGFloat marginX = (CGFloat)(button.frame.origin.x + button.frame.size.width + 16);
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(marginX, 10.0, 200.0, 44.0)];
-    label.text = @"Chat";
-    label.textColor = [UIColor colorWithRed:102.0/255.0 green:102.0/255.0  blue:102.0/255.0  alpha:1];
-    if (@available(iOS 8.2, *)) {
-        label.font = [UIFont systemFontOfSize:24 weight:UIFontWeightBold];
-    } else {
-        // Fallback on earlier versions
-    }
-    label.textAlignment = UITextAlignmentLeft;
-    [customView addSubview:label];
-    
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:customView];
-    [self navigationItem].leftBarButtonItem = leftButton;
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setValue:@(YES) forKeyPath:@"hidesShadow"];
+    self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                            target:self
+                                                                                            action:@selector(createThread)];
+//    UIView *customView = [[UIView alloc]initWithFrame:(CGRectMake(0.0, 0.0, 100.0, 44.0))];
+//    customView.backgroundColor = [UIColor whiteColor];
+//
+//    UIButton *button = [UIButton buttonWithType: UIButtonTypeCustom];
+//    [button setBackgroundImage:[NSBundle chatUIImageNamed:
+//                                @"hamburger_menu_outlined"]
+//                      forState:UIControlStateNormal];
+//    [button setFrame:CGRectMake(32.0, 20.0, 32.0, 32.0)];
+//    [button addTarget:self action:@selector(BackBtn) forControlEvents:UIControlEventTouchUpInside];
+//    [button addTarget:self action: forControlEvents:UIControlStateNormal];
+//    [customView addSubview:button];
+//
+//    CGFloat marginX = (CGFloat)(button.frame.origin.x + button.frame.size.width + 16);
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(marginX, 10.0, 200.0, 44.0)];
+//    label.text = @"Chat";
+//    label.textColor = [UIColor colorWithRed:102.0/255.0 green:102.0/255.0  blue:102.0/255.0  alpha:1];
+//    if (@available(iOS 8.2, *)) {
+//        label.font = [UIFont systemFontOfSize:24 weight:UIFontWeightBold];
+//    } else {
+//        // Fallback on earlier versions
+//    }
+//    label.textAlignment = UITextAlignmentLeft;
+//    [customView addSubview:label];
+//
+//    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:customView];
+//    [self navigationItem].leftBarButtonItem = leftButton;
+//    self.navigationController.navigationBar.translucent = NO;
+//    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+//    [self.navigationController.navigationBar setValue:@(YES) forKeyPath:@"hidesShadow"];
 }
 
 -(void) setupNavBar {
