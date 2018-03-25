@@ -107,7 +107,7 @@
                     <constraint firstItem="ioR-cp-Qbb" firstAttribute="leading" secondItem="wu0-14-d8t" secondAttribute="trailing" constant="4" id="ft3-u5-Cnh"/>
                     <constraint firstItem="KaM-I9-NGN" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="5" id="j6Z-4p-k1w"/>
                     <constraint firstItem="bfJ-hD-fSk" firstAttribute="leading" secondItem="wu0-14-d8t" secondAttribute="trailing" constant="8" id="m2z-8H-2gF"/>
-                    <constraint firstItem="wu0-14-d8t" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="32" id="qrn-de-kGy"/>
+                    <constraint firstItem="wu0-14-d8t" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="32" id="qrn-de-kGy" userLabel="Profile Image View.leading = leading + 24"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
