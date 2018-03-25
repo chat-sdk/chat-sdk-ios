@@ -67,6 +67,9 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
     
+//    [user setMetaString:urls[bImagePath] forKey:bUserPictureURLKey];
+    [user setMetaString:[firebaseUser.photoURL absoluteString] forKey:bUserPictureURLThumbnailKey];
+    
     [user push];
     
 }
