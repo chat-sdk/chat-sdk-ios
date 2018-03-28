@@ -305,6 +305,10 @@
     threadModel.type = usersToAdd.count == 2 ? @(bThreadType1to1) : @(bThreadTypePrivateGroup);
     threadModel.name = name;
     
+    for (id<PUser> user in usersToAdd) {
+        [threadModel addUser:user];
+    }
+    
     return threadModel;
 }
 

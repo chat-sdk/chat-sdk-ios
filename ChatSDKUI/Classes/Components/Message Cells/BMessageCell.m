@@ -12,6 +12,11 @@
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/PElmMessage.h>
 
+#define bReadReceiptWidth 36
+#define bReadReceiptHeight 24
+
+// TODO: Parameterise this
+#define bReadReceiptTopPadding 10
 
 @implementation BMessageCell
 
@@ -129,7 +134,7 @@
     bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message withColorWeight:colorWeight];
 
     // Hide profile pictures for 1-to-1 threads
-    _profilePicture.hidden = message.thread.type.intValue & bThreadType1to1;
+    _profilePicture.hidden = message.thread.type.intValue & bThreadType1to1 && ![BChatSDK config].showUserAvatarsOn1to1Threads;
     
     // We only want to show the user picture if it is the latest message from the user
     if (position & bMessagePosLast) {
@@ -178,7 +183,7 @@
     _nameLabel.hidden = ![_message showUserNameLabelForPosition:position];
     
     // Hide the read receipt view if this is a public thread or if read receipts are disabled
-    _readMessageImageView.hidden = [_message.thread.type intValue] & bThreadFilterPublic || !NM.readReceipt;
+    _readMessageImageView.hidden = _message.thread.type.intValue & bThreadFilterPublic || !NM.readReceipt;
 }
 
 -(void) willDisplayCell {
@@ -256,9 +261,9 @@
     // We don't want the label getting in the way of the read receipt
     [_timeLabel setViewFrameHeight:l.cellHeight * 0.8];
     
-    [_readMessageImageView setViewFrameWidth:_profilePicture.fw];
-    [_readMessageImageView setViewFrameHeight:_profilePicture.fw * 2 / 3];
-    [_readMessageImageView setViewFrameY:self.fh - _profilePicture.fw * 2 / 3];
+    [_readMessageImageView setViewFrameWidth:bReadReceiptWidth];
+    [_readMessageImageView setViewFrameHeight:bReadReceiptHeight];
+    [_readMessageImageView setViewFrameY:_timeLabel.fh * 2.0 / 3.0];
 
     // Make the width less by the profile picture width means the name and profile picture are inline
     [_nameLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0 - _profilePicture.fw];

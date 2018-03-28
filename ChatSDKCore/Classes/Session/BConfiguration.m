@@ -37,6 +37,11 @@
 @synthesize firebaseShouldConfigureAutomatically;
 @synthesize locationMessagesEnabled;
 @synthesize imageMessagesEnabled;
+@synthesize googleMapsApiKey;
+@synthesize clearDataWhenRootPathChanges;
+@synthesize databaseVersion;
+@synthesize clearDatabaseWhenDataVersionChanges;
+@synthesize showUserAvatarsOn1to1Threads;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -47,36 +52,39 @@
         defaultUserNamePrefix = @"ChatSDK";
         showEmptyChats = YES;
         allowUsersToCreatePublicChats = NO;
-        
+
         defaultAvatarURL = [@"http://flathash.com/%@.png" stringByAppendingFormat: @"%@", self.defaultUserName];
-        
+
         facebookLoginEnabled = YES;
         twitterLoginEnabled = YES;
         googleLoginEnabled = YES;
-        
+
         timeFormat = @"HH:mm";
-        
+
         anonymousLoginEnabled = YES;
         defaultServer = bServerXMPP;
-        
+
         shouldOpenChatWhenPushNotificationClicked = YES;
-        
+
         includeMessagePayload = YES;
         includeMessageJSON = YES;
         includeMessageJSONV2 = YES;
-        
+
         loginUsernamePlaceholder = Nil;
-        
+
         pushNotificationSound = @"default";
-        
+
         chatMessagesToLoad = 50;
-        
+
         firebaseShouldConfigureAutomatically = YES;
-        
+
         locationMessagesEnabled = YES;
         imageMessagesEnabled = YES;
-        
-        
+
+        databaseVersion = @"1";
+        clearDatabaseWhenDataVersionChanges = NO;
+        showUserAvatarsOn1to1Threads = YES;
+
     }
     return self;
 }

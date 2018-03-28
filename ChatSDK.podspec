@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.5.3"
+  s.version          = "4.5.9"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -10,10 +10,10 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '8.0'
   s.requires_arc = true
-  
+
   s.default_subspec = 'UI'
-  
-  s.subspec 'Core' do |core| 
+
+  s.subspec 'Core' do |core|
 
 	  core.source_files = ['ChatSDKCore/Classes/**/*']
 	  core.resource_bundles = {
@@ -27,19 +27,19 @@ Pod::Spec.new do |s|
 
 #     core.frameworks = 'CoreLocation'
       core.frameworks = 'SafariServices'
-  
+
   end
 
   s.subspec 'CoreData' do |cd|
-  
-    cd.source_files = ['ChatSDKCoreData/Classes/**/*']    
+
+    cd.source_files = ['ChatSDKCoreData/Classes/**/*']
     cd.resource_bundles = {
       'ChatCoreData' => ['ChatSDKCoreData/Assets/**/*']
-    }    
-      
+    }
+
     cd.frameworks = 'UIKit', 'CoreData'
     cd.dependency 'ChatSDK/Core'
-  
+
   end
 
   s.subspec 'UI' do |ui|
@@ -48,7 +48,7 @@ Pod::Spec.new do |s|
 	  ui.resource_bundles = {
 		'ChatUI' => ['ChatSDKUI/Assets/**/*', 'ChatSDKUI/Interface/**/*']
 	  }
-			
+
 	  ui.dependency 'MBProgressHUD', '~> 1.0'
 	  ui.dependency 'VENTokenField', '~> 2.0'
 	  ui.dependency 'SDWebImage', '~> 4.0'
@@ -61,25 +61,25 @@ Pod::Spec.new do |s|
 	  ui.dependency 'Toast', '~>4.0.0'
 
 	  ui.dependency 'ChatSDK/CoreData'
-	  
+
 	  ui.frameworks = 'CoreLocation'
-  
+
   end
 
 #  s.subspec 'FirebaseAdapter' do |fb|
-# 
+#
 # 	fb.source_files = ['ChatSDKFirebase/FirebaseNetworkAdapter/Classes/**/*']
-# 
+#
 #     fb.dependency 'Firebase/Core'
 #     fb.dependency 'Firebase/Auth'
 #     fb.dependency 'Firebase/Database'
 #     fb.dependency 'Firebase/Storage'
 #     fb.dependency 'Firebase/Messaging'
-#  
+#
 # #     fb.vendored_frameworks = "ChatSDKFirebaseAdapter/Frameworks/FirebaseAdapter.framework"
-#   
+#
 # 	fb.dependency 'ChatSDK/Core'
-#   
+#
 #   end
-    
+
 end

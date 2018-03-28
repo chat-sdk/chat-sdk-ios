@@ -102,6 +102,8 @@
 // bServerXMPP
 @property (nonatomic, readwrite) NSString * defaultServer;
 
+@property (nonatomic, readwrite) BOOL showUserAvatarsOn1to1Threads;
+
 // Message data properties
 // This should be used for backwards compatibility with v3 of the project
 @property (nonatomic, readwrite) BOOL includeMessagePayload;
