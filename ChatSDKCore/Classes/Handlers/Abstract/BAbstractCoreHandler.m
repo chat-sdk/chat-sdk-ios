@@ -162,8 +162,14 @@
  */
 -(id<PUser>) currentUserModel {
     NSString * currentUserID = NM.auth.currentUserEntityID;
-    return [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
-                                                       withType:bUserEntity];
+
+    if (!_currentUser) {
+        _currentUser = [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
+                                                                   withType:bUserEntity];
+        [_currentUser optimize];
+        [self save];
+    }
+    return _currentUser;
 }
 
 // TODO: Consider removing / refactoring this

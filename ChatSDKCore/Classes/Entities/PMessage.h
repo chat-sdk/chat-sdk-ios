@@ -46,12 +46,11 @@ typedef enum {
 #define bMessageAudioLength @"audio-length"
 
 // Is the message the first, last or a middle message
-#define bMessagePosition @"position"
+//#define bMessagePosition @"position"
 
-// TODO: Is this really needed?
-#define bMessageSenderIsMe @"sender-is-me"
 
 #define bMessageOriginalThreadEntityID @"original-thread-entity-id"
+//#define bMessageSenderIsMe @"sender-is-me"
 
 #define bMessageSticker @"sticker"
 

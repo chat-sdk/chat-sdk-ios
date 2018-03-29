@@ -177,8 +177,10 @@
 }
 
 -(bMessagePos) messagePosition {
-    [self updateOptimizationProperties];
-    return [[self metaValueForKey:bMessagePosition] intValue];
+    if (_position == Nil) {
+        [self updateOptimizationProperties];
+    }
+    return [_position intValue];
 }
 
 -(NSString *) textString {
@@ -283,10 +285,12 @@
 }
 
 -(BOOL) senderIsMe {
-    if([self metaValueForKey:bMessageSenderIsMe] == Nil) {
+    
+    if(_senderIsMe == Nil) {
         [self updateOptimizationProperties];
     }
-    return [[self metaValueForKey:bMessageSenderIsMe] boolValue];
+
+    return [_senderIsMe boolValue];
 }
 
 // We store certain shortcuts for optimization purposes
@@ -309,16 +313,16 @@
         }
     }
     
-    if([self metaValueForKey:bMessageSenderIsMe] == Nil) {
-        BOOL isMe = self.userModel.isMe;
-        [self setMetaValue:@(isMe) forKey:bMessageSenderIsMe];
+    if(_senderIsMe == Nil) {
+        _senderIsMe = @(self.userModel.isMe);
     }
     
     [self updatePosition];
 }
 
 -(void) clearOptimizationProperties {
-    [self setMetaValue:Nil forKey:bMessageSenderIsMe];
+    _senderIsMe = Nil;
+    _position = Nil;
 }
 
 -(void) updatePosition {
@@ -333,8 +337,8 @@
     if (isLast) {
         position = position | bMessagePosLast;
     }
-    
-    [self setMetaValue:@(position) forKey:bMessagePosition];
+   
+    _position = @(position);
 }
 
 -(CDMessage *) lazyLastMessage {
