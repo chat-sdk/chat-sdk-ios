@@ -171,6 +171,7 @@
         _currentUser = [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
                                                                    withType:bUserEntity];
         [_currentUser optimize];
+        [self save];
     }
     return _currentUser;
 }

@@ -16,6 +16,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CDMessage : NSManagedObject<PMessage, PMessageWrapper> {
+    NSNumber * _senderIsMe;
+    NSNumber * _position;
 }
 
 -(NSComparisonResult) compare: (id<PMessage>) message;
