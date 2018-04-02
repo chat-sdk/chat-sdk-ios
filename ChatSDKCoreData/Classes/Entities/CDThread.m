@@ -82,6 +82,8 @@
 -(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages {
     
     NSInteger count = _messagesWorkingList.count + numberOfMessages;
+    count = MIN(count, [BChatSDK config].chatMessagesToLoad);
+    
     // Get the next batch of messages
     [_messagesWorkingList removeAllObjects];
     
@@ -96,7 +98,7 @@
 }
 
 -(void) optimize {
-    NSArray * messages = [self loadMessagesWithCount:50 ascending:YES];
+    NSArray * messages = [self loadMessagesWithCount:[BChatSDK config].chatMessagesToLoad ascending:YES];
     for(int i = 0; i < messages.count; i++) {
         CDMessage * message = (CDMessage *) messages[i];
         [message clearOptimizationProperties];
