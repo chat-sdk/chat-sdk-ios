@@ -57,26 +57,32 @@
 
 -(RXPromise *) createThreadWithUsers: (NSArray *) users name: (NSString *) name threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
     
-    id<PThread> threadModel = [self createThreadWithUsers: users name: name];
-    
-    CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
-    
-    return [thread push].thenOnMain(^id(id<PThread> thread) {
+    id<PThread> threadModel = [self fetchThreadWithUsers: users];
+    if (threadModel && threadCreated != Nil) {
+        threadCreated(Nil, threadModel);
+        return [RXPromise resolveWithResult:Nil];
+    }
+    else {
+        threadModel = [self createThreadWithUsers:users name:name];
+        CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
         
-        // Add the users to the thread
-        if (threadCreated != Nil) {
-            threadCreated(Nil, thread);
-        }
-        return [self addUsers:threadModel.users.allObjects toThread:threadModel];
-        
-    },^id(NSError * error) {
-        //[[BStorageManager sharedManager].a undo];
-        
-        if (threadCreated != Nil) {
-            threadCreated(error, Nil);
-        }
-        return error;
-    });
+        return [thread push].thenOnMain(^id(id<PThread> thread) {
+            
+            // Add the users to the thread
+            if (threadCreated != Nil) {
+                threadCreated(Nil, thread);
+            }
+            return [self addUsers:threadModel.users.allObjects toThread:threadModel];
+            
+        },^id(NSError * error) {
+            //[[BStorageManager sharedManager].a undo];
+            
+            if (threadCreated != Nil) {
+                threadCreated(error, Nil);
+            }
+            return error;
+        });
+    }
 }
 
 -(RXPromise *) createThreadWithUsers: (NSArray *) users threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
