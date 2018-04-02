@@ -24,7 +24,7 @@
 
 @interface BDefaultInterfaceAdapter : NSObject<PInterfaceFacade> {
     UIViewController * _privateThreadsViewController;
-    __weak id<PChatOptionsHandler> _chatOptionsHandler;
+    id<PChatOptionsHandler> _chatOptionsHandler;
     NSMutableArray * _additionalChatOptions;
     NSMutableArray * _additionalTabBarViewControllers;
     NSMutableDictionary * _additionalSearchViewControllers;

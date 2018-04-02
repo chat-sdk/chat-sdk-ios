@@ -307,6 +307,9 @@
             if(!self.lastMessage && index > 0) {
                 self.lastMessage = messages[index - 1];
             }
+            if (!self.nextMessage && index < messages.count - 1) {
+                self.nextMessage = messages[index + 1];
+            }
         }
     }
     

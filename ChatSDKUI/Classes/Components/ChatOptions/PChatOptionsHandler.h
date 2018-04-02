@@ -22,6 +22,7 @@
 -(BOOL) show;
 -(BOOL) hide;
 -(id<BChatOptionDelegate>) delegate;
+-(void) setDelegate: (id<BChatOptionDelegate>) delegate;
 -(UIView *) keyboardView;
 -(void) presentView: (UIView *) view;
 -(void) dismissView;

@@ -23,14 +23,15 @@
     message.type = @(bMessageTypeLocation);
     
     id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
-    [thread addMessage: message];
 
     message.date = [NSDate date];
     message.userModel = NM.currentUser;
     message.delivered = @NO;
     message.read = @YES;
     message.flagged = @NO;
-    // message.placeholder = UIImageJPEGRepresentation(image, 0.6);
+
+    [thread addMessage: message];
+// message.placeholder = UIImageJPEGRepresentation(image, 0.6);
     
     // Set the text initally - we'll update it when we've uploaded the screenshots for Android
     // This allows the map view to show their current location immediately
