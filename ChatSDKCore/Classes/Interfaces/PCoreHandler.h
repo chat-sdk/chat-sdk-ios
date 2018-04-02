@@ -63,6 +63,8 @@
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
                        threadCreated: (void(^)(NSError * error, id<PThread> thread)) thread;
 
+-(id<PThread>) fetchThreadWithUsers: (NSArray *) users;
+-(id<PThread>) fetchOrCreateThreadWithUsers: (NSArray *) users name: (NSString *) name;
 
 /**
  * @brief Add users to a thread
@@ -133,10 +135,6 @@
 -(void) sendLocalSystemMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID;
 -(void) sendLocalSystemMessageWithText:(NSString *)text type: (bSystemMessageType) type withThreadEntityID:(NSString *)threadID;
 
-/**
- * @brief Get a list of threads with a particular type that contain a particluar set of users
- */
--(NSArray *) threadsWithUsers: (NSArray *) users type: (bThreadType) type;
 
 @optional
 

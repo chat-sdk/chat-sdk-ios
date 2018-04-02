@@ -37,7 +37,6 @@
     [message setTextAsDictionary:@{bMessageTextKey: bNullString}];
     
     id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
-    [thread addMessage: message];
 
     message.date = [NSDate date];
     message.userModel = NM.currentUser;
@@ -45,7 +44,9 @@
     message.read = @YES;
     message.flagged = @NO;
     message.placeholder = UIImageJPEGRepresentation([self imageWithScaledImage:image], 0.6);
-    
+
+    [thread addMessage: message];
+
     return [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
         
         NSString * imageURL = urls[bImagePath];

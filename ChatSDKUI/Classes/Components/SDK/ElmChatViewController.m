@@ -563,8 +563,9 @@
 }
 
 -(BOOL) showOptions {
-    // TODO: Check this
-    [_sendBarView becomeFirstResponder];
+    
+    // Needed for keyboard overlay to raise keyboard
+    [_sendBarView becomeTextViewFirstResponder];
     
     if (_optionsHandler.keyboardView) {
         _keyboardOverlay.alpha = 1;

@@ -30,7 +30,6 @@
     id<PMessage> message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
     
     id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
-    [thread addMessage: message];
     
     message.type = @(bMessageTypeText);
     [message setTextAsDictionary:@{bMessageTextKey: text}];
@@ -41,6 +40,8 @@
     message.read = @YES;
     message.flagged = @NO;
     message.metaDictionary = meta;
+
+    [thread addMessage: message];
     
     return [self sendMessage:message];
 }
@@ -125,14 +126,15 @@
                                    bMessageTextKey: text}];
     
     id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
-    [thread addMessage: message];
 
     message.date = [NSDate date];
     message.userModel = self.currentUserModel;
     message.delivered = @YES;
     message.read = @YES;
     message.flagged = @NO;
-    
+
+    [thread addMessage: message];
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded
                                                             object:Nil
@@ -257,32 +259,26 @@
     assert(NO);
 }
 
--(id<PThread>) createThreadWithUsers: (NSArray *) users name: (NSString *) name {
+-(id<PThread>) fetchThreadWithUsers: (NSArray *) users {
     id<PUser> currentUser = self.currentUserModel;
     
     NSMutableArray * usersToAdd = [NSMutableArray arrayWithArray:users];
-    if (![usersToAdd containsObject:currentUser]) {
-        [usersToAdd addObject:currentUser];
-    }
-    
-    //id<PThread> thready = [self threadAlreadyExists:users];
+    [usersToAdd removeObject:currentUser];
+    id<PUser> otherUser = usersToAdd.firstObject;
+    [usersToAdd addObject:currentUser];
     
     // If there are only two users check to see if a thread already exists
     if (usersToAdd.count == 2) {
+        
         // Check to see if we already have a chat with this user
         id<PThread> jointThread = Nil;
-        id<PUser> otherUser = Nil;
-        for (id<PUser> user in usersToAdd) {
-            if (![user isEqual:currentUser]) {
-                otherUser = user;
-                break;
-            }
-        }
+        
+        NSSet * usersToAddSet = [NSSet setWithArray:usersToAdd];
         
         // Check to see if a thread already exists with these
         // two users
         for (id<PThread> thread in [NM.core threadsWithType:bThreadType1to1 includeDeleted:YES includeEmpty:YES]) {
-            if (thread.users.count == 2 && [thread.users containsObject:currentUser] && [thread.users containsObject:otherUser]) {
+            if ([thread.users isEqual:usersToAddSet]) {
                 jointThread = thread;
                 break;
             }
@@ -294,6 +290,23 @@
             return jointThread;
         }
     }
+    return Nil;
+}
+
+-(id<PThread>) fetchOrCreateThreadWithUsers: (NSArray *) users name: (NSString *) name {
+    id<PThread> thread = [self fetchThreadWithUsers:users];
+    if (!thread) {
+        thread = [self createThreadWithUsers:users name:name];
+    }
+    return thread;
+}
+
+-(id<PThread>) createThreadWithUsers: (NSArray *) users name: (NSString *) name {
+    id<PUser> currentUser = self.currentUserModel;
+    
+    NSMutableArray * usersToAdd = [NSMutableArray arrayWithArray:users];
+    [usersToAdd removeObject:currentUser];
+    [usersToAdd addObject:currentUser];
     
     // Before we create the thread start an undo grouping
     // that means that if it fails we can undo changed to the database
@@ -312,19 +325,19 @@
     return threadModel;
 }
 
-- (NSArray *)threadsWithUsers:(NSArray *)users type:(bThreadType)type {
-    NSMutableArray * threads = [NSMutableArray new];
-    
-    NSSet * usersSet = [NSSet setWithArray:users];
-    
-    for (id<PThread> thread in [NM.core threadsWithType:type]) {
-        if([usersSet isEqual:thread.users]) {
-            [threads addObject:thread];
-        }
-    }
-    
-    return threads;
-}
+//- (NSArray *)threadsWithUsers:(NSArray *)users type:(bThreadType)type {
+//    NSMutableArray * threads = [NSMutableArray new];
+//
+//    NSSet * usersSet = [NSSet setWithArray:users];
+//
+//    for (id<PThread> thread in [NM.core threadsWithType:type]) {
+//        if([usersSet isEqual:thread.users]) {
+//            [threads addObject:thread];
+//        }
+//    }
+//
+//    return threads;
+//}
 
 
 @end
