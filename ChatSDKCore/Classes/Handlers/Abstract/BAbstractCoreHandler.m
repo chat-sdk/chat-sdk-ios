@@ -337,19 +337,19 @@
     return threadModel;
 }
 
-//- (NSArray *)threadsWithUsers:(NSArray *)users type:(bThreadType)type {
-//    NSMutableArray * threads = [NSMutableArray new];
-//
-//    NSSet * usersSet = [NSSet setWithArray:users];
-//
-//    for (id<PThread> thread in [NM.core threadsWithType:type]) {
-//        if([usersSet isEqual:thread.users]) {
-//            [threads addObject:thread];
-//        }
-//    }
-//
-//    return threads;
-//}
+- (NSArray *)threadsWithUsers:(NSArray *)users type:(bThreadType)type {
+    NSMutableArray * threads = [NSMutableArray new];
+
+    NSSet * usersSet = [NSSet setWithArray:users];
+
+    for (id<PThread> thread in [NM.core threadsWithType:type]) {
+        if([usersSet isEqual:thread.users]) {
+            [threads addObject:thread];
+        }
+    }
+
+    return threads;
+}
 
 
 @end

@@ -29,6 +29,8 @@
 -(NSInteger) imageWidth;
 -(NSInteger) imageHeight;
 
+-(NSURL *) imageURL;
+
 - (BOOL)showUserNameLabelForPosition: (bMessagePos) position;
 -(bMessagePos) messagePosition;
 -(id<PElmMessage>) nextMessage;

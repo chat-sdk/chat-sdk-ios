@@ -135,6 +135,7 @@
 -(void) sendLocalSystemMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID;
 -(void) sendLocalSystemMessageWithText:(NSString *)text type: (bSystemMessageType) type withThreadEntityID:(NSString *)threadID;
 
+- (NSArray *)threadsWithUsers:(NSArray *)users type:(bThreadType)type;
 
 @optional
 

@@ -224,6 +224,7 @@
     NSDictionary * data = @{b_CreatorEntityID: NM.currentUser.entityID,
                             b_SenderEntityID: _model.userModel.entityID,
                             b_Message: _model.textString,
+                            b_Thread: _model.thread.entityID,
                             b_Date: [FIRServerValue timestamp]};
     
     FIRDatabaseReference * ref = [FIRDatabaseReference flaggedRefWithThread:_model.thread.entityID message:_model.entityID];

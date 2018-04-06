@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(float) getTextHeightWithFont: (UIFont *) font withWidth: (float) width;
 
 - (NSURL *)thumbnailURL;
-- (NSURL *)mainImageURL;
+- (NSURL *) imageURL;
 - (NSInteger)imageWidth;
 - (NSInteger)imageHeight;
 

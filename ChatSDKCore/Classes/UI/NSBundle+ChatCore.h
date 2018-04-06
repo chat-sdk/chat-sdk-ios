@@ -14,9 +14,12 @@
 #define bVideoMessage @"bVideoMessage"
 #define bStickerMessage @"bStickerMessage"
 
+@protocol PMessage;
+
 @interface NSBundle(ChatCore)
 
 +(NSBundle *) chatCoreBundle;
 +(NSString *) core_t: (NSString *) string;
++(NSString *) textForMessage: (id<PMessage>) message;
 
 @end

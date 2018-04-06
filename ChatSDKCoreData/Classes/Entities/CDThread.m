@@ -205,6 +205,10 @@
 -(void) markRead {
     for(id<PMessage> message in self.messages) {
         message.read = @YES;
+        
+        // TODO: Should we have this here? Maybe this gets called too soon
+        // but it's a good backup in case the app closes before we save
+        message.delivered = @YES;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadRead object:Nil];
 }

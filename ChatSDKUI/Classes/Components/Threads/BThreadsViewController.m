@@ -187,28 +187,8 @@
     NSString * text = [NSBundle t:bNoMessages];
     
     id<PMessage> lastMessage = thread.lazyLastMessage;
-    
-    // TODO: move this into one method
     if (lastMessage) {
-        
-        if (lastMessage.type.intValue == bMessageTypeImage) {
-            text = [NSBundle core_t:bImageMessage];
-        }
-        else if(lastMessage.type.intValue == bMessageTypeLocation) {
-            text = [NSBundle core_t:bLocationMessage];
-        }
-        else if(lastMessage.type.intValue == bMessageTypeAudio) {
-            text = [NSBundle core_t:bAudioMessage];
-        }
-        else if(lastMessage.type.intValue == bMessageTypeVideo) {
-            text = [NSBundle core_t:bVideoMessage];
-        }
-        else if(lastMessage.type.intValue == bMessageTypeSticker) {
-            text = [NSBundle core_t:bStickerMessage];
-        }
-        else {
-            text = lastMessage.textString;
-        }
+        text = [NSBundle textForMessage:lastMessage];
     }
     
     if (threadDate) {

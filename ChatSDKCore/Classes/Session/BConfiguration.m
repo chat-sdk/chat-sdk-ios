@@ -85,6 +85,8 @@
         clearDatabaseWhenDataVersionChanges = NO;
         showUserAvatarsOn1to1Threads = YES;
         
+        defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage framework:@"ChatSDK" bundle:@"ChatCore"];
+        
     }
     return self;
 }
