@@ -142,8 +142,8 @@
 //                            bBadge: @"Increment",
 //                            bIOSSound: bDefault};
 //
-    NSDictionary * dict = @{@"title": message.userModel.name,
-                            @"body": text,
+    NSDictionary * dict = @{@"title": message.userModel.name ? message.userModel.name : @"",
+                            @"body": text ? text : @"",
                             @"badge": @1,
                             bPushThreadEntityID: message.thread.entityID,
                             bPushUserEntityID: message.userModel.entityID};
