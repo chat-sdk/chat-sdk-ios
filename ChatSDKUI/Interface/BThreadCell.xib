@@ -48,24 +48,6 @@
                         <color key="textColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ioR-cp-Qbb">
-                        <rect key="frame" x="88" y="42.5" width="227" height="37"/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="37" id="Fyz-63-e2d" userLabel="height = 37"/>
-                        </constraints>
-                        <attributedString key="attributedText">
-                            <fragment>
-                                <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <attributes>
-                                    <color key="NSColor" red="0.70196078431372544" green="0.70196078431372544" blue="0.70196078431372544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <font key="NSFont" size="12" name="HelveticaNeue-Medium"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                    </textView>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eEV-Zx-MJo">
                         <rect key="frame" x="289" y="28" width="15" height="15"/>
                         <color key="backgroundColor" red="0.30074363946914673" green="0.47758656740188599" blue="0.88164091110229492" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -92,6 +74,15 @@
                         </attributedString>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qm5-iw-T5F" userLabel="Message Text View">
+                        <rect key="frame" x="92" y="42.5" width="220" height="14"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="14.33" id="xMU-7N-qZj"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                        <color key="textColor" red="0.70196078431372544" green="0.70196078431372544" blue="0.70196078431372544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="eEV-Zx-MJo" secondAttribute="trailing" id="0LX-OX-zTL"/>
@@ -101,18 +92,18 @@
                     <constraint firstItem="KaM-I9-NGN" firstAttribute="trailing" secondItem="cUf-Bo-VE1" secondAttribute="trailing" id="Qas-yy-3yU"/>
                     <constraint firstItem="cUf-Bo-VE1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Vi0-cw-spy"/>
                     <constraint firstAttribute="centerY" secondItem="wu0-14-d8t" secondAttribute="centerY" id="X2V-cm-YBm"/>
-                    <constraint firstItem="ioR-cp-Qbb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="42" id="awi-qi-vH2"/>
-                    <constraint firstAttribute="trailing" secondItem="ioR-cp-Qbb" secondAttribute="trailing" constant="5" id="enC-qv-VVE"/>
+                    <constraint firstItem="qm5-iw-T5F" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="42" id="dMU-v0-Tyr"/>
                     <constraint firstAttribute="trailing" secondItem="cUf-Bo-VE1" secondAttribute="trailing" constant="16" id="fIl-yT-9O9"/>
-                    <constraint firstItem="ioR-cp-Qbb" firstAttribute="leading" secondItem="wu0-14-d8t" secondAttribute="trailing" constant="4" id="ft3-u5-Cnh"/>
                     <constraint firstItem="KaM-I9-NGN" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="5" id="j6Z-4p-k1w"/>
+                    <constraint firstItem="qm5-iw-T5F" firstAttribute="leading" secondItem="bfJ-hD-fSk" secondAttribute="leading" id="jlS-aM-BYP"/>
                     <constraint firstItem="bfJ-hD-fSk" firstAttribute="leading" secondItem="wu0-14-d8t" secondAttribute="trailing" constant="8" id="m2z-8H-2gF"/>
+                    <constraint firstItem="qm5-iw-T5F" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailing" constant="-8" id="rmF-gd-yZL"/>
                     <constraint firstItem="wu0-14-d8t" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="24" id="z5g-nM-ORQ"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="dateLabel" destination="cUf-Bo-VE1" id="B9n-nz-ZHG"/>
-                <outlet property="messageTextView" destination="ioR-cp-Qbb" id="Zz0-zj-KsC"/>
+                <outlet property="messageTextView" destination="qm5-iw-T5F" id="jMU-q5-9f0"/>
                 <outlet property="profileImageView" destination="wu0-14-d8t" id="yaw-T2-pRT"/>
                 <outlet property="titleLabel" destination="bfJ-hD-fSk" id="WxL-vk-s3h"/>
                 <outlet property="unreadMessagesLabel" destination="KaM-I9-NGN" id="k1S-cP-4AN"/>
