@@ -30,9 +30,9 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thread Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfJ-hD-fSk">
-                        <rect key="frame" x="92" y="17" width="117" height="21"/>
+                        <rect key="frame" x="92" y="21.5" width="117" height="19.5"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="eWv-nY-2LL"/>
+                            <constraint firstAttribute="height" constant="19.329999999999998" id="80b-EJ-j61"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -49,14 +49,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ioR-cp-Qbb">
-                        <rect key="frame" x="88" y="30" width="227" height="37"/>
+                        <rect key="frame" x="88" y="42.5" width="227" height="37"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="37" id="Fyz-63-e2d" userLabel="height = 37"/>
                         </constraints>
                         <attributedString key="attributedText">
                             <fragment>
-                                <mutableString key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <attributes>
                                     <color key="NSColor" red="0.70196078431372544" green="0.70196078431372544" blue="0.70196078431372544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <font key="NSFont" size="12" name="HelveticaNeue-Medium"/>
@@ -96,12 +96,12 @@
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="eEV-Zx-MJo" secondAttribute="trailing" id="0LX-OX-zTL"/>
                     <constraint firstItem="cUf-Bo-VE1" firstAttribute="leading" secondItem="bfJ-hD-fSk" secondAttribute="trailing" constant="5" id="BGP-eJ-Yzk"/>
+                    <constraint firstItem="bfJ-hD-fSk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21" id="CEc-hX-YKR"/>
                     <constraint firstAttribute="centerY" secondItem="eEV-Zx-MJo" secondAttribute="centerY" id="HCV-qC-8hq"/>
                     <constraint firstItem="KaM-I9-NGN" firstAttribute="trailing" secondItem="cUf-Bo-VE1" secondAttribute="trailing" id="Qas-yy-3yU"/>
                     <constraint firstItem="cUf-Bo-VE1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Vi0-cw-spy"/>
                     <constraint firstAttribute="centerY" secondItem="wu0-14-d8t" secondAttribute="centerY" id="X2V-cm-YBm"/>
-                    <constraint firstItem="ioR-cp-Qbb" firstAttribute="top" secondItem="bfJ-hD-fSk" secondAttribute="bottom" constant="-8" id="awi-qi-vH2"/>
-                    <constraint firstItem="bfJ-hD-fSk" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="-8" id="bJN-Z8-7u3"/>
+                    <constraint firstItem="ioR-cp-Qbb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="42" id="awi-qi-vH2"/>
                     <constraint firstAttribute="trailing" secondItem="ioR-cp-Qbb" secondAttribute="trailing" constant="5" id="enC-qv-VVE"/>
                     <constraint firstAttribute="trailing" secondItem="cUf-Bo-VE1" secondAttribute="trailing" constant="16" id="fIl-yT-9O9"/>
                     <constraint firstItem="ioR-cp-Qbb" firstAttribute="leading" secondItem="wu0-14-d8t" secondAttribute="trailing" constant="4" id="ft3-u5-Cnh"/>
