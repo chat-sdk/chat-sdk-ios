@@ -60,6 +60,10 @@
     return [[BPublicThreadsViewController alloc] init];
 }
 
+-(UIViewController *) flaggedMessagesViewController {
+    return [[BFlaggedMessagesViewController alloc] init];
+}
+
 -(UIViewController *) contactsViewController {
     return [[BContactsViewController alloc] init];
 }
@@ -94,6 +98,7 @@
 -(NSArray *) defaultTabBarViewControllers {
     return @[self.privateThreadsViewController,
              self.publicThreadsViewController,
+             self.flaggedMessagesViewController,
              self.contactsViewController,
              [self profileViewControllerWithUser: Nil]];
 }

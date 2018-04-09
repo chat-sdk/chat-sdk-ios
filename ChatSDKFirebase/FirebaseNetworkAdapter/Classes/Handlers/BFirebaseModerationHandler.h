@@ -11,4 +11,6 @@
 
 @interface BFirebaseModerationHandler : NSObject<PModerationHandler>
 
+@property (nonatomic, readwrite) NSMutableArray *flaggedMessages;
+
 @end

@@ -52,10 +52,6 @@
     
 }
 
--(void) delete {
-    
-}
-
 #pragma Network Methods
 
 -(RXPromise *) push {
@@ -224,9 +220,10 @@
     NSDictionary * data = @{b_CreatorEntityID: NM.currentUser.entityID,
                             b_SenderEntityID: _model.userModel.entityID,
                             b_Message: _model.textString,
+                            b_Thread: _model.thread.entityID,
                             b_Date: [FIRServerValue timestamp]};
     
-    FIRDatabaseReference * ref = [FIRDatabaseReference flaggedRefWithThread:_model.thread.entityID message:_model.entityID];
+    FIRDatabaseReference * ref = [FIRDatabaseReference flaggedRefWithMessage:_model.entityID];
     [ref setValue:data withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
             _model.flagged = @YES;
@@ -241,7 +238,7 @@
 
 -(RXPromise *) unflag {
     RXPromise * promise = [RXPromise new];
-    FIRDatabaseReference * ref = [FIRDatabaseReference flaggedRefWithThread:_model.thread.entityID message:_model.entityID];
+    FIRDatabaseReference * ref = [FIRDatabaseReference flaggedRefWithMessage:_model.entityID];
     [ref removeValueWithCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
             _model.flagged = @NO;
@@ -249,6 +246,50 @@
         }
         else {
             [promise rejectWithReason:error];
+        }
+    }];
+    return promise;
+}
+
+-(RXPromise *) delete {
+    RXPromise * promise = [RXPromise new];
+    [self updateLastMessage].thenOnMain(^id(id result) {
+        FIRDatabaseReference *ref = [[FIRDatabaseReference threadMessagesRef:_model.thread.entityID] child:_model.entityID];
+        [ref removeValueWithCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+            if (!error) {
+                NSLog(@"–––– Removed message");
+                [promise resolveWithResult:Nil];
+            }
+            else {
+                [promise rejectWithReason:error];
+            }
+        }];
+        return Nil;
+    }, ^id(NSError *error) {
+        [promise rejectWithReason:error];
+        return Nil;
+    });
+    return promise;
+}
+
+-(RXPromise *) updateLastMessage {
+    RXPromise * promise = [RXPromise new];
+    FIRDatabaseReference *ref = [FIRDatabaseReference threadMessagesRef:_model.thread.entityID];
+    FIRDatabaseQuery *queryByDate = [[ref queryOrderedByChild:b_Date] queryLimitedToLast:1];
+    [queryByDate observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
+        if (snapshot.key == self.entityID) {
+            NSDictionary *messageData = [[CCMessageWrapper messageWithID:snapshot.key] lastMessageData];
+            NSLog(@"–––– Received latest message: %@", messageData);
+            [[CCThreadWrapper threadWithModel:_model.thread] pushLastMessage:messageData].thenOnMain(^id(id result) {
+                [promise resolveWithResult:Nil];
+                return Nil;
+            }, ^id(NSError *error) {
+                [promise rejectWithReason:error];
+                return Nil;
+            });
+        }
+        else {
+            [promise resolveWithResult:Nil];
         }
     }];
     return promise;
