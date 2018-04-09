@@ -39,6 +39,7 @@
 
 -(RXPromise *) flag;
 -(RXPromise *) unflag;
+-(RXPromise *) delete;
 
 -(FIRDatabaseReference *) ref;
 

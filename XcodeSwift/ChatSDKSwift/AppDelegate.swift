@@ -29,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         BChatSDK.initialize(config, app: application, options: launchOptions)
         
+        NM.moderation().on()
+        
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = BInterfaceManager.shared().a.appTabBarViewController();
         self.window?.makeKeyAndVisible();

@@ -13,6 +13,7 @@
 
 @class BPrivateThreadsViewController;
 @class BPublicThreadsViewController;
+@class BFlaggedMessagesViewController;
 @class BContactsViewController;
 @class UIViewController;
 @class BFriendsListViewController;

@@ -31,7 +31,8 @@
 +(FIRDatabaseReference *) threadMetaRef: (NSString *) firebaseID;
 
 // Flagged
-+(FIRDatabaseReference *) flaggedRefWithThread: (NSString *) threadID message: (NSString *) messageID;
++(FIRDatabaseReference *) flaggedMessagesRef;
++(FIRDatabaseReference *) flaggedRefWithMessage: (NSString *) messageID;
 
 // Indexes
 +(FIRDatabaseReference *) indexRef;

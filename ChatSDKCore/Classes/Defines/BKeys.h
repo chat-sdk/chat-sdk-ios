@@ -63,6 +63,7 @@
 #define b_Thumbnail @"thumbnail"
 #define b_Online @"online"
 #define b_Message @"message"
+#define b_Thread @"thread"
 #define b_Status @"status"
 #define b_InvitedBy @"invitedBy"
 #define b_Status @"status"
