@@ -82,6 +82,8 @@
 -(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages {
     
     NSInteger count = _messagesWorkingList.count + numberOfMessages;
+    count = MIN(count, [BChatSDK config].chatMessagesToLoad);
+    
     // Get the next batch of messages
     [_messagesWorkingList removeAllObjects];
     
@@ -96,7 +98,7 @@
 }
 
 -(void) optimize {
-    NSArray * messages = [self loadMessagesWithCount:50 ascending:YES];
+    NSArray * messages = [self loadMessagesWithCount:[BChatSDK config].chatMessagesToLoad ascending:YES];
     for(int i = 0; i < messages.count; i++) {
         CDMessage * message = (CDMessage *) messages[i];
         [message clearOptimizationProperties];
@@ -203,6 +205,10 @@
 -(void) markRead {
     for(id<PMessage> message in self.messages) {
         message.read = @YES;
+        
+        // TODO: Should we have this here? Maybe this gets called too soon
+        // but it's a good backup in case the app closes before we save
+        message.delivered = @YES;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadRead object:Nil];
 }

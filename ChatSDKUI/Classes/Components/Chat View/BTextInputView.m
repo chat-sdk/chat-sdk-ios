@@ -9,7 +9,7 @@
 #import "BTextInputView.h"
 #import <ChatSDK/ChatCore.h>
 
-#define bMargin 4.0
+#define bMargin 8.0
 
 // The amount of padding (above + below) the text
 // i.e. textView height = text height + padding

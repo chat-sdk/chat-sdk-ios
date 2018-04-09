@@ -124,23 +124,7 @@
 -(void) pushToUsers: (NSArray *) users withMessage: (id<PMessage>) message {
     
     // Format the message that we're going to push
-    NSString * text = message.textString;
-    
-    if (message.type.intValue == bMessageTypeLocation) {
-        text = [NSBundle core_t:bLocationMessage];
-    }
-    if (message.type.intValue == bMessageTypeImage) {
-        text = [NSBundle core_t:bImageMessage];
-    }
-    if (message.type.intValue == bMessageTypeAudio) {
-        text = [NSBundle core_t:bAudioMessage];
-    }
-    if (message.type.intValue == bMessageTypeVideo) {
-        text = [NSBundle core_t:bVideoMessage];
-    }
-    if (message.type.intValue == bMessageTypeSticker) {
-        text = [NSBundle core_t:bStickerMessage];
-    }
+    NSString * text = [NSBundle textForMessage: message];
     
 //    text = [NSString stringWithFormat:@"%@: %@", message.userModel.name, text];
     
@@ -158,8 +142,8 @@
 //                            bBadge: @"Increment",
 //                            bIOSSound: bDefault};
 //
-    NSDictionary * dict = @{@"title": message.userModel.name,
-                            @"body": text,
+    NSDictionary * dict = @{@"title": message.userModel.name ? message.userModel.name : @"",
+                            @"body": text ? text : @"",
                             @"badge": @1,
                             bPushThreadEntityID: message.thread.entityID,
                             bPushUserEntityID: message.userModel.entityID};

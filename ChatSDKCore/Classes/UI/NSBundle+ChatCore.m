@@ -8,6 +8,7 @@
 
 #import "NSBundle+ChatCore.h"
 #import <ChatSDK/NSBundle+Additions.h>
+#import <ChatSDK/PMessage.h>
 
 @implementation NSBundle(ChatCore)
 
@@ -20,5 +21,27 @@
     return NSLocalizedStringFromTableInBundle(string, @"ChatCoreLocalizable", [self chatCoreBundle], @"");
 }
 
++(NSString *) textForMessage: (id<PMessage>) message {
+    NSString * text;
+    if (message.type.intValue == bMessageTypeImage) {
+        text = [self core_t:bImageMessage];
+    }
+    else if(message.type.intValue == bMessageTypeLocation) {
+        text = [self core_t:bLocationMessage];
+    }
+    else if(message.type.intValue == bMessageTypeAudio) {
+        text = [self core_t:bAudioMessage];
+    }
+    else if(message.type.intValue == bMessageTypeVideo) {
+        text = [self core_t:bVideoMessage];
+    }
+    else if(message.type.intValue == bMessageTypeSticker) {
+        text = [self core_t:bStickerMessage];
+    }
+    else {
+        text = message.textString;
+    }
+    return text;
+}
 
 @end

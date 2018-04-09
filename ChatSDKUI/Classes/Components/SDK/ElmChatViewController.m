@@ -421,8 +421,7 @@
         if (cell.imageView.alpha == 1) {
             
             // TODO: Refactor this to use the JSON keys
-            NSArray * myArray = [cell.message.textString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-            NSURL * url = [NSURL URLWithString:myArray[1]];
+            NSURL * url = cell.message.imageURL;
             
             // Add an activity indicator while the image is loading
             UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];

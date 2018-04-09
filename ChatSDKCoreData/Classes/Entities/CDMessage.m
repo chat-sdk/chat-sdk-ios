@@ -86,62 +86,95 @@
 #pragma Image information
 
 - (NSURL *)thumbnailURL {
-    // Split up the message text then return the url of the thumbnail
-    NSArray * myArray = [self.textString componentsSeparatedByString:@","];
+    NSString * url = self.compatibilityMeta[bMessageThumbnailURL];
+
+    // TODO: Depricated - remove this
+    if (!url) {
+        // Split up the message text then return the url of the thumbnail
+        NSArray * myArray = [self.textString componentsSeparatedByString:@","];
+        url = myArray[0];
+    }
     
-    return [NSURL URLWithString:myArray[0]];
+    return [NSURL URLWithString:url];
 }
 
-- (NSURL *)mainImageURL {
-    // Split up the message text then return the url of the thumbnail
-    NSArray * myArray = [self.textString componentsSeparatedByString:@","];
+- (NSURL *)imageURL {
+    NSString * url = self.compatibilityMeta[bMessageImageURL];
     
-    return [NSURL URLWithString:myArray[1]];
+    // TODO: Depricated - remove this
+    if (!url) {
+        // Split up the message text then return the url of the thumbnail
+        NSArray * myArray = [self.textString componentsSeparatedByString:@","];
+        url = myArray[1];
+    }
+    return [NSURL URLWithString:url];
 }
 
 - (NSInteger)imageWidth {
     CGSize size = [self getImageSize];
+    return size.width;
     
     // Check which one is bigger and then scale it to be 600 pixels
-    return size.width > size.height ? 600 : 600 * size.width/size.height;
+//    return size.width > size.height ? 600 : 600 * size.width/size.height;
 }
 
 - (NSInteger)imageHeight {
     
     CGSize size = [self getImageSize];
+    return size.height;
     
     // Check which one is bigger and then scale it to be 600 pixels
-    return size.height > size.width ? 600 : 600 * size.height/size.width;
+//    return size.height > size.width ? 600 : 600 * size.height/size.width;
 }
 
 -(CGSize) getImageSize {
+    NSNumber * widthNumber = self.compatibilityMeta[bMessageImageWidth];
+    NSNumber * heightNumber = self.compatibilityMeta[bMessageImageHeight];
     
     float height = -1;
     float width = -1;
     
-    NSArray * myArray = [self.textString componentsSeparatedByString:@","];
-    
-    if (myArray.count > 2) {
+    // TODO: Depricated - remove this
+    if (!widthNumber || !heightNumber) {
         
-        NSArray * dimensions = [myArray[2] componentsSeparatedByString:@"&"];
+        NSArray * myArray = [self.textString componentsSeparatedByString:@","];
         
-        if (dimensions.count > 0) {
-            width = [[dimensions[0] substringFromIndex:1] floatValue];
+        if (myArray.count > 2) {
+            
+            NSArray * dimensions = [myArray[2] componentsSeparatedByString:@"&"];
+            
+            if (dimensions.count > 0) {
+                width = [[dimensions[0] substringFromIndex:1] floatValue];
+            }
+            
+            if (dimensions.count > 1) {
+                // Take off the first letter and then use the dimensions
+                height = [[dimensions[1] substringFromIndex:1] floatValue];
+            }
         }
         
-        if (dimensions.count > 1) {
-            // Take off the first letter and then use the dimensions
-            height = [[dimensions[1] substringFromIndex:1] floatValue];
+        if (height == -1 || width == -1) {
+            return [UIImage imageWithData:self.placeholder].size;
         }
     }
-    
-    if (height == -1 || width == -1) {
-        return [UIImage imageWithData:self.placeholder].size;
+    else {
+        width = [widthNumber floatValue];
+        height = [heightNumber floatValue];
     }
     
     return CGSizeMake(width, height);
 }
 
+-(NSDictionary *) compatibilityMeta {
+    if (self.meta) {
+        return self.meta;
+    }
+    else {
+        return self.textAsDictionary;
+    }
+}
+
+// TODO: Depricated - remove this
 -(NSError *) setTextAsDictionary: (NSDictionary *) dict {
     self.json = dict;
     
@@ -155,6 +188,7 @@
     
 }
 
+// TODO: Depricated - remove this
 -(NSDictionary *) textAsDictionary {
     if(!self.json) {
         NSData *data =[self.text dataUsingEncoding:NSUTF8StringEncoding];

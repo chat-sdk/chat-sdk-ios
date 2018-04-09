@@ -67,6 +67,7 @@
 #define b_InvitedBy @"invitedBy"
 #define b_Status @"status"
 
+
 #define bStatusMember @"member"
 #define bStatusOwner @"owner"
 
