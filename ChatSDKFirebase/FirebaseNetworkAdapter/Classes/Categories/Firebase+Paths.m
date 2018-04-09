@@ -55,8 +55,12 @@
 
 #pragma Flag ref
 
-+(FIRDatabaseReference *) flaggedRefWithThread: (NSString *) threadID message: (NSString *) messageID {
-    return [[[[[self.firebaseRef c: bFlaggedKey]  c:bThreadsPath] c:threadID] c:bMessagesPath] c:messageID];
++(FIRDatabaseReference *) flaggedMessagesRef {
+    return [[self.firebaseRef c:bFlaggedKey] c:bMessagesPath];
+}
+
++(FIRDatabaseReference *) flaggedRefWithMessage: (NSString *) messageID {
+    return [[self flaggedMessagesRef] c:messageID];
 }
 
 #pragma Messages / Threads

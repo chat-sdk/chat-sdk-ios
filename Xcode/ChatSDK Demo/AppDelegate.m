@@ -22,19 +22,21 @@
 
     // Create a network adapter to communicate with Firebase
     // The network adapter handles network traffic
-    
+
     BConfiguration * config = [BConfiguration configuration];
     config.rootPath = @"test";
     config.allowUsersToCreatePublicChats = YES;
     config.showEmptyChats = YES;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
     [BChatSDK initialize:config app:application options:launchOptions];
- 
+
+    [NM.moderation on];
+
     UIViewController * rootViewController = [BInterfaceManager sharedManager].a.appTabBarViewController;
-    
+
     // Set the root view controller
     [self.window setRootViewController:rootViewController];
-    
+
     return YES;
 }
 
