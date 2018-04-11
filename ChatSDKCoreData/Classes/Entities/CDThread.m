@@ -118,7 +118,7 @@
     CDMessage * cdMessage = (CDMessage *) message;
     cdMessage.thread = self;
     self.lastMessage = cdMessage;
-    
+
     [[message lazyLastMessage] updatePosition];
     
     if(![self.messagesWorkingList containsObject:message]) {
@@ -127,12 +127,19 @@
 }
 
 -(void) removeMessage: (id<PMessage>) message {
-    ((CDMessage *)message).thread = Nil;
-    [[BStorageManager sharedManager].a deleteEntity:message];
+    CDMessage * cdMessage = (CDMessage *) message;
+    cdMessage.thread = Nil;
     
+    [[BStorageManager sharedManager].a deleteEntity:cdMessage];
     if([self.messagesWorkingList containsObject:message]) {
         [self.messagesWorkingList removeObject:message];
     }
+    
+    // This is a bit nasty. Essentially, sometimes the working list will be empty
+    // if we left the thread so we have to repopulate it
+    [self resetMessages];
+    self.lastMessage = self.messagesOrderedByDateDesc.firstObject;
+    [[message lazyLastMessage] updatePosition];
 }
 
 -(void) setDeleted:(NSNumber *)deleted_ {

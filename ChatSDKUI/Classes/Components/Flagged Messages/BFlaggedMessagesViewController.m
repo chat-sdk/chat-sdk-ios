@@ -12,9 +12,7 @@
 
 @interface BFlaggedMessagesViewController ()
 
-@property (nonatomic, readwrite) NSArray<id<PMessage>> *
-
-flaggedMessages;
+@property (nonatomic, readwrite) NSArray<id<PMessage>> * flaggedMessages;
 
 @end
 
@@ -58,21 +56,27 @@ flaggedMessages;
 - (void)addObservers {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [notificationList add:[nc addObserverForName:bNotificationFlaggedMessageAdded object:Nil queue:Nil usingBlock:^(NSNotification *notification) {
-        id<PMessage> message = notification.userInfo[bNotificationFlaggedMessageAddedKeyMessage];
+        id<PMessage> message = notification.userInfo[bNotificationFlaggedMessageAdded_PMessage];
         NSLog(@"Flagged message added: %@", message.textString);
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.flaggedMessages.count inSection:0];
         [self updateFlaggedMessages];
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }]];
     [notificationList add:[nc addObserverForName:bNotificationFlaggedMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification *notification) {
-        id<PMessage> message = notification.userInfo[bNotificationFlaggedMessageRemovedKeyMessage];
-        NSLog(@"Flagged message removed: %@", message.textString);
-        NSInteger row = [self indexForMessage:message];
-        if (row > -1) {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-            [self updateFlaggedMessages];
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        } else {
+        id<PMessage> message = notification.userInfo[bNotificationFlaggedMessageRemoved_PMessage];
+        if (message) {
+            NSLog(@"Flagged message removed: %@", message.textString);
+            NSInteger row = [self indexForMessage:message];
+            if (row > -1) {
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+                [self updateFlaggedMessages];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            } else {
+                [self updateFlaggedMessages];
+                [self.tableView reloadData];
+            }
+        }
+        else {
             [self updateFlaggedMessages];
             [self.tableView reloadData];
         }
@@ -120,6 +124,10 @@ flaggedMessages;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50;
+}
+
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - UITableViewDelegate

@@ -41,6 +41,8 @@
 -(RXPromise *) unflag;
 -(RXPromise *) delete;
 
+-(NSDictionary *) lastMessageData;
+
 -(FIRDatabaseReference *) ref;
 
 @end

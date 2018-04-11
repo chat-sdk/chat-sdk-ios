@@ -46,10 +46,10 @@
 #define bNotificationMessageUpdatedKeyMessage @"bNMessageUpdatedKeyMessage"
 
 #define bNotificationFlaggedMessageAdded @"bNFlaggedMessageAdded"
-#define bNotificationFlaggedMessageAddedKeyMessage @"bNFlaggedMessageAddedKeyMessage"
+#define bNotificationFlaggedMessageAdded_PMessage @"bNFlaggedMessageAdded_PMessage"
 
 #define bNotificationFlaggedMessageRemoved @"bNFlaggedMessageRemoved"
-#define bNotificationFlaggedMessageRemovedKeyMessage @"bNFlaggedMessageRemovedKeyMessage"
+#define bNotificationFlaggedMessageRemoved_PMessage @"bNFlaggedMessageRemoved_PMessage"
 
 #define bNotificationUserUpdated @"bNUserUpdated"
 #define bNotificationUserUpdated_PUser @"bNUserUpdated_PUser"

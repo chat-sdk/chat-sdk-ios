@@ -126,10 +126,10 @@
               ".validate": "newData.val() >= 0 && newData.val() <= 6"
              },
 
-            "user-firebase-id": {
+            //"user-firebase-id": {
               // Can only be set on message creation - a user can only mark a message with their uid
-              ".validate": "newData.val() == auth.uid"
-            }
+            //  ".validate": "newData.val() == auth.uid"
+            //}
 
           },
 

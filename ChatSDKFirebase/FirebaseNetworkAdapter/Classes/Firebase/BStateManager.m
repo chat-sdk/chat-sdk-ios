@@ -77,6 +77,10 @@
         [[CCUserWrapper userWithModel:contactModel] metaOn];
         [[CCUserWrapper userWithModel:contactModel] onlineOn];
     }
+    
+    if ([BChatSDK config].enableMessageModerationTab) {
+        [NM.moderation on];
+    }
 }
 
 +(void) userOff: (NSString *) entityID {

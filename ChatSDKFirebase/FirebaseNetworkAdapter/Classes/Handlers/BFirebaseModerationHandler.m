@@ -42,24 +42,27 @@
                 CCMessageWrapper *message = [CCMessageWrapper messageWithID:snapshot.key];
                 [flaggedMessages addObject:message.model];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    NSDictionary *userInfo = @{bNotificationFlaggedMessageAddedKeyMessage: message.model};
+                    NSDictionary *userInfo = @{bNotificationFlaggedMessageAdded_PMessage: message.model};
                     [nc postNotificationName:bNotificationFlaggedMessageAdded object:Nil userInfo:userInfo];
                 });
             }
         }];
         [self.flaggedRef observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
             if (![snapshot.value isEqual: [NSNull null]]) {
-                CCMessageWrapper *message = [CCMessageWrapper messageWithID:snapshot.key];
+                NSString * entityID = snapshot.key;
                 id<PMessage> msg2remove;
                 for (id<PMessage> msg in flaggedMessages) {
-                    if (msg.entityID == message.entityID) {
+                    if (msg.entityID == entityID) {
                         msg2remove = msg;
                         break;
                     }
                 }
-                [flaggedMessages removeObject:msg2remove];
+                NSDictionary * userInfo = Nil;
+                if (msg2remove) {
+                    [flaggedMessages removeObject:msg2remove];
+                    userInfo = @{bNotificationFlaggedMessageRemoved_PMessage: msg2remove};
+                }
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    NSDictionary *userInfo = @{bNotificationFlaggedMessageRemovedKeyMessage: msg2remove};
                     [nc postNotificationName:bNotificationFlaggedMessageRemoved object:Nil userInfo:userInfo];
                 });
             }

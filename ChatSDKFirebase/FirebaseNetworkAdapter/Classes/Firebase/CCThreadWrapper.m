@@ -457,6 +457,37 @@
     return promise;
 }
 
+-(RXPromise *) updateLastMessage {
+    RXPromise * promise = [RXPromise new];
+    
+    FIRDatabaseReference *ref = [FIRDatabaseReference threadMessagesRef:self.entityID];
+    FIRDatabaseQuery *queryByDate = [[ref queryOrderedByChild:b_Date] queryLimitedToLast:1];
+    
+    FIRDatabaseHandle handle = [queryByDate observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot *snapshot) {
+        if (![snapshot.value isEqual: [NSNull null]]) {
+            NSDictionary *messageData = [[CCMessageWrapper messageWithID:snapshot.key] lastMessageData];
+            NSLog(@"–––– Received latest message: %@", messageData);
+            [self pushLastMessage:messageData].thenOnMain(^id(id result) {
+                [promise resolveWithResult:Nil];
+                return Nil;
+            }, ^id(NSError *error) {
+                [promise rejectWithReason:error];
+                return Nil;
+            });
+        }
+        else {
+            [promise resolveWithResult:Nil];
+        }
+    }];
+    return promise.thenOnMain(^id(id result) {
+        [ref removeObserverWithHandle:handle];
+        return Nil;
+    }, ^id(NSError * error) {
+        [ref removeObserverWithHandle:handle];
+        return Nil;
+    });
+}
+
 -(NSDictionary *) serialize {
     return @{bDetailsPath: @{b_CreationDate: [FIRServerValue timestamp],
                              b_Name: _model.name ? _model.name : @"",

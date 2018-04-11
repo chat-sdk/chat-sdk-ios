@@ -253,45 +253,25 @@
 
 -(RXPromise *) delete {
     RXPromise * promise = [RXPromise new];
-    [self updateLastMessage].thenOnMain(^id(id result) {
-        FIRDatabaseReference *ref = [[FIRDatabaseReference threadMessagesRef:_model.thread.entityID] child:_model.entityID];
-        [ref removeValueWithCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
-            if (!error) {
+    CCThreadWrapper * threadWrapper = [CCThreadWrapper threadWithModel:self.model.thread];
+    
+    FIRDatabaseReference *ref = [[FIRDatabaseReference threadMessagesRef:_model.thread.entityID] child:_model.entityID];
+    [ref removeValueWithCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+        if (!error) {
+            [threadWrapper updateLastMessage].thenOnMain(^id(id success) {
                 NSLog(@"–––– Removed message");
                 [promise resolveWithResult:Nil];
-            }
-            else {
-                [promise rejectWithReason:error];
-            }
-        }];
-        return Nil;
-    }, ^id(NSError *error) {
-        [promise rejectWithReason:error];
-        return Nil;
-    });
-    return promise;
-}
-
--(RXPromise *) updateLastMessage {
-    RXPromise * promise = [RXPromise new];
-    FIRDatabaseReference *ref = [FIRDatabaseReference threadMessagesRef:_model.thread.entityID];
-    FIRDatabaseQuery *queryByDate = [[ref queryOrderedByChild:b_Date] queryLimitedToLast:1];
-    [queryByDate observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
-        if (snapshot.key == self.entityID) {
-            NSDictionary *messageData = [[CCMessageWrapper messageWithID:snapshot.key] lastMessageData];
-            NSLog(@"–––– Received latest message: %@", messageData);
-            [[CCThreadWrapper threadWithModel:_model.thread] pushLastMessage:messageData].thenOnMain(^id(id result) {
-                [promise resolveWithResult:Nil];
                 return Nil;
-            }, ^id(NSError *error) {
+            }, ^id(NSError * error) {
                 [promise rejectWithReason:error];
                 return Nil;
             });
         }
         else {
-            [promise resolveWithResult:Nil];
+            [promise rejectWithReason:error];
         }
     }];
+
     return promise;
 }
 

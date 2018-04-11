@@ -87,6 +87,7 @@
 #define bUnflag @"bUnflag"
 #define bHoldToSendAudioMessageError @"bHoldToSendAudioMessageError"
 #define bRecording @"bRecording"
+#define bCancelled @"bCancelled"
 #define bSave @"bSave"
 #define bSaving @"bSaving"
 #define bGroupName @"bGroupName"

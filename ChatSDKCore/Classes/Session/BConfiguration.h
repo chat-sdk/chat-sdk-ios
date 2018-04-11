@@ -115,6 +115,8 @@
 
 @property (nonatomic, readwrite) BOOL showUserAvatarsOn1to1Threads;
 
+@property (nonatomic, readwrite) BOOL enableMessageModerationTab;
+
 // Message data properties
 // This should be used for backwards compatibility with v3 of the project
 @property (nonatomic, readwrite) BOOL includeMessagePayload;

@@ -109,5 +109,6 @@
 -(RXPromise *) pushMeta;
 -(void) metaOn;
 -(void) metaOff;
+-(RXPromise *) updateLastMessage;
 
 @end

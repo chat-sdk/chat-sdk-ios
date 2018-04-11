@@ -82,7 +82,7 @@
                                                           bundle:[NSBundle chatUIBundle]];
     
     BProfileTableViewController * controller = [storyboard instantiateInitialViewController];
-
+    // TODO: Fix this
     controller.user = user;
     return controller;
 }
@@ -96,11 +96,16 @@
 }
 
 -(NSArray *) defaultTabBarViewControllers {
-    return @[self.privateThreadsViewController,
-             self.publicThreadsViewController,
-             self.flaggedMessagesViewController,
-             self.contactsViewController,
-             [self profileViewControllerWithUser: Nil]];
+    NSMutableArray * dict = [NSMutableArray arrayWithArray:@[self.privateThreadsViewController,
+                                                             self.publicThreadsViewController,
+                                                             self.contactsViewController,
+                                                             [self profileViewControllerWithUser: Nil]]];
+    
+    if([BChatSDK config].enableMessageModerationTab) {
+        [dict addObject: self.flaggedMessagesViewController];
+    }
+    
+    return dict;
 }
 
 -(NSArray *) tabBarViewControllers {

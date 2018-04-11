@@ -28,9 +28,9 @@
     config.allowUsersToCreatePublicChats = YES;
     config.showEmptyChats = YES;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
+    
     [BChatSDK initialize:config app:application options:launchOptions];
 
-    [NM.moderation on];
 
     UIViewController * rootViewController = [BInterfaceManager sharedManager].a.appTabBarViewController;
 

@@ -118,6 +118,7 @@
 "bDefaultThreadName" = "Thread";
 "bHoldToSendAudioMessageError" = "Hold to send audio message. Audio messages must be longer than 1 second";
 "bRecording" = "Recording";
+"bCancelled" = "Cancelled";
 
 "bAddFriend" = "Add Friend";
 "bRemoveFriend" = "Remove Friend";
