@@ -55,7 +55,7 @@
     switch ((bMessageType)_message.type.intValue) {
         case bMessageTypeText:
         case bMessageTypeSystem:
-            return MIN([self textWidth:_message.textString], bMaxMessageWidth);
+            return MAX(MIN([self textWidth:_message.textString], bMaxMessageWidth), bTimeLabelWidth);
         case bMessageTypeImage:
         case bMessageTypeVideo:
         case bMessageTypeLocation:
@@ -83,7 +83,13 @@
 }
 
 -(float) bubbleHeight {
-    return self.messageHeight + /*[self cellMargin] + */self.bubblePadding * 2;
+//    return self.messageHeight + bTimeLabelHeight + /*[self cellMargin] + */self.bubblePadding * 2;
+    switch ((bMessageType)_message.type.intValue) {
+        case bMessageTypeText:
+            return self.messageHeight + bTimeLabelHeight + self.bubblePadding * 2;
+        default:
+            return self.messageHeight + self.bubblePadding * 2;
+    }
 }
 
 -(float) cellHeight {

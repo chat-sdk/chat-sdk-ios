@@ -16,5 +16,6 @@
 }
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
+-(void) createThread;
 
 @end

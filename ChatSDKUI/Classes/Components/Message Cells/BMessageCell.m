@@ -46,17 +46,17 @@
         
         [self.contentView addSubview:_profilePicture];
         
-        _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
+        _timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         
         _timeLabel.font = [UIFont italicSystemFontOfSize:12];
         if([BChatSDK config].messageTimeFont) {
             _timeLabel.font = [BChatSDK config].messageTimeFont;
         }
 
-        _timeLabel.textColor = [UIColor lightGrayColor];
+        _timeLabel.textColor = [UIColor grayColor];
         _timeLabel.userInteractionEnabled = NO;
         
-        [self.contentView addSubview:_timeLabel];
+        [bubbleImageView addSubview:_timeLabel];
 
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         _nameLabel.userInteractionEnabled = NO;
@@ -252,13 +252,11 @@
     // TODO: Fix this
     float xMargin =  _profilePicture.image ? 0 : 0;
     
-    // Layout the date label this will be the full size of the cell
-    // This will automatically center the text in the y direction
-    // we'll set the side using text alignment
-    [_timeLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0];
+    [_timeLabel setViewFrameWidth:l.bubbleWidth - l.bubblePadding * 2.0];
+    [_timeLabel.keepBottomInset setEqual:l.bubblePadding - 4];
     
     // We don't want the label getting in the way of the read receipt
-    [_timeLabel setViewFrameHeight:l.cellHeight * 0.8];
+    [_timeLabel setViewFrameHeight:bTimeLabelHeight];
     
     [_readMessageImageView setViewFrameWidth:bReadReceiptWidth];
     [_readMessageImageView setViewFrameHeight:bReadReceiptHeight];
@@ -273,18 +271,20 @@
     if (!isMine) {
         [_profilePicture setViewFrameX:_profilePicture.hidden ? 0 : l.profilePicturePadding];
         [bubbleImageView setViewFrameX:l.bubbleMargin + _profilePicture.fx + _profilePicture.fw + xMargin];
-        [_nameLabel setViewFrameX:bTimeLabelPadding];
+//        [_nameLabel setViewFrameX:bTimeLabelPadding];
+        [_timeLabel.keepRightInset setEqual:l.bubblePadding];
         
-        _timeLabel.textAlignment = NSTextAlignmentRight;
-        _nameLabel.textAlignment = NSTextAlignmentLeft;
+        _timeLabel.textAlignment = NSTextAlignmentLeft;
+//        _nameLabel.textAlignment = NSTextAlignmentLeft;
     }
     else {
         [_profilePicture setViewFrameX:_profilePicture.hidden ? self.contentView.fw : self.contentView.fw - _profilePicture.fw - l.profilePicturePadding];
         [bubbleImageView setViewFrameX:_profilePicture.fx - l.bubbleWidth - l.bubbleMargin - xMargin];
         //[_nameLabel setViewFrameX: bTimeLabelPadding];
+        [_timeLabel.keepRightInset setEqual:l.bubblePadding + bTailSize];
         
-        _timeLabel.textAlignment = NSTextAlignmentLeft;
-        _nameLabel.textAlignment = NSTextAlignmentRight;
+        _timeLabel.textAlignment = NSTextAlignmentRight;
+//        _nameLabel.textAlignment = NSTextAlignmentRight;
         
 //        // We need to make sure the time label isn't in the way if there is a users name
 //        if (self.fh < 50) {
