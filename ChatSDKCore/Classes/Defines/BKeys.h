@@ -84,6 +84,7 @@
 #define bOnlinePath @"online"
 #define bIndexPath @"index"
 #define bSearchIndexPath @"searchIndex"
+#define bLastOnlinePath @"last-online"
 //#define bThumbnailPath @"thumbnail"
 //#define bImagePath @"image"
 #define bAudioPath @"audio"

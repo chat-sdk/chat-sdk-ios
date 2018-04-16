@@ -163,7 +163,7 @@
                     // This gets the message if it exists and then updates it from the snapshot
                     CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:snapshot];
                     
-                    [NM.hook executeHookWithName:bHookMessageRecieved data:@{bHookMessageReceived_PMessage: message}];
+                    [NM.hook executeHookWithName:bHookMessageRecieved data:@{bHookMessageReceived_PMessage: message.model}];
                     
                     BOOL newMessage = message.model.delivered.boolValue == NO;
                     

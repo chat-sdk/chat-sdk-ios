@@ -43,6 +43,7 @@
 @synthesize clearDatabaseWhenDataVersionChanges;
 @synthesize showUserAvatarsOn1to1Threads;
 @synthesize enableMessageModerationTab;
+@synthesize showLocalNotifications;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -86,7 +87,7 @@
         clearDatabaseWhenDataVersionChanges = NO;
         showUserAvatarsOn1to1Threads = YES;
         
-        
+        showLocalNotifications = YES;
         
         defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage framework:@"ChatSDK" bundle:@"ChatCore"];
         

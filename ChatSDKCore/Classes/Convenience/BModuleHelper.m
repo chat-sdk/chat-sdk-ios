@@ -42,6 +42,7 @@
 
 +(void) activateCommonModules: (NSString *) server {
     [self activateModuleForName:@"BBlockingModule"];
+    [self activateModuleForName:@"BLastOnlineModule"];
     [self activateModuleForName:@"BAudioMessageModule"];
     [self activateModuleForName:@"BVideoMessageModule"];
     [self activateModuleForName:@"BNearbyUsersModule"];

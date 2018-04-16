@@ -129,7 +129,8 @@ static BCoreDataManager * manager;
 -(id) fetchEntityWithID: (NSString *) entityID withType: (NSString *) type {
     @synchronized(self.managedObjectContext)  {
         NSPredicate * predicate = [NSPredicate predicateWithFormat:@"entityID = %@", entityID];
-        NSArray * results = [self fetchEntitiesWithName:type withPredicate:predicate];
+        // Copy it to stop a mutation error
+        NSArray * results = [[self fetchEntitiesWithName:type withPredicate:predicate] copy];
         for (id result in results) {
             return result;
         }

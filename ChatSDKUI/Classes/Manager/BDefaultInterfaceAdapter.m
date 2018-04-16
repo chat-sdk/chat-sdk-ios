@@ -243,4 +243,12 @@
     return [[BTextInputView alloc] initWithFrame:CGRectZero];
 }
 
+-(BOOL) showLocalMessageNotification {
+    return _showLocalMessageNotification && [BChatSDK config].showLocalNotifications;
+}
+
+-(void) setShowLocalMessageNotification: (BOOL) shouldShow {
+    _showLocalMessageNotification = shouldShow;
+}
+
 @end

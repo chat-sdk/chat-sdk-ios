@@ -139,6 +139,10 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     [NM.core setUserOnline];
     [NM.core saveToStore];
+    
+    // Should we enable or disable local notifications? We want to show them on every tab that isn't the thread view
+    BOOL showNotification = ![viewController isEqual:[BInterfaceManager sharedManager].a.privateThreadsViewController] && ![viewController isEqual:[BInterfaceManager sharedManager].a.publicThreadsViewController];
+    [[BInterfaceManager sharedManager].a setShowLocalMessageNotification:showNotification];
 }
 // End bug fix for v3.0.2
 

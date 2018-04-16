@@ -148,6 +148,7 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [[BInterfaceManager sharedManager].a setShowLocalMessageNotification:NO];
     [self updateMessages];
 }
 
@@ -286,7 +287,11 @@
 -(NSArray *) messages {
     if (!_messageCache || !_messageCache.count || _messageCacheDirty) {
         [_messageCache removeAllObjects];
-        
+
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        dateFormatter.dateFormat = @"ddMMyyyy";
+
         // Don't load any additional messages - we will already load the
         // number of messages as defined the config.chatMessagesToLoad property
         NSArray * messages = [_thread loadMoreMessages:0];
@@ -295,7 +300,11 @@
         
         for (id<PElmMessage> message in messages) {
             // This is a new day
-            if (!lastMessageDate || labs([message.date daysFrom:lastMessageDate]) > 0) {
+            // It is a new day if either the calendar date has changed
+            NSString * lastDateString = [dateFormatter stringFromDate:lastMessageDate];
+            NSString * dateString = [dateFormatter stringFromDate:message.date];
+            
+            if (!lastMessageDate || ![dateString isEqual:lastDateString]) {
                 section = [[BMessageSection alloc] init];
                 [_messageCache addObject:section];
             }

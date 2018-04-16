@@ -117,6 +117,9 @@
 
 @property (nonatomic, readwrite) BOOL enableMessageModerationTab;
 
+// Show local notifications when a message is received
+@property (nonatomic, readwrite) BOOL showLocalNotifications;
+
 // Message data properties
 // This should be used for backwards compatibility with v3 of the project
 @property (nonatomic, readwrite) BOOL includeMessagePayload;

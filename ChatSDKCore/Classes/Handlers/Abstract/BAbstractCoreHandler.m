@@ -25,6 +25,9 @@
                                                           // Resets the view which the tab bar loads on
                                                           _currentUser = Nil;
                                                       }];
+        
+
+
     }
     return self;
 }

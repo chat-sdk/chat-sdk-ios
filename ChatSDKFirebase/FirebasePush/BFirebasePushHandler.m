@@ -10,9 +10,14 @@
 #import <UIKit/UIKit.h>
 #import <AFNetworking/AFNetworking.h>
 #import <ChatSDK/ChatCore.h>
+#import <UserNotifications/UserNotifications.h>
 
 #define bPushThreadEntityID @"chat_sdk_thread_entity_id"
 #define bPushUserEntityID @"chat_sdk_user_entity_id"
+
+#define bChatSDKNotificationCategory @"co.chatsdk.QuickReply"
+#define bChatSDKReplyAction @"co.chatsdk.ReplyAction"
+#define bChatSDKOpenAppAction @"co.chatsdk.OpenAppAction"
 
 @implementation BFirebasePushHandler
 
@@ -20,6 +25,51 @@
     if((self = [super init])) {
 //        [FIRApp configure];
         [FIRMessaging messaging].delegate = self;
+        
+        // Send a local notification when a message comes in
+        [NM.hook addHook:[BHook hook:^(NSDictionary * value) {
+            id<PMessage> message = (id<PMessage>) value[bHookMessageReceived_PMessage];
+            
+            if (!message.senderIsMe) {
+                
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+
+//                UILocalNotification * notification = [[UILocalNotification alloc] init];
+//                notification.category = bChatSDKNotificationCategory;
+//                notification.fireDate = [NSDate date];
+//                notification.alertBody = message.textString;
+//                [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+                
+                UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+                content.title = [NSString localizedUserNotificationStringForKey:message.userModel.name arguments:nil];
+                content.body = [NSString localizedUserNotificationStringForKey:message.textString
+                                                                     arguments:nil];
+
+                content.sound = [UNNotificationSound defaultSound];
+                
+                /// 4. update application icon badge number
+                content.badge = @([[UIApplication sharedApplication] applicationIconBadgeNumber] + 1);
+
+                // Deliver the notification in five seconds.
+                UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger
+                                                              triggerWithTimeInterval:0.1f repeats:NO];
+                
+                UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:message.entityID
+                                                                                      content:content trigger:trigger];
+                /// 3. schedule localNotification
+                UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+                [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+                    if (!error) {
+                        NSLog(@"add NotificationRequest succeeded!");
+                    }
+                }];
+                
+            }
+            
+#endif
+            
+        }] withName: bHookMessageRecieved];
+        
     }
     return self;
 }
@@ -27,27 +77,63 @@
 -(void) registerForPushNotificationsWithApplication: (UIApplication *) app launchOptions: (NSDictionary *) options {
     
 
-//    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
-        UIUserNotificationType allNotificationTypes =
-        (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-        UIUserNotificationSettings *settings =
-        [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-//    } else {
-        // iOS 10 or later
+    
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-//        // For iOS 10 display notification (sent via APNS)
-//        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-//        UNAuthorizationOptions authOptions =
-//        UNAuthorizationOptionAlert
-//        | UNAuthorizationOptionSound
-//        | UNAuthorizationOptionBadge;
-//        [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:authOptions completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//        }];
+
+    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert
+                                                                        completionHandler:^(BOOL granted, NSError * error) {
+                                                                            if(granted) {
+                                                                                NSLog(@"Local notifications granted");
+
+                                                                                UNTextInputNotificationAction * replyAction = [UNTextInputNotificationAction actionWithIdentifier:bChatSDKReplyAction title:@"Reply" options:UNNotificationActionOptionForeground];
+                                                                                
+                                                                                UNNotificationAction * openAction = [UNNotificationAction actionWithIdentifier:bChatSDKReplyAction title:@"Open App" options:UNNotificationActionOptionForeground];
+                                                                                
+                                                                                UNNotificationCategory * category = [UNNotificationCategory categoryWithIdentifier:bChatSDKNotificationCategory actions:@[replyAction, openAction] intentIdentifiers:@[] options:0];
+
+                                                                                NSSet * categories = [NSSet setWithObjects:category, nil];
+                                                                                
+                                                                                [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:categories];
+
+                                                                            }
+    }];
+
+#else
+
+    UIUserNotificationType allNotificationTypes =
+    (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+    
+    UIMutableUserNotificationAction * replyAction = [[UIMutableUserNotificationAction alloc] init];
+    replyAction.identifier = bChatSDKReplyAction;
+    replyAction.title = @"Reply";
+    replyAction.activationMode = UIUserNotificationActivationModeBackground;
+    replyAction.authenticationRequired = NO;
+    replyAction.destructive = NO;
+    replyAction.behavior = UIUserNotificationActionBehaviorTextInput;
+    
+    UIMutableUserNotificationAction * openAction = [[UIMutableUserNotificationAction alloc] init];
+    openAction.identifier = bChatSDKOpenAppAction;
+    openAction.title = @"Open App";
+    openAction.activationMode = UIUserNotificationActivationModeBackground;
+    openAction.authenticationRequired = NO;
+    openAction.destructive = NO;
+    openAction.behavior = UIUserNotificationActionBehaviorDefault;
+    
+    UIMutableUserNotificationCategory *notificationCategory = [[UIMutableUserNotificationCategory alloc] init];
+    [notificationCategory setIdentifier:bChatSDKNotificationCategory];
+    
+    [notificationCategory setActions:@[replyAction, openAction] forContext:UIUserNotificationActionContextDefault];
+    [notificationCategory setActions:@[replyAction, openAction] forContext:UIUserNotificationActionContextMinimal];
+    
+    NSSet * categories = [NSSet setWithArray:@[notificationCategory]];
+    
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:categories];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+
 #endif
-//    }
     
     [[UIApplication sharedApplication] registerForRemoteNotifications];
+    
     
     NSString *fcmToken = [FIRMessaging messaging].FCMToken;
     NSLog(@"FCM registration token: %@", fcmToken);
@@ -142,16 +228,18 @@
 //                            bBadge: @"Increment",
 //                            bIOSSound: bDefault};
 //
-    NSDictionary * dict = @{@"title": message.userModel.name ? message.userModel.name : @"",
-                            @"body": text ? text : @"",
-                            @"badge": @1,
-                            bPushThreadEntityID: message.thread.entityID,
+    NSDictionary * data = @{bPushThreadEntityID: message.thread.entityID,
                             bPushUserEntityID: message.userModel.entityID};
+    
+    NSDictionary * notification = @{@"title": message.userModel.name ? message.userModel.name : @"",
+                                    @"body": text ? text : @"",
+                                    @"badge": @1,
+                                    @"click_action": bChatSDKNotificationCategory};
 
-    [self pushToUsers:users withData:dict];
+    [self pushToUsers:users withNotification: notification withData:data];
 }
 
--(void) pushToUsers: (NSArray *) users withData: (NSDictionary *) data {
+-(void) pushToUsers: (NSArray *) users withNotification: (NSDictionary *) notification withData: (NSDictionary *) data {
     // We're identifying each user using push channels. This means that
     // when a user signs up, they register with parse on a particular
     // channel. In this case user_[user id] this means that we can
@@ -164,11 +252,11 @@
             [userChannels addObject:pushToken];
     }
     
-    [self pushToChannels:userChannels withData:data];
+    [self pushToChannels:userChannels withNotification:notification withData:data];
 
 }
 
--(void) pushToChannels: (NSArray *) channels withData:(NSDictionary *) data {
+-(void) pushToChannels: (NSArray *) channels withNotification: (NSDictionary *) notification withData:(NSDictionary *) data {
     
 //    NSString * topic = @"";
 //    for(NSString * channel in channels) {
@@ -195,9 +283,10 @@
         [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         
         NSDictionary *params = @{@"to": channel,
-                                 @"notification": data,
+                                 @"notification": notification,
                                  @"sound": [BChatSDK config].pushNotificationSound,
-                                 @"data": data};
+                                 @"data": data,
+                                 };
         
         [manager POST:@"https://fcm.googleapis.com/fcm/send" parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject) {
             NSLog(@"JSON: %@", responseObject);
