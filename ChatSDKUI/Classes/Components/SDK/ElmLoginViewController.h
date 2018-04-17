@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (weak, nonatomic) IBOutlet UIButton *googleButton;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 
 @property (nonatomic, readwrite, weak) id<ElmLoginViewDelegate> delegate;
 

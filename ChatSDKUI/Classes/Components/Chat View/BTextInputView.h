@@ -39,5 +39,6 @@
 -(BOOL) resignTextViewFirstResponder;
 -(void) becomeTextViewFirstResponder;
 -(void) setOptionsButtonHidden: (BOOL) hidden;
+-(void) setMicButtonEnabled: (BOOL) enabled;
 
 @end
