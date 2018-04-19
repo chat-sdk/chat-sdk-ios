@@ -243,4 +243,13 @@
     return [[BTextInputView alloc] initWithFrame:CGRectZero];
 }
 
+-(BOOL) shouldShowLocalNotifications: (id) notification {
+    return _showLocalNotifications;
+}
+
+-(void) setShowLocalNotifications: (BOOL) show {
+    _showLocalNotifications = show;
+}
+
+
 @end

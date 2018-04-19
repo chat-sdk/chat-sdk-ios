@@ -29,6 +29,7 @@
     NSMutableArray * _additionalChatOptions;
     NSMutableArray * _additionalTabBarViewControllers;
     NSMutableDictionary * _additionalSearchViewControllers;
+    BOOL _showLocalNotifications;
 }
 
 @end
