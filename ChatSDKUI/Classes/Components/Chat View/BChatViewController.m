@@ -148,7 +148,7 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[BInterfaceManager sharedManager].a setShowLocalMessageNotification:NO];
+    [[BInterfaceManager sharedManager].a setShowLocalNotifications:NO];
     [self updateMessages];
 }
 

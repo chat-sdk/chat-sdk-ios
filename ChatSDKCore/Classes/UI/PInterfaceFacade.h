@@ -59,8 +59,8 @@
 
 -(UIColor *) colorForName: (NSString *) name;
 
--(BOOL) showLocalMessageNotification;
--(void) setShowLocalMessageNotification: (BOOL) shouldShow;
+-(BOOL) showLocalNotification: (id) notification;
+-(void) setShowLocalNotifications: (BOOL) shouldShow;
 
 @end
 

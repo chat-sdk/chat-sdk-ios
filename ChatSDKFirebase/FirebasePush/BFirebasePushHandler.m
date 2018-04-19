@@ -11,6 +11,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <ChatSDK/ChatCore.h>
 #import <UserNotifications/UserNotifications.h>
+#import "BLocalNotificationDelegate.h"
 
 #define bPushThreadEntityID @"chat_sdk_thread_entity_id"
 #define bPushUserEntityID @"chat_sdk_user_entity_id"
@@ -33,29 +34,25 @@
             if (!message.senderIsMe) {
                 
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-
-//                UILocalNotification * notification = [[UILocalNotification alloc] init];
-//                notification.category = bChatSDKNotificationCategory;
-//                notification.fireDate = [NSDate date];
-//                notification.alertBody = message.textString;
-//                [[UIApplication sharedApplication] scheduleLocalNotification:notification];
                 
                 UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
                 content.title = [NSString localizedUserNotificationStringForKey:message.userModel.name arguments:nil];
                 content.body = [NSString localizedUserNotificationStringForKey:message.textString
                                                                      arguments:nil];
-
                 content.sound = [UNNotificationSound defaultSound];
                 
                 /// 4. update application icon badge number
                 content.badge = @([[UIApplication sharedApplication] applicationIconBadgeNumber] + 1);
 
+                content.categoryIdentifier = bChatSDKNotificationCategory;
+
                 // Deliver the notification in five seconds.
                 UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger
-                                                              triggerWithTimeInterval:0.1f repeats:NO];
+                                                              triggerWithTimeInterval:1 repeats:NO];
                 
                 UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:message.entityID
-                                                                                      content:content trigger:trigger];
+                                                                                      content:content
+                                                                                      trigger:trigger];
                 /// 3. schedule localNotification
                 UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
                 [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
@@ -76,11 +73,11 @@
 
 -(void) registerForPushNotificationsWithApplication: (UIApplication *) app launchOptions: (NSDictionary *) options {
     
-
-    
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 
-    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert
+    UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
+    
+    [center requestAuthorizationWithOptions:UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert
                                                                         completionHandler:^(BOOL granted, NSError * error) {
                                                                             if(granted) {
                                                                                 NSLog(@"Local notifications granted");
@@ -93,12 +90,19 @@
 
                                                                                 NSSet * categories = [NSSet setWithObjects:category, nil];
                                                                                 
-                                                                                [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:categories];
+                                                                                [center setNotificationCategories:categories];
+                                                                                notificationDelegate = [[BLocalNotificationDelegate alloc] init];
+                                                                                center.delegate = notificationDelegate;
+                                                                                
+                                                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                    [[UIApplication sharedApplication] registerForRemoteNotifications];
+                                                                                });
 
                                                                             }
     }];
 
 #else
+    
 
     UIUserNotificationType allNotificationTypes =
     (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
@@ -128,11 +132,12 @@
     NSSet * categories = [NSSet setWithArray:@[notificationCategory]];
     
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:categories];
+
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
 
 #endif
     
-    [[UIApplication sharedApplication] registerForRemoteNotifications];
     
     
     NSString *fcmToken = [FIRMessaging messaging].FCMToken;
@@ -296,6 +301,5 @@
     }
     
 }
-
 
 @end
