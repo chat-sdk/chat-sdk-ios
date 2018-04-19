@@ -45,6 +45,8 @@
 -(RXPromise *) logout {
     RXPromise * promise = [RXPromise new];
     
+    id<PUser> user = NM.currentUser;
+    
     // Stop observing the user
     if(self.currentUserEntityID) {
         [BStateManager userOff: self.currentUserEntityID];
@@ -63,7 +65,10 @@
         [self setLoginInfo:Nil];
         
         [[NSNotificationCenter  defaultCenter] postNotificationName:bNotificationBadgeUpdated object:Nil];
-                
+        
+        NSDictionary * data = @{bHookLogout_PUser: user};
+        [NM.hook executeHookWithName:bHookLogout data:data];
+        
         [promise resolveWithResult:Nil];
     }
     else {

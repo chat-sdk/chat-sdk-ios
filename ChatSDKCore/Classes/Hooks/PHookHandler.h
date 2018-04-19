@@ -18,6 +18,10 @@
 #define bHookMessageRecieved @"bHookMessageRecieved"
 #define bHookMessageReceived_PMessage @"bHookMessageReceived_PMessage"
 
+#define bHookLogout @"bHookLogout"
+#define bHookLogout_PUser @"bHookLogout_PUser"
+
+
 @class BHook;
 
 @protocol PHookHandler <NSObject>
