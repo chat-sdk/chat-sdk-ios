@@ -15,6 +15,7 @@
                 <outlet property="chatImageView" destination="iqu-5d-jZf" id="L74-D1-Ht3"/>
                 <outlet property="emailField" destination="Yy7-xO-WLG" id="6he-m2-ZSb"/>
                 <outlet property="facebookButton" destination="8xt-b0-3Uh" id="4z3-gV-T8f"/>
+                <outlet property="forgotPasswordButton" destination="Y5g-BS-zPe" id="8Ef-6h-aNO"/>
                 <outlet property="googleButton" destination="ySd-IY-GlQ" id="LS3-78-ZTw"/>
                 <outlet property="loginButton" destination="WlM-w5-GCE" id="0Ks-nv-itY"/>
                 <outlet property="passwordField" destination="pTU-Xn-wwY" id="5Ng-zd-Z1v"/>
@@ -62,14 +63,14 @@
                         <constraint firstAttribute="height" constant="120" id="h0p-62-JdG"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat SDK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCJ-rr-kr4">
-                    <rect key="frame" x="117.5" y="251.5" width="140" height="38"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by Chat SDK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCJ-rr-kr4">
+                    <rect key="frame" x="62.5" y="252" width="250" height="38"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="38" id="1yU-Cm-SqJ"/>
-                        <constraint firstAttribute="width" constant="140" id="CNG-d8-TOC"/>
+                        <constraint firstAttribute="width" constant="250" id="CNG-d8-TOC"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="italicSystem" pointSize="20"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WlM-w5-GCE">
@@ -199,6 +200,7 @@
                 <constraint firstItem="WlM-w5-GCE" firstAttribute="leading" secondItem="Hre-W7-hiD" secondAttribute="leading" id="uU9-Ij-7so"/>
                 <constraint firstAttribute="centerY" secondItem="iqu-5d-jZf" secondAttribute="centerY" priority="800" constant="150" id="wiS-c3-8h1"/>
             </constraints>
+            <point key="canvasLocation" x="33.5" y="54.5"/>
         </view>
     </objects>
     <resources>

@@ -31,5 +31,6 @@
 -(void) reloadData;
 -(void) setEditingEnabled: (BOOL) enabled;
 -(void) toggleEditing;
+-(void) createThread;
 
 @end

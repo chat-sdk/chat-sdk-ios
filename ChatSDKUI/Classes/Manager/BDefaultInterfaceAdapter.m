@@ -244,11 +244,13 @@
 }
 
 -(BOOL) showLocalNotification: (id) notification {
-    return _showLocalMessageNotification && [BChatSDK config].showLocalNotifications;
+    return _showLocalNotifications && [BChatSDK config].showLocalNotifications;;
 }
 
--(void) setShowLocalNotifications: (BOOL) shouldShow {
-    _showLocalMessageNotification = shouldShow;
+-(void) setShowLocalNotifications: (BOOL) show {
+    _showLocalNotifications = show;
 }
+
+
 
 @end

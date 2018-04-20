@@ -45,6 +45,7 @@
 "bCreatingThread" = "Creating thread";
 "bLogoutErrorTitle" = "Logout error";
 "bAuthenticating" = "Authenticating";
+"bOpen" = "Open";
 
 "bFlagged" = "Flagged";
 "bFlag" = "Flag";
@@ -74,6 +75,7 @@
 "bChooseExistingVideo" = "Choose existing video";
 "bCurrentLocation" = "Current location";
 "bSend" = "Send";
+"bReply" = "Reply";
 "bRec" = "Record";
 "bWriteSomething" = "Write something...";
 "bName" = "Name";

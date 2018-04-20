@@ -80,6 +80,8 @@
 #define bChooseExistingVideo @"bChooseExistingVideo"
 #define bCurrentLocation @"bCurrentLocation"
 #define bSend @"bSend"
+#define bOpen @"bOpen"
+#define bReply @"bReply"
 #define bRec @"bRec"
 #define bWriteSomething @"bWriteSomething"
 #define bFlagged @"bFlagged"

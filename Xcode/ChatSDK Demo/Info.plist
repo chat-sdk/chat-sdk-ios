@@ -68,18 +68,20 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>To send an image message</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>To save the photo to your library</string>
 	<key>NSContactsUsageDescription</key>
-	<string>ChatSDK would like to check if any of your contacts use this app</string>
+	<string>To check if any of your contacts use this app</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Chat SDK would like to send location messages</string>
+	<string>To send location messages</string>
 	<key>NSLocationUsageDescription</key>
 	<string>To send location messages</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Chat SDK would like to send location messages</string>
+	<string>To send location messages</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To send audio messages</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>ChatSDK would like to access your photos to customise your profile or image message</string>
+	<string>To access your photos to customise your profile or image message</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

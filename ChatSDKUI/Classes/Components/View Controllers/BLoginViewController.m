@@ -66,6 +66,15 @@
     if(BChatSDK.shared.configuration.loginScreenAppName) {
         self.titleLabel.text = BChatSDK.shared.configuration.loginScreenAppName;
     }
+    else {
+        // TODO: Convert this to a text view rather than a link...
+//        NSString * poweredBy = @"Powered by ";
+//        NSString * chatSDK = @"Chat SDK";
+//        NSString * fullString = [poweredBy stringByAppendingString:chatSDK];
+//        NSMutableAttributedString * str = [[NSMutableAttributedString alloc] initWithString:fullString];
+//        [str addAttribute: NSLinkAttributeName value: @"http://www.chatsdk.co" range: NSMakeRange(poweredBy.length, chatSDK.length)];
+//        self.titleLabel.attributedText = str;
+    }
     
 }
 

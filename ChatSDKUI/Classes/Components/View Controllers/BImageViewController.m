@@ -92,11 +92,16 @@
 }
 
 -(void) save {
-    UIImageWriteToSavedPhotosAlbum(image, self, @selector(didFinishSavingWithError:context:), Nil);
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), Nil);
 }
 
--(void) didFinishSavingWithError: (NSError *) error context: (id) context  {
-    [self.view makeToast:[NSBundle t:bBack]];
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo  {
+    if (error) {
+        [self.view makeToast:error.localizedDescription];
+    }
+    else {
+        [self.view makeToast:[NSBundle t:bSuccess]];
+    }
 }
 
 @end

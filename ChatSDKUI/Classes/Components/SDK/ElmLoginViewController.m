@@ -29,6 +29,8 @@
 @synthesize twitterButton;
 @synthesize googleButton;
 
+@synthesize forgotPasswordButton;
+
 @synthesize delegate;
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
