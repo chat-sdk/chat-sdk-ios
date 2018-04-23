@@ -244,7 +244,7 @@
 }
 
 -(BOOL) showLocalNotification: (id) notification {
-    return _showLocalNotifications && [BChatSDK config].showLocalNotifications;;
+    return _showLocalNotifications && [BChatSDK config].showLocalNotifications;
 }
 
 -(void) setShowLocalNotifications: (BOOL) show {

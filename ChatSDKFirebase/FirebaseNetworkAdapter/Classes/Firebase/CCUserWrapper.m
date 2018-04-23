@@ -396,6 +396,7 @@
     return @{b_Meta: _model.metaDictionary};
 }
 
+// TODO: Find a way to determine if the meta has actually been updated i.e. is it different?
 -(RXPromise *) deserializeMeta: (NSDictionary *) value {
     // Get the user's meta data
     NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:_model.metaDictionary];

@@ -113,7 +113,10 @@
                                                                        queue:Nil
                                                                   usingBlock:^(NSNotification * notification) {
                                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                                          [weakSelf updateMessages];
+                                                                          id<PUser> user = notification.userInfo[bNotificationUserUpdated_PUser];
+                                                                          if (user && [_thread.users containsObject:user]) {
+                                                                              [weakSelf updateMessages];
+                                                                          }
                                                                       });
     }]];
     
@@ -193,17 +196,20 @@
 }
 
 -(RXPromise *) sendText: (NSString *) text withMeta:(NSDictionary *)meta {
-    return [self handleMessageSend:[NM.core sendMessageWithText:text withThreadEntityID:_thread.entityID withMetaData:meta]];
+    return [self handleMessageSend:[NM.core sendMessageWithText:text
+                                             withThreadEntityID:_thread.entityID
+                                                   withMetaData:meta]];
 }
 
 -(RXPromise *) sendText: (NSString *) text {
-    return [self handleMessageSend:[NM.core sendMessageWithText:text withThreadEntityID:_thread.entityID]];
+    return [self handleMessageSend:[NM.core sendMessageWithText:text
+                                             withThreadEntityID:_thread.entityID]];
 }
 
 -(RXPromise *) sendImage: (UIImage *) image {
     if (NM.imageMessage) {
         return [self handleMessageSend:[NM.imageMessage sendMessageWithImage:image
-                                                                                         withThreadEntityID:_thread.entityID]];
+                                                          withThreadEntityID:_thread.entityID]];
     }
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bImageMessagesNotSupported];
 }
@@ -211,7 +217,7 @@
 -(RXPromise *) sendLocation: (CLLocation *) location {
     if (NM.locationMessage) {
         return [self handleMessageSend:[NM.locationMessage sendMessageWithLocation:location
-                                                                                               withThreadEntityID:_thread.entityID]];
+                                                                withThreadEntityID:_thread.entityID]];
     }
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bLocationMessagesNotSupported];
 }
@@ -219,8 +225,8 @@
 -(RXPromise *) sendAudio: (NSData *) audio withDuration: (double) duration {
     if (NM.audioMessage) {
         return [self handleMessageSend:[NM.audioMessage sendMessageWithAudio:audio
-                                                                                                   duration:duration
-                                                                                         withThreadEntityID:_thread.entityID]];
+                                                                    duration:duration
+                                                          withThreadEntityID:_thread.entityID]];
     }
     
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bAudioMessagesNotSupported];
@@ -289,7 +295,7 @@
         [_messageCache removeAllObjects];
 
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        NSCalendar *calendar = [NSCalendar currentCalendar];
+//        NSCalendar *calendar = [NSCalendar currentCalendar];
         dateFormatter.dateFormat = @"ddMMyyyy";
 
         // Don't load any additional messages - we will already load the

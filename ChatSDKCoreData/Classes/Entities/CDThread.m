@@ -82,7 +82,7 @@
 -(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages {
     
     NSInteger count = _messagesWorkingList.count + numberOfMessages;
-    count = MIN(count, [BChatSDK config].chatMessagesToLoad);
+    count = MAX(count, [BChatSDK config].chatMessagesToLoad);
     
     // Get the next batch of messages
     [_messagesWorkingList removeAllObjects];

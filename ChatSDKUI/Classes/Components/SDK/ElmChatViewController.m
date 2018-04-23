@@ -571,7 +571,8 @@
 }
 
 -(BOOL) hideOptions {
-    [_sendBarView becomeFirstResponder];
+    [_sendBarView becomeTextViewFirstResponder];
+
     _keyboardOverlay.alpha = 0;
     _keyboardOverlay.userInteractionEnabled = NO;
     return [_optionsHandler hide];
@@ -596,6 +597,7 @@
 
 // TODO: Change this to handleMessageSend
 -(void) chatOptionActionExecuted:(RXPromise *)promise {
+    
     [self handleMessageSend:promise];
     __weak __typeof__(self) weakSelf = self;
     promise.thenOnMain(^id(id success) {

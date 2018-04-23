@@ -140,9 +140,17 @@
     [NM.core setUserOnline];
     [NM.core saveToStore];
     
-    // Should we enable or disable local notifications? We want to show them on every tab that isn't the thread view
-    BOOL showNotification = ![viewController isEqual:[BInterfaceManager sharedManager].a.privateThreadsViewController] && ![viewController isEqual:[BInterfaceManager sharedManager].a.publicThreadsViewController];
-    [[BInterfaceManager sharedManager].a setShowLocalNotifications:showNotification];
+    if ([viewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController * nav = (UINavigationController *) viewController;
+        if (nav.viewControllers.count) {
+            // Should we enable or disable local notifications? We want to show them on every tab that isn't the thread view
+            BOOL showNotification = ![nav.viewControllers.firstObject isEqual:[BInterfaceManager sharedManager].a.privateThreadsViewController] && ![nav.viewControllers.firstObject isEqual:[BInterfaceManager sharedManager].a.publicThreadsViewController];
+            [[BInterfaceManager sharedManager].a setShowLocalNotifications:showNotification];
+            return;
+        }
+    }
+    [[BInterfaceManager sharedManager].a setShowLocalNotifications:NO];
+    
 }
 // End bug fix for v3.0.2
 
