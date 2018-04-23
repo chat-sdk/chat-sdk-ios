@@ -7,6 +7,7 @@
 
 #import "BConfiguration.h"
 #import <ChatSDK/ChatCore.h>
+#import <ChatSDK/BSettingsManager.h>
 
 @implementation BConfiguration
 
@@ -44,6 +45,17 @@
 @synthesize showUserAvatarsOn1to1Threads;
 @synthesize enableMessageModerationTab;
 @synthesize showLocalNotifications;
+@synthesize onlySendPushToOfflineUsers;
+@synthesize firebaseCloudMessagingServerKey;
+@synthesize twitterApiKey;
+@synthesize twitterSecret;
+@synthesize googleClientKey;
+@synthesize facebookAppId;
+@synthesize userChatInfoEnabled;
+
+@synthesize inviteByEmailTitle;
+@synthesize inviteByEmailBody;
+@synthesize inviteBySMSBody;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -67,6 +79,7 @@
         defaultServer = bServerXMPP;
         
         shouldOpenChatWhenPushNotificationClicked = YES;
+        onlySendPushToOfflineUsers = NO;
         
         includeMessagePayload = YES;
         includeMessageJSON = YES;
@@ -91,6 +104,23 @@
         
         defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage framework:@"ChatSDK" bundle:@"ChatCore"];
         
+        firebaseCloudMessagingServerKey = [BSettingsManager firebaseCloudMessagingServerKey];
+        rootPath = [BSettingsManager firebaseRootPath];
+        
+        twitterApiKey = [BSettingsManager twitterApiKey];
+        twitterSecret = [BSettingsManager twitterSecret];
+        
+        facebookAppId = [BSettingsManager facebookAppId];
+        
+        googleClientKey = [BSettingsManager googleClientKey];
+        
+        anonymousLoginEnabled = [BSettingsManager anonymousLoginEnabled];
+        
+        userChatInfoEnabled = [BSettingsManager userChatInfoEnabled];
+        
+        inviteByEmailTitle = [BSettingsManager property: bEmailTitle forModule: @"contact_book"];
+        inviteByEmailBody = [BSettingsManager property: bEmailBody forModule: @"contact_book"];
+        inviteBySMSBody = [BSettingsManager property: bSMSBody forModule: @"contact_book"];;
     }
     return self;
 }

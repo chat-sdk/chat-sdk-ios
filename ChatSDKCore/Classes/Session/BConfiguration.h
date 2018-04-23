@@ -7,6 +7,10 @@
 
 #import <Foundation/Foundation.h>
 
+#define bEmailTitle @"email_title"
+#define bEmailBody @"email_body"
+#define bSMSBody @"sms_body"
+
 @interface BConfiguration : NSObject {
     NSString * _defaultUserName;
 }
@@ -18,6 +22,9 @@
 // The Firebase root path. Data will be added to Firebase root/rootPath...
 // this allows you to run multiple chat instances on one Firebase database
 @property (nonatomic, readwrite) NSString * rootPath;
+
+// Firebase cloud messaging server key
+@property (nonatomic, readwrite) NSString * firebaseCloudMessagingServerKey;
 
 // Enable the unread messages count on the main app badge
 @property (nonatomic, readwrite) BOOL appBadgeEnabled;
@@ -48,6 +55,15 @@
 @property (nonatomic, readwrite) BOOL twitterLoginEnabled;
 @property (nonatomic, readwrite) BOOL anonymousLoginEnabled;
 
+// Twitter login credentials
+@property (nonatomic, readwrite) NSString * twitterApiKey;
+@property (nonatomic, readwrite) NSString * twitterSecret;
+
+// Google login credentials
+@property (nonatomic, readwrite) NSString * googleClientKey;
+
+@property (nonatomic, readwrite) NSString * facebookAppId;
+
 // The the image to be displayed on the login screen. Image should be
 // 120x120px
 @property (nonatomic, readwrite) UIImage * loginScreenLogoImage;
@@ -64,6 +80,14 @@
 // Allow the owner of a public thread to delete it
 @property (nonatomic, readwrite) BOOL allowPublicThreadDeletion;
 
+// Can the user click the title bar to open the chat info
+@property (nonatomic, readwrite) BOOL userChatInfoEnabled;
+
+// Phone book module invite by email title and body
+@property (nonatomic, readwrite) NSString * inviteByEmailTitle;
+@property (nonatomic, readwrite) NSString * inviteByEmailBody;
+@property (nonatomic, readwrite) NSString * inviteBySMSBody;
+
 // Message fonts
 @property (nonatomic, readwrite) UIFont * messageTextFont;
 @property (nonatomic, readwrite) NSString * messageTextColorMe;
@@ -79,11 +103,15 @@
 @property (nonatomic, readwrite) BOOL locationMessagesEnabled;
 @property (nonatomic, readwrite) BOOL imageMessagesEnabled;
 
+
 // How many messages should be loaded initially when a chat is opened
 @property (nonatomic, readwrite) int chatMessagesToLoad;
 
 // Push notification sound - name of sound file to play i.e. "mySound"
 @property (nonatomic, readwrite) NSString * pushNotificationSound;
+
+// If this is true, then we will only send a push notification if the recipient is offline
+@property (nonatomic, readwrite) BOOL onlySendPushToOfflineUsers;
 
 @property (nonatomic, readwrite) NSString * googleMapsApiKey;
 

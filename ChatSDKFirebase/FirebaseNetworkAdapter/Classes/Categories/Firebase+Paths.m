@@ -10,14 +10,13 @@
 
 #import "ChatFirebaseAdapter.h"
 
-#import <ChatSDK/BSettingsManager.h>
 #import <ChatSDK/BKeys.h>
 
 @implementation FIRDatabaseReference (Paths)
 
 
 +(FIRDatabaseReference *) firebaseRef {
-    return [[[FIRDatabase database] reference] c: [BSettingsManager firebaseRootPath]];
+    return [[[FIRDatabase database] reference] c: BChatSDK.config.rootPath];
 }
 
 -(FIRDatabaseReference *) c: (NSString *) component {

@@ -7,7 +7,6 @@
 //
 
 #import "BGoogleLoginViewController.h"
-#import "BSettingsManager.h"
 #import "KeepLayout.h"
 
 #import <ChatSDK/ChatCore.h>
@@ -47,7 +46,7 @@
   
     [GIDSignIn sharedInstance].delegate = self;
     [GIDSignIn sharedInstance].uiDelegate = self;
-    [GIDSignIn sharedInstance].clientID = [BSettingsManager googleClientKey];
+    [GIDSignIn sharedInstance].clientID = BChatSDK.config.googleClientKey;
 
     [[GIDSignIn sharedInstance] setScopes:@[@"https://www.googleapis.com/auth/plus.login", @"https://www.googleapis.com/auth/plus.me"]];
 }

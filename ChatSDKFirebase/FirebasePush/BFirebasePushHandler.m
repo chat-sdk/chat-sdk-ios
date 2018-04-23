@@ -230,6 +230,7 @@
     NSDictionary * notification = @{@"title": message.userModel.name ? message.userModel.name : @"",
                                     @"body": text ? text : @"",
                                     @"badge": @1,
+                                    @"priority": @"high",
                                     @"click_action": bChatSDKNotificationCategory};
 
     [self pushToUsers:users withNotification: notification withData:data];
@@ -244,7 +245,7 @@
     id<PUser> currentUserModel = NM.currentUser;
     for (id<PUser> user in users) {
         NSString * pushToken = [user metaValueForKey:bUserPushTokenKey];
-        if(![user isEqual:currentUserModel] && pushToken /* && !user.online.boolValue */)
+        if(![user isEqual:currentUserModel] && pushToken && (!user.online.boolValue || !BChatSDK.config.onlySendPushToOfflineUsers))
             [userChannels addObject:pushToken];
     }
     
@@ -254,16 +255,7 @@
 
 -(void) pushToChannels: (NSArray *) channels withNotification: (NSDictionary *) notification withData:(NSDictionary *) data {
     
-//    NSString * topic = @"";
-//    for(NSString * channel in channels) {
-//        NSString * t = [NSString stringWithFormat:@"'%@' in topics", [self safeChannel:channel]];
-//        topic = [topic stringByAppendingString:t];
-//        if(![channel isEqualToString:channels.lastObject]) {
-//            topic = [topic stringByAppendingString:@" && "];
-//        }
-//    }
-
-    NSString * serverKey = [NSString stringWithFormat:@"key=%@", [BSettingsManager firebaseCloudMessagingServerKey]];
+    NSString * serverKey = [NSString stringWithFormat:@"key=%@", BChatSDK.config.firebaseCloudMessagingServerKey];
 
     for(NSString * channel in channels) {
         
@@ -280,9 +272,8 @@
         
         NSDictionary *params = @{@"to": channel,
                                  @"notification": notification,
-                                 @"sound": [BChatSDK config].pushNotificationSound,
                                  @"data": data,
-                                 };
+                                 @"sound": [BChatSDK config].pushNotificationSound};
         
         [manager POST:@"https://fcm.googleapis.com/fcm/send" parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject) {
             NSLog(@"JSON: %@", responseObject);

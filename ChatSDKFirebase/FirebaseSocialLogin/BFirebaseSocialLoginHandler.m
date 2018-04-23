@@ -37,8 +37,8 @@
 
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
-    [[Twitter sharedInstance] startWithConsumerKey:[BSettingsManager twitterApiKey]
-                                    consumerSecret:[BSettingsManager twitterSecret]];
+    [[Twitter sharedInstance] startWithConsumerKey:BChatSDK.config.twitterApiKey
+                                    consumerSecret:BChatSDK.config.twitterSecret];
 
 }
 

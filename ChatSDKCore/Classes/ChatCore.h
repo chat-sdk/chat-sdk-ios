@@ -23,7 +23,6 @@
 
 #import <ChatSDK/BNetworkManager.h>
 #import <ChatSDK/BStorageManager.h>
-#import <ChatSDK/BSettingsManager.h>
 #import <ChatSDK/BNetworkFacade.h>
 #import <ChatSDK/BAbstractNetworkAdapter.h>
 #import <ChatSDK/BBaseHookHandler.h>

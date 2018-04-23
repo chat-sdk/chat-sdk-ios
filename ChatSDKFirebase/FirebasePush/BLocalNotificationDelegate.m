@@ -48,9 +48,11 @@
             }
         }
     }
-    if ([response.actionIdentifier isEqualToString:bChatSDKOpenAppAction]) {
+//    if ([response.actionIdentifier isEqualToString:bChatSDKOpenAppAction]) {
+    else {
         [BChatSDK application:[UIApplication sharedApplication] didReceiveRemoteNotification:userInfo];
     }
+//    }
 
     completionHandler();
 }

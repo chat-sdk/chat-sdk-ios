@@ -55,7 +55,7 @@
 
 -(void) updateSubtitle {
     
-    if ([BSettingsManager userChatInfoEnabled]) {
+    if (BChatSDK.config.userChatInfoEnabled) {
         [self setSubtitle:[NSBundle t: bTapHereForContactInfo]];
     }
     
@@ -175,9 +175,6 @@
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
-    [_thread clearMessageCache];
-    //[[SDImageCache sharedImageCache] clearMemory];
     
     // Remove the user from the thread
     if (_thread.type.intValue & bThreadFilterPublic && !_usersViewLoaded) {
@@ -373,6 +370,10 @@
     UINavigationController * nvc = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nvc animated:YES completion:nil];
     
+}
+
+-(void) dealloc {
+    [_thread clearMessageCache];
 }
 
 

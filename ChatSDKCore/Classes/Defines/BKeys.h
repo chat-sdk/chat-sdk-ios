@@ -38,6 +38,7 @@
 #define b_TypeV4 @"type_v4"
 #define b_Date @"date"
 #define b_UserFirebaseID @"user-firebase-id"
+#define b_FirebaseID @"user-firebase-id"
 #define b_CreatorEntityID @"creator-entity-id"
 #define b_SenderEntityID @"sender-entity-id"
 #define b_LastMessage @"lastMessage"
