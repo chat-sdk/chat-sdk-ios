@@ -224,10 +224,15 @@
     // Format the message that we're going to push
     NSString * text = [NSBundle textForMessage: message];
     
-    NSDictionary * data = @{bPushThreadEntityID: message.thread.entityID,
+    NSString * title = message.userModel.name ? message.userModel.name : @"";
+    
+    NSDictionary * data = @{
+//                            @"title": title,
+//                            @"body": text ? text : @"",
+                            bPushThreadEntityID: message.thread.entityID,
                             bPushUserEntityID: message.userModel.entityID};
     
-    NSDictionary * notification = @{@"title": message.userModel.name ? message.userModel.name : @"",
+    NSDictionary * notification = @{@"title": title,
                                     @"body": text ? text : @"",
                                     @"badge": @1,
                                     @"priority": @"high",
@@ -273,7 +278,11 @@
         NSDictionary *params = @{@"to": channel,
                                  @"notification": notification,
                                  @"data": data,
-                                 @"sound": [BChatSDK config].pushNotificationSound};
+                                 @"sound": [BChatSDK config].pushNotificationSound,
+//                                 @"apns": @{
+//                                         @"notification": notification
+//                                         }
+                                 };
         
         [manager POST:@"https://fcm.googleapis.com/fcm/send" parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject) {
             NSLog(@"JSON: %@", responseObject);
