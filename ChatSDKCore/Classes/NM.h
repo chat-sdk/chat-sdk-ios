@@ -32,6 +32,7 @@
 +(id<PNearbyUsersHandler>) nearbyUsers;
 +(id<PReadReceiptHandler>) readReceipt;
 +(id<PStickerMessageHandler>) stickerMessage;
++(id<PFileMessageHandler>) fileMessage;
 +(id<PSocialLoginHandler>) socialLogin;
 +(id<PUser>) currentUser;
 +(id) handler: (NSString *) name;

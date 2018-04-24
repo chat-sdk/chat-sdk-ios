@@ -39,6 +39,8 @@ typedef enum {
 #define bMessageImageWidth @"image-width"
 #define bMessageImageHeight @"image-height"
 #define bMessageVideoURL @"video-url"
+#define bMessageFileURL @"file-url"
+#define bMessageMimeType @"mime-type"
 
 #define bMessageLongitude @"longitude"
 #define bMessageLatitude @"latitude"

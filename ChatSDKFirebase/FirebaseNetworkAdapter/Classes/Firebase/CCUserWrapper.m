@@ -144,7 +144,7 @@
     // Only set the user picture if they are logging on the first time
     if (url && !user.thumbnail) {
         
-        return [BCoreUtilities fetchImageFromURL:url].thenOnMain(^id(UIImage * image) {
+        return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:url]].thenOnMain(^id(UIImage * image) {
             
             if(image) {
                 

@@ -38,6 +38,9 @@
     else if(message.type.intValue == bMessageTypeSticker) {
         text = [self core_t:bStickerMessage];
     }
+    else if(message.type.intValue == bMessageTypeFile) {
+        text = [self core_t:bFileMessage];
+    }
     else {
         text = message.textString;
     }

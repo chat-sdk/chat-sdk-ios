@@ -118,7 +118,7 @@
         // Then try to load the image from the URL
         NSString * imageURL = [self metaStringForKey:bUserPictureURLKey];
         if (imageURL) {
-            return [BCoreUtilities fetchImageFromURL:imageURL].thenOnMain(^id(UIImage * image) {
+            return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:imageURL]].thenOnMain(^id(UIImage * image) {
                 if(image) {
                     [self setImage:UIImagePNGRepresentation(image)];
                 }
@@ -144,7 +144,7 @@
         // Then try to load the image from the URL
         NSString * imageURL = [self metaStringForKey:bUserPictureURLKey];
         if (imageURL) {
-            return [BCoreUtilities fetchImageFromURL:imageURL].thenOnMain(^id(UIImage * image) {
+            return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:imageURL]].thenOnMain(^id(UIImage * image) {
                 if(image) {
                     [self setThumbnail:UIImagePNGRepresentation(image)];
                 }

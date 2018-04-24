@@ -46,6 +46,8 @@
             return 50;
         case bMessageTypeSticker:
             return 140;
+        case bMessageTypeFile:
+            return 60;
         default:
             return [self getTextHeightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageWidth]];
     }
@@ -64,6 +66,8 @@
             return bMaxMessageWidth;
         case bMessageTypeSticker:
             return 140;
+        case bMessageTypeFile:
+            return 200;
         default:
             return bMaxMessageWidth;
     }
@@ -112,9 +116,9 @@
         case bMessageTypeVideo:
         case bMessageTypeSystem:
         case bMessageTypeSticker:
+        case bMessageTypeFile:
             return 2.0;
         case bMessageTypeCustom:
-        case bMessageTypeFile:
         default:
             return 0;
     }
@@ -123,6 +127,7 @@
 -(float) bubblePadding {
     switch ((bMessageType)_message.type.intValue) {
         case bMessageTypeText:
+        case bMessageTypeFile:
             return 12.0;
         case bMessageTypeImage:
         case bMessageTypeLocation:
@@ -134,7 +139,6 @@
         case bMessageTypeSticker:
             return 0.0;
         case bMessageTypeCustom:
-        case bMessageTypeFile:
         default:
             return 0;
     }
@@ -149,9 +153,9 @@
         case bMessageTypeVideo:
         case bMessageTypeSticker:
         case bMessageTypeSystem:
+        case bMessageTypeFile:
             return 4.0;
         case bMessageTypeCustom:
-        case bMessageTypeFile:
         default:
             return 0;
     }

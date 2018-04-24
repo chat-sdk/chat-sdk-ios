@@ -19,7 +19,8 @@
 
 @interface BCoreUtilities : NSObject
 
-+(RXPromise *) fetchImageFromURL: (NSString *) url;
++(NSURL *)getDocumentsURL;
++(RXPromise *)fetchImageFromURL:(NSURL *)url;
 +(NSString *)getUUID;
 
 +(MKCoordinateRegion) regionForLongitude: (double) longitude latitude: (double) latitude;

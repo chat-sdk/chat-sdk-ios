@@ -251,6 +251,13 @@
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bStickerMessagesNotSupported];
 }
 
+-(RXPromise *) sendFile: (NSDictionary *) file {
+    if([BNetworkManager sharedManager].a.fileMessage) {
+        return [self handleMessageSend:[[BNetworkManager sharedManager].a.fileMessage sendMessageWithFile:file andThreadEntityID:_thread.entityID]];
+    }
+    return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bFileMessagesNotSupported];
+}
+
 -(RXPromise *) setMessageFlagged: (id<PElmMessage>) message isFlagged: (BOOL) flagged {
     if (flagged) {
         return [NM.moderation unflagMessage:message.entityID];
@@ -353,6 +360,10 @@
     
     if([BNetworkManager sharedManager].a.stickerMessage) {
         [types addObject: @[NM.stickerMessage.messageCellClass, @(bMessageTypeSticker)]];
+    }
+    
+    if([BNetworkManager sharedManager].a.fileMessage) {
+        [types addObject: @[NM.fileMessage.messageCellClass, @(bMessageTypeFile)]];
     }
 
     return types;

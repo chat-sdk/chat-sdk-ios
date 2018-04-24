@@ -151,9 +151,11 @@
 #define bTyping @"bTyping"
 #define bLocation @"bLocation"
 #define bCamera @"bCamera"
+#define bPhoto @"bPhoto"
 #define bChoosePhoto @"bChoosePhoto"
 #define bChooseVideo @"bChooseVideo"
 #define bSticker @"bSticker"
+#define bFile @"bFile"
 #define bRefreshingUsers @"bRefreshingUsers"
 #define bMessageBurst @"bMessageBurst"
 
@@ -166,6 +168,7 @@
 #define bImageMessagesNotSupported @"bImageMessagesNotSupported"
 #define bAudioMessagesNotSupported @"bAudioMessagesNotSupported"
 #define bStickerMessagesNotSupported @"bStickerMessagesNotSupported"
+#define bFileMessagesNotSupported @"bFileMessagesNotSupported"
 #define bLocationMessagesNotSupported @"bLocationMessagesNotSupported"
 #define bVideoMessagesNotSupported @"bVideoMessagesNotSupported"
 

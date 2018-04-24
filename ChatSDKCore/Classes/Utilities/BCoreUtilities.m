@@ -12,28 +12,23 @@
 
 @implementation BCoreUtilities
 
-+(RXPromise *) fetchImageFromURL: (NSString *) url {
-    
-    RXPromise * promise = [RXPromise new];
-    
-    NSURL *imageUrl = [NSURL URLWithString:url];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        NSData * imageData = [NSData dataWithContentsOfURL:imageUrl];
-        
++ (NSURL *)getDocumentsURL {
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] firstObject];
+}
+
++(RXPromise *) fetchImageFromURL:(NSURL *)url {
+    return [BFileCache cacheFileFromURL:url].then(^id(NSURL * cacheURL) {
+        NSData * data = [NSData dataWithContentsOfURL:cacheURL];
+        RXPromise * promise = [RXPromise new];
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (imageData) {
-                UIImage * image = [UIImage imageWithData:imageData];
-                [promise resolveWithResult:image];
-            }
-            else {
-                [promise resolveWithResult:Nil];
+            if (data) {
+                [promise resolveWithResult:[UIImage imageWithData:data]];
+            } else {
+                [promise rejectWithReason:nil];
             }
         });
-    });
-    
-    return promise;
+        return promise;
+    }, nil);
 }
 
 +(NSString *)getUUID {

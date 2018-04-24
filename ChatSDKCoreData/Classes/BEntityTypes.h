@@ -17,5 +17,6 @@
 #define bUserAccountEntity @"CDUserAccount"
 #define bUserPropertyEntity @"CDUserProperty"
 #define bMetaDataEntity @"CDMetaData"
+#define bMetaFileEntity @"CDFile"
 
 #endif /* BEntityTypes_h */
