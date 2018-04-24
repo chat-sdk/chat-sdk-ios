@@ -25,6 +25,7 @@
 -(RXPromise *) sendVideoMessage: (NSData *) video withCoverImage: (UIImage *) coverImage;
 -(RXPromise *) sendLocationMessage: (CLLocation *) location;
 -(RXPromise *) sendStickerMessage: (NSString *) name;
+-(RXPromise *) sendFileMessage: (NSDictionary *) file;
 -(void) hideKeyboard;
 -(UIView *) view;
 

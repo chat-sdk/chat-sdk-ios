@@ -33,6 +33,7 @@
 #import <ChatSDK/BBaseHookHandler.h>
 
 #import <ChatSDK/BCoreUtilities.h>
+#import <ChatSDK/BFileCache.h>
 
 #import <ChatSDK/PEntity.h>
 #import <ChatSDK/PEntityWrapper.h>
@@ -70,6 +71,7 @@
 #import <ChatSDK/PNearbyUsersHandler.h>
 #import <ChatSDK/PReadReceiptHandler.h>
 #import <ChatSDK/PStickerMessageHandler.h>
+#import <ChatSDK/PFileMessageHandler.h>
 #import <ChatSDK/BStorageAdapter.h>
 #import <ChatSDK/PSocialLoginHandler.h>
 #import <ChatSDK/NSBundle+Core.h>

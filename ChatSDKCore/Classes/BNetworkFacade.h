@@ -30,6 +30,7 @@
 @protocol PNearbyUsersHandler;
 @protocol PReadReceiptHandler;
 @protocol PStickerMessageHandler;
+@protocol PFileMessageHandler;
 @protocol PSocialLoginHandler;
 @protocol PHookHandler;
 @protocol PUsersHandler;
@@ -100,6 +101,7 @@
 -(id<PNearbyUsersHandler>) nearbyUsers;
 -(id<PReadReceiptHandler>) readReceipt;
 -(id<PStickerMessageHandler>) stickerMessage;
+-(id<PFileMessageHandler>) fileMessage;
 -(id<PSocialLoginHandler>) socialLogin;
 -(id<PHookHandler>) hook;
 -(id<PUsersHandler>) users;
@@ -123,6 +125,7 @@
 -(void) setNearbyUsers: (id<PNearbyUsersHandler>) nearbyUsers;
 -(void) setReadReceipt: (id<PReadReceiptHandler>) readReceipt;
 -(void) setStickerMessage: (id<PStickerMessageHandler>) stickerMessage;
+-(void) setFileMessage: (id<PFileMessageHandler>) fileMessage;
 -(void) setSocialLogin: (id<PSocialLoginHandler>) socialLogin;
 -(void) setHandler: (id) handler withName: (NSString *) name;
 -(void) setHookHandler: (id<PHookHandler>) hook;

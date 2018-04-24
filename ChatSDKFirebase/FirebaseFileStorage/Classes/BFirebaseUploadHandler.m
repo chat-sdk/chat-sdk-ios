@@ -28,7 +28,7 @@
         if (!error) {
             [fileRef downloadURLWithCompletion:^(NSURL * url, NSError * error) {
                 if (!error) {
-                    [promise resolveWithResult:@{bFileName: fullName, bFilePath: url.absoluteString}];
+                    [promise resolveWithResult:@{bFileName: fullName, bFilePath: url}];
                 }
                 else {
                     [promise  rejectWithReason:error];

@@ -340,6 +340,7 @@
     // We want to check if the message is a premium type but without the libraries added
     // Without this check the app crashes if the user doesn't have premium cell types
     if ((![BNetworkManager sharedManager].a.stickerMessage && message.type.integerValue == bMessageTypeSticker) ||
+        (![BNetworkManager sharedManager].a.fileMessage && message.type.integerValue == bMessageTypeFile) ||
         (![BNetworkManager sharedManager].a.videoMessage && message.type.integerValue == bMessageTypeVideo) ||
         (![BNetworkManager sharedManager].a.audioMessage && message.type.integerValue == bMessageTypeAudio)) {
         // This is a standard text cell
@@ -422,7 +423,27 @@
     BMessageCell * cell = (BMessageCell *) [tableView_ cellForRowAtIndexPath:indexPath];
     
     if ([cell isKindOfClass:[BImageMessageCell class]]) {
-        
+        UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        activityIndicator.frame = CGRectMake(cell.imageView.fw/2 - 20, cell.imageView.fh/2 -20, 40, 40);
+        [activityIndicator startAnimating];
+        [cell.imageView addSubview:activityIndicator];
+        [cell.imageView bringSubviewToFront:activityIndicator];
+
+        NSURL * url = cell.message.imageURL;
+        [BFileCache cacheFileFromURL:url].thenOnMain(^id(NSURL * cacheUrl) {
+            NSLog(@"Cache URL: %@", [cacheUrl absoluteString]);
+            [cell setMessage:cell.message];
+            [activityIndicator stopAnimating];
+            [activityIndicator removeFromSuperview];
+            [self presentDocumentInteractionViewControllerWithURL:cacheUrl andName:[NSBundle t:bPhoto]];
+            return nil;
+        }, ^id(NSError *error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+            [activityIndicator stopAnimating];
+            [activityIndicator removeFromSuperview];
+            return nil;
+        });
+
         if (!_imageViewNavigationController) {
             _imageViewNavigationController = [BChatSDK.ui imageViewNavigationController];
         }
@@ -453,6 +474,40 @@
                 [weakSelf.navigationController presentViewController:_imageViewNavigationController animated:YES completion:Nil];
             }];
         }
+
+//        if (!_imageViewController) {
+//            _imageViewController = [[BImageViewController alloc] initWithNibName:nil bundle:Nil];
+//            _imageViewNavigationController = [[UINavigationController alloc] initWithRootViewController:_imageViewController];
+//        }
+//
+//        // Only allow the user to click if the image is not still loading hence the alpha is 1
+//        if (cell.imageView.alpha == 1) {
+//
+//            // TODO: Refactor this to use the JSON keys
+//            NSURL * url = cell.message.imageURL;
+//
+//            // Add an activity indicator while the image is loading
+//            UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//            activityIndicator.frame = CGRectMake(cell.imageView.fw/2 - 20, cell.imageView.fh/2 -20, 40, 40);
+//            [activityIndicator startAnimating];
+//
+//            [cell.imageView addSubview:activityIndicator];
+//            [cell.imageView bringSubviewToFront:activityIndicator];
+//            cell.imageView.alpha = 0.75;
+//
+//            __weak __typeof__(self) weakSelf = self;
+//            [cell.imageView sd_setImageWithURL:url placeholderImage:cell.imageView.image completed: ^(UIImage * image, NSError * error, SDImageCacheType cacheType, NSURL * imageURL) {
+//
+//                // Then remove it here
+//                [activityIndicator stopAnimating];
+//                [activityIndicator removeFromSuperview];
+//                cell.imageView.alpha = 1;
+//
+//                [self presentDocumentInteractionViewControllerWithURL:imageURL];
+////                _imageViewController.image = image;
+////                [weakSelf.navigationController presentViewController:_imageViewNavigationController animated:YES completion:Nil];
+//            }];
+//        }
     }
     if ([cell isKindOfClass:[BLocationCell class]]) {
         if (!_locationViewNavigationController) {
@@ -499,6 +554,44 @@
         }
     }
 
+    if (NM.fileMessage && [cell isKindOfClass:NM.fileMessage.messageCellClass]) {
+        NSDictionary * file = cell.message.textAsDictionary;
+
+        if (![BFileCache isFileCached:cell.message.entityID]) {
+            [cell.imageView setImage:[NSBundle imageNamed:@"file.png" framework:@"ChatSDKModules" bundle:@"ChatFileMessages"]];
+        }
+
+        UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        activityIndicator.frame = CGRectMake(cell.imageView.fw/2 - 20, cell.imageView.fh/2 -20, 40, 40);
+        [activityIndicator startAnimating];
+        [cell.imageView addSubview:activityIndicator];
+        [cell.imageView bringSubviewToFront:activityIndicator];
+        
+        NSURL * url = [NSURL URLWithString:file[bMessageFileURL]];
+        [BFileCache cacheFileFromURL:url withFileName:file[bMessageTextKey] andCacheName:cell.message.entityID]
+        .thenOnMain(^id(NSURL * cacheUrl) {
+            NSLog(@"Cache URL: %@", [cacheUrl absoluteString]);
+            [cell setMessage:cell.message];
+            [activityIndicator stopAnimating];
+            [activityIndicator removeFromSuperview];
+            [self presentDocumentInteractionViewControllerWithURL:cacheUrl andName:nil];
+            return nil;
+        }, ^id(NSError *error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+            [activityIndicator stopAnimating];
+            [activityIndicator removeFromSuperview];
+            return nil;
+        });
+    }
+}
+
+- (void)presentDocumentInteractionViewControllerWithURL:(NSURL *)url andName:(NSString *)name {
+    _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:url];
+    [_documentInteractionController setDelegate:self];
+    if (name) {
+        [_documentInteractionController setName:name];
+    }
+    [_documentInteractionController presentPreviewAnimated:YES];
 }
 
 #pragma Message Delegate
@@ -556,6 +649,10 @@
 
 - (RXPromise *) sendStickerMessage: (NSString *)stickerName {
     return [self handleMessageSend:[delegate sendSticker: stickerName]];
+}
+
+- (RXPromise *) sendFileMessage: (NSDictionary *)file {
+    return [self handleMessageSend:[delegate sendFile: file]];
 }
 
 -(RXPromise *) sendLocationMessage: (CLLocation *) location {
@@ -891,5 +988,18 @@
     _typingTimer = Nil;
 }
 
+#pragma UIDocumentInteractionControllerDelegate
+
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
+    return self;
+}
+
+- (UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
+    return self.view;
+}
+
+- (CGRect)documentInteractionControllerRectForPreview:(UIDocumentInteractionController *)controller {
+    return self.view.frame;
+}
 
 @end

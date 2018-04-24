@@ -82,6 +82,7 @@
 #import <ChatSDK/PAction.h>
 #import <ChatSDK/BSelectLocationAction.h>
 #import <ChatSDK/BSelectMediaAction.h>
+#import <ChatSDK/BSelectFileAction.h>
 #import <ChatSDK/BDefaultUIModule.h>
 
 #import <Toast/Toast.h>
