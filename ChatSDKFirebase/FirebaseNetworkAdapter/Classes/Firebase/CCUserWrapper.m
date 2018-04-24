@@ -219,7 +219,12 @@
 //
 //    RXPromise * promise = [RXPromise new];
 //
-//    [ref observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+//    __block FIRDatabaseHandle handle = 0;
+//
+//    handle = [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+//        if (handle != 0) {
+//            [ref removeObserverWithHandle:handle];
+//        }
 //        if(![snapshot.value isEqual: [NSNull null]]) {
 //            [promise resolveWithResult: [self deserialize:snapshot.value].thenOnMain(^id(id success) {
 //                return self;
@@ -228,8 +233,10 @@
 //        else {
 //            [promise resolveWithResult:Nil];
 //        }
+//    } withCancelBlock: ^(NSError * error) {
+//        NSLog(@"Error");
 //    }];
-//
+
 //    return promise;
 }
 
@@ -396,7 +403,7 @@
     return @{b_Meta: _model.metaDictionary};
 }
 
-// TODO: Find a way to determine if the meta has actually been updated i.e. is it different?
+// TODO: Find a way to determine if the meta has actually been updated i.e. is it 
 -(RXPromise *) deserializeMeta: (NSDictionary *) value {
     // Get the user's meta data
     NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:_model.metaDictionary];

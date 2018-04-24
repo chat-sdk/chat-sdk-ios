@@ -394,7 +394,8 @@ The [social login module](https://github.com/chat-sdk/chat-sdk-ios/tree/master/C
 After adding the **SocialLogin** files to your Xcode project, add the following to your Podfile:
 
 ```
-pod 'TwitterKit',
+pod 'TwitterKit', '<3.3.0'
+pod 'TwitterCore', '<3.1.0'
 pod 'GoogleSignIn'
 pod 'FBSDKLoginKit'
 ```

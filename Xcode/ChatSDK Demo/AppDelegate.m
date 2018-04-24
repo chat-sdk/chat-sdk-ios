@@ -24,13 +24,15 @@
     // The network adapter handles network traffic
 
     BConfiguration * config = [BConfiguration configuration];
-    config.rootPath = @"test";
-    config.allowUsersToCreatePublicChats = YES;
+    config.rootPath = @"18_04";
+    config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = YES;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
+    config.clearDataWhenRootPathChanges = YES;
     
     [BChatSDK initialize:config app:application options:launchOptions];
 
+    
 
     UIViewController * rootViewController = [BInterfaceManager sharedManager].a.appTabBarViewController;
 

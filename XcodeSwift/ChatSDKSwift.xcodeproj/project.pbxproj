@@ -38,7 +38,6 @@
 		B5030DA42024F4D3001BF175 /* BFirebaseUsersHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5030D7B2024F4D3001BF175 /* BFirebaseUsersHandler.m */; };
 		B5030DA52024F4D3001BF175 /* BFirebaseSearchHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5030D7C2024F4D3001BF175 /* BFirebaseSearchHandler.m */; };
 		B5030DA62024F4D3001BF175 /* BFirebaseBlockingHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5030D7D2024F4D3001BF175 /* BFirebaseBlockingHandler.m */; };
-		B5030DA72024F4D3001BF175 /* BFirebaseLastOnlineHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5030D7F2024F4D3001BF175 /* BFirebaseLastOnlineHandler.m */; };
 		B5030DA82024F4D3001BF175 /* BFirebaseAuthenticationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5030D802024F4D3001BF175 /* BFirebaseAuthenticationHandler.m */; };
 		B5030DA92024F4D3001BF175 /* BFirebasePublicThreadHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5030D812024F4D3001BF175 /* BFirebasePublicThreadHandler.m */; };
 		B5030DAA2024F4D3001BF175 /* BFirebaseModerationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5030D852024F4D3001BF175 /* BFirebaseModerationHandler.m */; };
@@ -113,12 +112,10 @@
 		B5030D7C2024F4D3001BF175 /* BFirebaseSearchHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseSearchHandler.m; sourceTree = "<group>"; };
 		B5030D7D2024F4D3001BF175 /* BFirebaseBlockingHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseBlockingHandler.m; sourceTree = "<group>"; };
 		B5030D7E2024F4D3001BF175 /* BFirebaseModerationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseModerationHandler.h; sourceTree = "<group>"; };
-		B5030D7F2024F4D3001BF175 /* BFirebaseLastOnlineHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseLastOnlineHandler.m; sourceTree = "<group>"; };
 		B5030D802024F4D3001BF175 /* BFirebaseAuthenticationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseAuthenticationHandler.m; sourceTree = "<group>"; };
 		B5030D812024F4D3001BF175 /* BFirebasePublicThreadHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebasePublicThreadHandler.m; sourceTree = "<group>"; };
 		B5030D822024F4D3001BF175 /* BFirebaseCoreHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseCoreHandler.h; sourceTree = "<group>"; };
 		B5030D832024F4D3001BF175 /* BFirebaseAuthenticationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseAuthenticationHandler.h; sourceTree = "<group>"; };
-		B5030D842024F4D3001BF175 /* BFirebaseLastOnlineHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseLastOnlineHandler.h; sourceTree = "<group>"; };
 		B5030D852024F4D3001BF175 /* BFirebaseModerationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseModerationHandler.m; sourceTree = "<group>"; };
 		B5030D862024F4D3001BF175 /* BFirebaseSearchHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseSearchHandler.h; sourceTree = "<group>"; };
 		B5030D872024F4D3001BF175 /* BFirebaseBlockingHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseBlockingHandler.h; sourceTree = "<group>"; };
@@ -300,12 +297,10 @@
 				B5030D7C2024F4D3001BF175 /* BFirebaseSearchHandler.m */,
 				B5030D7D2024F4D3001BF175 /* BFirebaseBlockingHandler.m */,
 				B5030D7E2024F4D3001BF175 /* BFirebaseModerationHandler.h */,
-				B5030D7F2024F4D3001BF175 /* BFirebaseLastOnlineHandler.m */,
 				B5030D802024F4D3001BF175 /* BFirebaseAuthenticationHandler.m */,
 				B5030D812024F4D3001BF175 /* BFirebasePublicThreadHandler.m */,
 				B5030D822024F4D3001BF175 /* BFirebaseCoreHandler.h */,
 				B5030D832024F4D3001BF175 /* BFirebaseAuthenticationHandler.h */,
-				B5030D842024F4D3001BF175 /* BFirebaseLastOnlineHandler.h */,
 				B5030D852024F4D3001BF175 /* BFirebaseModerationHandler.m */,
 				B5030D862024F4D3001BF175 /* BFirebaseSearchHandler.h */,
 				B5030D872024F4D3001BF175 /* BFirebaseBlockingHandler.h */,
@@ -552,7 +547,6 @@
 				B5030D9A2024F4D3001BF175 /* BSyncItem.m in Sources */,
 				B5030D9D2024F4D3001BF175 /* CCMessageWrapper.m in Sources */,
 				B5030DA32024F4D3001BF175 /* Firebase+Paths.m in Sources */,
-				B5030DA72024F4D3001BF175 /* BFirebaseLastOnlineHandler.m in Sources */,
 				B5030D8C2024F4D3001BF175 /* BFirebasePushHandler.m in Sources */,
 				B5030D8D2024F4D3001BF175 /* BFirebaseUploadHandler.m in Sources */,
 				B5030D922024F4D3001BF175 /* BFirebaseSocialLoginModule.m in Sources */,

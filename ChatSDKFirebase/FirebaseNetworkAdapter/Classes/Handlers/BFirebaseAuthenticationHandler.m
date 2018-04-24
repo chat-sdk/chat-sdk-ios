@@ -18,7 +18,7 @@
 // Each time the main tab bar appears the app check that
 // the user is authenticated
 -(RXPromise *) authenticateWithCachedToken {
-    
+
     BOOL authenticated = [self userAuthenticated];
     if (authenticated) {
         // If the user listeners have been added then authenticate completed successfully

@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.allowUsersToCreatePublicChats = false
         config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
         config.clearDatabaseWhenDataVersionChanges = true
+        config.clearDataWhenRootPathChanges = true;
         config.databaseVersion = "2"
 
         BChatSDK.initialize(config, app: application, options: launchOptions)
