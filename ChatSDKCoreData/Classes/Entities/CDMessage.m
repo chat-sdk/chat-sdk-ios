@@ -320,11 +320,13 @@
 
 -(BOOL) senderIsMe {
     
-    if(_senderIsMe == Nil) {
-        [self updateOptimizationProperties];
-    }
-
-    return [_senderIsMe boolValue];
+    return self.userModel.isMe;
+    
+//    if(_senderIsMe == Nil) {
+//        [self updateOptimizationProperties];
+//    }
+//
+//    return [_senderIsMe boolValue];
 }
 
 // We store certain shortcuts for optimization purposes
@@ -347,9 +349,9 @@
         }
     }
     
-    if(_senderIsMe == Nil) {
-        _senderIsMe = @(self.userModel.isMe);
-    }
+//    if(_senderIsMe == Nil) {
+//        _senderIsMe = @(self.userModel.isMe);
+//    }
     
     [self updatePosition];
 }
