@@ -20,6 +20,7 @@
                 <outlet property="loginButton" destination="WlM-w5-GCE" id="0Ks-nv-itY"/>
                 <outlet property="passwordField" destination="pTU-Xn-wwY" id="5Ng-zd-Z1v"/>
                 <outlet property="registerButton" destination="HeC-qI-71z" id="JFX-Gj-bHI"/>
+                <outlet property="termsAndConditionsButton" destination="eMk-xT-irR" id="jnW-ZR-QBm"/>
                 <outlet property="titleLabel" destination="KCJ-rr-kr4" id="E9S-e1-8Yr"/>
                 <outlet property="twitterButton" destination="ffH-hL-IDK" id="RLb-ik-Dbg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
