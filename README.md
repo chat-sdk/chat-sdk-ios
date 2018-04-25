@@ -131,7 +131,7 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   
 4. Run `pod install` or `pod update` to get the latest version of the code.
 
-5. Download the source code for the Chat SDK that matches the version you are instlling using CocoaPods from [this loction](https://github.com/chat-sdk/chat-sdk-ios/releases). Copy the **FirebaseNetworkAdapter** folder into the source code directory of your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **FirebaseNetworkAdapter** folder.
+5. Download the source code for the Chat SDK that matches the version you are instlling using CocoaPods from [this loction](https://github.com/chat-sdk/chat-sdk-ios/releases). Copy the **FirebaseNetworkAdapter** and **FirebaseFileStorage** folders into the source code directory of your Xcode project. From inside Xcode, right click in the left panel click **Add Files** and add the **FirebaseNetworkAdapter** folder.
 
   You can see how to add it via symlink [here](https://github.com/chat-sdk/chat-sdk-ios#adding-the-firebase-adapter-source-code).
 
@@ -448,6 +448,7 @@ Then:
 4. Browse to the location where you saved your key, select it, and click Open. Add the key ID for the key (available in Certificates, Identifiers & Profiles in the Apple Developer Member Center) and click Upload.
 5. Enable the push notifications Capability in your Xcode project **Project -> Capabilities -> Push Notifications**
 6. Add the Server key from the Firebase console **Settings -> Cloud Messaging -> Project credentials** to the `cloud_messaging_server_key` entry in **Info.plist -> chat_sdk -> firebase**
+7. In Xcode open the **Capabilities** tab. Enable **Push Notifications** and the following **Background Modes**: Location updates, Background fetch, Remote notifications. 
 
 >**Note:**
 >We add the server key directly to the project because it makes it very easy to send targeted push notifications. However, this method isn't the best from a security perspective because it means that if someone decompiled and examined the app package, they could gain access to the key and send push notifications using your account. A more secure approach would be to use a separate app server to send the pushes or to use Google Cloud Code. 
