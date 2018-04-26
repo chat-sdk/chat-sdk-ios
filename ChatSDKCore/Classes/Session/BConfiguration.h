@@ -110,6 +110,9 @@
 // Push notification sound - name of sound file to play i.e. "mySound"
 @property (nonatomic, readwrite) NSString * pushNotificationSound;
 
+// The action associated with the push notification
+@property (nonatomic, readwrite) NSString * pushNotificationAction;
+
 // If this is true, then we will only send a push notification if the recipient is offline
 @property (nonatomic, readwrite) BOOL onlySendPushToOfflineUsers;
 

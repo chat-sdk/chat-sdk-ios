@@ -90,7 +90,7 @@
                                                                                                                                                          title:[NSBundle t:bOpen]
                                                                                                                                                        options:UNNotificationActionOptionForeground];
                                                                                 
-                                                                                UNNotificationCategory * category = [UNNotificationCategory categoryWithIdentifier:bChatSDKNotificationCategory
+                                                                                UNNotificationCategory * category = [UNNotificationCategory categoryWithIdentifier:BChatSDK.config.pushNotificationAction ? BChatSDK.config.pushNotificationAction : bChatSDKNotificationCategory
                                                                                                                                                            actions:@[replyAction, openAction]
                                                                                                                                                  intentIdentifiers:@[]
                                                                                                                                                            options:UNNotificationCategoryOptionCustomDismissAction];
@@ -133,7 +133,7 @@
     openAction.behavior = UIUserNotificationActionBehaviorDefault;
     
     UIMutableUserNotificationCategory *notificationCategory = [[UIMutableUserNotificationCategory alloc] init];
-    [notificationCategory setIdentifier:bChatSDKNotificationCategory];
+    [notificationCategory setIdentifier:BChatSDK.config.pushNotificationAction ? BChatSDK.config.pushNotificationAction : bChatSDKNotificationCategory];
     
     [notificationCategory setActions:@[replyAction, openAction] forContext:UIUserNotificationActionContextDefault];
     [notificationCategory setActions:@[replyAction, openAction] forContext:UIUserNotificationActionContextMinimal];
@@ -236,7 +236,7 @@
                                     @"body": text ? text : @"",
                                     @"badge": @1,
                                     @"priority": @"high",
-                                    @"click_action": bChatSDKNotificationCategory};
+                                    @"click_action": BChatSDK.config.pushNotificationAction ? BChatSDK.config.pushNotificationAction : bChatSDKNotificationCategory};
 
     [self pushToUsers:users withNotification: notification withData:data];
 }

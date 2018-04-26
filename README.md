@@ -49,6 +49,10 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 - [File Storage](https://github.com/chat-sdk/chat-sdk-ios#file-storage)
 - [Firebase UI](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)
 
+## Demo
+
+- You can test the XMPP Chat SDK on the [App Store](https://itunes.apple.com/us/app/xmpp-messenger/id1218669006?ls=1&mt=8)
+
 ## Help spread the word
 Chat SDK is free and open source. If you like the project help us spread the word by:
 
