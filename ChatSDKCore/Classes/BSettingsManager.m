@@ -104,11 +104,7 @@
 }
 
 +(NSString *) firebaseRootPath {
-    NSString * path = [self string_s:@[bFirebaseKey, bRootPathKey]];
-    if(!path) {
-        path = [BChatSDK shared].configuration.rootPath;
-    }
-    return path;
+    return [self string_s:@[bFirebaseKey, bRootPathKey]];
 }
 
 +(NSString *) parseAppId {
