@@ -14,7 +14,7 @@
 // TODO: Refactor this - on audio branch
 #define bStopAudioNotification @"stopAudio"
 
-@interface BAudioManager : NSObject <AVAudioRecorderDelegate, AVAudioPlayerDelegate> {
+@interface BAudioManager : NSObject <AVAudioRecorderDelegate> {
     
     AVAudioRecorder * _recorder;
     
@@ -43,10 +43,11 @@
 - (void)playAudioWithURL:(NSURL *)audioURL;
 
 // This sets up the audio ready to play
-- (void)prepareToPlayWithURL: (NSString *)audioURL;
+- (void)prepareToPlayWithURL: (NSURL *)audioURL;
 
 // Get the current time for the current audio file
-- (NSInteger)getAudioTime;
+- (NSInteger) getCurrentTimeInSeconds;
+- (NSInteger) getTotalTimeInSeconds;
 
 - (void)startRecording;
 - (void)finishRecording;
