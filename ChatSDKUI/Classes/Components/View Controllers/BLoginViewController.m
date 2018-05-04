@@ -47,10 +47,40 @@
         return Nil;
     });
     
-    self.facebookButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeFacebook];    
-    self.twitterButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeTwitter];
-    self.googleButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeGoogle];
-    self.anonymousButton.enabled = [NM.auth accountTypeEnabled:bAccountTypeAnonymous];
+    UIButton * activeSocialButton = Nil;
+    
+    if (![NM.auth accountTypeEnabled:bAccountTypeFacebook]) {
+        [self hideView:self.facebookButton withViewToRight:self.googleButton];
+    }
+    else {
+        activeSocialButton = self.facebookButton;
+    }
+
+    if (![NM.auth accountTypeEnabled:bAccountTypeGoogle]) {
+        [self hideView:self.googleButton withViewToRight:self.twitterButton];
+    }
+    else {
+        activeSocialButton = self.googleButton;
+    }
+
+    if (![NM.auth accountTypeEnabled:bAccountTypeTwitter]) {
+        [self hideView:self.twitterButton withViewToRight:Nil];
+    }
+    else {
+        activeSocialButton = self.twitterButton;
+    }
+
+    if (![NM.auth accountTypeEnabled:bAccountTypeAnonymous]) {
+        [self hideView:self.anonymousButton withViewToRight:Nil];
+    }
+    else {
+        if(!activeSocialButton) {
+            self.anonymousButton.keepTopOffsetTo(self.loginButton).equal = 8;
+        }
+        else {
+            self.anonymousButton.keepTopOffsetTo(activeSocialButton).equal = 8;
+        }
+    }
     
     if(!self.anonymousButton.enabled) {
         self.anonymousButton.keepHeight.equal = 0;
@@ -76,6 +106,15 @@
 //        self.titleLabel.attributedText = str;
     }
     
+}
+
+-(void) hideView: (UIView *) view withViewToRight: (UIView *) rightView {
+    view.keepHeight.equal = 0;
+    view.keepWidth.equal = 0;
+    if (rightView) {
+        rightView.keepLeftOffsetTo(view).equal = 0;
+    }
+    view.hidden = YES;
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
