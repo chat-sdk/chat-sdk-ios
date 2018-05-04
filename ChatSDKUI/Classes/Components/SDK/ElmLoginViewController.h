@@ -46,4 +46,10 @@
 -(void) hideHUDWithDuration: (float) duration;
 -(void) authenticationFinished;
 
+-(IBAction)loginButtonPressed:(id)sender;
+-(IBAction)registerButtonPressed:(id)sender;
+-(void) handleLoginAttempt: (RXPromise *) promise;
+-(IBAction)termsAndConditionsButtonPressed:(id)sender;
+-(void) hideKeyboard;
+
 @end

@@ -45,5 +45,7 @@
 
 -(void) addButtonPressed;
 -(void) clearAndReload;
+-(void) searchWithText: (NSString *) text;
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 
 @end

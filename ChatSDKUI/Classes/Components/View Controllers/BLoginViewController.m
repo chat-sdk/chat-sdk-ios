@@ -82,6 +82,9 @@
         }
     }
     
+    self.forgotPasswordButton.hidden = !BChatSDK.config.forgotPasswordEnabled;
+    self.termsAndConditionsButton.hidden = !BChatSDK.config.termsAndConditionsEnabled;
+    
     if(!self.anonymousButton.enabled) {
         self.anonymousButton.keepHeight.equal = 0;
     }

@@ -164,7 +164,7 @@
     UIViewController<PSearchViewController> * vc;
     
     if([type isEqualToString:bSearchTypeNameSearch]) {
-        vc = [[BSearchViewController alloc] initWithUsersToExclude: users selectedAction: usersAdded];
+        vc = [self searchViewControllerExcludingUsers:users usersAdded:usersAdded];
     }
     else {
         vc = _additionalSearchViewControllers[type][bControllerKey];
@@ -195,10 +195,8 @@
 }
 
 
--(UIViewController *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {
-    BSearchViewController * vc = [[BSearchViewController alloc] initWithUsersToExclude: users];
-
-    return [[UINavigationController alloc] initWithRootViewController:vc];
+-(UIViewController<PSearchViewController> *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {
+    return [[BSearchViewController alloc] initWithUsersToExclude: users];
 }
 
 -(void) setChatOptionsHandler:(id<PChatOptionsHandler>)handler {

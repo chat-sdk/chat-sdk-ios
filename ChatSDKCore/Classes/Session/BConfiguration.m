@@ -52,6 +52,8 @@
 @synthesize googleClientKey;
 @synthesize facebookAppId;
 @synthesize userChatInfoEnabled;
+@synthesize forgotPasswordEnabled;
+@synthesize termsAndConditionsEnabled;
 
 @synthesize inviteByEmailTitle;
 @synthesize inviteByEmailBody;
@@ -95,6 +97,9 @@
         
         locationMessagesEnabled = YES;
         imageMessagesEnabled = YES;
+        termsAndConditionsEnabled = YES;
+        
+        forgotPasswordEnabled = YES;
         
         databaseVersion = @"1";
         clearDatabaseWhenDataVersionChanges = NO;

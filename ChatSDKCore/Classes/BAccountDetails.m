@@ -9,6 +9,13 @@
 
 @implementation BAccountDetails
 
+-(instancetype) init {
+    if ((self = [super init])) {
+        _meta = [NSMutableDictionary new];
+    }
+    return self;
+}
+
 +(instancetype) username: (NSString *) username password: (NSString *) password {
     BAccountDetails * details = [self new];
     details.type = bAccountTypeUsername;
