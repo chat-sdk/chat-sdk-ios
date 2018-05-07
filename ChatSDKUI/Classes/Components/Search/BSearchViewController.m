@@ -82,8 +82,11 @@
     if ([NM.search respondsToSelector:@selector(availableIndexes)]) {
         // Get the search terms...
         [self startActivityIndicator];
+        
+        __weak __typeof__(self) weakSelf = self;
 
         [NM.search availableIndexes].thenOnMain(^id(NSArray * indexes) {
+            __typeof__(self) strongSelf = weakSelf;
             
             NSMutableArray * nonRequiredIndexes = [NSMutableArray new];
             
@@ -93,10 +96,12 @@
                 }
             }
             
-            searchTermButton.hidden = !indexes.count;
-            _searchTermViewController = [[BSearchIndexViewController alloc] initWithIndexes: nonRequiredIndexes withCallback:^(NSArray * index) {
-                [searchTermButton setTitle:index.key forState:UIControlStateNormal];
-                _currentSearchIndex = index;
+            
+            
+            strongSelf.searchTermButton.hidden = !indexes.count;
+            strongSelf->_searchTermViewController = [[BSearchIndexViewController alloc] initWithIndexes: nonRequiredIndexes withCallback:^(NSArray * index) {
+                [strongSelf.searchTermButton setTitle:index.key forState:UIControlStateNormal];
+                strongSelf->_currentSearchIndex = index;
             }];
             [self stopActivityIndicator];
             return Nil;
@@ -245,41 +250,44 @@
     [self startActivityIndicator];
     
     NSArray * indexes = _currentSearchIndex.value ? @[_currentSearchIndex.value] : Nil;
-    
+
+    __weak __typeof__(self) weakSelf = self;
+
     [NM.search usersForIndexes:indexes withValue:text limit: 10 userAdded: ^(id<PUser> user) {
-        
+        __typeof__(self) strongSelf = weakSelf;
+
         // Make sure we run this on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if (user != NM.currentUser) {
                 // Only display a user if they have a name set
-                
-                
             
                 // Check the users entityID to make sure they're not in the exclude list
-                if (!_usersToExclude || ![_usersToExclude containsObject:user]) {
+                if (!strongSelf->_usersToExclude || ![strongSelf->_usersToExclude containsObject:user]) {
                     if (user.name.length) {
-                        if (![_users containsObject:user]) {
-                            [_users addObject:user];
+                        if (![strongSelf->_users containsObject:user]) {
+                            [strongSelf->_users addObject:user];
                         }
                     }
                 }
             }
-            [_users sortUsersInAlphabeticalOrder];
+            [strongSelf->_users sortUsersInAlphabeticalOrder];
             
-            [tableView reloadData];
+            [strongSelf.tableView reloadData];
             
         });
         
     }].thenOnMain(^id(id success) {
+        __typeof__(self) strongSelf = weakSelf;
+
+        strongSelf.noUsersFoundView.hidden = strongSelf->_users.count > 0;
         
-        self.noUsersFoundView.hidden = _users.count > 0;
-        
-        [tableView reloadData];
-        [self stopActivityIndicator];
+        [strongSelf.tableView reloadData];
+        [strongSelf stopActivityIndicator];
         return Nil;
     }, ^id(NSError * error) {
-        [self stopActivityIndicator];
+        __typeof__(self) strongSelf = weakSelf;
+        [strongSelf stopActivityIndicator];
         return error;
     });
 }

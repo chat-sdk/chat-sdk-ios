@@ -196,7 +196,9 @@
 
 
 -(UIViewController<PSearchViewController> *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {
-    return [[BSearchViewController alloc] initWithUsersToExclude: users];
+    BSearchViewController * vc = [[BSearchViewController alloc] initWithUsersToExclude: users];
+    [vc setSelectedAction:usersAdded];
+    return vc;
 }
 
 -(void) setChatOptionsHandler:(id<PChatOptionsHandler>)handler {

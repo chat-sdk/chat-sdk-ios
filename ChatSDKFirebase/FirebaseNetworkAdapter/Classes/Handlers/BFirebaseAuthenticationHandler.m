@@ -21,6 +21,7 @@
 
     BOOL authenticated = [self userAuthenticated];
     if (authenticated) {
+        
         // If the user listeners have been added then authenticate completed successfully
         if(_userAuthenticatedThisSession) {
             return [RXPromise resolveWithResult:NM.currentUser];
