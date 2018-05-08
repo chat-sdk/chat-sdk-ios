@@ -68,8 +68,6 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>To send an image message</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>To save the photo to your library</string>
 	<key>NSContactsUsageDescription</key>
 	<string>To check if any of your contacts use this app</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -80,8 +78,16 @@
 	<string>To send location messages</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To send audio messages</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>To save the photo to your library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To access your photos to customise your profile or image message</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>location</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

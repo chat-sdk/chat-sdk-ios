@@ -20,6 +20,9 @@
     
     // This promise allows us to see when a URL is ready to play - we can return it in one of the avplayers delegate methods
     RXPromise * _loadingPromise;
+    
+    // The fractional start time i.e. between 0 and 1
+    float _startAtTimeFraction;
 }
 
 // Making this a property allows us to retain it if the app closes
@@ -40,14 +43,10 @@
 
 // This allows us to play audio from a certain point in the track
 - (void)playAudioWithURL:(NSURL *)audioURL percent: (CGFloat)percent;
-- (void)playAudioWithURL:(NSURL *)audioURL;
-
-// This sets up the audio ready to play
-- (void)prepareToPlayWithURL: (NSURL *)audioURL;
 
 // Get the current time for the current audio file
-- (NSInteger) getCurrentTimeInSeconds;
-- (NSInteger) getTotalTimeInSeconds;
+- (Float64) getCurrentTimeInSeconds;
+- (Float64) getTotalTimeInSeconds;
 
 - (void)startRecording;
 - (void)finishRecording;
@@ -58,5 +57,6 @@
 
 // This function gives us a call back when the audio is ready to be played
 - (RXPromise *)loadAudioFromURL: (NSURL *)audioURL;
+-(AVPlayerStatus) playerStatus;
 
 @end

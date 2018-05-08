@@ -22,6 +22,8 @@
     
     BOOL _audioEnabled;
     BOOL _micButtonEnabled;
+    NSDate * _recordingStart;
+    BOOL _audioMaxLengthReached;
 }
 
 @property (weak, nonatomic, readwrite) id<PSendBarDelegate> sendBarDelegate;

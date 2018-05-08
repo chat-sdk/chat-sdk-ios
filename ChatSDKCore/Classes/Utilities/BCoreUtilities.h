@@ -22,7 +22,6 @@
 +(RXPromise *) fetchImageFromURL: (NSString *) url;
 +(NSString *)getUUID;
 
-+(CLLocationCoordinate2D) locationForString: (NSString *) text;
 +(MKCoordinateRegion) regionForLongitude: (double) longitude latitude: (double) latitude;
 +(MKPointAnnotation *) annotationForLongitude: (double) longitude latitude: (double) latitude;
 

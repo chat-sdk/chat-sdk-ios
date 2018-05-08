@@ -25,6 +25,7 @@
 // Messages should be encoded as JSON if you want to support location messages
 // This method should turn the JSON into a dictionary
 -(NSDictionary *) textAsDictionary;
+-(NSDictionary *) compatibilityMeta;
 
 -(NSInteger) imageWidth;
 -(NSInteger) imageHeight;
@@ -47,6 +48,7 @@
 -(BOOL) senderIsMe;
 -(id<PElmMessage>) lazyNextMessage;
 -(id<PElmMessage>) lazyLastMessage;
+
 
 -(NSURL *) thumbnailURL;
 -(bMessageReadStatus) readStatus;

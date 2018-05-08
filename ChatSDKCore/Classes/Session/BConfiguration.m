@@ -58,6 +58,7 @@
 @synthesize inviteByEmailTitle;
 @synthesize inviteByEmailBody;
 @synthesize inviteBySMSBody;
+@synthesize audioMessageMaxLengthSeconds;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -92,6 +93,7 @@
         pushNotificationSound = @"default";
         
         chatMessagesToLoad = 50;
+        audioMessageMaxLengthSeconds = 15;
         
         firebaseShouldConfigureAutomatically = YES;
         

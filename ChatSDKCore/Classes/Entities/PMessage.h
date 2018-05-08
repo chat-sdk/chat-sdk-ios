@@ -71,6 +71,7 @@ typedef enum {
 
 -(NSDictionary *) json;
 -(void) setJson: (NSDictionary *) json;
+-(NSDictionary *) compatibilityMeta;
 
 /**
  * @brief Message type - Text, image, location
@@ -143,6 +144,7 @@ typedef enum {
 -(id<PMessage>) lazyNextMessage;
 -(id<PMessage>) lazyLastMessage;
 -(void) updatePosition;
+
 
 - (BOOL)showUserNameLabelForPosition: (bMessagePos) position;
 

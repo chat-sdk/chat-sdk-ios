@@ -21,7 +21,7 @@
 -(void) typing;
 -(void) didResizeTextInputViewWithDelta: (float) delta;
 -(UIView *) view;
-
+-(UIViewController *) viewController;
 
 @end
 

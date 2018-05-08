@@ -174,8 +174,13 @@
 
 -(void) sendButtonPressed {
     
-    [_sendBarDelegate.view hideAllToasts];
-    [self cancelRecordingToastTimer];
+    
+    if (_audioMaxLengthReached) {
+        _audioMaxLengthReached = NO;
+        return;
+    }
+
+    [self stopRecording];
 
     if (!_micButtonEnabled) {
         
@@ -191,18 +196,7 @@
         [self textViewDidChange:_textView];
     }
     else {
-        
-        // This is where the button is released so we want to finish recording and send
-        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(sendAudioMessage:duration:)]) {
-            [[BAudioManager sharedManager] finishRecording];
-            
-            // Return the recording url and duration in an array
-            NSURL * audioURL = [BAudioManager sharedManager].recorder.url;
-            NSData * audioData = [NSData dataWithContentsOfURL:audioURL];
-            
-            [_sendBarDelegate sendAudioMessage: audioData
-                              duration: [BAudioManager sharedManager].recordingLength];
-        }
+        [self sendAudioMessage];
     }
 }
 
@@ -214,20 +208,72 @@
                                                                 target:self
                                                               selector:@selector(showRecordingToast)
                                                               userInfo:Nil
-                                                               repeats:NO];
+                                                               repeats:YES];
+        _recordingStart = [NSDate new];
+    }
+}
+
+-(void) sendAudioMessage {
+    // This is where the button is released so we want to finish recording and send
+    if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(sendAudioMessage:duration:)]) {
+        
+        // Return the recording url and duration in an array
+        NSURL * audioURL = [BAudioManager sharedManager].recorder.url;
+        NSData * audioData = [NSData dataWithContentsOfURL:audioURL];
+        
+        [_sendBarDelegate sendAudioMessage: audioData
+                                  duration: [BAudioManager sharedManager].recordingLength];
     }
 }
 
 -(void) showRecordingToast {
-    [_sendBarDelegate.view makeToast:[NSBundle t:bRecording]
-                            duration:100
+    NSString * text = [NSBundle t:bRecording];
+    
+    int remainingTime = BChatSDK.config.audioMessageMaxLengthSeconds + [_recordingStart timeIntervalSinceNow];
+    if (remainingTime <= 10) {
+        text = [NSString stringWithFormat:[NSBundle t: bSecondsRemaining_], remainingTime];
+    }
+    if (remainingTime <= 0) {
+        _audioMaxLengthReached = YES;
+        [self stopRecording];
+        [self presentAlertView];
+    }
+    [_sendBarDelegate.view makeToast:text
+                            duration:0.7
                             position:[NSValue valueWithCGPoint: CGPointMake(_sendBarDelegate.view.frame.size.width / 2.0, _sendBarDelegate.view.frame.size.height - 120)]];
+}
+
+-(void) stopRecording {
+    [[BAudioManager sharedManager] finishRecording];
+    [_sendBarDelegate.view hideAllToasts];
+    [self cancelRecordingToastTimer];
+}
+
+-(void) presentAlertView {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSBundle t:bAudioLengthLimitReached]
+                                                                   message:[NSBundle t:bSendOrDiscardRecording]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *submit = [UIAlertAction actionWithTitle:[NSBundle t:bSend] style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                       [self sendAudioMessage];
+                                                   }];
+    
+    UIAlertAction * cancel = [UIAlertAction actionWithTitle:[NSBundle t:bCancel] style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+    }];
+    
+    [alert addAction:submit];
+    [alert addAction:cancel];
+    
+    [self.sendBarDelegate.viewController presentViewController:alert animated:YES completion:Nil];
+
 }
 
 -(void) cancelRecordingToastTimer {
     if(_recordingToastTimer) {
         [_recordingToastTimer invalidate];
         _recordingToastTimer = Nil;
+        _recordingStart = Nil;
     }
 }
 
@@ -341,13 +387,17 @@
     if(fabsf(delta) > 0.01) {
         [self.superview setNeedsUpdateConstraints];
         
+        __weak __typeof__(self) weakSelf = self;
+        
         [UIView animateWithDuration:0.2 animations:^{
+            __typeof__(self) strongSelf = weakSelf;
+            
             //[self setNeedsUpdateConstraints];
-            [self.superview layoutIfNeeded];
-            [_textView setContentOffset:CGPointZero animated:NO];
+            [strongSelf.superview layoutIfNeeded];
+            [strongSelf->_textView setContentOffset:CGPointZero animated:NO];
 
-            if(_sendBarDelegate != Nil) {
-                [_sendBarDelegate didResizeTextInputViewWithDelta:delta];
+            if(strongSelf->_sendBarDelegate != Nil) {
+                [strongSelf->_sendBarDelegate didResizeTextInputViewWithDelta:delta];
             }
         }];
     }

@@ -34,55 +34,6 @@
     return self.user;
 }
 
-+(MKCoordinateRegion) regionForLongitude: (double) longitude latitude: (double) latitude {
-    return [self regionForLongitude:longitude latitude:latitude area:bLocationDefaultArea];
-}
-
-+(MKCoordinateRegion) regionForLongitude: (double) longitude latitude: (double) latitude area: (float) area {
-    
-    CLLocationCoordinate2D location;
-    location.longitude = longitude;
-    location.latitude = latitude;
-    
-    return MKCoordinateRegionMakeWithDistance(location, area, area);
-}
-
-+(MKPointAnnotation *) annotationForLongitude: (double) longitude latitude: (double) latitude {
-    
-    CLLocationCoordinate2D location;
-    location.longitude = longitude;
-    location.latitude = latitude;
-    
-    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-    [annotation setCoordinate:location];
-    return annotation;
-}
-
-+(CLLocationCoordinate2D) locationForString: (NSString *) text {
-    
-    NSArray * coordinates = [text componentsSeparatedByString:@","];
-    
-    double longitude = 0;
-    double latitude = 0;
-    
-    if (coordinates.count >= 2) {
-        
-        // Location
-        latitude = ((NSString *)coordinates[0]).doubleValue;
-        longitude = ((NSString *)coordinates[1]).doubleValue;
-        
-    }
-    else {
-        NSLog(@"Error parsing location string: %@", text);
-    }
-    
-    CLLocationCoordinate2D location;
-    location.longitude = longitude;
-    location.latitude = latitude;
-    
-    return location;
-}
-
 #pragma Image information
 
 - (NSURL *)thumbnailURL {

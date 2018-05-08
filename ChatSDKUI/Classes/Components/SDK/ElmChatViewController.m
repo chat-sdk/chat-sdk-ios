@@ -851,6 +851,10 @@
     [_typingTimer invalidate];
 }
 
+-(UIViewController *) viewController {
+    return self;
+}
+
 -(void) dealloc {
     self.delegate = Nil;
     [_sendBarView setSendBarDelegate:Nil];

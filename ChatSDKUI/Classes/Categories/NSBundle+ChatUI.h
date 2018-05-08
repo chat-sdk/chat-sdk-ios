@@ -89,6 +89,10 @@
 #define bUnflag @"bUnflag"
 #define bHoldToSendAudioMessageError @"bHoldToSendAudioMessageError"
 #define bRecording @"bRecording"
+#define bSecondsRemaining_ @"bSecondsRemaining_"
+#define bAudioLengthLimitReached @"bAudioLengthLimitReached"
+#define bSendOrDiscardRecording @"bSendOrDiscardRecording"
+
 #define bCancelled @"bCancelled"
 #define bSave @"bSave"
 #define bSaving @"bSaving"
