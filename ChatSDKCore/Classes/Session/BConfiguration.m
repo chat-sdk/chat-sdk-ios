@@ -93,7 +93,7 @@
         pushNotificationSound = @"default";
         
         chatMessagesToLoad = 50;
-        audioMessageMaxLengthSeconds = 15;
+        audioMessageMaxLengthSeconds = 300;
         
         firebaseShouldConfigureAutomatically = YES;
         
