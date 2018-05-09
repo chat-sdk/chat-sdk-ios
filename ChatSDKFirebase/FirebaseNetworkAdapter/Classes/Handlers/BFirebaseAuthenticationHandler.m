@@ -110,9 +110,9 @@
     RXPromise * promise = [RXPromise new];
     
     // Create a completion block to handle the login result
-    void(^handleResult)(FIRUser * firebaseUser, NSError * error) = ^(FIRUser * firebaseUser, NSError * error) {
+    void(^handleResult)(FIRAuthDataResult * firebaseUser, NSError * error) = ^(FIRAuthDataResult * firebaseUser, NSError * error) {
         if (!error) {
-            [promise resolveWithResult:firebaseUser];
+            [promise resolveWithResult:firebaseUser.user];
         }
         else {
             [promise rejectWithReason:error];
@@ -130,7 +130,7 @@
                 [NM.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
                     FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:token];
                     //[promise resolveWithResult:credential];
-                    [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
+                    [[FIRAuth auth] signInAndRetrieveDataWithCredential:credential completion:handleResult];
 
                     return Nil;
                 }, ^id (NSError * error) {
@@ -146,11 +146,11 @@
                 [NM.socialLogin loginWithTwitter].thenOnMain(^id(NSArray * array) {
                     FIRAuthCredential * credential = [FIRTwitterAuthProvider credentialWithToken:array.firstObject
                                                                                           secret:array.lastObject];
-                    [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
+                    [[FIRAuth auth] signInAndRetrieveDataWithCredential:credential completion:handleResult];
                     return Nil;
                     
                 }, ^id (NSError * error) {
-                    handleResult(error, Nil);
+                    handleResult(Nil, error);
                     return Nil;
                 });
             }
@@ -164,11 +164,11 @@
                 [NM.socialLogin loginWithGoogle].thenOnMain(^id(NSArray * array) {
                     FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:array.firstObject
                                                                                       accessToken:array.lastObject];
-                    [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
+                    [[FIRAuth auth] signInAndRetrieveDataWithCredential:credential completion:handleResult];
                     return Nil;
                     
                 }, ^id (NSError * error) {
-                    handleResult(error, Nil);
+                    handleResult(Nil, error);
                     return Nil;
                 });
             }
