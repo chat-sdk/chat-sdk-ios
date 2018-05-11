@@ -54,6 +54,7 @@
 @synthesize userChatInfoEnabled;
 @synthesize forgotPasswordEnabled;
 @synthesize termsAndConditionsEnabled;
+@synthesize clientPushEnabled;
 
 @synthesize inviteByEmailTitle;
 @synthesize inviteByEmailBody;
@@ -75,6 +76,7 @@
         facebookLoginEnabled = YES;
         twitterLoginEnabled = YES;
         googleLoginEnabled = YES;
+        clientPushEnabled = YES;
         
         timeFormat = @"HH:mm";
         

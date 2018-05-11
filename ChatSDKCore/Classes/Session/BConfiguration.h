@@ -79,6 +79,9 @@
 // When a push notification is clicked, should the chat screen be opened
 @property(nonatomic, readwrite) BOOL shouldOpenChatWhenPushNotificationClicked;
 
+// Should the client send push notifications?
+@property(nonatomic, readwrite) BOOL clientPushEnabled;
+
 // Allow the owner of a public thread to delete it
 @property (nonatomic, readwrite) BOOL allowPublicThreadDeletion;
 

@@ -151,7 +151,10 @@ static BAudioManager * manager;
     // By using an increment of 100 instead of 1 we ensure that the miliseconds are preserved
     CMTime newTime = CMTimeMakeWithSeconds(totalTime * percent, 1000);
     
-    [_player.currentItem seekToTime:newTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+    CMTime tolerance = CMTimeMakeWithSeconds(1, 1000);
+    
+    [_player.currentItem seekToTime:newTime toleranceBefore:tolerance toleranceAfter:tolerance];
+//    [_player play];
 }
 
 #pragma Recording audio
