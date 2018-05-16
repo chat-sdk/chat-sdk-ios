@@ -61,7 +61,7 @@
         case bMessageTypeLocation:
             return bMaxMessageWidth;
         case bMessageTypeAudio:
-            return 160;
+            return bMaxMessageWidth;
         case bMessageTypeSticker:
             return 140;
         default:
