@@ -78,6 +78,7 @@
 "bReply" = "Reply";
 "bRec" = "Record";
 "bWriteSomething" = "Write something...";
+"bSlideToCancel" = "Slide to cancel...";
 "bName" = "Name";
 "bTapHereForContactInfo" = "tap here for contact info";
 "bPhoneNumber" = "Phone Number";

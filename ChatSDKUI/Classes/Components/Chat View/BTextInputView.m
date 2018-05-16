@@ -210,6 +210,7 @@
                                                               userInfo:Nil
                                                                repeats:YES];
         _recordingStart = [NSDate new];
+        [_placeholderLabel setText:[NSBundle t: bSlideToCancel]];
     }
 }
 
@@ -281,6 +282,7 @@
 // If the user touches up off the button we cancel the recording
 - (void)sendButtonCancelled {
     [_sendBarDelegate.view hideAllToasts];
+    [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
     CSToastStyle * style = [[CSToastStyle alloc] initWithDefaultStyle];
     style.backgroundColor = [UIColor redColor];
     [_sendBarDelegate.view makeToast:[NSBundle t:bCancelled]
