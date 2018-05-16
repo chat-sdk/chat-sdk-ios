@@ -258,6 +258,10 @@
 
 -(void) pushToChannels: (NSArray *) channels withNotification: (NSDictionary *) notification withData:(NSDictionary *) data {
     
+    if (!BChatSDK.config.clientPushEnabled) {
+        return;
+    }
+    
     NSString * serverKey = [NSString stringWithFormat:@"key=%@", BChatSDK.config.firebaseCloudMessagingServerKey];
 
     for(NSString * channel in channels) {
