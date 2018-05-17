@@ -84,6 +84,7 @@ static BAudioManager * manager;
     
     // Make sure we have an audio track and it has been loaded
     if (![_currentAudioURL isEqual:audioURL] || !_player) {
+        [self stopAudio];
         _currentAudioURL = audioURL;
         
         AVPlayerItem * item = [[AVPlayerItem alloc] initWithURL:audioURL];
@@ -121,17 +122,23 @@ static BAudioManager * manager;
 }
 
 - (void)stopAudio {
-    
-    // We want to stop so unallocate the audio player
-    [[NSNotificationCenter defaultCenter] postNotificationName:bStopAudioNotification object:Nil userInfo:nil];
-    [_player pause];
-    _currentAudioURL = nil;
-    _player = nil;
+    if (_player != nil){
+        // We want to stop so unallocate the audio player
+        [_player removeObserver:self forKeyPath:@"status"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:bStopAudioNotification object:_currentAudioURL.absoluteString userInfo:nil];
+        [_player pause];
+        _currentAudioURL = nil;
+        _player = nil;
+    }
 }
 
 // Will be called when AVPlayer finishes playing playerItem
 -(void) didFinishPlaying:(NSNotification *) notification {
-    [self stopAudio];
+    AVPlayerItem * item = [notification object];
+    if([[(AVURLAsset *) item.asset URL] isEqual:_currentAudioURL])
+    {
+        [self stopAudio];
+    }
 }
 
 // This allows us to set the play time of the current audio track
