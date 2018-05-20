@@ -73,9 +73,9 @@
 "bChooseExistingPhoto" = "Choose existing photo";
 "bChooseExistingVideo" = "Choose existing video";
 "bCurrentLocation" = "Current location";
-"bSend" = "Send";
+"bSend" = "SEND";
 "bRec" = "Record";
-"bWriteSomething" = "Write something...";
+"bWriteSomething" = "Your message";
 "bName" = "Name";
 "bTapHereForContactInfo" = "tap here for contact info";
 "bPhoneNumber" = "Phone Number";

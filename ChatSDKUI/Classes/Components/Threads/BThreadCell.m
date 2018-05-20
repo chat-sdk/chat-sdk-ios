@@ -40,7 +40,7 @@
     }
     else {
         self.profileImageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-        self.profileImageView.layer.borderWidth = 1.0;
+        self.profileImageView.layer.borderWidth = 0.0;
     }
 }
 

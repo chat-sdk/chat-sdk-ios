@@ -112,7 +112,7 @@
     
     [containerView addSubview:_titleLabel];
     _titleLabel.keepInsets.equal = 0;
-    _titleLabel.keepBottomInset.equal = 15;
+    _titleLabel.keepBottomInset.equal = 0;
     
     _subtitleLabel = [[UILabel alloc] init];
     _subtitleLabel.textAlignment = NSTextAlignmentCenter;
