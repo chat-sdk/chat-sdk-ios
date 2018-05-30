@@ -55,11 +55,13 @@
     if([BChatSDK config].messageTextColorMe && message.userModel.isMe) {
         textView.textColor = [BCoreUtilities colorWithHexString:[BChatSDK config].messageTextColorMe];
     }
-    if([BChatSDK config].messageTextColorReply && !message.userModel.isMe) {
+    else if([BChatSDK config].messageTextColorReply && !message.userModel.isMe) {
         textView.textColor = [BCoreUtilities colorWithHexString:[BChatSDK config].messageTextColorReply];
     }
-
-    textView.textColor = [BCoreUtilities colorWithHexString:bDefaultTextColor];
+    else
+    {
+        textView.textColor = [BCoreUtilities colorWithHexString:bDefaultTextColor];
+    }
 }
 
 

@@ -84,6 +84,7 @@
 #define bReply @"bReply"
 #define bRec @"bRec"
 #define bWriteSomething @"bWriteSomething"
+#define bSlideToCancel @"bSlideToCancel"
 #define bFlagged @"bFlagged"
 #define bFlag @"bFlag"
 #define bUnflag @"bUnflag"

@@ -210,6 +210,7 @@
                                                               userInfo:Nil
                                                                repeats:YES];
         _recordingStart = [NSDate new];
+        [_placeholderLabel setText:[NSBundle t: bSlideToCancel]];
     }
 }
 
@@ -240,12 +241,13 @@
     }
     [_sendBarDelegate.view makeToast:text
                             duration:0.7
-                            position:[NSValue valueWithCGPoint: CGPointMake(_sendBarDelegate.view.frame.size.width / 2.0, _sendBarDelegate.view.frame.size.height - 120)]];
+                            position:[NSValue valueWithCGPoint: CGPointMake(_sendBarDelegate.view.frame.size.width / 2.0, self.frame.origin.y - self.frame.size.height - 20)]];
 }
 
 -(void) stopRecording {
     [[BAudioManager sharedManager] finishRecording];
     [_sendBarDelegate.view hideAllToasts];
+    [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
     [self cancelRecordingToastTimer];
 }
 
@@ -280,11 +282,12 @@
 // If the user touches up off the button we cancel the recording
 - (void)sendButtonCancelled {
     [_sendBarDelegate.view hideAllToasts];
+    [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
     CSToastStyle * style = [[CSToastStyle alloc] initWithDefaultStyle];
     style.backgroundColor = [UIColor redColor];
     [_sendBarDelegate.view makeToast:[NSBundle t:bCancelled]
                             duration:1
-                            position:[NSValue valueWithCGPoint: CGPointMake(_sendBarDelegate.view.frame.size.width / 2.0, _sendBarDelegate.view.frame.size.height - 120)] style:style];
+                            position:[NSValue valueWithCGPoint: CGPointMake(_sendBarDelegate.view.frame.size.width / 2.0, self.frame.origin.y - self.frame.size.height - 20)] style:style];
     [self cancelRecordingToastTimer];
     [[BAudioManager sharedManager] finishRecording];
 }
