@@ -479,6 +479,7 @@
             [promise resolveWithResult:Nil];
         }
     }];
+    
     return promise.thenOnMain(^id(id result) {
         [ref removeObserverWithHandle:handle];
         return Nil;

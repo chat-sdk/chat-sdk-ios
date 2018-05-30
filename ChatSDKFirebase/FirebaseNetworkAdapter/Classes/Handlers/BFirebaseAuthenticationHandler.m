@@ -69,8 +69,10 @@
         
         [[NSNotificationCenter  defaultCenter] postNotificationName:bNotificationBadgeUpdated object:Nil];
         
-        NSDictionary * data = @{bHookLogout_PUser: user};
-        [NM.hook executeHookWithName:bHookLogout data:data];
+        if (user != Nil) {
+            NSDictionary * data = @{bHookLogout_PUser: user};
+            [NM.hook executeHookWithName:bHookLogout data:data];
+        }
         
         [promise resolveWithResult:Nil];
     }
