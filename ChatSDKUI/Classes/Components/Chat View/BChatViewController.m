@@ -177,8 +177,7 @@
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    [self.navigationController.navigationBar removeBottomBorder];
     // Remove the user from the thread
     if (_thread.type.intValue & bThreadFilterPublic && !_usersViewLoaded) {
         id<PUser> currentUser = NM.currentUser;

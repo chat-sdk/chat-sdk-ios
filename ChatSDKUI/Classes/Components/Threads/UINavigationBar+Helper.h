@@ -9,4 +9,6 @@
 
 @interface UINavigationBar (Helper)
 - (void)setBottomBorderColor:(UIColor *)color height:(CGFloat)height;
+
+- (void)removeBottomBorder;
 @end
