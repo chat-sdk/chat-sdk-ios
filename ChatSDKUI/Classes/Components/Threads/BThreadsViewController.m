@@ -41,6 +41,7 @@
     [self updateButtonStatusForInternetConnection];
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -142,7 +143,6 @@
     [super viewWillAppear:animated];
 
     [self addObservers];
-
     // Stop multiple touches opening multiple chat views
     [tableView setUserInteractionEnabled:YES];
 
@@ -152,7 +152,7 @@
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
+
     [self removeObservers];
 }
 

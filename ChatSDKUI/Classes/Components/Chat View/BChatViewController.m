@@ -10,6 +10,7 @@
 
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
+#import "UINavigationBar+Helper.h"
 
 @implementation BChatViewController
 
@@ -155,6 +156,8 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self.navigationController.navigationBar setBottomBorderColor:[UIColor colorWithRed:242.0/255.0 green:242.0/255 blue:242.0/255.0 alpha:1] height:1];
     [self updateMessages];
 }
 
@@ -174,7 +177,8 @@
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
+    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
     // Remove the user from the thread
     if (_thread.type.intValue & bThreadFilterPublic && !_usersViewLoaded) {
         id<PUser> currentUser = NM.currentUser;
