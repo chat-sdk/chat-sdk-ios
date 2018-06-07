@@ -31,20 +31,26 @@
     [_chatViewController hideKeyboard];
     UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:[NSBundle t:bOptions]
                                                               delegate:self
-                                                     cancelButtonTitle:[NSBundle t:bOk]
+                                                     cancelButtonTitle:[NSBundle t:bCancel]
                                                 destructiveButtonTitle:Nil
                                                      otherButtonTitles:Nil];
-    
+
     if (_options.count) {
         for (BChatOption * option in _options) {
             [actionSheet addButtonWithTitle:option.title];
         }
+        
         [actionSheet showInView:_chatViewController.view];
     }
     else {
         // TODO: hide the option button
     }
     return NO;
+}
+
+- (void)willPresentActionSheet:(UIActionSheet *)actionSheet{
+    [[UIView appearanceWhenContainedIn:[UIAlertController class], nil] setTintColor:[UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1]];
+    
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
