@@ -1,6 +1,6 @@
 //
 //  BLocationOption.m
-//  Pods
+//  ChatSDK
 //
 //  Created by Benjamin Smiley-andrews on 17/12/2016.
 //
@@ -9,6 +9,13 @@
 #import "BLocationChatOption.h"
 #import <ChatSDK/ChatCore.h>
 #import <ChatSDK/ChatUI.h>
+
+@class BLocationPickerControllerDelegate;
+
+@interface BLocationChatOption() {
+    BSelectLocationAction * action;
+}
+@end
 
 @implementation BLocationChatOption
 
@@ -23,10 +30,11 @@
 }
 
 -(RXPromise *) execute {
-    if(_action == Nil) {
-        _action = [[BSelectLocationAction alloc] init];
+    if (!action) {
+        action = [[BSelectLocationAction alloc] initWithViewController:self.parent.delegate.currentViewController];
     }
-    return [_action execute].thenOnMain(^id(id location) {
+
+    return [action execute].thenOnMain(^id(CLLocation * location) {
         return [self.parent.delegate sendLocationMessage:location];
     }, Nil);
 }

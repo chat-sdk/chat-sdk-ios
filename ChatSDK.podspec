@@ -10,65 +10,66 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '8.0'
   s.requires_arc = true
-  
+
   s.default_subspec = 'UI'
-  
+
   s.subspec 'Core' do |core| 
 
-	  core.source_files = ['ChatSDKCore/Classes/**/*']
-	  core.resource_bundles = {
-		'ChatCore' => ['ChatSDKCore/Assets/**/*']
-	  }
+    core.source_files = ['ChatSDKCore/Classes/**/*']
+    core.resource_bundles = {
+      'ChatCore' => ['ChatSDKCore/Assets/**/*']
+    }
 
-	  core.dependency 'RXPromise', '~> 1.0'
-	#   core.dependency 'PromiseKit'
-	  core.dependency 'Reachability', '~> 3.0'
-	  core.dependency 'AFNetworking', '~>3.1.0'
+    core.dependency 'RXPromise', '~> 1.0'
+    # core.dependency 'PromiseKit'
+    core.dependency 'Reachability', '~> 3.0'
+    core.dependency 'AFNetworking', '~>3.1.0'
 
-#     core.frameworks = 'CoreLocation'
-      core.frameworks = 'SafariServices'
-  
+    # core.frameworks = 'CoreLocation'
+    core.frameworks = 'SafariServices'
+
   end
 
   s.subspec 'CoreData' do |cd|
-  
-    cd.source_files = ['ChatSDKCoreData/Classes/**/*']    
+
+    cd.source_files = ['ChatSDKCoreData/Classes/**/*']
     cd.resource_bundles = {
       'ChatCoreData' => ['ChatSDKCoreData/Assets/**/*']
-    }    
-      
+    }
+
     cd.frameworks = 'UIKit', 'CoreData'
     cd.dependency 'ChatSDK/Core'
-  
+
   end
 
-  s.subspec 'UI' do |ui|
+s.subspec 'UI' do |ui|
 
-	  ui.source_files = ['ChatSDKUI/Classes/**/*']
-	  ui.resource_bundles = {
-		'ChatUI' => ['ChatSDKUI/Assets/**/*', 'ChatSDKUI/Interface/**/*']
-	  }
-			
-	  ui.dependency 'MBProgressHUD', '~> 1.0'
-	  ui.dependency 'VENTokenField', '~> 2.0'
-	  ui.dependency 'SDWebImage', '~> 4.0'
-	  ui.dependency 'StaticDataTableViewController', '~> 2.0'
-	  ui.dependency 'CountryPicker', '~> 1.0'
-	  ui.dependency 'DateTools', '~> 1.0'
-	  ui.dependency 'TOCropViewController', '~> 2.0'
-	  ui.dependency 'Hakawai', '~> 5.0.0'
-	  ui.dependency 'ChatSDKKeepLayout'
-	  ui.dependency 'Toast', '~>4.0.0'
+  ui.source_files = ['ChatSDKUI/Classes/**/*']
+  ui.resource_bundles = {
+    'ChatUI' => ['ChatSDKUI/Assets/**/*', 'ChatSDKUI/Interface/**/*']
+  }
 
-	  ui.dependency 'ChatSDK/CoreData'
-	  
-	  ui.frameworks = 'CoreLocation'
-  
+  ui.dependency 'MBProgressHUD', '~> 1.0'
+  ui.dependency 'VENTokenField', '~> 2.0'
+  ui.dependency 'SDWebImage', '~> 4.0'
+  ui.dependency 'StaticDataTableViewController', '~> 2.0'
+  ui.dependency 'CountryPicker', '~> 1.0'
+  ui.dependency 'DateTools', '~> 1.0'
+  ui.dependency 'TOCropViewController', '~> 2.0'
+  ui.dependency 'Hakawai', '~> 5.0.0'
+  ui.dependency 'ChatSDKKeepLayout'
+  ui.dependency 'Toast', '~>4.0.0'
+  ui.dependency 'Mapbox-iOS-SDK', '~> 3.7'
+
+  ui.dependency 'ChatSDK/CoreData'
+
+  ui.frameworks = 'CoreLocation'
+
   end
 
 #  s.subspec 'FirebaseAdapter' do |fb|
 # 
-# 	fb.source_files = ['ChatSDKFirebase/FirebaseNetworkAdapter/Classes/**/*']
+#   fb.source_files = ['ChatSDKFirebase/FirebaseNetworkAdapter/Classes/**/*']
 # 
 #     fb.dependency 'Firebase/Core'
 #     fb.dependency 'Firebase/Auth'
@@ -78,7 +79,7 @@ Pod::Spec.new do |s|
 #  
 # #     fb.vendored_frameworks = "ChatSDKFirebaseAdapter/Frameworks/FirebaseAdapter.framework"
 #   
-# 	fb.dependency 'ChatSDK/Core'
+#   fb.dependency 'ChatSDK/Core'
 #   
 #   end
     
