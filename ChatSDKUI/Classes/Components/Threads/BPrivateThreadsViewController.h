@@ -13,4 +13,6 @@
 @interface BPrivateThreadsViewController : BThreadsViewController {
 }
 
+-(void) createThread;
+
 @end

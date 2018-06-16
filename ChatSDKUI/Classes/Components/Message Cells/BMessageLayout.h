@@ -11,6 +11,8 @@
 #import <ChatSDK/PMessageLayout.h>
 
 #define bTimeLabelPadding 10
+#define bTimeLabelHeight 12
+#define bTimeLabelWidth 30
 #define bMaxMessageWidth 200
 #define bMaxMessageHeight 300
 #define bMinMessageHeight 50
