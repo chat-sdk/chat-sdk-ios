@@ -23,7 +23,7 @@
 #define bReadReceiptTopPadding 10
 
 #define bTimeLabelPadding 10
-#define bMaxMessageWidth 280
+#define bMaxMessageWidth 270
 #define bMaxMessageHeight 300
 #define bMinMessageHeight 50
 #define bUserNameHeight 25
