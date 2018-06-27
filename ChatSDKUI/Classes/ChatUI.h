@@ -26,8 +26,6 @@
 #import <ChatSDK/PElmThread.h>
 #import <ChatSDK/PElmUser.h>
 
-
-#import <ChatSDK/BMessageLayout.h>
 #import <ChatSDK/NSBundle+ChatUI.h>
 #import <ChatSDK/UIImage+Additions.h>
 #import <ChatSDK/UIView+Additions.h>

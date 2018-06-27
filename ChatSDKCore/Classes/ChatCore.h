@@ -33,7 +33,6 @@
 #import <ChatSDK/PEntityWrapper.h>
 #import <ChatSDK/PUserConnection.h>
 #import <ChatSDK/PMessage.h>
-#import <ChatSDK/PMessageLayout.h>
 #import <ChatSDK/PMessageWrapper.h>
 #import <ChatSDK/PThread_.h>
 #import <ChatSDK/PThreadWrapper.h>

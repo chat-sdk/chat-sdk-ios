@@ -64,17 +64,15 @@
 
 -(void) willDisplayCell {
     
-    id<PMessageLayout> l = [BMessageLayout layoutWithMessage:_message];
-    
-    float margin = l.bubbleMargin;
-    float padding = l.bubblePadding;
+    float margin = self.bubbleMargin;
+    float padding = self.bubblePadding;
     
     // HERE
     // Set the margins and height for message
     [self.bubbleImageView setFrame:CGRectMake(margin,
                                          margin,
-                                         l.bubbleWidth,
-                                         l.bubbleHeight)];
+                                         self.bubbleWidth,
+                                         self.bubbleHeight)];
     
     _nameLabel.frame = CGRectZero;
     _timeLabel.frame = CGRectZero;
@@ -83,8 +81,8 @@
     // Update the content view size for the message length
     [self cellContentView].frame = CGRectMake(padding,
                                               padding,
-                                              l.messageWidth + padding,
-                                              l.messageHeight + padding);
+                                              self.messageWidth + padding,
+                                              self.messageHeight + padding);
     
     // Layout the profile picture
     _profilePicture.frame = CGRectZero;

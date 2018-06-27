@@ -279,6 +279,10 @@
     [super viewDidLayoutSubviews];
 }
 
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self reloadData];
+}
+
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self scrollToBottomOfTable:YES];
@@ -399,8 +403,7 @@
 - (CGFloat)tableView:(UITableView *)tableView_ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
     if(message) {
-        id<PMessageLayout> l = [BMessageLayout layoutWithMessage:message];
-        return l.cellHeight;
+        return [BMessageCell cellHeight:message maxWidth:[BMessageCell maxTextWidth:message]];
     }
     else {
         return 0;
