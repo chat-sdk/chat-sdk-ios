@@ -7,7 +7,7 @@
 //
 
 #import "NSBundle+Core.h"
-#import <ChatSDK/UI.h>
+#import <ChatSDK/Core.h>
 
 #define bLocalizableFile @"ChatSDKLocalizable"
 
