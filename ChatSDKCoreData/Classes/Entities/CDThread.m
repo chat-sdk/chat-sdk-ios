@@ -8,8 +8,8 @@
 
 #import "CDThread.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatCoreData.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/CoreData.h>
 
 @implementation CDThread
 
@@ -287,7 +287,7 @@
         
         // Check how many users are in the conversation
         if (self.type.intValue & bThreadFilterPublic) {
-            return [NSBundle imageNamed:bDefaultPublicGroupImage framework:@"ChatSDK" bundle:@"ChatUI"];
+            return [BChatSDK config].defaultGroupChatAvatar;
         }
         else {
             return [BChatSDK config].defaultBlankAvatar;

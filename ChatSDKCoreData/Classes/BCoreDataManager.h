@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import <ChatSDK/BStorageAdapter.h>
-//#import "ChatCore.h"
+//#import "Core.h"
 
 
 @interface BCoreDataManager : NSObject<BStorageAdapter> {

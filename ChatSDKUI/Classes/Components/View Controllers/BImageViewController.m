@@ -7,8 +7,8 @@
 //
 
 #import "BImageViewController.h"
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 @interface BImageViewController ()
 
@@ -21,9 +21,9 @@
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:@"BImageViewController" bundle:[NSBundle chatUIBundle]];
+    self = [super initWithNibName:@"BImageViewController" bundle:[NSBundle uiBundle]];
     if (self) {
-        self.title = [NSBundle core_t:bImageMessage];
+        self.title = [NSBundle t:bImageMessage];
     }
     return self;
 }
@@ -61,7 +61,7 @@
         
         // We want the image to be the size of the screen - the user can then zoom in more from there
         imageView.keepWidth.equal = screenSize.size.width;
-        imageView.keepHeight.equal = image.size.height * screenSize.size.width / image.size.width;
+        imageView.keepHeight.equal = screenSize.size.width * imageRatio;
         
         // Make sure the image is in the middle of the screen
         imageView.keepVerticalCenter.equal = 0.5;
@@ -73,7 +73,7 @@
         CGFloat visibleScreenHeight = screenSize.size.height - screenSize.origin.y;
         
         imageView.keepHeight.equal = visibleScreenHeight;
-        imageView.keepWidth.equal = image.size.width * visibleScreenHeight / image.size.height;
+        imageView.keepWidth.equal = visibleScreenHeight / imageRatio;
         
         // Make sure the image is in the middle of the screen
         imageView.keepHorizontalCenter.equal = 0.5;

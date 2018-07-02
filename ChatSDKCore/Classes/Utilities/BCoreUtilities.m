@@ -8,7 +8,7 @@
 
 #import "BCoreUtilities.h"
 //#import <DateTools.h>
-#import <ChatSDK/ChatCore.h> 
+#import <ChatSDK/Core.h> 
 
 @implementation BCoreUtilities
 

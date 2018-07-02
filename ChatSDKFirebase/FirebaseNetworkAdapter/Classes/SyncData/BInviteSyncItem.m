@@ -7,8 +7,8 @@
 //
 
 #import "BInviteSyncItem.h"
-#import <ChatSDK/ChatCore.h>
-#import "ChatFirebaseAdapter.h"
+
+#import <ChatSDK/FirebaseAdapter.h>
 
 @implementation BInviteSyncItem
 

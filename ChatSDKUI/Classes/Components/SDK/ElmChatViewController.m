@@ -11,8 +11,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 
 // The distance to the bottom of the screen you need to be for the tableView to snap you to the bottom
@@ -33,7 +33,7 @@
 -(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate_
 {
     self.delegate = delegate_;
-    self = [super initWithNibName:@"BChatViewController" bundle:[NSBundle chatUIBundle]];
+    self = [super initWithNibName:@"BChatViewController" bundle:[NSBundle uiBundle]];
     if (self) {
         
         // Add a tap recognizer so when we tap the table we dismiss the keyboard

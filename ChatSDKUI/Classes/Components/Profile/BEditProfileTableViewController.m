@@ -8,8 +8,8 @@
 
 #import "BEditProfileTableViewController.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 #define bStatusSection 0
 

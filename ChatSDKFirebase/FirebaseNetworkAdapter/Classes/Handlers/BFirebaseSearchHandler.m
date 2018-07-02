@@ -8,8 +8,7 @@
 
 #import "BFirebaseSearchHandler.h"
 
-#import "ChatFirebaseAdapter.h"
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/FirebaseAdapter.h>
 
 @implementation BFirebaseSearchHandler
 

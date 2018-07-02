@@ -1,5 +1,5 @@
 //
-//  ChatUI.h
+//  UI.h
 //  Pods
 //
 //  Created by Benjamin Smiley-andrews on 13/11/2016.
@@ -8,6 +8,10 @@
 
 #ifndef ChatUI_h
 #define ChatUI_h
+
+#define bUIBundleName @"ChatUI"
+
+#import <ChatSDK/Core.h>
 
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <TOCropViewController/TOCropViewController.h>
@@ -26,7 +30,7 @@
 #import <ChatSDK/PElmThread.h>
 #import <ChatSDK/PElmUser.h>
 
-#import <ChatSDK/NSBundle+ChatUI.h>
+#import <ChatSDK/NSBundle+UI.h>
 #import <ChatSDK/UIImage+Additions.h>
 #import <ChatSDK/UIView+Additions.h>
 #import <ChatSDK/NSMutableArray+User.h>

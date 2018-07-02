@@ -1,5 +1,5 @@
 //
-//  ChatCore.h
+//  Core.h
 //  Pods
 //
 //  Created by Benjamin Smiley-andrews on 13/11/2016.
@@ -8,6 +8,8 @@
 
 #ifndef ChatCore_h
 #define ChatCore_h
+
+#define bCoreBundleName @"ChatCore"
 
 #import <Reachability/Reachability.h>
 #import <RXPromise/RXPromise.h>
@@ -66,7 +68,7 @@
 #import <ChatSDK/PStickerMessageHandler.h>
 #import <ChatSDK/BStorageAdapter.h>
 #import <ChatSDK/PSocialLoginHandler.h>
-#import <ChatSDK/NSBundle+ChatCore.h>
+#import <ChatSDK/NSBundle+Core.h>
 #import <ChatSDK/BAccountDetails.h>
 #import <ChatSDK/BChatSDK.h>
 #import <ChatSDK/BConfiguration.h>

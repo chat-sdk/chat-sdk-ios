@@ -7,7 +7,7 @@
 
 #import "BChatSDK.h"
 #import "BConfiguration.h"
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 
 #define bRootPathKey @"chat_sdk_root_path"
 #define bDatabaseVersionKey @"chat_sdk_database_version"

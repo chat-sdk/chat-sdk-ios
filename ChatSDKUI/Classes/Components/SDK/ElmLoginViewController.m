@@ -8,8 +8,8 @@
 
 #import "ElmLoginViewController.h"
 
-//#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+//#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 @interface ElmLoginViewController ()
 
@@ -34,7 +34,7 @@
 @synthesize delegate;
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:@"BLoginViewController" bundle:[NSBundle chatUIBundle]])) {
+    if ((self = [super initWithNibName:@"BLoginViewController" bundle:[NSBundle uiBundle]])) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
     }

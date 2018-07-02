@@ -8,10 +8,7 @@
 
 #import "CCThreadWrapper.h"
 
-#import "NSManagedObject+Status.h"
-
-#import "ChatFirebaseAdapter.h"
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/FirebaseAdapter.h>
 
 #define bMessageDownloadLimit 50
 

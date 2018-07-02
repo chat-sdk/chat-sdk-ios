@@ -7,7 +7,7 @@
 //
 
 #import "BBaseHookHandler.h"
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 
 @implementation BBaseHookHandler {
     NSMutableDictionary * _hooks;

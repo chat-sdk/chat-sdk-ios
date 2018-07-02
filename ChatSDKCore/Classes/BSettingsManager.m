@@ -7,7 +7,7 @@
 //
 
 #import "BSettingsManager.h"
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 
 #define bMainKey @"chat_sdk"
 

@@ -6,8 +6,8 @@
 //
 
 #import "BSelectMediaAction.h"
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 @implementation BSelectMediaAction
 

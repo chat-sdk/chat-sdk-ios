@@ -6,7 +6,7 @@
 //
 
 #import "BConfiguration.h"
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 #import <ChatSDK/BSettingsManager.h>
 
 @implementation BConfiguration
@@ -55,6 +55,7 @@
 @synthesize forgotPasswordEnabled;
 @synthesize termsAndConditionsEnabled;
 @synthesize clientPushEnabled;
+@synthesize defaultGroupChatAvatar;
 
 @synthesize inviteByEmailTitle;
 @synthesize inviteByEmailBody;
@@ -111,7 +112,8 @@
         
         showLocalNotifications = YES;
         
-        defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage framework:@"ChatSDK" bundle:@"ChatCore"];
+        defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bCoreBundleName];
+        defaultGroupChatAvatar = [NSBundle imageNamed:bDefaultPublicGroupImage bundle:bCoreBundleName];
         
         firebaseCloudMessagingServerKey = [BSettingsManager firebaseCloudMessagingServerKey];
         rootPath = [BSettingsManager firebaseRootPath];

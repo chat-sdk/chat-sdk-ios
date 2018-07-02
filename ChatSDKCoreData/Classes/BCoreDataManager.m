@@ -8,8 +8,8 @@
 
 #import "BCoreDataManager.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatCoreData.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/CoreData.h>
 
 static BCoreDataManager * manager;
 
@@ -229,7 +229,7 @@ static BCoreDataManager * manager;
 - (NSManagedObjectModel *)managedObjectModel {
     
     if (!_model) {
-        NSBundle * bundle = [NSBundle bundleWithFramework:@"ChatSDK" name:@"ChatCoreData"];
+        NSBundle * bundle = [NSBundle bundleWithName:bCoreDataBundle];
         
         NSString * path = [bundle pathForResource:@"ChatSDK" ofType:@"momd"];
         NSURL * momURL = [NSURL fileURLWithPath:path];

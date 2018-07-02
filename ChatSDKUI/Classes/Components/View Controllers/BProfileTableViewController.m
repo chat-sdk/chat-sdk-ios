@@ -8,8 +8,8 @@
 
 #import "BProfileTableViewController.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 #define defaultCellHeight 
 
@@ -30,7 +30,7 @@
 -(instancetype) initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         self.title = [NSBundle t:bProfile];
-        self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_profile.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_profile.png"];
     }
     return self;
 }
@@ -89,7 +89,7 @@
         // Add a logout button
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bLogout] style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
         if([BInterfaceManager sharedManager].a.settingsViewController) {
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle chatUIImageNamed:@"icn_25_settings.png"] style:UIBarButtonItemStylePlain target:self action:@selector(openSettings)];
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_25_settings.png"] style:UIBarButtonItemStylePlain target:self action:@selector(openSettings)];
         }
         else {
             self.navigationItem.leftBarButtonItem = Nil;

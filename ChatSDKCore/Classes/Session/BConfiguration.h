@@ -43,6 +43,9 @@
 // Which image should be used if no avatar is set
 @property (nonatomic, readwrite) UIImage * defaultBlankAvatar;
 
+// Which image should be used if no avatar is set
+@property (nonatomic, readwrite) UIImage * defaultGroupChatAvatar;
+
 @property (nonatomic, readwrite) NSString * timeFormat;
 
 // Can users make new public chats. It's recommended to set this to no otherwise

@@ -11,38 +11,6 @@
 		ACF7BE7A1C8D8AD7003E8983 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF7BE791C8D8AD7003E8983 /* AppDelegate.swift */; };
 		ACF7BE811C8D8AD7003E8983 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF7BE801C8D8AD7003E8983 /* Assets.xcassets */; };
 		ACF7BE841C8D8AD7003E8983 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACF7BE821C8D8AD7003E8983 /* LaunchScreen.storyboard */; };
-		B5B4AB7F208F29F3000F9059 /* BFirebasePushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB33208F29F3000F9059 /* BFirebasePushModule.m */; };
-		B5B4AB80208F29F3000F9059 /* BLocalNotificationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB34208F29F3000F9059 /* BLocalNotificationDelegate.m */; };
-		B5B4AB81208F29F3000F9059 /* BFirebasePushHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB35208F29F3000F9059 /* BFirebasePushHandler.m */; };
-		B5B4AB82208F29F3000F9059 /* BFirebaseUploadHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB3A208F29F3000F9059 /* BFirebaseUploadHandler.m */; };
-		B5B4AB83208F29F3000F9059 /* BFirebaseFileStorageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB3D208F29F3000F9059 /* BFirebaseFileStorageModule.m */; };
-		B5B4AB84208F29F3000F9059 /* BGoogleLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5B4AB40208F29F3000F9059 /* BGoogleLoginViewController.xib */; };
-		B5B4AB85208F29F3000F9059 /* BGoogleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB41208F29F3000F9059 /* BGoogleHelper.m */; };
-		B5B4AB86208F29F3000F9059 /* BFirebaseSocialLoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB42208F29F3000F9059 /* BFirebaseSocialLoginHandler.m */; };
-		B5B4AB87208F29F3000F9059 /* BFirebaseSocialLoginModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB46208F29F3000F9059 /* BFirebaseSocialLoginModule.m */; };
-		B5B4AB88208F29F3000F9059 /* icn_200_google@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5B4AB48208F29F3000F9059 /* icn_200_google@3x.png */; };
-		B5B4AB89208F29F3000F9059 /* BGoogleLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB4A208F29F3000F9059 /* BGoogleLoginViewController.m */; };
-		B5B4AB8A208F29F3000F9059 /* BSyncDataPusher.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB55208F29F3000F9059 /* BSyncDataPusher.m */; };
-		B5B4AB8B208F29F3000F9059 /* BSyncDataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB57208F29F3000F9059 /* BSyncDataFetcher.m */; };
-		B5B4AB8C208F29F3000F9059 /* BInviteSyncItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB58208F29F3000F9059 /* BInviteSyncItem.m */; };
-		B5B4AB8D208F29F3000F9059 /* BSyncDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB5A208F29F3000F9059 /* BSyncDataManager.m */; };
-		B5B4AB8E208F29F3000F9059 /* BSyncItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB5B208F29F3000F9059 /* BSyncItem.m */; };
-		B5B4AB8F208F29F3000F9059 /* BFirebaseNetworkAdapterModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB5F208F29F3000F9059 /* BFirebaseNetworkAdapterModule.m */; };
-		B5B4AB90208F29F3000F9059 /* CCThreadWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB61208F29F3000F9059 /* CCThreadWrapper.m */; };
-		B5B4AB91208F29F3000F9059 /* CCMessageWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB64208F29F3000F9059 /* CCMessageWrapper.m */; };
-		B5B4AB92208F29F3000F9059 /* BEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB65208F29F3000F9059 /* BEntity.m */; };
-		B5B4AB93208F29F3000F9059 /* BFirebaseNetworkAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB66208F29F3000F9059 /* BFirebaseNetworkAdapter.m */; };
-		B5B4AB94208F29F3000F9059 /* BStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB69208F29F3000F9059 /* BStateManager.m */; };
-		B5B4AB95208F29F3000F9059 /* CCUserWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB6A208F29F3000F9059 /* CCUserWrapper.m */; };
-		B5B4AB96208F29F3000F9059 /* NSManagedObject+Status.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB6D208F29F3000F9059 /* NSManagedObject+Status.m */; };
-		B5B4AB97208F29F3000F9059 /* Firebase+Paths.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB6E208F29F3000F9059 /* Firebase+Paths.m */; };
-		B5B4AB98208F29F3000F9059 /* BFirebaseUsersHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB71208F29F3000F9059 /* BFirebaseUsersHandler.m */; };
-		B5B4AB99208F29F3000F9059 /* BFirebaseSearchHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB72208F29F3000F9059 /* BFirebaseSearchHandler.m */; };
-		B5B4AB9A208F29F3000F9059 /* BFirebaseBlockingHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB73208F29F3000F9059 /* BFirebaseBlockingHandler.m */; };
-		B5B4AB9B208F29F3000F9059 /* BFirebaseAuthenticationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB75208F29F3000F9059 /* BFirebaseAuthenticationHandler.m */; };
-		B5B4AB9C208F29F3000F9059 /* BFirebasePublicThreadHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB76208F29F3000F9059 /* BFirebasePublicThreadHandler.m */; };
-		B5B4AB9D208F29F3000F9059 /* BFirebaseModerationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB79208F29F3000F9059 /* BFirebaseModerationHandler.m */; };
-		B5B4AB9E208F29F3000F9059 /* BFirebaseCoreHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B4AB7E208F29F3000F9059 /* BFirebaseCoreHandler.m */; };
 		E0B40CBFF82242CA7A068C9B /* Pods_ChatSDKSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49984E496C1AAC43FD13FB54 /* Pods_ChatSDKSwift.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,74 +26,6 @@
 		ACF7BE851C8D8AD7003E8983 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACF7BEAC1C8EEA4F003E8983 /* ChatSDK-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChatSDK-Bridging-Header.h"; sourceTree = "<group>"; };
 		B52556CB1FB1ED4E0035F796 /* ChatSDKSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatSDKSwift.entitlements; sourceTree = "<group>"; };
-		B5B4AB33208F29F3000F9059 /* BFirebasePushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebasePushModule.m; sourceTree = "<group>"; };
-		B5B4AB34208F29F3000F9059 /* BLocalNotificationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLocalNotificationDelegate.m; sourceTree = "<group>"; };
-		B5B4AB35208F29F3000F9059 /* BFirebasePushHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebasePushHandler.m; sourceTree = "<group>"; };
-		B5B4AB36208F29F3000F9059 /* BFirebasePushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebasePushModule.h; sourceTree = "<group>"; };
-		B5B4AB37208F29F3000F9059 /* BLocalNotificationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLocalNotificationDelegate.h; sourceTree = "<group>"; };
-		B5B4AB38208F29F3000F9059 /* BFirebasePushHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebasePushHandler.h; sourceTree = "<group>"; };
-		B5B4AB3A208F29F3000F9059 /* BFirebaseUploadHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseUploadHandler.m; sourceTree = "<group>"; };
-		B5B4AB3B208F29F3000F9059 /* BFirebaseFileStorageModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseFileStorageModule.h; sourceTree = "<group>"; };
-		B5B4AB3C208F29F3000F9059 /* BFirebaseUploadHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseUploadHandler.h; sourceTree = "<group>"; };
-		B5B4AB3D208F29F3000F9059 /* BFirebaseFileStorageModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseFileStorageModule.m; sourceTree = "<group>"; };
-		B5B4AB3F208F29F3000F9059 /* BFirebaseSocialLoginModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseSocialLoginModule.h; sourceTree = "<group>"; };
-		B5B4AB40208F29F3000F9059 /* BGoogleLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BGoogleLoginViewController.xib; sourceTree = "<group>"; };
-		B5B4AB41208F29F3000F9059 /* BGoogleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGoogleHelper.m; sourceTree = "<group>"; };
-		B5B4AB42208F29F3000F9059 /* BFirebaseSocialLoginHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseSocialLoginHandler.m; sourceTree = "<group>"; };
-		B5B4AB43208F29F3000F9059 /* SocialLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialLogin.h; sourceTree = "<group>"; };
-		B5B4AB44208F29F3000F9059 /* PGoogleLoginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGoogleLoginDelegate.h; sourceTree = "<group>"; };
-		B5B4AB45208F29F3000F9059 /* BGoogleLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGoogleLoginViewController.h; sourceTree = "<group>"; };
-		B5B4AB46208F29F3000F9059 /* BFirebaseSocialLoginModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseSocialLoginModule.m; sourceTree = "<group>"; };
-		B5B4AB47208F29F3000F9059 /* BGoogleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGoogleHelper.h; sourceTree = "<group>"; };
-		B5B4AB48208F29F3000F9059 /* icn_200_google@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icn_200_google@3x.png"; sourceTree = "<group>"; };
-		B5B4AB49208F29F3000F9059 /* BFirebaseSocialLoginHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseSocialLoginHandler.h; sourceTree = "<group>"; };
-		B5B4AB4A208F29F3000F9059 /* BGoogleLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGoogleLoginViewController.m; sourceTree = "<group>"; };
-		B5B4AB4D208F29F3000F9059 /* ChatFirebaseAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatFirebaseAdapter.h; sourceTree = "<group>"; };
-		B5B4AB4F208F29F3000F9059 /* BSyncDataPusher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncDataPusher.h; sourceTree = "<group>"; };
-		B5B4AB50208F29F3000F9059 /* ChatSDKSyncData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatSDKSyncData.h; sourceTree = "<group>"; };
-		B5B4AB51208F29F3000F9059 /* BInviteSyncItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BInviteSyncItem.h; sourceTree = "<group>"; };
-		B5B4AB52208F29F3000F9059 /* BSyncDataFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncDataFetcher.h; sourceTree = "<group>"; };
-		B5B4AB53208F29F3000F9059 /* BSyncItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncItem.h; sourceTree = "<group>"; };
-		B5B4AB54208F29F3000F9059 /* BSyncDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncDataManager.h; sourceTree = "<group>"; };
-		B5B4AB55208F29F3000F9059 /* BSyncDataPusher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSyncDataPusher.m; sourceTree = "<group>"; };
-		B5B4AB56208F29F3000F9059 /* BSyncItemDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncItemDelegate.h; sourceTree = "<group>"; };
-		B5B4AB57208F29F3000F9059 /* BSyncDataFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSyncDataFetcher.m; sourceTree = "<group>"; };
-		B5B4AB58208F29F3000F9059 /* BInviteSyncItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BInviteSyncItem.m; sourceTree = "<group>"; };
-		B5B4AB59208F29F3000F9059 /* BSyncDataListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSyncDataListener.h; sourceTree = "<group>"; };
-		B5B4AB5A208F29F3000F9059 /* BSyncDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSyncDataManager.m; sourceTree = "<group>"; };
-		B5B4AB5B208F29F3000F9059 /* BSyncItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSyncItem.m; sourceTree = "<group>"; };
-		B5B4AB5D208F29F3000F9059 /* BEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEntity.h; sourceTree = "<group>"; };
-		B5B4AB5E208F29F3000F9059 /* CCMessageWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMessageWrapper.h; sourceTree = "<group>"; };
-		B5B4AB5F208F29F3000F9059 /* BFirebaseNetworkAdapterModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseNetworkAdapterModule.m; sourceTree = "<group>"; };
-		B5B4AB60208F29F3000F9059 /* BFirebaseNetworkAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseNetworkAdapter.h; sourceTree = "<group>"; };
-		B5B4AB61208F29F3000F9059 /* CCThreadWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCThreadWrapper.m; sourceTree = "<group>"; };
-		B5B4AB62208F29F3000F9059 /* CCUserWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCUserWrapper.h; sourceTree = "<group>"; };
-		B5B4AB63208F29F3000F9059 /* BStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BStateManager.h; sourceTree = "<group>"; };
-		B5B4AB64208F29F3000F9059 /* CCMessageWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMessageWrapper.m; sourceTree = "<group>"; };
-		B5B4AB65208F29F3000F9059 /* BEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEntity.m; sourceTree = "<group>"; };
-		B5B4AB66208F29F3000F9059 /* BFirebaseNetworkAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseNetworkAdapter.m; sourceTree = "<group>"; };
-		B5B4AB67208F29F3000F9059 /* BFirebaseNetworkAdapterModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseNetworkAdapterModule.h; sourceTree = "<group>"; };
-		B5B4AB68208F29F3000F9059 /* CCThreadWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCThreadWrapper.h; sourceTree = "<group>"; };
-		B5B4AB69208F29F3000F9059 /* BStateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BStateManager.m; sourceTree = "<group>"; };
-		B5B4AB6A208F29F3000F9059 /* CCUserWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCUserWrapper.m; sourceTree = "<group>"; };
-		B5B4AB6C208F29F3000F9059 /* Firebase+Paths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Firebase+Paths.h"; sourceTree = "<group>"; };
-		B5B4AB6D208F29F3000F9059 /* NSManagedObject+Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Status.m"; sourceTree = "<group>"; };
-		B5B4AB6E208F29F3000F9059 /* Firebase+Paths.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Firebase+Paths.m"; sourceTree = "<group>"; };
-		B5B4AB6F208F29F3000F9059 /* NSManagedObject+Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+Status.h"; sourceTree = "<group>"; };
-		B5B4AB71208F29F3000F9059 /* BFirebaseUsersHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseUsersHandler.m; sourceTree = "<group>"; };
-		B5B4AB72208F29F3000F9059 /* BFirebaseSearchHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseSearchHandler.m; sourceTree = "<group>"; };
-		B5B4AB73208F29F3000F9059 /* BFirebaseBlockingHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseBlockingHandler.m; sourceTree = "<group>"; };
-		B5B4AB74208F29F3000F9059 /* BFirebaseModerationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseModerationHandler.h; sourceTree = "<group>"; };
-		B5B4AB75208F29F3000F9059 /* BFirebaseAuthenticationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseAuthenticationHandler.m; sourceTree = "<group>"; };
-		B5B4AB76208F29F3000F9059 /* BFirebasePublicThreadHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebasePublicThreadHandler.m; sourceTree = "<group>"; };
-		B5B4AB77208F29F3000F9059 /* BFirebaseCoreHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseCoreHandler.h; sourceTree = "<group>"; };
-		B5B4AB78208F29F3000F9059 /* BFirebaseAuthenticationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseAuthenticationHandler.h; sourceTree = "<group>"; };
-		B5B4AB79208F29F3000F9059 /* BFirebaseModerationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseModerationHandler.m; sourceTree = "<group>"; };
-		B5B4AB7A208F29F3000F9059 /* BFirebaseSearchHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseSearchHandler.h; sourceTree = "<group>"; };
-		B5B4AB7B208F29F3000F9059 /* BFirebaseBlockingHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseBlockingHandler.h; sourceTree = "<group>"; };
-		B5B4AB7C208F29F3000F9059 /* BFirebaseUsersHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseUsersHandler.h; sourceTree = "<group>"; };
-		B5B4AB7D208F29F3000F9059 /* BFirebasePublicThreadHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebasePublicThreadHandler.h; sourceTree = "<group>"; };
-		B5B4AB7E208F29F3000F9059 /* BFirebaseCoreHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseCoreHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,10 +61,6 @@
 		ACF7BE781C8D8AD7003E8983 /* ChatSDKSwift */ = {
 			isa = PBXGroup;
 			children = (
-				B5B4AB39208F29F3000F9059 /* FirebaseFileStorage */,
-				B5B4AB4B208F29F3000F9059 /* FirebaseNetworkAdapter */,
-				B5B4AB32208F29F3000F9059 /* FirebasePush */,
-				B5B4AB3E208F29F3000F9059 /* FirebaseSocialLogin */,
 				B52556CB1FB1ED4E0035F796 /* ChatSDKSwift.entitlements */,
 				AC11A8811D5B128400EBFDFD /* GoogleService-Info.plist */,
 				ACF7BE791C8D8AD7003E8983 /* AppDelegate.swift */,
@@ -174,146 +70,6 @@
 				ACF7BEAC1C8EEA4F003E8983 /* ChatSDK-Bridging-Header.h */,
 			);
 			path = ChatSDKSwift;
-			sourceTree = "<group>";
-		};
-		B5B4AB32208F29F3000F9059 /* FirebasePush */ = {
-			isa = PBXGroup;
-			children = (
-				B5B4AB33208F29F3000F9059 /* BFirebasePushModule.m */,
-				B5B4AB34208F29F3000F9059 /* BLocalNotificationDelegate.m */,
-				B5B4AB35208F29F3000F9059 /* BFirebasePushHandler.m */,
-				B5B4AB36208F29F3000F9059 /* BFirebasePushModule.h */,
-				B5B4AB37208F29F3000F9059 /* BLocalNotificationDelegate.h */,
-				B5B4AB38208F29F3000F9059 /* BFirebasePushHandler.h */,
-			);
-			name = FirebasePush;
-			path = ../../ChatSDKFirebase/FirebasePush;
-			sourceTree = "<group>";
-		};
-		B5B4AB39208F29F3000F9059 /* FirebaseFileStorage */ = {
-			isa = PBXGroup;
-			children = (
-				B5B4AB3A208F29F3000F9059 /* BFirebaseUploadHandler.m */,
-				B5B4AB3B208F29F3000F9059 /* BFirebaseFileStorageModule.h */,
-				B5B4AB3C208F29F3000F9059 /* BFirebaseUploadHandler.h */,
-				B5B4AB3D208F29F3000F9059 /* BFirebaseFileStorageModule.m */,
-			);
-			name = FirebaseFileStorage;
-			path = ../../ChatSDKFirebase/FirebaseFileStorage;
-			sourceTree = "<group>";
-		};
-		B5B4AB3E208F29F3000F9059 /* FirebaseSocialLogin */ = {
-			isa = PBXGroup;
-			children = (
-				B5B4AB3F208F29F3000F9059 /* BFirebaseSocialLoginModule.h */,
-				B5B4AB40208F29F3000F9059 /* BGoogleLoginViewController.xib */,
-				B5B4AB41208F29F3000F9059 /* BGoogleHelper.m */,
-				B5B4AB42208F29F3000F9059 /* BFirebaseSocialLoginHandler.m */,
-				B5B4AB43208F29F3000F9059 /* SocialLogin.h */,
-				B5B4AB44208F29F3000F9059 /* PGoogleLoginDelegate.h */,
-				B5B4AB45208F29F3000F9059 /* BGoogleLoginViewController.h */,
-				B5B4AB46208F29F3000F9059 /* BFirebaseSocialLoginModule.m */,
-				B5B4AB47208F29F3000F9059 /* BGoogleHelper.h */,
-				B5B4AB48208F29F3000F9059 /* icn_200_google@3x.png */,
-				B5B4AB49208F29F3000F9059 /* BFirebaseSocialLoginHandler.h */,
-				B5B4AB4A208F29F3000F9059 /* BGoogleLoginViewController.m */,
-			);
-			name = FirebaseSocialLogin;
-			path = ../../ChatSDKFirebase/FirebaseSocialLogin;
-			sourceTree = "<group>";
-		};
-		B5B4AB4B208F29F3000F9059 /* FirebaseNetworkAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				B5B4AB4C208F29F3000F9059 /* Classes */,
-			);
-			name = FirebaseNetworkAdapter;
-			path = ../../ChatSDKFirebase/FirebaseNetworkAdapter;
-			sourceTree = "<group>";
-		};
-		B5B4AB4C208F29F3000F9059 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				B5B4AB4D208F29F3000F9059 /* ChatFirebaseAdapter.h */,
-				B5B4AB4E208F29F3000F9059 /* SyncData */,
-				B5B4AB5C208F29F3000F9059 /* Firebase */,
-				B5B4AB6B208F29F3000F9059 /* Categories */,
-				B5B4AB70208F29F3000F9059 /* Handlers */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		B5B4AB4E208F29F3000F9059 /* SyncData */ = {
-			isa = PBXGroup;
-			children = (
-				B5B4AB4F208F29F3000F9059 /* BSyncDataPusher.h */,
-				B5B4AB50208F29F3000F9059 /* ChatSDKSyncData.h */,
-				B5B4AB51208F29F3000F9059 /* BInviteSyncItem.h */,
-				B5B4AB52208F29F3000F9059 /* BSyncDataFetcher.h */,
-				B5B4AB53208F29F3000F9059 /* BSyncItem.h */,
-				B5B4AB54208F29F3000F9059 /* BSyncDataManager.h */,
-				B5B4AB55208F29F3000F9059 /* BSyncDataPusher.m */,
-				B5B4AB56208F29F3000F9059 /* BSyncItemDelegate.h */,
-				B5B4AB57208F29F3000F9059 /* BSyncDataFetcher.m */,
-				B5B4AB58208F29F3000F9059 /* BInviteSyncItem.m */,
-				B5B4AB59208F29F3000F9059 /* BSyncDataListener.h */,
-				B5B4AB5A208F29F3000F9059 /* BSyncDataManager.m */,
-				B5B4AB5B208F29F3000F9059 /* BSyncItem.m */,
-			);
-			path = SyncData;
-			sourceTree = "<group>";
-		};
-		B5B4AB5C208F29F3000F9059 /* Firebase */ = {
-			isa = PBXGroup;
-			children = (
-				B5B4AB5D208F29F3000F9059 /* BEntity.h */,
-				B5B4AB5E208F29F3000F9059 /* CCMessageWrapper.h */,
-				B5B4AB5F208F29F3000F9059 /* BFirebaseNetworkAdapterModule.m */,
-				B5B4AB60208F29F3000F9059 /* BFirebaseNetworkAdapter.h */,
-				B5B4AB61208F29F3000F9059 /* CCThreadWrapper.m */,
-				B5B4AB62208F29F3000F9059 /* CCUserWrapper.h */,
-				B5B4AB63208F29F3000F9059 /* BStateManager.h */,
-				B5B4AB64208F29F3000F9059 /* CCMessageWrapper.m */,
-				B5B4AB65208F29F3000F9059 /* BEntity.m */,
-				B5B4AB66208F29F3000F9059 /* BFirebaseNetworkAdapter.m */,
-				B5B4AB67208F29F3000F9059 /* BFirebaseNetworkAdapterModule.h */,
-				B5B4AB68208F29F3000F9059 /* CCThreadWrapper.h */,
-				B5B4AB69208F29F3000F9059 /* BStateManager.m */,
-				B5B4AB6A208F29F3000F9059 /* CCUserWrapper.m */,
-			);
-			path = Firebase;
-			sourceTree = "<group>";
-		};
-		B5B4AB6B208F29F3000F9059 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				B5B4AB6C208F29F3000F9059 /* Firebase+Paths.h */,
-				B5B4AB6D208F29F3000F9059 /* NSManagedObject+Status.m */,
-				B5B4AB6E208F29F3000F9059 /* Firebase+Paths.m */,
-				B5B4AB6F208F29F3000F9059 /* NSManagedObject+Status.h */,
-			);
-			path = Categories;
-			sourceTree = "<group>";
-		};
-		B5B4AB70208F29F3000F9059 /* Handlers */ = {
-			isa = PBXGroup;
-			children = (
-				B5B4AB71208F29F3000F9059 /* BFirebaseUsersHandler.m */,
-				B5B4AB72208F29F3000F9059 /* BFirebaseSearchHandler.m */,
-				B5B4AB73208F29F3000F9059 /* BFirebaseBlockingHandler.m */,
-				B5B4AB74208F29F3000F9059 /* BFirebaseModerationHandler.h */,
-				B5B4AB75208F29F3000F9059 /* BFirebaseAuthenticationHandler.m */,
-				B5B4AB76208F29F3000F9059 /* BFirebasePublicThreadHandler.m */,
-				B5B4AB77208F29F3000F9059 /* BFirebaseCoreHandler.h */,
-				B5B4AB78208F29F3000F9059 /* BFirebaseAuthenticationHandler.h */,
-				B5B4AB79208F29F3000F9059 /* BFirebaseModerationHandler.m */,
-				B5B4AB7A208F29F3000F9059 /* BFirebaseSearchHandler.h */,
-				B5B4AB7B208F29F3000F9059 /* BFirebaseBlockingHandler.h */,
-				B5B4AB7C208F29F3000F9059 /* BFirebaseUsersHandler.h */,
-				B5B4AB7D208F29F3000F9059 /* BFirebasePublicThreadHandler.h */,
-				B5B4AB7E208F29F3000F9059 /* BFirebaseCoreHandler.m */,
-			);
-			path = Handlers;
 			sourceTree = "<group>";
 		};
 		E015E77CA0F6ACD8F4540CE4 /* Pods */ = {
@@ -404,9 +160,7 @@
 			files = (
 				ACF7BE841C8D8AD7003E8983 /* LaunchScreen.storyboard in Resources */,
 				AC11A8831D5B128400EBFDFD /* GoogleService-Info.plist in Resources */,
-				B5B4AB84208F29F3000F9059 /* BGoogleLoginViewController.xib in Resources */,
 				ACF7BE811C8D8AD7003E8983 /* Assets.xcassets in Resources */,
-				B5B4AB88208F29F3000F9059 /* icn_200_google@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,12 +174,20 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ChatSDK/ChatCore.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ChatSDK/ChatCoreData.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ChatSDK/ChatFirebaseSocialLogin.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ChatSDK/ChatUI.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatCore.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatCoreData.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatFirebaseSocialLogin.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatUI.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
@@ -444,7 +206,6 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/ChatSDK/ChatSDK.framework",
 				"${BUILT_PRODUCTS_DIR}/ChatSDKKeepLayout/KeepLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/CountryPicker/CountryPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
@@ -463,8 +224,6 @@
 				"${BUILT_PRODUCTS_DIR}/StaticDataTableViewController/StaticDataTableViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast/Toast.framework",
-				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/VENTokenField/VENTokenField.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -473,7 +232,6 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChatSDK.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeepLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
@@ -492,8 +250,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StaticDataTableViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOCropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VENTokenField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -541,37 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5B4AB9B208F29F3000F9059 /* BFirebaseAuthenticationHandler.m in Sources */,
-				B5B4AB80208F29F3000F9059 /* BLocalNotificationDelegate.m in Sources */,
-				B5B4AB90208F29F3000F9059 /* CCThreadWrapper.m in Sources */,
-				B5B4AB93208F29F3000F9059 /* BFirebaseNetworkAdapter.m in Sources */,
-				B5B4AB82208F29F3000F9059 /* BFirebaseUploadHandler.m in Sources */,
-				B5B4AB98208F29F3000F9059 /* BFirebaseUsersHandler.m in Sources */,
 				ACF7BE7A1C8D8AD7003E8983 /* AppDelegate.swift in Sources */,
-				B5B4AB9E208F29F3000F9059 /* BFirebaseCoreHandler.m in Sources */,
-				B5B4AB8E208F29F3000F9059 /* BSyncItem.m in Sources */,
-				B5B4AB91208F29F3000F9059 /* CCMessageWrapper.m in Sources */,
-				B5B4AB97208F29F3000F9059 /* Firebase+Paths.m in Sources */,
-				B5B4AB83208F29F3000F9059 /* BFirebaseFileStorageModule.m in Sources */,
-				B5B4AB89208F29F3000F9059 /* BGoogleLoginViewController.m in Sources */,
-				B5B4AB9D208F29F3000F9059 /* BFirebaseModerationHandler.m in Sources */,
-				B5B4AB81208F29F3000F9059 /* BFirebasePushHandler.m in Sources */,
-				B5B4AB99208F29F3000F9059 /* BFirebaseSearchHandler.m in Sources */,
-				B5B4AB87208F29F3000F9059 /* BFirebaseSocialLoginModule.m in Sources */,
-				B5B4AB86208F29F3000F9059 /* BFirebaseSocialLoginHandler.m in Sources */,
-				B5B4AB9A208F29F3000F9059 /* BFirebaseBlockingHandler.m in Sources */,
-				B5B4AB95208F29F3000F9059 /* CCUserWrapper.m in Sources */,
-				B5B4AB7F208F29F3000F9059 /* BFirebasePushModule.m in Sources */,
-				B5B4AB9C208F29F3000F9059 /* BFirebasePublicThreadHandler.m in Sources */,
-				B5B4AB8C208F29F3000F9059 /* BInviteSyncItem.m in Sources */,
-				B5B4AB8A208F29F3000F9059 /* BSyncDataPusher.m in Sources */,
-				B5B4AB8D208F29F3000F9059 /* BSyncDataManager.m in Sources */,
-				B5B4AB85208F29F3000F9059 /* BGoogleHelper.m in Sources */,
-				B5B4AB8F208F29F3000F9059 /* BFirebaseNetworkAdapterModule.m in Sources */,
-				B5B4AB92208F29F3000F9059 /* BEntity.m in Sources */,
-				B5B4AB96208F29F3000F9059 /* NSManagedObject+Status.m in Sources */,
-				B5B4AB94208F29F3000F9059 /* BStateManager.m in Sources */,
-				B5B4AB8B208F29F3000F9059 /* BSyncDataFetcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

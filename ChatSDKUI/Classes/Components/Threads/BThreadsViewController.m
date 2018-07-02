@@ -10,8 +10,8 @@
 
 #import <AudioToolbox/AudioToolbox.h>
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 #define bCellIdentifier @"bCellIdentifier"
 
@@ -56,7 +56,7 @@
     // Sets the back button for the thread views as back meaning we have more space for the title
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    [tableView registerNib:[UINib nibWithNibName:@"BThreadCell" bundle:[NSBundle chatUIBundle]] forCellReuseIdentifier:bCellIdentifier];
+    [tableView registerNib:[UINib nibWithNibName:@"BThreadCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bCellIdentifier];
     
 }
 

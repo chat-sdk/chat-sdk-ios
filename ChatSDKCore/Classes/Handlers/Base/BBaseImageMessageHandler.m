@@ -8,7 +8,7 @@
 
 #import "BBaseImageMessageHandler.h"
 
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 
 @implementation BBaseImageMessageHandler
 

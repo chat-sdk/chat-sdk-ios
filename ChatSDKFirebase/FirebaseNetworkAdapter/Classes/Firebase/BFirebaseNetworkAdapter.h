@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 
 @interface BFirebaseNetworkAdapter : BAbstractNetworkAdapter
 

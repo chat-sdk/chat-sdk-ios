@@ -1,8 +1,8 @@
 //
-//  NSBundle+ChatUI.h
+//  NSBundle+Core.h
 //  Pods
 //
-//  Created by Benjamin Smiley-andrews on 05/04/2015.
+//  Created by Benjamin Smiley-andrews on 12/07/2017.
 //
 //
 
@@ -12,10 +12,7 @@
 #define bSettings @"bSettings"
 #define bAuthenticating @"bAuthenticating"
 #define bLogginIn @"bLogginIn"
-//#define bProfile @"bProfile"
-//#define bLoggingOut @"bLoggingOut"
 #define bErrorTitle @"bErrorTitle"
-//#define bUserCreatedError @"bUserCreatedError"
 #define bContacts @"bContacts"
 #define bConversations @"bConversations"
 #define bBroadcast @"bBroadcast"
@@ -40,12 +37,9 @@
 #define bInvalidSelection @"bInvalidSelection"
 #define bSelectAtLeastOneFriend @"bSelectAtLeastOneFriend"
 
-//#define bFacebook @"bFacebook"
-//#define bFriendsOnChatSDK @"bFriendsOnChatSDK"
 #define bInviteFriendsFromFacebook @"bInviteFriendsFromFacebook"
 #define bFriendsAdded_i @"bFriendsAdded_i"
 
-//#define bErrorAddingUser_s @"bErrorAddingUser_s"
 #define bSuccess @"bSuccess"
 #define bAdded @"bAdded"
 
@@ -172,12 +166,18 @@
 #define bBlock @"bBlock"
 #define bUnblock @"bUnblock"
 
-@interface NSBundle (ChatUI)
+#define bImageMessage @"bImageMessage"
+#define bLocationMessage @"bLocationMessage"
+#define bAudioMessage @"bAudioMessage"
+#define bVideoMessage @"bVideoMessage"
+#define bStickerMessage @"bStickerMessage"
 
-+(NSBundle *) chatUIBundle;
+@protocol PMessage;
+
+@interface NSBundle(ChatCore)
+
++(NSBundle *) coreBundle;
 +(NSString *) t: (NSString *) string;
-//+(NSString *) res: (NSString *) name;
-+(UIImage *) chatUIImageNamed: (NSString *) name;
-+(NSString *) chatUIFilePath: (NSString *) name;
++(NSString *) textForMessage: (id<PMessage>) message;
 
 @end

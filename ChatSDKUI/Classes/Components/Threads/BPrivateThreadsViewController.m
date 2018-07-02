@@ -8,8 +8,8 @@
 
 #import "BPrivateThreadsViewController.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 @interface BPrivateThreadsViewController ()
 
@@ -19,10 +19,10 @@
 
 -(instancetype) init
 {
-    self = [super initWithNibName:Nil bundle:[NSBundle chatUIBundle]];
+    self = [super initWithNibName:Nil bundle:[NSBundle uiBundle]];
     if (self) {
         self.title = [NSBundle t:bConversations];
-        self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_chat.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_chat.png"];
 
     }
     return self;

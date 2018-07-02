@@ -8,8 +8,8 @@
 
 #import "BSearchViewController.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 #define bCellIdentifier @"bCellIdentifier"
 
@@ -33,7 +33,7 @@
 
 -(instancetype) initWithUsersToExclude: (NSArray *) excludedUsers selectedAction: (void(^)(NSArray * users)) action {
     
-    self = [super initWithNibName:@"BSearchViewController" bundle:[NSBundle chatUIBundle]];
+    self = [super initWithNibName:@"BSearchViewController" bundle:[NSBundle uiBundle]];
     if (self) {
         _users = [NSMutableArray new];
         _selectedUsers = [NSMutableArray new];
@@ -132,7 +132,7 @@
     self.navigationItem.rightBarButtonItem = _addButton;
     
     //[self updateAddressBook];
-    [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle chatUIBundle]] forCellReuseIdentifier:bCellIdentifier];
+    [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bCellIdentifier];
     
     self.noUsersFoundLabel.text = [NSBundle t:bNoNewUsersFoundForThisSearch];
     self.noUsersFoundView.hidden = YES;

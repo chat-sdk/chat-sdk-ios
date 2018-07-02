@@ -6,7 +6,7 @@
 //
 
 #import "BCoreDataStorageModule.h"
-#import <ChatSDK/ChatCoreData.h>
+#import <ChatSDK/CoreData.h>
 
 @implementation BCoreDataStorageModule
 

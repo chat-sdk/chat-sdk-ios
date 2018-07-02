@@ -4,19 +4,11 @@ use_frameworks!
 
 target 'ChatSDKSwift' do
 
-#   pod 'Firebase', :path => '../firebase-ios-sdk/Firebase.podspec'
-  
-  pod "ChatSDK", :path => "../"
-
-  pod "Firebase/Auth"  
-  pod "Firebase/Database"  
-  pod "Firebase/Messaging"  
-  pod "Firebase/Storage"  
-  pod "Firebase/AdMob"
-
-  pod 'TwitterKit'
-  pod 'GoogleSignIn'
-  pod 'FBSDKLoginKit'
+  pod "ChatSDK/UI", :path => "../"
+  pod "ChatSDK/FirebaseAdapter", :path => "../"
+  pod "ChatSDK/FirebaseFileStorage", :path => "../"
+  pod "ChatSDK/FirebasePush", :path => "../"
+  pod "ChatSDK/FirebaseSocialLogin", :path => "../"
 
   #pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
   #pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"
@@ -29,8 +21,4 @@ target 'ChatSDKSwift' do
   pod 'Fabric', '~> 1.7.2'
   pod 'Crashlytics', '~> 3.9.3'
   
-  # Firebase performance 
-
-  pod 'Firebase/Performance'
-
 end

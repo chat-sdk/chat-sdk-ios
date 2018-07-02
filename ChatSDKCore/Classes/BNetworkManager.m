@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 deluge. All rights reserved.
 //
 
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 
 @implementation BNetworkManager
 

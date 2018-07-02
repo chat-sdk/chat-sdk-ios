@@ -10,7 +10,7 @@
 #import <ChatSDK/PSendBarDelegate.h>
 #import <ChatSDK/PSendBar.h>
 #import <ChatSDK/bChatState.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/UI.h>
 
 @interface BTextInputView : UIView<UITextViewDelegate, PSendBar> {
     UIButton * _optionsButton;

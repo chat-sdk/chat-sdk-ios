@@ -8,8 +8,8 @@
 
 #import "BPublicThreadsViewController.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 @interface BPublicThreadsViewController ()
 
@@ -19,11 +19,11 @@
 
 -(instancetype) init
 {
-    self = [super initWithNibName:Nil bundle:[NSBundle chatUIBundle]];
+    self = [super initWithNibName:Nil bundle:[NSBundle uiBundle]];
     if (self) {
  
         self.title = [NSBundle t:bChatRooms];
-        self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_public.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_public.png"];
 
     }
     return self;

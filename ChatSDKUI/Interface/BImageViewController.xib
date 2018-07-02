@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -26,16 +26,16 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bVJ-qU-mwC">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             <constraints>
-                                <constraint firstAttribute="height" priority="800" constant="568" id="P1w-Ac-lJT"/>
-                                <constraint firstAttribute="width" priority="800" constant="320" id="qEO-7Z-jFt"/>
+                                <constraint firstAttribute="height" priority="100" constant="568" id="P1w-Ac-lJT"/>
+                                <constraint firstAttribute="width" priority="100" constant="320" id="qEO-7Z-jFt"/>
                             </constraints>
                         </imageView>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="bVJ-qU-mwC" firstAttribute="leading" secondItem="zBP-CP-jEE" secondAttribute="leading" id="UZV-Hy-tn6"/>
-                        <constraint firstItem="bVJ-qU-mwC" firstAttribute="top" secondItem="zBP-CP-jEE" secondAttribute="top" id="dGN-uU-2DQ"/>
-                        <constraint firstAttribute="trailing" secondItem="bVJ-qU-mwC" secondAttribute="trailing" id="lOg-NZ-BC1"/>
-                        <constraint firstAttribute="bottom" secondItem="bVJ-qU-mwC" secondAttribute="bottom" id="pG0-rM-gih"/>
+                        <constraint firstItem="bVJ-qU-mwC" firstAttribute="leading" secondItem="zBP-CP-jEE" secondAttribute="leading" priority="100" id="UZV-Hy-tn6"/>
+                        <constraint firstItem="bVJ-qU-mwC" firstAttribute="top" secondItem="zBP-CP-jEE" secondAttribute="top" priority="100" id="dGN-uU-2DQ"/>
+                        <constraint firstAttribute="trailing" secondItem="bVJ-qU-mwC" secondAttribute="trailing" priority="100" id="lOg-NZ-BC1"/>
+                        <constraint firstAttribute="bottom" secondItem="bVJ-qU-mwC" secondAttribute="bottom" priority="100" id="pG0-rM-gih"/>
                     </constraints>
                     <connections>
                         <outlet property="delegate" destination="-1" id="RmK-DE-0lK"/>
@@ -51,9 +51,4 @@
             </constraints>
         </view>
     </objects>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>

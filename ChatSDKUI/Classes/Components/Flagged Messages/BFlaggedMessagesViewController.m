@@ -7,8 +7,8 @@
 
 #import "BFlaggedMessagesViewController.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 @interface BFlaggedMessagesViewController ()
 
@@ -25,7 +25,7 @@
     self = [super init];
     if (self) {
         self.title = [NSBundle t:bFlagged];
-        self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_info.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_info.png"];
     }
     return self;
 }

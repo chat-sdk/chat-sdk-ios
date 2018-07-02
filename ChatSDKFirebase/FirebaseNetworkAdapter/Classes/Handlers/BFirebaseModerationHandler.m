@@ -8,8 +8,7 @@
 
 #import "BFirebaseModerationHandler.h"
 
-#import <ChatSDK/ChatCore.h>
-#import "ChatFirebaseAdapter.h"
+#import <ChatSDK/FirebaseAdapter.h>
 
 @implementation BFirebaseModerationHandler
 

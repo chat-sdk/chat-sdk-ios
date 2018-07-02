@@ -7,13 +7,13 @@
 //
 
 #import "BChatOption.h"
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 @implementation BChatOption
 
 -(UIImage *) icon {
-    return [NSBundle chatUIImageNamed:@"icn_60_sticker.png"];
+    return [NSBundle uiImageNamed:@"icn_60_sticker.png"];
 }
 
 -(NSString *) title {

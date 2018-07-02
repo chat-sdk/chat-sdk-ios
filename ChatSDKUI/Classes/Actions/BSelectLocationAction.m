@@ -6,7 +6,7 @@
 //
 
 #import "BSelectLocationAction.h"
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 
 @implementation BSelectLocationAction
 

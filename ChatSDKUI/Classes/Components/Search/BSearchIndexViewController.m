@@ -8,8 +8,8 @@
 
 #import "BSearchIndexViewController.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 #define bTableCell @"cell"
 #define bSelectedIndexName @"selectedIndexName"
@@ -27,7 +27,7 @@
 @synthesize selectedIndex = _selectedIndex;
 
 -(instancetype) initWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback {
-    if((self = [super initWithNibName:Nil bundle:[NSBundle chatUIBundle]])) {
+    if((self = [super initWithNibName:Nil bundle:[NSBundle uiBundle]])) {
         _indexes = [[NSMutableArray alloc] initWithArray:indexes];
         _selectedIndex = [NSArray keyPair:[[NSUserDefaults standardUserDefaults] stringForKey:bSelectedIndexName]
                                    value:[[NSUserDefaults standardUserDefaults] stringForKey:bSelectedIndexValue]];

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 #import <ChatSDK/PAuthenticationHandler.h>
 
 @interface BAbstractAuthenticationHandler : NSObject<PAuthenticationHandler> {

@@ -8,8 +8,8 @@
 
 #import "BTextMessageCell.h"
 
-#import <ChatSDK/ChatUI.h>
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/UI.h>
+#import <ChatSDK/Core.h>
 #import <ChatSDK/PElmMessage.h>
 
 @implementation BTextMessageCell

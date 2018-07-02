@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 deluge. All rights reserved.
 //
 
-#import "BEntity.h"
 #import <ChatSDK/PUserWrapper.h>
+#import <ChatSDK/BEntity.h>
 
 @class FIRUser;
 @class FIRDataSnapshot;

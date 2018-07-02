@@ -8,8 +8,8 @@
 
 #import "BMessageCache.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 
 #define bMessagePositionKey @"bMessagePositionKey"
@@ -78,7 +78,7 @@ static BMessageCache * cache;
     }
     else {
 
-        UIImage * bubbleImage = [NSBundle chatUIImageNamed:bubbleImageName];
+        UIImage * bubbleImage = [NSBundle uiImageNamed:bubbleImageName];
 
         if (isMine) {
             bubbleImage = [bubbleImage stretchableImageWithLeftCapWidth:bLeftCapRight topCapHeight:bTopCap];

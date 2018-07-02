@@ -8,7 +8,7 @@
 
 #import "BFirebaseBlockingHandler.h"
 
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 
 @implementation BFirebaseBlockingHandler
 

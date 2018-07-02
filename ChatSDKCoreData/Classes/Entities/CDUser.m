@@ -6,8 +6,8 @@
 //
 //
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatCoreData.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/CoreData.h>
 
 #define bKeyKey @"key"
 #define bValueKey @"value"

@@ -11,8 +11,8 @@
 
 #import "BContactsViewController.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 #define bCellIdentifier @"bCellIdentifier"
 
@@ -27,11 +27,11 @@
 
 -(instancetype) init
 {
-    self = [super initWithNibName:@"BContactsViewController" bundle:[NSBundle chatUIBundle]];
+    self = [super initWithNibName:@"BContactsViewController" bundle:[NSBundle uiBundle]];
     
     if (self) {
         self.title = [NSBundle t:bContacts];
-        self.tabBarItem.image = [NSBundle chatUIImageNamed: @"icn_30_contact.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_contact.png"];
         _contacts = [NSMutableArray new];
         _notificationList = [BNotificationObserverList new];
         _initialTableYOffset = -1;
@@ -61,7 +61,7 @@
     
     self.extendedLayoutIncludesOpaqueBars = YES;
     
-    [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle chatUIBundle]] forCellReuseIdentifier:bCellIdentifier];
+    [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bCellIdentifier];
 }
 
 -(void) viewWillAppear:(BOOL)animated {

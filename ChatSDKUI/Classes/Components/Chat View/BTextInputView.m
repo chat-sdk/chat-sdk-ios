@@ -7,7 +7,7 @@
 //
 
 #import "BTextInputView.h"
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 
 #define bMargin 8.0
 
@@ -58,8 +58,8 @@
         _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self addSubview: _sendButton];
         
-        [_optionsButton setImage:[NSBundle chatUIImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
-        [_optionsButton setImage:[NSBundle chatUIImageNamed:@"icn_24_keyboard.png"] forState:UIControlStateSelected];
+        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
+        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_keyboard.png"] forState:UIControlStateSelected];
         
         [_optionsButton addTarget:self action:@selector(optionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
@@ -161,7 +161,7 @@
     _micButtonEnabled = enabled;
     if (enabled) {
         [_sendButton setTitle:Nil forState:UIControlStateNormal];
-        [_sendButton setImage:[NSBundle chatUIImageNamed: @"icn_24_mic.png"]
+        [_sendButton setImage:[NSBundle uiImageNamed: @"icn_24_mic.png"]
                      forState:UIControlStateNormal];
     }
     else {

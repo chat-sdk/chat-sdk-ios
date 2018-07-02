@@ -8,8 +8,8 @@
 
 #import "BLoginViewController.h"
 
-#import <ChatSDK/ChatUI.h>
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/UI.h>
+#import <ChatSDK/Core.h>
 
 @interface BLoginViewController ()
 

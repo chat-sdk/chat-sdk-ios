@@ -8,8 +8,8 @@
 
 #import "BDefaultInterfaceAdapter.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 #import <ChatSDK/BChatViewController.h>
 #import <ChatSDK/BChatOptionDelegate.h>
 
@@ -79,7 +79,7 @@
 -(UIViewController *) profileViewControllerWithUser: (id<PElmUser>) user {
     
     UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Profile"
-                                                          bundle:[NSBundle chatUIBundle]];
+                                                          bundle:[NSBundle uiBundle]];
     
     BProfileTableViewController * controller = [storyboard instantiateInitialViewController];
     // TODO: Fix this

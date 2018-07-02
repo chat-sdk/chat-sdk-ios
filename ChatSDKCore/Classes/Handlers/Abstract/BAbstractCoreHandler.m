@@ -8,7 +8,7 @@
 
 #import "BAbstractCoreHandler.h"
 
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 #import <Foundation/Foundation.h>
 
 @implementation BAbstractCoreHandler

@@ -7,8 +7,8 @@
 //
 
 #import "BLocationViewController.h"
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 @interface BLocationViewController ()
 
@@ -21,7 +21,7 @@
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     
-    self = [super initWithNibName:@"BLocationViewController" bundle:[NSBundle chatUIBundle]];
+    self = [super initWithNibName:@"BLocationViewController" bundle:[NSBundle uiBundle]];
     if (self) {
         self.title = [NSBundle t:bLocation];
     }

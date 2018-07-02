@@ -10,7 +10,7 @@
 
 #import <MapKit/MapKit.h>
 
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 
 @implementation BBaseLocationMessageHandler
 

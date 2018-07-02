@@ -8,8 +8,7 @@
 
 #import "BDetailedProfileTableViewController.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/UI.h>
 
 #define bStatusSection 1
 #define bAddFriendCellTag 1
@@ -82,7 +81,7 @@
     
     if (overrideUser) {
         self.title = user.name;
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle chatUIImageNamed:@"icn_22_chat.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(startChat)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_22_chat.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(startChat)];
         
         self.editPhotoButton.hidden = YES;
         self.profilePictureButton.userInteractionEnabled = NO;
@@ -198,8 +197,8 @@
 
 -(void) updateTabBarIcon {
     BOOL female = [[NM.currentUser metaStringForKey:bGender] isEqualToString:@"F"];
-    self.tabBarItem.image = [NSBundle chatUIImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
-    self.tabBarItem.selectedImage = [NSBundle chatUIImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
+    self.tabBarItem.image = [NSBundle uiImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
+    self.tabBarItem.selectedImage = [NSBundle uiImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
 }
 
 -(UIImage *) profilePicture {

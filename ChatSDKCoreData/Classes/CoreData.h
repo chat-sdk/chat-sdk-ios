@@ -1,5 +1,5 @@
 //
-//  ChatCoreData.h
+//  CoreData.h
 //  Pods
 //
 //  Created by Benjamin Smiley-andrews on 13/11/2016.
@@ -8,6 +8,8 @@
 
 #ifndef ChatCoreData_h
 #define ChatCoreData_h
+
+#define bCoreDataBundle @"ChatCoreData"
 
 #import <ChatSDK/BCoreDataManager.h>
 #import <ChatSDK/CDUser.h>

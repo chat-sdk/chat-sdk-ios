@@ -8,8 +8,8 @@
 
 #import "BUsersViewController.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 #define bUserCellIdentifier @"UserCellIdentifier"
 #define bLeaveCellIdentifier @"LeaveCellIdentifier"
@@ -31,7 +31,7 @@
 
 -(instancetype) initWithThread: (id<PThread>) thread {
 
-    self = [super initWithNibName:@"BUsersViewController" bundle:[NSBundle chatUIBundle]];
+    self = [super initWithNibName:@"BUsersViewController" bundle:[NSBundle uiBundle]];
     if (self) {
         
         _users = [NSMutableArray arrayWithArray: thread.users.allObjects];
@@ -113,7 +113,7 @@
             id<PUser> user = _users[indexPath.row];
             
             cell.textLabel.text = user.name;
-            cell.imageView.image = user && user.thumbnail ? [UIImage imageWithData:user.thumbnail] : [NSBundle chatUIImageNamed: @"icn_user.png"];
+            cell.imageView.image = user && user.thumbnail ? [UIImage imageWithData:user.thumbnail] : [NSBundle uiImageNamed: @"icn_user.png"];
             
             cell.imageView.layer.cornerRadius = 20;
             cell.imageView.clipsToBounds = YES;

@@ -8,7 +8,7 @@
 
 #import "NM.h"
 
-#import "ChatCore.h"
+#import "Core.h"
 
 @implementation NM
 

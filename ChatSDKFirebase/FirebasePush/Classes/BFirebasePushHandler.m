@@ -7,12 +7,8 @@
 //
 
 #import "BFirebasePushHandler.h"
-#import <UIKit/UIKit.h>
-#import <AFNetworking/AFNetworking.h>
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
-#import <UserNotifications/UserNotifications.h>
-#import "BLocalNotificationDelegate.h"
+#import <ChatSDK/Core.h>
+#import <ChatSDK/FirebasePush.h>
 
 @implementation BFirebasePushHandler
 

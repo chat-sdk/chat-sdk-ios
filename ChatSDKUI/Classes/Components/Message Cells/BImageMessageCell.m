@@ -8,9 +8,9 @@
 
 #import "BImageMessageCell.h"
 
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 #import <ChatSDK/PElmMessage.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/UI.h>
 
 
 @implementation BImageMessageCell
@@ -45,7 +45,7 @@
     
     UIImage * placeholder = [UIImage imageWithData:message.placeholder];
     if (!placeholder) {
-        placeholder = [NSBundle chatUIImageNamed:bDefaultPlaceholderImage];
+        placeholder = [NSBundle uiImageNamed:bDefaultPlaceholderImage];
     }
         
     [imageView sd_setImageWithURL:message.thumbnailURL

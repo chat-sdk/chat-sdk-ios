@@ -1,5 +1,5 @@
 //
-//  ChatFirebaseAdapter.h
+//  FirebaseAdapter.h
 //  Pods
 //
 //  Created by Benjamin Smiley-andrews on 13/11/2016.
@@ -10,6 +10,7 @@
 #define ChatFirebaseAdapter_h
 
 #import <Firebase/Firebase.h>
+#import <ChatSDK/Core.h>
 
 #import "NSManagedObject+Status.h"
 

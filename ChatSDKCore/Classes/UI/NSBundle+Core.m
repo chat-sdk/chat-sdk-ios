@@ -6,37 +6,38 @@
 //
 //
 
-#import "NSBundle+ChatCore.h"
-#import <ChatSDK/NSBundle+Additions.h>
-#import <ChatSDK/PMessage.h>
+#import "NSBundle+Core.h"
+#import <ChatSDK/UI.h>
 
-@implementation NSBundle(ChatCore)
+#define bLocalizableFile @"ChatSDKLocalizable"
 
-+(NSBundle *) chatCoreBundle {
+@implementation NSBundle(Core)
+
++(NSBundle *) coreBundle {
     //.return [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:bBundleName ofType:@"bundle"]];
-    return [NSBundle bundleWithFramework:@"ChatSDK" name:@"ChatCore"];
+    return [NSBundle bundleWithName:bCoreBundleName];
 }
 
-+(NSString *) core_t: (NSString *) string {
-    return NSLocalizedStringFromTableInBundle(string, @"ChatCoreLocalizable", [self chatCoreBundle], @"");
++(NSString *) t: (NSString *) string {
+    return NSLocalizedStringFromTableInBundle(string, bLocalizableFile, [self coreBundle], @"");
 }
 
 +(NSString *) textForMessage: (id<PMessage>) message {
     NSString * text;
     if (message.type.intValue == bMessageTypeImage) {
-        text = [self core_t:bImageMessage];
+        text = [self t:bImageMessage];
     }
     else if(message.type.intValue == bMessageTypeLocation) {
-        text = [self core_t:bLocationMessage];
+        text = [self t:bLocationMessage];
     }
     else if(message.type.intValue == bMessageTypeAudio) {
-        text = [self core_t:bAudioMessage];
+        text = [self t:bAudioMessage];
     }
     else if(message.type.intValue == bMessageTypeVideo) {
-        text = [self core_t:bVideoMessage];
+        text = [self t:bVideoMessage];
     }
     else if(message.type.intValue == bMessageTypeSticker) {
-        text = [self core_t:bStickerMessage];
+        text = [self t:bStickerMessage];
     }
     else {
         text = message.textString;

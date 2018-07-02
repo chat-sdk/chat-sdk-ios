@@ -8,7 +8,7 @@
 
 #import "BSyncItem.h"
 
-#import "ChatFirebaseAdapter.h"
+#import <ChatSDK/FirebaseAdapter.h>
 
 #define bBaseDataPath @"data"
 

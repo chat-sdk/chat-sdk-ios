@@ -8,8 +8,8 @@
 
 #import "BFriendsListViewController.h"
 
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 #define bUserCellIdentifier @"bUserCellIdentifier"
 
@@ -43,7 +43,7 @@
 }
 
 -(instancetype) init {
-    self = [super initWithNibName:@"BFriendsListViewController" bundle:[NSBundle chatUIBundle]];
+    self = [super initWithNibName:@"BFriendsListViewController" bundle:[NSBundle uiBundle]];
     if (self) {
         self.title = [NSBundle t:bPickFriends];
         _selectedContacts = [NSMutableArray new];
@@ -82,7 +82,7 @@
     
     [self reloadData];
     
-    [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle chatUIBundle]] forCellReuseIdentifier:bUserCellIdentifier];
+    [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bUserCellIdentifier];
 
     [self setGroupNameHidden:YES duration:0];
 }

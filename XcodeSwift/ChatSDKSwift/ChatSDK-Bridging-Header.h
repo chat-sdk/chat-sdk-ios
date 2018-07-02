@@ -9,13 +9,5 @@
 #ifndef ChatSDK_Bridging_Header_h
 #define ChatSDK_Bridging_Header_h
 
-//#import "BTwitterHelper.h"
-//#import "BFirebaseSocialLoginHandler.h"
-//#import "BBackendlessPushHandler.h"
-
-#import "ChatFirebaseAdapter.h"
-#import "BFirebaseSocialLoginModule.h"
-#import "BFirebasePushModule.h"
-#import "BFirebaseFileStorageModule.h"
 
 #endif /* ChatSDK_Bridging_Header_h */

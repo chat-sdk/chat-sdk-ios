@@ -8,8 +8,8 @@
 
 #import "BMessageCell.h"
 
-#import <ChatSDK/ChatUI.h>
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/UI.h>
+#import <ChatSDK/Core.h>
 #import <ChatSDK/PElmMessage.h>
 
 @implementation BMessageCell
@@ -93,7 +93,7 @@
     }
     
     if (imageName) {
-        _readMessageImageView.image = [NSBundle chatUIImageNamed:imageName];
+        _readMessageImageView.image = [NSBundle uiImageNamed:imageName];
         
         
     }

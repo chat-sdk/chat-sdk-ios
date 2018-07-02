@@ -6,12 +6,8 @@
 //  Copyright (c) 2015 deluge. All rights reserved.
 //
 
-#import "CCUserWrapper.h"
-
-#import "NSManagedObject+Status.h"
-
-#import "ChatFirebaseAdapter.h"
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/CCUserWrapper.h>
+#import <ChatSDK/FirebaseAdapter.h>
 
 @implementation CCUserWrapper
 

@@ -8,7 +8,7 @@
 
 #import "BUserCell.h"
 
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/UI.h>
 
 @implementation BUserCell
 
@@ -59,15 +59,15 @@
 }
 
 -(void) setOnline {
-    self.statusImageView.image = [NSBundle chatUIImageNamed: @"icn_16_status_online.png"];
+    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_online.png"];
 }
 
 -(void) setAway {
-    self.statusImageView.image = [NSBundle chatUIImageNamed: @"icn_16_status_away.png"];
+    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_away.png"];
 }
 
 -(void) setOffline {
-    self.statusImageView.image = [NSBundle chatUIImageNamed: @"icn_16_status_offline.png"];
+    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_offline.png"];
 }
 
 

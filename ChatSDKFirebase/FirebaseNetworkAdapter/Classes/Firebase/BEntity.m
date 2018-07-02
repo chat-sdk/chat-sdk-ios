@@ -8,13 +8,7 @@
 
 #import "BEntity.h"
 
-#import "ChatFirebaseAdapter.h"
-
-#import <ChatSDK/ChatCore.h>
-
-#import "Firebase+Paths.h"
-
-#import <ChatSDK/BKeys.h>
+#import <ChatSDK/FirebaseAdapter.h>
 
 @implementation BEntity
 

@@ -8,8 +8,8 @@
 
 #import "CDMessage.h"
 
-#import <ChatSDK/ChatCoreData.h>
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/CoreData.h>
+#import <ChatSDK/Core.h>
 
 @implementation CDMessage
 

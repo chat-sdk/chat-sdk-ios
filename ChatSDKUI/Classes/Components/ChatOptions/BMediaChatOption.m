@@ -7,8 +7,8 @@
 //
 
 #import "BMediaChatOption.h"
-#import <ChatSDK/ChatCore.h>
-#import <ChatSDK/ChatUI.h>
+#import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 #import <MobileCoreServices/MobileCoreServices.h>
 
@@ -38,7 +38,7 @@
             break;
     }
 
-    return [NSBundle chatUIImageNamed:image];
+    return [NSBundle uiImageNamed:image];
 }
 
 -(NSString *) title {

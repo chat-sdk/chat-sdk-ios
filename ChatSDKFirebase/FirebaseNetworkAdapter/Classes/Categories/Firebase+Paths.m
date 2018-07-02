@@ -8,12 +8,9 @@
 
 #import "Firebase+Paths.h"
 
-#import "ChatFirebaseAdapter.h"
-
-#import <ChatSDK/BKeys.h>
+#import <ChatSDK/FirebaseAdapter.h>
 
 @implementation FIRDatabaseReference (Paths)
-
 
 +(FIRDatabaseReference *) firebaseRef {
     return [[[FIRDatabase database] reference] c: BChatSDK.config.rootPath];

@@ -7,10 +7,7 @@
 //
 
 #import "BFirebaseUploadHandler.h"
-
-#import <RXPromise/RXPromise.h>
-#import <FirebaseStorage/FirebaseStorage.h>
-#import <ChatSDK/BCoreUtilities.h>
+#import <ChatSDK/FirebaseFileStorage.h>
 
 #define bStorageBucket @"files"
 
