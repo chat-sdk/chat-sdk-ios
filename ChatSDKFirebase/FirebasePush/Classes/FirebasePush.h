@@ -12,5 +12,6 @@
 #import <ChatSDK/BFirebasePushModule.h>
 #import <ChatSDK/BLocalNotificationDelegate.h>
 #import <ChatSDK/FirebaseAdapter.h>
+#import <ChatSDK/Core.h>
 
 #endif /* FirebasePush_h */
