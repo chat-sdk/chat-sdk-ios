@@ -7,9 +7,7 @@
 //
 
 #import "BGoogleLoginViewController.h"
-#import "KeepLayout.h"
 
-#import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
 
 @interface BGoogleLoginViewController ()
