@@ -285,8 +285,10 @@
                 if(snapshot.value[userEntityID][bDeletedKey]) {
                     // Update the thread
                     CCUserWrapper * user = [CCUserWrapper userWithEntityID:userEntityID];
-                     [_model removeUser:user.model];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadUsersUpdated object:Nil];
+                    if (_model.type.intValue ^ bThreadType1to1) {
+                        [_model removeUser:user.model];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadUsersUpdated object:Nil];
+                    }
                 }
             }
         }
@@ -366,8 +368,7 @@
                     }
                 }];
         
-        return promise.thenOnMain(^id(id success)
-                                  {
+        return promise.thenOnMain(^id(id success) {
                                       [[BStorageManager sharedManager].a save];
                                       // We can keep listening to the thread. That way, if a new message comes in,
                                       // it get's regenerated
@@ -377,8 +378,7 @@
                                       
                                       return Nil;
                                       
-                                  }, ^id(NSError * error)
-                                  {
+                                  }, ^id(NSError * error) {
                                       [[BStorageManager sharedManager].a undo];
                                       return error;
                                   });

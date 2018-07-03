@@ -83,7 +83,11 @@
 }
 
 -(NSArray *) threadsWithType:(bThreadType)type {
-    return [self threadsWithType:type includeDeleted:NO includeEmpty:[BChatSDK shared].configuration.showEmptyChats];
+    return [self threadsWithType:type includeDeleted:NO];
+}
+
+-(NSArray *) threadsWithType:(bThreadType)type includeDeleted: (BOOL) includeDeleted {
+    return [self threadsWithType:type includeDeleted:includeDeleted includeEmpty:[BChatSDK shared].configuration.showEmptyChats];
 }
 
 // TODO: Optimize this

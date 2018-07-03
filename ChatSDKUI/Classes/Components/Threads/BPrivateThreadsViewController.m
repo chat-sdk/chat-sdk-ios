@@ -110,7 +110,7 @@
 
 -(void) reloadData {
     [_threads removeAllObjects];
-    [_threads addObjectsFromArray:[NM.core threadsWithType:bThreadFilterPrivateThread]];
+    [_threads addObjectsFromArray:[NM.core threadsWithType:bThreadFilterPrivateThread includeDeleted:YES]];
     [super reloadData];
 }
 
