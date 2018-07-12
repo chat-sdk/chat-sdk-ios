@@ -47,7 +47,9 @@ XcodeChatcat/
 XcodeXMPPXolile/
 XcodeLive/
 XcodePrivate/
-ChatSDKModules
+XcodeXMPPClient/
+ChatSDKModules/
+Archived/
 
 # Ignore these in subfolders, but track in root of repo
 ChatSDKFirebase/

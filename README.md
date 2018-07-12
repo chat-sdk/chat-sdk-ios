@@ -207,6 +207,10 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
         BChatSDK.application(application, didReceiveRemoteNotification: userInfo)
     }
     
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        BChatSDK.application(application, didReceiveRemoteNotification: userInfo)
+    }
+    
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         return BChatSDK.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }

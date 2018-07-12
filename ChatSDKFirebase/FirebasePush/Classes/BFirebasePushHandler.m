@@ -68,7 +68,7 @@
     UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
     notificationDelegate = [[BLocalNotificationDelegate alloc] init];
     center.delegate = notificationDelegate;
-
+    
     [center requestAuthorizationWithOptions:UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert
                                                                         completionHandler:^(BOOL granted, NSError * error) {
                                                                             if(granted) {

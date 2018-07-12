@@ -319,7 +319,7 @@
     return [_messages[section] rowCount];
 }
 
--(id<PElmMessage, PMessageLayout>) messageForIndexPath: (NSIndexPath *) path {
+-(id<PElmMessage>) messageForIndexPath: (NSIndexPath *) path {
     return [_messages[path.section] messageForRow:path.row];
 }
 
@@ -329,7 +329,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<PElmMessage, PMessageLayout> message = [self messageForIndexPath:indexPath];
+    id<PElmMessage> message = [self messageForIndexPath:indexPath];
 
     
     BMessageCell<BMessageDelegate> * messageCell;

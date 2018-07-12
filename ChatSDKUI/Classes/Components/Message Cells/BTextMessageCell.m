@@ -47,7 +47,7 @@
     return self;
 }
 
--(void) setMessage: (id<PElmMessage, PMessageLayout>) message withColorWeight:(float)colorWeight {
+-(void) setMessage: (id<PElmMessage>) message withColorWeight:(float)colorWeight {
     [super setMessage:message withColorWeight:colorWeight];
     
     textView.text = message.textString;

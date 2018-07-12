@@ -111,7 +111,9 @@
                         
                         [((UINavigationController *)self.viewControllers[index]) pushViewController:chatViewController animated:YES];
                     }
-                }            }
+                }
+                
+            }
         });
     }];
     

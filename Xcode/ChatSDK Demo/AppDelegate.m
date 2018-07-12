@@ -31,8 +31,6 @@
     
     [BChatSDK initialize:config app:application options:launchOptions];
 
-    
-
     UIViewController * rootViewController = [BInterfaceManager sharedManager].a.appTabBarViewController;
 
     // Set the root view controller

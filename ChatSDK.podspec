@@ -23,11 +23,9 @@ Pod::Spec.new do |s|
 	  }
 
 	  core.dependency 'RXPromise', '~> 1.0'
-	#   core.dependency 'PromiseKit'
 	  core.dependency 'Reachability', '~> 3.0'
-	  core.dependency 'AFNetworking', '~>3.1.0'
+	  core.dependency 'AFNetworking', '~>3.2.1'
 
-#     core.frameworks = 'CoreLocation'
       core.frameworks = 'SafariServices'
   
   end
@@ -56,9 +54,9 @@ Pod::Spec.new do |s|
 	  ui.dependency 'SDWebImage', '~> 4.0'
 	  ui.dependency 'StaticDataTableViewController', '~> 2.0'
 	  ui.dependency 'CountryPicker', '~> 1.0'
-	  ui.dependency 'DateTools', '~> 1.0'
+	  ui.dependency 'DateTools', '~> 2.0'
 	  ui.dependency 'TOCropViewController', '~> 2.0'
-	  ui.dependency 'Hakawai', '~> 5.0.0'
+	  ui.dependency 'Hakawai', '~> 5.1.5'
 	  ui.dependency 'ChatSDKKeepLayout'
 	  ui.dependency 'Toast', '~>4.0.0'
 
@@ -105,8 +103,10 @@ Pod::Spec.new do |s|
 	  'ChatFirebaseSocialLogin' => ['ChatSDKFirebase/FirebaseSocialLogin/Assets/**/*']
 	}
 	
-	fsl.dependency 'TwitterKit', '<3.3.0'
-	fsl.dependency 'TwitterCore', '<3.1.0'
+# 	fsl.dependency 'TwitterKit', '<3.3.0'
+# 	fsl.dependency 'TwitterCore', '<3.1.0'
+ 	fsl.dependency 'TwitterKit' 
+ 	fsl.dependency 'TwitterCore' 
     fsl.dependency 'GoogleSignIn'
     fsl.dependency 'FBSDKLoginKit'
 

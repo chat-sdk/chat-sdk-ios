@@ -32,6 +32,4 @@
 #import "BFirebasePublicThreadHandler.h"
 #import "BFirebaseUsersHandler.h"
 
-
-
 #endif /* ChatFirebaseAdapter_h */
