@@ -20,6 +20,7 @@
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="lastMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="nextMessage" inverseEntity="CDMessage" syncable="YES"/>
+        <relationship name="lastMessageThread" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDThread" inverseName="lastMessage" inverseEntity="CDThread" syncable="YES"/>
         <relationship name="nextMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="lastMessage" inverseEntity="CDMessage" syncable="YES"/>
         <relationship name="thread" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDThread" inverseName="messages" inverseEntity="CDThread" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="messages" inverseEntity="CDUser" syncable="YES"/>
@@ -38,7 +39,7 @@
         <attribute name="rootKey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="threadsCreated" inverseEntity="CDUser" syncable="YES"/>
-        <relationship name="lastMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage" syncable="YES"/>
+        <relationship name="lastMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="lastMessageThread" inverseEntity="CDMessage" syncable="YES"/>
         <relationship name="messages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDMessage" inverseName="thread" inverseEntity="CDMessage" syncable="YES"/>
         <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDUser" inverseName="threads" inverseEntity="CDUser" syncable="YES"/>
     </entity>
@@ -74,8 +75,8 @@
     </entity>
     <elements>
         <element name="CDGroup" positionX="-747" positionY="-387" width="128" height="73"/>
-        <element name="CDMessage" positionX="-225" positionY="99" width="128" height="315"/>
-        <element name="CDThread" positionX="-236" positionY="-252" width="128" height="285"/>
+        <element name="CDMessage" positionX="36" positionY="-9" width="128" height="328"/>
+        <element name="CDThread" positionX="-236" positionY="-252" width="128" height="283"/>
         <element name="CDUser" positionX="-693" positionY="-268" width="128" height="283"/>
         <element name="CDUserAccount" positionX="-333" positionY="-396" width="128" height="88"/>
         <element name="CDUserConnection" positionX="-945" positionY="-271" width="128" height="118"/>

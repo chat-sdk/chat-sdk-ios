@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) id json;
 @property (nullable, nonatomic, retain) CDMessage * lastMessage;
 @property (nullable, nonatomic, retain) CDMessage * nextMessage;
+@property (nullable, nonatomic, retain) CDThread * lastMessageThread;
 
 @end
 

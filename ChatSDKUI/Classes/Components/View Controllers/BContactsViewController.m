@@ -34,7 +34,6 @@
         self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_contact.png"];
         _contacts = [NSMutableArray new];
         _notificationList = [BNotificationObserverList new];
-        _initialTableYOffset = -1;
     }
     return self;
 }

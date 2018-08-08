@@ -31,5 +31,6 @@
 @dynamic json;
 @dynamic lastMessage;
 @dynamic nextMessage;
+@dynamic lastMessageThread;
 
 @end
