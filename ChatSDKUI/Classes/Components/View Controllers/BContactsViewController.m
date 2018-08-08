@@ -55,7 +55,7 @@
         searchController.searchBar.scopeButtonTitles = @[];
         searchController.searchBar.delegate = self;
         
-        self.tableView.tableHeaderView = searchController.searchBar;
+        self.navigationItem.searchController = searchController;
         self.definesPresentationContext = YES;
     }
     
@@ -73,25 +73,6 @@
 // This sets up the searchController properly
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    
-    if(_initialTableYOffset == -1) {
-        _initialTableYOffset = tableView.contentOffset.y;
-    }
-    
-    // This code fixes a small issue when the search view is shown for the first time
-    if (_contacts.count) {
-        
-        UISearchBar * searchBar = [searchController searchBar];
-        CGSize size = searchBar.intrinsicContentSize;
-        
-        [self.tableView setContentOffset:CGPointMake(0, _initialTableYOffset + size.height) animated:NO];
-
-    }
-    else {
-        [self.tableView setContentOffset:CGPointMake(0, self.searchController.searchBar.fh) animated:NO];
-    }
-//    [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated {
