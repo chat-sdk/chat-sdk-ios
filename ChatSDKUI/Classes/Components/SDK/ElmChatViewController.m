@@ -169,6 +169,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // Large titles will interfere with the custom navigation bar
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+    
     // Keep the table header at the top
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.automaticallyAdjustsScrollViewInsets = YES;
@@ -415,9 +418,8 @@
     
     if ([cell isKindOfClass:[BImageMessageCell class]]) {
         
-        if (!_imageViewController) {
-            _imageViewController = [[BImageViewController alloc] initWithNibName:nil bundle:Nil];
-            _imageViewNavigationController = [[UINavigationController alloc] initWithRootViewController:_imageViewController];
+        if (!_imageViewNavigationController) {
+            _imageViewNavigationController = [[BInterfaceManager sharedManager].a imageViewNavigationController];
         }
 
         // Only allow the user to click if the image is not still loading hence the alpha is 1
@@ -443,23 +445,20 @@
                 [activityIndicator removeFromSuperview];
                 cell.imageView.alpha = 1;
                 
-                _imageViewController.image = image;
+                [((id<PImageViewController>) _imageViewNavigationController.topViewController) setImage: image];
                 [weakSelf.navigationController presentViewController:_imageViewNavigationController animated:YES completion:Nil];
             }];
         }
     }
     if ([cell isKindOfClass:[BLocationCell class]]) {
-        if (!_locationViewController) {
-            _locationViewController = [[BLocationViewController alloc] initWithNibName:nil bundle:Nil];
-            _locationViewNavigationController = [[UINavigationController alloc] initWithRootViewController:_locationViewController];
+        if (!_locationViewNavigationController) {
+            _locationViewNavigationController = [[BInterfaceManager sharedManager].a locationViewNavigationController];
         }
         
         float longitude = [[cell.message textAsDictionary][bMessageLongitude] floatValue];
         float latitude = [[cell.message textAsDictionary][bMessageLatitude] floatValue];
         
-        // Set the location and display the controller
-        _locationViewController.region = [BCoreUtilities regionForLongitude:longitude latitude:latitude];
-        _locationViewController.annotation = [BCoreUtilities annotationForLongitude:longitude latitude:latitude];
+        [((id<PLocationViewController>) _locationViewNavigationController.topViewController) setLatitude:latitude longitude:longitude];
 
         [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
     }

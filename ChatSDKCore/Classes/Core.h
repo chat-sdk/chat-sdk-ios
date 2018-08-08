@@ -73,6 +73,9 @@
 #import <ChatSDK/BAccountDetails.h>
 #import <ChatSDK/BChatSDK.h>
 #import <ChatSDK/BConfiguration.h>
+#import <ChatSDK/PImageViewController.h>
+#import <ChatSDK/PLocationViewController.h>
+#import <ChatSDK/PFriendsListViewController.h>
 
 #import <ChatSDK/BHook.h>
 #import <ChatSDK/PHookHandler.h>

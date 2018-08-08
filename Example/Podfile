@@ -1,0 +1,20 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+use_frameworks!
+
+target 'ChatSDKSwift' do
+
+  pod "ChatSDK/UI"
+  pod "ChatSDK/FirebaseAdapter"
+  pod "ChatSDK/FirebaseFileStorage"
+  pod "ChatSDK/FirebasePush"
+  pod "ChatSDK/FirebaseSocialLogin"
+	
+  #### Optional ####
+
+  # Crashlytics see: https://firebase.google.com/docs/crashlytics/get-started?authuser=0
+
+#   pod 'Fabric', '~> 1.7.2'
+  pod 'Crashlytics', '~> 3.9.3'
+  
+end

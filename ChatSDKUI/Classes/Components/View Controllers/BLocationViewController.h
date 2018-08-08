@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import <ChatSDK/PLocationViewController.h>
 
 @class BMapViewWrapper;
 
-@interface BLocationViewController : UIViewController {
+@interface BLocationViewController : UIViewController<PLocationViewController> {
     BMapViewWrapper * _map;
 }
 

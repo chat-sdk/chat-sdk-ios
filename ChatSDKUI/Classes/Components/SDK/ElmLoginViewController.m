@@ -203,8 +203,7 @@
 }
 
 - (IBAction)termsAndConditionsButtonPressed:(id)sender {
-    UIViewController * vc = [BInterfaceManager sharedManager].a.eulaViewController;
-    UINavigationController * nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+    UINavigationController * nvc = [BInterfaceManager sharedManager].a.eulaNavigationController;
     [self presentViewController:nvc animated:YES completion:Nil];
 }
 

@@ -113,6 +113,8 @@
 
 @property (nonatomic, readwrite) int audioMessageMaxLengthSeconds;
 
+@property (nonatomic, readwrite) BOOL prefersLargeTitles;
+
 // How many messages should be loaded initially when a chat is opened
 @property (nonatomic, readwrite) int chatMessagesToLoad;
 

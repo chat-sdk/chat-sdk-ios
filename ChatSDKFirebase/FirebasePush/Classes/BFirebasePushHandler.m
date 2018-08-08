@@ -161,6 +161,13 @@
     
 }
 
+-(void) messaging:(FIRMessaging *)messaging didReceiveRegistrationToken:(NSString *)fcmToken {
+    _userPushToken = fcmToken;
+    if(_authFinished && self.tokenRefreshed != Nil && [self updateUserPushToken]) {
+        self.tokenRefreshed();
+    }
+}
+
 - (void)messaging:(nonnull FIRMessaging *)messaging didRefreshRegistrationToken:(nonnull NSString *)fcmToken {
     // Note that this callback will be fired everytime a new token is generated, including the first
     // time. So if you need to retrieve the token as soon as it is available this is where that

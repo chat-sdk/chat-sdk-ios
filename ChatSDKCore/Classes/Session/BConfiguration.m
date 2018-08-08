@@ -56,6 +56,7 @@
 @synthesize termsAndConditionsEnabled;
 @synthesize clientPushEnabled;
 @synthesize defaultGroupChatAvatar;
+@synthesize prefersLargeTitles;
 
 @synthesize inviteByEmailTitle;
 @synthesize inviteByEmailBody;
@@ -103,6 +104,8 @@
         locationMessagesEnabled = YES;
         imageMessagesEnabled = YES;
         termsAndConditionsEnabled = YES;
+        
+        prefersLargeTitles = YES;
         
         forgotPasswordEnabled = YES;
         

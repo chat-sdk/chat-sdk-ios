@@ -364,10 +364,9 @@
     NSMutableArray * users = [NSMutableArray arrayWithArray: _thread.model.users.allObjects];
     [users removeObject:NM.currentUser];
     
-    UIViewController * vc = [[BInterfaceManager sharedManager].a usersViewControllerWithThread:_thread
+    UINavigationController * nvc = [[BInterfaceManager sharedManager].a usersViewNavigationControllerWithThread:_thread
                                                                     parentNavigationController:self.navigationController];
     
-    UINavigationController * nvc = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nvc animated:YES completion:nil];
     
 }

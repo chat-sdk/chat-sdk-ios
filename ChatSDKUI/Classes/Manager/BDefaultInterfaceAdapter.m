@@ -38,7 +38,7 @@
     int i = 0;
     BOOL found = false;
     for(NSArray * array in _additionalTabBarViewControllers) {
-        if([array[1] intValue] == index) {
+        if(array.count > 1 && [array.lastObject intValue] == index) {
             found = true;
             break;
         }
@@ -68,8 +68,12 @@
     return [[BContactsViewController alloc] init];
 }
 
--(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude {
-    return [[BFriendsListViewController alloc] initWithUsersToExclude:usersToExclude];
+-(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action{
+    return [[BFriendsListViewController alloc] initWithUsersToExclude:usersToExclude onComplete:action];
+}
+
+-(UINavigationController *) friendsNavigationControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action {
+    return [self navigationControllerWithRootViewController:[self friendsViewControllerWithUsersToExclude:usersToExclude onComplete:action]];
 }
 
 -(UIViewController *) appTabBarViewController {
@@ -89,6 +93,10 @@
 
 -(UIViewController *) eulaViewController {
     return [[BEULAViewController alloc] init];
+}
+
+-(UINavigationController *) eulaNavigationController {
+    return [self navigationControllerWithRootViewController:self.eulaViewController];
 }
 
 -(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread {
@@ -121,7 +129,9 @@
 -(NSArray *) tabBarNavigationViewControllers {
     NSMutableArray * controllers = [NSMutableArray new];
     for (id vc in self.tabBarViewControllers) {
-        [controllers addObject:[[UINavigationController alloc] initWithRootViewController:vc]];
+        UINavigationController * controller = [self navigationControllerWithRootViewController:vc];
+        controller.navigationBar.prefersLargeTitles = [BChatSDK config].prefersLargeTitles;
+        [controllers addObject:controller];
     }
     return controllers;
 }
@@ -173,8 +183,24 @@
             [vc setExcludedUsers:users];
         }
     }
-    return [[UINavigationController alloc] initWithRootViewController:vc];
+    return [self navigationControllerWithRootViewController:vc];
     
+}
+
+-(UIViewController<PImageViewController> *) imageViewController {
+    return [[BImageViewController alloc] initWithNibName:nil bundle:Nil];
+}
+
+-(UINavigationController *) imageViewNavigationController {
+    return [self navigationControllerWithRootViewController:[self imageViewController]];
+}
+
+-(UIViewController<PLocationViewController> *) locationViewController {
+    return [[BLocationViewController alloc] initWithNibName:nil bundle:Nil];
+}
+
+-(UINavigationController *) locationViewNavigationController {
+    return [self navigationControllerWithRootViewController:self.locationViewController];
 }
 
 -(NSDictionary *) additionalSearchControllerNames {
@@ -219,6 +245,16 @@
     return vc;
 }
 
+-(UINavigationController *) usersViewNavigationControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent {
+    return [self navigationControllerWithRootViewController:[self usersViewControllerWithThread:thread parentNavigationController:parent]];
+}
+
+-(UINavigationController *) navigationControllerWithRootViewController: (UIViewController *) viewController {
+    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:viewController];
+    return nav;
+}
+
+
 -(void) addChatOption: (BChatOption *) option {
     if(![_additionalChatOptions containsObject:option]) {
         [_additionalChatOptions addObject:option];
@@ -251,6 +287,12 @@
     _showLocalNotifications = show;
 }
 
+-(UIViewController *) searchIndexViewControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback {
+    return [[BSearchIndexViewController alloc] initWithIndexes:indexes withCallback:callback];
+}
 
+-(UINavigationController *) searchIndexNavigationControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback {
+    return [self navigationControllerWithRootViewController:[self searchViewControllerExcludingUsers:indexes usersAdded:callback]];
+}
 
 @end

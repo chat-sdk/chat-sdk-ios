@@ -21,7 +21,7 @@
     NSArray * _usersToExclude;
     
     id _internetConnectionObserver;
-    BSearchIndexViewController * _searchTermViewController;
+    UINavigationController * _searchTermNavigationController;
     NSArray * _currentSearchIndex;
     BOOL _showKeyboardOnLoad;
     
@@ -31,6 +31,9 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, readwrite) NSArray * selectedUsers;
+
+@property (nonatomic, readwrite) UINavigationController * searchTermNavigationController;
+@property (nonatomic, readwrite) NSArray * currentSearchIndex;
 
 @property (weak, nonatomic) IBOutlet UITextField *searchBox;
 @property (nonatomic, readwrite, copy) void(^usersSelected)(NSArray * users);

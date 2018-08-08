@@ -54,13 +54,10 @@
 }
 
 -(void) createPrivateThread {
-    
-    BFriendsListViewController * flvc = (BFriendsListViewController *) [[BInterfaceManager sharedManager].a friendsViewControllerWithUsersToExclude:@[]];
-    
+
     __weak __typeof__(self) weakSelf = self;
-    // The friends view controller will give us a list of users to invite
-    // TODO: Check this one
-    flvc.usersToInvite = ^(NSArray * users, NSString * groupName){
+
+    UINavigationController * nav = [[BInterfaceManager sharedManager].a friendsNavigationControllerWithUsersToExclude:@[] onComplete:^(NSArray * users, NSString * groupName){
         __typeof__(self) strongSelf = weakSelf;
         
         MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
@@ -76,11 +73,9 @@
             }
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
         }];
-    };
+    }];
     
-    UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:flvc];
-    
-    [self presentViewController:navController animated:YES completion:Nil];
+    [self presentViewController:nav animated:YES completion:Nil];
 }
 
 -(void) editButtonPressed: (UIBarButtonItem *) item {

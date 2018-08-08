@@ -175,11 +175,7 @@
         
         // Use initWithThread here to make sure we don't show any users already in the thread
         // Show the friends view controller
-        BFriendsListViewController * flvc = [[BInterfaceManager sharedManager].a friendsViewControllerWithUsersToExclude:_thread.users.allObjects];
-        flvc.rightBarButtonActionTitle = [NSBundle t:bAdd];
-        
-        // The friends view controller will give us a list of users to invite
-        flvc.usersToInvite = ^(NSArray * users, NSString * groupName){
+        UINavigationController * nav = [[BInterfaceManager sharedManager].a friendsViewControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
             
             [NM.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
                 [UIView alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];
@@ -187,9 +183,10 @@
                 [self reloadData];
                 return Nil;
             }, Nil);
-        };
+        }];
+        [((id<PFriendsListViewController>) nav.topViewController) setRightBarButtonActionTitle:[NSBundle t: bAdd]];
         
-        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:flvc] animated:YES completion:Nil];
+        [self presentViewController:nav animated:YES completion:Nil];
     }
     if (indexPath.section == bLeaveConvoSection) {
         

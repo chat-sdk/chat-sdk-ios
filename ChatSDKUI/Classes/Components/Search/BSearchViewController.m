@@ -26,6 +26,8 @@
 @synthesize usersSelected;
 @synthesize addButton = _addButton;
 @synthesize selectedUsers = _selectedUsers;
+@synthesize currentSearchIndex = _currentSearchIndex;
+@synthesize searchTermNavigationController = _searchTermNavigationController;
 
 -(instancetype) initWithUsersToExclude: (NSArray *) excludedUsers {
     return [self initWithUsersToExclude:excludedUsers selectedAction:Nil];
@@ -96,13 +98,13 @@
                 }
             }
             
-            
-            
             strongSelf.searchTermButton.hidden = !indexes.count;
-            strongSelf->_searchTermViewController = [[BSearchIndexViewController alloc] initWithIndexes: nonRequiredIndexes withCallback:^(NSArray * index) {
+           
+            strongSelf.searchTermNavigationController = [[BInterfaceManager sharedManager].a searchIndexNavigationControllerWithIndexes:nonRequiredIndexes withCallback:^(NSArray * index) {
                 [strongSelf.searchTermButton setTitle:index.key forState:UIControlStateNormal];
-                strongSelf->_currentSearchIndex = index;
+                strongSelf.currentSearchIndex = index;
             }];
+            
             [self stopActivityIndicator];
             return Nil;
         }, Nil);
@@ -325,7 +327,7 @@
 }
 
 - (IBAction)searchTermButtonPressed:(id)sender {
-    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:_searchTermViewController]
+    [self presentViewController:_searchTermNavigationController
                        animated:YES
                      completion:Nil];
 }

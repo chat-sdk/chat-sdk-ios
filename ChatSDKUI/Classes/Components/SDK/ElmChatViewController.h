@@ -13,6 +13,7 @@
 #import <ChatSDK/ElmChatViewDelegate.h>
 
 @protocol PChatOptionsHandler;
+@protocol PImageViewController;
 @protocol PSendBar;
 
 @class MPMoviePlayerController;
@@ -30,10 +31,8 @@
     
     UIGestureRecognizer * _tapRecognizer;
     
-    BImageViewController * _imageViewController;
     UINavigationController * _imageViewNavigationController;
 
-    BLocationViewController * _locationViewController;
     UINavigationController * _locationViewNavigationController;
     
     UIRefreshControl * _refreshControl;

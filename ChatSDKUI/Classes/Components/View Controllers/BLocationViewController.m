@@ -50,6 +50,12 @@
     [_map.mapView selectAnnotation:annotation animated:NO];
 }
 
+-(void) setLatitude: (double) latitude longitude: (double) longitude {
+    self.region = [BCoreUtilities regionForLongitude:longitude latitude:latitude];
+    self.annotation = [BCoreUtilities annotationForLongitude:longitude latitude:latitude];
+
+}
+
 -(void) viewWillDisappear:(BOOL)animated {
     [[BMapViewManager sharedManager] returnToPool:_map];
 }

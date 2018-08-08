@@ -15,6 +15,9 @@
 @protocol PSearchViewController;
 @protocol PSendBar;
 @protocol BChatOptionDelegate;
+@protocol PImageViewController;
+@protocol PLocationViewController;
+
 @class BChatViewController;
 @class BFriendsListViewController;
 @class BChatOption;
@@ -27,8 +30,13 @@
 -(UIViewController *) contactsViewController;
 -(UIViewController *) profileViewControllerWithUser: (id<PUser>) user ;
 -(UIViewController *) appTabBarViewController;
+
 -(UIViewController *) eulaViewController;
--(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude;
+-(UINavigationController *) eulaNavigationController;
+
+-(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action;
+-(UINavigationController *) friendsNavigationControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action;
+
 -(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread;
 
 -(NSArray *) defaultTabBarViewControllers;
@@ -47,7 +55,10 @@
 
 -(NSMutableArray *) chatOptions;
 -(id<PChatOptionsHandler>) chatOptionsHandlerWithDelegate: (id<BChatOptionDelegate>) delegate;
+
 -(UIViewController *) usersViewControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent;
+-(UINavigationController *) usersViewNavigationControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent;
+
 -(void) addChatOption: (BChatOption *) option;
 -(void) removeChatOption: (BChatOption *) option;
 
@@ -61,6 +72,16 @@
 
 -(BOOL) showLocalNotification: (id) notification;
 -(void) setShowLocalNotifications: (BOOL) shouldShow;
+
+-(UIViewController<PImageViewController> *) imageViewController;
+-(UINavigationController *) imageViewNavigationController;
+
+-(UIViewController<PLocationViewController> *) locationViewController;
+-(UINavigationController *) locationViewNavigationController;
+
+-(UIViewController *) searchIndexViewControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback;
+
+-(UINavigationController *) searchIndexNavigationControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback;
 
 @end
 
