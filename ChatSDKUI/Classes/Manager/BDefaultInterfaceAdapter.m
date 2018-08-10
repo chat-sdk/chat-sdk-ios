@@ -183,6 +183,7 @@
             [vc setExcludedUsers:users];
         }
     }
+//    return vc;
     return [self navigationControllerWithRootViewController:vc];
     
 }
@@ -292,7 +293,7 @@
 }
 
 -(UINavigationController *) searchIndexNavigationControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback {
-    return [self navigationControllerWithRootViewController:[self searchViewControllerExcludingUsers:indexes usersAdded:callback]];
+    return [self navigationControllerWithRootViewController:[self searchIndexViewControllerWithIndexes:indexes withCallback:callback]];
 }
 
 @end

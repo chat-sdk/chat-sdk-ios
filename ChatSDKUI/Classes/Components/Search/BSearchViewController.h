@@ -12,7 +12,7 @@
 @class MBProgressHUD;
 @class BSearchIndexViewController;
 
-@interface BSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, PSearchViewController /* ,UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating */> {
+@interface BSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PSearchViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating> {
     
     NSMutableArray * _users;
     NSMutableArray * _selectedUsers;
@@ -26,7 +26,12 @@
     BOOL _showKeyboardOnLoad;
     
     UIBarButtonItem * _addButton;
-//    UISearchController * _searchController;
+    UISearchController * _searchController;
+    
+    UIActivityIndicatorView * _activityIndicator;
+    UIView * _searchTextFieldRightView;
+    
+    BOOL _searchTermButtonEnabled;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -35,16 +40,12 @@
 @property (nonatomic, readwrite) UINavigationController * searchTermNavigationController;
 @property (nonatomic, readwrite) NSArray * currentSearchIndex;
 
-@property (weak, nonatomic) IBOutlet UITextField *searchBox;
 @property (nonatomic, readwrite, copy) void(^usersSelected)(NSArray * users);
-@property (weak, nonatomic) IBOutlet UIButton *searchTermButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 
 @property (weak, nonatomic) IBOutlet UILabel *noUsersFoundLabel;
 @property (weak, nonatomic) IBOutlet UIView *noUsersFoundView;
 
 @property (nonatomic, readwrite) UIBarButtonItem * addButton;
-
 
 -(void) addButtonPressed;
 -(void) clearAndReload;

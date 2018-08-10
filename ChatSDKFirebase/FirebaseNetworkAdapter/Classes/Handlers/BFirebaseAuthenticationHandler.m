@@ -100,7 +100,8 @@
     }, Nil);
     
     // Depending on the login method we need to authenticate with Firebase
-    switch (details.type) {
+    switch (details.type)
+    {
         case bAccountTypeFacebook: {
             if (NM.socialLogin) {
                 [NM.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
@@ -130,10 +131,8 @@
                     return Nil;
                 });
             }
-            
         }
             break;
-        // TODO: Test this
         case bAccountTypeGoogle:
         {
             if (NM.socialLogin) {
