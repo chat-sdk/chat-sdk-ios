@@ -7,30 +7,18 @@
 //
 
 #import "BInterfaceManager.h"
+#import <ChatSDK/Core.h>
 
 @implementation BInterfaceManager
 
 static BInterfaceManager * manager;
 
-@synthesize a;
-
 +(BInterfaceManager *) sharedManager {
-    
-    @synchronized(self) {
-        
-        // If the sharedSoundManager var is nil then we need to allocate it.
-        if(manager == nil) {
-            // Allocate and initialize an instance of this class
-            manager = [[self alloc] init];
-        }
-    }
-    return manager;
+    return [[self alloc] init];
 }
 
--(instancetype) init {
-    if ((self = [super init])) {
-    }
-    return self;
+-(id<PInterfaceFacade>) a {
+    return BChatSDK.ui;
 }
 
 

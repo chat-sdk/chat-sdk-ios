@@ -71,7 +71,7 @@
             __weak __typeof__(self) weakSelf = self;
 
             NSString * name = [alertView textFieldAtIndex:0].text;
-            [NM.publicThread createPublicThreadWithName:name].thenOnMain(^id(id<PThread> thread) {
+            [BChatSDK.publicThread createPublicThreadWithName:name].thenOnMain(^id(id<PThread> thread) {
                 __typeof__(self) strongSelf = self;
                 [strongSelf pushChatViewControllerWithThread:thread];
                 [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
@@ -88,7 +88,7 @@
 
 -(void) reloadData {
     [_threads removeAllObjects];
-    [_threads addObjectsFromArray:[NM.core threadsWithType:bThreadTypePublicGroup]];
+    [_threads addObjectsFromArray:[BChatSDK.core threadsWithType:bThreadTypePublicGroup]];
     [super reloadData];
 }
 

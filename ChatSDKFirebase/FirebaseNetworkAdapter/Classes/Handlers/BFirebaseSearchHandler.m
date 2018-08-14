@@ -32,7 +32,7 @@
                         NSDictionary * meta = snapshot.value[key][bMetaDataPath];
                         if(meta && [meta[index] containsString:value]) {
                             CCUserWrapper * wrapper = [CCUserWrapper userWithSnapshot:[snapshot childSnapshotForPath:key]];
-                            if(![wrapper.model isEqual:NM.currentUser]) {
+                            if(![wrapper.model isEqual:BChatSDK.currentUser]) {
                                 userAdded(wrapper.model);
                             }
                         }
@@ -82,7 +82,7 @@
                 for (NSString * key in keys) {
                     
                     // Don't return the current user!
-                    NSString * currentUserID = NM.auth.currentUserEntityID;
+                    NSString * currentUserID = BChatSDK.auth.currentUserEntityID;
                     
                     if ([key isEqualToString:currentUserID]) {
                         continue;
@@ -169,7 +169,7 @@
     
     RXPromise * promise = [RXPromise new];
     
-    FIRDatabaseReference * ref = [[FIRDatabaseReference searchIndexRef] child:NM.auth.currentUserEntityID];
+    FIRDatabaseReference * ref = [[FIRDatabaseReference searchIndexRef] child:BChatSDK.auth.currentUserEntityID];
     
     NSString * email = [userModel metaStringForKey:bEmailKey];
     NSString * phone = [userModel metaStringForKey:bPhoneKey];

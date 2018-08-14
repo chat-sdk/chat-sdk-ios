@@ -203,7 +203,7 @@
 }
 
 - (IBAction)termsAndConditionsButtonPressed:(id)sender {
-    UINavigationController * nvc = [BInterfaceManager sharedManager].a.eulaNavigationController;
+    UINavigationController * nvc = BChatSDK.ui.eulaNavigationController;
     [self presentViewController:nvc animated:YES completion:Nil];
 }
 

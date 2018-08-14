@@ -35,7 +35,7 @@
     if (self) {
         
         _users = [NSMutableArray arrayWithArray: thread.users.allObjects];
-        [_users removeObject:NM.currentUser];
+        [_users removeObject:BChatSDK.currentUser];
         
         _thread = thread;
     }
@@ -167,7 +167,7 @@
             id<PUser> user = _users[indexPath.row];
             
             // Open the users profile
-            UIViewController * profileView = [[BInterfaceManager sharedManager].a profileViewControllerWithUser:user];
+            UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:user];
             [self.navigationController pushViewController:profileView animated:YES];
         }
     }
@@ -175,9 +175,9 @@
         
         // Use initWithThread here to make sure we don't show any users already in the thread
         // Show the friends view controller
-        UINavigationController * nav = [[BInterfaceManager sharedManager].a friendsViewControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
+        UINavigationController * nav = [BChatSDK.ui friendsViewControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
             
-            [NM.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
+            [BChatSDK.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
                 [UIView alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];
                 
                 [self reloadData];
@@ -190,8 +190,8 @@
     }
     if (indexPath.section == bLeaveConvoSection) {
         
-        [NM.core deleteThread:_thread];
-        [NM.core leaveThread:_thread];
+        [BChatSDK.core deleteThread:_thread];
+        [BChatSDK.core leaveThread:_thread];
         
         [self.navigationController dismissViewControllerAnimated:NO completion:^{
             if (self.parentNavigationController) {
@@ -223,7 +223,7 @@
 - (void)reloadData {
     
     _users = [NSMutableArray arrayWithArray: _thread.users.allObjects];
-    [_users removeObject:NM.currentUser];
+    [_users removeObject:BChatSDK.currentUser];
     
     [self.tableView reloadData];
 }

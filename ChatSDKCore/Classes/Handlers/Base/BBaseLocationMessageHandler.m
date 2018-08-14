@@ -25,7 +25,7 @@
     id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
 
     message.date = [NSDate date];
-    message.userModel = NM.currentUser;
+    message.userModel = BChatSDK.currentUser;
     message.delivered = @NO;
     message.read = @YES;
     message.flagged = @NO;
@@ -39,7 +39,7 @@
                                    bMessageLongitude: @(location.coordinate.longitude),
                                    bMessageLatitude: @(location.coordinate.latitude)}];
     
-    return [NM.core sendMessage:message].thenOnMain(^id(id result) {
+    return [BChatSDK.core sendMessage:message].thenOnMain(^id(id result) {
         message.delivered = @YES;
         return result;
     }, Nil);;
@@ -122,7 +122,7 @@
 //        UIImage * thumbnail = images[bThumbnailPath];
 //
 //        // Upload the images to Parse
-//        return [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
+//        return [BChatSDK.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
 //
 //            NSString * imageURL = urls[bImagePath];
 //            NSString * thumbnailURL = urls[bThumbnailPath];
@@ -138,7 +138,7 @@
 //                                           bMessageImageHeight: @(image.size.height)}];
 //
 //
-//            return [NM.core sendMessage:message].thenOnMain(^id(id result) {
+//            return [BChatSDK.core sendMessage:message].thenOnMain(^id(id result) {
 //                message.delivered = @YES;
 //                return result;
 //            }, Nil);

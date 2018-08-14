@@ -34,7 +34,7 @@
             textView.font = [BChatSDK config].messageTextFont;
         }
         
-        UIColor * linkColor = [[BInterfaceManager sharedManager].a colorForName:bColorMessageLink];
+        UIColor * linkColor = [BChatSDK.ui colorForName:bColorMessageLink];
         if(linkColor) {
             textView.linkTextAttributes = @{NSForegroundColorAttributeName: linkColor};
         }

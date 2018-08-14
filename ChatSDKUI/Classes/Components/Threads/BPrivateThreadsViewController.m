@@ -57,14 +57,14 @@
 
     __weak __typeof__(self) weakSelf = self;
 
-    UINavigationController * nav = [[BInterfaceManager sharedManager].a friendsNavigationControllerWithUsersToExclude:@[] onComplete:^(NSArray * users, NSString * groupName){
+    UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:@[] onComplete:^(NSArray * users, NSString * groupName){
         __typeof__(self) strongSelf = weakSelf;
         
         MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
         hud.label.text = [NSBundle t:bCreatingThread];
         
         // Create group with group name
-        [NM.core createThreadWithUsers:users name:groupName threadCreated:^(NSError *error, id<PThread> thread) {
+        [BChatSDK.core createThreadWithUsers:users name:groupName threadCreated:^(NSError *error, id<PThread> thread) {
             if (!error) {
                 [strongSelf pushChatViewControllerWithThread:thread];
             }
@@ -105,7 +105,7 @@
 
 -(void) reloadData {
     [_threads removeAllObjects];
-    [_threads addObjectsFromArray:[NM.core threadsWithType:bThreadFilterPrivateThread includeDeleted:YES]];
+    [_threads addObjectsFromArray:[BChatSDK.core threadsWithType:bThreadFilterPrivateThread includeDeleted:YES]];
     [super reloadData];
 }
 

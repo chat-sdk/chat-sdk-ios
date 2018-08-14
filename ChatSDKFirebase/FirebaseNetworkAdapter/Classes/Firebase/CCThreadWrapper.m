@@ -61,8 +61,8 @@
             [promise resolveWithResult:self];
             
             // TODO: Move this to inside the read receipt module
-//            if(NM.readReceipt) {
-//                [NM.readReceipt updateReadReceiptsForThread:self.model];
+//            if(BChatSDK.readReceipt) {
+//                [BChatSDK.readReceipt updateReadReceiptsForThread:self.model];
 //            }
 
         }
@@ -71,8 +71,8 @@
         }
     }];
     
-    if(NM.typingIndicator) {
-        [NM.typingIndicator typingOn: self.model];
+    if(BChatSDK.typingIndicator) {
+        [BChatSDK.typingIndicator typingOn: self.model];
     }
     
     return promise;
@@ -88,16 +88,16 @@
     [self messagesOff];
     [self usersOff];
     
-    if(NM.typingIndicator) {
-        [NM.typingIndicator typingOff: self.model];
+    if(BChatSDK.typingIndicator) {
+        [BChatSDK.typingIndicator typingOff: self.model];
     }
 }
 
 // TODO: Remove promise maybe
 -(RXPromise *) messagesOn {
     
-    if(NM.readReceipt) {
-        [NM.readReceipt updateReadReceiptsForThread:self.model];
+    if(BChatSDK.readReceipt) {
+        [BChatSDK.readReceipt updateReadReceiptsForThread:self.model];
     }
     
     RXPromise * promise = [RXPromise new];
@@ -149,8 +149,8 @@
                 
                 if (![snapshot.value isEqual: [NSNull null]]) {
                     
-                    if(NM.blocking) {
-                        if([NM.blocking isBlocked:snapshot.value[b_UserFirebaseID]]) {
+                    if(BChatSDK.blocking) {
+                        if([BChatSDK.blocking isBlocked:snapshot.value[b_UserFirebaseID]]) {
                             return;
                         }
                     }
@@ -160,7 +160,7 @@
                     // This gets the message if it exists and then updates it from the snapshot
                     CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:snapshot];
                     
-                    [NM.hook executeHookWithName:bHookMessageRecieved data:@{bHookMessageReceived_PMessage: message.model}];
+                    [BChatSDK.hook executeHookWithName:bHookMessageRecieved data:@{bHookMessageReceived_PMessage: message.model}];
                     
                     BOOL newMessage = message.model.delivered.boolValue == NO;
                     
@@ -174,7 +174,7 @@
                     // Add the message to this thread;
                     [self.model addMessage:message.model];
                     
-                    [NM.core save];
+                    [BChatSDK.core save];
                     
                     if (newMessage) {
                         // TODO: Maybe change here
@@ -186,8 +186,8 @@
                             
                             NSLog(@"Message: %@, %@", message.model.textString, message.model.date);
                             
-                            if(NM.readReceipt) {
-                                [NM.readReceipt updateReadReceiptsForThread:self.model];
+                            if(BChatSDK.readReceipt) {
+                                [BChatSDK.readReceipt updateReadReceiptsForThread:self.model];
                             }
                         });
                     }
@@ -320,7 +320,7 @@
    
     RXPromise * promise = [RXPromise new];
     
-    id<PUser> currentUser = NM.currentUser;
+    id<PUser> currentUser = BChatSDK.currentUser;
 
     FIRDatabaseReference * currentThreadUser = [[FIRDatabaseReference threadUsersRef:self.entityID] child:currentUser.entityID];
 
@@ -351,7 +351,7 @@
     
     [[BStorageManager sharedManager].a endUndoGroup];
     
-    id<PUser> currentUser = NM.currentUser;
+    id<PUser> currentUser = BChatSDK.currentUser;
     FIRDatabaseReference * currentThreadUser = [[FIRDatabaseReference threadUsersRef:self.entityID] child:currentUser.entityID];
     
     // If this is a private thread with only two users
@@ -663,7 +663,7 @@
 
 -(RXPromise *) once {
     
-    NSString * token = NM.auth.loginInfo[bTokenKey];
+    NSString * token = BChatSDK.auth.loginInfo[bTokenKey];
     FIRDatabaseReference * ref = [FIRDatabaseReference threadRef:self.entityID];
     
     return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {

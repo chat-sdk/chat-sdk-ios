@@ -140,9 +140,9 @@
    
     NSMutableArray * options = [NSMutableArray new];
     
-    BOOL videoEnabled = NM.videoMessage != Nil;
-    BOOL imageEnabled = NM.imageMessage != Nil && [BChatSDK config].imageMessagesEnabled;
-    BOOL locationEnabled = NM.locationMessage != Nil && [BChatSDK config].locationMessagesEnabled;
+    BOOL videoEnabled = BChatSDK.videoMessage != Nil;
+    BOOL imageEnabled = BChatSDK.imageMessage != Nil && [BChatSDK config].imageMessagesEnabled;
+    BOOL locationEnabled = BChatSDK.locationMessage != Nil && [BChatSDK config].locationMessagesEnabled;
     
     if (imageEnabled && videoEnabled) {
         [options addObject:[[BMediaChatOption alloc] initWithType:bPictureTypeCameraVideo]];

@@ -176,7 +176,7 @@
     _nameLabel.hidden = ![_message showUserNameLabelForPosition:position];
     
     // Hide the read receipt view if this is a public thread or if read receipts are disabled
-    _readMessageImageView.hidden = _message.thread.type.intValue & bThreadFilterPublic || !NM.readReceipt;
+    _readMessageImageView.hidden = _message.thread.type.intValue & bThreadFilterPublic || !BChatSDK.readReceipt;
 }
 
 -(void) willDisplayCell {
@@ -195,7 +195,7 @@
     
     // #1 Because of the text view insets we want the cellContentView of the
     // text cell to extend to the right edge of the bubble
-    BOOL isMine = [_message.userModel isEqual:NM.currentUser];
+    BOOL isMine = [_message.userModel isEqual:BChatSDK.currentUser];
     
     
     // Layout the profile picture
@@ -238,8 +238,8 @@
 -(void) showProfileView {
     
     // Cannot view our own profile this way
-    if (![_message.userModel.entityID isEqualToString:NM.currentUser.entityID]) {
-        UIViewController * profileView = [[BInterfaceManager sharedManager].a profileViewControllerWithUser:_message.userModel];
+    if (![_message.userModel.entityID isEqualToString:BChatSDK.currentUser.entityID]) {
+        UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:_message.userModel];
         [self.navigationController pushViewController:profileView animated:YES];
     }
 }
@@ -248,7 +248,7 @@
 -(void) layoutSubviews {
     [super layoutSubviews];
     
-    BOOL isMine = [_message.userModel isEqual:NM.currentUser];
+    BOOL isMine = [_message.userModel isEqual:BChatSDK.currentUser];
     
     // Extra x-margin if the profile picture isn't shown
     // TODO: Fix this

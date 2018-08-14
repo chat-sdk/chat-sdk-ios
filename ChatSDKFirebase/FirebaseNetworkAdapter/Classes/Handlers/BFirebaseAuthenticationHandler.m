@@ -25,7 +25,7 @@
         
         // If the user listeners have been added then authenticate completed successfully
         if(_userAuthenticatedThisSession) {
-            return [RXPromise resolveWithResult:NM.currentUser];
+            return [RXPromise resolveWithResult:BChatSDK.currentUser];
         }
         else {
             return [self loginWithFirebaseUser:[FIRAuth auth].currentUser];
@@ -47,7 +47,7 @@
 -(RXPromise *) logout {
     RXPromise * promise = [RXPromise new];
     
-    id<PUser> user = NM.currentUser;
+    id<PUser> user = BChatSDK.currentUser;
     
     // Stop observing the user
     if(self.currentUserEntityID) {
@@ -57,7 +57,7 @@
     NSError * error = Nil;
     if([[FIRAuth auth] signOut:&error]) {
         
-        [NM.core goOffline];
+        [BChatSDK.core goOffline];
 
         _userAuthenticatedThisSession = NO;
         
@@ -70,7 +70,7 @@
         
         if (user != Nil) {
             NSDictionary * data = @{bHookLogout_PUser: user};
-            [NM.hook executeHookWithName:bHookLogout data:data];
+            [BChatSDK.hook executeHookWithName:bHookLogout data:data];
         }
         
         [promise resolveWithResult:Nil];
@@ -103,8 +103,8 @@
     switch (details.type)
     {
         case bAccountTypeFacebook: {
-            if (NM.socialLogin) {
-                [NM.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
+            if (BChatSDK.socialLogin) {
+                [BChatSDK.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
                     FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:token];
                     //[promise resolveWithResult:credential];
                     [[FIRAuth auth] signInAndRetrieveDataWithCredential:credential completion:handleResult];
@@ -119,8 +119,8 @@
             break;
         case bAccountTypeTwitter:
         {
-            if (NM.socialLogin) {
-                [NM.socialLogin loginWithTwitter].thenOnMain(^id(NSArray * array) {
+            if (BChatSDK.socialLogin) {
+                [BChatSDK.socialLogin loginWithTwitter].thenOnMain(^id(NSArray * array) {
                     FIRAuthCredential * credential = [FIRTwitterAuthProvider credentialWithToken:array.firstObject
                                                                                           secret:array.lastObject];
                     [[FIRAuth auth] signInAndRetrieveDataWithCredential:credential completion:handleResult];
@@ -135,8 +135,8 @@
             break;
         case bAccountTypeGoogle:
         {
-            if (NM.socialLogin) {
-                [NM.socialLogin loginWithGoogle].thenOnMain(^id(NSArray * array) {
+            if (BChatSDK.socialLogin) {
+                [BChatSDK.socialLogin loginWithGoogle].thenOnMain(^id(NSArray * array) {
                     FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:array.firstObject
                                                                                       accessToken:array.lastObject];
                     [[FIRAuth auth] signInAndRetrieveDataWithCredential:credential completion:handleResult];
@@ -213,14 +213,14 @@
             // Update the user from the remote server
             return [user once].thenOnMain(^id(id<PUserWrapper> user_) {
             
-                [NM.hook executeHookWithName:bHookUserAuthFinished data:@{bHookUserAuthFinished_PUser: user.model}];
+                [BChatSDK.hook executeHookWithName:bHookUserAuthFinished data:@{bHookUserAuthFinished_PUser: user.model}];
                 
-                [NM.core save];
+                [BChatSDK.core save];
                 
                 // Add listeners here
                 [BStateManager userOn: user.entityID];
                 
-                [NM.core setUserOnline];
+                [BChatSDK.core setUserOnline];
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
                 

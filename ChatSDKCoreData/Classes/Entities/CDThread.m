@@ -196,7 +196,7 @@
     NSString * name = @"";
     
     for (id<PUser> user in self.users) {
-        if (![user isEqual:NM.currentUser]) {
+        if (![user isEqual:BChatSDK.currentUser]) {
             if (user.name.length) {
                 name = [name stringByAppendingFormat:@"%@, ", user.name];
             }
@@ -251,7 +251,7 @@
 }
 
 -(id<PUser>) otherUser {
-    id<PUser> currentUser = NM.currentUser;
+    id<PUser> currentUser = BChatSDK.currentUser;
     if (self.type.intValue == bThreadType1to1 || self.users.count == 2) {
         for (id<PUser> user in self.users) {
             if (![user isEqual:currentUser]) {
@@ -268,7 +268,7 @@
     NSMutableArray * users = [NSMutableArray arrayWithArray:self.users.allObjects];
     
     // Remove the current user from the array
-    [users removeObject:NM.currentUser];
+    [users removeObject:BChatSDK.currentUser];
     
     // Create a temporary array as we cannot loop through an array and remove users
     NSMutableArray * tempUsers = [NSMutableArray arrayWithArray:users];

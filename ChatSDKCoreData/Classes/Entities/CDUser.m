@@ -239,7 +239,7 @@
 }
 
 -(BOOL) isMe {
-    return [self.entityID isEqualToString:NM.currentUser.entityID];
+    return [self.entityID isEqualToString:BChatSDK.currentUser.entityID];
 }
 
 -(void) optimize {

@@ -29,7 +29,7 @@
     // channel. In this case user_[user id] this means that we can
     // send a push to a specific user if we know their user id.
     NSMutableArray * userChannels = [NSMutableArray new];
-    id<PUser> currentUserModel = NM.currentUser;
+    id<PUser> currentUserModel = BChatSDK.currentUser;
     for (id<PUser> user in users) {
         if(![user isEqual:currentUserModel] && !user.online.boolValue)
             [userChannels addObject:user.pushChannel];

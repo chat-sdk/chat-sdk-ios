@@ -18,7 +18,7 @@
         [FIRMessaging messaging].delegate = self;
         
 //         Send a local notification when a message comes in
-//        [NM.hook addHook:[BHook hook:^(NSDictionary * value) {
+//        [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * value) {
 //            id<PMessage> message = (id<PMessage>) value[bHookMessageReceived_PMessage];
 //
 //            if (!message.senderIsMe) {
@@ -155,9 +155,9 @@
         }
     }];
     
-    [NM.hook addHook:hook withName:bHookUserAuthFinished];
+    [BChatSDK.hook addHook:hook withName:bHookUserAuthFinished];
     
-//    [NM.currentUser setMetaValue:fcmToken forKey:@""];
+//    [BChatSDK.currentUser setMetaValue:fcmToken forKey:@""];
     
 }
 
@@ -188,10 +188,10 @@
 }
 
 -(BOOL) updateUserPushToken {
-    if(_userPushToken && _userPushToken.length && NM.currentUser) {
-        NSString * currentToken = [NM.currentUser metaValueForKey:bUserPushTokenKey];
+    if(_userPushToken && _userPushToken.length && BChatSDK.currentUser) {
+        NSString * currentToken = [BChatSDK.currentUser metaValueForKey:bUserPushTokenKey];
         if(![currentToken isEqualToString: _userPushToken]) {
-            [NM.currentUser setMetaValue:_userPushToken forKey:bUserPushTokenKey];
+            [BChatSDK.currentUser setMetaValue:_userPushToken forKey:bUserPushTokenKey];
             return YES;
         }
     }
@@ -248,7 +248,7 @@
     // channel. In this case user_[user id] this means that we can
     // send a push to a specific user if we know their user id.
     NSMutableArray * userChannels = [NSMutableArray new];
-    id<PUser> currentUserModel = NM.currentUser;
+    id<PUser> currentUserModel = BChatSDK.currentUser;
     for (id<PUser> user in users) {
         NSString * pushToken = [user metaValueForKey:bUserPushTokenKey];
         if(![user isEqual:currentUserModel] && pushToken && (!user.online.boolValue || !BChatSDK.config.onlySendPushToOfflineUsers))

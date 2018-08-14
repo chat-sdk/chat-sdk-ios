@@ -100,13 +100,13 @@
     self.searchTextField.rightViewMode = UITextFieldViewModeAlways;
     _searchTextFieldRightView = self.searchTextField.rightView;
     
-    if ([NM.search respondsToSelector:@selector(availableIndexes)]) {
+    if ([BChatSDK.search respondsToSelector:@selector(availableIndexes)]) {
         // Get the search terms...
         [self startActivityIndicator];
         
         __weak __typeof__(self) weakSelf = self;
 
-        [NM.search availableIndexes].thenOnMain(^id(NSArray * indexes) {
+        [BChatSDK.search availableIndexes].thenOnMain(^id(NSArray * indexes) {
             __typeof__(self) strongSelf = weakSelf;
             
             NSMutableArray * nonRequiredIndexes = [NSMutableArray new];
@@ -126,7 +126,7 @@
                 [strongSelf showSearchTermButton];
             }
            
-            strongSelf.searchTermNavigationController = [[BInterfaceManager sharedManager].a searchIndexNavigationControllerWithIndexes:nonRequiredIndexes withCallback:^(NSArray * index) {
+            strongSelf.searchTermNavigationController = [BChatSDK.ui searchIndexNavigationControllerWithIndexes:nonRequiredIndexes withCallback:^(NSArray * index) {
                 strongSelf.currentSearchIndex = index;
                 [strongSelf showSearchTermButton];
             }];
@@ -291,13 +291,13 @@
 
     __weak __typeof__(self) weakSelf = self;
 
-    [NM.search usersForIndexes:indexes withValue:text limit: 10 userAdded: ^(id<PUser> user) {
+    [BChatSDK.search usersForIndexes:indexes withValue:text limit: 10 userAdded: ^(id<PUser> user) {
         __typeof__(self) strongSelf = weakSelf;
 
         // Make sure we run this on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            if (user != NM.currentUser) {
+            if (user != BChatSDK.currentUser) {
                 // Only display a user if they have a name set
             
                 // Check the users entityID to make sure they're not in the exclude list

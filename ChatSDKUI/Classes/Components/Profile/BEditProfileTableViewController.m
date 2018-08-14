@@ -39,7 +39,7 @@
     [self.view addGestureRecognizer:_tapRecognizer];
     
     // Update the user's details
-    id<PUser> user = NM.currentUser;
+    id<PUser> user = BChatSDK.currentUser;
 
     // Load the user's information
     statusTextView.text = [user metaStringForKey:bDescription];
@@ -87,7 +87,7 @@
     
     // This will prevent the app from trying to
     _didLogout = YES;
-    [NM.auth logout];
+    [BChatSDK.auth logout];
     
     // Clear fields
     nameTextField.text = @"";
@@ -105,7 +105,7 @@
 -(void) updateUserAndIndexes {
     
     // Add the user to the index
-    id<PUser> user = NM.currentUser;
+    id<PUser> user = BChatSDK.currentUser;
     
     // Get the user's starting meta
     NSDictionary * oldMeta = [user.model metaDictionary];
@@ -128,7 +128,7 @@
     }
     
     if (pushRequired) {
-        [NM.core pushUser];
+        [BChatSDK.core pushUser];
     }
     
 }

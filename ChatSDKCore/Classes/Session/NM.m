@@ -1,12 +1,12 @@
 //
-//  NM.m
+//  BChatSDK.m
 //  Pods
 //
 //  Created by Benjamin Smiley-andrews on 30/05/2017.
 //
 //
 
-#import "NM.h"
+#import "BChatSDK.h"
 
 #import "Core.h"
 
@@ -93,7 +93,7 @@
 }
 
 +(id<PUser>) currentUser {
-    return NM.core.currentUserModel;
+    return BChatSDK.core.currentUserModel;
 }
 
 +(BOOL) isMe: (id<PUser>) user {

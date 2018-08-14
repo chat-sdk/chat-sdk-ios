@@ -94,7 +94,7 @@
 -(NSArray *) threadsWithType:(bThreadType)type includeDeleted: (BOOL) includeDeleted includeEmpty: (BOOL) includeEmpty {
     
     NSMutableArray * threads = [NSMutableArray new];
-    NSArray * allThreads = type & bThreadFilterPrivate ? NM.currentUser.threads : [[BStorageManager sharedManager].a fetchEntitiesWithName:bThreadEntity];
+    NSArray * allThreads = type & bThreadFilterPrivate ? BChatSDK.currentUser.threads : [[BStorageManager sharedManager].a fetchEntitiesWithName:bThreadEntity];
     
     for(id<PThread> thread in allThreads) {
         if(thread.type.intValue & bThreadFilterPrivate) {
@@ -175,7 +175,7 @@
  * @brief Return the current user data
  */
 -(id<PUser>) currentUserModel {
-    NSString * currentUserID = NM.auth.currentUserEntityID;
+    NSString * currentUserID = BChatSDK.auth.currentUserEntityID;
     if (!_currentUser) {
         _currentUser = [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
                                                                    withType:bUserEntity];
@@ -206,8 +206,8 @@
  * @brief Disconnect from the server
  */
 -(void) goOnline {
-    if(NM.lastOnline && [NM.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
-        [NM.lastOnline setLastOnlineForUser:self.currentUserModel];
+    if(BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
+        [BChatSDK.lastOnline setLastOnlineForUser:self.currentUserModel];
     }
 }
 
@@ -296,7 +296,7 @@
         
         // Check to see if a thread already exists with these
         // two users
-        for (id<PThread> thread in [NM.core threadsWithType:bThreadType1to1 includeDeleted:YES includeEmpty:YES]) {
+        for (id<PThread> thread in [BChatSDK.core threadsWithType:bThreadType1to1 includeDeleted:YES includeEmpty:YES]) {
             if ([thread.users isEqual:usersToAddSet]) {
                 jointThread = thread;
                 break;
@@ -349,7 +349,7 @@
 
     NSSet * usersSet = [NSSet setWithArray:users];
 
-    for (id<PThread> thread in [NM.core threadsWithType:type]) {
+    for (id<PThread> thread in [BChatSDK.core threadsWithType:type]) {
         if([usersSet isEqual:thread.users]) {
             [threads addObject:thread];
         }

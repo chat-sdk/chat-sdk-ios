@@ -39,7 +39,7 @@
     
     // First check to see if the user is already authenticated
     [self showHUD: [NSBundle t:bAuthenticating]];
-    [NM.auth authenticateWithCachedToken].thenOnMain(^id(id success) {
+    [BChatSDK.auth authenticateWithCachedToken].thenOnMain(^id(id success) {
         [self authenticationFinished];
         return Nil;
     }, ^id(NSError * error) {
@@ -49,28 +49,28 @@
     
     UIButton * activeSocialButton = Nil;
     
-    if (![NM.auth accountTypeEnabled:bAccountTypeFacebook]) {
+    if (![BChatSDK.auth accountTypeEnabled:bAccountTypeFacebook]) {
         [self hideView:self.facebookButton withViewToRight:self.googleButton];
     }
     else {
         activeSocialButton = self.facebookButton;
     }
 
-    if (![NM.auth accountTypeEnabled:bAccountTypeGoogle]) {
+    if (![BChatSDK.auth accountTypeEnabled:bAccountTypeGoogle]) {
         [self hideView:self.googleButton withViewToRight:self.twitterButton];
     }
     else {
         activeSocialButton = self.googleButton;
     }
 
-    if (![NM.auth accountTypeEnabled:bAccountTypeTwitter]) {
+    if (![BChatSDK.auth accountTypeEnabled:bAccountTypeTwitter]) {
         [self hideView:self.twitterButton withViewToRight:Nil];
     }
     else {
         activeSocialButton = self.twitterButton;
     }
 
-    if (![NM.auth accountTypeEnabled:bAccountTypeAnonymous]) {
+    if (![BChatSDK.auth accountTypeEnabled:bAccountTypeAnonymous]) {
         [self hideView:self.anonymousButton withViewToRight:Nil];
     }
     else {
@@ -125,31 +125,31 @@
 }
 
 -(RXPromise *) loginWithUsername: (NSString *) username password: (NSString *) password {
-    return [NM.auth authenticate:[BAccountDetails username:username password:password]];
+    return [BChatSDK.auth authenticate:[BAccountDetails username:username password:password]];
 }
 
 -(RXPromise *) registerWithUsername: (NSString *) username password: (NSString *) password {
-    return [NM.auth authenticate:[BAccountDetails signUp:username password:password]];
+    return [BChatSDK.auth authenticate:[BAccountDetails signUp:username password:password]];
 }
 
 -(RXPromise *) facebook {
-    return [NM.auth authenticate:[BAccountDetails facebook]];
+    return [BChatSDK.auth authenticate:[BAccountDetails facebook]];
 }
 
 -(RXPromise *) twitter {
-    return [NM.auth authenticate:[BAccountDetails twitter]];
+    return [BChatSDK.auth authenticate:[BAccountDetails twitter]];
 }
 
 -(RXPromise *) googlePlus {
-    return [NM.auth authenticate:[BAccountDetails google]];
+    return [BChatSDK.auth authenticate:[BAccountDetails google]];
 }
 
 -(RXPromise *) anonymous {
-    return [NM.auth authenticate:[BAccountDetails anonymous]];
+    return [BChatSDK.auth authenticate:[BAccountDetails anonymous]];
 }
 
 -(RXPromise *) resetPasswordWithCredential: (NSString *) credential {
-    return [NM.auth resetPasswordWithCredential:credential];
+    return [BChatSDK.auth resetPasswordWithCredential:credential];
 }
 
 -(NSString *) usernamePlaceholder {

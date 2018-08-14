@@ -12,8 +12,7 @@
 
 @interface BInterfaceManager : NSObject
 
-@property (nonatomic, readwrite) id<PInterfaceFacade> a;
-
 +(BInterfaceManager *) sharedManager;
+-(id<PInterfaceFacade>) a;
 
 @end

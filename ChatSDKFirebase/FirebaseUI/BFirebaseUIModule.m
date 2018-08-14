@@ -7,7 +7,7 @@
 //
 
 #import "BFirebaseUIModule.h"
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 #import <FirebaseAuth/FirebaseAuth.h>
 #import <FirebaseAuthUI/FirebaseAuthUI.h>
 #import <FirebaseCore/FIRApp.h>

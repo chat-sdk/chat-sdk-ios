@@ -94,7 +94,7 @@
         _optionsButton.keepHeight.equal = 24;
         
         // If the user has no chat options available then remove the chat option button width
-        _optionsButton.keepWidth.equal = [BInterfaceManager sharedManager].a.chatOptions.count ? 24 : 0;
+        _optionsButton.keepWidth.equal = BChatSDK.ui.chatOptions.count ? 24 : 0;
         
         _optionsButton.translatesAutoresizingMaskIntoConstraints = NO;
         

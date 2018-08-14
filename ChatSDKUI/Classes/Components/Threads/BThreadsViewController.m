@@ -76,7 +76,7 @@
                                                                              
                                                                              // Only vibrate if a message is received from a private thread
                                                                              if (messageModel.thread.type.intValue & bThreadFilterPrivate) {
-                                                                                 if (![messageModel.userModel isEqual:NM.currentUser]) {
+                                                                                 if (![messageModel.userModel isEqual:BChatSDK.currentUser]) {
                                                                                      AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
                                                                                  }
                                                                              }
@@ -241,7 +241,7 @@
 
 -(void) pushChatViewControllerWithThread: (id<PThread>) thread {
     if (thread) {
-        UIViewController * vc = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
+        UIViewController * vc = [BChatSDK.ui chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:vc animated:YES];
         // Stop multiple touches opening multiple chat views
         [tableView setUserInteractionEnabled:NO];
@@ -286,7 +286,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete )
     {
         id<PThread> thread = _threads[indexPath.row];
-        [NM.core deleteThread:thread];
+        [BChatSDK.core deleteThread:thread];
         [self reloadData];
     }
 }

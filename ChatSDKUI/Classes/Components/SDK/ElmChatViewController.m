@@ -54,7 +54,7 @@
 
 // The text input view sits on top of the keyboard
 -(void) setupTextInputView {
-    _sendBarView = [[BInterfaceManager sharedManager].a sendBarView];
+    _sendBarView = [BChatSDK.ui sendBarView];
     [_sendBarView setSendBarDelegate:self];
     
     [self.view addSubview:_sendBarView];
@@ -128,7 +128,7 @@
     _keyboardOverlay = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fh, self.view.fw, 0)];
     _keyboardOverlay.backgroundColor = [UIColor whiteColor];
     
-    _optionsHandler = [[BInterfaceManager sharedManager].a chatOptionsHandlerWithDelegate:self];
+    _optionsHandler = [BChatSDK.ui chatOptionsHandlerWithDelegate:self];
     
     if(_optionsHandler.keyboardView) {
         [_keyboardOverlay addSubview:_optionsHandler.keyboardView];
@@ -400,6 +400,9 @@
     if ([cell respondsToSelector:@selector(willDisplayCell)]) {
         [cell performSelector:@selector(willDisplayCell)];
     }
+    // Allow the table to support different background colors
+    cell.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor = [UIColor clearColor];
 }
 
 // Set the message height based on the text height
@@ -419,7 +422,7 @@
     if ([cell isKindOfClass:[BImageMessageCell class]]) {
         
         if (!_imageViewNavigationController) {
-            _imageViewNavigationController = [[BInterfaceManager sharedManager].a imageViewNavigationController];
+            _imageViewNavigationController = [BChatSDK.ui imageViewNavigationController];
         }
 
         // Only allow the user to click if the image is not still loading hence the alpha is 1
@@ -452,7 +455,7 @@
     }
     if ([cell isKindOfClass:[BLocationCell class]]) {
         if (!_locationViewNavigationController) {
-            _locationViewNavigationController = [[BInterfaceManager sharedManager].a locationViewNavigationController];
+            _locationViewNavigationController = [BChatSDK.ui locationViewNavigationController];
         }
         
         float longitude = [[cell.message textAsDictionary][bMessageLongitude] floatValue];
@@ -463,8 +466,8 @@
         [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
     }
     
-    if(NM.videoMessage) {
-        if ([cell isKindOfClass:NM.videoMessage.messageCellClass]) {
+    if(BChatSDK.videoMessage) {
+        if ([cell isKindOfClass:BChatSDK.videoMessage.messageCellClass]) {
             
             // Only allow the user to click if the image is not still loading hence the alpha is 1
             if (cell.imageView.alpha == 1) {
@@ -635,7 +638,7 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // We can only flag posts in public threads
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
-    return ![message.userModel isEqual:NM.currentUser];
+    return ![message.userModel isEqual:BChatSDK.currentUser];
 }
 
 // This only works for iOS8

@@ -150,7 +150,7 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   [BChatSDK initialize:config app:application options:launchOptions];
 
   // Set the root view controller
-  [self.window setRootViewController:[BInterfaceManager sharedManager].a.appTabBarViewController];
+  [self.window setRootViewController:BChatSDK.ui.appTabBarViewController];
   ```
   
   Then add the following methods:
@@ -192,7 +192,7 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   BChatSDK.initialize(config, app: application, options: launchOptions)
         
   self.window = UIWindow.init(frame: UIScreen.main.bounds)
-  self.window?.rootViewController = BInterfaceManager.shared().a.appTabBarViewController();
+  self.window?.rootViewController = BChatSDK.ui().appTabBarViewController();
   self.window?.makeKeyAndVisible();
   ```
   
@@ -318,13 +318,13 @@ Any of the Chat SDK views can be added into your app. Checkout the [PInterfaceFa
 *Objective-C*
 
 ```
-UIViewController * privateThreadsViewController = [[BInterfaceManager sharedManager].a privateThreadsViewController];
+UIViewController * privateThreadsViewController = [BChatSDK.ui privateThreadsViewController];
 ```
 
 *Swift*
 
 ```
-let privateThreadsViewController = BInterfaceManager.shared().a.privateThreadsViewController()
+let privateThreadsViewController = BChatSDK.ui().a.privateThreadsViewController()
 ```
 
 ### Integrate the Chat SDK with your existing app
@@ -550,7 +550,7 @@ To start a chat you can use the core handler.
 When this method completes, the thread will have been created on Firebase and all the users will have been added. You could then open the thread using the interface adapter. 
 
 ```
-UIViewController * chatViewController = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
+UIViewController * chatViewController = [BChatSDK.ui chatViewControllerWithThread:thread];
 ```
 
 So a more complete example would look like this:
@@ -573,7 +573,7 @@ So a more complete example would look like this:
 
 -(void) pushChatViewControllerWithThread: (id<PThread>) thread {
     if (thread) {
-        UIViewController * chatViewController = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
+        UIViewController * chatViewController = [BChatSDK.ui chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:chatViewController animated:YES];
     }
 }

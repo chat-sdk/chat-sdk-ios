@@ -17,13 +17,13 @@
     switch (accountType) {
         case bAccountTypeFacebook:
             key = BChatSDK.config.facebookAppId;
-            return key.length && NM.socialLogin && [BChatSDK shared].configuration.facebookLoginEnabled;
+            return key.length && BChatSDK.socialLogin && [BChatSDK shared].configuration.facebookLoginEnabled;
         case bAccountTypeTwitter:
             key = BChatSDK.config.twitterApiKey;
-            return key.length && NM.socialLogin && [BChatSDK shared].configuration.twitterLoginEnabled;
+            return key.length && BChatSDK.socialLogin && [BChatSDK shared].configuration.twitterLoginEnabled;
         case bAccountTypeGoogle:
             key = BChatSDK.config.googleClientKey;
-            return key.length && [BChatSDK shared].configuration.googleLoginEnabled && NM.socialLogin;
+            return key.length && [BChatSDK shared].configuration.googleLoginEnabled && BChatSDK.socialLogin;
         case bAccountTypeAnonymous:
             return BChatSDK.config.anonymousLoginEnabled;
         default:

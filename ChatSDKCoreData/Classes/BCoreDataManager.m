@@ -322,7 +322,7 @@ static BCoreDataManager * manager;
     @synchronized(self.managedObjectContext)  {
         NSMutableArray * allUsers = [NSMutableArray arrayWithArray:users];
 
-        id<PUser> currentUser = NM.currentUser;
+        id<PUser> currentUser = BChatSDK.currentUser;
         if (![allUsers containsObject:currentUser]) {
             [allUsers addObject:currentUser];
         }

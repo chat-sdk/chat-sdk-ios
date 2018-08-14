@@ -69,7 +69,7 @@
         return self.overrideUser;
     }
     else {
-        return NM.currentUser;
+        return BChatSDK.currentUser;
     }
 }
 
@@ -196,13 +196,13 @@
 }
 
 -(void) updateTabBarIcon {
-    BOOL female = [[NM.currentUser metaStringForKey:bGender] isEqualToString:@"F"];
+    BOOL female = [[BChatSDK.currentUser metaStringForKey:bGender] isEqualToString:@"F"];
     self.tabBarItem.image = [NSBundle uiImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
     self.tabBarItem.selectedImage = [NSBundle uiImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
 }
 
 -(UIImage *) profilePicture {
-    id<PUser> user = NM.currentUser;
+    id<PUser> user = BChatSDK.currentUser;
     return user.imageAsImage;
 }
 
@@ -224,8 +224,8 @@
 }
 
 -(void) startChat {
-    [NM.core createThreadWithUsers:@[self.overrideUser] threadCreated:^(NSError * error, id<PThread> thread) {
-        UIViewController * cvc = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
+    [BChatSDK.core createThreadWithUsers:@[self.overrideUser] threadCreated:^(NSError * error, id<PThread> thread) {
+        UIViewController * cvc = [BChatSDK.ui chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:cvc animated:YES];
     }];
 }
@@ -239,10 +239,10 @@
     // Set the user image
     
     // Update the user
-    id<PUser> user = NM.currentUser;
+    id<PUser> user = BChatSDK.currentUser;
     [user setImage:UIImagePNGRepresentation(image)];
     
-    [NM.core pushUser];
+    [BChatSDK.core pushUser];
     
     [picker dismissViewControllerAnimated:YES completion:Nil];
 }

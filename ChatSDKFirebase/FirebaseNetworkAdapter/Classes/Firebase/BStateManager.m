@@ -17,7 +17,7 @@
     id<PUser> user = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bUserEntity];
     
     NSDictionary * data = @{bHookUserOn_PUser: user};
-    [NM.hook executeHookWithName:bHookUserOn data:data];
+    [BChatSDK.hook executeHookWithName:bHookUserOn data:data];
     
     FIRDatabaseReference * threadsRef = [FIRDatabaseReference userThreadsRef:entityID];
     [threadsRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
@@ -43,7 +43,7 @@
             [thread off];
             [thread messagesOff]; // We need to turn the messages off incase we rejoin the thread
             
-            [NM.core deleteThread:thread.model];
+            [BChatSDK.core deleteThread:thread.model];
         }
     }];
     
@@ -66,8 +66,8 @@
         }
     }];
     
-    if (NM.push && [NM.push respondsToSelector:@selector(subscribeToPushChannel:)]) {
-        [NM.push subscribeToPushChannel:user.pushChannel];
+    if (BChatSDK.push && [BChatSDK.push respondsToSelector:@selector(subscribeToPushChannel:)]) {
+        [BChatSDK.push subscribeToPushChannel:user.pushChannel];
     }
     
     for (id<PUserConnection> contact in [user connectionsWithType:bUserConnectionTypeContact]) {
@@ -78,7 +78,7 @@
     }
     
     if ([BChatSDK config].enableMessageModerationTab) {
-        [NM.moderation on];
+        [BChatSDK.moderation on];
     }
 }
 
@@ -99,7 +99,7 @@
         }
     }
     
-    for (id<PThread> threadModel in [NM.core threadsWithType:bThreadTypePublicGroup]) {
+    for (id<PThread> threadModel in [BChatSDK.core threadsWithType:bThreadTypePublicGroup]) {
         CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
         [thread off];
     }
@@ -111,8 +111,8 @@
         [[CCUserWrapper userWithModel:contactModel] onlineOff];
     }
 
-    if (NM.push && [NM.push respondsToSelector:@selector(unsubscribeToPushChannel:)]) {
-        [NM.push unsubscribeToPushChannel:user.pushChannel];
+    if (BChatSDK.push && [BChatSDK.push respondsToSelector:@selector(unsubscribeToPushChannel:)]) {
+        [BChatSDK.push unsubscribeToPushChannel:user.pushChannel];
     }
 }
 

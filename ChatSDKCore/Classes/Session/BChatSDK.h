@@ -6,16 +6,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <ChatSDK/BNetworkFacade.h>
 
 @class BConfiguration;
 @class RXPromise;
 @protocol PInterfaceFacade;
+@protocol PUser;
+
 
 @interface BChatSDK : NSObject {
     BConfiguration * _configuration;
+    id<PInterfaceFacade> _interfaceManager;
 }
 
 @property (nonatomic, readonly) BConfiguration * configuration;
+@property (nonatomic, readwrite) id<PInterfaceFacade> interfaceManager;
 
 +(BChatSDK *) shared;
 +(BConfiguration *) config;
@@ -40,5 +45,32 @@
 
 // Logout
 +(RXPromise *) logout;
+
+// API Methods
++(id<PCoreHandler>) core;
++(id<PAuthenticationHandler>) auth;
++(id<PUploadHandler>) upload;
++(id<PVideoMessageHandler>) videoMessage;
++(id<PAudioMessageHandler>) audioMessage;
++(id<PImageMessageHandler>) imageMessage;
++(id<PLocationMessageHandler>) locationMessage;
++(id<PPushHandler>) push;
++(id<PContactHandler>) contact;
++(id<PTypingIndicatorHandler>) typingIndicator;
++(id<PModerationHandler>) moderation;
++(id<PSearchHandler>) search;
++(id<PPublicThreadHandler>) publicThread;
++(id<PBlockingHandler>) blocking;
++(id<PLastOnlineHandler>) lastOnline;
++(id<PNearbyUsersHandler>) nearbyUsers;
++(id<PReadReceiptHandler>) readReceipt;
++(id<PStickerMessageHandler>) stickerMessage;
++(id<PSocialLoginHandler>) socialLogin;
++(id<PUser>) currentUser;
++(id) handler: (NSString *) name;
++(id<PHookHandler>) hook;
++(id<PUsersHandler>) users;
++(BOOL) isMe: (id<PUser>) user;
++(id<PInterfaceFacade>) ui;
 
 @end

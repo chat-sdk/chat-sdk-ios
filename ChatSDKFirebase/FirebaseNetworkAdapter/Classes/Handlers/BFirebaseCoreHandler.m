@@ -139,7 +139,7 @@
     
     // Create the new CCMessage wrapper
     return [[CCMessageWrapper messageWithModel:messageModel] send].thenOnMain(^id(id success) {
-        [NM.push pushForMessage:messageModel];
+        [BChatSDK.push pushForMessage:messageModel];
         return success;
     }, Nil);
     

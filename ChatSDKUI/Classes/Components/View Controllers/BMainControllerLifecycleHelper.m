@@ -31,9 +31,9 @@
 }
 
 -(void) showLoginScreen {
-    if (!NM.auth.userAuthenticated) {
+    if (!BChatSDK.auth.userAuthenticated) {
         if (!_loginViewController) {
-            _loginViewController = NM.auth.challengeViewController;
+            _loginViewController = BChatSDK.auth.challengeViewController;
         }
         [_viewController presentViewController:_loginViewController
                                       animated:YES
@@ -41,14 +41,14 @@
     }
     else {
         // Once we are authenticated then start updating the users location
-        if(NM.nearbyUsers) {
-            [NM.nearbyUsers startUpdatingUserLocation];
+        if(BChatSDK.nearbyUsers) {
+            [BChatSDK.nearbyUsers startUpdatingUserLocation];
         }
     }
 }
 
 -(RXPromise *) viewDidAppear {
-    return [NM.auth authenticateWithCachedToken].thenOnMain(^id(id<PUser> user) {
+    return [BChatSDK.auth authenticateWithCachedToken].thenOnMain(^id(id<PUser> user) {
         if (!user) {
             [self showLoginScreen];
         }

@@ -15,7 +15,7 @@
 
 // The method will be called on the delegate only if the application is in the foreground. If the method is not implemented or the handler is not called in a timely manner then the notification will not be presented. The application can choose to have the notification presented as a sound, badge, alert and/or in the notification list. This decision should be based on whether the information in the notification is otherwise visible to the user.
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
-    if ([BInterfaceManager.sharedManager.a showLocalNotification:notification]) {
+    if ([BChatSDK.ui showLocalNotification:notification]) {
         completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert);
     }
 }
@@ -35,7 +35,7 @@
                     taskIndentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
                         [[UIApplication sharedApplication] endBackgroundTask:taskIndentifier];
                     }];
-                    [NM.core sendMessageWithText:text withThreadEntityID:threadEntityID].then(^id(id result) {
+                    [BChatSDK.core sendMessageWithText:text withThreadEntityID:threadEntityID].then(^id(id result) {
                         [[UIApplication sharedApplication] endBackgroundTask:taskIndentifier];
                         return Nil;
                     }, ^id(NSError * error) {

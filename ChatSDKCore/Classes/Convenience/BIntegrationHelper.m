@@ -11,17 +11,17 @@
 @implementation BIntegrationHelper
 
 +(RXPromise *) authenticateWithToken: (NSString *) token {
-    return [NM.auth authenticate:[BAccountDetails token:token]];
+    return [BChatSDK.auth authenticate:[BAccountDetails token:token]];
 }
 
 +(RXPromise *) logout {
-    return [NM.auth logout];
+    return [BChatSDK.auth logout];
 }
 
 +(void) updateUserWithName: (NSString *) name image: (UIImage *) image url: (NSString *) url {
     
     void(^pushUser)(void) = ^{
-        id<PUser> user = NM.currentUser;
+        id<PUser> user = BChatSDK.currentUser;
         [user setName:name];
         if(url) {
             [user setImageURL:url];
@@ -29,15 +29,15 @@
         if(image) {
             [user setImage:UIImagePNGRepresentation(image)];
         }
-        [NM.core pushUser];
+        [BChatSDK.core pushUser];
     };
     
-    id<PUser> user = NM.currentUser;
+    id<PUser> user = BChatSDK.currentUser;
     if(user) {
         pushUser();
     }
     else {
-        [NM.hook addHook:[BHook hook:^(NSDictionary * dict) {
+        [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
             pushUser();
         }] withName:bHookUserAuthFinished];
     }

@@ -112,7 +112,7 @@
     
     __weak __typeof__(self) weakSelf = self;
 
-    NSDictionary * searchControllerNamesForType = [BInterfaceManager sharedManager].a.additionalSearchControllerNames;
+    NSDictionary * searchControllerNamesForType = BChatSDK.ui.additionalSearchControllerNames;
     
     if(searchControllerNamesForType.allKeys.count == 0) {
         // Just use name search
@@ -157,11 +157,11 @@
     __weak BContactsViewController * weakSelf = self;
     
     NSMutableArray * excludedUsers = [NSMutableArray new];
-    for(id<PUserConnection> connection in NM.contact.contacts) {
+    for(id<PUserConnection> connection in BChatSDK.contact.contacts) {
         [excludedUsers addObject:connection.user];
     }
     
-    UIViewController * vc = [[BInterfaceManager sharedManager].a searchViewControllerWithType:type
+    UIViewController * vc = [BChatSDK.ui searchViewControllerWithType:type
                                                                                excludingUsers:excludedUsers
                                                                                    usersAdded:^(NSArray * users) {
                                                                                    [weakSelf addUsers:users];
@@ -179,8 +179,8 @@
         for (id<PUser> user in users) {
             
             // Add observers to the user just added
-            [NM.core observeUser:user.entityID];
-            [NM.contact addContact:user withType:bUserConnectionTypeContact];
+            [BChatSDK.core observeUser:user.entityID];
+            [BChatSDK.contact addContact:user withType:bUserConnectionTypeContact];
         }
     }
     
@@ -219,7 +219,7 @@
     id<PUserConnection> connection = _contacts[indexPath.row];
     
     // Open the users profile
-    UIViewController * profileView = [[BInterfaceManager  sharedManager].a profileViewControllerWithUser:connection.user];
+    UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:connection.user];
     profileView.hidesBottomBarWhenPushed = YES;
     
     [self.navigationController pushViewController:profileView animated:YES];
@@ -228,7 +228,7 @@
 
 -(void) reloadData {
     
-    NSArray * allContacts = [NM.currentUser connectionsWithType:bUserConnectionTypeContact];
+    NSArray * allContacts = [BChatSDK.currentUser connectionsWithType:bUserConnectionTypeContact];
     
     [_contacts removeAllObjects];
     [_contacts addObjectsFromArray:allContacts];
@@ -254,7 +254,7 @@
     
     NSString * searchString = searchController_.searchBar.text.lowercaseString;
     
-    NSArray * allContacts = [NM.contact connectionsWithType:bUserConnectionTypeContact];
+    NSArray * allContacts = [BChatSDK.contact connectionsWithType:bUserConnectionTypeContact];
     
     [_contacts removeAllObjects];
     

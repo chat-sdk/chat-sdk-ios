@@ -35,7 +35,7 @@
     
     threadModel.creationDate = [NSDate date];
     
-    id<PUser> currentUserModel = NM.currentUser;
+    id<PUser> currentUserModel = BChatSDK.currentUser;
     
     threadModel.creator = currentUserModel;
     threadModel.type = @(bThreadTypePublicGroup);

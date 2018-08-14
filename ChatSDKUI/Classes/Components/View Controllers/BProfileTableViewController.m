@@ -47,7 +47,7 @@
     // This stops the data from scrolling which we don't want
     self.tableView.alwaysBounceVertical = NO;
     
-    id<PUser> currentUser = NM.currentUser;
+    id<PUser> currentUser = BChatSDK.currentUser;
     
     if (!_user) {
         _user = currentUser;
@@ -70,7 +70,7 @@
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    id<PUser> currentUser = NM.currentUser;
+    id<PUser> currentUser = BChatSDK.currentUser;
     
     if (!_user) {
         _user = currentUser;
@@ -88,7 +88,7 @@
     if ([_user.entityID isEqualToString:currentUser.entityID]) {
         // Add a logout button
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bLogout] style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
-        if([BInterfaceManager sharedManager].a.settingsViewController) {
+        if(BChatSDK.ui.settingsViewController) {
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_25_settings.png"] style:UIBarButtonItemStylePlain target:self action:@selector(openSettings)];
         }
         else {
@@ -138,14 +138,14 @@
 }
 
 -(void) openSettings {
-    [self.navigationController pushViewController:[BInterfaceManager sharedManager].a.settingsViewController animated:YES];
+    [self.navigationController pushViewController:BChatSDK.ui.settingsViewController animated:YES];
 }
 
 -(void) startChatWithUser {
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.label.text = [NSBundle t:bCreatingThread];
     
-    [NM.core createThreadWithUsers:@[_user] threadCreated:^(NSError * error, id<PThread> thread) {
+    [BChatSDK.core createThreadWithUsers:@[_user] threadCreated:^(NSError * error, id<PThread> thread) {
         if (!error) {
             [self pushChatViewControllerWithThread:thread];
         }
@@ -158,13 +158,13 @@
 
 -(void) pushChatViewControllerWithThread: (id<PThread>) thread {
     if (thread) {
-        UIViewController * chatViewController = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
+        UIViewController * chatViewController = [BChatSDK.ui chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:chatViewController animated:YES];
     }
 }
 
 -(UIImage *) profilePicture {
-    id<PUser> user = NM.currentUser;
+    id<PUser> user = BChatSDK.currentUser;
     return user.image ? [UIImage imageWithData:user.image] : Nil;
 }
 
@@ -202,7 +202,7 @@
 -(void) updateUserAndIndexes {
     
     // Add the user to the index
-    id<PUser> user = NM.currentUser;
+    id<PUser> user = BChatSDK.currentUser;
     
     if (user && user.entityID && [_user.entityID isEqualToString:user.entityID]) {
         
@@ -218,13 +218,13 @@
         
         user.phoneNumber = phoneNumberField.text;
         
-        [NM.search updateIndexForUser:user].thenOnMain(Nil, ^id(NSError * error) {
+        [BChatSDK.search updateIndexForUser:user].thenOnMain(Nil, ^id(NSError * error) {
             [UIView alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
             return error;
         });
         
         // Update the user
-        [NM.core pushUser];
+        [BChatSDK.core pushUser];
     }
 }
 // End bug fix for v3.0.2
@@ -275,19 +275,19 @@
     [profilePictureButton setImage:image forState:UIControlStateNormal];
     
     // Update the user
-    id<PUser> user = NM.currentUser;
+    id<PUser> user = BChatSDK.currentUser;
     [user setImage:UIImagePNGRepresentation(image)];
     [user setThumbnail:UIImagePNGRepresentation(thumbnail)];
     
     // Set the image now
-    [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
+    [BChatSDK.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
     
         // Set the meta data
         [user setMetaString:urls[bImagePath] forKey:bUserPictureURLKey];
         [user setMetaString:urls[bThumbnailPath] forKey:bUserPictureURLThumbnailKey];
     
         // Update the user
-        [NM.core pushUser];
+        [BChatSDK.core pushUser];
     
         return urls;
     }, Nil);
@@ -320,7 +320,7 @@
 -(void) logout {
     // This will prevent the app from trying to
     _didLogout = YES;
-    [NM.auth logout].thenOnMain(^id(id success) {
+    [BChatSDK.auth logout].thenOnMain(^id(id success) {
         
         // Clear fields
         nameField.text = @"";
@@ -357,15 +357,15 @@
 }
 
 - (IBAction)rightActionButtonPressed:(id)sender {
-    if(NM.blocking) {
-        if(![NM.blocking isBlocked:_user.entityID]) {
-            [NM.blocking blockUser:_user.entityID].thenOnMain(^id(id success) {
+    if(BChatSDK.blocking) {
+        if(![BChatSDK.blocking isBlocked:_user.entityID]) {
+            [BChatSDK.blocking blockUser:_user.entityID].thenOnMain(^id(id success) {
                 [self updateBlockButton];
                 return Nil;
             }, Nil);
         }
         else {
-            [NM.blocking unblockUser:_user.entityID].thenOnMain(^id(id success) {
+            [BChatSDK.blocking unblockUser:_user.entityID].thenOnMain(^id(id success) {
                 [self updateBlockButton];
                 return Nil;
             }, Nil);
@@ -381,9 +381,9 @@
     [self.rightActionButton setTitle:[NSBundle t:bBlock] forState:UIControlStateNormal];
     [self.rightActionButton setTitle:[NSBundle t:bUnblock] forState:UIControlStateSelected];
 
-    self.rightActionButton.hidden = !NM.blocking || [_user isEqual:NM.currentUser];
-    if(NM.blocking) {
-        self.rightActionButton.selected = [NM.blocking isBlocked:_user.entityID];
+    self.rightActionButton.hidden = !BChatSDK.blocking || [_user isEqual:BChatSDK.currentUser];
+    if(BChatSDK.blocking) {
+        self.rightActionButton.selected = [BChatSDK.blocking isBlocked:_user.entityID];
     }
 }
 

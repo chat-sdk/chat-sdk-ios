@@ -135,7 +135,7 @@
 
 - (RXPromise *)setProfilePictureWithImageURL: (NSString *)url {
     
-    id<PUser> user = NM.currentUser;
+    id<PUser> user = BChatSDK.currentUser;
     
     // Only set the user picture if they are logging on the first time
     if (url && !user.thumbnail) {
@@ -150,8 +150,8 @@
                 [user setImage:UIImagePNGRepresentation(image)];
                 [user setThumbnail:UIImagePNGRepresentation(thumbnail)];
                 
-                if(NM.upload) {
-                    return [NM.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
+                if(BChatSDK.upload) {
+                    return [BChatSDK.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
                         
                         // Set the meta data
                         [user setMetaString:urls[bImagePath] forKey:bPictureURLKey];
@@ -159,12 +159,12 @@
                         
                         return [user loadProfileImage:NO].thenOnMain(^id(UIImage * image) {
                             
-                            return [NM.core pushUser];
+                            return [BChatSDK.core pushUser];
                         }, Nil);
                     }, Nil);
                 }
                 else {
-                    return [NM.core pushUser];
+                    return [BChatSDK.core pushUser];
                 }
                 
             }
@@ -200,7 +200,7 @@
 
 -(RXPromise *) once {
     
-    NSString * token = NM.auth.loginInfo[bTokenKey];
+    NSString * token = BChatSDK.auth.loginInfo[bTokenKey];
     FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
 
     return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {
@@ -348,8 +348,8 @@
             [BEntity pushUserMetaUpdated:self.model.entityID];
             
             // We only want to do this if we are logged in
-            if (NM.auth.userAuthenticated) {
-                [NM.search updateIndexForUser:self.model];
+            if (BChatSDK.auth.userAuthenticated) {
+                [BChatSDK.search updateIndexForUser:self.model];
                 [promise resolveWithResult:self.model];
             }
             else {
@@ -422,7 +422,7 @@
     NSMutableArray * promises = [NSMutableArray new];
     [promises addObject:[_model loadProfileThumbnail:thumbnailChanged]];
     
-    if (self.entityID == NM.currentUser.entityID) {
+    if (self.entityID == BChatSDK.currentUser.entityID) {
         [promises addObject:[_model loadProfileImage:imageChanged]];
     }
     
@@ -465,7 +465,7 @@
     // Get the user's reference
     FIRDatabaseReference * userThreadsRef = [[FIRDatabaseReference userThreadsRef:_model.entityID]child:entityID];
 
-    [userThreadsRef setValue:@{b_InvitedBy: NM.currentUser.entityID} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    [userThreadsRef setValue:@{b_InvitedBy: BChatSDK.currentUser.entityID} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
             [BEntity pushUserThreadsUpdated:self.model.entityID];
             [promise resolveWithResult:self];

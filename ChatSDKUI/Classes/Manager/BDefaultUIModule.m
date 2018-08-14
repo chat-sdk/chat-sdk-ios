@@ -12,9 +12,9 @@
 @implementation BDefaultUIModule
 
 -(void) activate {
-    [BInterfaceManager sharedManager].a = [[BDefaultInterfaceAdapter alloc] init];
+    BChatSDK.shared.interfaceManager = [[BDefaultInterfaceAdapter alloc] init];
     // Set the login screen
-    NM.auth.challengeViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
+    BChatSDK.auth.challengeViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
     if(![BChatSDK config].defaultBlankAvatar) {
         [BChatSDK config].defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bUIBundleName];
     }

@@ -103,7 +103,7 @@
 -(NSDictionary *) initialReadReceipts {
     // Setup the initial read receipts
     NSMutableDictionary * readReceipts = [NSMutableDictionary new];
-    id<PUser> currentUser = NM.currentUser;
+    id<PUser> currentUser = BChatSDK.currentUser;
     for (id<PUser> user in self.model.thread.users) {
         if (![user isEqual:currentUser]) {
             readReceipts[user.entityID] = @{b_Status: @(bMessageReadStatusNone)};
@@ -215,7 +215,7 @@
 -(RXPromise *) flag {
     RXPromise * promise = [RXPromise new];
     
-    NSDictionary * data = @{b_CreatorEntityID: NM.currentUser.entityID,
+    NSDictionary * data = @{b_CreatorEntityID: BChatSDK.currentUser.entityID,
                             b_SenderEntityID: _model.userModel.entityID,
                             b_Message: _model.textString,
                             b_Thread: _model.thread.entityID,

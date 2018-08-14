@@ -1,5 +1,5 @@
 //
-//  NM.h
+//  BChatSDK.h
 //  Pods
 //
 //  Created by Benjamin Smiley-andrews on 30/05/2017.

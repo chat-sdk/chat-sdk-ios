@@ -84,7 +84,7 @@
 }
 
 - (void)updateFlaggedMessages {
-    self.flaggedMessages = [[NSArray alloc] initWithArray:[NM.moderation flaggedMessages]];
+    self.flaggedMessages = [[NSArray alloc] initWithArray:[BChatSDK.moderation flaggedMessages]];
 }
 
 - (NSInteger)indexForMessage:(id<PMessage>)message {
@@ -139,12 +139,12 @@
 -(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Delete" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        [NM.moderation deleteMessage:self.flaggedMessages[indexPath.row].entityID];
+        [BChatSDK.moderation deleteMessage:self.flaggedMessages[indexPath.row].entityID];
     }];
     delete.backgroundColor = [UIColor redColor];
     
     UITableViewRowAction *more = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Unflag" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        [NM.moderation unflagMessage:self.flaggedMessages[indexPath.row].entityID];
+        [BChatSDK.moderation unflagMessage:self.flaggedMessages[indexPath.row].entityID];
     }];
     more.backgroundColor = [UIColor colorWithRed:0.188 green:0.514 blue:0.984 alpha:1];
     

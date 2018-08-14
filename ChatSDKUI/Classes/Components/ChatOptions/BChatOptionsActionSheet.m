@@ -17,7 +17,7 @@
     if((self = [self init])) {
         self.delegate = delegate;
         
-        _options = [BInterfaceManager sharedManager].a.chatOptions;
+        _options = BChatSDK.ui.chatOptions;
         
         for(BChatOption * o in _options) {
             o.parent = self;

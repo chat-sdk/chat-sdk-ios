@@ -306,7 +306,7 @@
     [_contacts removeAllObjects];
     
     if(_overrideContacts == Nil) {
-        [_contacts addObjectsFromArray:[NM.contact contactsWithType:bUserConnectionTypeContact]];
+        [_contacts addObjectsFromArray:[BChatSDK.contact contactsWithType:bUserConnectionTypeContact]];
     }
     else {
         [_contacts addObjectsFromArray: self.overrideContacts()];
