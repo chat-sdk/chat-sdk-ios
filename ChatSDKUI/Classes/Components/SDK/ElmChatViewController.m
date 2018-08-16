@@ -484,6 +484,11 @@
                 [cell.imageView addSubview:activityIndicator];
                 [cell.imageView bringSubviewToFront:activityIndicator];
                 
+                // Make sure the audio plays even if we're in silent mode
+                [[AVAudioSession sharedInstance]
+                 setCategory: AVAudioSessionCategoryPlayback
+                 error: nil];
+                
                 // Initialize the MPMoviePlayerController object using url
                 _videoPlayer = [[MPMoviePlayerController alloc] initWithContentURL:url];
                 

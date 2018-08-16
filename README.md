@@ -35,6 +35,12 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 
 Full breakdown is available on the [features page](http://chatsdk.co/features/).
 
+## Demo
+
+You can test the XMPP Chat SDK on the [App Store](https://itunes.apple.com/us/app/xmpp-messenger/id1218669006?ls=1&mt=8)
+
+## Modules
+
 - [Typing indicator](http://chatsdk.co/downloads/typing-indicator/)
 - [Read receipts](http://chatsdk.co/downloads/read-receipts/)
 - [Location based chat](http://chatsdk.co/downloads/location-based-chat/)
@@ -49,15 +55,18 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 - [File Storage](https://github.com/chat-sdk/chat-sdk-ios#file-storage)
 - [Firebase UI](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)
 
-## Demo
+## Firebase Firestore
 
-- You can test the XMPP Chat SDK on the [App Store](https://itunes.apple.com/us/app/xmpp-messenger/id1218669006?ls=1&mt=8)
+If you are interested in a version of the Chat SDK that supports Firebase's new database please vote on [this issue](https://github.com/chat-sdk/chat-sdk-android/issues/148) and help us meet our target on [Paetron](https://www.patreon.com/chatsdk).
 
-## Help spread the word
-Chat SDK is free and open source. If you like the project help us spread the word by:
+## Support the project
 
+We would love to work full time developing the open source. At the moment we have to spend a substantial amount of time doing other consulting work to cover our costs. If you like what we're doing and would like to support us to focus more of our time on the open source project we would be very grateful. 
+
++ Support us directly on [Paetron](https://www.patreon.com/chatsdk) 🙏
 + Giving us a Github star ⭐
 + Upvoting our page on [Product Hunt](https://www.producthunt.com/posts/chat-sdk)
++ Tweet about the project using [@chat_sdk](https://mobile.twitter.com/chat_sdk)
 
 ## Get involved!
 

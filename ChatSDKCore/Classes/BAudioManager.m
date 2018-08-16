@@ -97,6 +97,11 @@ static BAudioManager * manager;
             AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute, sizeof (audioRouteOverride), &audioRouteOverride);
         }
         
+        // Make sure the audio plays even if we're in silent mode
+        [[AVAudioSession sharedInstance]
+         setCategory: AVAudioSessionCategoryPlayback
+         error: nil];
+        
         // Subscribe to the AVPlayerItem's DidPlayToEndTime notification.
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishPlaying:) name:AVPlayerItemDidPlayToEndTimeNotification object:item];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishPlaying:) name:AVPlayerItemFailedToPlayToEndTimeErrorKey object:item];
