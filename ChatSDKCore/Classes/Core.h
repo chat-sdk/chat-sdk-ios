@@ -95,6 +95,9 @@
 #import <ChatSDK/BIntegrationHelper.h>
 #import <ChatSDK/NSObject+Meta.h>
 
+#import <ChatSDK/BBackgroundPushNotificationQueue.h>
+#import <ChatSDK/BBackgroundPushAction.h>
+
 #import <ChatSDK/bPictureTypes.h>
 
 #endif /* ChatCore_h */

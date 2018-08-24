@@ -30,6 +30,7 @@
  * @brief Checks whether the user has been authenticated this session
  */
 -(BOOL) userAuthenticated;
+-(BOOL) userAuthenticatedThisSession;
 
 /**
  * @brief Logout the user from the current account

@@ -10,6 +10,8 @@
 
 @class BConfiguration;
 @class RXPromise;
+@class BBackgroundPushNotificationQueue;
+
 @protocol PInterfaceFacade;
 @protocol PUser;
 
@@ -17,6 +19,7 @@
 @interface BChatSDK : NSObject {
     BConfiguration * _configuration;
     id<PInterfaceFacade> _interfaceManager;
+    BBackgroundPushNotificationQueue * _pushQueue;
 }
 
 @property (nonatomic, readonly) BConfiguration * configuration;
@@ -45,6 +48,10 @@
 
 // Logout
 +(RXPromise *) logout;
+
+// This is used if we get a push notification while the user isn't authenticated. We add it to the
+// queue then check the queue when we launch the main activity and trigger the push handling
+-(BBackgroundPushNotificationQueue *) pushQueue;
 
 // API Methods
 +(id<PCoreHandler>) core;

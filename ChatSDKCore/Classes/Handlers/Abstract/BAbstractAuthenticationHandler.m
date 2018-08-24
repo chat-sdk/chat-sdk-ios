@@ -32,6 +32,10 @@
     return NO;
 }
 
+-(BOOL) userAuthenticatedThisSession {
+    return _authenticatedThisSession && self.userAuthenticated;
+}
+
 -(RXPromise *) authenticateWithDictionary:(NSDictionary *)details {
     BAccountDetails * accountDetails;
     switch ([details[bLoginTypeKey] intValue]) {

@@ -205,7 +205,14 @@
         NSString * threadEntityID = userInfo[bPushThreadEntityID];
         if(threadEntityID) {
             id<PThread> thread = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:threadEntityID withType:bThreadEntity];
-            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationPresentChatView object:Nil userInfo: @{bNotificationPresentChatView_PThread: thread}];
+            
+            if (BChatSDK.auth.userAuthenticatedThisSession) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationPresentChatView object:Nil userInfo: @{bNotificationPresentChatView_PThread: thread}];
+            }
+            else {
+                BBackgroundPushAction * action = [BBackgroundPushAction actionWithType:bPushActionTypeOpenThread payload:@{bPushThreadEntityID: threadEntityID}];
+                [[BChatSDK shared].pushQueue addToQueue:action];
+            }
         }
 //    }
 }

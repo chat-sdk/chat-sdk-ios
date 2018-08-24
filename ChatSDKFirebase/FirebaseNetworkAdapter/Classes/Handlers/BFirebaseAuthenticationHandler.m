@@ -73,6 +73,8 @@
             [BChatSDK.hook executeHookWithName:bHookLogout data:data];
         }
         
+        _authenticatedThisSession = false;
+        
         [promise resolveWithResult:Nil];
     }
     else {
@@ -223,6 +225,8 @@
                 [BChatSDK.core setUserOnline];
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
+                
+                _authenticatedThisSession = true;
                 
                 [user push];
                 

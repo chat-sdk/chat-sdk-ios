@@ -156,6 +156,13 @@ static BChatSDK * instance;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+-(BBackgroundPushNotificationQueue *) pushQueue {
+    if (!_pushQueue) {
+        _pushQueue = [BBackgroundPushNotificationQueue new];
+    }
+    return _pushQueue;
+}
+
 +(id<PCoreHandler>) core {
     return self.a.core;
 }

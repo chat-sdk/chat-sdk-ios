@@ -11,6 +11,7 @@
 #import <ChatSDK/PAuthenticationHandler.h>
 
 @interface BAbstractAuthenticationHandler : NSObject<PAuthenticationHandler> {
+    BOOL _authenticatedThisSession;
 }
 
 @property (nonatomic, readwrite) UIViewController * challengeViewController;

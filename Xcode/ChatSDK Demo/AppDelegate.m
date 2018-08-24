@@ -29,6 +29,7 @@
     config.firebaseCloudMessagingServerKey = @"AAAA_WvJyeI:APA91bFIDYoxnbFTub61SKCh8-RZrElzdkZpzyV3paGFlRWonMzq33zQmQW3ub5hDXLuRaipwtoHSoDKXkZlN5DRb_EYdrxtaDptmvZKCYBPKI-4RqTK9wVLOJvgc5X3bVWLfpNSJO_tLK2pnmhfpHDw2Zs-5L2yug";
     config.clearDataWhenRootPathChanges = YES;
     
+    
     [BChatSDK initialize:config app:application options:launchOptions];
 
     UIViewController * rootViewController = [BInterfaceManager sharedManager].a.appTabBarViewController;

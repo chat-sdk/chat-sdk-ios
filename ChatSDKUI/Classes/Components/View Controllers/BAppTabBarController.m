@@ -92,27 +92,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if(BChatSDK.shared.configuration.shouldOpenChatWhenPushNotificationClicked) {
                 id<PThread> thread = notification.userInfo[bNotificationPresentChatView_PThread];
-                if(thread) {
-                    // Set the tab to the private threads screen
-                    NSArray * vcs = [BChatSDK.ui tabBarViewControllers];
-                    NSInteger index = [vcs indexOfObject:BChatSDK.ui.privateThreadsViewController];
-                    
-                    
-                    if(index != NSNotFound) {
-                        [self setSelectedIndex:index];
-                        UIViewController * chatViewController = [BChatSDK.ui chatViewControllerWithThread:thread];
-                        
-                        // Reset navigation stack
-                        for(UINavigationController * nav in self.viewControllers) {
-                            if(nav.viewControllers.count) {
-                                [nav setViewControllers:@[nav.viewControllers.firstObject] animated: NO];
-                            }
-                        }
-                        
-                        [((UINavigationController *)self.viewControllers[index]) pushViewController:chatViewController animated:YES];
-                    }
-                }
-                
+                [self presentChatViewWithThread:thread];
             }
         });
     }];
@@ -120,6 +100,29 @@
     NSInteger badge = [[NSUserDefaults standardUserDefaults] integerForKey:bMessagesBadgeValueKey];
     [self setBadge: badge];
     
+}
+
+-(void) presentChatViewWithThread: (id<PThread>) thread {
+    if(thread) {
+        // Set the tab to the private threads screen
+        NSArray * vcs = [BChatSDK.ui tabBarViewControllers];
+        NSInteger index = [vcs indexOfObject:BChatSDK.ui.privateThreadsViewController];
+        
+        
+        if(index != NSNotFound) {
+            [self setSelectedIndex:index];
+            UIViewController * chatViewController = [BChatSDK.ui chatViewControllerWithThread:thread];
+            
+            // Reset navigation stack
+            for(UINavigationController * nav in self.viewControllers) {
+                if(nav.viewControllers.count) {
+                    [nav setViewControllers:@[nav.viewControllers.firstObject] animated: NO];
+                }
+            }
+            
+            [((UINavigationController *)self.viewControllers[index]) pushViewController:chatViewController animated:YES];
+        }
+    }
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -134,6 +137,17 @@
         [self updateBadge];
         return Nil;
     }, Nil);
+
+    BBackgroundPushAction * action = [BChatSDK shared].pushQueue.tryFirst;
+    if (action && action.type == bPushActionTypeOpenThread) {
+        [[BChatSDK shared].pushQueue popFirst];
+        NSString * threadEntityID = action.payload[bPushThreadEntityID];
+        if (threadEntityID) {
+            id<PThread> thread = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:threadEntityID withType:bThreadEntity];
+            [self presentChatViewWithThread:thread];
+        }
+    }
+
 }
 
 // #6704 Start bug fix for v3.0.2

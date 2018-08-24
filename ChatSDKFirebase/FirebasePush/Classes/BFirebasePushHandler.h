@@ -9,13 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <ChatSDK/BAbstractPushHandler.h>
 #import <FirebaseMessaging/FirebaseMessaging.h>
+#import <ChatSDK/BBackgroundPushAction.h>
 
 #define bChatSDKNotificationCategory @"co.chatsdk.QuickReply"
 #define bChatSDKReplyAction @"co.chatsdk.ReplyAction"
 #define bChatSDKOpenAppAction @"co.chatsdk.OpenAppAction"
-
-#define bPushThreadEntityID @"chat_sdk_thread_entity_id"
-#define bPushUserEntityID @"chat_sdk_user_entity_id"
 
 @class BLocalNotificationDelegate;
 
