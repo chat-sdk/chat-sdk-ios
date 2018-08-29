@@ -15,6 +15,7 @@
 #import <RXPromise/RXPromise.h>
 #import <RXPromise/RXPromise+RXExtension.h>
 #import <AFNetworking/AFNetworking.h>
+#import <DateTools/NSDate+DateTools.h>
 
 #import <ChatSDK/NSArray+KeyPair.h>
 #import <ChatSDK/NSObject+AssociatedObject.h>
@@ -22,6 +23,7 @@
 #import <ChatSDK/UIImage+Resize.h>
 #import <ChatSDK/NSBundle+Additions.h>
 #import <ChatSDK/RXPromise+PromiseKit.h>
+#import <ChatSDK/NSDate+Additions.h>
 
 #import <ChatSDK/BNetworkManager.h>
 #import <ChatSDK/BStorageManager.h>

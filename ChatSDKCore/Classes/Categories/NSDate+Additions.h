@@ -14,5 +14,8 @@
 -(NSString *) lastSeenTimeAgo;
 -(NSString *) dateAgo;
 
+-(BOOL) isNextDay: (NSDate *) date;
+-(BOOL) isPreviousDay: (NSDate *) date;
+
 @end
 

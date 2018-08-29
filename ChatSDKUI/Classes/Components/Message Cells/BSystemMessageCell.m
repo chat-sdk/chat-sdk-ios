@@ -64,13 +64,13 @@
 
 -(void) willDisplayCell {
     
-    float margin = self.bubbleMargin;
-    float padding = self.bubblePadding;
+    UIEdgeInsets margin = self.bubbleMargin;
+    UIEdgeInsets padding = self.bubblePadding;
     
     // HERE
     // Set the margins and height for message
-    [self.bubbleImageView setFrame:CGRectMake(margin,
-                                         margin,
+    [self.bubbleImageView setFrame:CGRectMake(margin.left,
+                                         margin.top,
                                          self.bubbleWidth,
                                          self.bubbleHeight)];
     
@@ -79,10 +79,10 @@
     _timeLabel.hidden = YES;
     
     // Update the content view size for the message length
-    [self cellContentView].frame = CGRectMake(padding,
-                                              padding,
-                                              self.messageWidth + padding,
-                                              self.messageHeight + padding);
+    [self cellContentView].frame = CGRectMake(padding.left,
+                                              padding.top,
+                                              self.messageWidth,
+                                              self.messageHeight);
     
     // Layout the profile picture
     _profilePicture.frame = CGRectZero;

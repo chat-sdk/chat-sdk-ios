@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
 	  core.dependency 'RXPromise', '~> 1.0'
 	  core.dependency 'Reachability', '~> 3.0'
 	  core.dependency 'AFNetworking', '~>3.2.1'
+	  core.dependency 'DateTools', '~> 2.0'
 
       core.frameworks = 'SafariServices'
   
@@ -54,7 +55,6 @@ Pod::Spec.new do |s|
 	  ui.dependency 'SDWebImage', '~> 4.0'
 	  ui.dependency 'StaticDataTableViewController', '~> 2.0'
 	  ui.dependency 'CountryPicker', '~> 1.0'
-	  ui.dependency 'DateTools', '~> 2.0'
 	  ui.dependency 'TOCropViewController', '~> 2.0'
 	  ui.dependency 'Hakawai', '~> 5.1.5'
 	  ui.dependency 'ChatSDKKeepLayout'

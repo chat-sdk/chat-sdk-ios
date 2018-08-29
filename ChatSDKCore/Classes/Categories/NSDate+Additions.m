@@ -9,7 +9,6 @@
 #import "NSDate+Additions.h"
 
 #import <ChatSDK/Core.h>
-#import <ChatSDK/UI.h>
 
 @implementation NSDate (Additions)
 
@@ -61,11 +60,11 @@
 
     NSString * day = @"";
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    
-    if ([self daysAgo] == 0) {
+
+    if (self.isToday) {
         day = [NSBundle t: bToday];
     }
-    else if ([self daysAgo] == 1) {
+    else if (self.isYesterday) {
         day = [NSBundle t: bYesterday];
     }
     else if (self.daysAgo < 7) {
@@ -78,6 +77,24 @@
     }
     
     return day;
+}
+
+-(BOOL) isDateWithOffset: (int) days to: (NSDate *) date {
+    NSCalendar *cal = [NSCalendar currentCalendar];
+//    NSDateComponents *comps = [cal components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
+//                                     fromDate:self];
+    NSDateComponents * comps = [[NSDateComponents alloc] init];
+    [comps setDay:days];
+    NSDate * offset = [cal dateByAddingComponents:comps toDate:self options:0];
+    return date.day == offset.day && date.month == offset.month && date.year == offset.year;
+}
+
+-(BOOL) isNextDay: (NSDate *) date {
+    return [self isDateWithOffset:-1 to:date];
+}
+
+-(BOOL) isPreviousDay: (NSDate *) date {
+    return [self isDateWithOffset:1 to:date];
 }
 
 -(NSString *) timeAgoWithFormatString: (NSString *) formatString {

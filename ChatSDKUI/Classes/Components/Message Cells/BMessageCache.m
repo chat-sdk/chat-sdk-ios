@@ -60,8 +60,6 @@ static BMessageCache * cache;
             break;
     }
     
-    
-    
     // Color
     NSString * colorString = Nil;
     if (isMine) {

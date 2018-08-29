@@ -59,14 +59,11 @@
         if([BChatSDK config].messageNameFont) {
             _nameLabel.font = [BChatSDK config].messageNameFont;
         }
-        
+        [self.contentView addSubview:_nameLabel];
+
         _readMessageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         [self setReadStatus:bMessageReadStatusNone];
-        
-        
         [self.contentView addSubview:_readMessageImageView];
-        
-        [self.contentView addSubview:_nameLabel];
         
         UITapGestureRecognizer * profileTouched = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showProfileView)];
         _profilePicture.userInteractionEnabled = YES;
@@ -94,8 +91,6 @@
     
     if (imageName) {
         _readMessageImageView.image = [NSBundle uiImageNamed:imageName];
-        
-        
     }
     else {
         _readMessageImageView.image = Nil;
@@ -182,13 +177,13 @@
 -(void) willDisplayCell {
     
     // Add an extra margin if there is no profile picture
-    float margin = self.bubbleMargin;
-    float padding = self.bubblePadding;
+    UIEdgeInsets margin = self.bubbleMargin;
+    UIEdgeInsets padding = self.bubblePadding;
     
     // Set the margins and height for message
-    [bubbleImageView setFrame:CGRectMake(margin,
-                                         margin/2,
-                                         self.bubbleWidth + bTailSize,
+    [bubbleImageView setFrame:CGRectMake(margin.left,
+                                         margin.top,
+                                         self.bubbleWidth,
                                          self.bubbleHeight)];
     
     [_nameLabel setViewFrameY:self.bubbleHeight + 5];
@@ -196,7 +191,6 @@
     // #1 Because of the text view insets we want the cellContentView of the
     // text cell to extend to the right edge of the bubble
     BOOL isMine = [_message.userModel isEqual:BChatSDK.currentUser];
-    
     
     // Layout the profile picture
     if (_profilePicture.isHidden) {
@@ -214,35 +208,15 @@
         _profilePicture.layer.cornerRadius = ppDiameter / 2.0;
     }
     
-    
     // Update the content view size for the message length
     // The cell content view is the view that's inside the bubble that stores the message content
-//    [self cellContentView].keepInsets.equal = padding;
+    [self cellContentView].frame = CGRectMake((isMine ? 0 : bTailSize) + padding.left, padding.top, self.messageContentWidth, self.messageContentHeight);
     
-    [self cellContentView].frame = CGRectMake(padding + (!isMine ? bTailSize : 0),
-                                              padding,
-                                              self.messageWidth + (_message.type.intValue == bMessageTypeText ? padding: 0),
-                                              self.messageHeight + (_message.type.intValue == bMessageTypeText ? padding : 0));
+//    NSLog(@"Content Size: %@", NSStringFromCGRect([self cellContentView].frame));
+//    NSLog(@"Text Width: %f", [BMessageCell textWidth:_message.textString maxWidth:[self maxTextWidth]]);
 
 }
 
--(BOOL) profilePictureHidden {
-    return [BMessageCell profilePictureHidden:_message];
-}
-
-+(BOOL) profilePictureHidden: (id<PElmMessage>) message {
-    return message.thread.type.intValue & bThreadType1to1 && ![BChatSDK config].showUserAvatarsOn1to1Threads;
-}
-
-// Open the users profile
--(void) showProfileView {
-    
-    // Cannot view our own profile this way
-    if (![_message.userModel.entityID isEqualToString:BChatSDK.currentUser.entityID]) {
-        UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:_message.userModel];
-        [self.navigationController pushViewController:profileView animated:YES];
-    }
-}
 
 // Format the cells properly when the device orientation changes
 -(void) layoutSubviews {
@@ -265,7 +239,7 @@
     [_readMessageImageView setViewFrameWidth:bReadReceiptWidth];
     [_readMessageImageView setViewFrameHeight:bReadReceiptHeight];
     [_readMessageImageView setViewFrameY:_timeLabel.fh * 2.0 / 3.0];
-
+    
     // Make the width less by the profile picture width means the name and profile picture are inline
     [_nameLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0 - _profilePicture.fw];
     [_nameLabel setViewFrameHeight:self.nameHeight];
@@ -274,7 +248,7 @@
     // The bubble is translated the "margin" to the right of the profile picture
     if (!isMine) {
         [_profilePicture setViewFrameX:_profilePicture.hidden ? 0 : self.profilePicturePadding];
-        [bubbleImageView setViewFrameX:self.bubbleMargin + _profilePicture.fx + _profilePicture.fw + xMargin];
+        [bubbleImageView setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin];
         [_nameLabel setViewFrameX:bTimeLabelPadding];
         
         _timeLabel.textAlignment = NSTextAlignmentRight;
@@ -282,16 +256,37 @@
     }
     else {
         [_profilePicture setViewFrameX:_profilePicture.hidden ? self.contentView.fw : self.contentView.fw - _profilePicture.fw - self.profilePicturePadding];
-        [bubbleImageView setViewFrameX:_profilePicture.fx - self.bubbleWidth - self.bubbleMargin - xMargin];
+        [bubbleImageView setViewFrameX:_profilePicture.fx - self.bubbleWidth - self.bubbleMargin.right - xMargin];
         //[_nameLabel setViewFrameX: bTimeLabelPadding];
         
         _timeLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.textAlignment = NSTextAlignmentRight;
-        
-//        // We need to make sure the time label isn't in the way if there is a users name
-//        if (self.fh < 50) {
-//            [_timeLabel setViewFrameHeight:self.fh * 2 / 3];
-//        }
+    }
+    
+//        self.bubbleImageView.layer.borderColor = UIColor.redColor.CGColor;
+//        self.bubbleImageView.layer.borderWidth = 1;
+//        self.contentView.layer.borderColor = UIColor.blueColor.CGColor;
+//        self.contentView.layer.borderWidth = 1;
+//        self.cellContentView.layer.borderColor = UIColor.greenColor.CGColor;
+//        self.cellContentView.layer.borderWidth = 1;
+}
+
+
+-(BOOL) profilePictureHidden {
+    return [BMessageCell profilePictureHidden:_message];
+}
+
++(BOOL) profilePictureHidden: (id<PElmMessage>) message {
+    return message.thread.type.intValue & bThreadType1to1 && ![BChatSDK config].showUserAvatarsOn1to1Threads;
+}
+
+// Open the users profile
+-(void) showProfileView {
+    
+    // Cannot view our own profile this way
+    if (![_message.userModel.entityID isEqualToString:BChatSDK.currentUser.entityID]) {
+        UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:_message.userModel];
+        [self.navigationController pushViewController:profileView animated:YES];
     }
 }
 
@@ -371,20 +366,17 @@
     return NO;
 }
 
--(void) dealloc {
-}
-
 // Layout Methods
 
--(float) messageHeight {
-    return [BMessageCell messageHeight:_message];
+-(float) messageContentHeight {
+    return [BMessageCell messageContentHeight:_message];
 }
 
-+(float) messageHeight: (id<PElmMessage>) message {
-    return [self messageHeight:message maxWidth:bMaxMessageWidth];
++(float) messageContentHeight: (id<PElmMessage>) message {
+    return [self messageContentHeight:message maxWidth:[self maxTextWidth:message]];
 }
 
-+(float) messageHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
++(float) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
     
     switch ((bMessageType)message.type.intValue) {
         case bMessageTypeImage:
@@ -394,30 +386,30 @@
                 // We want the height to be less than the max height and more than the min height
                 // First check if the calculated height is bigger than the max height, we take the smaller of these
                 // Next we take the max of this value and the min value, this ensures the image is at least the min height
-                return MAX(bMinMessageHeight, MIN([self messageWidth:message] * message.imageHeight / message.imageWidth, bMaxMessageHeight));
+                return MAX(bMinMessageHeight, MIN([self messageContentWidth:message] * message.imageHeight / message.imageWidth, bMaxMessageHeight));
             }
             return 0;
         }
         case bMessageTypeLocation:
-            return [self messageWidth:message];
+            return [self messageContentWidth:message];
         case bMessageTypeAudio:
             return 50;
         case bMessageTypeSticker:
             return 140;
         default:
-            return [self getText: message.textString heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageWidth:message maxWidth:maxWidth]];
+            return [self getText: message.textString heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth]];
     }
 }
 
--(float) messageWidth {
-    return [BMessageCell messageWidth:_message maxWidth:self.maxTextWidth];
+-(float) messageContentWidth {
+    return [BMessageCell messageContentWidth:_message maxWidth:self.maxTextWidth];
 }
 
-+(float) messageWidth: (id<PElmMessage>) message {
-    return [self messageWidth:message maxWidth:bMaxMessageWidth];
++(float) messageContentWidth: (id<PElmMessage>) message {
+    return [self messageContentWidth:message maxWidth:[self maxTextWidth:message]];
 }
 
-+(float) messageWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
++(float) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
     switch ((bMessageType)message.type.intValue) {
         case bMessageTypeText:
         case bMessageTypeSystem:
@@ -453,7 +445,12 @@
 }
 
 +(float) maxTextWidth: (id<PElmMessage>) message {
-    return [self currentSize].width - bMessageMarginX - ([self profilePictureHidden:message] ? 0 : self.profilePictureDiameter) - [self bubblePadding: message] * 2 + [self profilePicturePadding: message];
+    return [self maxBubbleWidth:message] - [self bubblePadding:message].left - [self bubblePadding:message].right;
+}
+
++(float) maxBubbleWidth: (id<PElmMessage>) message {
+    UIEdgeInsets bubbleMargin = [self bubbleMargin:message];
+    return [self currentSize].width - bMessageMarginX - ([self profilePictureHidden:message] ? 0 : self.profilePictureDiameter + [self profilePicturePadding:message]) - bubbleMargin.left - bubbleMargin.right;
 }
 
 
@@ -466,7 +463,7 @@
 //}
 
 +(float) bubbleHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return [BMessageCell messageHeight:message maxWidth:maxWidth] + [BMessageCell bubblePadding:message] * 2;
+    return [BMessageCell messageContentHeight:message maxWidth:maxWidth] + [BMessageCell bubblePadding:message].left +  [BMessageCell bubblePadding:message].right;
 }
 
 -(float) cellHeight {
@@ -474,7 +471,8 @@
 }
 
 +(float) cellHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + [self bubbleMargin:message] + [self nameHeight:message];
+    UIEdgeInsets bubbleMargin = [self bubbleMargin:message];
+    return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message];
 }
 
 -(float) nameHeight {
@@ -495,14 +493,16 @@
 }
 
 +(float) bubbleWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return [BMessageCell messageWidth: message maxWidth:maxWidth] + [self bubblePadding: message] * 2;
+    return [BMessageCell messageContentWidth: message maxWidth:maxWidth] + [self bubblePadding: message].left + [self bubblePadding: message].right + bTailSize;
 }
 
--(float) bubbleMargin {
+// The margin outside the bubble
+-(UIEdgeInsets) bubbleMargin {
     return [BMessageCell bubbleMargin:_message];
 }
 
-+(float) bubbleMargin: (id<PElmMessage>) message {
+// The padding inside the bubble - i.e. between the bubble and the content
++(UIEdgeInsets) bubbleMargin: (id<PElmMessage>) message {
     switch ((bMessageType)message.type.intValue) {
         case bMessageTypeText:
         case bMessageTypeImage:
@@ -511,35 +511,34 @@
         case bMessageTypeVideo:
         case bMessageTypeSystem:
         case bMessageTypeSticker:
-            return 2.0;
+            return UIEdgeInsetsMake(1.0, 2.0, 1.0, 2.0);
         case bMessageTypeCustom:
         case bMessageTypeFile:
         default:
-            return 0;
+            return UIEdgeInsetsMake(0, 0, 0, 0);
     }
 }
 
--(float) bubblePadding {
+-(UIEdgeInsets) bubblePadding {
     return [BMessageCell bubblePadding:_message];
 }
 
-+(float) bubblePadding: (id<PElmMessage>) message {
++(UIEdgeInsets) bubblePadding: (id<PElmMessage>) message {
     switch ((bMessageType)message.type.intValue) {
         case bMessageTypeText:
-            return 12.0;
+            return UIEdgeInsetsMake(8.0, 9.0, 8.0, 9.0);
         case bMessageTypeImage:
         case bMessageTypeLocation:
         case bMessageTypeAudio:
         case bMessageTypeVideo:
-            return 3.0;
+            return UIEdgeInsetsMake(3.0, 3.0, 3.0, 3.0);
         case bMessageTypeSystem:
-            return 5.0;
+            return UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
         case bMessageTypeSticker:
-            return 0.0;
         case bMessageTypeCustom:
         case bMessageTypeFile:
         default:
-            return 0;
+            return UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
     }
 }
 

@@ -316,6 +316,10 @@
     BOOL isFirst = !self.lastMessage || self.lastMessage.senderIsMe != self.senderIsMe;
     BOOL isLast = !self.nextMessage || self.nextMessage.senderIsMe != self.senderIsMe;
     
+    // Also check if we are the first or last message of a day
+    isFirst = isFirst || [self.date isNextDay: self.lastMessage.date];
+    isLast = isLast || [self.date isPreviousDay:self.nextMessage.date];
+    
     int position = 0;
     if (isFirst) {
         position = position | bMessagePosFirst;

@@ -409,6 +409,8 @@
 - (CGFloat)tableView:(UITableView *)tableView_ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
     if(message) {
+        NSLog(@"Max Width: %f", [BMessageCell maxTextWidth:message]);
+        NSLog(@"Cell Height: %f", [BMessageCell cellHeight:message maxWidth:[BMessageCell maxTextWidth:message]]);
         return [BMessageCell cellHeight:message maxWidth:[BMessageCell maxTextWidth:message]];
     }
     else {

@@ -28,6 +28,9 @@
         textView.editable = NO;
         textView.userInteractionEnabled = YES;
         textView.scrollEnabled = YES;
+        // Get rid of padding and margin
+        textView.textContainer.lineFragmentPadding = 0;
+        textView.textContainerInset = UIEdgeInsetsZero;
 
         textView.font = [UIFont systemFontOfSize:bDefaultFontSize];
         if([BChatSDK config].messageTextFont) {
@@ -39,7 +42,7 @@
             textView.linkTextAttributes = @{NSForegroundColorAttributeName: linkColor};
         }
         
-        textView.contentInset = UIEdgeInsetsMake(-9.0, -5.0, 0.0, 0.0);
+//        textView.contentInset = UIEdgeInsetsMake(-9.0, -5.0, 0.0, 0.0);
         
         [self.bubbleImageView addSubview:textView];
         
