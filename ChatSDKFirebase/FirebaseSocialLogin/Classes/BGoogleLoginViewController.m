@@ -9,6 +9,7 @@
 #import "BGoogleLoginViewController.h"
 
 #import <ChatSDK/UI.h>
+#import <ChatSDK/SocialLogin.h>
 
 @interface BGoogleLoginViewController ()
 
@@ -20,23 +21,24 @@
 
 - (id)init {
     
-    self = [super initWithNibName:@"BGoogleLoginViewController" bundle:Nil];
+    NSBundle * bundle = [NSBundle bundleWithName:bSocialLoginBundleName];
+
+    self = [super initWithNibName:@"BGoogleLoginViewController" bundle:bundle];
     if (self) {
         
-        UIImageView * googleLogo = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"icn_200_google.png"]];
-        [self.view addSubview:googleLogo];
-        
-        googleLogo.keepHorizontalCenter.equal = 0.5;
-        googleLogo.keepHeight.equal = 200;
-        googleLogo.keepWidth.equal = 200;
-        googleLogo.keepVerticalCenter.equal = 0.5;
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UIImageView * googleLogo = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"icn_200_google.png"]];
+    [self.view addSubview:googleLogo];
     
+    googleLogo.keepHorizontalCenter.equal = 0.5;
+    googleLogo.keepHeight.equal = 200;
+    googleLogo.keepWidth.equal = 200;
+    googleLogo.keepVerticalCenter.equal = 0.5;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

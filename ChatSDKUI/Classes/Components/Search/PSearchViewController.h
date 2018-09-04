@@ -15,8 +15,6 @@
 - (instancetype) initWithUsersToExclude: (NSArray *) excludedUsers;
 -(void) setExcludedUsers: (NSArray *) excludedUsers;
 -(void) setSelectedAction: (void(^)(NSArray * users)) action;
--(NSString *) name;
--(void) showKeyboardOnLoad: (BOOL) showKeyboard;
 
 @end
 

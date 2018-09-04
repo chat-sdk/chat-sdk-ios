@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.7.3"
+  s.version          = "4.7.4"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -72,7 +72,6 @@ Pod::Spec.new do |s|
 	
     fb.dependency 'Firebase/Auth'
     fb.dependency 'Firebase/Database'
-    fb.dependency 'Firebase/Performance'
  
 	fb.dependency 'ChatSDK/Core'
   

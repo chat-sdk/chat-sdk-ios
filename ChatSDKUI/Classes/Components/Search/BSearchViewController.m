@@ -41,7 +41,6 @@
        
         _usersToExclude = excludedUsers;
         self.usersSelected = action;
-        _showKeyboardOnLoad = YES;
         
         _searchController = [[UISearchController alloc] initWithSearchResultsController:Nil];
         _searchController.searchResultsUpdater = self;
@@ -54,7 +53,9 @@
         self.navigationItem.titleView = _searchController.searchBar;
         self.definesPresentationContext = YES;
         
-        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
+        if (@available(iOS 11, *)) {
+            self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
+        }
         
     }
     return self;
@@ -84,10 +85,6 @@
 
 -(void) setExcludedUsers: (NSArray *) excludedUsers {
     _usersToExclude = excludedUsers;
-}
-
--(void) showKeyboardOnLoad: (BOOL) showKeyboard {
-    _showKeyboardOnLoad = showKeyboard;
 }
 
 -(void) setSelectedAction: (void(^)(NSArray * users)) action {
@@ -121,7 +118,7 @@
                 [strongSelf hideSearchTermButton];
             }
             else {
-                _searchTermButtonEnabled = YES;
+                strongSelf->_searchTermButtonEnabled = YES;
                 strongSelf.currentSearchIndex = nonRequiredIndexes.firstObject;
                 [strongSelf showSearchTermButton];
             }

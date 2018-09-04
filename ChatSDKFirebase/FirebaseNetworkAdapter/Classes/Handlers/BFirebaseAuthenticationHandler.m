@@ -197,7 +197,10 @@
         }
     }];
     
+    __weak __typeof__(self) weakSelf = self;
     return tokenPromise.thenOnMain(^id(NSString * token) {
+        __typeof__(self) strongSelf = weakSelf;
+
         NSString * uid = firebaseUser.uid;
         
         // Save the authentication ID for the current user
@@ -206,18 +209,20 @@
                              bTokenKey: token ? token : @""}];
         
         CCUserWrapper * user = [CCUserWrapper userWithAuthUserData:firebaseUser];
-        if (details.name) {
+        if (details.name && !user.model.name) {
             [user.model setName:details.name];
         }
         
-        if (!_userAuthenticatedThisSession) {
-            _userAuthenticatedThisSession = YES;
+        if (!strongSelf->_userAuthenticatedThisSession) {
+            strongSelf->_userAuthenticatedThisSession = YES;
             // Update the user from the remote server
             return [user once].thenOnMain(^id(id<PUserWrapper> user_) {
             
                 [BChatSDK.hook executeHookWithName:bHookUserAuthFinished data:@{bHookUserAuthFinished_PUser: user.model}];
                 
                 [BChatSDK.core save];
+                
+                NSLog(@"User On: %@", user.entityID);
                 
                 // Add listeners here
                 [BStateManager userOn: user.entityID];
@@ -226,7 +231,7 @@
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
                 
-                _authenticatedThisSession = true;
+                strongSelf->_authenticatedThisSession = true;
                 
                 [user push];
                 

@@ -176,9 +176,10 @@
  */
 -(id<PUser>) currentUserModel {
     NSString * currentUserID = BChatSDK.auth.currentUserEntityID;
-    if (!_currentUser) {
+    if (!_currentUser || ![_currentUserEntityID isEqual:currentUserID]) {
         _currentUser = [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
                                                                    withType:bUserEntity];
+        _currentUserEntityID = currentUserID;
         [_currentUser optimize];
         [self save];
     }

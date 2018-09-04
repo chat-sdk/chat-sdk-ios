@@ -39,12 +39,6 @@
                                       animated:YES
                                     completion:Nil];
     }
-    else {
-        // Once we are authenticated then start updating the users location
-        if(BChatSDK.nearbyUsers) {
-            [BChatSDK.nearbyUsers startUpdatingUserLocation];
-        }
-    }
 }
 
 -(RXPromise *) viewDidAppear {

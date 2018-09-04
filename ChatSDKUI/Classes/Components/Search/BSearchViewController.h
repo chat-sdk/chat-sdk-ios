@@ -23,7 +23,6 @@
     id _internetConnectionObserver;
     UINavigationController * _searchTermNavigationController;
     NSArray * _currentSearchIndex;
-    BOOL _showKeyboardOnLoad;
     
     UIBarButtonItem * _addButton;
     UISearchController * _searchController;

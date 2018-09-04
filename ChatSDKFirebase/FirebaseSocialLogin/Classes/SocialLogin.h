@@ -11,6 +11,8 @@
 
 #define ChatSDKSocialLoginModule
 
+#define bSocialLoginBundleName @"ChatFirebaseSocialLogin"
+
 #import <ChatSDK/UI.h>
 #import "BFirebaseSocialLoginHandler.h"
 #import "BGoogleLoginViewController.h"
