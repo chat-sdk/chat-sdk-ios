@@ -43,7 +43,12 @@
     if (!url) {
         // Split up the message text then return the url of the thumbnail
         NSArray * myArray = [self.textString componentsSeparatedByString:@","];
-        url = myArray[0];
+        if (myArray.count > 0) {
+            url = myArray[0];
+        }
+        else {
+            return Nil;
+        }
     }
     
     return [NSURL URLWithString:url];
@@ -56,7 +61,12 @@
     if (!url) {
         // Split up the message text then return the url of the thumbnail
         NSArray * myArray = [self.textString componentsSeparatedByString:@","];
-        url = myArray[1];
+        if (myArray.count > 1) {
+            url = myArray[1];
+        }
+        else {
+            return Nil;
+        }
     }
     return [NSURL URLWithString:url];
 }
@@ -259,16 +269,6 @@
     return message;
 }
 
--(void) setMetaValue: (id) value forKey: (NSString *) key {
-    NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:self.meta];
-    dict[key] = value;
-    self.meta = dict;
-}
-
--(id) metaValueForKey: (NSString *) key {
-    return self.meta[key];
-}
-
 -(BOOL) senderIsMe {
     
     return self.userModel.isMe;
@@ -343,6 +343,17 @@
         [self updateOptimizationProperties];
     }
     return self.nextMessage;
+}
+
+-(void) updateMeta: (NSDictionary *) dict {
+    if (!self.meta) {
+        self.meta = @{};
+    }
+    self.meta = [self.meta updateMetaDict:dict];
+}
+
+-(void) setMetaValue: (id) value forKey: (NSString *) key {
+    [self updateMeta:@{key: value ? value : @""}];
 }
 
 

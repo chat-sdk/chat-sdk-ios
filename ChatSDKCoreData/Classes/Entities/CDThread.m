@@ -35,19 +35,6 @@
     [_messagesWorkingList removeAllObjects];
     [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:[BChatSDK config].chatMessagesToLoad ascending:NO]];
     [self reverse:_messagesWorkingList];
-    
-    //
-    
-//    NSArray * messages = [self orderMessagesByDateDesc:self.allMessages];
-//
-//    for(int i = 0; i < bMessageWorkingListInitialSize; i++) {
-//        if(i < messages.count) {
-//            [_messagesWorkingList addObject:messages[i]];
-//        }
-//        else {
-//            break;
-//        }
-//    }
 }
 
 - (void)reverse: (NSMutableArray *) array {
@@ -64,7 +51,6 @@
     }
 }
 
-// This will re
 -(NSArray *) loadMessagesWithCount: (NSInteger) count ascending: (BOOL) ascending {
     NSFetchRequest * request = [[NSFetchRequest alloc] init];
     request.includesPendingChanges = YES;
@@ -260,6 +246,17 @@
         }
     }
     return Nil;
+}
+
+-(void) updateMeta: (NSDictionary *) dict {
+    if (!self.meta) {
+        self.meta = @{};
+    }
+    self.meta = [self.meta updateMetaDict:dict];
+}
+
+-(void) setMetaValue: (id) value forKey: (NSString *) key {
+    [self updateMeta:@{key: value ? value : @""}];
 }
 
 // TODO: Move this to UI module

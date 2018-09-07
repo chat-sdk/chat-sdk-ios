@@ -28,11 +28,11 @@
 }
 
 -(void) setSubscriptionType:(NSString *)subscriptionType {
-    [self setMetaString:subscriptionType forKey:bSubscriptionTypeKey];
+    [self setMetaValue:subscriptionType forKey:bSubscriptionTypeKey];
 }
 
 -(bSubscriptionType) subscriptionType {
-    NSString * type = [self metaStringForKey:bSubscriptionTypeKey];
+    NSString * type = [self.meta metaStringForKey:bSubscriptionTypeKey];
     
     if ([type isEqualToString:bSubscriptionTypeStringTo]) {
         return bSubscriptionTypeTo;
@@ -45,5 +45,17 @@
     }
     return bSubscriptionTypeNone;
 }
+
+-(void) updateMeta: (NSDictionary *) dict {
+    if (!self.meta) {
+        self.meta = @{};
+    }
+    self.meta = [self.meta updateMetaDict:dict];
+}
+
+-(void) setMetaValue: (id) value forKey: (NSString *) key {
+    [self updateMeta:@{key: value ? value : @""}];
+}
+
 
 @end

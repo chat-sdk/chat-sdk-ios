@@ -306,7 +306,7 @@
                     }
                 }
             }
-            [strongSelf->_users sortUsersInAlphabeticalOrder];
+            [strongSelf->_users sortAlphabetical];
             
             [strongSelf.tableView reloadData];
             

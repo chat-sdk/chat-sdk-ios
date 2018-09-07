@@ -354,7 +354,7 @@
     if([BNetworkManager sharedManager].a.stickerMessage) {
         [types addObject: @[BChatSDK.stickerMessage.messageCellClass, @(bMessageTypeSticker)]];
     }
-
+    
     return types;
 }
 

@@ -27,6 +27,6 @@
     
 }
 
-@property (nonatomic, readwrite) void(^tokenRefreshed)();
+@property (nonatomic, readwrite) void(^tokenRefreshed)(void);
 
 @end

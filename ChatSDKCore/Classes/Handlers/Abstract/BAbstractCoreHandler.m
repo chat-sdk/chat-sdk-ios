@@ -15,6 +15,8 @@
 
 -(instancetype) init {
     if ((self = [super init])) {
+        __weak __typeof__(self) weakSelf = self;
+
         // Start checking if we are connected to the internet
         [[Reachability reachabilityForInternetConnection] startNotifier];
         
@@ -23,7 +25,8 @@
                                                            queue:Nil
                                                       usingBlock:^(NSNotification * sender) {
                                                           // Resets the view which the tab bar loads on
-                                                          _currentUser = Nil;
+                                                          __typeof__(self) strongSelf = weakSelf;
+                                                          strongSelf->_currentUser = Nil;
                                                       }];
         
 
@@ -49,7 +52,7 @@
     message.delivered = @NO;
     message.read = @YES;
     message.flagged = @NO;
-    message.metaDictionary = meta;
+    message.meta = meta;
 
     [thread addMessage: message];
     

@@ -171,8 +171,8 @@
     
     FIRDatabaseReference * ref = [[FIRDatabaseReference searchIndexRef] child:BChatSDK.auth.currentUserEntityID];
     
-    NSString * email = [userModel metaStringForKey:bEmailKey];
-    NSString * phone = [userModel metaStringForKey:bPhoneKey];
+    NSString * email = [userModel.meta metaStringForKey:bEmailKey];
+    NSString * phone = [userModel.meta metaStringForKey:bPhoneKey];
     
     NSDictionary * value = @{bNameKey: userModel.name ? [self processForQuery:userModel.name] : @"",
                              bEmailKey: email ? [self processForQuery:email] : @"",

@@ -63,71 +63,73 @@
 -(void) addObservers {
     [self removeObservers];
     __weak __typeof__(self) weakSelf = self;
-
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageAdded
-                                                                         object:Nil
-                                                                          queue:Nil
-                                                                     usingBlock:^(NSNotification * notification) {
-                                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                                                             id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
-                                                                             messageModel.delivered = @YES;
-                                                                             
-                                                                             // This makes the phone vibrate when we get a new message
-                                                                             
-                                                                             // Only vibrate if a message is received from a private thread
-                                                                             if (messageModel.thread.type.intValue & bThreadFilterPrivate) {
-                                                                                 if (![messageModel.userModel isEqual:BChatSDK.currentUser]) {
-                                                                                     AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-                                                                                 }
-                                                                             }
-                                                                             
-                                                                             // Move thread to top
-                                                                             [weakSelf reloadData];
-                                                                         });
-    }]];
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved
-                                                                         object:Nil
-                                                                          queue:Nil
-                                                                     usingBlock:^(NSNotification * notification) {
-                                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                                                             [weakSelf reloadData];
-                                                                         });
-    }]];
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
-                                                                      object:Nil
-                                                                       queue:Nil
-                                                                  usingBlock:^(NSNotification * notification) {
-                                                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                                                          [weakSelf reloadData];
-                                                                      });
-    }]];
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification
-                                                                                    object:nil
-                                                                                     queue:Nil
-                                                                                usingBlock:^(NSNotification * notification) {
-                                                                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                        [weakSelf updateButtonStatusForInternetConnection];
-                                                                                    });
-    }]];
     
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationTypingStateChanged
-                                                                        object:nil
-                                                                         queue:Nil
-                                                                    usingBlock:^(NSNotification * notification) {
-                                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                                            id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
-                                                                            _threadTypingMessages[thread.entityID] = notification.userInfo[bNotificationTypingStateChangedKeyMessage];
-                                                                            [weakSelf reloadData];
-                                                                        });
-    }]];
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadDeleted
-                                                                        object:Nil
-                                                                         queue:Nil
-                                                                    usingBlock:^(NSNotification * notification) {
-                                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                                            [weakSelf reloadData];
-                                                                        });
-    }]];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    
+    [_notificationList add:[nc addObserverForName:bNotificationMessageAdded
+                                           object:Nil
+                                            queue:Nil
+                                       usingBlock:^(NSNotification * notification) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
+                                               messageModel.delivered = @YES;
+                                               
+                                               // This makes the phone vibrate when we get a new message
+                                               
+                                               // Only vibrate if a message is received from a private thread
+                                               if (messageModel.thread.type.intValue & bThreadFilterPrivate) {
+                                                   if (!messageModel.userModel.isMe && [BChatSDK.currentUser.threads containsObject:messageModel.thread]) {
+                                                       AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+                                                   }
+                                               }
+                                               
+                                               // Move thread to top
+                                               [weakSelf reloadData];
+                                           });
+                                       }]];
+    [_notificationList add:[nc addObserverForName:bNotificationMessageRemoved
+                                           object:Nil
+                                            queue:Nil
+                                       usingBlock:^(NSNotification * notification) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [weakSelf reloadData];
+                                           });
+                                       }]];
+    [_notificationList add:[nc addObserverForName:bNotificationUserUpdated
+                                           object:Nil
+                                            queue:Nil
+                                       usingBlock:^(NSNotification * notification) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [weakSelf reloadData];
+                                           });
+                                       }]];
+    [_notificationList add:[nc addObserverForName:kReachabilityChangedNotification
+                                           object:nil
+                                            queue:Nil
+                                       usingBlock:^(NSNotification * notification) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [weakSelf updateButtonStatusForInternetConnection];
+                                           });
+                                       }]];
+    
+    [_notificationList add:[nc addObserverForName:bNotificationTypingStateChanged
+                                           object:nil
+                                            queue:Nil
+                                       usingBlock:^(NSNotification * notification) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
+                                               _threadTypingMessages[thread.entityID] = notification.userInfo[bNotificationTypingStateChangedKeyMessage];
+                                               [weakSelf reloadData];
+                                           });
+                                       }]];
+    [_notificationList add:[nc addObserverForName:bNotificationThreadDeleted
+                                           object:Nil
+                                            queue:Nil
+                                       usingBlock:^(NSNotification * notification) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [weakSelf reloadData];
+                                           });
+                                       }]];
 }
 
 -(void) removeObservers {
@@ -141,12 +143,12 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
+    
     [self addObservers];
-
+    
     // Stop multiple touches opening multiple chat views
     [tableView setUserInteractionEnabled:YES];
-
+    
     [self reloadData];
 }
 
@@ -177,7 +179,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     BThreadCell * cell = [tableView_ dequeueReusableCellWithIdentifier:bCellIdentifier];
     
     id<PThread> thread = _threads[indexPath.row];
@@ -205,16 +207,16 @@
     if([BChatSDK config].threadTitleFont) {
         cell.titleLabel.font = [BChatSDK config].threadTitleFont;
     }
-
+    
     if([BChatSDK config].threadSubtitleFont) {
         cell.messageTextView.font = [BChatSDK config].threadSubtitleFont;
     }
-
+    
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
-        
+    
     cell.profileImageView.image = thread.imageForThread;
     
-//    cell.unreadView.hidden = !thread.unreadMessageCount;
+    //    cell.unreadView.hidden = !thread.unreadMessageCount;
     
     int unreadCount = thread.unreadMessageCount;
     cell.unreadMessagesLabel.hidden = !unreadCount;
@@ -282,7 +284,7 @@
 
 // Called when a thread is to be deleted
 - (void)tableView:(UITableView *)tableView_ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath {
-
+    
     if (editingStyle == UITableViewCellEditingStyleDelete )
     {
         id<PThread> thread = _threads[indexPath.row];

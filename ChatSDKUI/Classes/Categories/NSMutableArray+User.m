@@ -13,9 +13,34 @@
 
 @implementation NSMutableArray(User)
 
-- (void) sortUsersInAlphabeticalOrder {
-    [self sortUsingComparator:^NSComparisonResult(id<PUser> u1, id<PUser> u2) {
+- (void) sortAlphabetical {
+    [self sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        id<PUser> u1 = obj1, u2 = obj2;
+        if ([obj1 respondsToSelector:@selector(user)]) {
+            u1 = [obj1 user];
+        }
+        if ([obj2 respondsToSelector:@selector(user)]) {
+            u2 = [obj2 user];
+        }
         return [u1.name compare:u2.name];
+    }];
+}
+
+-(void) sortOnlineThenAlphabetical {
+    [self sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        id<PUser> u1 = obj1, u2 = obj2;
+        if ([obj1 respondsToSelector:@selector(user)]) {
+            u1 = [obj1 user];
+        }
+        if ([obj2 respondsToSelector:@selector(user)]) {
+            u2 = [obj2 user];
+        }
+        if (u1.online.boolValue != u2.online.boolValue) {
+            return !u1.online.boolValue ? NSOrderedDescending : NSOrderedAscending;
+        }
+        else {
+            return [u1.name compare:u2.name];
+        }
     }];
 }
 

@@ -283,8 +283,7 @@
     [BChatSDK.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
     
         // Set the meta data
-        [user setMetaString:urls[bImagePath] forKey:bUserPictureURLKey];
-        [user setMetaString:urls[bThumbnailPath] forKey:bUserPictureURLThumbnailKey];
+        [user updateMeta:@{bUserPictureURLKey: urls[bImagePath], bUserPictureURLThumbnailKey: urls[bThumbnailPath]}];
     
         // Update the user
         [BChatSDK.core pushUser];

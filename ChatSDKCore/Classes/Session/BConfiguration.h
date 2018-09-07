@@ -11,6 +11,12 @@
 #define bEmailBody @"email_body"
 #define bSMSBody @"sms_body"
 
+#define bXMPPKey @"xmpp"
+#define bXMPPHostAddressKey @"host_address"
+#define bXMPPDomainKey @"domain"
+#define bXMPPPortKey @"port"
+#define bXMPPResourceKey @"resource"
+
 @interface BConfiguration : NSObject {
     NSString * _defaultUserName;
 }
@@ -63,6 +69,11 @@
 // Twitter login credentials
 @property (nonatomic, readwrite) NSString * twitterApiKey;
 @property (nonatomic, readwrite) NSString * twitterSecret;
+
+@property (nonatomic, readwrite) NSString * xmppDomain;
+@property (nonatomic, readwrite) NSString * xmppHostAddress;
+@property (nonatomic, readwrite) int xmppPort;
+@property (nonatomic, readwrite) NSString * xmppResource;
 
 // Google login credentials
 @property (nonatomic, readwrite) NSString * googleClientKey;
@@ -181,5 +192,9 @@
 -(void) configureForCompatibilityWithVersions: (NSArray *) versions;
 
 +(BConfiguration *) configuration;
+
+-(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress;
+-(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress port: (int) port;
+-(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress port: (int) port resource: (NSString *) resource;
 
 @end

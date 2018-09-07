@@ -73,16 +73,16 @@
 
         NSString * email = provider.email;
         if (email && !_model.email) {
-            [_model setMetaString:email forKey:bEmailKey];
+            [_model setMetaValue:email forKey:bEmailKey];
         }
 
         NSString * phoneNumber = provider.phoneNumber;
         if (phoneNumber && !_model.phoneNumber) {
-            [_model setMetaString:phoneNumber forKey:bPhoneKey];
+            [_model setMetaValue:phoneNumber forKey:bPhoneKey];
         }
 
         NSString * profileURL = [provider.photoURL absoluteString];
-        if (profileURL && ![self.model metaStringForKey:bPictureURLKey]) {
+        if (profileURL && ![self.model.meta metaStringForKey:bPictureURLKey]) {
             
             // Only do this for Twitter login
             if ([provider.providerID isEqualToString:@"twitter.com"]) {
@@ -113,7 +113,7 @@
         _model.name = [BChatSDK shared].configuration.defaultUserName;
     }
     
-    if (!profilePictureSet && ![self.model metaStringForKey:bPictureURLKey]) {
+    if (!profilePictureSet && ![self.model.meta metaStringForKey:bPictureURLKey]) {
         
         // If the user doesn't have a default profile picture then set it automatically
         UIImage * defaultImage = [self.model.defaultImage resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
@@ -154,8 +154,7 @@
                     return [BChatSDK.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
                         
                         // Set the meta data
-                        [user setMetaString:urls[bImagePath] forKey:bPictureURLKey];
-                        [user setMetaString:urls[bThumbnailPath] forKey:bPictureURLThumbnailKey];
+                        [user updateMeta:@{bPictureURLKey: urls[bImagePath], bPictureURLThumbnailKey: urls[bThumbnailPath]}];
                         
                         return [user loadProfileImage:NO].thenOnMain(^id(UIImage * image) {
                             
@@ -370,7 +369,7 @@
     FIRUserProfileChangeRequest *changeRequest = [user profileChangeRequest];
     
     changeRequest.displayName = self.model.name;
-    changeRequest.photoURL = [NSURL URLWithString:[self.model metaStringForKey:bPictureURLKey]];
+    changeRequest.photoURL = [NSURL URLWithString:[self.model.meta metaStringForKey:bPictureURLKey]];
     
     RXPromise * promise = [RXPromise new];
     
@@ -396,13 +395,13 @@
 }
 
 -(NSDictionary *) serialize {
-    return @{b_Meta: _model.metaDictionary};
+    return @{b_Meta: _model.meta};
 }
 
 // TODO: Find a way to determine if the meta has actually been updated i.e. is it 
 -(RXPromise *) deserializeMeta: (NSDictionary *) value {
     // Get the user's meta data
-    NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:_model.metaDictionary];
+    NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:_model.meta];
     NSDictionary * newMeta = value;
 
     // Check to see if the image has changed
@@ -416,7 +415,7 @@
     }
     
     if (meta) {
-        [_model setMetaDictionary:meta];
+        [_model setMeta:meta];
     }
     
     NSMutableArray * promises = [NSMutableArray new];

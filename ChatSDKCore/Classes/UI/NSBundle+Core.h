@@ -143,7 +143,6 @@
 #define bDeleteContactMessage @"bDeleteContactMessage"
 
 #define bTyping @"bTyping"
-#define bLocation @"bLocation"
 #define bCamera @"bCamera"
 #define bChoosePhoto @"bChoosePhoto"
 #define bChooseVideo @"bChooseVideo"

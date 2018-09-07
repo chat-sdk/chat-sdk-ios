@@ -11,7 +11,6 @@
 #import <ChatSDK/PEntity.h>
 #import <ChatSDK/PThread_.h>
 #import <ChatSDK/PThreadWrapper.h>
-#import <ChatSDK/PHasMeta.h>
 
 
 @class CDMessage, CDUser;

@@ -133,18 +133,14 @@ typedef enum {
 
 - (NSInteger)imageHeight;
 
--(void) setMetaValue: (id) value forKey: (NSString *) key;
--(id) metaValueForKey: (NSString *) key;
-
--(void) setMetaDictionary: (NSDictionary *) dict;
--(NSDictionary *) metaDictionary;
+-(void) setMeta: (NSDictionary *) meta;
+-(NSDictionary *) meta;
 
 -(bMessagePos) messagePosition;
 -(BOOL) senderIsMe;
 -(id<PMessage>) lazyNextMessage;
 -(id<PMessage>) lazyLastMessage;
 -(void) updatePosition;
-
 
 - (BOOL)showUserNameLabelForPosition: (bMessagePos) position;
 
@@ -163,6 +159,6 @@ typedef enum {
 -(void) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid;
 -(bMessageReadStatus) readStatusForUserID: (NSString *) uid;
 -(bMessageReadStatus) readStatus;
-
+-(void) setMetaValue: (id) value forKey: (NSString *) key;
 
 @end

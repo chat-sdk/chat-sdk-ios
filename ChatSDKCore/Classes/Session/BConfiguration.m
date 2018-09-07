@@ -63,6 +63,11 @@
 @synthesize inviteBySMSBody;
 @synthesize audioMessageMaxLengthSeconds;
 
+@synthesize xmppPort;
+@synthesize xmppDomain;
+@synthesize xmppResource;
+@synthesize xmppHostAddress;
+
 -(instancetype) init {
     if((self = [super init])) {
         messageColorMe = bDefaultMessageColorMe;
@@ -134,7 +139,11 @@
         
         inviteByEmailTitle = [BSettingsManager property: bEmailTitle forModule: @"contact_book"];
         inviteByEmailBody = [BSettingsManager property: bEmailBody forModule: @"contact_book"];
-        inviteBySMSBody = [BSettingsManager property: bSMSBody forModule: @"contact_book"];;
+        inviteBySMSBody = [BSettingsManager property: bSMSBody forModule: @"contact_book"];
+        
+        // Try to pre-configure XMPP from plist for backwards compatibility
+        [self configureXMPPFromPlist];
+        
     }
     return self;
 }
@@ -151,6 +160,29 @@
     includeMessagePayload = api1;
     includeMessageJSON = api2;
     includeMessageJSONV2 = api3;
+}
+
+-(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress {
+    [self xmppWithDomain:domain hostAddress:hostAddress port:0];
+}
+
+-(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress port: (int) port {
+    [self xmppWithDomain:domain hostAddress:hostAddress port:port resource:Nil];
+}
+
+-(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress port: (int) port resource: (NSString *) resource {
+    xmppDomain = domain;
+    xmppHostAddress = hostAddress;
+    xmppPort = port;
+    xmppResource = resource;
+}
+
+-(void) configureXMPPFromPlist {
+    xmppHostAddress = [BSettingsManager string_s:@[bXMPPKey, bXMPPHostAddressKey]];
+    NSNumber * port = [BSettingsManager number_s:@[bXMPPKey, bXMPPPortKey]];
+    xmppPort = port.intValue;
+    xmppDomain = [BSettingsManager string_s:@[bXMPPKey, bXMPPDomainKey]];
+    xmppResource = [BSettingsManager string_s:@[bXMPPKey, bXMPPResourceKey]];
 }
 
 +(BConfiguration *) configuration {

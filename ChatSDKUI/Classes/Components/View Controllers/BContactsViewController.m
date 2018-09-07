@@ -232,21 +232,11 @@
     
     [_contacts removeAllObjects];
     [_contacts addObjectsFromArray:allContacts];
-
-    [self sortContacts];
+    [_contacts sortOnlineThenAlphabetical];
     
     [tableView reloadData];
 }
 
--(void) sortContacts {
-    [_contacts sortUsingComparator:^NSComparisonResult(id<PUserConnection> c1, id<PUserConnection> c2) {
-        // First compare the online / offline
-        if (c1.user.online.boolValue != c2.user.online.boolValue) {
-            return !c1.user.online.boolValue ? NSOrderedDescending : NSOrderedAscending;
-        }
-        return NSOrderedSame;
-    }];
-}
 
 #pragma pulldownSearch
 
@@ -265,7 +255,7 @@
         }
     }
     
-    [self sortContacts];
+    [_contacts sortOnlineThenAlphabetical];
     
     [tableView reloadData];
 }

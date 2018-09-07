@@ -24,6 +24,7 @@
 #import <ChatSDK/NSBundle+Additions.h>
 #import <ChatSDK/RXPromise+PromiseKit.h>
 #import <ChatSDK/NSDate+Additions.h>
+#import <ChatSDK/NSDictionary+Meta.h>
 
 #import <ChatSDK/BNetworkManager.h>
 #import <ChatSDK/BStorageManager.h>
@@ -95,7 +96,6 @@
 #import <ChatSDK/NM.h>
 #import <ChatSDK/BModuleHelper.h>
 #import <ChatSDK/BIntegrationHelper.h>
-#import <ChatSDK/NSObject+Meta.h>
 
 #import <ChatSDK/BBackgroundPushNotificationQueue.h>
 #import <ChatSDK/BBackgroundPushAction.h>

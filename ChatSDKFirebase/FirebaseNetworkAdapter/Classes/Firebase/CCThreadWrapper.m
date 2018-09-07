@@ -223,7 +223,7 @@
 -(RXPromise *) pushMeta {
     RXPromise * promise = [RXPromise new];
     FIRDatabaseReference * ref = [FIRDatabaseReference threadMetaRef:_model.entityID];
-    [ref updateChildValues: [_model metaDictionary] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    [ref updateChildValues: [_model meta] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if(!error) {
             [promise resolveWithResult:Nil];
         }

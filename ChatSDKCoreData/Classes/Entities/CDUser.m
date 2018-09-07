@@ -15,33 +15,32 @@
 @implementation CDUser
 
 -(void) setName: (NSString *) name {
-    [self setMetaString:name forKey:bUserNameKey];
+    [self setMetaValue:name forKey:bUserNameKey];
 }
 
 -(NSString *) name {
-    return [self metaStringForKey:bUserNameKey];
+    return [self.meta metaStringForKey:bUserNameKey];
 }
 
 -(void) setEmail:(NSString *)email {
-    [self setMetaString:email forKey:bUserEmailKey];
+    [self setMetaValue:email forKey:bUserEmailKey];
 }
 
 -(NSString *) email {
-    return [self metaStringForKey:bUserEmailKey];
+    return [self.meta metaStringForKey:bUserEmailKey];
 }
 
 -(NSString *) phoneNumber {
-    return [self metaStringForKey:bUserPhoneKey];
+    return [self.meta metaStringForKey:bUserPhoneKey];
 }
 
 -(void) setPhoneNumber:(NSString *)phoneNumber {
-    [self setMetaString:phoneNumber forKey:bUserPhoneKey];
+    [self setMetaValue:phoneNumber forKey:bUserPhoneKey];
 }
 
 -(NSString *) pushChannel {
     return [[NSString stringWithFormat:@"%@_%@", bUserPrefixKey, [self.entityID stringByReplacingOccurrencesOfString:@":" withString:@"_"]] stringByReplacingOccurrencesOfString:@"%3A" withString:@"_"];
 }
-
 
 -(CDUserAccount *) accountWithType: (bAccountType) type {
     for (CDUserAccount * account in self.linkedAccounts) {
@@ -50,6 +49,17 @@
         }
     }
     return Nil;
+}
+
+-(void) updateMeta: (NSDictionary *) dict {
+    if (!self.meta) {
+        self.meta = @{};
+    }
+    self.meta = [self.meta updateMetaDict:dict];
+}
+
+-(void) setMetaValue: (id) value forKey: (NSString *) key {
+    [self updateMeta:@{key: value ? value : @""}];
 }
 
 //-(void) addContact: (id<PUser>) user {
@@ -116,7 +126,7 @@
         }
         
         // Then try to load the image from the URL
-        NSString * imageURL = [self metaStringForKey:bUserPictureURLKey];
+        NSString * imageURL = [self.meta metaStringForKey:bUserPictureURLKey];
         if (imageURL) {
             return [BCoreUtilities fetchImageFromURL:imageURL].thenOnMain(^id(UIImage * image) {
                 if(image) {
@@ -142,7 +152,7 @@
         }
         
         // Then try to load the image from the URL
-        NSString * imageURL = [self metaStringForKey:bUserPictureURLKey];
+        NSString * imageURL = [self.meta metaStringForKey:bUserPictureURLKey];
         if (imageURL) {
             return [BCoreUtilities fetchImageFromURL:imageURL].thenOnMain(^id(UIImage * image) {
                 if(image) {
@@ -225,12 +235,11 @@
 }
 
 -(NSString *) imageURL {
-    return [self metaStringForKey:bUserPictureURLKey];
+    return [self.meta metaStringForKey:bUserPictureURLKey];
 }
 
 -(void) setImageURL: (NSString *) url {
-    [self setMetaString:url forKey:bUserPictureURLKey];
-    [self setMetaString:url forKey:bUserPictureURLThumbnailKey];
+    [self updateMeta:@{bUserPictureURLKey: url, bUserPictureURLThumbnailKey: url}];
 }
 
 // TODO: Remove UI dependency on CoreData

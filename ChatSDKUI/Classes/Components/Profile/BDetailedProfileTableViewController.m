@@ -119,12 +119,12 @@
         return;
     }
 
-    UIImage * countryCodeImage = [NSBundle imageNamed:[user metaStringForKey:bCountry] framework:@"CountryPicker" bundle:@"CountryPicker"];
+    UIImage * countryCodeImage = [NSBundle imageNamed:[user.meta metaStringForKey:bCountry] framework:@"CountryPicker" bundle:@"CountryPicker"];
     [flagImageView setImage:countryCodeImage];
     
-    nameLabel.text = [user metaStringForKey:bName];
+    nameLabel.text = [user.meta metaStringForKey:bName];
     
-    NSString * status = [user metaStringForKey:bDescription];
+    NSString * status = [user.meta metaStringForKey:bDescription];
     if (!status || status.length == 0) {
         status = @"";
     }
@@ -132,12 +132,12 @@
     
     [self cell:statusCell setHidden:!status || ![status stringByReplacingOccurrencesOfString:@" " withString:@""].length];
     
-    NSString * location = [user metaStringForKey:bLocation];
+    NSString * location = [user.meta metaStringForKey:bLocation];
     locationLabel.text = location;
     
     [self cell:locationCell setHidden:!location || !location.length];
     
-    genderButton.selected = [[user metaStringForKey:bGender] isEqualToString:@"F"];
+    genderButton.selected = [[user.meta metaStringForKey:bGender] isEqualToString:@"F"];
     
     // Set the profile picture
     // Does the user already have a profile picture?
@@ -196,7 +196,7 @@
 }
 
 -(void) updateTabBarIcon {
-    BOOL female = [[BChatSDK.currentUser metaStringForKey:bGender] isEqualToString:@"F"];
+    BOOL female = [[BChatSDK.currentUser.meta metaStringForKey:bGender] isEqualToString:@"F"];
     self.tabBarItem.image = [NSBundle uiImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
     self.tabBarItem.selectedImage = [NSBundle uiImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
 }

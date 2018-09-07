@@ -12,6 +12,7 @@
 
 @interface NSMutableArray<PUser>(User)
 
--(void) sortUsersInAlphabeticalOrder;
+-(void) sortAlphabetical;
+-(void) sortOnlineThenAlphabetical;
 
 @end

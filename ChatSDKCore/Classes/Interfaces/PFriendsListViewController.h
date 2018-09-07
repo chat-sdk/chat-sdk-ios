@@ -12,7 +12,7 @@
 
 -(void) setUsersToInvite: (void(^)(NSArray * users, NSString * groupName)) usersToInvite;
 -(void) setRightBarButtonActionTitle: (NSString *) rightBarButtonActionTitle;
--(void) setOverrideContacts: (void(^)()) overrideContacts;
+-(void) setOverrideContacts: (void(^)(void)) overrideContacts;
 
 @end
 

@@ -24,7 +24,6 @@
 @property (strong, nonatomic) UISearchController * searchController;
 
 -(NSMutableArray *) contacts;
--(void) sortContacts;
 -(void) reloadData;
 
 @end

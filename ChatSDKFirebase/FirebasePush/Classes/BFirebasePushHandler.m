@@ -189,7 +189,7 @@
 
 -(BOOL) updateUserPushToken {
     if(_userPushToken && _userPushToken.length && BChatSDK.currentUser) {
-        NSString * currentToken = [BChatSDK.currentUser metaValueForKey:bUserPushTokenKey];
+        NSString * currentToken = [BChatSDK.currentUser.meta metaValueForKey:bUserPushTokenKey];
         if(![currentToken isEqualToString: _userPushToken]) {
             [BChatSDK.currentUser setMetaValue:_userPushToken forKey:bUserPushTokenKey];
             return YES;
@@ -257,7 +257,7 @@
     NSMutableArray * userChannels = [NSMutableArray new];
     id<PUser> currentUserModel = BChatSDK.currentUser;
     for (id<PUser> user in users) {
-        NSString * pushToken = [user metaValueForKey:bUserPushTokenKey];
+        NSString * pushToken = [user.meta metaValueForKey:bUserPushTokenKey];
         if(![user isEqual:currentUserModel] && pushToken && (!user.online.boolValue || !BChatSDK.config.onlySendPushToOfflineUsers))
             [userChannels addObject:pushToken];
     }

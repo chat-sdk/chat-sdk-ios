@@ -50,7 +50,7 @@ typedef enum {
     
 } bThreadType;
 
-@protocol PThread <PEntity, PHasMeta, PElmThread>
+@protocol PThread <PEntity, PElmThread>
 
 -(void) setCreator: (id<PUser>) user;
 -(id<PUser>) creator;
@@ -95,11 +95,13 @@ typedef enum {
 -(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages;
 -(void) resetMessages;
 
--(NSDictionary *) metaDictionary;
--(void) setMetaDictionary: (NSDictionary *) meta;
 -(UIImage *)imageForThread;
 -(NSDate *) orderDate;
 -(void) clearMessageCache;
+
+-(void) setMeta: (NSDictionary *) meta;
+-(NSDictionary *) meta;
+-(void) setMetaValue: (id) value forKey: (NSString *) key;
 
 @end
 

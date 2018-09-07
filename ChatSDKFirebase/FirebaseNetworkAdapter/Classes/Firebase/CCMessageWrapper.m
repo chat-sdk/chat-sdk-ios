@@ -86,7 +86,7 @@
                                                                                  b_Date: [FIRServerValue timestamp],
                                                                                  b_UserFirebaseID: _model.userModel.entityID,
                                                                                  b_ReadPath: self.initialReadReceipts,
-                                                                                 b_Meta: _model.metaDictionary ? _model.metaDictionary : @{}}];
+                                                                                 b_Meta: _model.meta ? _model.meta : @{}}];
     if([BChatSDK config].includeMessagePayload) {
         dict[b_Payload] = _model.textString;
     }
@@ -169,7 +169,7 @@
     
     NSDictionary * meta = value[b_Meta];
     if (meta) {
-        [_model setMetaDictionary:meta];
+        [_model setMeta:meta];
     }
     
     // Assign this message to a user
@@ -277,7 +277,7 @@
     if (_model.entityID) {
         // Check to see if this message is a virtual message i.e. it's been threaded
         // from a different thread
-        NSString * originalThreadID = [_model metaValueForKey:bMessageOriginalThreadEntityID];
+        NSString * originalThreadID = [_model.meta metaValueForKey:bMessageOriginalThreadEntityID];
         if(!originalThreadID) {
             originalThreadID = _model.thread.entityID;
         }

@@ -9,7 +9,6 @@
 #import "BAccountTypes.h"
 
 #import <ChatSDK/BUserConnectionType.h>
-#import <ChatSDK/PHasMeta.h>
 
 @class RXPromise;
 @protocol PUserConnection;
@@ -18,7 +17,7 @@
 @protocol PEntity;
 @protocol PElmUser;
 
-@protocol PUser <PEntity, PHasMeta, PElmUser>
+@protocol PUser <PEntity, PElmUser>
 
 /**
  * @brief Sets the user's online status
@@ -101,9 +100,10 @@
 
 -(BOOL) isMe;
 
-// Needed for CocoaPods install
--(NSDictionary *) metaDictionary;
--(void) setMetaDictionary: (NSDictionary *) meta;
+-(void) setMeta: (NSDictionary *) meta;
+-(NSDictionary *) meta;
+-(void) setMetaValue: (id) value forKey: (NSString *) key;
+-(void) updateMeta: (NSDictionary *) dict;
 
 @optional
 

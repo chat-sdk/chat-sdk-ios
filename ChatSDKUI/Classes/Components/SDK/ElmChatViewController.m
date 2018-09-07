@@ -427,11 +427,10 @@
             _imageViewNavigationController = [BChatSDK.ui imageViewNavigationController];
         }
 
+        // TODO: Refactor this to use the JSON keys
+        NSURL * url = cell.message.imageURL;
         // Only allow the user to click if the image is not still loading hence the alpha is 1
-        if (cell.imageView.alpha == 1) {
-            
-            // TODO: Refactor this to use the JSON keys
-            NSURL * url = cell.message.imageURL;
+        if (cell.imageView.alpha == 1 && url) {
             
             // Add an activity indicator while the image is loading
             UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];

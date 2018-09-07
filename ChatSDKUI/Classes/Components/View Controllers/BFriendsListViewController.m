@@ -316,11 +316,11 @@
     
     // _contactsToExclude is the users already in the thread - make sure we don't include anyone already in the thread
     [_contacts removeObjectsInArray:_contactsToExclude];
-    [_contacts sortUsersInAlphabeticalOrder];
+    [_contacts sortOnlineThenAlphabetical];
     
     if (_filterByName && _filterByName.length) {
-        NSPredicate * preda = [NSPredicate predicateWithFormat:@"name contains[c] %@", _filterByName];
-        [_contacts filterUsingPredicate:preda];
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", _filterByName];
+        [_contacts filterUsingPredicate:predicate];
     }
     
     [tableView reloadData];

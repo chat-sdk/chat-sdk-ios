@@ -42,15 +42,15 @@
     id<PUser> user = BChatSDK.currentUser;
 
     // Load the user's information
-    statusTextView.text = [user metaStringForKey:bDescription];
+    statusTextView.text = [user.meta metaStringForKey:bDescription];
     nameTextField.text = user.name;
-    locationTextField.text = [user metaStringForKey:bLocation];
+    locationTextField.text = [user.meta metaStringForKey:bLocation];
     
-    NSString * gender = [user metaStringForKey:bGender];
+    NSString * gender = [user.meta metaStringForKey:bGender];
     
     genderSegmentControl.selectedSegmentIndex = [gender isEqualToString:@"M"] ? 0 : 1 ;
 
-    NSString * countryCode = [user metaStringForKey:bCountry];
+    NSString * countryCode = [user.meta metaStringForKey:bCountry];
     countryCode = countryCode ? countryCode : @"GB";
     
     [countryPickerView setSelectedCountryCode:countryCode animated:NO];
@@ -108,20 +108,20 @@
     id<PUser> user = BChatSDK.currentUser;
     
     // Get the user's starting meta
-    NSDictionary * oldMeta = [user.model metaDictionary];
-    
-    [user setMetaString:statusTextView.text forKey:bDescription];
+    NSDictionary * oldMeta = [user.model meta];
     
     user.name = nameTextField.text;
-    [user setMetaString:locationTextField.text forKey:bLocation];
     
     NSString * gender = genderSegmentControl.selectedSegmentIndex ? @"F" : @"M";
-    [user setMetaString: gender forKey:bGender];
-    [user setMetaString:countryPickerView.selectedCountryCode forKey:bCountry];
+    
+    [user updateMeta:@{bDescription: statusTextView.text ? statusTextView.text : @"",
+                       bLocation: locationTextField.text ? locationTextField.text : @"",
+                       bGender: gender,
+                       bCountry: countryPickerView.selectedCountryCode}];
     
     BOOL pushRequired = NO;
-    for (NSString * key in [user.model metaDictionary]) {
-        if (![oldMeta[key] isEqual: [user.model metaDictionary][key]]) {
+    for (NSString * key in [user.model meta]) {
+        if (![oldMeta[key] isEqual: [user.model meta][key]]) {
             pushRequired = YES;
             break;
         }
