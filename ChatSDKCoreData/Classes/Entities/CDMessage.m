@@ -214,14 +214,14 @@
     NSDictionary * status = self.status;
     if(status && uid) {
         NSDictionary * userStatus = status[uid];
-        return [userStatus[b_Status] intValue];
+        return [userStatus[bStatus] intValue];
     }
     return bMessageReadStatusNone;
 }
 
 -(void) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid {
     NSMutableDictionary * mutableStatus = [NSMutableDictionary dictionaryWithDictionary:self.status];
-    mutableStatus[uid] = @{b_Status: @(status_)};
+    mutableStatus[uid] = @{bStatus: @(status_)};
     [self setReadStatus:mutableStatus];
 }
 
@@ -234,8 +234,8 @@
     BOOL allDelivered = YES;
     BOOL allRead = YES;
     for (NSDictionary * userStatus in status.allValues) {
-        //NSString * date = userStatus[b_Date];
-        NSNumber * sts = userStatus[b_Status];
+        //NSString * date = userStatus[bDate];
+        NSNumber * sts = userStatus[bStatus];
         
         bMessageReadStatus s = sts.intValue;
         allDelivered = bMessageReadStatusDelivered <= s && allDelivered;

@@ -8,8 +8,8 @@
 
 #import "ElmChatViewController.h"
 
-#import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
@@ -490,16 +490,10 @@
                  setCategory: AVAudioSessionCategoryPlayback
                  error: nil];
                 
-                // Initialize the MPMoviePlayerController object using url
-                _videoPlayer = [[MPMoviePlayerController alloc] initWithContentURL:url];
-                
-                // Set control style to default
-                _videoPlayer.controlStyle = MPMovieControlStyleDefault;
-                _videoPlayer.shouldAutoplay = YES;
-                
-                [self.view addSubview:_videoPlayer.view];
-                
-                [_videoPlayer setFullscreen:YES animated:YES];
+                AVPlayer * player = [[AVPlayer alloc] initWithURL:url];
+                AVPlayerViewController * playerController = [[AVPlayerViewController alloc] init];
+                playerController.player = player;
+                [self presentViewController:playerController animated:YES completion:Nil];
                 
             }
         }

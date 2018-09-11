@@ -16,7 +16,6 @@
 @protocol PImageViewController;
 @protocol PSendBar;
 
-@class MPMoviePlayerController;
 @class BTextInputView;
 @class BImageViewController;
 @class BLocationViewController;
@@ -59,8 +58,6 @@
 @property (nonatomic, readwrite, weak) id<ElmChatViewDelegate> delegate;
 @property (nonatomic, readonly) UIView<PSendBar> * sendBarView;
 @property (nonatomic, readonly) UILabel * titleLabel;
-
-@property (strong, nonatomic) MPMoviePlayerController * videoPlayer;
 
 -(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate;
 

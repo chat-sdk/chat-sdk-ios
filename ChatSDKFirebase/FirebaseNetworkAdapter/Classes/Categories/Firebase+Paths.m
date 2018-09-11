@@ -33,7 +33,7 @@
 }
 
 +(FIRDatabaseReference *) userMetaRef: (NSString *) firebaseID {
-    return [[[self usersRef] child:firebaseID] child:bMetaDataPath];
+    return [[[self usersRef] child:firebaseID] child:bMetaPath];
 }
 
 +(FIRDatabaseReference *) userThreadsRef: (NSString *) firebaseID {
@@ -86,7 +86,7 @@
 }
 
 +(FIRDatabaseReference *) threadMetaRef: (NSString *) firebaseID {
-    return [[self threadRef:firebaseID] child:bMetaDataPath];
+    return [[self threadRef:firebaseID] child:bMetaPath];
 }
 
 #pragma Indexes

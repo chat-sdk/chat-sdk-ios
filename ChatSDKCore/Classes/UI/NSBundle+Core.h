@@ -16,7 +16,7 @@
 #define bContacts @"bContacts"
 #define bConversations @"bConversations"
 #define bBroadcast @"bBroadcast"
-#define bThread @"bThread"
+//#define bThread @"bThread"
 #define bChatRooms @"bChatRooms"
 #define bThreadCreationError @"bThreadCreationError"
 #define bSearchTerm @"bSearchTerm"

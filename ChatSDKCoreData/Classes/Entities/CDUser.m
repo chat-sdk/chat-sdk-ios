@@ -126,7 +126,7 @@
         }
         
         // Then try to load the image from the URL
-        NSString * imageURL = [self.meta metaStringForKey:bUserPictureURLKey];
+        NSString * imageURL = [self.meta metaStringForKey:bUserImageURLKey];
         if (imageURL) {
             return [BCoreUtilities fetchImageFromURL:imageURL].thenOnMain(^id(UIImage * image) {
                 if(image) {
@@ -152,7 +152,7 @@
         }
         
         // Then try to load the image from the URL
-        NSString * imageURL = [self.meta metaStringForKey:bUserPictureURLKey];
+        NSString * imageURL = [self.meta metaStringForKey:bUserImageURLKey];
         if (imageURL) {
             return [BCoreUtilities fetchImageFromURL:imageURL].thenOnMain(^id(UIImage * image) {
                 if(image) {
@@ -235,11 +235,11 @@
 }
 
 -(NSString *) imageURL {
-    return [self.meta metaStringForKey:bUserPictureURLKey];
+    return [self.meta metaStringForKey:bUserImageURLKey];
 }
 
 -(void) setImageURL: (NSString *) url {
-    [self updateMeta:@{bUserPictureURLKey: url, bUserPictureURLThumbnailKey: url}];
+    [self updateMeta:@{bUserImageURLKey: url, bUserThumbnailURLKey: url}];
 }
 
 // TODO: Remove UI dependency on CoreData

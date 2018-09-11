@@ -95,7 +95,8 @@
 
 // TODO: Remove promise maybe
 -(RXPromise *) messagesOn {
-    
+    __weak __typeof__(self) weakSelf = self;
+
     if(BChatSDK.readReceipt) {
         [BChatSDK.readReceipt updateReadReceiptsForThread:self.model];
     }
@@ -109,11 +110,12 @@
     ((NSManagedObject *)_model).messagesOn = YES;
     
     return [self threadDeletedDate].thenOnMain(^id(NSDate * deletedDate) {
-        
-        FIRDatabaseQuery * query = [FIRDatabaseReference threadMessagesRef:_model.entityID];
+        __typeof__(self) strongSelf = weakSelf;
+
+        FIRDatabaseQuery * query = [FIRDatabaseReference threadMessagesRef:strongSelf.model.entityID];
         
         // Get the last message from the thread
-        NSArray * messages = _model.messagesOrderedByDateDesc;
+        NSArray * messages = strongSelf.model.messagesOrderedByDateDesc;
         
         // Start date - the date we'll start retrieving messages
         NSDate * startDate = Nil;
@@ -146,16 +148,17 @@
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
-                
+                __typeof__(self) strongSelf = weakSelf;
+
                 if (![snapshot.value isEqual: [NSNull null]]) {
                     
                     if(BChatSDK.blocking) {
-                        if([BChatSDK.blocking isBlocked:snapshot.value[b_UserFirebaseID]]) {
+                        if([BChatSDK.blocking isBlocked:snapshot.value[bUserFirebaseID]]) {
                             return;
                         }
                     }
                     
-                    [_model setDeleted: @NO];
+                    [strongSelf.model setDeleted: @NO];
                     
                     // This gets the message if it exists and then updates it from the snapshot
                     CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:snapshot];
@@ -172,7 +175,7 @@
                     message.model.delivered = @YES;
                     
                     // Add the message to this thread;
-                    [self.model addMessage:message.model];
+                    [strongSelf.model addMessage:message.model];
                     
                     [BChatSDK.core save];
                     
@@ -200,9 +203,10 @@
         });
         
         [[FIRDatabaseReference threadMessagesRef:_model.entityID] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
+            __typeof__(self) strongSelf = weakSelf;
             CCMessageWrapper * wrapper = [CCMessageWrapper messageWithSnapshot:snapshot];
             id<PMessage> message = wrapper.model;
-            [self.model removeMessage: message];
+            [strongSelf.model removeMessage: message];
             [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageRemoved object:Nil userInfo:@{bNotificationMessageRemovedKeyMessage: wrapper.model}];
 
         }];
@@ -358,7 +362,7 @@
     // TODO: Consider deleting it for groups and only doing this for 1to1
     if (_model.type.intValue & bThreadFilterPrivate && _model.users.allObjects.count == 2) {
         // Rather than delete the thread we just set the status as deleted
-        [currentThreadUser setValue:@{bNameKey: currentUser.name, bDeletedKey: [FIRServerValue timestamp]}
+        [currentThreadUser setValue:@{bUserNameKey: currentUser.name, bDeletedKey: [FIRServerValue timestamp]}
                 withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
                     if (!error) {
                         [promise resolveWithResult:Nil];
@@ -437,6 +441,10 @@
                 for (NSString * key in messages.allKeys) {
                     // Create the messages with the sub-snapshot
                     CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:[snapshot childSnapshotForPath:key]];
+                    
+                    // If we are loading historic messages, assume they have been delivered
+                    message.model.delivered = @YES;
+
                     // Associate the messages with the thread
                     [self.model addMessage:message.model];
                     
@@ -458,7 +466,7 @@
     RXPromise * promise = [RXPromise new];
     
     FIRDatabaseReference *ref = [FIRDatabaseReference threadMessagesRef:self.entityID];
-    FIRDatabaseQuery *queryByDate = [[ref queryOrderedByChild:b_Date] queryLimitedToLast:1];
+    FIRDatabaseQuery *queryByDate = [[ref queryOrderedByChild:bDate] queryLimitedToLast:1];
     
     FIRDatabaseHandle handle = [queryByDate observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot *snapshot) {
         if (![snapshot.value isEqual: [NSNull null]]) {
@@ -487,22 +495,22 @@
 }
 
 -(NSDictionary *) serialize {
-    return @{bDetailsPath: @{b_CreationDate: [FIRServerValue timestamp],
-                             b_Name: _model.name ? _model.name : @"",
-                             b_Type: _model.type.integerValue & bThreadFilterPrivate ? @(bThreadTypePrivateV3) : @(bThreadTypePublicV3),
-                             b_TypeV4: _model.type,
-                             b_CreatorEntityID: _model.creator.entityID}};
+    return @{bDetailsPath: @{bCreationDate: [FIRServerValue timestamp],
+                             bUserNameKey: _model.name ? _model.name : @"",
+                             bType: _model.type.integerValue & bThreadFilterPrivate ? @(bThreadTypePrivateV3) : @(bThreadTypePublicV3),
+                             bTypeV4: _model.type,
+                             bCreatorEntityID: _model.creator.entityID}};
 }
 
 -(void) deserialize: (NSDictionary *) value {
     
-    NSNumber * creationDate = value[b_CreationDate];
+    NSNumber * creationDate = value[bCreationDate];
     if (creationDate) {
         _model.creationDate = [BFirebaseCoreHandler timestampToDate:creationDate];
     }
     
-    NSNumber * typev4 = value[b_TypeV4];
-    NSNumber * type = value[b_Type];
+    NSNumber * typev4 = value[bTypeV4];
+    NSNumber * type = value[bType];
     
     if(typev4) {
         _model.type = typev4;
@@ -511,7 +519,7 @@
         _model.type = type.intValue == bThreadTypePrivateV3 ? @(bThreadTypePrivateGroup) : @(bThreadTypePublicGroup);
     }
     
-    NSString * creatorEntityID = value[b_CreatorEntityID];
+    NSString * creatorEntityID = value[bCreatorEntityID];
     if(creatorEntityID) {
         _model.creator = [[BStorageManager sharedManager].a fetchEntityWithID:creatorEntityID withType:bUserEntity];
         if(!_model.creator) {
@@ -526,7 +534,7 @@
         }
     }
     
-    NSString * name = value[b_Name];
+    NSString * name = value[bUserNameKey];
     if (name) {
         _model.name = name;
     }
@@ -567,7 +575,7 @@
     // TODO: check this
     NSString * status = [self.model.creator.entityID isEqualToString:entityID] ? bStatusOwner : bStatusMember;
     
-    [threadUsersRef setValue:@{b_Status: status} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    [threadUsersRef setValue:@{bStatus: status} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
             [BEntity pushThreadUsersUpdated:self.model.entityID];
             [promise resolveWithResult:self];
@@ -588,7 +596,7 @@
 -(RXPromise *) pushLastMessage: (NSDictionary *) messageData {
     RXPromise * promise = [RXPromise new];
     
-    [[[FIRDatabaseReference threadRef:_model.entityID] child:b_LastMessage] setValue:messageData withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    [[[FIRDatabaseReference threadRef:_model.entityID] child:bLastMessage] setValue:messageData withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if(!error) {
             [promise resolveWithResult:Nil];
         }

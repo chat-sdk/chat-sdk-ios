@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ChatSDK/PImageViewController.h>
 
-@interface BImageViewController : UIViewController<UIScrollViewDelegate> {
+@interface BImageViewController : UIViewController<UIScrollViewDelegate, PImageViewController> {
     UISwipeGestureRecognizer * _swipeRecognizer;
 }
 

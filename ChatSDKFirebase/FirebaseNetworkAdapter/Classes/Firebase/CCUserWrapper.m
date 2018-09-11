@@ -73,16 +73,16 @@
 
         NSString * email = provider.email;
         if (email && !_model.email) {
-            [_model setMetaValue:email forKey:bEmailKey];
+            [_model setMetaValue:email forKey:bUserEmailKey];
         }
 
         NSString * phoneNumber = provider.phoneNumber;
         if (phoneNumber && !_model.phoneNumber) {
-            [_model setMetaValue:phoneNumber forKey:bPhoneKey];
+            [_model setMetaValue:phoneNumber forKey:bUserPhoneKey];
         }
 
         NSString * profileURL = [provider.photoURL absoluteString];
-        if (profileURL && ![self.model.meta metaStringForKey:bPictureURLKey]) {
+        if (profileURL && ![self.model.meta metaStringForKey:bUserImageURLKey]) {
             
             // Only do this for Twitter login
             if ([provider.providerID isEqualToString:@"twitter.com"]) {
@@ -113,7 +113,7 @@
         _model.name = [BChatSDK shared].configuration.defaultUserName;
     }
     
-    if (!profilePictureSet && ![self.model.meta metaStringForKey:bPictureURLKey]) {
+    if (!profilePictureSet && ![self.model.meta metaStringForKey:bUserImageURLKey]) {
         
         // If the user doesn't have a default profile picture then set it automatically
         UIImage * defaultImage = [self.model.defaultImage resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
@@ -154,7 +154,7 @@
                     return [BChatSDK.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
                         
                         // Set the meta data
-                        [user updateMeta:@{bPictureURLKey: urls[bImagePath], bPictureURLThumbnailKey: urls[bThumbnailPath]}];
+                        [user updateMeta:@{bUserImageURLKey: urls[bImagePath], bUserThumbnailURLKey: urls[bThumbnailPath]}];
                         
                         return [user loadProfileImage:NO].thenOnMain(^id(UIImage * image) {
                             
@@ -369,7 +369,7 @@
     FIRUserProfileChangeRequest *changeRequest = [user profileChangeRequest];
     
     changeRequest.displayName = self.model.name;
-    changeRequest.photoURL = [NSURL URLWithString:[self.model.meta metaStringForKey:bPictureURLKey]];
+    changeRequest.photoURL = [NSURL URLWithString:[self.model.meta metaStringForKey:bUserImageURLKey]];
     
     RXPromise * promise = [RXPromise new];
     
@@ -386,16 +386,18 @@
 
 -(RXPromise *) deserialize: (NSDictionary *) value {
     
-    NSNumber * online = value[b_Online];
+    NSNumber * online = value[bOnlinePath];
     if (online) {
         _model.online = online;
     }
         
-    return [self deserializeMeta:value[bMetaDataPath]];
+    return [self deserializeMeta:value[bMetaPath]];
 }
 
 -(NSDictionary *) serialize {
-    return @{b_Meta: _model.meta};
+    NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:_model.meta];
+    meta[bUserNameLowercase] = _model.name ? [_model.name lowercaseString] : @"";
+    return @{bMetaPath: meta};
 }
 
 // TODO: Find a way to determine if the meta has actually been updated i.e. is it 
@@ -405,8 +407,8 @@
     NSDictionary * newMeta = value;
 
     // Check to see if the image has changed
-    BOOL thumbnailChanged = ![meta[bPictureURLThumbnailKey] isEqualToString:newMeta[bPictureURLThumbnailKey]];
-    BOOL imageChanged = ![meta[bPictureURLKey] isEqualToString:newMeta[bPictureURLKey]];
+    BOOL thumbnailChanged = ![meta[bUserThumbnailURLKey] isEqualToString:newMeta[bUserThumbnailURLKey]];
+    BOOL imageChanged = ![meta[bUserImageURLKey] isEqualToString:newMeta[bUserImageURLKey]];
     
     for (NSString * key in [newMeta allKeys]) {
         if (![meta[key] isEqual:newMeta[key]]) {
@@ -433,7 +435,7 @@
 }
 
 -(FIRDatabaseReference *) metaRef {
-    return [[self ref] child:bMetaDataPath];
+    return [[self ref] child:bMetaPath];
 }
 
 -(FIRDatabaseReference *) thumbnailRef {
@@ -464,7 +466,7 @@
     // Get the user's reference
     FIRDatabaseReference * userThreadsRef = [[FIRDatabaseReference userThreadsRef:_model.entityID]child:entityID];
 
-    [userThreadsRef setValue:@{b_InvitedBy: BChatSDK.currentUser.entityID} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    [userThreadsRef setValue:@{bInvitedBy: BChatSDK.currentUser.entityID} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
             [BEntity pushUserThreadsUpdated:self.model.entityID];
             [promise resolveWithResult:self];

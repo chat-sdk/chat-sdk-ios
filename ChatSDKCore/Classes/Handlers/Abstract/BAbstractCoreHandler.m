@@ -287,7 +287,6 @@
     
     NSMutableArray * usersToAdd = [NSMutableArray arrayWithArray:users];
     [usersToAdd removeObject:currentUser];
-    id<PUser> otherUser = usersToAdd.firstObject;
     [usersToAdd addObject:currentUser];
     
     // If there are only two users check to see if a thread already exists

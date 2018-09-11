@@ -25,7 +25,7 @@
 }
 
 +(RXPromise *) pushUserMetaUpdated: (NSString *) userID {
-    return [self pushUpdated:bUsersPath entityID:userID key:bMetaDataPath];
+    return [self pushUpdated:bUsersPath entityID:userID key:bMetaPath];
 }
 
 +(RXPromise *) pushUserThreadsUpdated: (NSString *) userID {

@@ -14,6 +14,10 @@
 
 -(RXPromise *) usersForIndex: (NSString *) index withValue: (NSString *) value limit: (int) limit userAdded: (void(^)(id<PUser> user)) userAdded {
     RXPromise * promise = [RXPromise new];
+    
+    if ([index isEqual:bUserNameLowercase]) {
+        value = [value lowercaseString];
+    }
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         if(!index || !index.length || !value || !value.length) {
@@ -21,7 +25,7 @@
             [promise rejectWithReason:[NSError errorWithDomain:@"" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Index or value is blank"}]];
         }
         else {
-            NSString * childPath = [NSString stringWithFormat:@"%@/%@", bMetaDataPath, index];
+            NSString * childPath = [NSString stringWithFormat:@"%@/%@", bMetaPath, index];
             FIRDatabaseQuery * query = [[FIRDatabaseReference usersRef] queryOrderedByChild: childPath];
             query = [query queryStartingAtValue:value];
             query = [query queryLimitedToFirst:limit];
@@ -29,7 +33,7 @@
             [query observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
                 if(snapshot.value != [NSNull null]) {
                     for(NSString * key in [snapshot.value allKeys]) {
-                        NSDictionary * meta = snapshot.value[key][bMetaDataPath];
+                        NSDictionary * meta = snapshot.value[key][bMetaPath];
                         if(meta && [meta[index] containsString:value]) {
                             CCUserWrapper * wrapper = [CCUserWrapper userWithSnapshot:[snapshot childSnapshotForPath:key]];
                             if(![wrapper.model isEqual:BChatSDK.currentUser]) {
@@ -149,7 +153,7 @@
 -(RXPromise *) usersForIndexes: (NSArray *) indexes withValue: (NSString *) value limit: (int) limit userAdded: (void(^)(id<PUser> user)) userAdded {
     
     if(!indexes) {
-        indexes = @[bNameKey, bEmailKey, bPhoneKey];
+        indexes = @[bUserNameKey, bUserEmailKey, bUserPhoneKey, bUserNameLowercase];
     }
     
     NSMutableArray * promises = [NSMutableArray new];
@@ -171,12 +175,12 @@
     
     FIRDatabaseReference * ref = [[FIRDatabaseReference searchIndexRef] child:BChatSDK.auth.currentUserEntityID];
     
-    NSString * email = [userModel.meta metaStringForKey:bEmailKey];
-    NSString * phone = [userModel.meta metaStringForKey:bPhoneKey];
+    NSString * email = [userModel.meta metaStringForKey:bUserEmailKey];
+    NSString * phone = [userModel.meta metaStringForKey:bUserPhoneKey];
     
-    NSDictionary * value = @{bNameKey: userModel.name ? [self processForQuery:userModel.name] : @"",
-                             bEmailKey: email ? [self processForQuery:email] : @"",
-                             bPhoneKey: phone ? [self processForQuery:phone] : @""};
+    NSDictionary * value = @{bUserNameKey: userModel.name ? [self processForQuery:userModel.name] : @"",
+                             bUserEmailKey: email ? [self processForQuery:email] : @"",
+                             bUserPhoneKey: phone ? [self processForQuery:phone] : @""};
     
     // The search index works like: /searchIndex/[user entity id]/user details
     [ref setValue:value withCompletionBlock:^(NSError * error, FIRDatabaseReference * firebase) {

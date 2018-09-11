@@ -75,26 +75,26 @@
 
 -(NSDictionary *) lastMessageData {
     NSMutableDictionary * data = self.serialize;
-    data[b_UserName] = self.model.userModel.name; // TODO: Remove this
-    [data removeObjectForKey:b_ReadPath];
-    [data removeObjectForKey:b_Meta];
+    data[bUserName] = self.model.userModel.name; // TODO: Remove this
+    [data removeObjectForKey:bReadPath];
+    [data removeObjectForKey:bMetaPath];
     return data;
 }
 
 -(NSMutableDictionary *) serialize {
-    NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:@{b_Type: _model.type,
-                                                                                 b_Date: [FIRServerValue timestamp],
-                                                                                 b_UserFirebaseID: _model.userModel.entityID,
-                                                                                 b_ReadPath: self.initialReadReceipts,
-                                                                                 b_Meta: _model.meta ? _model.meta : @{}}];
+    NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:@{bType: _model.type,
+                                                                                 bDate: [FIRServerValue timestamp],
+                                                                                 bUserFirebaseID: _model.userModel.entityID,
+                                                                                 bReadPath: self.initialReadReceipts,
+                                                                                 bMetaPath: _model.meta ? _model.meta : @{}}];
     if([BChatSDK config].includeMessagePayload) {
-        dict[b_Payload] = _model.textString;
+        dict[bPayload] = _model.textString;
     }
     if([BChatSDK config].includeMessageJSON) {
-        dict[b_JSON] = _model.text;
+        dict[bJSON] = _model.text;
     }
     if([BChatSDK config].includeMessageJSONV2) {
-        dict[b_JSONV2] = _model.json;
+        dict[bJSONV2] = _model.json;
     }
 
     return dict;
@@ -106,7 +106,7 @@
     id<PUser> currentUser = BChatSDK.currentUser;
     for (id<PUser> user in self.model.thread.users) {
         if (![user isEqual:currentUser]) {
-            readReceipts[user.entityID] = @{b_Status: @(bMessageReadStatusNone)};
+            readReceipts[user.entityID] = @{bStatus: @(bMessageReadStatusNone)};
         }
     }
     return readReceipts;
@@ -132,48 +132,48 @@
     
     RXPromise * promise = [RXPromise new];
     
-    NSDictionary * json2 = value[b_JSONV2];
+    NSDictionary * json2 = value[bJSONV2];
     if(json2) {
         [_model setJson:json2];
     }
     else {
         // Version 4 uses a JSON string so if this property is set, we use it!
-        NSString * json = value[b_JSON];
+        NSString * json = value[bJSON];
         if (json) {
             [_model setText:json];
         }
         else {
-            NSString * payload = value[b_Payload];
+            NSString * payload = value[bPayload];
             if (payload) {
                 [self handlePayload:payload];
             }
         }
     }
     
-    NSNumber * messageType = value[b_Type];
+    NSNumber * messageType = value[bType];
     if (messageType) {
         _model.type = messageType;
     }
     
-    NSNumber * date = value[b_Date];
+    NSNumber * date = value[bDate];
     if (date) {
         _model.date = [BFirebaseCoreHandler timestampToDate:date];
     }
     
-    NSDictionary * readReceipts = value[b_ReadPath];
+    NSDictionary * readReceipts = value[bReadPath];
     if (readReceipts) {
         [_model setReadStatus:readReceipts];
         // TODO: Remove this
         //[_model setReadReceipts:readReceipts];
     }
     
-    NSDictionary * meta = value[b_Meta];
+    NSDictionary * meta = value[bMetaPath];
     if (meta) {
         [_model setMeta:meta];
     }
     
     // Assign this message to a user
-    NSString * userID = value[b_UserFirebaseID];
+    NSString * userID = value[bUserFirebaseID];
     if (userID) {
         _model.userModel = [[BStorageManager sharedManager].a fetchEntityWithID:userID withType:bUserEntity];
         if(!_model.userModel) {
@@ -215,11 +215,11 @@
 -(RXPromise *) flag {
     RXPromise * promise = [RXPromise new];
     
-    NSDictionary * data = @{b_CreatorEntityID: BChatSDK.currentUser.entityID,
-                            b_SenderEntityID: _model.userModel.entityID,
-                            b_Message: _model.textString,
-                            b_Thread: _model.thread.entityID,
-                            b_Date: [FIRServerValue timestamp]};
+    NSDictionary * data = @{bCreatorEntityID: BChatSDK.currentUser.entityID,
+                            bSenderEntityID: _model.userModel.entityID,
+                            bMessage: _model.textString,
+                            bThread: _model.thread.entityID,
+                            bDate: [FIRServerValue timestamp]};
     
     FIRDatabaseReference * ref = [FIRDatabaseReference flaggedRefWithMessage:_model.entityID];
     [ref setValue:data withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {

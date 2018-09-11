@@ -225,6 +225,7 @@
 -(UIViewController<PSearchViewController> *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {
     BSearchViewController * vc = [[BSearchViewController alloc] initWithUsersToExclude: users];
     [vc setSelectedAction:usersAdded];
+    [vc setExcludedUsers:users];
     return vc;
 }
 
