@@ -86,18 +86,6 @@
     return UITableViewCellEditingStyleDelete;
 }
 
-// TODO: Check this
-// Called when a thread is to be deleted
-//- (void)tableView:(UITableView *)tableView_ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath
-//{
-//    if (editingStyle == UITableViewCellEditingStyleDelete )
-//    {
-//        id<PThread> thread = _threads[indexPath.row];
-//        [[NMdapter deleteThread:thread];
-//        [self reloadData];
-//    }
-//}
-
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
@@ -105,7 +93,7 @@
 
 -(void) reloadData {
     [_threads removeAllObjects];
-    [_threads addObjectsFromArray:[BChatSDK.core threadsWithType:bThreadFilterPrivateThread includeDeleted:YES]];
+    [_threads addObjectsFromArray:[BChatSDK.core threadsWithType:bThreadFilterPrivateThread includeDeleted:NO]];
     [super reloadData];
 }
 

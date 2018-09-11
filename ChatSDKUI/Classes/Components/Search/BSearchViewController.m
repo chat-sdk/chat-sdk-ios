@@ -50,6 +50,8 @@
         _searchController.hidesNavigationBarDuringPresentation = NO;
         _searchController.dimsBackgroundDuringPresentation = NO;
         
+        _searchController.searchBar.delegate = self;
+        
         self.navigationItem.titleView = _searchController.searchBar;
         self.definesPresentationContext = YES;
         
@@ -62,16 +64,19 @@
 }
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController_ {
-    [self searchBarSearchButtonClicked:searchController_.searchBar];
+    [self searchWithText:searchController_.searchBar.text lengthLimit:2];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSString * string = searchBar.text;
+    [self searchWithText:string lengthLimit:0];
+}
+
+-(void) searchWithText: (NSString *) text lengthLimit: (int) limit {
+    BOOL shouldSearch = [text stringByReplacingOccurrencesOfString:@" " withString:@""].length;
     
-    BOOL shouldSearch = [string stringByReplacingOccurrencesOfString:@" " withString:@""].length;
-    
-    if (shouldSearch && string.length > 2) {
-        [self searchWithText:string];
+    if (shouldSearch && text.length > limit) {
+        [self searchWithText:text];
     }
 }
 
@@ -105,6 +110,7 @@
 
         [BChatSDK.search availableIndexes].thenOnMain(^id(NSArray * indexes) {
             __typeof__(self) strongSelf = weakSelf;
+            strongSelf->_searchIndexes = indexes;
             
             NSMutableArray * nonRequiredIndexes = [NSMutableArray new];
             
@@ -114,18 +120,14 @@
                 }
             }
             
-            if (!indexes.count) {
-                [strongSelf hideSearchTermButton];
-            }
-            else {
-                strongSelf->_searchTermButtonEnabled = YES;
+            if (indexes.count) {
                 strongSelf.currentSearchIndex = nonRequiredIndexes.firstObject;
-                [strongSelf showSearchTermButton];
             }
-           
+            [self updateRightBarButtonItem];
+
             strongSelf.searchTermNavigationController = [BChatSDK.ui searchIndexNavigationControllerWithIndexes:nonRequiredIndexes withCallback:^(NSArray * index) {
                 strongSelf.currentSearchIndex = index;
-                [strongSelf showSearchTermButton];
+                [self updateRightBarButtonItem];
             }];
             
             [strongSelf stopActivityIndicator];
@@ -134,7 +136,7 @@
     }
     else {
         [self stopActivityIndicator];
-        [self hideSearchTermButton];
+        [self updateRightBarButtonItem];
     }
     
     // Add a tap recognizer to dismiss the keyboard
@@ -150,17 +152,7 @@
     self.noUsersFoundLabel.text = [NSBundle t:bNoNewUsersFoundForThisSearch];
     self.noUsersFoundView.hidden = YES;
     
-    [self updateAddButton];
-}
-
--(void) updateAddButton {
-    if (_searchTermButtonEnabled && !_selectedUsers.count) {
-        [self showSearchTermButton];
-    }
-    else {
-        [self hideSearchTermButton];
-    }
-    _addButton.enabled = _selectedUsers.count;
+    [self updateRightBarButtonItem];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -186,7 +178,6 @@
         });
     }];
 }
-
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
@@ -229,8 +220,14 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:text style:UIBarButtonItemStylePlain target:self action:@selector(searchTermButtonPressed:)];
 }
 
--(void) hideSearchTermButton {
-    self.navigationItem.rightBarButtonItem = _addButton;
+-(void) updateRightBarButtonItem {
+    if (_selectedUsers.count || !_searchIndexes.count) {
+        self.navigationItem.rightBarButtonItem = _addButton;
+        _addButton.enabled = _selectedUsers.count;
+    }
+    else {
+        [self showSearchTermButton];
+    }
 }
 
 -(void) backButtonPressed {
@@ -276,7 +273,7 @@
         [_selectedUsers addObject:user];
     }
     [tableView_ reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self updateAddButton];
+    [self updateRightBarButtonItem];
 }
 
 -(void) searchWithText: (NSString *) text {
@@ -327,15 +324,9 @@
     });
 }
 
-#pragma TextField delegate
-
-- (BOOL)textFieldShouldClear:(UITextField *)textField {
-    [self clearAndReload];
-    return YES;
-}
+#pragma Search Delegate
 
 - (void)didDismissSearchController:(UISearchController *)searchController {
-    [self hideSearchTermButton];
     [self stopActivityIndicator];
     [self clearAndReload];
 }
@@ -350,6 +341,7 @@
     [_users removeAllObjects];
     [_selectedUsers removeAllObjects];
     [tableView reloadData];
+    [self updateRightBarButtonItem];
 }
 
 - (void)searchTermButtonPressed:(id)sender {

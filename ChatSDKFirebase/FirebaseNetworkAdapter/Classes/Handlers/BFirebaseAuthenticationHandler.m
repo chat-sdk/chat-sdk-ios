@@ -205,7 +205,7 @@
         
         // Save the authentication ID for the current user
         // Set the current user
-        [self setLoginInfo:@{bAuthenticationIDKey: uid,
+        [strongSelf setLoginInfo:@{bAuthenticationIDKey: uid,
                              bTokenKey: token ? token : @""}];
         
         CCUserWrapper * user = [CCUserWrapper userWithAuthUserData:firebaseUser];

@@ -12,7 +12,7 @@
 @class MBProgressHUD;
 @class BSearchIndexViewController;
 
-@interface BSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PSearchViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating> {
+@interface BSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PSearchViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate> {
     
     NSMutableArray * _users;
     NSMutableArray * _selectedUsers;
@@ -30,7 +30,7 @@
     UIActivityIndicatorView * _activityIndicator;
     UIView * _searchTextFieldRightView;
     
-    BOOL _searchTermButtonEnabled;
+    NSArray * _searchIndexes;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

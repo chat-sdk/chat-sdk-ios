@@ -49,6 +49,7 @@
 
 "bFlagged" = "Flagged";
 "bFlag" = "Flag";
+"bDelete" = "Delete";
 "bUnflag" = "Unflag";
 
 "bSearch" = "Search";

@@ -81,6 +81,7 @@
 #define bSlideToCancel @"bSlideToCancel"
 #define bFlagged @"bFlagged"
 #define bFlag @"bFlag"
+#define bDelete @"bDelete"
 #define bUnflag @"bUnflag"
 #define bHoldToSendAudioMessageError @"bHoldToSendAudioMessageError"
 #define bRecording @"bRecording"

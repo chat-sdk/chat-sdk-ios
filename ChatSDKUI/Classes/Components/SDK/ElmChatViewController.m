@@ -642,31 +642,53 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // We can only flag posts in public threads
-    id<PElmMessage> message = [self messageForIndexPath:indexPath];
-    return ![message.userModel isEqual:BChatSDK.currentUser];
+    return YES;
 }
 
 // This only works for iOS8
 -(NSArray *)tableView:(UITableView *)tableView_ editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    id<PElmMessage> message = [self messageForIndexPath:indexPath];
-    
-    NSString * flagTitle = message.flagged.intValue ? [NSBundle t:bUnflag] : [NSBundle t:bFlag];
-    
-    UITableViewRowAction * button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:flagTitle handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        
-        [delegate setMessageFlagged:message isFlagged:message.flagged.intValue].thenOnMain(^id(id success) {
-            // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
-            [tableView_ reloadData];
-            return Nil;
-        }, Nil);
+    __weak __typeof__(self) weakSelf = self;
 
-    }];
+    id<PElmMessage> message = [self messageForIndexPath:indexPath];
+    if (message.senderIsMe) {
+        UITableViewRowAction * button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault
+                                                                           title:[NSBundle t:bDelete]
+                                                                         handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+             __typeof__(self) strongSelf = weakSelf;
+
+            [strongSelf.delegate setMessageFlagged:message isFlagged:message.flagged.intValue].thenOnMain(^id(id success) {
+                [BChatSDK.moderation deleteMessage:message.entityID].thenOnMain(^id(id result) {
+                    // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
+                    [tableView_ reloadData];
+                    return Nil;
+                }, Nil);
+                return Nil;
+            }, Nil);
+            
+        }];
+        
+        button.backgroundColor = [UIColor redColor];
+        return @[button];
+
+    }
+    else {
+        NSString * flagTitle = message.flagged.intValue ? [NSBundle t:bUnflag] : [NSBundle t:bFlag];
+        
+        UITableViewRowAction * button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:flagTitle handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            __typeof__(self) strongSelf = weakSelf;
+            [strongSelf.delegate setMessageFlagged:message isFlagged:message.flagged.intValue].thenOnMain(^id(id success) {
+                // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
+                [tableView_ reloadData];
+                return Nil;
+            }, Nil);
+            
+        }];
+        
+        button.backgroundColor = message.flagged.intValue ? [UIColor darkGrayColor] : [UIColor redColor];
+        
+        return @[button];
+    }
     
-    button.backgroundColor = message.flagged.intValue ? [UIColor darkGrayColor] : [UIColor redColor];
-    
-    return @[button];
 }
 
 #pragma Handle keyboard
