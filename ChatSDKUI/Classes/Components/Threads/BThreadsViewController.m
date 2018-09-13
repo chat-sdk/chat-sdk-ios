@@ -200,16 +200,16 @@
         cell.dateLabel.text = @"";
     }
     
-    if([BChatSDK config].threadTimeFont) {
-        cell.dateLabel.font = [BChatSDK config].threadTimeFont;
+    if(BChatSDK.config.threadTimeFont) {
+        cell.dateLabel.font = BChatSDK.config.threadTimeFont;
     }
     
-    if([BChatSDK config].threadTitleFont) {
-        cell.titleLabel.font = [BChatSDK config].threadTitleFont;
+    if(BChatSDK.config.threadTitleFont) {
+        cell.titleLabel.font = BChatSDK.config.threadTitleFont;
     }
     
-    if([BChatSDK config].threadSubtitleFont) {
-        cell.messageTextView.font = [BChatSDK config].threadSubtitleFont;
+    if(BChatSDK.config.threadSubtitleFont) {
+        cell.messageTextView.font = BChatSDK.config.threadSubtitleFont;
     }
     
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];

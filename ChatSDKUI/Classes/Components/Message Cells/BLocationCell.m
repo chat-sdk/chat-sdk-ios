@@ -47,7 +47,7 @@
     NSString * api = @"https://maps.googleapis.com/maps/api/staticmap";
     NSString * markers = [NSString stringWithFormat:@"markers=%f,%f", latitude, longitude];
     NSString * size = [NSString stringWithFormat:@"zoom=18&size=%ix%i", bMaxMessageWidth, bMaxMessageWidth];
-    NSString * key = [NSString stringWithFormat:@"key=%@", [BChatSDK config].googleMapsApiKey];
+    NSString * key = [NSString stringWithFormat:@"key=%@", BChatSDK.config.googleMapsApiKey];
     NSString * url = [NSString stringWithFormat:@"%@?%@&%@&%@", api, markers, size, key];
     
     [mapImageView sd_setImageWithURL:url placeholderImage:Nil options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];

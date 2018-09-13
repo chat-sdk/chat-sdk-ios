@@ -57,6 +57,7 @@
 @synthesize clientPushEnabled;
 @synthesize defaultGroupChatAvatar;
 @synthesize prefersLargeTitles;
+@synthesize shouldOpenChatWhenPushNotificationClickedOnlyIfTabBarVisible;
 
 @synthesize inviteByEmailTitle;
 @synthesize inviteByEmailBody;
@@ -140,6 +141,8 @@
         inviteByEmailTitle = [BSettingsManager property: bEmailTitle forModule: @"contact_book"];
         inviteByEmailBody = [BSettingsManager property: bEmailBody forModule: @"contact_book"];
         inviteBySMSBody = [BSettingsManager property: bSMSBody forModule: @"contact_book"];
+        
+        shouldOpenChatWhenPushNotificationClickedOnlyIfTabBarVisible = NO;
         
         // Try to pre-configure XMPP from plist for backwards compatibility
         [self configureXMPPFromPlist];

@@ -43,8 +43,8 @@
         _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         
         _timeLabel.font = [UIFont italicSystemFontOfSize:12];
-        if([BChatSDK config].messageTimeFont) {
-            _timeLabel.font = [BChatSDK config].messageTimeFont;
+        if(BChatSDK.config.messageTimeFont) {
+            _timeLabel.font = BChatSDK.config.messageTimeFont;
         }
 
         _timeLabel.textColor = [UIColor lightGrayColor];
@@ -56,8 +56,8 @@
         _nameLabel.userInteractionEnabled = NO;
         
         _nameLabel.font = [UIFont boldSystemFontOfSize:bDefaultUserNameLabelSize];
-        if([BChatSDK config].messageNameFont) {
-            _nameLabel.font = [BChatSDK config].messageNameFont;
+        if(BChatSDK.config.messageNameFont) {
+            _nameLabel.font = BChatSDK.config.messageNameFont;
         }
         [self.contentView addSubview:_nameLabel];
 
@@ -277,7 +277,7 @@
 }
 
 +(BOOL) profilePictureHidden: (id<PElmMessage>) message {
-    return message.thread.type.intValue & bThreadType1to1 && ![BChatSDK config].showUserAvatarsOn1to1Threads;
+    return message.thread.type.intValue & bThreadType1to1 && !BChatSDK.config.showUserAvatarsOn1to1Threads;
 }
 
 // Open the users profile

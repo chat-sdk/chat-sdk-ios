@@ -77,7 +77,7 @@
         [[CCUserWrapper userWithModel:contactModel] onlineOn];
     }
     
-    if ([BChatSDK config].enableMessageModerationTab) {
+    if (BChatSDK.config.enableMessageModerationTab) {
         [BChatSDK.moderation on];
     }
 }

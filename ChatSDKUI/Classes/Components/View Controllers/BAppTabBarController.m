@@ -90,9 +90,12 @@
     
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationPresentChatView object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if(BChatSDK.shared.configuration.shouldOpenChatWhenPushNotificationClicked) {
-                id<PThread> thread = notification.userInfo[bNotificationPresentChatView_PThread];
-                [self presentChatViewWithThread:thread];
+            // Only run this code if this view is visible
+            if(BChatSDK.config.shouldOpenChatWhenPushNotificationClicked) {
+                if (!BChatSDK.config.shouldOpenChatWhenPushNotificationClickedOnlyIfTabBarVisible || (self.viewIfLoaded && self.viewIfLoaded.window)) {
+                    id<PThread> thread = notification.userInfo[bNotificationPresentChatView_PThread];
+                    [self presentChatViewWithThread:thread];
+                }
             }
         });
     }];
@@ -138,9 +141,9 @@
         return Nil;
     }, Nil);
 
-    BBackgroundPushAction * action = [BChatSDK shared].pushQueue.tryFirst;
+    BBackgroundPushAction * action = BChatSDK.shared.pushQueue.tryFirst;
     if (action && action.type == bPushActionTypeOpenThread) {
-        [[BChatSDK shared].pushQueue popFirst];
+        [BChatSDK.shared.pushQueue popFirst];
         NSString * threadEntityID = action.payload[bPushThreadEntityID];
         if (threadEntityID) {
             id<PThread> thread = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:threadEntityID withType:bThreadEntity];
@@ -196,7 +199,7 @@
     [[NSUserDefaults standardUserDefaults] setInteger:badge forKey:bMessagesBadgeValueKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    if ([[BChatSDK shared].configuration appBadgeEnabled]) {
+    if ([BChatSDK.shared.configuration appBadgeEnabled]) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
     }
 }

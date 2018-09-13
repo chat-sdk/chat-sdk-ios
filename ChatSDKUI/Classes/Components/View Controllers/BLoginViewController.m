@@ -89,15 +89,15 @@
         self.anonymousButton.keepHeight.equal = 0;
     }
     
-    if([BChatSDK config].loginUsernamePlaceholder) {
-        self.emailField.placeholder = [BChatSDK config].loginUsernamePlaceholder;
+    if(BChatSDK.config.loginUsernamePlaceholder) {
+        self.emailField.placeholder = BChatSDK.config.loginUsernamePlaceholder;
     }
     
-    if(BChatSDK.shared.configuration.loginScreenLogoImage) {
-        self.chatImageView.image = BChatSDK.shared.configuration.loginScreenLogoImage;
+    if(BChatSDK.config.loginScreenLogoImage) {
+        self.chatImageView.image = BChatSDK.config.loginScreenLogoImage;
     }
-    if(BChatSDK.shared.configuration.loginScreenAppName) {
-        self.titleLabel.text = BChatSDK.shared.configuration.loginScreenAppName;
+    if(BChatSDK.config.loginScreenAppName) {
+        self.titleLabel.text = BChatSDK.config.loginScreenAppName;
     }
     else {
         // TODO: Convert this to a text view rather than a link...
@@ -153,7 +153,7 @@
 }
 
 -(NSString *) usernamePlaceholder {
-    return [BChatSDK config].loginUsernamePlaceholder;
+    return BChatSDK.config.loginUsernamePlaceholder;
 }
 
 

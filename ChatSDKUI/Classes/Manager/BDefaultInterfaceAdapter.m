@@ -109,7 +109,7 @@
                                                              self.contactsViewController,
                                                              [self profileViewControllerWithUser: Nil]]];
     
-    if([BChatSDK config].enableMessageModerationTab) {
+    if(BChatSDK.config.enableMessageModerationTab) {
         [dict addObject: self.flaggedMessagesViewController];
     }
     
@@ -130,7 +130,7 @@
     NSMutableArray * controllers = [NSMutableArray new];
     for (id vc in self.tabBarViewControllers) {
         UINavigationController * controller = [self navigationControllerWithRootViewController:vc];
-        controller.navigationBar.prefersLargeTitles = [BChatSDK config].prefersLargeTitles;
+        controller.navigationBar.prefersLargeTitles = BChatSDK.config.prefersLargeTitles;
         [controllers addObject:controller];
     }
     return controllers;
@@ -141,8 +141,8 @@
     NSMutableArray * options = [NSMutableArray new];
     
     BOOL videoEnabled = BChatSDK.videoMessage != Nil;
-    BOOL imageEnabled = BChatSDK.imageMessage != Nil && [BChatSDK config].imageMessagesEnabled;
-    BOOL locationEnabled = BChatSDK.locationMessage != Nil && [BChatSDK config].locationMessagesEnabled;
+    BOOL imageEnabled = BChatSDK.imageMessage != Nil && BChatSDK.config.imageMessagesEnabled;
+    BOOL locationEnabled = BChatSDK.locationMessage != Nil && BChatSDK.config.locationMessagesEnabled;
     
     if (imageEnabled && videoEnabled) {
         [options addObject:[[BMediaChatOption alloc] initWithType:bPictureTypeCameraVideo]];
@@ -282,7 +282,7 @@
 }
 
 -(BOOL) showLocalNotification: (id) notification {
-    return _showLocalNotifications && [BChatSDK config].showLocalNotifications;
+    return _showLocalNotifications && BChatSDK.config.showLocalNotifications;
 }
 
 -(void) setShowLocalNotifications: (BOOL) show {

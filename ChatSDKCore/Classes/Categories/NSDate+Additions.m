@@ -38,7 +38,7 @@
 }
 
 -(NSString *) timeFormat {
-    return [BChatSDK config].timeFormat;
+    return BChatSDK.config.timeFormat;
 }
 
 -(NSString *) messageTimeAt {

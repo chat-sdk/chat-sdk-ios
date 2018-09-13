@@ -33,10 +33,10 @@
     
     [super viewDidLoad];
     
-    _slideToDeleteDisabled = ![BChatSDK config].allowPublicThreadDeletion;
+    _slideToDeleteDisabled = !BChatSDK.config.allowPublicThreadDeletion;
     
     // Add new group button
-    if([BChatSDK shared].configuration.allowUsersToCreatePublicChats) {
+    if(BChatSDK.shared.configuration.allowUsersToCreatePublicChats) {
         self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                                 target:self
                                                                                                 action:@selector(createThread)];

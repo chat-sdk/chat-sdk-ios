@@ -87,13 +87,13 @@
                                                                                  bUserFirebaseID: _model.userModel.entityID,
                                                                                  bReadPath: self.initialReadReceipts,
                                                                                  bMetaPath: _model.meta ? _model.meta : @{}}];
-    if([BChatSDK config].includeMessagePayload) {
+    if(BChatSDK.config.includeMessagePayload) {
         dict[bPayload] = _model.textString;
     }
-    if([BChatSDK config].includeMessageJSON) {
+    if(BChatSDK.config.includeMessageJSON) {
         dict[bJSON] = _model.text;
     }
-    if([BChatSDK config].includeMessageJSONV2) {
+    if(BChatSDK.config.includeMessageJSONV2) {
         dict[bJSONV2] = _model.json;
     }
 

@@ -33,7 +33,7 @@
 
 -(void) resetMessages {
     [_messagesWorkingList removeAllObjects];
-    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:[BChatSDK config].chatMessagesToLoad ascending:NO]];
+    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:BChatSDK.config.chatMessagesToLoad ascending:NO]];
     [self reverse:_messagesWorkingList];
 }
 
@@ -68,7 +68,7 @@
 -(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages {
     
     NSInteger count = _messagesWorkingList.count + numberOfMessages;
-    count = MAX(count, [BChatSDK config].chatMessagesToLoad);
+    count = MAX(count, BChatSDK.config.chatMessagesToLoad);
     
     // Get the next batch of messages
     [_messagesWorkingList removeAllObjects];
@@ -84,7 +84,7 @@
 }
 
 -(void) optimize {
-    NSArray * messages = [self loadMessagesWithCount:[BChatSDK config].chatMessagesToLoad ascending:YES];
+    NSArray * messages = [self loadMessagesWithCount:BChatSDK.config.chatMessagesToLoad ascending:YES];
     for(int i = 0; i < messages.count; i++) {
         CDMessage * message = (CDMessage *) messages[i];
         [message clearOptimizationProperties];
@@ -284,10 +284,10 @@
         
         // Check how many users are in the conversation
         if (self.type.intValue & bThreadFilterPublic) {
-            return [BChatSDK config].defaultGroupChatAvatar;
+            return BChatSDK.config.defaultGroupChatAvatar;
         }
         else {
-            return [BChatSDK config].defaultBlankAvatar;
+            return BChatSDK.config.defaultBlankAvatar;
         }
     }
     else if (users.count == 1) {

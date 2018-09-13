@@ -33,8 +33,8 @@
         textView.textContainerInset = UIEdgeInsetsZero;
 
         textView.font = [UIFont systemFontOfSize:bDefaultFontSize];
-        if([BChatSDK config].messageTextFont) {
-            textView.font = [BChatSDK config].messageTextFont;
+        if(BChatSDK.config.messageTextFont) {
+            textView.font = BChatSDK.config.messageTextFont;
         }
         
         UIColor * linkColor = [BChatSDK.ui colorForName:bColorMessageLink];
@@ -55,11 +55,11 @@
     
     textView.text = message.textString;
     
-    if([BChatSDK config].messageTextColorMe && message.userModel.isMe) {
-        textView.textColor = [BCoreUtilities colorWithHexString:[BChatSDK config].messageTextColorMe];
+    if(BChatSDK.config.messageTextColorMe && message.userModel.isMe) {
+        textView.textColor = [BCoreUtilities colorWithHexString:BChatSDK.config.messageTextColorMe];
     }
-    else if([BChatSDK config].messageTextColorReply && !message.userModel.isMe) {
-        textView.textColor = [BCoreUtilities colorWithHexString:[BChatSDK config].messageTextColorReply];
+    else if(BChatSDK.config.messageTextColorReply && !message.userModel.isMe) {
+        textView.textColor = [BCoreUtilities colorWithHexString:BChatSDK.config.messageTextColorReply];
     }
     else
     {

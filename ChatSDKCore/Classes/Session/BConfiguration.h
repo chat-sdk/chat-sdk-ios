@@ -93,6 +93,10 @@
 // When a push notification is clicked, should the chat screen be opened
 @property(nonatomic, readwrite) BOOL shouldOpenChatWhenPushNotificationClicked;
 
+// This allows us to make it so the chat will only be opened if the tab bar is visible. This can be
+// useful in some advanced situations where the tab bar may not be the root view
+@property(nonatomic, readwrite) BOOL shouldOpenChatWhenPushNotificationClickedOnlyIfTabBarVisible;
+
 // Should the client send push notifications?
 @property(nonatomic, readwrite) BOOL clientPushEnabled;
 

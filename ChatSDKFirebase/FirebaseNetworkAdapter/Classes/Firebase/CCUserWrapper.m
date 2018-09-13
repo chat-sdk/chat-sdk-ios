@@ -110,7 +110,7 @@
     // Must set name before robot image to ensure they are different
     // Must be set outside of the provider loop as anonymous logins don't user data prodivers
     if (!_model.name) {
-        _model.name = [BChatSDK shared].configuration.defaultUserName;
+        _model.name = BChatSDK.shared.configuration.defaultUserName;
     }
     
     if (!profilePictureSet && ![self.model.meta metaStringForKey:bUserImageURLKey]) {
@@ -129,7 +129,7 @@
     // Setup the message color defaults
     // TODO: Maybe remove this...
     if (!_model.messageColor || !_model.messageColor.length) {
-        _model.messageColor = [BCoreUtilities colorToString:[BCoreUtilities colorWithHexString:[BChatSDK shared].configuration.messageColorMe]];
+        _model.messageColor = [BCoreUtilities colorToString:[BCoreUtilities colorWithHexString:BChatSDK.shared.configuration.messageColorMe]];
     }
 }
 

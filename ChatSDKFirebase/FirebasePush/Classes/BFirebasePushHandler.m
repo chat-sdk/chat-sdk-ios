@@ -211,7 +211,7 @@
             }
             else {
                 BBackgroundPushAction * action = [BBackgroundPushAction actionWithType:bPushActionTypeOpenThread payload:@{bPushThreadEntityID: threadEntityID}];
-                [[BChatSDK shared].pushQueue addToQueue:action];
+                [BChatSDK.shared.pushQueue addToQueue:action];
             }
         }
 //    }
@@ -290,7 +290,7 @@
         NSDictionary *params = @{@"to": channel,
                                  @"notification": notification,
                                  @"data": data,
-                                 @"sound": [BChatSDK config].pushNotificationSound,
+                                 @"sound": BChatSDK.config.pushNotificationSound,
 //                                 @"apns": @{
 //                                         @"notification": notification
 //                                         }

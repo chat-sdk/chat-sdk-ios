@@ -244,7 +244,7 @@
 
 // TODO: Remove UI dependency on CoreData
 -(UIImage *) defaultImage {
-    return [BChatSDK config].defaultBlankAvatar;
+    return BChatSDK.config.defaultBlankAvatar;
 }
 
 -(BOOL) isMe {

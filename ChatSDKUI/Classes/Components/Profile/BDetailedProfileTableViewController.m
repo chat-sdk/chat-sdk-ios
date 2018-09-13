@@ -54,7 +54,7 @@
 {
     [super viewDidLoad];
     
-    _anonymousProfilePicture = [BChatSDK config].defaultBlankAvatar;
+    _anonymousProfilePicture = BChatSDK.config.defaultBlankAvatar;
     profilePictureButton.layer.cornerRadius = 50;
     
     self.hideSectionsWithHiddenRows = YES;

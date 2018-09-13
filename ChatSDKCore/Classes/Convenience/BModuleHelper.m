@@ -29,7 +29,7 @@
             return bServerXMPP;
         }
     }
-    return [BChatSDK shared].configuration.defaultServer;
+    return BChatSDK.shared.configuration.defaultServer;
 }
 
 +(void) activateModulesForFirebase {

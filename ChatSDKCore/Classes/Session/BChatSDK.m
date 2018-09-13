@@ -138,11 +138,11 @@ static BChatSDK * instance;
     NSString * databaseVersion = [[NSUserDefaults standardUserDefaults] stringForKey:bDatabaseVersionKey];
     NSString * newDatabaseVersion = _configuration.databaseVersion;
     
-    if ([BChatSDK config].clearDataWhenRootPathChanges && rootPath && newRootPath && ![rootPath isEqualToString:newRootPath]) {
+    if (BChatSDK.config.clearDataWhenRootPathChanges && rootPath && newRootPath && ![rootPath isEqualToString:newRootPath]) {
         [[BStorageManager sharedManager].a deleteAllData];
         [[BStorageManager sharedManager].a saveToStore];
     }
-    else if ([BChatSDK config].clearDatabaseWhenDataVersionChanges && ![databaseVersion isEqual:newDatabaseVersion]) {
+    else if (BChatSDK.config.clearDatabaseWhenDataVersionChanges && ![databaseVersion isEqual:newDatabaseVersion]) {
         [[BStorageManager sharedManager].a deleteAllData];
         [[BStorageManager sharedManager].a saveToStore];
     }
