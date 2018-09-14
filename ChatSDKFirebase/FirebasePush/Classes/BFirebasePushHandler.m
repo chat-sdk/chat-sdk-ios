@@ -244,6 +244,7 @@
                                     @"body": text ? text : @"",
                                     @"badge": @1,
                                     @"priority": @"high",
+                                    @"sound": BChatSDK.config.pushNotificationSound,
                                     @"click_action": BChatSDK.config.pushNotificationAction ? BChatSDK.config.pushNotificationAction : bChatSDKNotificationCategory};
 
     [self pushToUsers:users withNotification: notification withData:data];
@@ -290,7 +291,6 @@
         NSDictionary *params = @{@"to": channel,
                                  @"notification": notification,
                                  @"data": data,
-                                 @"sound": BChatSDK.config.pushNotificationSound,
 //                                 @"apns": @{
 //                                         @"notification": notification
 //                                         }
