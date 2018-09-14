@@ -136,7 +136,7 @@
         
         anonymousLoginEnabled = [BSettingsManager anonymousLoginEnabled];
         
-        userChatInfoEnabled = [BSettingsManager userChatInfoEnabled];
+        userChatInfoEnabled = YES;
         
         inviteByEmailTitle = [BSettingsManager property: bEmailTitle forModule: @"contact_book"];
         inviteByEmailBody = [BSettingsManager property: bEmailBody forModule: @"contact_book"];
