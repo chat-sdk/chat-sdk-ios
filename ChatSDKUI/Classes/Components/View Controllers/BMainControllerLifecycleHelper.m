@@ -17,16 +17,11 @@
     
     _viewController = controller;
     
-    // Listen to see if the user logs out
-    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationLogout
-                                                      object:Nil
-                                                       queue:Nil
-                                                  usingBlock:^(NSNotification * sender) {
-                                                      
-                                                      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                          [self showLoginScreen];
-                                                      });
-                                                  }];
+    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self showLoginScreen];
+        });
+    }] withName:bHookDidLogout];
     
 }
 

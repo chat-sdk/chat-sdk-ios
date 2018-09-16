@@ -17,6 +17,21 @@
 //        [FIRApp configure];
         [FIRMessaging messaging].delegate = self;
         
+        [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+            id<PUser> user = data[bHookWillLogout_PUser];
+            if (user) {
+                [self unsubscribeToPushChannel:user.pushChannel];
+            }
+        }] withName:bHookWillLogout];
+
+        [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+            id<PUser> user = data[bHookDidAuthenticate_PUser];
+            if (user) {
+                [self subscribeToPushChannel:user.pushChannel];
+            }
+        }] withName:bHookDidAuthenticate];
+
+        
 //         Send a local notification when a message comes in
 //        [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * value) {
 //            id<PMessage> message = (id<PMessage>) value[bHookMessageReceived_PMessage];

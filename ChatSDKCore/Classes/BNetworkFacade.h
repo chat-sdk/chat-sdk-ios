@@ -34,7 +34,7 @@
 @protocol PHookHandler;
 @protocol PUsersHandler;
 
-// Depricated: Use bHookLogout (and hook system) instead
+// Depricated: Use bHookDidLogout (and hook system) instead
 #define bNotificationLogout @"bNLogout"
 
 #define bNotificationMessageAdded @"bNMessageAdded"

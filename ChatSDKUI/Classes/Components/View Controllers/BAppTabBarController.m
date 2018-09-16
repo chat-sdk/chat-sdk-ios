@@ -50,14 +50,9 @@
     NSArray * vcs = [BChatSDK.ui tabBarNavigationViewControllers];
     self.viewControllers = vcs;
 
-    // Listen to see if the user logs out
-    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationLogout
-                                                      object:Nil
-                                                       queue:Nil
-                                                  usingBlock:^(NSNotification * sender) {
-        // Resets the view which the tab bar loads on
+    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [self setSelectedIndex:0];
-    }];
+    }] withName:bHookDidLogout];
     
     __weak __typeof__(self) weakSelf = self;
 

@@ -66,10 +66,6 @@
         }
     }];
     
-    if (BChatSDK.push && [BChatSDK.push respondsToSelector:@selector(subscribeToPushChannel:)]) {
-        [BChatSDK.push subscribeToPushChannel:user.pushChannel];
-    }
-    
     for (id<PUserConnection> contact in [user connectionsWithType:bUserConnectionTypeContact]) {
         // Turn the contact on
         id<PUser> contactModel = contact.user;
@@ -111,9 +107,6 @@
         [[CCUserWrapper userWithModel:contactModel] onlineOff];
     }
 
-    if (BChatSDK.push && [BChatSDK.push respondsToSelector:@selector(unsubscribeToPushChannel:)]) {
-        [BChatSDK.push unsubscribeToPushChannel:user.pushChannel];
-    }
 }
 
 @end

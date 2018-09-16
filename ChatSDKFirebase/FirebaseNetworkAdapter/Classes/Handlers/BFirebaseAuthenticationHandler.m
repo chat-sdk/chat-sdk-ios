@@ -57,20 +57,20 @@
     NSError * error = Nil;
     if([[FIRAuth auth] signOut:&error]) {
         
+        NSDictionary * data = @{bHookWillLogout_PUser: user};
+        [BChatSDK.hook executeHookWithName:bHookWillLogout data:data];
+        
         [BChatSDK.core goOffline];
 
         _userAuthenticatedThisSession = NO;
-        
-        // Post a notification
-        [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationLogout object:Nil];
-        
+                
         [self setLoginInfo:Nil];
         
         [[NSNotificationCenter  defaultCenter] postNotificationName:bNotificationBadgeUpdated object:Nil];
         
         if (user != Nil) {
-            NSDictionary * data = @{bHookLogout_PUser: user};
-            [BChatSDK.hook executeHookWithName:bHookLogout data:data];
+            NSDictionary * data = @{bHookDidLogout_PUser: user};
+            [BChatSDK.hook executeHookWithName:bHookDidLogout data:data];
         }
         
         _authenticatedThisSession = false;

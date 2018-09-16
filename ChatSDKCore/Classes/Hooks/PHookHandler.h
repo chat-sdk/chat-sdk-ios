@@ -9,8 +9,12 @@
 #ifndef PHookHandler_h
 #define PHookHandler_h
 
-#define bHookUserAuthFinished @"bHookUserAuthFinished"
-#define bHookUserAuthFinished_PUser @"bHookUserAuthFinished_PUser"
+#define bHookDidAuthenticate @"bHookDidAuthenticate"
+#define bHookDidAuthenticate_PUser @"bHookDidAuthenticate_PUser"
+
+// Deprecated
+#define bHookUserAuthFinished bHookDidAuthenticate
+#define bHookUserAuthFinished_PUser bHookDidAuthenticate_PUser
 
 #define bHookUserOn @"bHookUserOn"
 #define bHookUserOn_PUser @"bHookUserOn_PUser"
@@ -18,8 +22,11 @@
 #define bHookMessageRecieved @"bHookMessageRecieved"
 #define bHookMessageReceived_PMessage @"bHookMessageReceived_PMessage"
 
-#define bHookLogout @"bHookLogout"
-#define bHookLogout_PUser @"bHookLogout_PUser"
+#define bHookWillLogout @"bHookWillLogout"
+#define bHookWillLogout_PUser @"bHookWillLogout_PUser"
+
+#define bHookDidLogout @"bHookDidLogout"
+#define bHookDidLogout_PUser @"bHookDidLogout_PUser"
 
 
 @class BHook;

@@ -20,17 +20,11 @@
         // Start checking if we are connected to the internet
         [[Reachability reachabilityForInternetConnection] startNotifier];
         
-        [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationLogout
-                                                          object:Nil
-                                                           queue:Nil
-                                                      usingBlock:^(NSNotification * sender) {
-                                                          // Resets the view which the tab bar loads on
-                                                          __typeof__(self) strongSelf = weakSelf;
-                                                          strongSelf->_currentUser = Nil;
-                                                      }];
-        
-
-
+        [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+            // Resets the view which the tab bar loads on
+            __typeof__(self) strongSelf = weakSelf;
+            strongSelf->_currentUser = Nil;
+        }] withName:bHookDidLogout];
     }
     return self;
 }
