@@ -45,12 +45,8 @@
         if(NM.lastOnline) {
             __weak id weakSelf = self;
             [NM.lastOnline getLastOnlineForUser:_thread.otherUser].thenOnMain(^id(NSDate * date) {
-<<<<<<< HEAD
-                [self setSubtitle:date.lastSeenTimeAgo];
 
-=======
                 [weakSelf setSubtitle:date.lastSeenTimeAgo];
->>>>>>> 5f2af56... Code optimization
                 return Nil;
             }, Nil);
         }
@@ -71,20 +67,13 @@
 }
 
 -(void) addObservers {
-<<<<<<< HEAD
-    [self removeObservers];
 
-=======
->>>>>>> 5f2af56... Code optimization
     [super addObservers];
 
     id<PUser> currentUserModel = NM.currentUser;
-<<<<<<< HEAD
 
-=======
 
     __weak id weakSelf = self;
->>>>>>> 5f2af56... Code optimization
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationReadReceiptUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf updateMessages];
