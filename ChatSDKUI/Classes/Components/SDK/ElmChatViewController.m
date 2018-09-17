@@ -648,17 +648,12 @@
         UITableViewRowAction * button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault
                                                                            title:[NSBundle t:bDelete]
                                                                          handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-             __typeof__(self) strongSelf = weakSelf;
-
-            [strongSelf.delegate setMessageFlagged:message isFlagged:message.flagged.intValue].thenOnMain(^id(id success) {
-                [BChatSDK.moderation deleteMessage:message.entityID].thenOnMain(^id(id result) {
-                    // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
-                    [tableView_ reloadData];
-                    return Nil;
-                }, Nil);
+    
+            [BChatSDK.moderation deleteMessage:message.entityID].thenOnMain(^id(id result) {
+                // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
+                [tableView_ reloadData];
                 return Nil;
             }, Nil);
-            
         }];
         
         button.backgroundColor = [UIColor redColor];
