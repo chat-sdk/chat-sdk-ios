@@ -26,7 +26,6 @@
 }
 
 - (RXPromise *) deleteMessage: (NSString *)messageID {
-    [self unflagMessage:messageID];
     id<PMessage> message = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:messageID withType:bMessageEntity];
     return [[CCMessageWrapper messageWithModel:message] delete];
 }
