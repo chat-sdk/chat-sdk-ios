@@ -14,6 +14,7 @@
 		AC7BD9BF1E096E9000C785EE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */; };
 		B5081AC81F56C04B0015417B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7BD99E1E0874B400C785EE /* AppDelegate.m */; };
 		B5081AC91F56C04B0015417B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7BD99B1E0874B400C785EE /* main.m */; };
+		B5CEC602214E872A0097F7C5 /* SideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5CEC601214E872A0097F7C5 /* SideMenu.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		AC7BD9AB1E0874B400C785EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B5736DD220A1F25900D0947B /* ChatSDK Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ChatSDK Demo.entitlements"; sourceTree = "<group>"; };
+		B5CEC601214E872A0097F7C5 /* SideMenu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = SideMenu.storyboard; path = ../../ChatSDKExtras/Interface/SideMenu.storyboard; sourceTree = "<group>"; };
 		DE062C0474FC278866061398 /* Pods-ChatSDK Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.release.xcconfig"; sourceTree = "<group>"; };
 		E4BFA3755FF27F9245670528 /* Pods-ChatSDK Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,6 +84,7 @@
 				AC7BD9A81E0874B400C785EE /* LaunchScreen.storyboard */,
 				AC7BD9AB1E0874B400C785EE /* Info.plist */,
 				AC7BD99A1E0874B400C785EE /* Supporting Files */,
+				B5CEC601214E872A0097F7C5 /* SideMenu.storyboard */,
 			);
 			path = "ChatSDK Demo";
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC7BD9AA1E0874B400C785EE /* LaunchScreen.storyboard in Resources */,
+				B5CEC602214E872A0097F7C5 /* SideMenu.storyboard in Resources */,
 				AC7BD9BF1E096E9000C785EE /* GoogleService-Info.plist in Resources */,
 				AC7BD9A71E0874B400C785EE /* Assets.xcassets in Resources */,
 				AC7BD9A51E0874B400C785EE /* Main.storyboard in Resources */,
@@ -194,6 +198,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/ChatSDK/ChatCore.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/ChatSDK/ChatCoreData.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ChatSDK/ChatExtras.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/ChatSDK/ChatFirebaseSocialLogin.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/ChatSDK/ChatUI.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
@@ -203,6 +208,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatCore.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatCoreData.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatExtras.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatFirebaseSocialLogin.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatUI.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
@@ -238,6 +244,7 @@
 				"${BUILT_PRODUCTS_DIR}/RXPromise/RXPromise.framework",
 				"${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/StaticDataTableViewController/StaticDataTableViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast/Toast.framework",
@@ -266,6 +273,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RXPromise.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StaticDataTableViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOCropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast.framework",

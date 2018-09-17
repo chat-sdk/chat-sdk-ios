@@ -9,6 +9,7 @@
 #import "BFirebaseAuthenticationHandler.h"
 
 #import <ChatSDK/FirebaseAdapter.h>
+#import <ChatSDK/Core.h>
 
 @implementation BFirebaseAuthenticationHandler
 
@@ -17,7 +18,9 @@
 // Each time the main tab bar appears the app check that
 // the user is authenticated
 -(RXPromise *) authenticateWithCachedToken {
-
+    
+    [BChatSDK.core goOnline];
+    
     BOOL authenticated = [self userAuthenticated];
     if (authenticated) {
         
