@@ -233,13 +233,11 @@
 }
 
 -(void) subscribeToPushChannel: (NSString *) channel {
-    NSString * safeChannel = [self safeChannel:channel];
-    [[FIRMessaging messaging] subscribeToTopic:safeChannel];
+    [[FIRMessaging messaging] subscribeToTopic:channel];
 }
 
 -(void) unsubscribeToPushChannel: (NSString *) channel {
-    NSString * safeChannel = [self safeChannel:channel];
-    [[FIRMessaging messaging] unsubscribeFromTopic:safeChannel];
+    [[FIRMessaging messaging] unsubscribeFromTopic:channel];
 }
 
 -(void) pushToUsers: (NSArray *) users withMessage: (id<PMessage>) message {
@@ -283,6 +281,21 @@
 }
 
 -(void) pushToChannels: (NSArray *) channels withNotification: (NSDictionary *) notification withData:(NSDictionary *) data {
+    
+    [[[FIRFunctions functions] HTTPSCallableWithName:@"sendPush"] callWithObject:@{@"Test": @"a"} completion:^(FIRHTTPSCallableResult * result, NSError * error) {
+        if (error) {
+            if (error.domain == FIRFunctionsErrorDomain) {
+                FIRFunctionsErrorCode code = error.code;
+                NSString *message = error.localizedDescription;
+                NSObject *details = error.userInfo[FIRFunctionsErrorDetailsKey];
+            }
+            // ...
+        }
+        else {
+            NSLog(@"Success");
+        }
+    }];
+    
     
     if (!BChatSDK.config.clientPushEnabled) {
         return;
