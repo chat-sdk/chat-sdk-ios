@@ -126,7 +126,7 @@
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self updateBadge];
-    [BChatSDK.core saveToStore];
+    [BChatSDK.core save];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -152,7 +152,7 @@
 // If the user changes tab they must be online
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     [BChatSDK.core setUserOnline];
-    [BChatSDK.core saveToStore];
+    [BChatSDK.core save];
     
     if ([viewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController * nav = (UINavigationController *) viewController;

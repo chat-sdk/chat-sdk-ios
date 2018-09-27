@@ -51,32 +51,29 @@
     RXPromise * promise = [RXPromise new];
     
     id<PUser> user = BChatSDK.currentUser;
+
     
     // Stop observing the user
-    if(self.currentUserEntityID) {
-        [BStateManager userOff: self.currentUserEntityID];
+    if(user) {
+        NSDictionary * data = @{bHookWillLogout_PUser: user};
+        [BChatSDK.hook executeHookWithName:bHookWillLogout data:data];
+
+        [BStateManager userOff: user.entityID];
     }
     
     NSError * error = Nil;
     if([[FIRAuth auth] signOut:&error]) {
-        
-        NSDictionary * data = @{bHookWillLogout_PUser: user};
-        [BChatSDK.hook executeHookWithName:bHookWillLogout data:data];
-        
-        [BChatSDK.core goOffline];
 
         _userAuthenticatedThisSession = NO;
-                
         [self setLoginInfo:Nil];
+        [BChatSDK.core goOffline];
         
         [[NSNotificationCenter  defaultCenter] postNotificationName:bNotificationBadgeUpdated object:Nil];
         
-        if (user != Nil) {
+        if (user) {
             NSDictionary * data = @{bHookDidLogout_PUser: user};
             [BChatSDK.hook executeHookWithName:bHookDidLogout data:data];
         }
-        
-        _authenticatedThisSession = false;
         
         [promise resolveWithResult:Nil];
     }

@@ -39,7 +39,8 @@
 }
 
 -(NSString *) pushChannel {
-    return [[NSString stringWithFormat:@"%@_%@", bUserPrefixKey, [self.entityID stringByReplacingOccurrencesOfString:@":" withString:@"_"]] stringByReplacingOccurrencesOfString:@"%3A" withString:@"_"];
+    return self.entityID;
+//    return [[NSString stringWithFormat:@"%@_%@", bUserPrefixKey, [self.entityID stringByReplacingOccurrencesOfString:@":" withString:@"_"]] stringByReplacingOccurrencesOfString:@"%3A" withString:@"_"];
 }
 
 -(CDUserAccount *) accountWithType: (bAccountType) type {

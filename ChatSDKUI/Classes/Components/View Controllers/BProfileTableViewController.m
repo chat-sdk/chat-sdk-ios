@@ -54,7 +54,7 @@
     }
     [self updateBlockButton];
     
-    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStylePlain target:Nil action:Nil];
 
 }
 

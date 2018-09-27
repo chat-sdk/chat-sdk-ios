@@ -457,7 +457,7 @@
 }
 
 -(NSString *) pushChannel {
-    return self.model.entityID;
+    return self.model.pushChannel;
 }
 
 -(RXPromise *) addThreadWithEntityID: (NSString *) entityID {

@@ -282,19 +282,19 @@
 
 -(void) pushToChannels: (NSArray *) channels withNotification: (NSDictionary *) notification withData:(NSDictionary *) data {
     
-    [[[FIRFunctions functions] HTTPSCallableWithName:@"sendPush"] callWithObject:@{@"Test": @"a"} completion:^(FIRHTTPSCallableResult * result, NSError * error) {
-        if (error) {
-            if (error.domain == FIRFunctionsErrorDomain) {
-                FIRFunctionsErrorCode code = error.code;
-                NSString *message = error.localizedDescription;
-                NSObject *details = error.userInfo[FIRFunctionsErrorDetailsKey];
-            }
-            // ...
-        }
-        else {
-            NSLog(@"Success");
-        }
-    }];
+//    [[[FIRFunctions functions] HTTPSCallableWithName:@"sendPush"] callWithObject:@{@"Test": @"a"} completion:^(FIRHTTPSCallableResult * result, NSError * error) {
+//        if (error) {
+//            if (error.domain == FIRFunctionsErrorDomain) {
+//                FIRFunctionsErrorCode code = error.code;
+//                NSString *message = error.localizedDescription;
+//                NSObject *details = error.userInfo[FIRFunctionsErrorDetailsKey];
+//            }
+//            // ...
+//        }
+//        else {
+//            NSLog(@"Success");
+//        }
+//    }];
     
     
     if (!BChatSDK.config.clientPushEnabled) {

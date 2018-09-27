@@ -176,14 +176,6 @@ static BCoreDataManager * manager;
     }
 }
 
--(void) deleteEntity: (id) entity {
-    @synchronized(self.managedObjectContext)  {
-        if (entity) {
-            [self.managedObjectContext deleteObject:entity];
-        }
-    }
-}
-
 - (NSManagedObjectContext *) privateManagedObjectContext {
     
     if (!_privateMoc) {
@@ -203,7 +195,6 @@ static BCoreDataManager * manager;
         NSUndoManager *undoManager = [[NSUndoManager alloc] init];
         [_moc setUndoManager:undoManager];
     }
-    
     return _moc;
 }
 
@@ -224,7 +215,6 @@ static BCoreDataManager * manager;
         [self.managedObjectContext.undoManager undo];
     });
 }
-
 
 - (NSManagedObjectModel *)managedObjectModel {
     
@@ -291,10 +281,45 @@ static BCoreDataManager * manager;
 
 -(void) deleteEntities: (NSArray *) entities {
     @synchronized(self.managedObjectContext)  {
-        for (id entity in entities) {
-            [self deleteEntity:entity];
+        [self getEntitiesOnMainThread:entities].thenOnMain(^id(NSArray * safeEntities) {
+            for(NSManagedObject * entity in safeEntities) {
+                [self unsafeDeleteEntity:entity];
+            }
+            return Nil;
+        }, Nil);
+    }
+}
+
+-(void) unsafeDeleteEntity: (id) entity {
+    @synchronized(self.managedObjectContext)  {
+        if (entity) {
+            [self.managedObjectContext deleteObject:entity];
         }
     }
+}
+
+-(void) deleteEntity: (id) entity {
+    @synchronized(self.managedObjectContext)  {
+        [self deleteEntities:@[entity]];
+    }
+}
+
+
+-(RXPromise *) getEntitiesOnMainThread: (NSArray *) entities {
+    RXPromise * promise = [RXPromise new];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSMutableArray * safeEntities = [NSMutableArray new];
+        for(id entity in entities) {
+            if ([entities isKindOfClass:NSManagedObject.class]) {
+                NSManagedObject * safeEntity = [self.managedObjectContext objectWithID:((NSManagedObject *)entity).objectID];
+                if (safeEntity) {
+                    [safeEntities addObject:safeEntity];
+                }
+            }
+        }
+        [promise resolveWithResult:safeEntities];
+    });
+    return promise;
 }
 
 -(void) deleteAllData {
