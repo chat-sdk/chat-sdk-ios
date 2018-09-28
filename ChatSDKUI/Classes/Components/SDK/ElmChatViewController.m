@@ -86,6 +86,10 @@
         }
     }
     
+    for(NSArray * cell in BChatSDK.ui.customMessageCellTypes) {
+        [self.tableView registerClass:cell.firstObject forCellReuseIdentifier:[cell.lastObject stringValue]];
+    }
+    
 }
 
 // The naivgation bar has three functions

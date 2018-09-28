@@ -23,7 +23,7 @@
         _additionalChatOptions = [NSMutableArray new];
         _additionalTabBarViewControllers = [NSMutableArray new];
         _additionalSearchViewControllers = [NSMutableDictionary new];
-        
+        _customMessageCellTypes = [NSMutableArray new];
         // MEM1
         //[[SDWebImageDownloader sharedDownloader] setShouldDecompressImages:NO];
     }
@@ -295,6 +295,14 @@
 
 -(UINavigationController *) searchIndexNavigationControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback {
     return [self navigationControllerWithRootViewController:[self searchIndexViewControllerWithIndexes:indexes withCallback:callback]];
+}
+
+-(void) registerCustomMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type {
+    [_customMessageCellTypes addObject:@[cellClass, type]];
+}
+
+-(NSArray *) customMessageCellTypes {
+    return _customMessageCellTypes;
 }
 
 @end

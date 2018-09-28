@@ -29,6 +29,9 @@
     NSMutableArray * _additionalChatOptions;
     NSMutableArray * _additionalTabBarViewControllers;
     NSMutableDictionary * _additionalSearchViewControllers;
+    
+    // An array of arrays. Each sub array contains @[(Class) class, (NSNumber *) mesasageType]
+    NSMutableArray * _customMessageCellTypes;
     BOOL _showLocalNotifications;
 }
 
