@@ -15,10 +15,6 @@ static BCoreDataManager * manager;
 
 @implementation BCoreDataManager
 
-//@synthesize managedObjectContext = _managedObjectContext;
-//@synthesize managedObjectModel = _managedObjectModel;
-//@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
-
 +(BCoreDataManager *) sharedManager {
     
 	@synchronized(self) {
@@ -40,8 +36,6 @@ static BCoreDataManager * manager;
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillTerminateNotification object:Nil queue:0 usingBlock:^(NSNotification * notification) {
             [self saveToStore];
         }];
-        
-        
     }
     return self;
 }
@@ -98,6 +92,41 @@ static BCoreDataManager * manager;
     return [self fetchEntitiesWithName:entityName withPredicate:Nil];
 }
 
+-(RXPromise *) safeFetchEntitiesWithName: (NSString *) entityName {
+    return [self safeFetchEntitiesWithName:entityName withPredicate:Nil];
+}
+
+-(RXPromise *) safeExecuteFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate {
+    RXPromise * promise = [RXPromise new];
+    [self.privateManagedObjectContext performBlock:^{
+        [fetchRequest setIncludesPendingChanges:YES];
+        
+        NSEntityDescription * entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.privateManagedObjectContext];
+        if (!entity) {
+            [promise resolveWithResult: Nil];
+        }
+        
+        [fetchRequest setEntity:entity];
+        if (predicate != Nil) {
+            [fetchRequest setPredicate:predicate];
+        }
+        
+        NSError * error = Nil;
+        NSArray * entities = [self.privateManagedObjectContext executeFetchRequest:fetchRequest error:&error];
+        if (error) {
+            [promise rejectWithReason:error];
+            NSLog(@"Fetch error: %@", error.localizedDescription);
+        }
+        
+        [promise resolveWithResult:entities];
+    }];
+    return promise;
+}
+
+/**
+ * @deprecated This method is not thread safe
+ * @note plase use safeExecuteFetchRequest instead
+ */
 -(id) executeFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate {
     @synchronized(self.managedObjectContext) {
         [fetchRequest setIncludesPendingChanges:YES];
@@ -122,8 +151,16 @@ static BCoreDataManager * manager;
     }
 }
 
+/**
+ * @deprecated This method is not thread safe
+ * @note plase use safeFetchEntitiesWithName instead
+ */
 -(NSArray *) fetchEntitiesWithName: (NSString *) entityName withPredicate: (NSPredicate *) predicate {
     return [self executeFetchRequest:[[NSFetchRequest alloc] init] entityName:entityName predicate:predicate];
+}
+
+-(RXPromise *) safeFetchEntitiesWithName: (NSString *) entityName withPredicate: (NSPredicate *) predicate {
+    return [self safeExecuteFetchRequest:[NSFetchRequest new] entityName:entityName predicate:predicate];
 }
 
 -(id) fetchEntityWithID: (NSString *) entityID withType: (NSString *) type {
@@ -136,6 +173,16 @@ static BCoreDataManager * manager;
         }
         return Nil;
     }
+}
+
+-(RXPromise *) safeFetchEntityWithID: (NSString *) entityID withType: (NSString *) type {
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"entityID = %@", entityID];
+    return [self safeFetchEntitiesWithName:type withPredicate:predicate].then(^id(NSArray * items) {
+        if (items.count) {
+            return items.firstObject;
+        }
+        return Nil;
+    }, Nil);
 }
 
 -(id) fetchOrCreateEntityWithID: (NSString *) entityID withType: (NSString *) type {
@@ -152,6 +199,20 @@ static BCoreDataManager * manager;
     }
 }
 
+-(RXPromise *) safeFetchOrCreateEntityWithID: (NSString *) entityID withType: (NSString *) type {
+    return [self safeFetchEntityWithID:entityID withType:type].then(^id(id<PEntity> entity) {
+        if (!entity) {
+            return [self safeCreateEntity:type];
+        }
+        return entity;
+    }, Nil).then(^id(id<PEntity> entity) {
+        if (entityID && [entity respondsToSelector:@selector(setEntityID:)]) {
+            [((id<PEntity>) entity) setEntityID:entityID];
+        }
+        return entity;
+    }, Nil);
+}
+
 -(id) fetchOrCreateEntityWithPredicate: (NSPredicate *) predicate withType: (NSString *) type {
     @synchronized(self.managedObjectContext)  {
         NSArray * entities = [self fetchEntitiesWithName:type withPredicate:predicate];
@@ -164,6 +225,18 @@ static BCoreDataManager * manager;
     }
 }
 
+-(RXPromise *) safeFetchOrCreateEntityWithPredicate: (NSPredicate *) predicate withType: (NSString *) type {
+    return [self safeFetchEntitiesWithName:type withPredicate:predicate].then(^id(NSArray * entities) {
+        if (entities.count) {
+            return entities.firstObject;
+        }
+        else {
+            return [self safeCreateEntity:type];
+        }
+    }, Nil);
+}
+
+
 -(id) createEntity: (NSString *) entityName {
     @synchronized(self.managedObjectContext)  {
         if ([entityName isEqualToString:bUserEntity]) {
@@ -174,6 +247,16 @@ static BCoreDataManager * manager;
                                              inManagedObjectContext:self.managedObjectContext];
         return entity;
     }
+}
+
+-(RXPromise *) safeCreateEntity: (NSString *) entityName {
+    RXPromise * promise = [RXPromise new];
+    [self.privateManagedObjectContext performBlock:^{
+        id entity = [NSEntityDescription insertNewObjectForEntityForName:entityName
+                                                  inManagedObjectContext:self.privateManagedObjectContext];
+        [promise resolveWithResult:entity];
+    }];
+    return promise;
 }
 
 - (NSManagedObjectContext *) privateManagedObjectContext {
@@ -204,16 +287,43 @@ static BCoreDataManager * manager;
     });
 }
 
+-(RXPromise *) safeBeginUndoGroup {
+    RXPromise * promise = [RXPromise new];
+    [self.privateManagedObjectContext performBlock:^{
+        [self.managedObjectContext.undoManager beginUndoGrouping];
+        [promise resolveWithResult:Nil];
+    }];
+    return promise;
+}
+
 -(void) endUndoGroup {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.managedObjectContext.undoManager endUndoGrouping];
     });
 }
 
+-(RXPromise *) safeEndUndoGroup {
+    RXPromise * promise = [RXPromise new];
+    [self.privateManagedObjectContext performBlock:^{
+        [self.managedObjectContext.undoManager endUndoGrouping];
+        [promise resolveWithResult:Nil];
+    }];
+    return promise;
+}
+
 -(void) undo {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.managedObjectContext.undoManager undo];
     });
+}
+
+-(RXPromise *) safeUndo {
+    RXPromise * promise = [RXPromise new];
+    [self.privateManagedObjectContext performBlock:^{
+        [self.managedObjectContext.undoManager undo];
+        [promise resolveWithResult:Nil];
+    }];
+    return promise;
 }
 
 - (NSManagedObjectModel *)managedObjectModel {
@@ -260,23 +370,56 @@ static BCoreDataManager * manager;
     }
 }
 
+-(id<PMessage>) safeCreateMessageEntity {
+    return [self safeCreateEntity:bMessageEntity];
+}
+
 -(NSArray *) fetchEntitiesWithTypes: (NSArray *) types {
-    @synchronized(self.managedObjectContext)  {
-        NSMutableArray * entities = [NSMutableArray new];
-        for (NSString * type in types) {
-            [entities addObjectsFromArray:[self fetchEntitiesWithName:type]];
-        }
-        return entities;
+    NSMutableArray * entities = [NSMutableArray new];
+    for (NSString * type in types) {
+        [entities addObjectsFromArray:[self fetchEntitiesWithName:type]];
     }
 }
 
--(void) deleteEntitiesWithType: (NSString *) type {
-    @synchronized(self.managedObjectContext)  {
-        NSArray * entities = [self fetchEntitiesWithTypes:@[type]];
-        for (id entity in entities) {
-            [self deleteEntity: entity];
-        }
+// Check this
+-(RXPromise *) safeFetchEntitiesWithTypes: (NSArray *) types {
+    NSMutableArray * promises = [NSMutableArray new];
+    for(NSString * type in types) {
+        [promises addObject:[self safeFetchEntitiesWithName:type]];
     }
+    return [RXPromise all:promises];
+}
+
+-(void) deleteEntitiesWithType: (NSString *) type {
+    NSArray * entities = [self fetchEntitiesWithTypes:@[type]];
+    for (id entity in entities) {
+        [self deleteEntity: entity];
+    }
+}
+
+-(RXPromise *) safeDeleteEntitiesWithType: (NSString *) type {
+    return [self safeDeleteEntitiesWithTypes:@[type]];
+}
+
+-(RXPromise *) safeDeleteEntities: (NSArray *) entities {
+    RXPromise * promise = [RXPromise new];
+    [self.privateManagedObjectContext performBlock:^{
+        for(id entity in entities) {
+            [self.privateManagedObjectContext deleteObject:entity];
+        }
+        [promise resolveWithResult:Nil];
+    }];
+    
+}
+
+-(RXPromise *) safeDeleteEntitiesWithTypes: (NSArray *) types {
+    NSMutableArray * promises = [NSMutableArray new];
+    for(NSString * type in types) {
+        [promises addObject:[self safeFetchEntitiesWithName:type].then(^id(NSArray * entities) {
+            return [self safeDeleteEntities: entities];
+        }, Nil)];
+    }
+    return promises;
 }
 
 -(void) deleteEntities: (NSArray *) entities {
@@ -336,13 +479,26 @@ static BCoreDataManager * manager;
     }
 }
 
+-(RXPromise *) safeDeleteAllData {
+    return [self safeDeleteEntitiesWithTypes:@[bUserEntity,
+                                               bUserConnectionEntity,
+                                               bMessageEntity,
+                                               bThreadEntity,
+                                               bUserAccountEntity,
+                                               bMetaDataEntity]];
+}
+
+
 -(id<PThread>) createThreadEntity {
     @synchronized(self.managedObjectContext)  {
         return [self createEntity:bThreadEntity];
     }
 }
 
-// TODO: Check this
+-(id<PThread>) safeCreateThreadEntity {
+    return [self safeCreateEntity:bThreadEntity];
+}
+
 -(id<PThread>) fetchThreadWithUsers: (NSArray *) users {
     @synchronized(self.managedObjectContext)  {
         NSMutableArray * allUsers = [NSMutableArray arrayWithArray:users];
@@ -362,6 +518,5 @@ static BCoreDataManager * manager;
         return Nil;
     }
 }
-
 
 @end

@@ -25,20 +25,20 @@
 //@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 //@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
--(NSArray *) fetchEntitiesWithName: (NSString *) entityName;
--(id) fetchOrCreateEntityWithID: (NSString *) entityID withType: (NSString *) type;
-
--(NSArray *) fetchEntitiesWithName: (NSString *) entityName withPredicate: (NSPredicate *) predicate;
-
--(id) createEntity: (NSString *) entityName;
--(void) deleteEntity: (id) entity;
--(void) save;
--(id) fetchEntityWithID: (NSString *) entityID withType: (NSString *) type;
--(id) fetchOrCreateEntityWithPredicate: (NSPredicate *) predicate withType: (NSString *) type ;
--(id) executeFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate;
-
--(void) beginUndoGroup;
--(void) endUndoGroup;
--(void) undo;
+//-(NSArray *) fetchEntitiesWithName: (NSString *) entityName;
+//-(id) fetchOrCreateEntityWithID: (NSString *) entityID withType: (NSString *) type;
+//
+//-(NSArray *) fetchEntitiesWithName: (NSString *) entityName withPredicate: (NSPredicate *) predicate;
+//
+//-(id) createEntity: (NSString *) entityName;
+//-(void) deleteEntity: (id) entity;
+//-(void) save;
+//-(id) fetchEntityWithID: (NSString *) entityID withType: (NSString *) type;
+//-(id) fetchOrCreateEntityWithPredicate: (NSPredicate *) predicate withType: (NSString *) type ;
+//-(id) executeFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate;
+//
+//-(void) beginUndoGroup;
+//-(void) endUndoGroup;
+//-(void) undo;
 
 @end
