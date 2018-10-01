@@ -379,6 +379,7 @@ static BCoreDataManager * manager;
     for (NSString * type in types) {
         [entities addObjectsFromArray:[self fetchEntitiesWithName:type]];
     }
+    return entities;
 }
 
 // Check this
@@ -409,7 +410,7 @@ static BCoreDataManager * manager;
         }
         [promise resolveWithResult:Nil];
     }];
-    
+    return promise;
 }
 
 -(RXPromise *) safeDeleteEntitiesWithTypes: (NSArray *) types {
