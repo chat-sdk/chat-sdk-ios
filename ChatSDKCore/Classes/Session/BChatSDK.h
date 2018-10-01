@@ -14,7 +14,7 @@
 
 @protocol PInterfaceFacade;
 @protocol PUser;
-
+@protocol BStorageAdapter;
 
 @interface BChatSDK : NSObject {
     BConfiguration * _configuration;
@@ -79,5 +79,6 @@
 +(id<PUsersHandler>) users;
 +(BOOL) isMe: (id<PUser>) user;
 +(id<PInterfaceFacade>) ui;
++(id<BStorageAdapter>) db;
 
 @end

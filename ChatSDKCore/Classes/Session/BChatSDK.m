@@ -267,4 +267,8 @@ static BChatSDK * instance;
     return [self shared]->_interfaceManager;
 }
 
++(id<BStorageAdapter>) db {
+    return [BStorageManager sharedManager].a;
+}
+
 @end
