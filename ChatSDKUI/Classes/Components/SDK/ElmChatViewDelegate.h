@@ -32,6 +32,7 @@
 -(RXPromise *) sendVideo: (NSData *) video withCoverImage: (UIImage *) coverImage;
 -(RXPromise *) sendSystemMessage: (NSString *) text;
 -(RXPromise *) sendSticker: (NSString *) name;
+-(RXPromise *) sendFile: (NSDictionary *) file;
 
 -(RXPromise *) setMessageFlagged: (id<PElmMessage>) message isFlagged: (BOOL) flagged;
 -(RXPromise *) setChatState: (bChatState) state;

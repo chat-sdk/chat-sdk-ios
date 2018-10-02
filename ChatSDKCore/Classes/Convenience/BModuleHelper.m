@@ -49,6 +49,7 @@
     [self activateModuleForName:@"BReadReceiptsModule"];
     [self activateModuleForName:@"BTypingIndicatorModule"];
     [self activateModuleForName:@"BStickerMessageModule"];
+    [self activateModuleForName:@"BFileMessageModule"];
     [self activateModuleForName:@"BDiagnosticModule"];
     [self activateModuleForName:@"BContactBookModule"];
     [self activateModuleForName:@"BKeyboardOverlayOptionsModule"];

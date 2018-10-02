@@ -84,6 +84,10 @@
     return self.a.stickerMessage;
 }
 
++(id<PFileMessageHandler>) fileMessage {
+    return self.a.fileMessage;
+}
+
 +(id<PSocialLoginHandler>) socialLogin {
     return self.a.socialLogin;
 }

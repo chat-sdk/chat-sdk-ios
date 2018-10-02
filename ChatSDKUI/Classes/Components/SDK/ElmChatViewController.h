@@ -19,10 +19,12 @@
 @class BTextInputView;
 @class BImageViewController;
 @class BLocationViewController;
+@class BFileViewController;
 @class BMessageSection;
 @class BNotificationObserverList;
+@class BCoreUtilities;
 
-@interface ElmChatViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, PSendBarDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, BChatOptionDelegate> {
+@interface ElmChatViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, PSendBarDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, BChatOptionDelegate, UIDocumentInteractionControllerDelegate> {
     
     NSArray<BMessageSection *> * _messages;
     
@@ -33,6 +35,8 @@
     UINavigationController * _imageViewNavigationController;
 
     UINavigationController * _locationViewNavigationController;
+
+    UIDocumentInteractionController * _documentInteractionController;
     
     UIRefreshControl * _refreshControl;
         
