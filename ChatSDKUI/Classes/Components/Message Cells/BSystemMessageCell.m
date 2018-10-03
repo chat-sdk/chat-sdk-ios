@@ -46,7 +46,7 @@
 -(void) setMessage: (id<PElmMessage>) message withColorWeight:(float)colorWeight {
     [super setMessage:message withColorWeight:colorWeight];
     
-    NSDictionary * dict = [message textAsDictionary];
+    NSDictionary * dict = [message compatibilityMeta];
     
     self.bubbleImageView.image = Nil;
     

@@ -39,6 +39,7 @@
     UIImageView * _readMessageImageView;
     
     UILabel * _nameLabel;
+    UIActivityIndicatorView * _activityIndicator;
     
     id<PElmMessage> _message;
 }
@@ -53,6 +54,9 @@
 -(UIView *) cellContentView;
 -(BOOL) supportsCopy;
 +(UIImage *) bubbleWithImage: (UIImage *) bubbleImage withColor: (UIColor *) color;
+
+-(void) showActivityIndicator;
+-(void) hideActivityIndicator;
 
 -(float) bubbleHeight;
 -(float) bubbleWidth;

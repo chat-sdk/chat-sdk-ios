@@ -174,6 +174,7 @@
 #define bAudioMessage @"bAudioMessage"
 #define bVideoMessage @"bVideoMessage"
 #define bStickerMessage @"bStickerMessage"
+#define bFileMessage @"bFileMessage"
 
 @protocol PMessage;
 

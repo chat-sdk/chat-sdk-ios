@@ -171,5 +171,8 @@
 "bAudioMessage" = "Audio Message";
 "bVideoMessage" = "Video Message";
 "bStickerMessage" = "Sticker Message";
+"bFileMessage" = "File Message";
+"bPhoto" = "Photo";
+"bFile" = "File";
 
 "" = "";

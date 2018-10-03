@@ -40,8 +40,8 @@
     
     self.bubbleImageView.image = Nil;
     
-    float longitude = [[self.message textAsDictionary][bMessageLongitude] floatValue];
-    float latitude = [[self.message textAsDictionary][bMessageLatitude] floatValue];
+    float longitude = [[self.message compatibilityMeta][bMessageLongitude] floatValue];
+    float latitude = [[self.message compatibilityMeta][bMessageLatitude] floatValue];
     
     // Load the map from Google Maps
     NSString * api = @"https://maps.googleapis.com/maps/api/staticmap";

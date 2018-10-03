@@ -13,7 +13,7 @@
 
 // This is really needed for modules which provide a custom message cell class
 @optional
--(Class) messageCellClass;
+-(Class) cellClass;
 
 @end
 

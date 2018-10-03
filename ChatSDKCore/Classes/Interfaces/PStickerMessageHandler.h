@@ -14,7 +14,7 @@
 @protocol PStickerMessageHandler <NSObject>
 
 -(RXPromise *) sendMessageWithSticker: (NSString *) stickerName withThreadEntityID: (NSString *) threadID;
--(Class) messageCellClass;
+-(Class) cellClass;
 
 -(NSString *) stickerPlistName;
 -(NSBundle *) stickerBundle;

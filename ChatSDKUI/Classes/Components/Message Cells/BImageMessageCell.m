@@ -39,7 +39,16 @@
     // Get rid of the bubble for images
     self.bubbleImageView.image = Nil;
     
-    imageView.alpha = [message.delivered boolValue] || !message.senderIsMe ? 1 : 0.75;
+    BOOL isDelivered = [message.delivered boolValue] || !message.senderIsMe;
+    if (!isDelivered) {
+        [self showActivityIndicator];
+        imageView.alpha = 0.75;
+    }
+    else {
+        [self hideActivityIndicator];
+        imageView.alpha = 1;
+    }
+    
     //imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     

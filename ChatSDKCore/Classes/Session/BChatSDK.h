@@ -80,5 +80,6 @@
 +(BOOL) isMe: (id<PUser>) user;
 +(id<PInterfaceFacade>) ui;
 +(id<BStorageAdapter>) db;
++(id<PFileMessageHandler>) fileMessage;
 
 @end

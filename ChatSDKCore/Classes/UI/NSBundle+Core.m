@@ -40,7 +40,7 @@
         text = [self t:bStickerMessage];
     }
     else if(message.type.intValue == bMessageTypeFile) {
-        text = [self core_t:bFileMessage];
+        text = [self t:bFileMessage];
     }
     else {
         text = message.textString;

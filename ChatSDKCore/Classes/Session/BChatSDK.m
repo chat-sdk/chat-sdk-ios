@@ -271,4 +271,10 @@ static BChatSDK * instance;
     return [BStorageManager sharedManager].a;
 }
 
++(id<PFileMessageHandler>) fileMessage {
+    return self.a.fileMessage;
+}
+
+
+
 @end

@@ -217,7 +217,7 @@
     
     NSDictionary * data = @{bCreatorEntityID: BChatSDK.currentUser.entityID,
                             bSenderEntityID: _model.userModel.entityID,
-                            bMessage: _model.textString,
+                            bMessage: _model.compatibilityMeta,
                             bThread: _model.thread.entityID,
                             bDate: [FIRServerValue timestamp]};
     

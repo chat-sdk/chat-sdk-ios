@@ -68,6 +68,9 @@
         UITapGestureRecognizer * profileTouched = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showProfileView)];
         _profilePicture.userInteractionEnabled = YES;
         [_profilePicture addGestureRecognizer:profileTouched];
+        
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+
     }
     return self;
 }
@@ -99,6 +102,19 @@
 
 -(void) setMessage: (id<PElmMessage>) message {
     [self setMessage:message withColorWeight:1.0];
+}
+
+-(void) showActivityIndicator {
+    [self.contentView addSubview:_activityIndicator];
+    [_activityIndicator keepCenter];
+    _activityIndicator.keepInsets.equal = 0;
+    [_activityIndicator startAnimating];
+    [self.contentView bringSubviewToFront:_activityIndicator];
+}
+
+-(void) hideActivityIndicator {
+    [_activityIndicator stopAnimating];
+    [_activityIndicator removeFromSuperview];
 }
 
 // Called to setup the current cell for the message
@@ -396,6 +412,8 @@
             return 50;
         case bMessageTypeSticker:
             return 140;
+        case bMessageTypeFile:
+            return 60;
         default:
             return [self getText: message.textString heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth]];
     }
@@ -414,14 +432,11 @@
         case bMessageTypeText:
         case bMessageTypeSystem:
             return [self textWidth:message.textString maxWidth:maxWidth];
-        case bMessageTypeImage:
-        case bMessageTypeVideo:
-        case bMessageTypeLocation:
-            return bMaxMessageWidth;
-        case bMessageTypeAudio:
-            return bMaxMessageWidth;
         case bMessageTypeSticker:
             return 140;
+            // Do this so we can have 6 padding on each side
+        case bMessageTypeFile:
+            return bMaxMessageWidth - 10.0;
         default:
             return bMaxMessageWidth;
     }
@@ -463,7 +478,7 @@
 //}
 
 +(float) bubbleHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return [BMessageCell messageContentHeight:message maxWidth:maxWidth] + [BMessageCell bubblePadding:message].left +  [BMessageCell bubblePadding:message].right;
+    return [BMessageCell messageContentHeight:message maxWidth:maxWidth] + [BMessageCell bubblePadding:message].top +  [BMessageCell bubblePadding:message].bottom;
 }
 
 -(float) cellHeight {
@@ -511,9 +526,9 @@
         case bMessageTypeVideo:
         case bMessageTypeSystem:
         case bMessageTypeSticker:
+        case bMessageTypeFile:
             return UIEdgeInsetsMake(1.0, 2.0, 1.0, 2.0);
         case bMessageTypeCustom:
-        case bMessageTypeFile:
         default:
             return UIEdgeInsetsMake(0, 0, 0, 0);
     }
@@ -533,10 +548,11 @@
         case bMessageTypeVideo:
             return UIEdgeInsetsMake(3.0, 3.0, 3.0, 3.0);
         case bMessageTypeSystem:
-            return UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
+            return UIEdgeInsetsMake(6.0, 6.0, 6.0, 6.0);
+        case bMessageTypeFile:
+            return UIEdgeInsetsMake(10.0, 6.0, 10.0, 6.0);
         case bMessageTypeSticker:
         case bMessageTypeCustom:
-        case bMessageTypeFile:
         default:
             return UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
     }
@@ -555,9 +571,8 @@
         case bMessageTypeVideo:
         case bMessageTypeSticker:
         case bMessageTypeSystem:
-            return 4.0;
-        case bMessageTypeCustom:
         case bMessageTypeFile:
+        case bMessageTypeCustom:
         default:
             return 0;
     }

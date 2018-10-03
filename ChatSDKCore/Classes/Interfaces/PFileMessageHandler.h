@@ -13,9 +13,8 @@
 @protocol PFileMessageHandler <NSObject>
 
 - (RXPromise *)sendMessageWithFile:(NSDictionary *)file andThreadEntityID:(NSString *)threadID;
-- (Class)messageCellClass;
-
-- (NSBundle *)fileBundle;
+- (Class) cellClass;
+-(NSString *) bundle;
 
 @end
 

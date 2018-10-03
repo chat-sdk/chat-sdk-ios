@@ -11,15 +11,15 @@
 #import "bMessageStatus.h"
 
 typedef enum {
-    bMessageTypeText,
-    bMessageTypeLocation,
-    bMessageTypeImage,
-    bMessageTypeAudio,
-    bMessageTypeVideo,
-    bMessageTypeSystem,
-    bMessageTypeSticker,
-    bMessageTypeFile,
-    bMessageTypeCustom,
+    bMessageTypeText = 0,
+    bMessageTypeLocation = 1,
+    bMessageTypeImage = 2,
+    bMessageTypeAudio = 3,
+    bMessageTypeVideo = 4,
+    bMessageTypeSystem = 5,
+    bMessageTypeSticker = 6,
+    bMessageTypeFile = 7,
+    bMessageTypeCustom = 99,
 } bMessageType;
 
 typedef enum {
@@ -89,7 +89,6 @@ typedef enum {
 -(void) setEntityID:(NSString *)uid;
 -(NSString *) entityID;
 
--(NSDictionary *) textAsDictionary;
 -(NSError *) setTextAsDictionary: (NSDictionary *) dict;
 
 /**

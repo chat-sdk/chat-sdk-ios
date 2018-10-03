@@ -6,7 +6,7 @@
 //
 
 #import "BFileCache.h"
-#import <ChatSDK/ChatCore.h>
+#import <ChatSDK/Core.h>
 
 @implementation BFileCache
 
@@ -44,7 +44,7 @@
 }
 
 + (RXPromise *)cacheFileFromURL:(NSURL *)url withFileName:(NSString *)fileName {
-    return [self cacheFileFromURL:url withFileName:fileName andCacheName:@"cache"];
+    return [self cacheFileFromURL:url withFileName:fileName andCacheName:[BCoreUtilities getUUID]];
 }
 
 + (RXPromise *)cacheFileFromURL:(NSURL *)url {

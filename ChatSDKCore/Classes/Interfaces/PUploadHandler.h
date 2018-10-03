@@ -9,8 +9,8 @@
 #ifndef PUploadHandler_h
 #define PUploadHandler_h
 
-#define bFilePath @"bFilePath"
-#define bFileName @"bFileName"
+#define bFilePath @"file-path"
+#define bFileName @"file-name"
 
 @class RXPromise;
 

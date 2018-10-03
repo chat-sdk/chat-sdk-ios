@@ -349,23 +349,7 @@
 
 -(NSMutableArray *) customCellTypes {
     NSMutableArray * types = [NSMutableArray new];
-    
-    if(BChatSDK.audioMessage) {
-        [types addObject: @[BChatSDK.audioMessage.messageCellClass, @(bMessageTypeAudio)]];
-    }
-
-    if(BChatSDK.videoMessage) {
-        [types addObject: @[BChatSDK.videoMessage.messageCellClass, @(bMessageTypeVideo)]];
-    }
-    
-    if([BNetworkManager sharedManager].a.stickerMessage) {
-        [types addObject: @[BChatSDK.stickerMessage.messageCellClass, @(bMessageTypeSticker)]];
-    }
-    
-    if([BNetworkManager sharedManager].a.fileMessage) {
-        [types addObject: @[NM.fileMessage.messageCellClass, @(bMessageTypeFile)]];
-    }
-
+        
     return types;
 }
 

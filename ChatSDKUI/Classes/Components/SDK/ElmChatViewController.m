@@ -346,6 +346,7 @@
     if ((![BNetworkManager sharedManager].a.stickerMessage && message.type.integerValue == bMessageTypeSticker) ||
         (![BNetworkManager sharedManager].a.fileMessage && message.type.integerValue == bMessageTypeFile) ||
         (![BNetworkManager sharedManager].a.videoMessage && message.type.integerValue == bMessageTypeVideo) ||
+        (![BNetworkManager sharedManager].a.fileMessage && message.type.integerValue == bMessageTypeFile) ||
         (![BNetworkManager sharedManager].a.audioMessage && message.type.integerValue == bMessageTypeAudio)) {
         // This is a standard text cell
         messageCell = [tableView_ dequeueReusableCellWithIdentifier:@"0"];
@@ -424,37 +425,55 @@
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     BMessageCell * cell = (BMessageCell *) [tableView_ cellForRowAtIndexPath:indexPath];
     
+    NSURL * url = Nil;
     if ([cell isKindOfClass:[BImageMessageCell class]]) {
-        UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        activityIndicator.frame = CGRectMake(cell.imageView.fw/2 - 20, cell.imageView.fh/2 -20, 40, 40);
-        [activityIndicator startAnimating];
-        [cell.imageView addSubview:activityIndicator];
-        [cell.imageView bringSubviewToFront:activityIndicator];
-
-        NSURL * url = cell.message.imageURL;
-        [BFileCache cacheFileFromURL:url].thenOnMain(^id(NSURL * cacheUrl) {
-            NSLog(@"Cache URL: %@", [cacheUrl absoluteString]);
-            [cell setMessage:cell.message];
-            [activityIndicator stopAnimating];
-            [activityIndicator removeFromSuperview];
-            [self presentDocumentInteractionViewControllerWithURL:cacheUrl andName:[NSBundle t:bPhoto]];
-            return nil;
-        }, ^id(NSError *error) {
-            NSLog(@"Error: %@", error.localizedDescription);
-            [activityIndicator stopAnimating];
-            [activityIndicator removeFromSuperview];
-            return nil;
-        });
-
+        
+        url = cell.message.imageURL;
+        
         if (!_imageViewNavigationController) {
             _imageViewNavigationController = [BChatSDK.ui imageViewNavigationController];
         }
 
         // TODO: Refactor this to use the JSON keys
-        NSURL * url = cell.message.imageURL;
+        url = cell.message.imageURL;
         // Only allow the user to click if the image is not still loading hence the alpha is 1
         if (cell.imageView.alpha == 1 && url) {
+
+            [cell showActivityIndicator];
+            cell.imageView.alpha = 0.75;
             
+            __weak __typeof__(self) weakSelf = self;
+            [cell.imageView sd_setImageWithURL:url placeholderImage:cell.imageView.image completed: ^(UIImage * image, NSError * error, SDImageCacheType cacheType, NSURL * imageURL) {
+                __typeof__(self) strongSelf = weakSelf;
+                
+                [cell hideActivityIndicator];
+                cell.imageView.alpha = 1;
+                
+                [((id<PImageViewController>) strongSelf->_imageViewNavigationController.topViewController) setImage: image];
+                [strongSelf.navigationController presentViewController:strongSelf->_imageViewNavigationController animated:YES completion:Nil];
+            }];
+        }
+    }
+    if ([cell isKindOfClass:[BLocationCell class]]) {
+        if (!_locationViewNavigationController) {
+            _locationViewNavigationController = [BChatSDK.ui locationViewNavigationController];
+        }
+        
+        float longitude = [[cell.message compatibilityMeta][bMessageLongitude] floatValue];
+        float latitude = [[cell.message compatibilityMeta][bMessageLatitude] floatValue];
+        
+        [((id<PLocationViewController>) _locationViewNavigationController.topViewController) setLatitude:latitude longitude:longitude];
+
+        [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
+    }
+    
+    if(BChatSDK.videoMessage && [cell isKindOfClass:BChatSDK.videoMessage.cellClass]) {
+            
+        // Only allow the user to click if the image is not still loading hence the alpha is 1
+        if (cell.imageView.alpha == 1) {
+            
+            NSURL * url = [NSURL URLWithString:cell.message.compatibilityMeta[bMessageVideoURL]];
+                        
             // Add an activity indicator while the image is loading
             UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             activityIndicator.frame = CGRectMake(cell.imageView.fw/2 - 20, cell.imageView.fh/2 -20, 40, 40);
@@ -462,126 +481,42 @@
             
             [cell.imageView addSubview:activityIndicator];
             [cell.imageView bringSubviewToFront:activityIndicator];
-            cell.imageView.alpha = 0.75;
             
-            __weak __typeof__(self) weakSelf = self;
-            [cell.imageView sd_setImageWithURL:url placeholderImage:cell.imageView.image completed: ^(UIImage * image, NSError * error, SDImageCacheType cacheType, NSURL * imageURL) {
-                
-                // Then remove it here
-                [activityIndicator stopAnimating];
-                [activityIndicator removeFromSuperview];
-                cell.imageView.alpha = 1;
-                
-                [((id<PImageViewController>) _imageViewNavigationController.topViewController) setImage: image];
-                [weakSelf.navigationController presentViewController:_imageViewNavigationController animated:YES completion:Nil];
-            }];
-        }
-
-//        if (!_imageViewController) {
-//            _imageViewController = [[BImageViewController alloc] initWithNibName:nil bundle:Nil];
-//            _imageViewNavigationController = [[UINavigationController alloc] initWithRootViewController:_imageViewController];
-//        }
-//
-//        // Only allow the user to click if the image is not still loading hence the alpha is 1
-//        if (cell.imageView.alpha == 1) {
-//
-//            // TODO: Refactor this to use the JSON keys
-//            NSURL * url = cell.message.imageURL;
-//
-//            // Add an activity indicator while the image is loading
-//            UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//            activityIndicator.frame = CGRectMake(cell.imageView.fw/2 - 20, cell.imageView.fh/2 -20, 40, 40);
-//            [activityIndicator startAnimating];
-//
-//            [cell.imageView addSubview:activityIndicator];
-//            [cell.imageView bringSubviewToFront:activityIndicator];
-//            cell.imageView.alpha = 0.75;
-//
-//            __weak __typeof__(self) weakSelf = self;
-//            [cell.imageView sd_setImageWithURL:url placeholderImage:cell.imageView.image completed: ^(UIImage * image, NSError * error, SDImageCacheType cacheType, NSURL * imageURL) {
-//
-//                // Then remove it here
-//                [activityIndicator stopAnimating];
-//                [activityIndicator removeFromSuperview];
-//                cell.imageView.alpha = 1;
-//
-//                [self presentDocumentInteractionViewControllerWithURL:imageURL];
-////                _imageViewController.image = image;
-////                [weakSelf.navigationController presentViewController:_imageViewNavigationController animated:YES completion:Nil];
-//            }];
-//        }
-    }
-    if ([cell isKindOfClass:[BLocationCell class]]) {
-        if (!_locationViewNavigationController) {
-            _locationViewNavigationController = [BChatSDK.ui locationViewNavigationController];
-        }
-        
-        float longitude = [[cell.message textAsDictionary][bMessageLongitude] floatValue];
-        float latitude = [[cell.message textAsDictionary][bMessageLatitude] floatValue];
-        
-        [((id<PLocationViewController>) _locationViewNavigationController.topViewController) setLatitude:latitude longitude:longitude];
-
-        [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
-    }
-    
-    if(BChatSDK.videoMessage) {
-        if ([cell isKindOfClass:BChatSDK.videoMessage.messageCellClass]) {
+            // Make sure the audio plays even if we're in silent mode
+            [[AVAudioSession sharedInstance]
+             setCategory: AVAudioSessionCategoryPlayback
+             error: nil];
             
-            // Only allow the user to click if the image is not still loading hence the alpha is 1
-            if (cell.imageView.alpha == 1) {
-                
-                // TODO: Refactor this to use JSON keys
-                NSArray * myArray = [cell.message.textString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-                NSURL * url = [NSURL URLWithString:myArray[0]];
-                
-                // Add an activity indicator while the image is loading
-                UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-                activityIndicator.frame = CGRectMake(cell.imageView.fw/2 - 20, cell.imageView.fh/2 -20, 40, 40);
-                [activityIndicator startAnimating];
-                
-                [cell.imageView addSubview:activityIndicator];
-                [cell.imageView bringSubviewToFront:activityIndicator];
-                
-                // Make sure the audio plays even if we're in silent mode
-                [[AVAudioSession sharedInstance]
-                 setCategory: AVAudioSessionCategoryPlayback
-                 error: nil];
-                
-                AVPlayer * player = [[AVPlayer alloc] initWithURL:url];
-                AVPlayerViewController * playerController = [[AVPlayerViewController alloc] init];
-                playerController.player = player;
-                [self presentViewController:playerController animated:YES completion:Nil];
-                
-            }
+            AVPlayer * player = [[AVPlayer alloc] initWithURL:url];
+            AVPlayerViewController * playerController = [[AVPlayerViewController alloc] init];
+            playerController.player = player;
+            [self presentViewController:playerController animated:YES completion:Nil];
+            
         }
     }
 
-    if (NM.fileMessage && [cell isKindOfClass:NM.fileMessage.messageCellClass]) {
-        NSDictionary * file = cell.message.textAsDictionary;
+    if (BChatSDK.fileMessage && [cell isKindOfClass:BChatSDK.fileMessage.cellClass]) {
+        NSDictionary * file = cell.message.compatibilityMeta;
 
         if (![BFileCache isFileCached:cell.message.entityID]) {
-            [cell.imageView setImage:[NSBundle imageNamed:@"file.png" framework:@"ChatSDKModules" bundle:@"ChatFileMessages"]];
+            [cell.imageView setImage:[NSBundle imageNamed:@"file.png" bundle:BChatSDK.fileMessage.bundle]];
         }
-
-        UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        activityIndicator.frame = CGRectMake(cell.imageView.fw/2 - 20, cell.imageView.fh/2 -20, 40, 40);
-        [activityIndicator startAnimating];
-        [cell.imageView addSubview:activityIndicator];
-        [cell.imageView bringSubviewToFront:activityIndicator];
+        
+        [cell showActivityIndicator];
         
         NSURL * url = [NSURL URLWithString:file[bMessageFileURL]];
         [BFileCache cacheFileFromURL:url withFileName:file[bMessageTextKey] andCacheName:cell.message.entityID]
         .thenOnMain(^id(NSURL * cacheUrl) {
             NSLog(@"Cache URL: %@", [cacheUrl absoluteString]);
             [cell setMessage:cell.message];
-            [activityIndicator stopAnimating];
-            [activityIndicator removeFromSuperview];
+            
+            [cell hideActivityIndicator];
+            
             [self presentDocumentInteractionViewControllerWithURL:cacheUrl andName:nil];
             return nil;
         }, ^id(NSError *error) {
             NSLog(@"Error: %@", error.localizedDescription);
-            [activityIndicator stopAnimating];
-            [activityIndicator removeFromSuperview];
+            [cell hideActivityIndicator];
             return nil;
         });
     }
