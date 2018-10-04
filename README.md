@@ -50,7 +50,7 @@ You can test the XMPP Chat SDK on the [App Store](https://itunes.apple.com/us/ap
 - [Sticker messages](https://chatsdk.co/sticker-messages/)
 - [Contact book integration](https://chatsdk.co/contact-book-integration/)
 - [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
-- [User Blocking](http://chatsdk.co/downloads/user-blocking-for-ios/)
+- [User Blocking](http://chatsdk.co/user-blocking/)
 - [Social Login](https://github.com/chat-sdk/chat-sdk-ios#social-login)
 - [Push Notifications](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
 - [File Storage](https://github.com/chat-sdk/chat-sdk-ios#file-storage)
