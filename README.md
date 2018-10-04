@@ -51,10 +51,10 @@ You can test the XMPP Chat SDK on the [App Store](https://itunes.apple.com/us/ap
 - [Contact book integration](https://chatsdk.co/contact-book-integration/)
 - [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
 - [User Blocking](http://chatsdk.co/user-blocking/)
-- [Social Login](https://github.com/chat-sdk/chat-sdk-ios#social-login)
-- [Push Notifications](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
-- [File Storage](https://github.com/chat-sdk/chat-sdk-ios#file-storage)
-- [Firebase UI](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)
+- [Social Login (free)](https://github.com/chat-sdk/chat-sdk-ios#social-login)
+- [Push Notifications (free)](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
+- [File Storage (free)](https://github.com/chat-sdk/chat-sdk-ios#file-storage)
+- [Firebase UI (free)](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)
 
 ## Firebase Firestore
 
