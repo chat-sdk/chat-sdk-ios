@@ -41,14 +41,15 @@ You can test the XMPP Chat SDK on the [App Store](https://itunes.apple.com/us/ap
 
 ## Modules
 
-- [Typing indicator](http://chatsdk.co/downloads/typing-indicator/)
-- [Read receipts](http://chatsdk.co/downloads/read-receipts/)
-- [Location based chat](http://chatsdk.co/downloads/location-based-chat/)
-- [Audio messages](http://chatsdk.co/downloads/audio-messages/)
-- [Video messages](http://chatsdk.co/downloads/video-messages/)
+- [File Messages](http://chatsdk.co/file-messages/)
+- [Typing indicator](http://chatsdk.co/typing-indicator/)
+- [Read receipts](http://chatsdk.co/read-receipts/)
+- [Location based chat](http://chatsdk.co/location-based-chat/)
+- [Audio messages](http://chatsdk.co/audio-messages/)
+- [Video messages](http://chatsdk.co/video-messages/)
+- [Sticker messages](https://chatsdk.co/sticker-messages/)
+- [Contact book integration](https://chatsdk.co/contact-book-integration/)
 - [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
-- [Sticker messages](http://chatsdk.co/downloads/sticker-messages/)
-- [Contact book integration](http://chatsdk.co/downloads/contact-book-integration/)
 - [User Blocking](http://chatsdk.co/downloads/user-blocking-for-ios/)
 - [Social Login](https://github.com/chat-sdk/chat-sdk-ios#social-login)
 - [Push Notifications](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
