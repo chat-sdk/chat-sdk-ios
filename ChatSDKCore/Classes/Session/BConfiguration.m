@@ -68,6 +68,7 @@
 @synthesize xmppDomain;
 @synthesize xmppResource;
 @synthesize xmppHostAddress;
+@synthesize xmppMucMessageHistory;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -146,6 +147,8 @@
         
         // Try to pre-configure XMPP from plist for backwards compatibility
         [self configureXMPPFromPlist];
+        
+        xmppMucMessageHistory = 20;
         
     }
     return self;

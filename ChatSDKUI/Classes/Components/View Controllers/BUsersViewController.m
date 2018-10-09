@@ -175,7 +175,7 @@
         
         // Use initWithThread here to make sure we don't show any users already in the thread
         // Show the friends view controller
-        UINavigationController * nav = [BChatSDK.ui friendsViewControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
+        UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
             
             [BChatSDK.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
                 [UIView alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];

@@ -424,30 +424,14 @@ static BCoreDataManager * manager;
 }
 
 -(void) deleteEntities: (NSArray *) entities {
-    @synchronized(self.managedObjectContext)  {
-        [self getEntitiesOnMainThread:entities].thenOnMain(^id(NSArray * safeEntities) {
-            for(NSManagedObject * entity in safeEntities) {
-                [self unsafeDeleteEntity:entity];
-            }
-            return Nil;
-        }, Nil);
-    }
-}
-
--(void) unsafeDeleteEntity: (id) entity {
-    @synchronized(self.managedObjectContext)  {
-        if (entity) {
-            [self.managedObjectContext deleteObject:entity];
-        }
+    for(NSManagedObject * entity in entities) {
+        [self deleteEntity:entity];
     }
 }
 
 -(void) deleteEntity: (id) entity {
-    @synchronized(self.managedObjectContext)  {
-        [self deleteEntities:@[entity]];
-    }
+    [self.managedObjectContext deleteObject:entity];
 }
-
 
 -(RXPromise *) getEntitiesOnMainThread: (NSArray *) entities {
     RXPromise * promise = [RXPromise new];

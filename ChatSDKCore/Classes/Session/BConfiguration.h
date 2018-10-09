@@ -74,6 +74,7 @@
 @property (nonatomic, readwrite) NSString * xmppHostAddress;
 @property (nonatomic, readwrite) int xmppPort;
 @property (nonatomic, readwrite) NSString * xmppResource;
+@property (nonatomic, readwrite) int xmppMucMessageHistory;
 
 // Google login credentials
 @property (nonatomic, readwrite) NSString * googleClientKey;
