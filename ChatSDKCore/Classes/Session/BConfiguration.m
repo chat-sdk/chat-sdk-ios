@@ -168,6 +168,10 @@
     includeMessageJSONV2 = api3;
 }
 
+-(void) xmppWithHostAddress: (NSString *) hostAddress {
+    [self xmppWithDomain:Nil hostAddress:hostAddress];
+}
+
 -(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress {
     [self xmppWithDomain:domain hostAddress:hostAddress port:0];
 }

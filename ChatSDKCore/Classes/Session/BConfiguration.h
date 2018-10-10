@@ -198,6 +198,7 @@
 
 +(BConfiguration *) configuration;
 
+-(void) xmppWithHostAddress: (NSString *) hostAddress;
 -(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress;
 -(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress port: (int) port;
 -(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress port: (int) port resource: (NSString *) resource;
