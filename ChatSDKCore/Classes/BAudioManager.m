@@ -8,6 +8,8 @@
 
 #import "BAudioManager.h"
 
+#import <ChatSDK/Core.h>
+
 @implementation BAudioManager
 
 static BAudioManager * manager;

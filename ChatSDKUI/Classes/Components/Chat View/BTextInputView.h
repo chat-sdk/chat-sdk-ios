@@ -12,6 +12,8 @@
 #import <ChatSDK/bChatState.h>
 #import <ChatSDK/UI.h>
 
+@class BHook;
+
 @interface BTextInputView : UIView<UITextViewDelegate, PSendBar> {
     UIButton * _optionsButton;
     UILabel * _placeholderLabel;
@@ -24,6 +26,8 @@
     BOOL _micButtonEnabled;
     NSDate * _recordingStart;
     BOOL _audioMaxLengthReached;
+    
+    BHook * _internetConnectionHook;
 }
 
 @property (weak, nonatomic, readwrite) id<PSendBarDelegate> sendBarDelegate;

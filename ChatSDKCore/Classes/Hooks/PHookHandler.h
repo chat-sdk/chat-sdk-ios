@@ -28,6 +28,7 @@
 #define bHookDidLogout @"bHookDidLogout"
 #define bHookDidLogout_PUser @"bHookDidLogout_PUser"
 
+#define bHookInternetConnectivityChanged @"bHookInternetConnectivityChanged"
 
 @class BHook;
 

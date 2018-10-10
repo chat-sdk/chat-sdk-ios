@@ -10,6 +10,7 @@
 
 @class MBProgressHUD;
 @class RXPromise;
+@class BHook;
 
 @protocol ElmLoginViewDelegate;
 
@@ -17,7 +18,7 @@
     UITapGestureRecognizer * _tapRecognizer;
     NSTimer * _timer;
     MBProgressHUD * _hud;
-    id _internetConnectionObserver;
+    BHook * _internetConnectionHook;
         
 }
 

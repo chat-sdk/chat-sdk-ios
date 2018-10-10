@@ -11,6 +11,7 @@
 
 @class MBProgressHUD;
 @class BSearchIndexViewController;
+@class BHook;
 
 @interface BSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PSearchViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate> {
     
@@ -31,6 +32,8 @@
     UIView * _searchTextFieldRightView;
     
     NSArray * _searchIndexes;
+    BHook * _internetConnectionHook;
+
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

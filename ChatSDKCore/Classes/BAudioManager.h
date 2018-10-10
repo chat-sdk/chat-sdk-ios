@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
-#import <RXPromise/RXPromise.h>
+@class RXPromise;
 
 // TODO: Refactor this - on audio branch
 #define bStopAudioNotification @"stopAudio"

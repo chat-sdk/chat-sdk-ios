@@ -11,6 +11,7 @@
 @class BConfiguration;
 @class RXPromise;
 @class BBackgroundPushNotificationQueue;
+@class BInternetConnectivity;
 
 @protocol PInterfaceFacade;
 @protocol PUser;
@@ -81,5 +82,6 @@
 +(id<PInterfaceFacade>) ui;
 +(id<BStorageAdapter>) db;
 +(id<PFileMessageHandler>) fileMessage;
++(id<PInternetConnectivityHandler>) connectivity;
 
 @end

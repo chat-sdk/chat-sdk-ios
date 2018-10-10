@@ -10,6 +10,7 @@
 #import <ChatSDK/PThreadWrapper.h>
 
 @class BNotificationObserverList;
+@class BHook;
 
 @interface BThreadsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UITabBarDelegate, UIAlertViewDelegate> {
     UIBarButtonItem * _editButton;
@@ -20,6 +21,8 @@
     NSMutableDictionary * _threadTypingMessages;
     
     BNotificationObserverList * _notificationList;
+    BHook * _internetConnectionHook;
+
 }
 
 @property (nonatomic, readwrite) UITableView *tableView;

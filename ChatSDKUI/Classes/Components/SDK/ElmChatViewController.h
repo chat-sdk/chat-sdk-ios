@@ -23,6 +23,7 @@
 @class BMessageSection;
 @class BNotificationObserverList;
 @class BCoreUtilities;
+@class BHook;
 
 @interface ElmChatViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, PSendBarDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, BChatOptionDelegate, UIDocumentInteractionControllerDelegate> {
     
@@ -39,6 +40,8 @@
     UIDocumentInteractionController * _documentInteractionController;
     
     UIRefreshControl * _refreshControl;
+    
+    BHook * _internetConnectionHook;
         
     // Typing Indicator
     NSTimer * _typingTimer;

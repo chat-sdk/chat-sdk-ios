@@ -126,8 +126,12 @@
         
         [self setFont:[UIFont systemFontOfSize:bFontSize]];
         
-        // Check this
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateInterfaceForReachabilityStateChange) name:kReachabilityChangedNotification object:Nil];
+        __weak __typeof__(self) weakSelf = self;
+        _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
+            __typeof__(self) strongSelf = weakSelf;
+            [strongSelf updateInterfaceForReachabilityStateChange];
+        }];
+        [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
         
         [self updateInterfaceForReachabilityStateChange];
         
@@ -147,7 +151,7 @@
 }
 
 -(void) updateInterfaceForReachabilityStateChange {
-    BOOL connected = [Reachability reachabilityForInternetConnection].isReachable;
+    BOOL connected = BChatSDK.connectivity.isConnected;
     _sendButton.enabled = connected;
     _optionsButton.enabled = connected;
 }

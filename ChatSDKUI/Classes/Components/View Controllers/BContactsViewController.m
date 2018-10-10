@@ -76,25 +76,26 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+    __weak __typeof__(self) weakSelf = self;
+
     [self updateButtonStatusForInternetConnection];
-    
+
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
                                                                              object:Nil
                                                                               queue:Nil
                                                                          usingBlock:^(NSNotification * notification) {
                                                                              dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                 [self reloadData];
+                                                                                 __typeof__(self) strongSelf = weakSelf;
+                                                                                 [strongSelf reloadData];
                                                                              });
                                                                          }]];
 
-    
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification object:nil queue:Nil usingBlock:^(NSNotification * notification) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self updateButtonStatusForInternetConnection];
-        });
-    }]];
-    
+    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
+        __typeof__(self) strongSelf = weakSelf;
+        [self updateButtonStatusForInternetConnection];
+    }];
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+
     // We need to call this to ensure the search controller is correctly formatted when the view is shown
     [self viewDidLayoutSubviews];
 }
@@ -103,7 +104,8 @@
     [super viewDidDisappear:animated];
     
     [_notificationList dispose];
-    
+    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+
     // This removes the active search once a user goes back to this page
     searchController.active = NO;
 }
@@ -262,7 +264,7 @@
 
 - (void)updateButtonStatusForInternetConnection {
     
-    BOOL connected = [Reachability reachabilityForInternetConnection].isReachable;
+    BOOL connected = BChatSDK.connectivity.isConnected;
     self.navigationItem.rightBarButtonItem.enabled = connected;
 }
 

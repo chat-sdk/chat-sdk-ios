@@ -369,27 +369,31 @@
 -(void) addObservers {
     [self removeObservers];
     __weak __typeof__(self) weakSelf = self;
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf updateInterfaceForReachabilityStateChange];
-        });
-    }]];
+    
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+        __typeof__(self) strongSelf = weakSelf;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf addUserToPublicThreadIfNecessary];
+            [strongSelf addUserToPublicThreadIfNecessary];
         });
     }]];
+    
+    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
+        __typeof__(self) strongSelf = weakSelf;
+        [strongSelf updateInterfaceForReachabilityStateChange];
+    }];
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
     
     // Observe for keyboard appear and disappear notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:Nil];
-    
 }
 
 -(void) removeObservers {
     [_notificationList dispose];
+    
+    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:Nil];
@@ -887,7 +891,7 @@
 }
 
 - (void)updateInterfaceForReachabilityStateChange {
-    BOOL connected = [Reachability reachabilityForInternetConnection].isReachable;
+    BOOL connected = BChatSDK.connectivity.isConnected;
     self.navigationItem.rightBarButtonItem.enabled = connected;
 }
 

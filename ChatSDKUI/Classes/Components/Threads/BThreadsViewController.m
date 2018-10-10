@@ -103,15 +103,12 @@
                                                [weakSelf reloadData];
                                            });
                                        }]];
-    [_notificationList add:[nc addObserverForName:kReachabilityChangedNotification
-                                           object:nil
-                                            queue:Nil
-                                       usingBlock:^(NSNotification * notification) {
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               [weakSelf updateButtonStatusForInternetConnection];
-                                           });
-                                       }]];
     
+    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
+        [weakSelf updateButtonStatusForInternetConnection];
+    }];
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+        
     [_notificationList add:[nc addObserverForName:bNotificationTypingStateChanged
                                            object:nil
                                             queue:Nil
@@ -133,6 +130,7 @@
 }
 
 -(void) removeObservers {
+    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
     [_notificationList dispose];
 }
 
@@ -305,8 +303,7 @@
 }
 
 - (void)updateButtonStatusForInternetConnection {
-    
-    BOOL connected = [Reachability reachabilityForInternetConnection].isReachable;
+    BOOL connected = BChatSDK.connectivity.isConnected;
     self.navigationItem.rightBarButtonItem.enabled = connected;
 }
 

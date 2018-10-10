@@ -34,7 +34,7 @@
 @protocol PSocialLoginHandler;
 @protocol PHookHandler;
 @protocol PUsersHandler;
-
+@protocol PInternetConnectivityHandler;
 // Depricated: Use bHookDidLogout (and hook system) instead
 #define bNotificationLogout @"bNLogout"
 
@@ -105,6 +105,7 @@
 -(id<PSocialLoginHandler>) socialLogin;
 -(id<PHookHandler>) hook;
 -(id<PUsersHandler>) users;
+-(id<PInternetConnectivityHandler>) connectivity;
 -(id) handlerWithName: (NSString *) name;
 
 -(void) setCore: (id<PCoreHandler>) core;
@@ -130,6 +131,7 @@
 -(void) setHandler: (id) handler withName: (NSString *) name;
 -(void) setHookHandler: (id<PHookHandler>) hook;
 -(void) setUsers: (id<PUsersHandler>) users;
+-(void) setConnectivity: (id<PInternetConnectivityHandler>) connectivity;
 
 @end
 

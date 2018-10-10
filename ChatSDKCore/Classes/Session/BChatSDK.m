@@ -32,6 +32,12 @@ static BChatSDK * instance;
     return instance;
 }
 
+-(instancetype) init {
+    if((self = [super init])) {
+    }
+    return self;
+}
+
 +(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceFacade>) adapter {
     [self shared]->_configuration = config;
     
@@ -275,6 +281,8 @@ static BChatSDK * instance;
     return self.a.fileMessage;
 }
 
-
++(id<PInternetConnectivityHandler>) connectivity {
+    return self.a.connectivity;
+}
 
 @end

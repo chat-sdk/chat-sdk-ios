@@ -10,6 +10,7 @@
 
 @class BProfileNameCell;
 @protocol PThread;
+@class BHook;
 
 @interface BUsersViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     
@@ -19,7 +20,8 @@
     UIImagePickerController * _picker;
     BProfileNameCell * _profileNameCell;
     
-    id _internetConnectionObserver;
+    BHook * _internetConnectionHook;
+
     id _threadUsersObserver;
 }
 

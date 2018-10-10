@@ -75,7 +75,7 @@
 
     anonymousButton.hidden = !anonymousButton.enabled;
     
-    [self updateButtonStateForInternetConnection];
+    [self updateInterfaceForReachabilityStateChange];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -88,13 +88,12 @@
     emailField.text = @"";
     passwordField.text = @"";
     
-    _internetConnectionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification object:nil queue:Nil usingBlock:^(NSNotification * notification) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            __typeof__(self) strongSelf = weakSelf;
-            [strongSelf updateButtonStateForInternetConnection];
-        });
+    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
+        __typeof__(self) strongSelf = weakSelf;
+        [strongSelf updateInterfaceForReachabilityStateChange];
     }];
-    
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+
 }
 
 -(void) viewDidDisappear:(BOOL)animated {
@@ -102,7 +101,7 @@
     
     [self hideHUDWithDuration:0];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:_internetConnectionObserver];
+    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
@@ -287,10 +286,10 @@
     return NO;
 }
 
-- (void)updateButtonStateForInternetConnection {
+- (void)updateInterfaceForReachabilityStateChange {
     
-    BOOL connected = [Reachability reachabilityForInternetConnection].isReachable;
-    
+    BOOL connected = BChatSDK.connectivity.isConnected;
+
     loginButton.enabled = connected;
     registerButton.enabled = connected;
     anonymousButton.enabled = connected;

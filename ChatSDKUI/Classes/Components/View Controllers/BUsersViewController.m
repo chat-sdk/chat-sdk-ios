@@ -62,14 +62,13 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    _internetConnectionObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification object:nil queue:Nil usingBlock:^(NSNotification * notification) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (![Reachability reachabilityForInternetConnection].isReachable) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }
-        });
+   
+    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
+        if(!BChatSDK.connectivity.isConnected) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
     }];
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
     
     _threadUsersObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadUsersUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -80,7 +79,8 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:_internetConnectionObserver];
+    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+
     [[NSNotificationCenter defaultCenter] removeObserver:_threadUsersObserver];
 }
 

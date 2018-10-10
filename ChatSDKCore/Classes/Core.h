@@ -11,7 +11,6 @@
 
 #define bCoreBundleName @"ChatCore"
 
-#import <Reachability/Reachability.h>
 #import <RXPromise/RXPromise.h>
 #import <RXPromise/RXPromise+RXExtension.h>
 #import <AFNetworking/AFNetworking.h>
@@ -48,6 +47,7 @@
 #import <ChatSDK/PGroup.h>
 #import <ChatSDK/PModule.h>
 #import <ChatSDK/PInterfaceFacade.h>
+#import <ChatSDK/BBaseInternetConnectivityHandler.h>
 
 #import <ChatSDK/PElmMessage.h>
 #import <ChatSDK/PElmThread.h>

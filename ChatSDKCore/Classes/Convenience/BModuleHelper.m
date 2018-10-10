@@ -68,7 +68,8 @@
     }
     
     [self activateModuleForName:@"BCoreDataStorageModule"];
-    
+    [self activateModuleForName:@"BReachabilityModule"];
+
     [self activateModuleForName:@"BFirebaseFileStorageModule" server:server];
     [self activateModuleForName:@"BFirebasePushModule"];
 }

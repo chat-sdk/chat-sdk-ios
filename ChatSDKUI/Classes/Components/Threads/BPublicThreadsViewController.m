@@ -61,7 +61,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     // Don't create a thread unless connected to the internet
-    if ([Reachability reachabilityForInternetConnection].isReachable) {
+    if (BChatSDK.connectivity.isConnected) {
         
         if (buttonIndex) {
             

@@ -16,6 +16,7 @@
 @class MBProgressHUD;
 @protocol  PThread;
 @protocol PUser;
+@class BHook;
 
 @protocol BFriendsListDataSource <NSObject>
 
@@ -29,7 +30,7 @@
     NSMutableArray * _contactsToExclude;
     
     NSString * _filterByName;
-    id _internetConnectionObserver;
+    BHook * _internetConnectionHook;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

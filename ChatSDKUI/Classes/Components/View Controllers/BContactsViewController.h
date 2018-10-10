@@ -12,11 +12,13 @@
 @class BSearchViewController;
 @class BNotificationObserverList;
 @protocol PUserConnection;
+@class BHook;
 
 @interface BContactsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchResultsUpdating> {
     NSMutableArray * _contacts;
     __strong BSearchViewController * _searchViewController;
     BNotificationObserverList * _notificationList;
+    BHook * _internetConnectionHook;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

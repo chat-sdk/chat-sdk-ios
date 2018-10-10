@@ -16,10 +16,6 @@
 -(instancetype) init {
     if ((self = [super init])) {
         __weak __typeof__(self) weakSelf = self;
-
-        // Start checking if we are connected to the internet
-        [[Reachability reachabilityForInternetConnection] startNotifier];
-        
         [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
             // Resets the view which the tab bar loads on
             __typeof__(self) strongSelf = weakSelf;
