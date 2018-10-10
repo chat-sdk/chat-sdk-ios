@@ -75,6 +75,7 @@
 +(id<PStickerMessageHandler>) stickerMessage;
 +(id<PSocialLoginHandler>) socialLogin;
 +(id<PUser>) currentUser;
++(RXPromise *) safeCurrentUser;
 +(id) handler: (NSString *) name;
 +(id<PHookHandler>) hook;
 +(id<PUsersHandler>) users;
@@ -83,5 +84,6 @@
 +(id<BStorageAdapter>) db;
 +(id<PFileMessageHandler>) fileMessage;
 +(id<PInternetConnectivityHandler>) connectivity;
++(RXPromise *) safeCurrentUser;
 
 @end

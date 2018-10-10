@@ -179,6 +179,23 @@
     return _currentUser;
 }
 
+-(RXPromise *) safeCurrentUserModel {
+    NSString * currentUserID = BChatSDK.auth.currentUserEntityID;
+    if (!_currentUser || ![_currentUserEntityID isEqual:currentUserID]) {
+        return [BChatSDK.db safeFetchEntityWithID:currentUserID withType:bUserEntity].then(^id(id<PUser> currentUser) {
+            _currentUserEntityID = currentUserID;
+            _currentUser = currentUser;
+            [_currentUser optimize];
+            [self save];
+            return currentUser;
+        }, Nil);
+    }
+    else {
+        return [RXPromise resolveWithResult:_currentUser];
+    }
+}
+
+
 // TODO: Consider removing / refactoring this
 /**
  * @brief Mark the user as online

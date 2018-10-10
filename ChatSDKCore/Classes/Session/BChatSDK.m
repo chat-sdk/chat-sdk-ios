@@ -253,6 +253,10 @@ static BChatSDK * instance;
     return BChatSDK.core.currentUserModel;
 }
 
++(RXPromise *) safeCurrentUser {
+    return BChatSDK.core.safeCurrentUserModel;
+}
+
 +(BOOL) isMe: (id<PUser>) user {
     return [[self currentUser].entityID isEqualToString:user.entityID];
 }
