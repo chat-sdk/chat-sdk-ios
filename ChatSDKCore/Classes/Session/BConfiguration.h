@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <ChatSDK/PMessage.h>
 
 #define bEmailTitle @"email_title"
 #define bEmailBody @"email_body"
@@ -19,6 +20,8 @@
 
 @interface BConfiguration : NSObject {
     NSString * _defaultUserName;
+    NSMutableDictionary * _messageBubblePadding;
+    NSMutableDictionary * _messageBubbleMargin;
 }
 
 // Background color of messages: hex value like "FFFFFF"
@@ -202,5 +205,11 @@
 -(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress;
 -(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress port: (int) port;
 -(void) xmppWithDomain: (NSString *) domain hostAddress: (NSString *) hostAddress port: (int) port resource: (NSString *) resource;
+
+-(void) setMessageBubbleMargin: (UIEdgeInsets) margin forMessageType: (bMessageType) type;
+-(void) setMessageBubblePadding: (UIEdgeInsets) padding forMessageType: (bMessageType) type;
+
+-(NSValue *) messageBubbleMarginForType: (bMessageType) type;
+-(NSValue *) messageBubblePaddingForType: (bMessageType) type;
 
 @end

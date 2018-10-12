@@ -518,6 +518,12 @@
 
 // The padding inside the bubble - i.e. between the bubble and the content
 +(UIEdgeInsets) bubbleMargin: (id<PElmMessage>) message {
+    NSValue * value = [BChatSDK.config messageBubbleMarginForType:message.type.intValue];
+    value = value ? value : [BChatSDK.config messageBubbleMarginForType:bMessageTypeAll];
+    if (value) {
+        return [value UIEdgeInsetsValue];
+    }
+    
     switch ((bMessageType)message.type.intValue) {
         case bMessageTypeText:
         case bMessageTypeImage:
@@ -527,7 +533,7 @@
         case bMessageTypeSystem:
         case bMessageTypeSticker:
         case bMessageTypeFile:
-            return UIEdgeInsetsMake(1.0, 2.0, 1.0, 2.0);
+            return UIEdgeInsetsMake(2.0, 2.0, 1.0, 2.0);
         case bMessageTypeCustom:
         default:
             return UIEdgeInsetsMake(0, 0, 0, 0);
@@ -539,6 +545,12 @@
 }
 
 +(UIEdgeInsets) bubblePadding: (id<PElmMessage>) message {
+    NSValue * value = [BChatSDK.config messageBubblePaddingForType:message.type.intValue];
+    value = value ? value : [BChatSDK.config messageBubblePaddingForType:bMessageTypeAll];
+    if (value) {
+        return [value UIEdgeInsetsValue];
+    }
+    
     switch ((bMessageType)message.type.intValue) {
         case bMessageTypeText:
             return UIEdgeInsetsMake(8.0, 9.0, 8.0, 9.0);
@@ -574,7 +586,7 @@
         case bMessageTypeFile:
         case bMessageTypeCustom:
         default:
-            return 0;
+            return 3;
     }
 }
 

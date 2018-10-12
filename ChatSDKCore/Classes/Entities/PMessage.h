@@ -11,6 +11,7 @@
 #import "bMessageStatus.h"
 
 typedef enum {
+    bMessageTypeAll = -1,
     bMessageTypeText = 0,
     bMessageTypeLocation = 1,
     bMessageTypeImage = 2,

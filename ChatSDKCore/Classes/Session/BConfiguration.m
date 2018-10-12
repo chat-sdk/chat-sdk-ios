@@ -72,6 +72,10 @@
 
 -(instancetype) init {
     if((self = [super init])) {
+        
+        _messageBubbleMargin = [NSMutableDictionary new];
+        _messageBubblePadding = [NSMutableDictionary new];
+        
         messageColorMe = bDefaultMessageColorMe;
         messageColorReply = bDefaultMessageColorReply;
         rootPath = @"default";
@@ -198,5 +202,22 @@
 +(BConfiguration *) configuration {
     return [[self alloc] init];
 }
+
+-(void) setMessageBubbleMargin: (UIEdgeInsets) margin forMessageType: (bMessageType) type {
+    [_messageBubbleMargin setObject:[NSValue valueWithUIEdgeInsets:margin] forKey:@(type)];
+}
+
+-(void) setMessageBubblePadding: (UIEdgeInsets) padding forMessageType: (bMessageType) type {
+    [_messageBubblePadding setObject:[NSValue valueWithUIEdgeInsets: padding] forKey:@(type)];
+}
+
+-(NSValue *) messageBubbleMarginForType: (bMessageType) type {
+    return _messageBubbleMargin[@(type)];
+}
+
+-(NSValue *) messageBubblePaddingForType: (bMessageType) type {
+    return _messageBubblePadding[@(type)];
+}
+
 
 @end
