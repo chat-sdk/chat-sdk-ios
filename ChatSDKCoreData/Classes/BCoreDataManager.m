@@ -185,6 +185,10 @@ static void * kMainQueueKey = (void *) "Key1";
     return entity;
 }
 
+-(bQueueType) queueType {
+    return dispatch_get_specific(kMainQueueKey) ? bQueueTypeMain : bQueueTypeBackground;
+}
+
 -(NSManagedObjectContext *) managedObjectContextForThread {
     if (dispatch_get_specific(kMainQueueKey)) {
         return self.managedObjectContext;

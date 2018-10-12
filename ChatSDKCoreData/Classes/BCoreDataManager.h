@@ -10,6 +10,7 @@
 
 #import <ChatSDK/BStorageAdapter.h>
 
+
 @interface BCoreDataManager : NSObject<BStorageAdapter> {
     NSManagedObjectContext * _moc;
     NSManagedObjectContext * _privateMoc;

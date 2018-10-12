@@ -24,6 +24,11 @@
 @class BThreadDef;
 @class NSFetchRequest;
 
+typedef enum {
+    bQueueTypeMain,
+    bQueueTypeBackground,
+} bQueueType;
+
 @protocol BStorageAdapter <NSObject>
 
 -(NSArray *) fetchEntitiesWithName: (NSString *) entityName withPredicate: (NSPredicate *) predicate;
@@ -80,6 +85,7 @@
 
 -(RXPromise *) performOnPrivate: (id (^)(void)) block;
 -(RXPromise *) performOnMain: (id (^)(void)) block;
+-(bQueueType) queueType;
 
 @end
 
