@@ -19,7 +19,7 @@
     if((self = [self init])) {
         
         // Get the model from the database if it exists
-        _model = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:data.uid withType:bUserEntity];
+        _model = [BChatSDK.db fetchOrCreateEntityWithID:data.uid withType:bUserEntity];
         [self updateUserFromAuthUserData:data];
     }
     return self;
@@ -37,7 +37,7 @@
 }
 
 +(id) userWithEntityID: (NSString *) entityID {
-    id<PUser> user = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:entityID withType:bUserEntity];
+    id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
     return [[self alloc] initWithModel: user];
 }
 
@@ -47,7 +47,7 @@
 
 -(id) initWithSnapshot: (FIRDataSnapshot *) data {
     if ((self = [self init])) {
-        _model = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:data.key withType:bUserEntity];
+        _model = [BChatSDK.db fetchOrCreateEntityWithID:data.key withType:bUserEntity];
         [self deserialize:data.value];
     }
     return self;
@@ -101,7 +101,7 @@
         
 //        id<PUserAccount> account = [_model accountWithType:bAccountTypeFacebook];
 //        if (!account) {
-//            account = [[BStorageManager sharedManager].a createEntity:bUserAccountEntity];
+//            account = [BChatSDK.db createEntity:bUserAccountEntity];
 //            account.type = @(bAccountTypeFacebook);
 //            [_model addLinkedAccountsObject:account];
 //        }
@@ -189,7 +189,7 @@
 -(id) initWithEntityID: (NSString *) entityID {
     if((self = [self init])) {
         
-        _model = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:entityID
+        _model = [BChatSDK.db fetchOrCreateEntityWithID:entityID
                                                                            withType:bUserEntity];
         
     }

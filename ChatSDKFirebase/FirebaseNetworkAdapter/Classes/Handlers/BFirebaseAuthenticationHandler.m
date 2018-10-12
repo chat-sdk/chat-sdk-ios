@@ -52,35 +52,41 @@
     
     id<PUser> user = BChatSDK.currentUser;
 
-    
     // Stop observing the user
     if(user) {
         NSDictionary * data = @{bHookWillLogout_PUser: user};
         [BChatSDK.hook executeHookWithName:bHookWillLogout data:data];
 
-        [BStateManager userOff: user.entityID];
-    }
-    
-    NSError * error = Nil;
-    if([[FIRAuth auth] signOut:&error]) {
-
-        _userAuthenticatedThisSession = NO;
-        [self setLoginInfo:Nil];
-        [BChatSDK.core goOffline];
-        
-        [[NSNotificationCenter  defaultCenter] postNotificationName:bNotificationBadgeUpdated object:Nil];
-        
-        if (user) {
-            NSDictionary * data = @{bHookDidLogout_PUser: user};
-            [BChatSDK.hook executeHookWithName:bHookDidLogout data:data];
-        }
-        
-        [promise resolveWithResult:Nil];
+        [promise resolveWithResult:[BStateManager userOff: user.entityID]];
     }
     else {
-        [promise rejectWithReason:error];
+        [promise resolveWithResult:Nil];
     }
-    return promise;
+    
+    return promise.thenOnMain(^id(id success) {
+
+        NSError * error = Nil;
+        if([[FIRAuth auth] signOut:&error]) {
+            
+            _userAuthenticatedThisSession = NO;
+            [self setLoginInfo:Nil];
+            [BChatSDK.core goOffline];
+            
+            [[NSNotificationCenter  defaultCenter] postNotificationName:bNotificationBadgeUpdated object:Nil];
+            
+            if (user) {
+                NSDictionary * data = @{bHookDidLogout_PUser: user};
+                [BChatSDK.hook executeHookWithName:bHookDidLogout data:data];
+            }
+            
+            return Nil;
+        }
+        else {
+            return error;
+        }
+
+    }, Nil);
+    
 }
 
 -(RXPromise *) authenticate: (BAccountDetails *) details {
@@ -225,17 +231,19 @@
                 NSLog(@"User On: %@", user.entityID);
                 
                 // Add listeners here
-                [BStateManager userOn: user.entityID];
-                
-                [BChatSDK.core setUserOnline];
-                
-                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
-                
-                strongSelf->_authenticatedThisSession = true;
-                
-                [user push];
-                
-                return user.model;
+                return [BStateManager userOn: user.entityID].thenOnMain(^id(id success) {
+
+                    [BChatSDK.core setUserOnline];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
+                    
+                    strongSelf->_authenticatedThisSession = true;
+                    
+                    [user push];
+                    
+                    return user.model;
+
+                }, Nil);
                 
             }, Nil);
         }

@@ -58,7 +58,7 @@
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:ascending]];
     NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread = %@", self];
     
-    NSArray * messages = [[BStorageManager sharedManager].a executeFetchRequest:request
+    NSArray * messages = [BChatSDK.db executeFetchRequest:request
                                                                      entityName:bMessageEntity
                                                                       predicate:predicate];
     
@@ -116,7 +116,7 @@
     CDMessage * cdMessage = (CDMessage *) message;
     cdMessage.thread = Nil;
     
-    [[BStorageManager sharedManager].a deleteEntity:cdMessage];
+    [BChatSDK.db deleteEntity:cdMessage];
     if([self.messagesWorkingList containsObject:message]) {
         [self.messagesWorkingList removeObject:message];
     }
@@ -182,7 +182,7 @@
     NSString * name = @"";
     
     for (id<PUser> user in self.users) {
-        if (![user isEqual:BChatSDK.currentUser]) {
+        if (![user isMe]) {
             if (user.name.length) {
                 name = [name stringByAppendingFormat:@"%@, ", user.name];
             }
@@ -222,15 +222,24 @@
 
 -(void) addUser: (id<PUser>) user {
     if ([user isKindOfClass:[CDUser class]]) {
-        if (![self.users containsObject:(CDUser *)user]) {
+        if (![self containsUser:user]) {
             [self addUsersObject:(CDUser *)user];
         }
     }
 }
 
+-(BOOL) containsUser: (id<PUser>) user {
+    for(id<PUser> u in self.users) {
+        if ([u.entityID isEqual:user.entityID]) {
+            return YES;
+        }
+    }
+    return Nil;
+}
+
 - (void)removeUser:(id<PUser>) user {
     if ([user isKindOfClass:[CDUser class]]) {
-        if ([self.users containsObject:(CDUser *)user]) {
+        if ([self containsUser:user]) {
             [self removeUsersObject:(CDUser *) user];
         }
     }

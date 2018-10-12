@@ -179,7 +179,7 @@
 
 - (IBAction)clearLocalData:(id)sender {
     [self logout];
-    [[BStorageManager sharedManager].a deleteAllData];
+    [BChatSDK.db deleteAllData];
 }
 
 @end

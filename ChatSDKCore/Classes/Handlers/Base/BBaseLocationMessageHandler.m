@@ -16,13 +16,13 @@
 
 -(RXPromise *) sendMessageWithLocation:(CLLocation *)location withThreadEntityID:(NSString *)threadID {
     
-    [[BStorageManager sharedManager].a beginUndoGroup];
+    [BChatSDK.db beginUndoGroup];
     
-    id<PMessage> message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
+    id<PMessage> message = [BChatSDK.db createMessageEntity];
     
     message.type = @(bMessageTypeLocation);
     
-    id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+    id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadID withType:bThreadEntity];
 
     message.date = [NSDate date];
     message.userModel = BChatSDK.currentUser;

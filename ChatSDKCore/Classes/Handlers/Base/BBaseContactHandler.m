@@ -25,7 +25,7 @@
 }
 
 -(RXPromise *) addContact: (id<PUser>) contact withType: (bUserConnectionType) type {
-    id<PUserConnection> connection = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:contact.entityID withType:bUserConnectionEntity];
+    id<PUserConnection> connection = [BChatSDK.db fetchOrCreateEntityWithID:contact.entityID withType:bUserConnectionEntity];
     [connection setType:@(bUserConnectionTypeContact)];
     [connection setEntityID:contact.entityID];
     [BChatSDK.currentUser addConnection:connection];
@@ -47,8 +47,8 @@
         predicate = [NSPredicate predicateWithFormat:@"type = %@ AND owner = %@", @(bUserConnectionTypeContact), currentUser];
     }
     
-    NSArray * entities = [[BStorageManager sharedManager].a fetchEntitiesWithName:bUserConnectionEntity withPredicate:predicate];
-    [[BStorageManager sharedManager].a deleteEntities:entities];
+    NSArray * entities = [BChatSDK.db fetchEntitiesWithName:bUserConnectionEntity withPredicate:predicate];
+    [BChatSDK.db deleteEntities:entities];
     
     return [RXPromise resolveWithResult:Nil];
 }

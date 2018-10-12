@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class RXPromise;
+
 @interface BStateManager : NSObject
 
-+(void) userOn: (NSString *) entityID;
-+(void) userOff: (NSString *) entityID;
++(RXPromise *) userOn: (NSString *) entityID;
++(RXPromise *) userOff: (NSString *) entityID;
 
 @end

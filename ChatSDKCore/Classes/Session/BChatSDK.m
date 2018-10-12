@@ -145,12 +145,12 @@ static BChatSDK * instance;
     NSString * newDatabaseVersion = _configuration.databaseVersion;
     
     if (BChatSDK.config.clearDataWhenRootPathChanges && rootPath && newRootPath && ![rootPath isEqualToString:newRootPath]) {
-        [[BStorageManager sharedManager].a deleteAllData];
-        [[BStorageManager sharedManager].a saveToStore];
+        [BChatSDK.db deleteAllData];
+        [BChatSDK.db saveToStore];
     }
     else if (BChatSDK.config.clearDatabaseWhenDataVersionChanges && ![databaseVersion isEqual:newDatabaseVersion]) {
-        [[BStorageManager sharedManager].a deleteAllData];
-        [[BStorageManager sharedManager].a saveToStore];
+        [BChatSDK.db deleteAllData];
+        [BChatSDK.db saveToStore];
     }
 
     if (newRootPath) {
@@ -251,10 +251,6 @@ static BChatSDK * instance;
 
 +(id<PUser>) currentUser {
     return BChatSDK.core.currentUserModel;
-}
-
-+(RXPromise *) safeCurrentUser {
-    return BChatSDK.core.safeCurrentUserModel;
 }
 
 +(BOOL) isMe: (id<PUser>) user {

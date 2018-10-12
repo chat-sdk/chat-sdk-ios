@@ -83,7 +83,7 @@
             if (![messageModel.thread isEqual:_thread.model] && [currentUserModel.threads containsObject:_thread] && messageModel) {
                 
                 // If we are in chat and receive a message in another chat then vibrate the phone
-                if (![messageModel.userModel isEqual:currentUserModel]) {
+                if (!messageModel.userModel.isMe) {
                     AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
                 }
             }
@@ -244,16 +244,16 @@
 }
 
 -(RXPromise *) sendSticker: (NSString *) name {
-    if([BNetworkManager sharedManager].a.stickerMessage) {
-        return [self handleMessageSend:[[BNetworkManager sharedManager].a.stickerMessage sendMessageWithSticker:name
+    if(BChatSDK.stickerMessage) {
+        return [self handleMessageSend:[BChatSDK.stickerMessage sendMessageWithSticker:name
                                                                                              withThreadEntityID:_thread.entityID]];
     }
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bStickerMessagesNotSupported];
 }
 
 -(RXPromise *) sendFile: (NSDictionary *) file {
-    if([BNetworkManager sharedManager].a.fileMessage) {
-        return [self handleMessageSend:[[BNetworkManager sharedManager].a.fileMessage sendMessageWithFile:file andThreadEntityID:_thread.entityID]];
+    if(BChatSDK.fileMessage) {
+        return [self handleMessageSend:[BChatSDK.fileMessage sendMessageWithFile:file andThreadEntityID:_thread.entityID]];
     }
     return [RXPromise rejectWithReasonDomain:bErrorTitle code:0 description:bFileMessagesNotSupported];
 }

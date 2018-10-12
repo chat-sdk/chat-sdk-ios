@@ -262,21 +262,21 @@
     
     // Layout the bubble
     // The bubble is translated the "margin" to the right of the profile picture
-    if (!isMine) {
-        [_profilePicture setViewFrameX:_profilePicture.hidden ? 0 : self.profilePicturePadding];
-        [bubbleImageView setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin];
-        [_nameLabel setViewFrameX:bTimeLabelPadding];
-        
-        _timeLabel.textAlignment = NSTextAlignmentRight;
-        _nameLabel.textAlignment = NSTextAlignmentLeft;
-    }
-    else {
+    if (isMine) {
         [_profilePicture setViewFrameX:_profilePicture.hidden ? self.contentView.fw : self.contentView.fw - _profilePicture.fw - self.profilePicturePadding];
         [bubbleImageView setViewFrameX:_profilePicture.fx - self.bubbleWidth - self.bubbleMargin.right - xMargin];
         //[_nameLabel setViewFrameX: bTimeLabelPadding];
         
         _timeLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.textAlignment = NSTextAlignmentRight;
+    }
+    else {
+        [_profilePicture setViewFrameX:_profilePicture.hidden ? 0 : self.profilePicturePadding];
+        [bubbleImageView setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin];
+        [_nameLabel setViewFrameX:bTimeLabelPadding];
+        
+        _timeLabel.textAlignment = NSTextAlignmentRight;
+        _nameLabel.textAlignment = NSTextAlignmentLeft;
     }
     
 //        self.bubbleImageView.layer.borderColor = UIColor.redColor.CGColor;
@@ -465,7 +465,9 @@
 
 +(float) maxBubbleWidth: (id<PElmMessage>) message {
     UIEdgeInsets bubbleMargin = [self bubbleMargin:message];
-    return [self currentSize].width - bMessageMarginX - ([self profilePictureHidden:message] ? 0 : self.profilePictureDiameter + [self profilePicturePadding:message]) - bubbleMargin.left - bubbleMargin.right;
+    float profilePicturePadding = [self profilePicturePadding:message];
+    float profilePictureWidth = ([self profilePictureHidden:message] ? 0 : self.profilePictureDiameter + profilePicturePadding);
+    return [self currentSize].width - bMessageMarginX - profilePictureWidth - bubbleMargin.left - bubbleMargin.right;
 }
 
 
@@ -574,7 +576,7 @@
         case bMessageTypeFile:
         case bMessageTypeCustom:
         default:
-            return 0;
+            return 3;
     }
 }
 

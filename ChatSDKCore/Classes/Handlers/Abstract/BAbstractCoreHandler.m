@@ -28,11 +28,11 @@
 -(RXPromise *) sendMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID withMetaData: (NSDictionary *)meta {
     
     // Set the URLs for the images and save it in CoreData
-    [[BStorageManager sharedManager].a beginUndoGroup];
+    [BChatSDK.db beginUndoGroup];
     
-    id<PMessage> message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
+    id<PMessage> message = [BChatSDK.db createMessageEntity];
     
-    id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+    id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadID withType:bThreadEntity];
     
     message.type = @(bMessageTypeText);
     [message setTextAsDictionary:@{bMessageTextKey: text}];
@@ -62,7 +62,7 @@
 
 -(NSArray *) messagesForThreadWithEntityID:(NSString *) entityID order: (NSComparisonResult) order {
     // Get the thread
-    id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bThreadEntity];
+    id<PThread> thread = [BChatSDK.db fetchEntityWithID:entityID withType:bThreadEntity];
     
     if (thread) {
         if (order == NSOrderedAscending) {
@@ -87,7 +87,7 @@
 -(NSArray *) threadsWithType:(bThreadType)type includeDeleted: (BOOL) includeDeleted includeEmpty: (BOOL) includeEmpty {
     
     NSMutableArray * threads = [NSMutableArray new];
-    NSArray * allThreads = type & bThreadFilterPrivate ? BChatSDK.currentUser.threads : [[BStorageManager sharedManager].a fetchEntitiesWithName:bThreadEntity];
+    NSArray * allThreads = type & bThreadFilterPrivate ? BChatSDK.currentUser.threads : [BChatSDK.db fetchEntitiesWithName:bThreadEntity];
     
     for(id<PThread> thread in allThreads) {
         if(thread.type.intValue & bThreadFilterPrivate) {
@@ -110,11 +110,11 @@
 }
 
 -(void) save {
-    [[BStorageManager sharedManager].a save];
+    [BChatSDK.db save];
 }
 
 -(void) saveToStore {
-    [[BStorageManager sharedManager].a saveToStore];
+    [BChatSDK.db saveToStore];
 }
 
 -(void) sendLocalSystemMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID {
@@ -122,37 +122,38 @@
 }
 
 -(void) sendLocalSystemMessageWithText:(NSString *)text type: (bSystemMessageType) type withThreadEntityID:(NSString *)threadID {
-    
-    // Set the URLs for the images and save it in CoreData
-    id<PMessage> message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
-    message.entityID = [BCoreUtilities getUUID];
-    
-    message.type = @(bMessageTypeSystem);
-    //message.text = text;
-    [message setTextAsDictionary:@{bMessageTypeKey: @(type),
-                                   bMessageTextKey: text}];
-    
-    id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
-
-    message.date = [NSDate date];
-    message.userModel = self.currentUserModel;
-    message.delivered = @YES;
-    message.read = @YES;
-    message.flagged = @NO;
-
-    [thread addMessage: message];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [BChatSDK.db performOnPrivate:(id)^{
+        // Set the URLs for the images and save it in CoreData
+        id<PMessage> message = [BChatSDK.db createMessageEntity];
+        message.entityID = [BCoreUtilities getUUID];
+        
+        message.type = @(bMessageTypeSystem);
+        //message.text = text;
+        [message setTextAsDictionary:@{bMessageTypeKey: @(type),
+                                       bMessageTextKey: text}];
+        
+        id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadID withType:bThreadEntity];
+        
+        message.date = [NSDate date];
+        message.userModel = self.currentUserModel;
+        message.delivered = @YES;
+        message.read = @YES;
+        message.flagged = @NO;
+        
+        [thread addMessage: message];
+        
+        return message.entityID;
+    }].thenOnMain(^id(NSString * messageEntityID) {
+        id<PMessage> mainThreadMessage = [BChatSDK.db fetchEntityWithID:messageEntityID withType:bMessageEntity];
         [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded
                                                             object:Nil
-                                                          userInfo:@{bNotificationMessageAddedKeyMessage: message}];
-    });
-    
+                                                          userInfo:@{bNotificationMessageAddedKeyMessage: mainThreadMessage}];
+    }, Nil);
 }
 
 -(id<PUser>) userForEntityID: (NSString *) entityID {
     // Get the user and make sure it's updated
-    id<PUser> user = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:entityID
+    id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:entityID
                                                                                withType:bUserEntity];
     return user;
 }
@@ -165,12 +166,12 @@
 }
 
 /**
- * @brief Return the current user data
+ * @brief Return the current user data - can only safely be called on the main thread
  */
 -(id<PUser>) currentUserModel {
     NSString * currentUserID = BChatSDK.auth.currentUserEntityID;
     if (!_currentUser || ![_currentUserEntityID isEqual:currentUserID]) {
-        _currentUser = [[BStorageManager sharedManager].a fetchEntityWithID:currentUserID
+        _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID
                                                                    withType:bUserEntity];
         _currentUserEntityID = currentUserID;
         [_currentUser optimize];
@@ -178,23 +179,6 @@
     }
     return _currentUser;
 }
-
--(RXPromise *) safeCurrentUserModel {
-    NSString * currentUserID = BChatSDK.auth.currentUserEntityID;
-    if (!_currentUser || ![_currentUserEntityID isEqual:currentUserID]) {
-        return [BChatSDK.db safeFetchEntityWithID:currentUserID withType:bUserEntity].then(^id(id<PUser> currentUser) {
-            _currentUserEntityID = currentUserID;
-            _currentUser = currentUser;
-            [_currentUser optimize];
-            [self save];
-            return currentUser;
-        }, Nil);
-    }
-    else {
-        return [RXPromise resolveWithResult:_currentUser];
-    }
-}
-
 
 // TODO: Consider removing / refactoring this
 /**
@@ -339,9 +323,9 @@
     
     // Before we create the thread start an undo grouping
     // that means that if it fails we can undo changed to the database
-    //[[BStorageManager sharedManager].a beginUndoGroup];
+    //[BChatSDK.db beginUndoGroup];
     
-    id<PThread> threadModel = [[BStorageManager sharedManager].a createEntity:bThreadEntity];
+    id<PThread> threadModel = [BChatSDK.db createThreadEntity];
     threadModel.creationDate = [NSDate date];
     threadModel.creator = currentUser;
     threadModel.type = usersToAdd.count == 2 ? @(bThreadType1to1) : @(bThreadTypePrivateGroup);
