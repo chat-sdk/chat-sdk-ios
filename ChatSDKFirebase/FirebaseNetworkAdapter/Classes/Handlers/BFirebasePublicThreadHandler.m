@@ -21,16 +21,16 @@
 -(RXPromise *) createPublicThreadWithName: (NSString *) name entityID: (NSString *) entityID isHidden: (BOOL) hidden {
     // Before we create the thread start an undo grouping
     // that means that if it fails we can undo changed to the database
-    [[BStorageManager sharedManager].a beginUndoGroup];
+    [BChatSDK.db beginUndoGroup];
 
     id<PThread> threadModel = Nil;
 
     if(entityID) {
-        threadModel = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bThreadEntity];
+        threadModel = [BChatSDK.db fetchEntityWithID:entityID withType:bThreadEntity];
     }
     
     if(!threadModel) {
-        threadModel = [[BStorageManager sharedManager].a createEntity:bThreadEntity];
+        threadModel = [BChatSDK.db createThreadEntity];
     }
     
     threadModel.creationDate = [NSDate date];
@@ -42,7 +42,7 @@
     threadModel.name = name;
     threadModel.entityID = entityID ? entityID : Nil;
     
-    [[BStorageManager sharedManager].a endUndoGroup];
+    [BChatSDK.db endUndoGroup];
     
     // Create the CC object
     CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
@@ -58,7 +58,7 @@
                     [promise resolveWithResult:thread.model];
                 }
                 else {
-                    [[BStorageManager sharedManager].a undo];
+                    [BChatSDK.db undo];
                     [promise rejectWithReason:error];
                 }
             }];
@@ -70,7 +70,7 @@
         return promise;
         
     },^id(NSError * error) {
-        //[[BStorageManager sharedManager].a undo];
+        //[BChatSDK.db undo];
         return error;
     });
     

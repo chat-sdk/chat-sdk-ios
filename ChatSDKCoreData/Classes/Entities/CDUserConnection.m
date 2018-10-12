@@ -24,7 +24,7 @@
 }
 
 -(id<PUser>) user {
-    return [[BStorageManager sharedManager].a fetchEntityWithID:self.entityID withType:bUserEntity];
+    return [BChatSDK.db fetchEntityWithID:self.entityID withType:bUserEntity];
 }
 
 -(void) setSubscriptionType:(NSString *)subscriptionType {

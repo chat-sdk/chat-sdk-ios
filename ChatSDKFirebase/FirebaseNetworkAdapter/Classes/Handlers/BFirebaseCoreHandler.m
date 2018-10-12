@@ -48,7 +48,7 @@
 }
 
 -(void)observeUser: (NSString *)entityID {
-    id<PUser> contactModel = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:entityID withType:bUserEntity];
+    id<PUser> contactModel = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
     [[CCUserWrapper userWithModel:contactModel] metaOn];
     [[CCUserWrapper userWithModel:contactModel] onlineOn];
 }
@@ -73,7 +73,7 @@
             return [self addUsers:threadModel.users.allObjects toThread:threadModel];
             
         },^id(NSError * error) {
-            //[[BStorageManager sharedManager].a undo];
+            //[BChatSDK.db undo];
             
             if (threadCreated != Nil) {
                 threadCreated(error, Nil);

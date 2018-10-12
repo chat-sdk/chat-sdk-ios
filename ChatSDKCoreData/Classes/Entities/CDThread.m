@@ -58,7 +58,7 @@
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:ascending]];
     NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread = %@", self];
     
-    NSArray * messages = [[BStorageManager sharedManager].a executeFetchRequest:request
+    NSArray * messages = [BChatSDK.db executeFetchRequest:request
                                                                      entityName:bMessageEntity
                                                                       predicate:predicate];
     
@@ -116,7 +116,7 @@
     CDMessage * cdMessage = (CDMessage *) message;
     cdMessage.thread = Nil;
     
-    [[BStorageManager sharedManager].a deleteEntity:cdMessage];
+    [BChatSDK.db deleteEntity:cdMessage];
     if([self.messagesWorkingList containsObject:message]) {
         [self.messagesWorkingList removeObject:message];
     }

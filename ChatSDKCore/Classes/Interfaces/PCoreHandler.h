@@ -27,11 +27,6 @@
  */
 -(id<PUser>) currentUserModel;
 
-/**
- * @brief A thread safe function to get the current user model
- */
--(RXPromise *) safeCurrentUserModel;
-
 // TODO: Consider removing / refactoring this
 /**
  * @brief Mark the user as online

@@ -253,7 +253,7 @@
 }
 
 -(CDMessage *) copy {
-    CDMessage * message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
+    CDMessage * message = [BChatSDK.db createMessageEntity];
     message.entityID = [self.entityID copy];
     message.date = [self.date copy];
     message.placeholder = [self.placeholder copy];

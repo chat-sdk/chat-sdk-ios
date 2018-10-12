@@ -527,7 +527,7 @@ The Chat SDK API is based around the network manager and a series of handlers. A
 **Objective C**
 
 ```
-[[BNetworkManager sharedManager].a.handler_name function: to: call:]
+[[BChatSDK.handler_name function: to: call:]
 ```
 
 **Swift**
@@ -570,7 +570,7 @@ So a more complete example would look like this:
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.label.text = [NSBundle t:bCreatingThread];
     
-    [[BNetworkManager sharedManager].a.core createThreadWithUsers:@[_user] threadCreated:^(NSError * error, id<PThread> thread) {
+    [[BChatSDK.core createThreadWithUsers:@[_user] threadCreated:^(NSError * error, id<PThread> thread) {
         if (!error) {
             [self pushChatViewControllerWithThread:thread];
         }

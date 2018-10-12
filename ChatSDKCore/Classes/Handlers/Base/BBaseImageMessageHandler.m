@@ -14,7 +14,7 @@
 
 -(RXPromise *) sendMessageWithImage:(UIImage *)image withThreadEntityID:(NSString *)threadID {
     
-    [[BStorageManager sharedManager].a beginUndoGroup];
+    [BChatSDK.db beginUndoGroup];
     
     // Resize the image to make a thumbnail
     CGSize newSize;
@@ -28,7 +28,7 @@
     }
     UIImage * thumbnail = [image resizedImage:newSize interpolationQuality:kCGInterpolationHigh];
     
-    id<PMessage> message = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
+    id<PMessage> message = [BChatSDK.db createMessageEntity];
     // Generate a temporary ID
     message.entityID = [BCoreUtilities getUUID];
     
@@ -36,7 +36,7 @@
     
     [message setTextAsDictionary:@{bMessageTextKey: bNullString}];
     
-    id<PThread> thread = [[BStorageManager sharedManager].a fetchEntityWithID:threadID withType:bThreadEntity];
+    id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadID withType:bThreadEntity];
 
     message.date = [NSDate date];
     message.userModel = BChatSDK.currentUser;

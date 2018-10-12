@@ -19,7 +19,7 @@
 -(id) initWithSnapshot: (FIRDataSnapshot *) snapshot {
     if ((self = [self init])) {
         NSString * entityID = snapshot.key;
-        _model = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:entityID withType:bMessageEntity];
+        _model = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bMessageEntity];
         [self deserialize:snapshot.value];
     }
     return self;
@@ -39,9 +39,9 @@
 #pragma DB Methods
 
 +(id) messageWithID: (NSString *) entityID {
-    id<PMessage> model = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bMessageEntity];
+    id<PMessage> model = [BChatSDK.db fetchEntityWithID:entityID withType:bMessageEntity];
     if (!model) {
-        model = [[BStorageManager sharedManager].a createEntity:bMessageEntity];
+        model = [BChatSDK.db createMessageEntity];
     }
     return [[CCMessageWrapper alloc] initWithModel:model];
 }
@@ -175,9 +175,9 @@
     // Assign this message to a user
     NSString * userID = value[bUserFirebaseID];
     if (userID) {
-        _model.userModel = [[BStorageManager sharedManager].a fetchEntityWithID:userID withType:bUserEntity];
+        _model.userModel = [BChatSDK.db fetchEntityWithID:userID withType:bUserEntity];
         if(!_model.userModel) {
-            id<PUser> user = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:userID withType:bUserEntity];
+            id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:userID withType:bUserEntity];
             [promise resolveWithResult:[[CCUserWrapper userWithModel:user] once].thenOnMain(^id(id success) {
                 _model.userModel = user;
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated

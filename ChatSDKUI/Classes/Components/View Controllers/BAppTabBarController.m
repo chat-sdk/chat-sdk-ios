@@ -141,7 +141,7 @@
         [BChatSDK.shared.pushQueue popFirst];
         NSString * threadEntityID = action.payload[bPushThreadEntityID];
         if (threadEntityID) {
-            id<PThread> thread = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:threadEntityID withType:bThreadEntity];
+            id<PThread> thread = [BChatSDK.db fetchOrCreateEntityWithID:threadEntityID withType:bThreadEntity];
             [self presentChatViewWithThread:thread];
         }
     }

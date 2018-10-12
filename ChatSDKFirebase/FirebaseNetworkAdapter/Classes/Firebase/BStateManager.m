@@ -14,7 +14,7 @@
 
 +(void) userOn: (NSString *) entityID {
     
-    id<PUser> user = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bUserEntity];
+    id<PUser> user = [BChatSDK.db fetchEntityWithID:entityID withType:bUserEntity];
     
     NSDictionary * data = @{bHookUserOn_PUser: user};
     [BChatSDK.hook executeHookWithName:bHookUserOn data:data];
@@ -80,7 +80,7 @@
 
 +(void) userOff: (NSString *) entityID {
 
-    id<PUser> user = [[BStorageManager sharedManager].a fetchEntityWithID:entityID withType:bUserEntity];
+    id<PUser> user = [BChatSDK.db fetchEntityWithID:entityID withType:bUserEntity];
     
     FIRDatabaseReference * publicThreadsRef = [FIRDatabaseReference publicThreadsRef];
     [publicThreadsRef removeAllObservers];

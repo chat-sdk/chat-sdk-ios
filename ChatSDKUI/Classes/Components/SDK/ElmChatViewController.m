@@ -343,11 +343,11 @@
 
     // We want to check if the message is a premium type but without the libraries added
     // Without this check the app crashes if the user doesn't have premium cell types
-    if ((![BNetworkManager sharedManager].a.stickerMessage && message.type.integerValue == bMessageTypeSticker) ||
-        (![BNetworkManager sharedManager].a.fileMessage && message.type.integerValue == bMessageTypeFile) ||
-        (![BNetworkManager sharedManager].a.videoMessage && message.type.integerValue == bMessageTypeVideo) ||
-        (![BNetworkManager sharedManager].a.fileMessage && message.type.integerValue == bMessageTypeFile) ||
-        (![BNetworkManager sharedManager].a.audioMessage && message.type.integerValue == bMessageTypeAudio)) {
+    if ((!BChatSDK.stickerMessage && message.type.integerValue == bMessageTypeSticker) ||
+        (!BChatSDK.fileMessage && message.type.integerValue == bMessageTypeFile) ||
+        (!BChatSDK.videoMessage && message.type.integerValue == bMessageTypeVideo) ||
+        (!BChatSDK.fileMessage && message.type.integerValue == bMessageTypeFile) ||
+        (!BChatSDK.audioMessage && message.type.integerValue == bMessageTypeAudio)) {
         // This is a standard text cell
         messageCell = [tableView_ dequeueReusableCellWithIdentifier:@"0"];
     }

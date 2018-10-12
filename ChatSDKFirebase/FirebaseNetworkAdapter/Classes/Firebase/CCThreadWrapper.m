@@ -36,7 +36,7 @@
 -(id) initWithEntityID: (NSString *) entityID {
     if((self = [self init])) {
         // Get or create the model
-        _model = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:entityID withType:bThreadEntity];
+        _model = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bThreadEntity];
     }
     return self;
 }
@@ -169,7 +169,7 @@
                     
                     // Is this a new message?
                     // When a message arrives we add it to the database
-                    //newMessage = [[BStorageManager sharedManager].a fetchEntityWithID:snapshot.key withType:bMessageEntity] == Nil;
+                    //newMessage = [BChatSDK.db fetchEntityWithID:snapshot.key withType:bMessageEntity] == Nil;
                     
                     // Mark the message as delivered
                     message.model.delivered = @YES;
@@ -344,7 +344,7 @@
     
     RXPromise * promise = [RXPromise new];
     
-    [[BStorageManager sharedManager].a beginUndoGroup];
+    [BChatSDK.db beginUndoGroup];
     
     [_model setDeleted: @YES];
     
@@ -353,7 +353,7 @@
         [_model removeMessage:m];
     }
     
-    [[BStorageManager sharedManager].a endUndoGroup];
+    [BChatSDK.db endUndoGroup];
     
     id<PUser> currentUser = BChatSDK.currentUser;
     FIRDatabaseReference * currentThreadUser = [[FIRDatabaseReference threadUsersRef:self.entityID] child:currentUser.entityID];
@@ -373,7 +373,7 @@
                 }];
         
         return promise.thenOnMain(^id(id success) {
-                                      [[BStorageManager sharedManager].a save];
+                                      [BChatSDK.db save];
                                       // We can keep listening to the thread. That way, if a new message comes in,
                                       // it get's regenerated
                                       //[self off];
@@ -383,7 +383,7 @@
                                       return Nil;
                                       
                                   }, ^id(NSError * error) {
-                                      [[BStorageManager sharedManager].a undo];
+                                      [BChatSDK.db undo];
                                       return error;
                                   });
     }
@@ -521,9 +521,9 @@
     
     NSString * creatorEntityID = value[bCreatorEntityID];
     if(creatorEntityID) {
-        _model.creator = [[BStorageManager sharedManager].a fetchEntityWithID:creatorEntityID withType:bUserEntity];
+        _model.creator = [BChatSDK.db fetchEntityWithID:creatorEntityID withType:bUserEntity];
         if(!_model.creator) {
-            id<PUser> user = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:creatorEntityID withType:bUserEntity];
+            id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:creatorEntityID withType:bUserEntity];
             [[CCUserWrapper userWithModel:user] once].thenOnMain(^id(id success) {
                 _model.creator = user;
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated

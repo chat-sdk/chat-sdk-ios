@@ -219,7 +219,7 @@
         // TODO: Do we need to show the notficaiton?
         NSString * threadEntityID = userInfo[bPushThreadEntityID];
         if(threadEntityID) {
-            id<PThread> thread = [[BStorageManager sharedManager].a fetchOrCreateEntityWithID:threadEntityID withType:bThreadEntity];
+            id<PThread> thread = [BChatSDK.db fetchOrCreateEntityWithID:threadEntityID withType:bThreadEntity];
             
             if (BChatSDK.auth.userAuthenticatedThisSession) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationPresentChatView object:Nil userInfo: @{bNotificationPresentChatView_PThread: thread}];
