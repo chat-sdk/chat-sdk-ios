@@ -32,10 +32,10 @@
     // Generate a temporary ID
     message.entityID = [BCoreUtilities getUUID];
     
+    
+    [message setTextString: bNullString];
     message.type = @(bMessageTypeImage);
-    
-    [message setTextAsDictionary:@{bMessageTextKey: bNullString}];
-    
+
     id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadID withType:bThreadEntity];
 
     message.date = [NSDate date];
@@ -54,11 +54,11 @@
 
         NSString * messageText = [NSString stringWithFormat:@"%@,%@,W%.0f&H%.0f", imageURL, thumbnailURL, image.size.width, image.size.height];
 
-        [message setTextAsDictionary:@{bMessageTextKey: messageText,
-                                       bMessageImageURL: imageURL ? imageURL : @"",
-                                       bMessageThumbnailURL: thumbnailURL ? thumbnailURL : @"",
-                                       bMessageImageWidth: @(image.size.width),
-                                       bMessageImageHeight: @(image.size.height)}];
+        [message setJson:@{bMessageTextKey: messageText,
+                           bMessageImageURL: imageURL ? imageURL : @"",
+                           bMessageThumbnailURL: thumbnailURL ? thumbnailURL : @"",
+                           bMessageImageWidth: @(image.size.width),
+                           bMessageImageHeight: @(image.size.height)}];
         
         return [BChatSDK.core sendMessage:message].thenOnMain(^id(id result) {
             message.delivered = @YES;

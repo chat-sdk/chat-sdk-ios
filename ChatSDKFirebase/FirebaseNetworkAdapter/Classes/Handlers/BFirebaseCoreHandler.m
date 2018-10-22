@@ -8,7 +8,7 @@
 
 #import "BFirebaseCoreHandler.h"
 
-#import <ChatSDK/FirebaseAdapter.h>
+#import <ChatSDKFirebase/FirebaseAdapter.h>
 
 @implementation BFirebaseCoreHandler
 
@@ -136,6 +136,10 @@
 }
 
 -(RXPromise *) sendMessage: (id<PMessage>) messageModel {
+    
+    if(BChatSDK.encryption) {
+        [BChatSDK.encryption encryptMessage:messageModel];
+    }
     
     // Create the new CCMessage wrapper
     return [[CCMessageWrapper messageWithModel:messageModel] send].thenOnMain(^id(id success) {

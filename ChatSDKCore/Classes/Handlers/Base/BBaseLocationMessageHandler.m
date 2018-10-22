@@ -35,9 +35,9 @@
     // TODO: Get rid of this
     NSString * messageText = [NSString stringWithFormat:@"%f,%f",location.coordinate.latitude,location.coordinate.longitude];
 
-    [message setTextAsDictionary:@{bMessageTextKey: messageText,
-                                   bMessageLongitude: @(location.coordinate.longitude),
-                                   bMessageLatitude: @(location.coordinate.latitude)}];
+    [message setJson:@{bMessageTextKey: messageText,
+                       bMessageLongitude: @(location.coordinate.longitude),
+                       bMessageLatitude: @(location.coordinate.latitude)}];
     
     return [BChatSDK.core sendMessage:message].thenOnMain(^id(id result) {
         message.delivered = @YES;

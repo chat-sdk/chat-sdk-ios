@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import <ChatSDK/BAbstractPushHandler.h>
-#import <FirebaseMessaging/FirebaseMessaging.h>
 #import <ChatSDK/BBackgroundPushAction.h>
+
+#import <FirebaseMessaging/FirebaseMessaging.h>
 
 #define bChatSDKNotificationCategory @"co.chatsdk.QuickReply"
 #define bChatSDKReplyAction @"co.chatsdk.ReplyAction"

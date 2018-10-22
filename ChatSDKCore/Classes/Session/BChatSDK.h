@@ -82,6 +82,7 @@
 +(id<PInterfaceFacade>) ui;
 +(id<BStorageAdapter>) db;
 +(id<PFileMessageHandler>) fileMessage;
++(id<PEncryptionHandler>) encryption;
 +(id<PInternetConnectivityHandler>) connectivity;
 
 @end

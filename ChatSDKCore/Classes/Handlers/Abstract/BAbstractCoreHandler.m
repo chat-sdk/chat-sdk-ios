@@ -35,7 +35,7 @@
     id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadID withType:bThreadEntity];
     
     message.type = @(bMessageTypeText);
-    [message setTextAsDictionary:@{bMessageTextKey: text}];
+    [message setTextString:text];
     
     message.date = [NSDate date];
     message.userModel = self.currentUserModel;
@@ -43,7 +43,7 @@
     message.read = @YES;
     message.flagged = @NO;
     message.meta = meta;
-
+    
     [thread addMessage: message];
     
     return [self sendMessage:message];
@@ -52,7 +52,6 @@
 -(RXPromise *) sendMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID {
     return [self sendMessageWithText:text withThreadEntityID:threadID withMetaData:nil];
 }
-
 
 -(RXPromise *) sendMessage: (id<PMessage>) messageModel {
     // This is an abstract method which must be overridden
@@ -129,8 +128,7 @@
     
     message.type = @(bMessageTypeSystem);
     //message.text = text;
-    [message setTextAsDictionary:@{bMessageTypeKey: @(type),
-                                   bMessageTextKey: text}];
+    [message setTextString:text];
     
     id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadID withType:bThreadEntity];
 
@@ -139,6 +137,7 @@
     message.delivered = @YES;
     message.read = @YES;
     message.flagged = @NO;
+    message.type = @(type);
 
     [thread addMessage: message];
 

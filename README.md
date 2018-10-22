@@ -41,6 +41,7 @@ You can test the XMPP Chat SDK on the [App Store](https://itunes.apple.com/us/ap
 
 ## Modules
 
+- [End-to-End Encryption](https://chatsdk.co/downloads/end-to-end-encryption/)
 - [File Messages](http://chatsdk.co/file-messages/)
 - [Typing indicator](http://chatsdk.co/typing-indicator/)
 - [Read receipts](http://chatsdk.co/read-receipts/)
@@ -129,13 +130,13 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   ```
   use_frameworks!
   pod "ChatSDK"
-  pod "ChatSDK/FirebaseAdapter"
-  pod "ChatSDK/FirebaseFileStorage"
-  pod "ChatSDK/FirebasePush"
+  pod "ChatSDKFirebase/Adapter"
+  pod "ChatSDKFirebase/FileStorage"
+  pod "ChatSDKFirebase/Push"
   
   // Optional - for social login (see setup guide below)
   
-  pod "ChatSDK/FirebaseSocialLogin"
+  pod "ChatSDKFirebase/SocialLogin"
   ```
   
 2. Run `pod update` to get the latest version of the code.
@@ -195,7 +196,7 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
 
   ```
   let config = BConfiguration.init();
-  config.rootPath! = "test"
+  config.rootPath = "test"
   // Configure other options here...
   
   config.allowUsersToCreatePublicChats = true
@@ -276,18 +277,33 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   
 ### Push Notifications
 
-The Push Notification module allows you to send free push notifications using Firebase Clound Messenger.
+The Push Notification module allows you to send free push notifications using Firebase Cloud Messaging.
 
 1. Setup an [APN key](https://firebase.google.com/docs/cloud-messaging/ios/certs). 
 2. Inside your project in the Firebase console, select the gear icon, select Project Settings, and then select the Cloud Messaging tab.
 3. In APNs authentication key under iOS app configuration, click the Upload button.
 4. Browse to the location where you saved your key, select it, and click Open. Add the key ID for the key (available in Certificates, Identifiers & Profiles in the Apple Developer Member Center) and click Upload.
 5. Enable the push notifications Capability in your Xcode project **Project -> Capabilities -> Push Notifications**
-6. Add the Server key from the Firebase console **Settings -> Cloud Messaging -> Project credentials** to the `cloud_messaging_server_key` entry in **Info.plist -> chat_sdk -> firebase**
-7. In Xcode open the **Capabilities** tab. Enable **Push Notifications** and the following **Background Modes**: Location updates, Background fetch, Remote notifications. 
+6. In Xcode open the **Capabilities** tab. Enable **Push Notifications** and the following **Background Modes**: Location updates, Background fetch, Remote notifications. 
 
->**Note:**
->We add the server key directly to the project because it makes it very easy to send targeted push notifications. However, this method isn't the best from a security perspective because it means that if someone decompiled and examined the app package, they could gain access to the key and send push notifications using your account. A more secure approach would be to use a separate app server to send the pushes or to use Google Cloud Code. 
+##### Setup Firebase Cloud Functions
+
+To handle push notifications, we use [Firebase Cloud Functions](https://firebase.google.com/docs/functions/). This service allows you to upload a script to Firebase hosting. This script monitors the realtime database and whenever a new messsage is detected, it sends a push notification to the recipient. 
+
+Below is a summary of the steps that are required to setup push using the Firebase Cloud Functions script. For further instructions you can look at the [Firebase Documentation](https://firebase.google.com/docs/functions/get-started). 
+
+1. Run `firebase login` and login using the browser
+2. Make a new directory to store your push functions in. It can be called anything
+3. Navigate to that directory using the terminal
+4. Run `firebase init functions`
+5. Choose the correct app from the list
+6. Choose `JavaScript`
+7. Choose `y` for ESLint
+8. Choose `Y` to install node dependencies
+9. Find the `functions` directory you've just created and copy the `index.js` file from [Github]() into the directory
+10. Run `firebase deploy --only functions:pushListener` 
+
+Now the script is active and push notifications will be set out automatically. 
 
 ### Security Rules
 
@@ -423,11 +439,14 @@ Make sure you add the Social login pod to your `Podfile` then follow the followi
 2. Go to the [Firebase Console](https://console.firebase.google.com/) and open the **Auth** section
 3. On the **Sign in method** tab, enable the **Facebook** sign-in method and specify the **App ID** and **App Secret** you got from Facebook.
 4. Then, make sure your **OAuth redirect URI** (e.g. `my-app-12345.firebaseapp.com/__/auth/handler`) is listed as one of your **OAuth redirect URIs** in your Facebook app's settings page on the Facebook for Developers site in the **Product Settings > Facebook Login** config
-5. Open your projects Info.plist
-6. Add a new entry `FacebookAppID` then add your Facebook App ID
-7. Then open the `chat_sdk -> facebook` entry and add your AppID in the `app_id` field
-8. Open `URL types -> Item 0 -> URL Schemes` and then add your AppID with "fb" at the front (e.g. fb0123456789). 
-9. Add a new item to the plist called `LSApplicationQueriesSchemes` of type `Array`. Add a new entry `fbauth2`. 
+5. Add your key to the ChatSDK config object:
+
+   ```
+   config.facebookAppId = @"facebook-app-id";
+   ```
+   
+6. Open `URL types -> Item 0 -> URL Schemes` and then add your AppID with "fb" at the front (e.g. fb0123456789). 
+7. Add a new item to the plist called `LSApplicationQueriesSchemes` of type `Array`. Add a new entry `fbauth2`. 
 
 #### Twitter
 
@@ -435,21 +454,26 @@ Make sure you add the Social login pod to your `Podfile` then follow the followi
 2. In the [Firebase console](https://console.firebase.google.com/), open the **Auth** section.
 3. On the **Sign in method** tab, enable the **Twitter** sign-in method and specify the **API Key** and **API Secret** you got from Twitter.
 4. Then, make sure your Firebase **OAuth redirect URI** (e.g. `my-app-12345.firebaseapp.com/__/auth/handler`) is set as your **Callback URL** in your app's settings page on your [Twitter app's config](https://apps.twitter.com/).
-5. Open your projects **Info.plist**
-6. Open **chat_sdk -> twitter**
-7. Add your Consumer Key to the **api_key** field
-8. Add your Consumer Secret to the **secret** field
-9. Open URL types and add a new item of type `Dictionary`
-10. Add two entries `Document Role`: `Editor` and `URL Schemes`: `Array`
-11. Add your Consumer Key prefixed with `twitterkit-` as an item in the new `URL Schemes` array. e.g. `twitterkit-0123456789`
+5. Add your keys to the Chat SDK config object:
+
+   ```
+   config.twitterApiKey = @"twitter-api-key";
+   config.twitterSecret = @"twitter-secret";
+   ```
+   
+6. Open URL types and add a new item of type `Dictionary`
+7. Add two entries `Document Role`: `Editor` and `URL Schemes`: `Array`
+8. Add your Consumer Key prefixed with `twitterkit-` as an item in the new `URL Schemes` array. e.g. `twitterkit-0123456789`
 
 #### Google
   
 1. In the [Firebase console](https://console.firebase.google.com/), open the **Auth** section.
 2. On the **Sign in method** tab, enable the **Google** sign-in method and click **Save**.
-3. Open your projects **Info.plist**
-4. Open **chat_sdk -> google**
-5. Add your Client Key to the **client_key** field
+3. Add your Client Key to the Chat SDK config object:
+
+   ```
+   config.googleClientKey = @"google-client-key";
+   ```
   
 ### Firebase UI
 

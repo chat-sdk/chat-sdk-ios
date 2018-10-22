@@ -52,6 +52,7 @@
     [self activateModuleForName:@"BFileMessageModule"];
     [self activateModuleForName:@"BDiagnosticModule"];
     [self activateModuleForName:@"BContactBookModule"];
+    [self activateModuleForName:@"ChatSDKModulesSwift.E2EModule"];
     [self activateModuleForName:@"BKeyboardOverlayOptionsModule"];
 }
 

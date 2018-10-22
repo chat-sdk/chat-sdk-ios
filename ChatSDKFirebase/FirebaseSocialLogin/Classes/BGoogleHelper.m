@@ -8,7 +8,7 @@
 
 #import "BGoogleHelper.h"
 
-#import <ChatSDK/SocialLogin.h>
+#import <ChatSDKFirebase/SocialLogin.h>
 
 @implementation BGoogleHelper
 

@@ -9,7 +9,7 @@
 #ifndef ChatCore_h
 #define ChatCore_h
 
-#define bCoreBundleName @"ChatCore"
+#define bCoreBundleName @"Frameworks/ChatSDK.framework/ChatCore"
 
 #import <RXPromise/RXPromise.h>
 #import <RXPromise/RXPromise+RXExtension.h>
@@ -66,6 +66,7 @@
 #import <ChatSDK/PModerationHandler.h>
 #import <ChatSDK/PSearchHandler.h>
 #import <ChatSDK/PPublicThreadHandler.h>
+#import <ChatSDK/PEncryptionHandler.h>
 #import <ChatSDK/PBlockingHandler.h>
 #import <ChatSDK/PLastOnlineHandler.h>
 #import <ChatSDK/PNearbyUsersHandler.h>

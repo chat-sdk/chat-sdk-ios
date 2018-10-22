@@ -89,7 +89,7 @@
         facebookLoginEnabled = YES;
         twitterLoginEnabled = YES;
         googleLoginEnabled = YES;
-        clientPushEnabled = YES;
+        clientPushEnabled = NO;
         
         timeFormat = @"HH:mm";
         

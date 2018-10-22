@@ -16,5 +16,6 @@
 }
 
 -(id<PThread>) createThreadWithUsers: (NSArray *) users name: (NSString *) name;
+-(RXPromise *) prepareSendMessage: (id<PMessage>) messageModel;
 
 @end

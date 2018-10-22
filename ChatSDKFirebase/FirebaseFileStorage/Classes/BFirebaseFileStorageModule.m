@@ -7,7 +7,7 @@
 //
 
 #import "BFirebaseFileStorageModule.h"
-#import <ChatSDK/FirebaseFileStorage.h>
+#import <ChatSDKFirebase/FirebaseFileStorage.h>
 
 @implementation BFirebaseFileStorageModule
 

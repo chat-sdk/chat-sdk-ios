@@ -131,37 +131,29 @@
         return self.meta;
     }
     else {
-        return self.textAsDictionary;
+        return self.json;
     }
 }
 
 // TODO: Depricated - remove this
 -(NSError *) setTextAsDictionary: (NSDictionary *) dict {
-    self.json = dict;
-    
-    // Needed to support API 2
-    NSError * error;
-    NSData * jsonData = [NSJSONSerialization  dataWithJSONObject:dict options:0 error:&error];
-    NSString * myString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-
-    self.text = myString;
-    return error;
-    
+    [self setJson:dict];
+    return Nil;
 }
 
 // TODO: Depricated - remove this
--(NSDictionary *) textAsDictionary {
-    if(!self.json) {
-        NSData *data =[self.text dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary * response;
-        NSError * error;
-        if(data!=nil){
-            response = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-        }
-        self.json = response;
-    }
-    return self.json;
-}
+//-(NSDictionary *) textAsDictionary {
+//    if(!self.json) {
+//        NSData *data =[self.text dataUsingEncoding:NSUTF8StringEncoding];
+//        NSDictionary * response;
+//        NSError * error;
+//        if(data!=nil){
+//            response = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+//        }
+//        self.json = response;
+//    }
+//    return self.json;
+//}
 
 -(NSString *) color {
     return self.user.messageColor;
@@ -179,11 +171,11 @@
 }
 
 -(NSString *) textString {
-    return self.textAsDictionary[bMessageTextKey];
+    return self.json[bMessageTextKey];
 }
 
 -(void) setTextString: (NSString *) text {
-    [self setTextAsDictionary:@{bMessageTextKey: text ? text : @""}];
+    [self setJson:@{bMessageTextKey: text ? text : @""}];
 }
 
 // This helps us know if we want to show it in the thread
@@ -252,22 +244,24 @@
     }
 }
 
--(CDMessage *) copy {
-    CDMessage * message = [BChatSDK.db createMessageEntity];
-    message.entityID = [self.entityID copy];
-    message.date = [self.date copy];
-    message.placeholder = [self.placeholder copy];
-    message.read = [self.read copy];
-    message.resource = [self.resource copy];
-    message.resourcePath = [self.resourcePath copy];
-    message.text = [self.text copy];
-    message.type = [self.type copy];
-    message.thread = self.thread;
-    message.user = self.user;
-    message.status = [self.status copy];
-    message.meta = [self.meta copy];
-    return message;
-}
+//-(CDMessage *) copy {
+//    CDMessage * message = [BChatSDK.db createMessageEntity];
+//    message.entityID = [self.entityID copy];
+//    message.date = [self.date copy];
+//    message.placeholder = [self.placeholder copy];
+//    message.read = [self.read copy];
+//    message.resource = [self.resource copy];
+//    message.resourcePath = [self.resourcePath copy];
+//    message.text = [self.text copy];
+//    message.type = [self.type copy];
+//    message.thread = self.thread;
+//    message.user = self.user;
+//    message.status = [self.status copy];
+//    message.meta = [self.meta copy];
+//    message.json = [self.json copy];
+//    
+//    return message;
+//}
 
 -(BOOL) senderIsMe {
     

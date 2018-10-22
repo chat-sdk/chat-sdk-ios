@@ -8,7 +8,7 @@
 
 #import "CCMessageWrapper.h"
 
-#import <ChatSDK/FirebaseAdapter.h>
+#import <ChatSDKFirebase/FirebaseAdapter.h>
 
 @implementation CCMessageWrapper
 
@@ -90,9 +90,9 @@
     if(BChatSDK.config.includeMessagePayload) {
         dict[bPayload] = _model.textString;
     }
-    if(BChatSDK.config.includeMessageJSON) {
-        dict[bJSON] = _model.text;
-    }
+//    if(BChatSDK.config.includeMessageJSON) {
+//        dict[bJSON] = _model.text;
+//    }
     if(BChatSDK.config.includeMessageJSONV2) {
         dict[bJSONV2] = _model.json;
     }
@@ -112,22 +112,6 @@
     return readReceipts;
 }
 
--(void) handlePayload: (NSString *) payload __deprecated_msg("From version 4 onwards messages should be encoded using JSON."); {
-    
-    NSData *jsonData = [payload dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *e;
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&e];
-    
-    // This is encoded as JSON
-    if(dict[@"text"]) {
-        [_model setText:payload];
-    }
-    else {
-        [_model setTextAsDictionary:@{bMessageTextKey: payload}];
-    }
-
-}
-
 -(RXPromise *) deserialize: (NSDictionary *) value {
     
     RXPromise * promise = [RXPromise new];
@@ -141,12 +125,6 @@
         NSString * json = value[bJSON];
         if (json) {
             [_model setText:json];
-        }
-        else {
-            NSString * payload = value[bPayload];
-            if (payload) {
-                [self handlePayload:payload];
-            }
         }
     }
     

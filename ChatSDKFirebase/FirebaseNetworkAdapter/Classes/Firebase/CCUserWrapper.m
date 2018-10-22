@@ -6,8 +6,7 @@
 //  Copyright (c) 2015 deluge. All rights reserved.
 //
 
-#import <ChatSDK/CCUserWrapper.h>
-#import <ChatSDK/FirebaseAdapter.h>
+#import <ChatSDKFirebase/FirebaseAdapter.h>
 
 @implementation CCUserWrapper
 

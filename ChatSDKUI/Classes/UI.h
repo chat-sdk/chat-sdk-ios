@@ -9,7 +9,7 @@
 #ifndef ChatUI_h
 #define ChatUI_h
 
-#define bUIBundleName @"ChatUI"
+#define bUIBundleName @"Frameworks/ChatSDK.framework/ChatUI"
 
 #import <ChatSDK/Core.h>
 

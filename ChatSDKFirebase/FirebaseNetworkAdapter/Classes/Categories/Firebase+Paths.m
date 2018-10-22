@@ -8,7 +8,7 @@
 
 #import "Firebase+Paths.h"
 
-#import <ChatSDK/FirebaseAdapter.h>
+#import <ChatSDKFirebase/FirebaseAdapter.h>
 
 @implementation FIRDatabaseReference (Paths)
 

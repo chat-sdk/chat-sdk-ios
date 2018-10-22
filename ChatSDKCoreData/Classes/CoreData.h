@@ -9,7 +9,7 @@
 #ifndef ChatCoreData_h
 #define ChatCoreData_h
 
-#define bCoreDataBundle @"ChatCoreData"
+#define bCoreDataBundle @"Frameworks/ChatSDK.framework/ChatCoreData"
 
 #import <ChatSDK/BCoreDataManager.h>
 #import <ChatSDK/CDUser.h>

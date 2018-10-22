@@ -8,7 +8,7 @@
 
 #import "BFirebasePushHandler.h"
 #import <ChatSDK/Core.h>
-#import <ChatSDK/FirebasePush.h>
+#import <ChatSDKFirebase/FirebasePush.h>
 
 @implementation BFirebasePushHandler
 

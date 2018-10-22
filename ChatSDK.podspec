@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.8.4"
+  s.version          = "4.9.0"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   
   s.default_subspec = 'Complete'
   
-  s.static_framework = true
+#   s.static_framework = true
   
   s.subspec 'Complete' do |core| 
     core.dependency 'ChatSDK/UI'
@@ -30,6 +30,7 @@ Pod::Spec.new do |s|
 	  core.dependency 'RXPromise', '~> 1.0'
 	  core.dependency 'AFNetworking', '~>3.2.1'
 	  core.dependency 'DateTools', '~> 2.0'
+      core.dependency 'SAMKeychain'
 
       core.frameworks = 'SafariServices'
   
@@ -90,53 +91,53 @@ Pod::Spec.new do |s|
 #   
 #   end
 
- s.subspec 'FirebaseAdapter' do |fb|
-
-	fb.source_files = ['ChatSDKFirebase/FirebaseNetworkAdapter/Classes/**/*']
-	
-    fb.dependency 'Firebase/Auth'
-    fb.dependency 'Firebase/Database'
- 
-	fb.dependency 'ChatSDK/Core'
-  
-  end
-
- s.subspec 'FirebaseFileStorage' do |ffs|
-
-	ffs.source_files = ['ChatSDKFirebase/FirebaseFileStorage/Classes/**/*']
-
-    ffs.dependency 'Firebase/Storage'
-	ffs.dependency 'ChatSDK/FirebaseAdapter'
-  
-  end
-
- s.subspec 'FirebasePush' do |fp|
-
-	fp.source_files = ['ChatSDKFirebase/FirebasePush/Classes/**/*']
-
-    fp.dependency 'Firebase/Messaging'
-    fp.dependency 'Firebase/Functions'
-	fp.dependency 'ChatSDK/FirebaseAdapter'
-
-  end
-  
- s.subspec 'FirebaseSocialLogin' do |fsl|
-
-	fsl.source_files = ['ChatSDKFirebase/FirebaseSocialLogin/Classes/**/*']
-	fsl.resource_bundles = {
-	  'ChatFirebaseSocialLogin' => ['ChatSDKFirebase/FirebaseSocialLogin/Assets/**/*']
-	}
-	
-# 	fsl.dependency 'TwitterKit', '<3.3.0'
-# 	fsl.dependency 'TwitterCore', '<3.1.0'
- 	fsl.dependency 'TwitterKit' 
- 	fsl.dependency 'TwitterCore' 
-    fsl.dependency 'GoogleSignIn'
-    fsl.dependency 'FBSDKLoginKit'
-
-	fsl.dependency 'ChatSDK/FirebaseAdapter'
-	fsl.dependency 'ChatSDK/UI'
-
-  end
+#  s.subspec 'FirebaseAdapter' do |fb|
+# 
+# 	fb.source_files = ['ChatSDKFirebase/FirebaseNetworkAdapter/Classes/**/*']
+# 	
+#     fb.dependency 'Firebase/Auth'
+#     fb.dependency 'Firebase/Database'
+#  
+# 	fb.dependency 'ChatSDK/Core'
+#   
+#   end
+# 
+#  s.subspec 'FirebaseFileStorage' do |ffs|
+# 
+# 	ffs.source_files = ['ChatSDKFirebase/FirebaseFileStorage/Classes/**/*']
+# 
+#     ffs.dependency 'Firebase/Storage'
+# 	ffs.dependency 'ChatSDK/FirebaseAdapter'
+#   
+#   end
+# 
+#  s.subspec 'FirebasePush' do |fp|
+# 
+# 	fp.source_files = ['ChatSDKFirebase/FirebasePush/Classes/**/*']
+# 
+#     fp.dependency 'Firebase/Messaging'
+#     fp.dependency 'Firebase/Functions'
+# 	fp.dependency 'ChatSDK/FirebaseAdapter'
+# 
+#   end
+#   
+#  s.subspec 'FirebaseSocialLogin' do |fsl|
+# 
+# 	fsl.source_files = ['ChatSDKFirebase/FirebaseSocialLogin/Classes/**/*']
+# 	fsl.resource_bundles = {
+# 	  'ChatFirebaseSocialLogin' => ['ChatSDKFirebase/FirebaseSocialLogin/Assets/**/*']
+# 	}
+# 	
+# # 	fsl.dependency 'TwitterKit', '<3.3.0'
+# # 	fsl.dependency 'TwitterCore', '<3.1.0'
+#  	fsl.dependency 'TwitterKit' 
+#  	fsl.dependency 'TwitterCore' 
+#     fsl.dependency 'GoogleSignIn'
+#     fsl.dependency 'FBSDKLoginKit'
+# 
+# 	fsl.dependency 'ChatSDK/FirebaseAdapter'
+# 	fsl.dependency 'ChatSDK/UI'
+# 
+#   end
       
 end

@@ -20,13 +20,8 @@
 +(NSString *) firebaseRootPath;
 +(NSString *) firebaseStoragePath;
 
-+(NSString *) parseAppId;
-+(NSString *) parseClientKey;
 +(BOOL) anonymousLoginEnabled;
 
-+(BOOL) userChatInfoEnabled;
-
-+(NSString *) timeFormat;
 +(NSString *) firebaseCloudMessagingServerKey;
 
 +(id) s: (NSArray *) parameters;

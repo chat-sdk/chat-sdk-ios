@@ -8,7 +8,7 @@
 
 #import "CCThreadWrapper.h"
 
-#import <ChatSDK/FirebaseAdapter.h>
+#import <ChatSDKFirebase/FirebaseAdapter.h>
 
 #define bMessageDownloadLimit 50
 
@@ -142,7 +142,7 @@
         // Convert the start date to a Firebase timestamp
         query = [[query queryOrderedByPriority] queryStartingAtValue:[BFirebaseCoreHandler dateToTimestamp:startDate]];
         
-        // Limit to 500 messages just to be safe - on a busy public thread we wouldn't want to
+        // Limit to 50 messages just to be safe - on a busy public thread we wouldn't want to
         // download 50k messages!
         query = [query queryLimitedToLast:bMessageDownloadLimit];
         
@@ -163,7 +163,6 @@
                     // This gets the message if it exists and then updates it from the snapshot
                     CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:snapshot];
                     
-                    [BChatSDK.hook executeHookWithName:bHookMessageRecieved data:@{bHookMessageReceived_PMessage: message.model}];
                     
                     BOOL newMessage = message.model.delivered.boolValue == NO;
                     
@@ -178,7 +177,9 @@
                     [strongSelf.model addMessage:message.model];
                     
                     [BChatSDK.core save];
-                    
+
+                    [BChatSDK.hook executeHookWithName:bHookMessageRecieved data:@{bHookMessageReceived_PMessage: message.model}];
+
                     if (newMessage) {
                         // TODO: Maybe change here
                         

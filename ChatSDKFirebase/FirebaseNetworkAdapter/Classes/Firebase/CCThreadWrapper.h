@@ -7,6 +7,7 @@
 //
 
 #import "BEntity.h"
+
 #import <ChatSDK/PThreadWrapper.h>
 
 @class CCUserWrapper;

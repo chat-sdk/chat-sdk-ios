@@ -14,7 +14,6 @@
 #define bAnonymousKey @"anonymous"
 #define bFacebookKey @"facebook"
 #define bFirebaseKey @"firebase"
-#define bParseKey @"parse"
 #define bSettingsKey @"settings"
 #define bTwitterKey @"twitter"
 #define bGoogleKey @"google"
@@ -33,8 +32,6 @@
 #define bApiKey @"api_key"
 #define bSecretKey @"secret"
 #define bFirebaseStorageBucket @"STORAGE_BUCKET"
-
-#define bUserChatInfoEnabledKey @"user_chat_info_enabled"
 
 @implementation BSettingsManager
 
@@ -105,23 +102,6 @@
 
 +(NSString *) firebaseRootPath {
     return [self string_s:@[bFirebaseKey, bRootPathKey]];
-}
-
-+(NSString *) parseAppId {
-    return [self string_s:@[bParseKey, bAppIDKey]];
-}
-
-+(NSString *) parseClientKey {
-    return [self string_s:@[bParseKey, bClientKey]];
-}
-
-+(NSString *) timeFormat {
-    return [self string_s:@[bSettingsKey, bTimeFormat]];
-}
-
-// Turn on whether users can access the BUsersViewController from the chat view
-+(BOOL) userChatInfoEnabled {
-    return [[self number_s:@[bSettingsKey, bUserChatInfoEnabledKey]] boolValue];
 }
 
 +(NSString *) property: (NSString *) property forModule: (NSString *) module {

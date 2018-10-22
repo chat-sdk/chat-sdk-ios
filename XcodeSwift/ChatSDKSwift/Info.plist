@@ -101,44 +101,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>chat_sdk</key>
-	<dict>
-		<key>anonymous</key>
-		<dict>
-			<key>enabled</key>
-			<true/>
-		</dict>
-		<key>facebook</key>
-		<dict>
-			<key>app_id</key>
-			<string>648056098576150</string>
-		</dict>
-		<key>firebase</key>
-		<dict>
-			<key>cloud_messaging_server_key</key>
-			<string>AAAA_WvJyeI:APA91bFIDYoxnbFTub61SKCh8-RZrElzdkZpzyV3paGFlRWonMzq33zQmQW3ub5hDXLuRaipwtoHSoDKXkZlN5DRb_EYdrxtaDptmvZKCYBPKI-4RqTK9wVLOJvgc5X3bVWLfpNSJO_tLK2pnmhfpHDw2Zs-5L2yug</string>
-			<key>root_path</key>
-			<string>18_02</string>
-		</dict>
-		<key>google</key>
-		<dict>
-			<key>client_key</key>
-			<string>1088435112418-4cm46hg39okkf0skj2h5roj1q62anmec.apps.googleusercontent.com</string>
-		</dict>
-		<key>settings</key>
-		<dict>
-			<key>app_badge_enabled</key>
-			<true/>
-			<key>user_chat_info_enabled</key>
-			<true/>
-		</dict>
-		<key>twitter</key>
-		<dict>
-			<key>api_key</key>
-			<string>Kqprq5b6bVeEfcMAGoHzUmB3I</string>
-			<key>secret</key>
-			<string>hPd9HCt3PLnifQFrGHJWi6pSZ5jF7kcHKXuoqB8GJpSDAlVcLq</string>
-		</dict>
-	</dict>
 </dict>
 </plist>

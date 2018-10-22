@@ -9,7 +9,7 @@
 #import "BGoogleLoginViewController.h"
 
 #import <ChatSDK/UI.h>
-#import <ChatSDK/SocialLogin.h>
+#import <ChatSDKFirebase/SocialLogin.h>
 
 @interface BGoogleLoginViewController ()
 

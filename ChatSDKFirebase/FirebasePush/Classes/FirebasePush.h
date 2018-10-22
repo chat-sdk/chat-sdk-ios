@@ -8,10 +8,10 @@
 #ifndef FirebasePush_h
 #define FirebasePush_h
 
-#import <ChatSDK/BFirebasePushHandler.h>
-#import <ChatSDK/BFirebasePushModule.h>
-#import <ChatSDK/BLocalNotificationDelegate.h>
-#import <ChatSDK/FirebaseAdapter.h>
+#import <ChatSDKFirebase/BFirebasePushHandler.h>
+#import <ChatSDKFirebase/BFirebasePushModule.h>
+#import <ChatSDKFirebase/BLocalNotificationDelegate.h>
+#import <ChatSDKFirebase/FirebaseAdapter.h>
 #import <ChatSDK/Core.h>
 
 #endif /* FirebasePush_h */

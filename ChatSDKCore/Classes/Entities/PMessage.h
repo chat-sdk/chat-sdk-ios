@@ -71,6 +71,7 @@ typedef enum {
 -(NSString *) text;
 
 -(NSString *) textString;
+-(void) setTextString: (NSString *) text;
 
 -(NSDictionary *) json;
 -(void) setJson: (NSDictionary *) json;
@@ -90,6 +91,9 @@ typedef enum {
 -(void) setEntityID:(NSString *)uid;
 -(NSString *) entityID;
 
+/**
+ * Deprecated in favour of setJson:
+ */
 -(NSError *) setTextAsDictionary: (NSDictionary *) dict;
 
 /**
@@ -152,7 +156,7 @@ typedef enum {
 
 - (NSNumber *)flagged;
 -(void) setFlagged: (NSNumber *) flagged;
--(id<PMessage>) copy;
+//-(id<PMessage>) copy;
 
 @optional
 

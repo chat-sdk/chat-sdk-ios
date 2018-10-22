@@ -8,9 +8,9 @@
 #ifndef FirebaseFileStorage_h
 #define FirebaseFileStorage_h
 
-#import <ChatSDK/FirebaseAdapter.h>
-#import <ChatSDK/BFirebaseFileStorageModule.h>
-#import <ChatSDK/BFirebaseUploadHandler.h>
+#import <ChatSDKFirebase/FirebaseAdapter.h>
+#import <ChatSDKFirebase/BFirebaseFileStorageModule.h>
+#import <ChatSDKFirebase/BFirebaseUploadHandler.h>
 #import <FirebaseStorage/FirebaseStorage.h>
 
 #endif /* FirebaseFileStorage_h */

@@ -7,7 +7,7 @@
 //
 
 #import <ChatSDK/PUserWrapper.h>
-#import <ChatSDK/BEntity.h>
+#import <ChatSDKFirebase/BEntity.h>
 
 @class FIRUser;
 @class FIRDataSnapshot;

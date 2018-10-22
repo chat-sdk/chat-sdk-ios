@@ -281,6 +281,10 @@ static BChatSDK * instance;
     return self.a.fileMessage;
 }
 
++(id<PEncryptionHandler>) encryption {
+    return self.a.encryption;
+}
+
 +(id<PInternetConnectivityHandler>) connectivity {
     return self.a.connectivity;
 }

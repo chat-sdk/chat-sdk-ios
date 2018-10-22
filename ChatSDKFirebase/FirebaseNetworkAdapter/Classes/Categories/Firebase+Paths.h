@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 deluge. All rights reserved.
 //
 
-#import <ChatSDK/FirebaseAdapter.h>
+#import <ChatSDKFirebase/FirebaseAdapter.h>
 
 @class FIRDatabaseReference;
 

@@ -5,16 +5,17 @@ use_frameworks!
 target 'ChatSDK Demo' do
   
   pod "ChatSDK", :path => "../"
-  pod "ChatSDK/FirebaseAdapter", :path => "../"
-  pod "ChatSDK/FirebaseFileStorage", :path => "../"
-  pod "ChatSDK/FirebasePush", :path => "../"
-  pod "ChatSDK/FirebaseSocialLogin", :path => "../"
+  pod "ChatSDKFirebase/Adapter", :path => "../"
+  pod "ChatSDKFirebase/FileStorage", :path => "../"
+  pod "ChatSDKFirebase/Push", :path => "../"
+  pod "ChatSDKFirebase/SocialLogin", :path => "../"
 #   pod "ChatSDK/Extras", :path => "../"
   
 #   pod 'TwitterKit', '<3.3.0'
 #   pod 'TwitterCore', '<3.1.0'
 #   pod 'GoogleSignIn'
 #   pod 'FBSDKLoginKit'
+ 
   
   #pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
   #pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"

@@ -4,21 +4,14 @@ use_frameworks!
 
 target 'ChatSDKSwift' do
 
-  pod "ChatSDK/UI", :path => "../"
-  pod "ChatSDK/FirebaseAdapter", :path => "../"
-  pod "ChatSDK/FirebaseFileStorage", :path => "../"
-  pod "ChatSDK/FirebasePush", :path => "../"
-  pod "ChatSDK/FirebaseSocialLogin", :path => "../"
+  pod "ChatSDK", :path => "../"
+  pod "ChatSDKFirebase/Adapter", :path => "../"
+  pod "ChatSDKFirebase/FileStorage", :path => "../"
+  pod "ChatSDKFirebase/Push", :path => "../"
+  pod "ChatSDKFirebase/SocialLogin", :path => "../"
 
   #pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
   #pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"
   #pod "ChatSDKModules/ContactBook", :path => "../ChatSDKModules"
-	
-  #### Optional ####
-
-  # Crashlytics see: https://firebase.google.com/docs/crashlytics/get-started?authuser=0
-
-  pod 'Fabric', '~> 1.7.2'
-  pod 'Crashlytics', '~> 3.9.3'
   
 end

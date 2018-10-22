@@ -8,7 +8,7 @@
 
 #import "BStateManager.h"
 
-#import <ChatSDK/FirebaseAdapter.h>
+#import <ChatSDKFirebase/FirebaseAdapter.h>
 
 @implementation BStateManager
 

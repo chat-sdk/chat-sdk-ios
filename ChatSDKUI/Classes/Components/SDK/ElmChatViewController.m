@@ -168,6 +168,7 @@
     if (scroll) {
         [self scrollToBottomOfTable:YES];
     }
+        
 }
 
 - (void)viewDidLoad {

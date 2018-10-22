@@ -78,6 +78,7 @@
 #define bUserNameKey @"name"
 #define bUserEmailKey @"email"
 #define bUserPushTokenKey @"pushToken"
+#define bUserPublicKeysKey @"public-keys"
 #define bUserPhoneKey @"phone"
 #define bUserPrefixKey @"user"
 #define bUserImageURLKey @"pictureURL"
