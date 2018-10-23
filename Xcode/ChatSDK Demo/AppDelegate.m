@@ -25,9 +25,7 @@
     config.rootPath = @"18_10";
     config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = NO;
-    config.loginUsernamePlaceholder = @"Email";
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
-    config.firebaseCloudMessagingServerKey = @"AAAA_WvJyeI:APA91bFIDYoxnbFTub61SKCh8-RZrElzdkZpzyV3paGFlRWonMzq33zQmQW3ub5hDXLuRaipwtoHSoDKXkZlN5DRb_EYdrxtaDptmvZKCYBPKI-4RqTK9wVLOJvgc5X3bVWLfpNSJO_tLK2pnmhfpHDw2Zs-5L2yug";
     config.clearDataWhenRootPathChanges = YES;
     config.loginUsernamePlaceholder = @"Email";
     

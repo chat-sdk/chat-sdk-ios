@@ -301,7 +301,7 @@ Below is a summary of the steps that are required to setup push using the Fireba
 7. Choose `y` for ESLint
 8. Choose `Y` to install node dependencies
 9. Find the `functions` directory you've just created and copy the `index.js` file from [Github](https://raw.githubusercontent.com/chat-sdk/chat-sdk-ios/master/FirebasePushNotifications/index.js) into the directory
-10. Run `firebase deploy --only functions:pushListener` 
+10. Run `firebase deploy` 
 
 Now the script is active and push notifications will be set out automatically. 
 

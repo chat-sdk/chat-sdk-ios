@@ -140,10 +140,12 @@
     if(BChatSDK.encryption) {
         [BChatSDK.encryption encryptMessage:messageModel];
     }
-    
+
+    // Send a push notification for the message
+    [BChatSDK.push pushForMessage:messageModel];
+
     // Create the new CCMessage wrapper
     return [[CCMessageWrapper messageWithModel:messageModel] send].thenOnMain(^id(id success) {
-        [BChatSDK.push pushForMessage:messageModel];
         return success;
     }, Nil);
     

@@ -32,9 +32,6 @@
 // this allows you to run multiple chat instances on one Firebase database
 @property (nonatomic, readwrite) NSString * rootPath;
 
-// Firebase cloud messaging server key
-@property (nonatomic, readwrite) NSString * firebaseCloudMessagingServerKey;
-
 // Enable the unread messages count on the main app badge
 @property (nonatomic, readwrite) BOOL appBadgeEnabled;
 

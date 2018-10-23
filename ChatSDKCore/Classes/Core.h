@@ -21,7 +21,6 @@
 #import <ChatSDK/RXPromise+Additions.h>
 #import <ChatSDK/UIImage+Resize.h>
 #import <ChatSDK/NSBundle+Additions.h>
-#import <ChatSDK/RXPromise+PromiseKit.h>
 #import <ChatSDK/NSDate+Additions.h>
 #import <ChatSDK/NSDictionary+Meta.h>
 

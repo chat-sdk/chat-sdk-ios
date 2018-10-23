@@ -21,7 +21,6 @@
 
 #define bEnabledKey @"enabled"
 #define bPathKey @"path"
-#define bCloudMessagingServerKey @"cloud_messaging_server_key"
 
 #define bAppIDKey @"app_id"
 #define bAppSecret @"app_secret"
@@ -94,10 +93,6 @@
 
 +(NSString *) firebasePath {
     return [self string_s:@[bFirebaseKey, bPathKey]];
-}
-
-+(NSString *) firebaseCloudMessagingServerKey {
-    return [self string_s:@[bFirebaseKey, bCloudMessagingServerKey]];
 }
 
 +(NSString *) firebaseRootPath {

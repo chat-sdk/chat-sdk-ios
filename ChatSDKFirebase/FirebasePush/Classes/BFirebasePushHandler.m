@@ -159,28 +159,10 @@
     NSString *fcmToken = [FIRMessaging messaging].FCMToken;
     NSLog(@"FCM registration token: %@", fcmToken);
     
-    _userPushToken = fcmToken;
-
-    // Set the push key when authentication finishes
-    BHook * hook = [BHook hook:^(NSDictionary * data) {
-        _authFinished = YES;
-        
-        if(self.tokenRefreshed != Nil && [self updateUserPushToken]) {
-            self.tokenRefreshed();
-        }
-    }];
-    
-    [BChatSDK.hook addHook:hook withName:bHookUserAuthFinished];
-    
-//    [BChatSDK.currentUser setMetaValue:fcmToken forKey:@""];
-    
 }
 
 -(void) messaging:(FIRMessaging *)messaging didReceiveRegistrationToken:(NSString *)fcmToken {
-    _userPushToken = fcmToken;
-    if(_authFinished && self.tokenRefreshed != Nil && [self updateUserPushToken]) {
-        self.tokenRefreshed();
-    }
+
 }
 
 - (void)messaging:(nonnull FIRMessaging *)messaging didRefreshRegistrationToken:(nonnull NSString *)fcmToken {
@@ -188,12 +170,6 @@
     // time. So if you need to retrieve the token as soon as it is available this is where that
     // should be done.
     NSLog(@"FCM registration token: %@", fcmToken);
-    
-    _userPushToken = fcmToken;
-    
-    if(_authFinished && self.tokenRefreshed != Nil && [self updateUserPushToken]) {
-        self.tokenRefreshed();
-    }
 }
 
 
@@ -201,18 +177,6 @@
     [FIRMessaging messaging].APNSToken = deviceToken;
     NSLog(@"Success");
 }
-
--(BOOL) updateUserPushToken {
-    if(_userPushToken && _userPushToken.length && BChatSDK.currentUser) {
-        NSString * currentToken = [BChatSDK.currentUser.meta metaValueForKey:bUserPushTokenKey];
-        if(![currentToken isEqualToString: _userPushToken]) {
-            [BChatSDK.currentUser setMetaValue:_userPushToken forKey:bUserPushTokenKey];
-            return YES;
-        }
-    }
-    return NO;
-}
-
 
 - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
 //    if (application.applicationState != UIApplicationStateActive) {
@@ -240,97 +204,53 @@
     [[FIRMessaging messaging] unsubscribeFromTopic:channel];
 }
 
--(void) pushToUsers: (NSArray *) users withMessage: (id<PMessage>) message {
+-(void) pushForMessage: (id<PMessage>) message {
     
-    // Format the message that we're going to push
-    NSString * text = [NSBundle textForMessage: message];
-    
-    NSString * title = message.userModel.name ? message.userModel.name : @"";
-    
-    NSDictionary * data = @{
-//                            @"title": title,
-//                            @"body": text ? text : @"",
-                            bPushThreadEntityID: message.thread.entityID,
-                            bPushUserEntityID: message.userModel.entityID};
-    
-    NSDictionary * notification = @{@"title": title,
-                                    @"body": text ? text : @"",
-                                    @"badge": @1,
-                                    @"priority": @"high",
-                                    @"sound": BChatSDK.config.pushNotificationSound,
-                                    @"click_action": BChatSDK.config.pushNotificationAction ? BChatSDK.config.pushNotificationAction : bChatSDKNotificationCategory};
-
-    [self pushToUsers:users withNotification: notification withData:data];
-}
-
--(void) pushToUsers: (NSArray *) users withNotification: (NSDictionary *) notification withData: (NSDictionary *) data {
-    // We're identifying each user using push channels. This means that
-    // when a user signs up, they register with parse on a particular
-    // channel. In this case user_[user id] this means that we can
-    // send a push to a specific user if we know their user id.
-    NSMutableArray * userChannels = [NSMutableArray new];
-    id<PUser> currentUserModel = BChatSDK.currentUser;
-    for (id<PUser> user in users) {
-        NSString * pushToken = [user.meta metaValueForKey:bUserPushTokenKey];
-        if(![user isEqual:currentUserModel] && pushToken && (!user.online.boolValue || !BChatSDK.config.onlySendPushToOfflineUsers))
-            [userChannels addObject:pushToken];
-    }
-    
-    [self pushToChannels:userChannels withNotification:notification withData:data];
-
-}
-
--(void) pushToChannels: (NSArray *) channels withNotification: (NSDictionary *) notification withData:(NSDictionary *) data {
-    
-//    [[[FIRFunctions functions] HTTPSCallableWithName:@"sendPush"] callWithObject:@{@"Test": @"a"} completion:^(FIRHTTPSCallableResult * result, NSError * error) {
-//        if (error) {
-//            if (error.domain == FIRFunctionsErrorDomain) {
-//                FIRFunctionsErrorCode code = error.code;
-//                NSString *message = error.localizedDescription;
-//                NSObject *details = error.userInfo[FIRFunctionsErrorDetailsKey];
-//            }
-//            // ...
-//        }
-//        else {
-//            NSLog(@"Success");
-//        }
-//    }];
-    
-    
-    if (!BChatSDK.config.clientPushEnabled) {
+    if (!message.textString || !message.textString.length || !BChatSDK.config.clientPushEnabled) {
         return;
     }
     
-    NSString * serverKey = [NSString stringWithFormat:@"key=%@", BChatSDK.config.firebaseCloudMessagingServerKey];
-
-    for(NSString * channel in channels) {
-        
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        
-        AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-        
-        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [requestSerializer setValue:serverKey forHTTPHeaderField:@"Authorization"];
-        
-        manager.requestSerializer = requestSerializer;
-        
-        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        
-        NSDictionary *params = @{@"to": channel,
-                                 @"notification": notification,
-                                 @"data": data,
-//                                 @"apns": @{
-//                                         @"notification": notification
-//                                         }
-                                 };
-        
-        [manager POST:@"https://fcm.googleapis.com/fcm/send" parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject) {
-            NSLog(@"JSON: %@", responseObject);
-        } failure:^(NSURLSessionTask *operation, NSError *error) {
-            NSLog(@"Error: %@", error);
-        }];
+    // Get a list of recipients
+    NSMutableDictionary * users = [NSMutableDictionary new];
+    for(id<PUser> user in message.thread.users) {
+        if(!user.isMe && user.entityID && user.entityID.length && user.name && user.name.length) {
+            if (!user.online.boolValue || !BChatSDK.config.onlySendPushToOfflineUsers) {
+                users[user.pushChannel] = user.name;
+            }
+        }
     }
     
+    if(!users.allKeys.count) {
+        return;
+    }
+    
+    NSMutableDictionary * data = [NSMutableDictionary dictionaryWithDictionary: @{@"userIds" : users,
+                                                                                  @"body": message.textString,
+                                                                                  @"type": message.type,
+                                                                                  @"senderId": message.userModel.entityID,
+                                                                                  @"threadId": message.thread.entityID,
+                                                                                  @"action": BChatSDK.config.pushNotificationAction ? BChatSDK.config.pushNotificationAction : bChatSDKNotificationCategory,
+                                                                                  }];
+    
+    if(BChatSDK.config.pushNotificationSound) {
+        data[@"sound"] = BChatSDK.config.pushNotificationSound;
+    }
+    
+    [[[FIRFunctions functions] HTTPSCallableWithName:@"pushToChannels"] callWithObject:data completion:^(FIRHTTPSCallableResult * result, NSError * error) {
+        if (error) {
+            if (error.domain == FIRFunctionsErrorDomain) {
+                FIRFunctionsErrorCode code = error.code;
+                NSString *message = error.localizedDescription;
+                NSObject *details = error.userInfo[FIRFunctionsErrorDetailsKey];
+            }
+            // ...
+        }
+        else {
+            NSLog(@"Success");
+        }
+    }];
+
 }
+
 
 @end

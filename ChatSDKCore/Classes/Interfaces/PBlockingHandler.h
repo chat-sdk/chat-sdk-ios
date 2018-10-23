@@ -17,6 +17,7 @@
 -(RXPromise *) blockUser: (NSString *) userEntityID;
 -(RXPromise *) unblockUser: (NSString *) userEntityID;
 -(BOOL) isBlocked: (NSString *) userEntityID;
+-(BOOL) serviceAvailable;
 
 @end
 

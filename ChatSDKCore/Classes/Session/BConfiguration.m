@@ -46,7 +46,6 @@
 @synthesize enableMessageModerationTab;
 @synthesize showLocalNotifications;
 @synthesize onlySendPushToOfflineUsers;
-@synthesize firebaseCloudMessagingServerKey;
 @synthesize twitterApiKey;
 @synthesize twitterSecret;
 @synthesize googleClientKey;
@@ -129,7 +128,6 @@
         defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bCoreBundleName];
         defaultGroupChatAvatar = [NSBundle imageNamed:bDefaultPublicGroupImage bundle:bCoreBundleName];
         
-        firebaseCloudMessagingServerKey = [BSettingsManager firebaseCloudMessagingServerKey];
         rootPath = [BSettingsManager firebaseRootPath];
         
         twitterApiKey = [BSettingsManager twitterApiKey];

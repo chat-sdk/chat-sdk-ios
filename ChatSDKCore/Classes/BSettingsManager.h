@@ -22,8 +22,6 @@
 
 +(BOOL) anonymousLoginEnabled;
 
-+(NSString *) firebaseCloudMessagingServerKey;
-
 +(id) s: (NSArray *) parameters;
 +(NSNumber *) number_s: (NSArray *) parameters;
 +(NSString *) string_s: (NSArray *) parameters;
