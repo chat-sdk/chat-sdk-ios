@@ -116,11 +116,7 @@
 }
 
 -(void) removeConnection: (id<PUserConnection>) connection {
-    for (CDUserConnection * c in self.userConnections) {
-        if ([self connection:connection isEqual:c]) {
-            [self removeConnection:c];
-        }
-    }
+    [self removeUserConnectionsObject:connection];
 }
 
 -(RXPromise *) loadProfileImage: (BOOL) force __attribute__((deprecated)) {

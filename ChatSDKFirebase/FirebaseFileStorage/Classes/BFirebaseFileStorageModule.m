@@ -17,7 +17,9 @@
         [BNetworkManager sharedManager].a.upload = [[BFirebaseUploadHandler alloc] init];
     }
     else if([server isEqualToString:bServerXMPP]) {
-        [FIRApp configure];
+        if(BChatSDK.config.firebaseShouldConfigureAutomatically) {
+            [FIRApp configure];
+        }
         [BNetworkManager sharedManager].a.upload = [[BFirebaseUploadHandler alloc] init];
     }
 }

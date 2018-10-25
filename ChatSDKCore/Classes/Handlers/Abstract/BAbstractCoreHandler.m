@@ -151,9 +151,7 @@
 
 -(id<PUser>) userForEntityID: (NSString *) entityID {
     // Get the user and make sure it's updated
-    id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:entityID
-                                                                               withType:bUserEntity];
-    return user;
+    return [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
 }
 
 /**

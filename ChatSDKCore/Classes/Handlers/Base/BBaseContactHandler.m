@@ -38,16 +38,8 @@
 -(RXPromise *) deleteContact: (id<PUser>) user {
     // Clear down the old blocking list
     id<PUser> currentUser = BChatSDK.currentUser;
+    NSArray * entities = [BChatSDK.db fetchUserConnectionsWithType:bUserConnectionTypeContact entityID:user ? user.entityID : Nil];
     
-    NSPredicate * predicate;
-    if (user && user.entityID) {
-        predicate = [NSPredicate predicateWithFormat:@"type = %@ AND owner = %@ AND entityID = %@", @(bUserConnectionTypeContact), currentUser, user.entityID];
-    }
-    else {
-        predicate = [NSPredicate predicateWithFormat:@"type = %@ AND owner = %@", @(bUserConnectionTypeContact), currentUser];
-    }
-    
-    NSArray * entities = [BChatSDK.db fetchEntitiesWithName:bUserConnectionEntity withPredicate:predicate];
     [BChatSDK.db deleteEntities:entities];
     
     return [RXPromise resolveWithResult:Nil];

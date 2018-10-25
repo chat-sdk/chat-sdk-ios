@@ -132,6 +132,7 @@
 -(void) setGroupNameHidden: (BOOL) hidden duration: (float) duration {
     [self.view keepAnimatedWithDuration: duration layout:^{
         groupNameView.keepTopInset.equal = hidden ? -46 : 0;
+        groupNameView.alpha = hidden ? 0 : 1;
     }];
     if (!hidden) {
         self.navigationItem.rightBarButtonItem.enabled = groupNameTextField.text.length;

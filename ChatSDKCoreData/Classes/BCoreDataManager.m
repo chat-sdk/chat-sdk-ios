@@ -85,8 +85,8 @@ static void * kMainQueueKey = (void *) "Key1";
     return promise;
 }
 
--(void) save {
-    [self saveWithPromise];
+-(RXPromise *) save {
+    return [self saveWithPromise];
 }
 
 -(NSArray *) fetchEntitiesWithName: (NSString *) entityName {
@@ -113,6 +113,24 @@ static void * kMainQueueKey = (void *) "Key1";
     }
     return entities;
     
+}
+
+-(NSArray *) fetchUserConnectionsWithType: (bUserConnectionType) type {
+    return [self fetchUserConnectionsWithType:type entityID:Nil];
+}
+
+-(NSArray *) fetchUserConnectionsWithType: (bUserConnectionType) type entityID: (nullable NSString *) entityID {
+    id<PUser> currentUser = BChatSDK.currentUser;
+
+    NSPredicate * predicate;
+    if (entityID) {
+        predicate = [NSPredicate predicateWithFormat:@"type = %@ AND owner = %@ AND entityID = %@", @(type), currentUser, entityID];
+    }
+    else {
+        predicate = [NSPredicate predicateWithFormat:@"type = %@ AND owner = %@", @(type), currentUser];
+    }
+
+    return [BChatSDK.db fetchEntitiesWithName:bUserConnectionEntity withPredicate:predicate];
 }
 
 -(NSArray *) fetchEntitiesWithName: (NSString *) entityName withPredicate: (NSPredicate *) predicate {
@@ -361,168 +379,6 @@ static void * kMainQueueKey = (void *) "Key1";
     }
     return Nil;
 }
-
-//-(RXPromise *) safeFetchEntityWithID: (NSString *) entityID withType: (NSString *) type {
-//    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"entityID = %@", entityID];
-//    return [self safeFetchEntitiesWithName:type withPredicate:predicate].then(^id(NSArray * items) {
-//        if (items.count) {
-//            return items.firstObject;
-//        }
-//        return Nil;
-//    }, Nil);
-//}
-//
-//-(RXPromise *) safeFetchOrCreateEntityWithID: (NSString *) entityID withType: (NSString *) type {
-//    return [self safeFetchEntityWithID:entityID withType:type].then(^id(id<PEntity> entity) {
-//        if (!entity) {
-//            return [self safeCreateEntity:type];
-//        }
-//        return entity;
-//    }, Nil).then(^id(id<PEntity> entity) {
-//        if (entityID && [entity respondsToSelector:@selector(setEntityID:)]) {
-//            [((id<PEntity>) entity) setEntityID:entityID];
-//        }
-//        return entity;
-//    }, Nil);
-//}
-//
-//
-//-(RXPromise *) safeFetchOrCreateEntityWithPredicate: (NSPredicate *) predicate withType: (NSString *) type {
-//    return [self safeFetchEntitiesWithName:type withPredicate:predicate].then(^id(NSArray * entities) {
-//        if (entities.count) {
-//            return entities.firstObject;
-//        }
-//        else {
-//            return [self safeCreateEntity:type];
-//        }
-//    }, Nil);
-//}
-//
-//-(RXPromise *) safeCreateEntity: (NSString *) entityName {
-//    RXPromise * promise = [RXPromise new];
-//    [self.privateManagedObjectContext performBlock:^{
-//        id entity = [NSEntityDescription insertNewObjectForEntityForName:entityName
-//                                                  inManagedObjectContext:self.privateManagedObjectContext];
-//        [promise resolveWithResult:entity];
-//    }];
-//    return promise;
-//}
-//
-//
-//-(RXPromise *) safeBeginUndoGroup {
-//    RXPromise * promise = [RXPromise new];
-//    [self.privateManagedObjectContext performBlock:^{
-//        [self.managedObjectContext.undoManager beginUndoGrouping];
-//        [promise resolveWithResult:Nil];
-//    }];
-//    return promise;
-//}
-//
-//-(RXPromise *) safeEndUndoGroup {
-//    RXPromise * promise = [RXPromise new];
-//    [self.privateManagedObjectContext performBlock:^{
-//        [self.managedObjectContext.undoManager endUndoGrouping];
-//        [promise resolveWithResult:Nil];
-//    }];
-//    return promise;
-//}
-//
-//-(RXPromise *) safeUndo {
-//    RXPromise * promise = [RXPromise new];
-//    [self.privateManagedObjectContext performBlock:^{
-//        [self.managedObjectContext.undoManager undo];
-//        [promise resolveWithResult:Nil];
-//    }];
-//    return promise;
-//}
-//
-//-(id<PMessage>) safeCreateMessageEntity {
-//    return [self safeCreateEntity:bMessageEntity];
-//}
-//
-//// Check this
-//-(RXPromise *) safeFetchEntitiesWithTypes: (NSArray *) types {
-//    NSMutableArray * promises = [NSMutableArray new];
-//    for(NSString * type in types) {
-//        [promises addObject:[self safeFetchEntitiesWithName:type]];
-//    }
-//    return [RXPromise all:promises];
-//}
-//
-//-(RXPromise *) safeDeleteEntitiesWithType: (NSString *) type {
-//    return [self safeDeleteEntitiesWithTypes:@[type]];
-//}
-//
-//-(RXPromise *) safeDeleteEntities: (NSArray *) entities {
-//    RXPromise * promise = [RXPromise new];
-//    [self.privateManagedObjectContext performBlock:^{
-//        for(id entity in entities) {
-//            [self.privateManagedObjectContext deleteObject:entity];
-//        }
-//        [promise resolveWithResult:Nil];
-//    }];
-//    return promise;
-//}
-//
-//-(RXPromise *) safeDeleteEntitiesWithTypes: (NSArray *) types {
-//    NSMutableArray * promises = [NSMutableArray new];
-//    for(NSString * type in types) {
-//        [promises addObject:[self safeFetchEntitiesWithName:type].then(^id(NSArray * entities) {
-//            return [self safeDeleteEntities: entities];
-//        }, Nil)];
-//    }
-//    return promises;
-//}
-//
-//
-//
-//-(RXPromise *) safeDeleteAllData {
-//    return [self safeDeleteEntitiesWithTypes:@[bUserEntity,
-//                                               bUserConnectionEntity,
-//                                               bMessageEntity,
-//                                               bThreadEntity,
-//                                               bUserAccountEntity,
-//                                               bMetaDataEntity]];
-//}
-//
-//-(id<PThread>) safeCreateThreadEntity {
-//    return [self safeCreateEntity:bThreadEntity];
-//}
-
-//-(RXPromise *) safeFetchEntitiesWithName: (NSString *) entityName {
-//    return [self safeFetchEntitiesWithName:entityName withPredicate:Nil];
-//}
-//
-//-(RXPromise *) safeExecuteFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate {
-//    RXPromise * promise = [RXPromise new];
-//    [self.privateManagedObjectContext performBlock:^{
-//        [fetchRequest setIncludesPendingChanges:YES];
-//
-//        NSEntityDescription * entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.privateManagedObjectContext];
-//        if (!entity) {
-//            [promise resolveWithResult: Nil];
-//        }
-//
-//        [fetchRequest setEntity:entity];
-//        if (predicate != Nil) {
-//            [fetchRequest setPredicate:predicate];
-//        }
-//
-//        NSError * error = Nil;
-//        NSArray * entities = [self.privateManagedObjectContext executeFetchRequest:fetchRequest error:&error];
-//        if (error) {
-//            [promise rejectWithReason:error];
-//            NSLog(@"Fetch error: %@", error.localizedDescription);
-//        }
-//
-//        [promise resolveWithResult:entities];
-//    }];
-//    return promise;
-//}
-
-//-(RXPromise *) safeFetchEntitiesWithName: (NSString *) entityName withPredicate: (NSPredicate *) predicate {
-//    return [self safeExecuteFetchRequest:[NSFetchRequest new] entityName:entityName predicate:predicate];
-//}
 
 /// https://stackoverflow.com/questions/36338135/nsmanagedobjectcontext-how-to-update-child-when-parent-changes
 /// I need this firing as sometimes objects change and the save notification below is not enough to make sure the UI updates.
