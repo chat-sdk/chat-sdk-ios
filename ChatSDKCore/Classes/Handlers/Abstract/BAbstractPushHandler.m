@@ -73,7 +73,7 @@
     assert(NO);
 }
 
--(void) unsubscribeToPushChannel: (NSString *) channel {
+-(void) unsubscribeFromPushChannel: (NSString *) channel {
     assert(NO);
 }
 

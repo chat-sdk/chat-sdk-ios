@@ -20,7 +20,7 @@
         [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
             id<PUser> user = data[bHookWillLogout_PUser];
             if (user) {
-                [self unsubscribeToPushChannel:user.pushChannel];
+                [self unsubscribeFromPushChannel:user.pushChannel];
             }
         }] withName:bHookWillLogout];
 
@@ -200,7 +200,7 @@
     [[FIRMessaging messaging] subscribeToTopic:channel];
 }
 
--(void) unsubscribeToPushChannel: (NSString *) channel {
+-(void) unsubscribeFromPushChannel: (NSString *) channel {
     [[FIRMessaging messaging] unsubscribeFromTopic:channel];
 }
 

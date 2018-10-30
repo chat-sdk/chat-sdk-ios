@@ -73,8 +73,8 @@
 #define bLoginPasswordKey @"login-password"
 #define bLoginCustomToken @"custom-token"
 
-#define bUserStateKey @"bUserStateKey"
-#define bUserStatusTextKey @"bUserStatusTextKey"
+#define bUserStateKey @"state"
+#define bUserStatusTextKey bStatus
 #define bUserNameKey @"name"
 #define bUserEmailKey @"email"
 #define bUserPublicKeysKey @"public-keys"

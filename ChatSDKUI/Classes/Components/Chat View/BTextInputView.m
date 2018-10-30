@@ -162,7 +162,12 @@
 }
 
 -(void) setMicButtonEnabled: (BOOL) enabled {
+    [self setMicButtonEnabled:enabled sendButtonEnabled:NO];
+}
+
+-(void) setMicButtonEnabled: (BOOL) enabled sendButtonEnabled: (BOOL) sendButtonEnabled {
     _micButtonEnabled = enabled;
+    _sendButton.enabled = sendButtonEnabled;
     if (enabled) {
         [_sendButton setTitle:Nil forState:UIControlStateNormal];
         [_sendButton setImage:[NSBundle uiImageNamed: @"icn_24_mic.png"]
@@ -177,7 +182,6 @@
 #pragma Button Delegates
 
 -(void) sendButtonPressed {
-    
     
     if (_audioMaxLengthReached) {
         _audioMaxLengthReached = NO;
@@ -362,7 +366,7 @@
     
     // If there is text or if the audio is turned off
     if (textView.text.length || !_audioEnabled) {
-        [self setMicButtonEnabled:NO];
+        [self setMicButtonEnabled:NO sendButtonEnabled:textView.text.length];
     }
     else {
         [self setMicButtonEnabled:YES];

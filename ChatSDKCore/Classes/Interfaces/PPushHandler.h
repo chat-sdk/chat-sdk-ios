@@ -35,7 +35,7 @@
 -(void) registerForPushNotificationsWithApplication: (UIApplication *) app launchOptions: (NSDictionary *) options;
 
 -(void) subscribeToPushChannel: (NSString *) channel;
--(void) unsubscribeToPushChannel: (NSString *) channel;
+-(void) unsubscribeFromPushChannel: (NSString *) channel;
 
 //-(void) pushToChannels: (NSArray *) channels withData:(NSDictionary *) data;
 -(void) pushForMessage: (id<PMessage>) message;
