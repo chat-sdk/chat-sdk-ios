@@ -32,6 +32,8 @@
             [thread on];
             [thread messagesOn];
             [thread usersOn];
+            [thread lastMessageOn];
+            [thread metaOn];
         }
     }];
     
@@ -42,6 +44,8 @@
             CCThreadWrapper * thread = [CCThreadWrapper threadWithEntityID:snapshot.key];
             [thread off];
             [thread messagesOff]; // We need to turn the messages off incase we rejoin the thread
+            [thread lastMessageOff];
+            [thread metaOff];
             
             [BChatSDK.core deleteThread:thread.model];
         }
@@ -63,6 +67,8 @@
             // TODO: Maybe move this so we only listen to a thread when it's open
             [thread messagesOn];
             [thread usersOn];
+            [thread lastMessageOn];
+            [thread metaOn];
         }
     }];
     

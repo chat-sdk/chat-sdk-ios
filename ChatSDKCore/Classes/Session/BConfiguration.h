@@ -76,6 +76,10 @@
 @property (nonatomic, readwrite) NSString * xmppResource;
 @property (nonatomic, readwrite) int xmppMucMessageHistory;
 
+// The message view text input box, max lines and characters
+@property (nonatomic, readwrite) int textInputViewMaxLines;
+@property (nonatomic, readwrite) int textInputViewMaxCharacters;
+
 // Google login credentials
 @property (nonatomic, readwrite) NSString * googleClientKey;
 
@@ -103,6 +107,9 @@
 
 // Allow the owner of a public thread to delete it
 @property (nonatomic, readwrite) BOOL allowPublicThreadDeletion;
+
+// Show the unread message badge for public threads
+@property (nonatomic, readwrite) BOOL showPublicThreadsUnreadMessageBadge;
 
 // Can the user click the title bar to open the chat info
 @property (nonatomic, readwrite) BOOL userChatInfoEnabled;

@@ -33,6 +33,9 @@
 -(void) viewDidLoad {
     [super viewDidLoad];
     
+    [_sendBarView setMaxLines:BChatSDK.config.textInputViewMaxLines];
+    [_sendBarView setMaxCharacters:BChatSDK.config.textInputViewMaxCharacters];
+
     // Set the title
     [self updateTitle];
     
@@ -171,6 +174,7 @@
         id<PUser> user = BChatSDK.currentUser;
         [BChatSDK.core addUsers:@[user] toThread:_thread];
     }
+    
 }
 
 -(void) viewWillDisappear:(BOOL)animated {

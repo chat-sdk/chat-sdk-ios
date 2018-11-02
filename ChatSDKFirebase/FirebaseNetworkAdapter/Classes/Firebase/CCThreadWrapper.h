@@ -106,6 +106,8 @@
  * @brief Set the last message on the thread (used by the web client)
  */
 -(RXPromise *) pushLastMessage: (NSDictionary *) messageData;
+-(void) lastMessageOn;
+-(void) lastMessageOff;
 
 -(RXPromise *) pushMeta;
 -(void) metaOn;

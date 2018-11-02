@@ -96,7 +96,7 @@
     }];
     
     NSInteger badge = [[NSUserDefaults standardUserDefaults] integerForKey:bMessagesBadgeValueKey];
-    [self setBadge: badge];
+    [self setPrivateThreadsBadge:badge];
     
 }
 
@@ -172,8 +172,13 @@
     
     // The message view open with this thread?
     // Get the number of unread messages
-    int count = BChatSDK.currentUser.unreadMessageCount;
-    [self setBadge:count];
+    int privateThreadsMessageCount = [self unreadMessagesCount:bThreadFilterPrivate];
+    [self setPrivateThreadsBadge:privateThreadsMessageCount];
+
+    if(BChatSDK.config.showPublicThreadsUnreadMessageBadge) {
+        int publicThreadsMessageCount = [self unreadMessagesCount:bThreadFilterPublic];
+        [self setBadge:publicThreadsMessageCount forViewController:BChatSDK.ui.publicThreadsViewController];
+    }
     
     [BChatSDK.core save];
     // This way does not set the tab bar number
@@ -181,14 +186,33 @@
     
 }
 
-// TODO - move this to a more appropriate place in the code
--(void) setBadge: (NSInteger) badge {
-    
-    NSInteger privateThreadIndex = [BChatSDK.ui.tabBarViewControllers indexOfObject:BChatSDK.ui.privateThreadsViewController];
+-(int) unreadMessagesCount: (bThreadType) type {
+    // Get all the threads
+    int i = 0;
+    NSArray * threads = [BChatSDK.core threadsWithType:type];
+    for (id<PThread> thread in threads) {
+        for (id<PMessage> message in thread.allMessages) {
+            if (!message.read.boolValue) {
+                i++;
+            }
+        }
+    }
+    return i;
+}
 
-    // Using self.tabbar will correctly set the badge for the specific index
-    NSString * badgeString = badge == 0 ? Nil : [NSString stringWithFormat:@"%i", (int) badge];
-    [self.tabBar.items objectAtIndex:privateThreadIndex].badgeValue = badgeString;
+// TODO - move this to a more appropriate place in the code
+
+-(void) setBadge: (int) badge forViewController: (UIViewController *) controller {
+    NSInteger index = [BChatSDK.ui.tabBarViewControllers indexOfObject:controller];
+    if (index != NSNotFound) {
+        // Using self.tabbar will correctly set the badge for the specific index
+        NSString * badgeString = badge == 0 ? Nil : [NSString stringWithFormat:@"%i", badge];
+        [self.tabBar.items objectAtIndex:index].badgeValue = badgeString;
+    }
+}
+
+-(void) setPrivateThreadsBadge: (int) badge {
+    [self setBadge:badge forViewController:BChatSDK.ui.privateThreadsViewController];
     
     // Save the value to defaults
     [[NSUserDefaults standardUserDefaults] setInteger:badge forKey:bMessagesBadgeValueKey];

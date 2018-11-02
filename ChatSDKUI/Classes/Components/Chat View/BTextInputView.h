@@ -35,6 +35,7 @@
 // This is a property so we can access it from our mentions view
 @property (nonatomic, readwrite) HKWTextView * textView;
 
+@property (nonatomic, readwrite) NSInteger maxCharacters;
 @property (nonatomic, readwrite) NSInteger maxLines;
 @property (nonatomic, readwrite) NSInteger minLines;
 @property (nonatomic, readwrite) UIButton * optionsButton;

@@ -57,7 +57,10 @@
 }
 
 -(UIViewController *) publicThreadsViewController {
-    return [[BPublicThreadsViewController alloc] init];
+    if (!_publicThreadsViewController) {
+        _publicThreadsViewController = [[BPublicThreadsViewController alloc] init];
+    }
+    return _publicThreadsViewController;
 }
 
 -(UIViewController *) flaggedMessagesViewController {

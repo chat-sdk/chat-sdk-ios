@@ -57,6 +57,7 @@
 @synthesize defaultGroupChatAvatar;
 @synthesize prefersLargeTitles;
 @synthesize shouldOpenChatWhenPushNotificationClickedOnlyIfTabBarVisible;
+@synthesize showPublicThreadsUnreadMessageBadge;
 
 @synthesize inviteByEmailTitle;
 @synthesize inviteByEmailBody;
@@ -68,6 +69,9 @@
 @synthesize xmppResource;
 @synthesize xmppHostAddress;
 @synthesize xmppMucMessageHistory;
+
+@synthesize textInputViewMaxLines;
+@synthesize textInputViewMaxCharacters;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -115,6 +119,8 @@
         imageMessagesEnabled = YES;
         termsAndConditionsEnabled = YES;
         
+        showPublicThreadsUnreadMessageBadge = YES;
+        
         prefersLargeTitles = YES;
         
         forgotPasswordEnabled = YES;
@@ -151,6 +157,9 @@
         [self configureXMPPFromPlist];
         
         xmppMucMessageHistory = 20;
+        
+        textInputViewMaxCharacters = 0;
+        textInputViewMaxLines = 5;
         
     }
     return self;

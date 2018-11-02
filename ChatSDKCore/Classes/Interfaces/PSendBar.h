@@ -16,6 +16,8 @@
 -(void) setSendBarDelegate: (id<PSendBarDelegate>) delegate;
 -(BOOL) resignTextViewFirstResponder;
 -(void) becomeTextViewFirstResponder;
+-(void) setMaxLines: (NSInteger) maxLines;
+-(void) setMaxCharacters: (NSInteger) maxCharacters;
 
 @end
 

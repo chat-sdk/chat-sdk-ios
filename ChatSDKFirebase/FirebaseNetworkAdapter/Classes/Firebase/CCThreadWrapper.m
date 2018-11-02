@@ -597,7 +597,7 @@
 -(RXPromise *) pushLastMessage: (NSDictionary *) messageData {
     RXPromise * promise = [RXPromise new];
     
-    [[[FIRDatabaseReference threadRef:_model.entityID] child:bLastMessage] setValue:messageData withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    [[FIRDatabaseReference threadLastMessageRef:_model.entityID] setValue:messageData withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if(!error) {
             [promise resolveWithResult:Nil];
         }
@@ -609,6 +609,25 @@
     return promise;
 }
 
+-(void) lastMessageOn {
+    
+    if ([((NSManagedObject *)_model) pathOn:bLastMessage]) {
+        return;
+    }
+    [((NSManagedObject *)_model) setPath:bLastMessage on:YES];
+    
+    FIRDatabaseReference * ref = [FIRDatabaseReference threadLastMessageRef:_model.entityID];
+    [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+        if(snapshot.value != [NSNull null]) {
+            NSString * messageText = snapshot.value[bMessagePayload];
+            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadLastMessageUpdated object:Nil userInfo:@{bNotificationThreadLastMessageUpdated_Text: messageText ? messageText : @""}];
+        }
+    }];
+}
+
+-(void) lastMessageOff {
+    [((NSManagedObject *)_model) setPath:bLastMessage on:NO];
+}
 
 -(RXPromise *) removeUserWithEntityID: (NSString *) entityID {
     FIRDatabaseReference * threadUsersRef = [[FIRDatabaseReference threadUsersRef:_model.entityID] child:entityID];

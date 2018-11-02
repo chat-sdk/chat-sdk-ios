@@ -25,6 +25,7 @@
 
 @interface BDefaultInterfaceAdapter : NSObject<PInterfaceFacade> {
     UIViewController * _privateThreadsViewController;
+    UIViewController * _publicThreadsViewController;
     id<PChatOptionsHandler> _chatOptionsHandler;
     NSMutableArray * _additionalChatOptions;
     NSMutableArray * _additionalTabBarViewControllers;

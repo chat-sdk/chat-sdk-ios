@@ -18,11 +18,12 @@
 #define bFontSize 19
 #define bMaxLines 5
 #define bMinLines 1
+#define bMaxCharacters 0
 
 @implementation BTextInputView
 
 @synthesize textView = _textView;
-@synthesize maxLines, minLines;
+@synthesize maxLines, minLines, maxCharacters;
 @synthesize sendBarDelegate = _sendBarDelegate;
 @synthesize optionsButton = _optionsButton;
 @synthesize sendButton = _sendButton;
@@ -38,6 +39,7 @@
         // Decide how many lines the message should have
         minLines = bMinLines;
         maxLines = bMaxLines;
+        maxCharacters = bMaxCharacters;
         
         // Set the text color
         _placeholderColor = [UIColor darkGrayColor];
@@ -336,7 +338,8 @@
 }
 
 -(float) getTextHeight: (NSString *) text {
-    return [text boundingRectWithSize:CGSizeMake(_textView.contentSize.width - 1, CGFLOAT_MAX)
+    NSString * nonBlankText = [text stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    return [nonBlankText boundingRectWithSize:CGSizeMake(_textView.contentSize.width - 1, CGFLOAT_MAX)
                                    options:NSStringDrawingUsesLineFragmentOrigin
                                 attributes:@{NSFontAttributeName: _textView.font}
                                    context:Nil].size.height;
@@ -351,6 +354,10 @@
     
     // Workout if adding this text will cause the box to become too long
     NSString * newText = [textView.text stringByAppendingString:text];
+    
+    if(maxCharacters > 0 && newText.length > maxCharacters) {
+        return NO;
+     }
     
     NSInteger numberOfLines = [self getTextHeight:newText]/textView.font.lineHeight;
     numberOfLines = MAX(numberOfLines, [newText componentsSeparatedByString:@"\n"].count);
