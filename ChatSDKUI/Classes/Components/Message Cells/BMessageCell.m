@@ -42,6 +42,7 @@
         [self.contentView addSubview:bubbleImageView];
         
         _profilePicture = [[UIImageView alloc] init];
+        _profilePicture.contentMode = UIViewContentModeScaleAspectFill;
         _profilePicture.clipsToBounds = YES;
         
         [self.contentView addSubview:_profilePicture];
