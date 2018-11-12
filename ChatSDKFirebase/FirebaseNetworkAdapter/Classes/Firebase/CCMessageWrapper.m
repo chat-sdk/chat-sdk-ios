@@ -60,7 +60,7 @@
     FIRDatabaseReference * ref = [self ref];
     _model.entityID = ref.key;
     
-    [ref setValue:[self serialize] andPriority:[FIRServerValue timestamp] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    [ref setValue:[self serialize] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
             [promise resolveWithResult:self];
         }

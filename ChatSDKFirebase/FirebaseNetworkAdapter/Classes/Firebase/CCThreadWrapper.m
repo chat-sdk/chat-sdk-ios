@@ -10,12 +10,6 @@
 
 #import <ChatSDKFirebase/FirebaseAdapter.h>
 
-#define bMessageDownloadLimit 50
-
-// How old does a message have to be before we stop adding the
-// read receipt listener
-#define bReadReceiptMaxAge 7.0 * bDays
-
 @implementation CCThreadWrapper
 
 +(CCThreadWrapper *) threadWithModel: (id<PThread>) model {
@@ -125,10 +119,6 @@
         if (messages.count) {
             startDate = ((id<PMessage>)messages.firstObject).date;
         }
-        else {
-            // TODO: Add limit
-            startDate = [[NSDate date] dateByAddingTimeInterval:-bDays * 3650];
-        }
         
         // If thread is deleted
         if (deletedDate) {
@@ -138,13 +128,15 @@
         // Listen for new messages
         startDate = [startDate dateByAddingTimeInterval:1];
         
-        // #6438 Start bug fix for v3.0.2
         // Convert the start date to a Firebase timestamp
-        query = [[query queryOrderedByPriority] queryStartingAtValue:[BFirebaseCoreHandler dateToTimestamp:startDate]];
-        
+        query = [query queryOrderedByChild:bDate];
+        if (startDate) {
+            query = [query queryStartingAtValue:[BFirebaseCoreHandler dateToTimestamp:startDate] childKey:bDate];
+        }
+
         // Limit to 50 messages just to be safe - on a busy public thread we wouldn't want to
         // download 50k messages!
-        query = [query queryLimitedToLast:bMessageDownloadLimit];
+        query = [query queryLimitedToLast:BChatSDK.config.messageHistoryDownloadLimit];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
@@ -203,13 +195,18 @@
             }];
         });
         
-        [[FIRDatabaseReference threadMessagesRef:_model.entityID] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
+        query = [FIRDatabaseReference threadMessagesRef:strongSelf.model.entityID];
+        [query queryOrderedByChild:bDate];
+        
+        // Only add deletion handlers to the last 100 messages
+        query = [query queryLimitedToLast:BChatSDK.config.messageDeletionListenerLimit];
+        
+        [query observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
             __typeof__(self) strongSelf = weakSelf;
             CCMessageWrapper * wrapper = [CCMessageWrapper messageWithSnapshot:snapshot];
             id<PMessage> message = wrapper.model;
             [strongSelf.model removeMessage: message];
             [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageRemoved object:Nil userInfo:@{bNotificationMessageRemovedKeyMessage: wrapper.model}];
-
         }];
         
         return promise;
@@ -425,10 +422,10 @@
             endDate = [NSDate date];
         }
         
-        FIRDatabaseReference * messagesRef = [[FIRDatabaseReference threadRef:self.entityID] child:bMessagesPath];
+        FIRDatabaseReference * messagesRef = [FIRDatabaseReference threadMessagesRef:self.entityID];
         
         // Convert the end date to a Firebase timestamp
-        FIRDatabaseQuery * query = [[messagesRef queryOrderedByPriority] queryEndingAtValue:[BFirebaseCoreHandler dateToTimestamp:endDate]];
+        FIRDatabaseQuery * query = [[messagesRef queryOrderedByChild:bDate] queryEndingAtValue:[BFirebaseCoreHandler dateToTimestamp:endDate] childKey:bDate];
         
         // We add one becase we'll also be returning the last message again
         query = [query queryLimitedToLast:numberOfMessages + 1];

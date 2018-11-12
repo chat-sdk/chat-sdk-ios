@@ -58,6 +58,9 @@
 @synthesize prefersLargeTitles;
 @synthesize shouldOpenChatWhenPushNotificationClickedOnlyIfTabBarVisible;
 @synthesize showPublicThreadsUnreadMessageBadge;
+@synthesize messageHistoryDownloadLimit;
+@synthesize messageDeletionListenerLimit;
+@synthesize readReceiptMaxAgeInSeconds;
 
 @synthesize inviteByEmailTitle;
 @synthesize inviteByEmailBody;
@@ -157,6 +160,10 @@
         [self configureXMPPFromPlist];
         
         xmppMucMessageHistory = 20;
+        
+        messageDeletionListenerLimit = 30;
+        messageHistoryDownloadLimit = 30;
+        readReceiptMaxAgeInSeconds = 7 * bDays;
         
         textInputViewMaxCharacters = 0;
         textInputViewMaxLines = 5;

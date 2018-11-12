@@ -22,7 +22,7 @@
     // The network adapter handles network traffic
 
     BConfiguration * config = [BConfiguration configuration];
-    config.rootPath = @"18_11";
+    config.rootPath = @"18_11_profile";
     config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = NO;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";

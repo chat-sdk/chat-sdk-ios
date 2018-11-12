@@ -58,6 +58,17 @@
 // users will create a large number of chats
 @property (nonatomic, readwrite) BOOL allowUsersToCreatePublicChats;
 
+// How many historic messages should be downloaded for an empty thread
+@property (nonatomic, readwrite) int messageHistoryDownloadLimit;
+
+// How many message deletion listeners should we add? A value of 10 would mean
+// that if any of the last 10 messages are deleted, the app would be updated
+@property (nonatomic, readwrite) int messageDeletionListenerLimit;
+
+// The maximum age of a read receipt. Any older than this and we
+// won't add the read receipt listener
+@property (nonatomic, readwrite) float readReceiptMaxAgeInSeconds;
+
 // Enable or disable social login options
 @property (nonatomic, readwrite) BOOL googleLoginEnabled;
 @property (nonatomic, readwrite) BOOL facebookLoginEnabled;
