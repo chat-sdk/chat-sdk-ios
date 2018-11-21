@@ -24,6 +24,8 @@
     NSMutableDictionary * _messageBubbleMargin;
 }
 
+@property (nonatomic, readwrite) BOOL askNotificationsPermission;
+    
 // Background color of messages: hex value like "FFFFFF"
 @property (nonatomic, readwrite) NSString * messageColorMe;
 @property (nonatomic, readwrite) NSString * messageColorReply;

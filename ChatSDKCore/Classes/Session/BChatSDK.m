@@ -108,7 +108,10 @@ static BChatSDK * instance;
 
 +(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
-    if(BChatSDK.push) {
+    
+    BOOL needToAskNotificationPermission = BChatSDK.config.askNotificationsPermission;
+    
+    if(BChatSDK.push && needToAskNotificationPermission) {
         [BChatSDK.push registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
     }
     if(BChatSDK.socialLogin) {
