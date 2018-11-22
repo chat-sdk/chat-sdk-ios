@@ -24,7 +24,8 @@
     NSMutableDictionary * _messageBubbleMargin;
 }
 
-@property (nonatomic, readwrite) BOOL askNotificationsPermission;
+// Should we ask the user to allow notifications when the app initially loads up? 
+@property (nonatomic, readwrite) BOOL shouldAskForNotificationsPermission;
     
 // Background color of messages: hex value like "FFFFFF"
 @property (nonatomic, readwrite) NSString * messageColorMe;
