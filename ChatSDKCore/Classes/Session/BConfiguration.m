@@ -75,7 +75,7 @@
 
 @synthesize textInputViewMaxLines;
 @synthesize textInputViewMaxCharacters;
-@synthesize askNotificationsPermission;
+@synthesize shouldAskForNotificationsPermission;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -135,7 +135,7 @@
         
         showLocalNotifications = YES;
         
-        askNotificationsPermission = YES;
+        shouldAskForNotificationsPermission = YES;
         
         defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bCoreBundleName];
         defaultGroupChatAvatar = [NSBundle imageNamed:bDefaultPublicGroupImage bundle:bCoreBundleName];
