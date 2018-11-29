@@ -59,8 +59,7 @@
     // Add the message to Firebase
     FIRDatabaseReference * ref = [self ref];
     _model.entityID = ref.key;
-    
-    [ref setValue:[self serialize] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+    [ref setValue:[self serialize] andPriority: FIRServerValue.timestamp withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
             [promise resolveWithResult:self];
         }
@@ -83,19 +82,11 @@
 
 -(NSMutableDictionary *) serialize {
     NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:@{bType: _model.type,
+                                                                                 bJSONV2: _model.json,
                                                                                  bDate: [FIRServerValue timestamp],
                                                                                  bUserFirebaseID: _model.userModel.entityID,
                                                                                  bReadPath: self.initialReadReceipts,
                                                                                  bMetaPath: _model.meta ? _model.meta : @{}}];
-    if(BChatSDK.config.includeMessagePayload) {
-        dict[bPayload] = _model.textString;
-    }
-//    if(BChatSDK.config.includeMessageJSON) {
-//        dict[bJSON] = _model.text;
-//    }
-    if(BChatSDK.config.includeMessageJSONV2) {
-        dict[bJSONV2] = _model.json;
-    }
 
     return dict;
 }
@@ -121,11 +112,7 @@
         [_model setJson:json2];
     }
     else {
-        // Version 4 uses a JSON string so if this property is set, we use it!
-        NSString * json = value[bJSON];
-        if (json) {
-            [_model setText:json];
-        }
+        [_model setText:@""];
     }
     
     NSNumber * messageType = value[bType];

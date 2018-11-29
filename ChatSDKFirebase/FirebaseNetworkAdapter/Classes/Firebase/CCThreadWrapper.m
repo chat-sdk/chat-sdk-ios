@@ -495,7 +495,6 @@
 -(NSDictionary *) serialize {
     return @{bDetailsPath: @{bCreationDate: [FIRServerValue timestamp],
                              bUserNameKey: _model.name ? _model.name : @"",
-                             bType: _model.type.integerValue & bThreadFilterPrivate ? @(bThreadTypePrivateV3) : @(bThreadTypePublicV3),
                              bTypeV4: _model.type,
                              bCreatorEntityID: _model.creator.entityID}};
 }
@@ -508,13 +507,9 @@
     }
     
     NSNumber * typev4 = value[bTypeV4];
-    NSNumber * type = value[bType];
     
     if(typev4) {
         _model.type = typev4;
-    }
-    else if (type) {
-        _model.type = type.intValue == bThreadTypePrivateV3 ? @(bThreadTypePrivateGroup) : @(bThreadTypePublicGroup);
     }
     
     NSString * creatorEntityID = value[bCreatorEntityID];

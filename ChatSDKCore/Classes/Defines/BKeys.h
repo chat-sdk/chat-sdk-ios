@@ -24,8 +24,6 @@
 #define bTokenKey @"token"
 
 // Underscore keys
-#define bPayload @"payload"
-#define bJSON @"JSON"
 #define bJSONV2 @"json_v2"
 #define bType @"type"
 #define bTypeV4 @"type_v4"

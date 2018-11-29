@@ -59,18 +59,18 @@ What's possible on the Flame plan (20GB / month / 20 USD):
 The real-time database will support up to **100k concurrent users**. From our experience, 1 concurrent connection is enough to support 10 users per minute. That means that at peak capacity, the Chat SDK could support **1 million users per minute** and well over **20 million monthly users**. 
 
 ## Modules
-
-- [End-to-End Encryption](https://chatsdk.co/downloads/end-to-end-encryption/)
+- [End-To-End Encryption](https://chatsdk.co/end-to-end-encryption/)
 - [File Messages](http://chatsdk.co/file-messages/)
 - [Typing indicator](http://chatsdk.co/typing-indicator/)
 - [Read receipts](http://chatsdk.co/read-receipts/)
 - [Location based chat](http://chatsdk.co/location-based-chat/)
+- [Last Online Indicator](https://chatsdk.co/firebase-last-online-indicator/)
 - [Audio messages](http://chatsdk.co/audio-messages/)
 - [Video messages](http://chatsdk.co/video-messages/)
 - [Sticker messages](https://chatsdk.co/sticker-messages/)
 - [Contact book integration](https://chatsdk.co/contact-book-integration/)
-- [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
 - [User Blocking](http://chatsdk.co/user-blocking/)
+- [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
 - [Social Login (free)](https://github.com/chat-sdk/chat-sdk-ios#social-login)
 - [Push Notifications (free)](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
 - [File Storage (free)](https://github.com/chat-sdk/chat-sdk-ios#file-storage)

@@ -25,9 +25,6 @@
 @synthesize anonymousLoginEnabled;
 @synthesize defaultServer;
 @synthesize shouldOpenChatWhenPushNotificationClicked;
-@synthesize includeMessagePayload;
-@synthesize includeMessageJSON;
-@synthesize includeMessageJSONV2;
 @synthesize loginUsernamePlaceholder;
 @synthesize defaultAvatarURL;
 @synthesize defaultBlankAvatar;
@@ -104,11 +101,7 @@
         
         shouldOpenChatWhenPushNotificationClicked = YES;
         onlySendPushToOfflineUsers = NO;
-        
-        includeMessagePayload = YES;
-        includeMessageJSON = YES;
-        includeMessageJSONV2 = YES;
-        
+                
         loginUsernamePlaceholder = Nil;
         
         pushNotificationSound = @"default";
@@ -174,16 +167,6 @@
 
 -(void) setDefaultUserNamePrefix:(NSString *)defaultUserNamePrefix {
      _defaultUserName = [defaultUserNamePrefix stringByAppendingFormat:@"%i", arc4random() % 999];
-}
-
--(void) configureForCompatibilityWithVersions: (NSArray *) versions {
-    BOOL api1 = [versions containsObject:bChatSDK_API_1];
-    BOOL api2 = [versions containsObject:bChatSDK_API_2];
-    BOOL api3 = [versions containsObject:bChatSDK_API_3];
-
-    includeMessagePayload = api1;
-    includeMessageJSON = api2;
-    includeMessageJSONV2 = api3;
 }
 
 -(void) xmppWithHostAddress: (NSString *) hostAddress {
