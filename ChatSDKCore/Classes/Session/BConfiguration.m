@@ -73,6 +73,7 @@
 @synthesize textInputViewMaxLines;
 @synthesize textInputViewMaxCharacters;
 @synthesize shouldAskForNotificationsPermission;
+@synthesize xmppAuthType;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -163,6 +164,8 @@
         
         textInputViewMaxCharacters = 0;
         textInputViewMaxLines = 5;
+        
+        xmppAuthType = @"default";
         
     }
     return self;

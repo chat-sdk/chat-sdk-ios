@@ -199,6 +199,11 @@
 // Show local notifications when a message is received
 @property (nonatomic, readwrite) BOOL showLocalNotifications;
 
+
+// XMPP Auth type used which can be:
+// default, scramsha1, digestmd5, plain
+@property (nonatomic, readwrite) NSString * xmppAuthType;
+
 +(BConfiguration *) configuration;
 
 -(void) xmppWithHostAddress: (NSString *) hostAddress;

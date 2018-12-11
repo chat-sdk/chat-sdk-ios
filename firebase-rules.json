@@ -252,7 +252,7 @@
         
       "users": {
         
-       ".indexOn": ["meta/name", "meta/phone", "meta/email", "meta/location", "meta/country-code"],
+       ".indexOn": ["meta/name", "meta/phone", "meta/email", "meta/location", "meta/country-code, meta/username"],
 
          ".read": "data.child(auth.uid).exists() || !data.child(auth.uid).exists()",
          
@@ -267,6 +267,13 @@
             
             "meta": {
               ".write": "auth.uid == $user_id",
+            },
+              
+            "contacts": {
+              "$contact_user_id": {
+                ".write": "auth.uid == $user_id",
+                ".validate": "data.parent().parent().parent().child($blocked_user_id).exists()"
+              }
             },
               
             "blocked": {
