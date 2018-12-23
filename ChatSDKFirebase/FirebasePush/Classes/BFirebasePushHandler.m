@@ -225,6 +225,7 @@
     }
     
     NSMutableDictionary * data = [NSMutableDictionary dictionaryWithDictionary: @{@"userIds" : users,
+                                                                                  @"senderName": message.userModel.name,
                                                                                   @"body": message.textString,
                                                                                   @"type": message.type,
                                                                                   @"senderId": message.userModel.entityID,
