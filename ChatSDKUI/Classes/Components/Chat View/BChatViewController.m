@@ -271,13 +271,6 @@
     return _thread.type.intValue;
 }
 
--(NSMutableArray *) customCellTypes {
-    NSMutableArray * types = [NSMutableArray new];
-        
-    return types;
-}
-
-
 -(void) navigationBarTapped {
     _usersViewLoaded = YES;
     NSMutableArray * users = [NSMutableArray arrayWithArray: _thread.model.users.allObjects];

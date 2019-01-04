@@ -83,8 +83,9 @@
 
 -(UINavigationController *) searchIndexNavigationControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback;
 
--(void) registerCustomMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type;
--(NSArray *) customMessageCellTypes;
+-(void) registerMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type;
+-(NSArray *) messageCellTypes;
+-(Class) cellTypeForMessageType: (NSNumber *) messageType;
 
 @end
 

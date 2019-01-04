@@ -95,6 +95,20 @@
     [self.bubbleImageView setViewFrameX:(self.fw - self.bubbleImageView.fw)/2.0];
 }
 
+#pragma Cell sizing static methods
+
++(NSNumber *) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
+    return @([BTextMessageCell getText: message.textString heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth].floatValue]);
+}
+
++(NSNumber *) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
+    return @([BTextMessageCell textWidth:message.textString maxWidth:maxWidth]);
+}
+
++(NSValue *) messageBubblePadding: (id<PElmMessage>) message {
+    return [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(6.0, 6.0, 6.0, 6.0)];
+}
+
 #pragma Cell Properties
 
 -(UIView *) cellContentView {

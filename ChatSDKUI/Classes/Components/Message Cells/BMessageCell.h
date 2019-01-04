@@ -74,6 +74,7 @@
 +(float) bubbleWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth;
 
 +(float) cellHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth;
++(float) cellHeight: (id<PElmMessage>) message;
 +(float) cellWidth: (id<PElmMessage>) message;
 
 +(float) messageHeight: (id<PElmMessage>) message;
@@ -82,8 +83,11 @@
 +(UIEdgeInsets) bubbleMargin: (id<PElmMessage>) message;
 +(UIEdgeInsets) bubblePadding: (id<PElmMessage>) message;
 
-+(float) getText: (NSString *) text heightWithWidth: (float) width;
-+(float) getText: (NSString *) text heightWithFont: (UIFont *) font withWidth: (float) width;
-+(float) maxTextWidth: (id<PElmMessage>) message;
+
++(NSNumber *) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth;
++(NSNumber *) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth;
++(NSValue *) messageBubblePadding: (id<PElmMessage>) message;
++(NSValue *) messageBubbleMargin: (id<PElmMessage>) message;
++(NSNumber *) messageProfilePicturePadding: (id<PElmMessage>) message;
 
 @end

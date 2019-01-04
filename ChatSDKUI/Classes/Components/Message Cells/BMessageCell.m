@@ -227,7 +227,7 @@
     
     // Update the content view size for the message length
     // The cell content view is the view that's inside the bubble that stores the message content
-    [self cellContentView].frame = CGRectMake((isMine ? 0 : bTailSize) + padding.left, padding.top, self.messageContentWidth, self.messageContentHeight);
+    [self cellContentView].frame = CGRectMake((isMine ? 0 : bTailSize) + padding.left, padding.top, self.contentWidth, self.contentHeight);
     
 //    NSLog(@"Content Size: %@", NSStringFromCGRect([self cellContentView].frame));
 //    NSLog(@"Text Width: %f", [BMessageCell textWidth:_message.textString maxWidth:[self maxTextWidth]]);
@@ -385,90 +385,57 @@
 
 // Layout Methods
 
--(float) messageContentHeight {
-    return [BMessageCell messageContentHeight:_message];
+-(float) contentHeight {
+    return [BMessageCell contentHeight:_message];
 }
 
-+(float) messageContentHeight: (id<PElmMessage>) message {
-    return [self messageContentHeight:message maxWidth:[self maxTextWidth:message]];
++(float) contentHeight: (id<PElmMessage>) message {
+    return [self contentHeight:message maxWidth:[self maxTextWidth:message]];
 }
 
-+(float) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
++(float) contentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
     
-    switch ((bMessageType)message.type.intValue) {
-        case bMessageTypeImage:
-        case bMessageTypeVideo: {
-            if (message.imageHeight > 0 && message.imageWidth > 0) {
-                
-                // We want the height to be less than the max height and more than the min height
-                // First check if the calculated height is bigger than the max height, we take the smaller of these
-                // Next we take the max of this value and the min value, this ensures the image is at least the min height
-                return MAX(bMinMessageHeight, MIN([self messageContentWidth:message] * message.imageHeight / message.imageWidth, bMaxMessageHeight));
-            }
-            return 0;
-        }
-        case bMessageTypeLocation:
-            return [self messageContentWidth:message];
-        case bMessageTypeAudio:
-            return 50;
-        case bMessageTypeSticker:
-            return 140;
-        case bMessageTypeFile:
-            return 60;
-        default:
-            return [self getText: message.textString heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth]];
+    // Get the cell type
+    Class cellType = [BChatSDK.ui cellTypeForMessageType:message.type];
+    
+    SEL selector = @selector(messageContentHeight:maxWidth:);
+    if ([cellType respondsToSelector:selector]) {
+        return [[cellType performSelector:selector withObject:message withObject: @(maxWidth)] floatValue];
     }
+    
+    return [self messageContentHeight:message maxWidth:maxWidth].floatValue;
 }
 
--(float) messageContentWidth {
-    return [BMessageCell messageContentWidth:_message maxWidth:self.maxTextWidth];
+-(float) contentWidth {
+    return [BMessageCell contentWidth:_message maxWidth:self.maxTextWidth];
 }
 
-+(float) messageContentWidth: (id<PElmMessage>) message {
-    return [self messageContentWidth:message maxWidth:[self maxTextWidth:message]];
++(float) contentWidth: (id<PElmMessage>) message {
+    return [self contentWidth:message maxWidth:[self maxTextWidth:message]];
 }
 
-+(float) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    switch ((bMessageType)message.type.intValue) {
-        case bMessageTypeText:
-        case bMessageTypeSystem:
-            return [self textWidth:message.textString maxWidth:maxWidth];
-        case bMessageTypeSticker:
-            return 140;
-            // Do this so we can have 6 padding on each side
-        case bMessageTypeFile:
-            return bMaxMessageWidth - 10.0;
-        default:
-            return bMaxMessageWidth;
++(float) contentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
+    
+    Class cellType = [BChatSDK.ui cellTypeForMessageType:message.type];
+    
+    SEL selector = @selector(messageContentWidth:maxWidth:);
+    if ([cellType respondsToSelector:selector]) {
+        return [[cellType performSelector:selector withObject:message withObject: @(maxWidth)] floatValue];
     }
+    
+    return [self messageContentWidth:message maxWidth:maxWidth].floatValue;
 }
 
-+(float) textWidth: (NSString *) text maxWidth: (float) maxWidth {
-    if (text) {
-        UIFont * font = [UIFont systemFontOfSize:bDefaultFontSize];
-        if (font) {
-            return [text boundingRectWithSize:CGSizeMake(maxWidth, CGFLOAT_MAX)
-                                      options:NSStringDrawingUsesLineFragmentOrigin
-                                   attributes:@{NSFontAttributeName: font}
-                                      context:Nil].size.width;
-        }
-    }
-    return 0;
-}
-
--(float) maxTextWidth {
-    return [BMessageCell maxTextWidth: _message];
-}
 
 +(float) maxTextWidth: (id<PElmMessage>) message {
-    return [self maxBubbleWidth:message] - [self bubblePadding:message].left - [self bubblePadding:message].right;
+    UIEdgeInsets padding = [self bubblePadding:message];
+    return [self maxBubbleWidth:message] - padding.left - padding.right;
 }
 
 +(float) maxBubbleWidth: (id<PElmMessage>) message {
     UIEdgeInsets bubbleMargin = [self bubbleMargin:message];
     return [self currentSize].width - bMessageMarginX - ([self profilePictureHidden:message] ? 0 : self.profilePictureDiameter + [self profilePicturePadding:message]) - bubbleMargin.left - bubbleMargin.right;
 }
-
 
 -(float) bubbleHeight {
     return [BMessageCell bubbleHeight:_message maxWidth:self.maxTextWidth];
@@ -479,7 +446,8 @@
 //}
 
 +(float) bubbleHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return [BMessageCell messageContentHeight:message maxWidth:maxWidth] + [BMessageCell bubblePadding:message].top +  [BMessageCell bubblePadding:message].bottom;
+    UIEdgeInsets padding = [BMessageCell bubblePadding:message];
+    return [BMessageCell contentHeight:message maxWidth:maxWidth] + padding.top + padding.bottom;
 }
 
 -(float) cellHeight {
@@ -487,6 +455,12 @@
 }
 
 +(float) cellHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
+    UIEdgeInsets bubbleMargin = [self bubbleMargin:message];
+    return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message];
+}
+
++(float) cellHeight: (id<PElmMessage>) message {
+    float maxWidth = [self maxTextWidth:message];
     UIEdgeInsets bubbleMargin = [self bubbleMargin:message];
     return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message];
 }
@@ -509,7 +483,8 @@
 }
 
 +(float) bubbleWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return [BMessageCell messageContentWidth: message maxWidth:maxWidth] + [self bubblePadding: message].left + [self bubblePadding: message].right + bTailSize;
+    UIEdgeInsets padding = [self bubblePadding: message];
+    return [BMessageCell contentWidth: message maxWidth:maxWidth] + padding.left + padding.right + bTailSize;
 }
 
 // The margin outside the bubble
@@ -525,20 +500,14 @@
         return [value UIEdgeInsetsValue];
     }
     
-    switch ((bMessageType)message.type.intValue) {
-        case bMessageTypeText:
-        case bMessageTypeImage:
-        case bMessageTypeLocation:
-        case bMessageTypeAudio:
-        case bMessageTypeVideo:
-        case bMessageTypeSystem:
-        case bMessageTypeSticker:
-        case bMessageTypeFile:
-            return UIEdgeInsetsMake(2.0, 2.0, 1.0, 2.0);
-        case bMessageTypeCustom:
-        default:
-            return UIEdgeInsetsMake(0, 0, 0, 0);
+    Class cellType = [BChatSDK.ui cellTypeForMessageType:message.type];
+
+    SEL selector = @selector(messageBubbleMargin:);
+    if ([cellType respondsToSelector:selector]) {
+        return [[cellType performSelector:selector withObject:message] UIEdgeInsetsValue];
     }
+    
+    return [self messageBubbleMargin:message].UIEdgeInsetsValue;
 }
 
 -(UIEdgeInsets) bubblePadding {
@@ -552,23 +521,14 @@
         return [value UIEdgeInsetsValue];
     }
     
-    switch ((bMessageType)message.type.intValue) {
-        case bMessageTypeText:
-            return UIEdgeInsetsMake(8.0, 9.0, 8.0, 9.0);
-        case bMessageTypeImage:
-        case bMessageTypeLocation:
-        case bMessageTypeAudio:
-        case bMessageTypeVideo:
-            return UIEdgeInsetsMake(3.0, 3.0, 3.0, 3.0);
-        case bMessageTypeSystem:
-            return UIEdgeInsetsMake(6.0, 6.0, 6.0, 6.0);
-        case bMessageTypeFile:
-            return UIEdgeInsetsMake(10.0, 6.0, 10.0, 6.0);
-        case bMessageTypeSticker:
-        case bMessageTypeCustom:
-        default:
-            return UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
+    Class cellType = [BChatSDK.ui cellTypeForMessageType:message.type];
+
+    SEL selector = @selector(messageBubblePadding:);
+    if ([cellType respondsToSelector:selector]) {
+        return [[cellType performSelector:selector withObject:message] UIEdgeInsetsValue];
     }
+
+    return [self messageBubblePadding:message].UIEdgeInsetsValue;
 }
 
 -(float) profilePicturePadding {
@@ -576,45 +536,23 @@
 }
 
 +(float) profilePicturePadding: (id<PElmMessage>) message {
-    switch ((bMessageType)message.type.intValue) {
-        case bMessageTypeText:
-        case bMessageTypeImage:
-        case bMessageTypeLocation:
-        case bMessageTypeAudio:
-        case bMessageTypeVideo:
-        case bMessageTypeSticker:
-        case bMessageTypeSystem:
-        case bMessageTypeFile:
-        case bMessageTypeCustom:
-        default:
-            return 3;
+    
+    Class cellType = [BChatSDK.ui cellTypeForMessageType:message.type];
+    
+    SEL selector = @selector(messageProfilePicturePadding:);
+    if ([cellType respondsToSelector:selector]) {
+        return [[cellType performSelector:selector withObject:message] floatValue];
     }
+    
+    return [self messageProfilePicturePadding:message].floatValue;
 }
 
 +(float) profilePictureDiameter {
     return bProfilePictureDiameter;
 }
 
--(float) getTextHeightWithWidth: (float) width {
-    return [BMessageCell getText:_message.textString heightWithWidth:width];
-}
-
-+(float) getText: (NSString *) text heightWithWidth: (float) width {
-    return [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
-                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:bDefaultFontSize]}
-                                             context:Nil].size.height;
-}
-
--(float) getTextHeightWithFont: (UIFont *) font withWidth: (float) width {
-    return [BMessageCell getText:_message.textString heightWithFont:font withWidth:width];
-}
-
-+(float) getText: (NSString *) text heightWithFont: (UIFont *) font withWidth: (float) width {
-    return [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
-                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:@{NSFontAttributeName: font}
-                                             context:Nil].size.height;
+-(float) maxTextWidth {
+    return [BTextMessageCell maxTextWidth: _message];
 }
 
 +(CGSize) currentSize
@@ -628,6 +566,27 @@
     return size;
 }
 
+#pragma Default cell sizing static methods
+
++(NSNumber *) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
+    return @(0);
+}
+
++(NSNumber *) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
+    return @(bMaxMessageWidth);
+}
+
++(NSValue *) messageBubblePadding: (id<PElmMessage>) message {
+    return [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
+}
+
++(NSValue *) messageBubbleMargin: (id<PElmMessage>) message {
+    return [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(2.0, 2.0, 1.0, 2.0)];
+}
+
++(NSNumber *) messageProfilePicturePadding: (id<PElmMessage>) message {
+    return @(3);
+}
 
 
 @end

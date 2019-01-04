@@ -71,25 +71,9 @@
 }
 
 -(void) registerMessageCells {
-    
-    // Default message types
-    
-    [self.tableView registerClass:[BTextMessageCell class] forCellReuseIdentifier:@(bMessageTypeText).stringValue];
-    [self.tableView registerClass:[BImageMessageCell class] forCellReuseIdentifier:@(bMessageTypeImage).stringValue];
-    [self.tableView registerClass:[BLocationCell class] forCellReuseIdentifier:@(bMessageTypeLocation).stringValue];
-    [self.tableView registerClass:[BSystemMessageCell class] forCellReuseIdentifier:@(bMessageTypeSystem).stringValue];
-    
-    // Some optional message types
-    if ([delegate respondsToSelector:@selector(customCellTypes)]) {
-        for (NSArray * cell in delegate.customCellTypes) {
-            [self.tableView registerClass:cell.firstObject forCellReuseIdentifier:[cell.lastObject stringValue]];
-        }
-    }
-    
-    for(NSArray * cell in BChatSDK.ui.customMessageCellTypes) {
+    for(NSArray * cell in BChatSDK.ui.messageCellTypes) {
         [self.tableView registerClass:cell.firstObject forCellReuseIdentifier:[cell.lastObject stringValue]];
     }
-    
 }
 
 // The naivgation bar has three functions
@@ -411,7 +395,7 @@
 - (CGFloat)tableView:(UITableView *)tableView_ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
     if(message) {
-        return [BMessageCell cellHeight:message maxWidth:[BMessageCell maxTextWidth:message]];
+        return [BMessageCell cellHeight:message];
     }
     else {
         return 0;
