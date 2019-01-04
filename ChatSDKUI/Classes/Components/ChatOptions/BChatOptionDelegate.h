@@ -17,17 +17,9 @@
 @protocol BChatOptionDelegate <NSObject>
 
 -(UIViewController *) currentViewController;
--(void) chatOptionActionExecuted: (RXPromise *) promise;
+-(NSString *) threadEntityID;
 -(void) reloadData;
-
--(RXPromise *) sendTextMessage: (NSString *) text;
--(RXPromise *) sendImageMessage: (UIImage *) image;
--(RXPromise *) sendVideoMessage: (NSData *) video withCoverImage: (UIImage *) coverImage;
--(RXPromise *) sendLocationMessage: (CLLocation *) location;
--(RXPromise *) sendStickerMessage: (NSString *) name;
--(RXPromise *) sendFileMessage: (NSDictionary *) file;
 -(void) hideKeyboard;
--(UIView *) view;
 
 @end
 

@@ -170,17 +170,12 @@
                     
                     [BChatSDK.core save];
 
-                    [BChatSDK.hook executeHookWithName:bHookMessageRecieved data:@{bHookMessageReceived_PMessage: message.model}];
 
                     if (newMessage) {
-                        // TODO: Maybe change here
-                        
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded
-                                                                                object:Nil
-                                                                              userInfo:@{bNotificationMessageAddedKeyMessage: message.model}];
+                            [BHookNotification notificationMessageReceived: message.model];
                             
-                            NSLog(@"Message: %@, %@", message.model.textString, message.model.date);
+//                            NSLog(@"Message: %@, %@", message.model.textString, message.model.date);
                             
                             if(BChatSDK.readReceipt) {
                                 [BChatSDK.readReceipt updateReadReceiptsForThread:self.model];

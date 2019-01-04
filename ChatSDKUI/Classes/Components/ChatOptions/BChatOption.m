@@ -20,7 +20,11 @@
     return [NSBundle t:bSticker];
 }
 
--(RXPromise *) execute {
+- (RXPromise * ) execute: (NSString *) threadEntityID {
+    return [self execute:Nil threadEntityID:threadEntityID];
+}
+
+- (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID {
     return [RXPromise resolveWithResult:Nil];
 }
 

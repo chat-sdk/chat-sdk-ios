@@ -50,7 +50,7 @@
     
     self.bubbleImageView.image = Nil;
     
-    textView.text = dict[bMessageTextKey];
+    textView.text = dict[bMessageText];
     
     int type = [dict[bMessageTypeKey] intValue];
     if (type == bSystemMessageTypeInfo) {

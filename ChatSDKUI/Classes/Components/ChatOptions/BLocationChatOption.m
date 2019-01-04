@@ -12,8 +12,6 @@
 
 @implementation BLocationChatOption
 
-@synthesize parent;
-
 -(UIImage *) icon {
     return [NSBundle uiImageNamed:@"icn_60_location.png"];
 }
@@ -22,12 +20,12 @@
     return [NSBundle t:bLocation];
 }
 
--(RXPromise *) execute {
+- (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID {
     if(_action == Nil) {
         _action = [[BSelectLocationAction alloc] init];
     }
     return [_action execute].thenOnMain(^id(id location) {
-        return [self.parent.delegate sendLocationMessage:location];
+        return [BChatSDK.locationMessage sendMessageWithLocation:location withThreadEntityID:threadEntityID];
     }, Nil);
 }
 

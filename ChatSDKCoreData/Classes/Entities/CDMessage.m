@@ -36,38 +36,8 @@
 
 #pragma Image information
 
-- (NSURL *)thumbnailURL {
-    NSString * url = self.compatibilityMeta[bMessageThumbnailURL];
-
-    // TODO: Depricated - remove this
-    if (!url) {
-        // Split up the message text then return the url of the thumbnail
-        NSArray * myArray = [self.textString componentsSeparatedByString:@","];
-        if (myArray.count > 0) {
-            url = myArray[0];
-        }
-        else {
-            return Nil;
-        }
-    }
-    
-    return [NSURL URLWithString:url];
-}
-
 - (NSURL *)imageURL {
     NSString * url = self.compatibilityMeta[bMessageImageURL];
-    
-    // TODO: Depricated - remove this
-    if (!url) {
-        // Split up the message text then return the url of the thumbnail
-        NSArray * myArray = [self.textString componentsSeparatedByString:@","];
-        if (myArray.count > 1) {
-            url = myArray[1];
-        }
-        else {
-            return Nil;
-        }
-    }
     return [NSURL URLWithString:url];
 }
 
@@ -171,11 +141,11 @@
 }
 
 -(NSString *) textString {
-    return self.json[bMessageTextKey];
+    return self.json[bMessageText];
 }
 
 -(void) setTextString: (NSString *) text {
-    [self setJson:@{bMessageTextKey: text ? text : @""}];
+    [self setJson:@{bMessageText: text ? text : @""}];
 }
 
 // This helps us know if we want to show it in the thread

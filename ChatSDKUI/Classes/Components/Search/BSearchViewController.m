@@ -178,13 +178,12 @@
         }
     }];
     [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
-
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
-    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+    [BChatSDK.hook removeHook:_internetConnectionHook];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];

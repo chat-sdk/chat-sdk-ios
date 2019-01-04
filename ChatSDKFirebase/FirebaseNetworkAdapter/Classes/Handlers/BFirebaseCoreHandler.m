@@ -144,8 +144,11 @@
     // Send a push notification for the message
     [BChatSDK.push pushForMessage:messageModel];
 
+    [BHookNotification notificationMessageWillSend:messageModel];
+    
     // Create the new CCMessage wrapper
     return [[CCMessageWrapper messageWithModel:messageModel] send].thenOnMain(^id(id success) {
+        [BHookNotification notificationMessageDidSend:messageModel];
         return success;
     }, Nil);
     

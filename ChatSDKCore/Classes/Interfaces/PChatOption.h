@@ -15,7 +15,10 @@
 
 -(UIImage *) icon;
 -(NSString *) title;
--(RXPromise *) execute;
+
+@optional
+- (RXPromise * ) execute: (NSString *) threadEntityID;
+- (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID;
 
 @end
 

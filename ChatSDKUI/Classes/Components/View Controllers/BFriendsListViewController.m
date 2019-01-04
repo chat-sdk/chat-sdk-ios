@@ -141,7 +141,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+    [BChatSDK.hook removeHook:_internetConnectionHook];
 }
 
 -(void) composeMessage {

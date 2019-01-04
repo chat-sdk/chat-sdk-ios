@@ -238,7 +238,7 @@
 
 -(id<PChatOptionsHandler>) chatOptionsHandlerWithDelegate: (id<BChatOptionDelegate>) delegate {
     if (_chatOptionsHandler) {
-        _chatOptionsHandler.delegate = delegate;
+        [_chatOptionsHandler setDelegate:delegate];
         return _chatOptionsHandler;
     }
     return [[BChatOptionsActionSheet alloc] initWithDelegate:delegate];

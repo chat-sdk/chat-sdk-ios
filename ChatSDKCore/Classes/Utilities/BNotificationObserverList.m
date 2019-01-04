@@ -7,6 +7,7 @@
 //
 
 #import "BNotificationObserverList.h"
+#import <ChatSDK/Core.h>
 
 @implementation BNotificationObserverList
 
@@ -27,7 +28,11 @@
 
 -(void) dispose {
     for(id observer in _observers) {
-        [[NSNotificationCenter defaultCenter] removeObserver:observer];
+        if ([observer isKindOfClass:[BHook class]]) {
+            [BChatSDK.hook removeHook:observer];
+        } else {
+            [[NSNotificationCenter defaultCenter] removeObserver:observer];
+        }
     }
     [_observers removeAllObjects];
 }

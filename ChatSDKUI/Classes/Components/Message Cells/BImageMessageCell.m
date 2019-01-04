@@ -57,7 +57,7 @@
         placeholder = [NSBundle uiImageNamed:bDefaultPlaceholderImage];
     }
         
-    [imageView sd_setImageWithURL:message.thumbnailURL
+    [imageView sd_setImageWithURL:message.imageURL
                  placeholderImage:placeholder
                           options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages
                         completed:nil];

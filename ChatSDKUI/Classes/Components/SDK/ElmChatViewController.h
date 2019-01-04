@@ -41,8 +41,6 @@
     
     UIRefreshControl * _refreshControl;
     
-    BHook * _internetConnectionHook;
-        
     // Typing Indicator
     NSTimer * _typingTimer;
 

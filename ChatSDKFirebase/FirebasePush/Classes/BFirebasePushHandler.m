@@ -18,7 +18,7 @@
         [FIRMessaging messaging].delegate = self;
         
         [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-            id<PUser> user = data[bHookWillLogout_PUser];
+            id<PUser> user = data[bHook_PUser];
             if (user) {
                 [self unsubscribeFromPushChannel:user.pushChannel];
             }
@@ -31,47 +31,6 @@
             }
         }] withName:bHookDidAuthenticate];
 
-        
-//         Send a local notification when a message comes in
-//        [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * value) {
-//            id<PMessage> message = (id<PMessage>) value[bHookMessageReceived_PMessage];
-//
-//            if (!message.senderIsMe) {
-//
-//#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-//
-//                UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
-//                content.title = [NSString localizedUserNotificationStringForKey:message.userModel.name arguments:nil];
-//                content.body = [NSString localizedUserNotificationStringForKey:message.textString
-//                                                                     arguments:nil];
-//                content.sound = [UNNotificationSound defaultSound];
-//
-//                /// 4. update application icon badge number
-//                content.badge = @([[UIApplication sharedApplication] applicationIconBadgeNumber] + 1);
-//
-//                content.categoryIdentifier = bChatSDKNotificationCategory;
-//
-//                // Deliver the notification in five seconds.
-//                UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger
-//                                                              triggerWithTimeInterval:10 repeats:NO];
-//
-//                UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:message.entityID
-//                                                                                      content:content
-//                                                                                      trigger:trigger];
-//                /// 3. schedule localNotification
-//                UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-//                [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
-//                    if (!error) {
-//                        NSLog(@"add NotificationRequest succeeded!");
-//                    }
-//                }];
-//
-//            }
-//
-//#endif
-//
-//        }] withName: bHookMessageRecieved];
-//
     }
     return self;
 }

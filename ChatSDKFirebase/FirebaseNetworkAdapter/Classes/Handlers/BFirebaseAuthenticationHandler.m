@@ -55,7 +55,7 @@
     
     // Stop observing the user
     if(user) {
-        NSDictionary * data = @{bHookWillLogout_PUser: user};
+        NSDictionary * data = @{bHook_PUser: user};
         [BChatSDK.hook executeHookWithName:bHookWillLogout data:data];
 
         [BStateManager userOff: user.entityID];
@@ -71,7 +71,7 @@
         [[NSNotificationCenter  defaultCenter] postNotificationName:bNotificationBadgeUpdated object:Nil];
         
         if (user) {
-            NSDictionary * data = @{bHookDidLogout_PUser: user};
+            NSDictionary * data = @{bHook_PUser: user};
             [BChatSDK.hook executeHookWithName:bHookDidLogout data:data];
         }
         
@@ -218,7 +218,7 @@
             // Update the user from the remote server
             return [user once].thenOnMain(^id(id<PUserWrapper> user_) {
             
-                [BChatSDK.hook executeHookWithName:bHookUserAuthFinished data:@{bHookUserAuthFinished_PUser: user.model}];
+                [BChatSDK.hook executeHookWithName:bHookDidAuthenticate data:@{bHook_PUser: user.model}];
                 
                 [BChatSDK.core save];
                 

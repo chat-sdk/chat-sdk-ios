@@ -166,6 +166,7 @@
     if (_model.thread) {
         return [self push].thenOnMain(^id(id success) {
             [[CCThreadWrapper threadWithModel:_model.thread] pushLastMessage:[self lastMessageData]].thenOnMain(^id(id success) {
+                _model.delivered = @YES;
                 return [BEntity pushThreadMessagesUpdated:_model.thread.entityID];
             },Nil);
             return success;

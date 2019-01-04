@@ -16,7 +16,7 @@
     
     id<PUser> user = [BChatSDK.db fetchEntityWithID:entityID withType:bUserEntity];
     
-    NSDictionary * data = @{bHookUserOn_PUser: user};
+    NSDictionary * data = @{bHook_PUser: user};
     [BChatSDK.hook executeHookWithName:bHookUserOn data:data];
     
     FIRDatabaseReference * threadsRef = [FIRDatabaseReference userThreadsRef:entityID];

@@ -104,7 +104,8 @@
     [super viewDidDisappear:animated];
     
     [_notificationList dispose];
-    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+    
+    [BChatSDK.hook removeHook:_internetConnectionHook];
 
     // This removes the active search once a user goes back to this page
     searchController.active = NO;
