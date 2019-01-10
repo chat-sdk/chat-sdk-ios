@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol PMessage;
+@protocol PUser;
 
 @interface BHookNotification : NSObject
 
@@ -16,5 +17,11 @@
 +(void) notificationMessageWillUpload: (id<PMessage>) message;
 +(void) notificationMessageDidUpload: (id<PMessage>) message;
 +(void) notificationMessageReceived: (id<PMessage>) message;
+
++(void) notificationDidAuthenticate: (id<PUser>) user;
++(void) notificationWillLogout: (id<PUser>) user;
++(void) notificationDidLogout: (id<PUser>) user;
++(void) notificationUserOn: (id<PUser>) user;
++(void) notificationInternetConnectivityDidChange;
 
 @end

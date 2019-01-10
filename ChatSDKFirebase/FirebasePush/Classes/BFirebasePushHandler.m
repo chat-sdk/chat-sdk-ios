@@ -25,7 +25,7 @@
         }] withName:bHookWillLogout];
 
         [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-            id<PUser> user = data[bHookDidAuthenticate_PUser];
+            id<PUser> user = data[bHook_PUser];
             if (user) {
                 [self subscribeToPushChannel:user.pushChannel];
             }

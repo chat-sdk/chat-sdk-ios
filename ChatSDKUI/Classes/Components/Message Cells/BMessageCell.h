@@ -46,6 +46,7 @@
 
 @property (nonatomic, readwrite) UIImageView * bubbleImageView;
 @property (nonatomic, readwrite) id<PElmMessage> message;
+@property (nonatomic, readwrite) UIImageView * profilePicture;
 
 // Let us open the user profile view
 @property (nonatomic, weak) UINavigationController * navigationController;
@@ -54,6 +55,7 @@
 -(UIView *) cellContentView;
 -(BOOL) supportsCopy;
 +(UIImage *) bubbleWithImage: (UIImage *) bubbleImage withColor: (UIColor *) color;
+-(void) hideProfilePicture;
 
 -(void) showActivityIndicator;
 -(void) hideActivityIndicator;

@@ -9,7 +9,7 @@
 #import "BFirebaseUIModule.h"
 #import <ChatSDK/Core.h>
 #import <FirebaseAuth/FirebaseAuth.h>
-#import <FirebaseAuthUI/FirebaseAuthUI.h>
+//#import <FirebaseAuthUI/FirebaseAuthUI.h>
 #import <FirebaseCore/FIRApp.h>
 
 @implementation BFirebaseUIModule
@@ -33,24 +33,13 @@
 
 - (void)authUI:(FUIAuth *)authUI didSignInWithUser:(nullable FIRUser *)user error:(nullable NSError *)error {
     if(!error) {
-        [user getIDTokenWithCompletion:^(NSString * token, NSError * error) {
-            if (!error) {
-                
-                NSDictionary * loginInfo = @{bLoginTypeKey: @(bAccountTypeCustom),
-                                             bLoginCustomToken: token};
-                
-                [NM.auth authenticateWithDictionary:loginInfo].thenOnMain(^id(id<PUser> user) {
-                    [self notifyDelegate:Nil];
-                    return Nil;
-                }, ^id(NSError * error) {
-                    [self notifyDelegate:error];
-                    return Nil;
-                });
-            }
-            else {
-                [self notifyDelegate:error];
-            }
-        }];
+        [NM.auth authenticateWithCachedToken].thenOnMain(^id(id<PUser> user) {
+            [self notifyDelegate:Nil];
+            return Nil;
+        }, ^id(NSError * error) {
+            [self notifyDelegate:error];
+            return Nil;
+        });
     }
     else {
         [self notifyDelegate:error];

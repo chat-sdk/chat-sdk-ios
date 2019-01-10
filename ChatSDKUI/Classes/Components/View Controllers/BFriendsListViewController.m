@@ -114,7 +114,7 @@
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
-    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
     
     [self reloadData];
 }

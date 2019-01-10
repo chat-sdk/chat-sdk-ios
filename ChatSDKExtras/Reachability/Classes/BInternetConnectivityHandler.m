@@ -15,9 +15,7 @@
     if ((self = [super init])) {
         [[Reachability reachabilityForInternetConnection] startNotifier];
         [[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [BChatSDK.hook executeHookWithName:bHookInternetConnectivityChanged data:Nil];
-            });
+            [BHookNotification notificationInternetConnectivityDidChange];
         }];
     }
     return self;

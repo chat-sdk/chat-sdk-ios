@@ -102,7 +102,7 @@
     
     [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [weakSelf updateButtonStatusForInternetConnection];
-    }] withName:bHookInternetConnectivityChanged]];
+    }] withName:bHookInternetConnectivityDidChange]];
     
     [_notificationList add:[nc addObserverForName:bNotificationTypingStateChanged
                                            object:nil

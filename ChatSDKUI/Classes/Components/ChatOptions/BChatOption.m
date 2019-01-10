@@ -25,7 +25,14 @@
 }
 
 - (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID {
-    return [RXPromise resolveWithResult:Nil];
+    return [self execute:threadEntityID];
 }
+
+- (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID handler: (id<PChatOptionsHandler>) handler {
+    return [self execute:viewController threadEntityID:threadEntityID];
+}
+
+
+
 
 @end

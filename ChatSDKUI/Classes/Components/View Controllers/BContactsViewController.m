@@ -94,7 +94,7 @@
         __typeof__(self) strongSelf = weakSelf;
         [self updateButtonStatusForInternetConnection];
     }];
-    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
 
     // We need to call this to ensure the search controller is correctly formatted when the view is shown
     [self viewDidLayoutSubviews];

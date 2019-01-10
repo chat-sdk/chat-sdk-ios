@@ -85,7 +85,7 @@
                                               self.messageHeight);
     
     // Layout the profile picture
-    _profilePicture.frame = CGRectZero;
+    [self hideProfilePicture];
 
 }
 

@@ -57,6 +57,9 @@
 
 @property (nonatomic, readwrite) NSString * timeFormat;
 
+// The maximum dimension for an image message
+@property (nonatomic, readwrite) int maxImageDimension;
+
 // Can users make new public chats. It's recommended to set this to no otherwise
 // users will create a large number of chats
 @property (nonatomic, readwrite) BOOL allowUsersToCreatePublicChats;

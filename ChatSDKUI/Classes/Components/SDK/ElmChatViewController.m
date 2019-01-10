@@ -359,7 +359,7 @@
     [_notificationList add: [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         __typeof__(self) strongSelf = weakSelf;
         [strongSelf updateInterfaceForReachabilityStateChange];
-    }] withName:bHookInternetConnectivityChanged]];
+    }] withName:bHookInternetConnectivityDidChange]];
     
     // Observe for keyboard appear and disappear notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
@@ -383,12 +383,12 @@
 // Layout out the bubbles. Do this after the cell's been made so we have
 // access to the cell dimensions
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([cell respondsToSelector:@selector(willDisplayCell)]) {
-        [cell performSelector:@selector(willDisplayCell)];
-    }
     // Allow the table to support different background colors
     cell.backgroundColor = [UIColor clearColor];
     cell.contentView.backgroundColor = [UIColor clearColor];
+    if ([cell respondsToSelector:@selector(willDisplayCell)]) {
+        [cell performSelector:@selector(willDisplayCell)];
+    }
 }
 
 // Set the message height based on the text height

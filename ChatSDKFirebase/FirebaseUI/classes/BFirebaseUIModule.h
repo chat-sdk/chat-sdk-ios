@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@import FirebaseUI;
+
 @protocol FUIAuthDelegate;
 
 @protocol BFirebaseUIModuleDelegate <NSObject>

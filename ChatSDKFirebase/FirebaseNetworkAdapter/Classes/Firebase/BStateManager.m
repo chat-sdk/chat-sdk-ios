@@ -15,10 +15,9 @@
 +(void) userOn: (NSString *) entityID {
     
     id<PUser> user = [BChatSDK.db fetchEntityWithID:entityID withType:bUserEntity];
-    
-    NSDictionary * data = @{bHook_PUser: user};
-    [BChatSDK.hook executeHookWithName:bHookUserOn data:data];
-    
+
+    [BHookNotification notificationUserOn:user];
+        
     FIRDatabaseReference * threadsRef = [FIRDatabaseReference userThreadsRef:entityID];
     [threadsRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
         // Returns threads one by one

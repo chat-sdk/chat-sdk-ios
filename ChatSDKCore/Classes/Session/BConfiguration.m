@@ -63,6 +63,7 @@
 @synthesize inviteByEmailBody;
 @synthesize inviteBySMSBody;
 @synthesize audioMessageMaxLengthSeconds;
+@synthesize maxImageDimension;
 
 @synthesize xmppPort;
 @synthesize xmppDomain;
@@ -146,6 +147,8 @@
         anonymousLoginEnabled = [BSettingsManager anonymousLoginEnabled];
         
         userChatInfoEnabled = YES;
+        
+        maxImageDimension = 600;
         
         inviteByEmailTitle = [BSettingsManager property: bEmailTitle forModule: @"contact_book"];
         inviteByEmailBody = [BSettingsManager property: bEmailBody forModule: @"contact_book"];

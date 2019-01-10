@@ -10,7 +10,6 @@
 #define PHookHandler_h
 
 #define bHookDidAuthenticate @"bHookDidAuthenticate"
-#define bHookDidAuthenticate_PUser @"bHookDidAuthenticate_PUser"
 #define bHookWillLogout @"bHookWillLogout"
 #define bHookDidLogout @"bHookDidLogout"
 
@@ -26,8 +25,7 @@
 #define bHook_PMessage @"bHook_PMessage"
 #define bHook_PUser @"bHook_PUser"
 
-
-#define bHookInternetConnectivityChanged @"bHookInternetConnectivityChanged"
+#define bHookInternetConnectivityDidChange @"bHookInternetConnectivityDidChange"
 
 @class BHook;
 

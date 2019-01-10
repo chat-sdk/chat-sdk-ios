@@ -30,5 +30,24 @@
     [BChatSDK.hook executeHookWithName:bHookMessageRecieved data:@{bHook_PMessage: message}];
 }
 
++(void) notificationDidAuthenticate: (id<PUser>) user {
+    [BChatSDK.hook executeHookWithName:bHookDidAuthenticate data:@{bHook_PUser: user}];
+}
+
++(void) notificationWillLogout: (id<PUser>) user {
+    [BChatSDK.hook executeHookWithName:bHookWillLogout data:@{bHook_PUser:user}];
+}
+
++(void) notificationDidLogout: (id<PUser>) user {
+    [BChatSDK.hook executeHookWithName:bHookDidLogout data:@{bHook_PUser:user}];
+}
+
++(void) notificationUserOn: (id<PUser>) user {
+    [BChatSDK.hook executeHookWithName:bHookUserOn data:@{bHook_PUser:user}];
+}
+
++(void) notificationInternetConnectivityDidChange {
+    [BChatSDK.hook executeHookWithName:bHookInternetConnectivityDidChange data:@{}];
+}
 
 @end

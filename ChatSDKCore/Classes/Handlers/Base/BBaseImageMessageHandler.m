@@ -50,7 +50,7 @@
 //    [thread addMessage: message];
     
     // Resize image
-    UIImage * resizedImage = [self imageWithScaledImage:image maxDimension:600];
+    UIImage * resizedImage = [self imageWithScaledImage:image];
 
     [BHookNotification notificationMessageWillUpload: message];
     
@@ -69,6 +69,10 @@
         return [BChatSDK.core sendMessage:message];
     }, Nil);
 
+}
+
+- (UIImage*)imageWithScaledImage:(UIImage*)image {
+    return [self imageWithScaledImage:image maxDimension:BChatSDK.config.maxImageDimension];
 }
 
 - (UIImage*)imageWithScaledImage:(UIImage*)image maxDimension: (float) maxDimension {

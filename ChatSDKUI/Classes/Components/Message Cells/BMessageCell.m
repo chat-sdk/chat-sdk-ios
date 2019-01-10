@@ -16,6 +16,7 @@
 
 @synthesize bubbleImageView;
 @synthesize message = _message;
+@synthesize profilePicture = _profilePicture;
 
 -(instancetype) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -551,6 +552,10 @@
     return bProfilePictureDiameter;
 }
 
+-(void) hideProfilePicture {
+    _profilePicture.frame = CGRectZero;
+}
+
 -(float) maxTextWidth {
     return [BTextMessageCell maxTextWidth: _message];
 }
@@ -569,7 +574,7 @@
 #pragma Default cell sizing static methods
 
 +(NSNumber *) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return @(0);
+    return @(100);
 }
 
 +(NSNumber *) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {

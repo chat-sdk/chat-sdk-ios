@@ -133,7 +133,7 @@
             __typeof__(self) strongSelf = weakSelf;
             [strongSelf updateInterfaceForReachabilityStateChange];
         }];
-        [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+        [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
         
         [self updateInterfaceForReachabilityStateChange];
         
@@ -199,10 +199,11 @@
             return;
         }
         
-        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(sendTextMessage:)]) {
+        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(threadEntityID)]) {
             NSString * newMessage = [_textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             [BChatSDK.core sendMessageWithText:newMessage withThreadEntityID:_sendBarDelegate.threadEntityID];
         }
+        
         _textView.text = @"";
         [self textViewDidChange:_textView];
     }

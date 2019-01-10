@@ -46,6 +46,15 @@ Pod::Spec.new do |s|
 	fp.dependency 'ChatSDKFirebase/Adapter'
 
   end
+
+ s.subspec 'FirebaseUI' do |f|
+
+	f.source_files = ['ChatSDKFirebase/FirebaseUI/Classes/**/*']
+
+	f.dependency 'ChatSDKFirebase/Adapter'
+	f.dependency 'FirebaseUI/Auth'
+
+  end
   
  s.subspec 'SocialLogin' do |fsl|
 
