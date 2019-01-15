@@ -21,7 +21,7 @@
 #define bThreadCreationError @"bThreadCreationError"
 #define bSearchTerm @"bSearchTerm"
 
-#define bPickFriends @"bPickFriends"
+#define bPickFriends @"NewChat"
 
 #define bBack @"bBack"
 #define bImageSaved @"bImageSaved"
@@ -73,11 +73,11 @@
 #define bChooseExistingPhoto @"bChooseExistingPhoto"
 #define bChooseExistingVideo @"bChooseExistingVideo"
 #define bCurrentLocation @"bCurrentLocation"
-#define bSend @"bSend"
+#define bSend @"SEND"
 #define bOpen @"bOpen"
 #define bReply @"bReply"
 #define bRec @"bRec"
-#define bWriteSomething @"bWriteSomething"
+#define bWriteSomething @"TYPESOMETHING"
 #define bSlideToCancel @"bSlideToCancel"
 #define bFlagged @"bFlagged"
 #define bFlag @"bFlag"
@@ -98,7 +98,7 @@
 #define bInviteBySMS @"bInviteBySMS"
 
 #define bTo @"bTo"
-#define bEnterNamesHere @"bEnterNamesHere"
+#define bEnterNamesHere @"SearchMembers" //@"bEnterNamesHere"
 #define bSearchedContacts @"bSearchedContacts"
 #define bNearbyContacts @"bNearbyContacts"
 

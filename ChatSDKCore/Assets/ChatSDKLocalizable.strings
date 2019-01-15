@@ -18,7 +18,7 @@
 "bBroadcast" = "Broadcasts";
 "bThreadCreationError" = "Thread creation failed";
 "bChatRooms" = "Chat Rooms";
-"bPickFriends" = "Pick Friends";
+"bPickFriends" = "NewChat";
 "bReset" = "Reset";
 "bForgotPassword" = "Reset";
 "bEnterCredentialToResetPassword" = "Enter email to reset password";

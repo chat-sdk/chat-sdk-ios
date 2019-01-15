@@ -48,6 +48,7 @@
     self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                             target:self
                                                                                             action:@selector(createThread)];
+    [self setExtendedLayoutIncludesOpaqueBars:YES];
 }
 
 -(void) createThread {

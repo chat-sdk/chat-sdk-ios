@@ -46,11 +46,14 @@
     [super viewDidLoad];
     
     self.title = [NSBundle t:bDetails];
+
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack]
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(backButtonPressed)];
+    UIImage *image = [[UIImage imageNamed:@"cross"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+   self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack]
+//                                                                             style:UIBarButtonItemStylePlain
+//                                                                            target:self
+//                                                                            action:@selector(backButtonPressed)];
     
     tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
     
@@ -96,8 +99,10 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    //    return _thread.type.intValue == bThreadTypePrivateGroup ? bSectionCount : 1;
+
     // We only show the add and leave group for private groups
-    return _thread.type.intValue == bThreadTypePrivateGroup ? bSectionCount : 1;
+    return  1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -111,8 +116,9 @@
         if (_users.count) {
             
             id<PUser> user = _users[indexPath.row];
-            
+            cell.textLabel.font = [UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize];
             cell.textLabel.text = user.name;
+            /*
             cell.imageView.image = user && user.thumbnail ? [UIImage imageWithData:user.thumbnail] : [NSBundle uiImageNamed: @"icn_user.png"];
             
             cell.imageView.layer.cornerRadius = 20;
@@ -126,6 +132,7 @@
             cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
             
             UIGraphicsEndImageContext();
+             */
         }
         else {
             cell.textLabel.text = [NSBundle t:bNoActiveParticipants];
@@ -205,18 +212,18 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
-    if (section == bParticipantsSection) {
-        
-        if (_thread.type.integerValue & bThreadFilterPrivate) {
-            return [NSBundle t:bParticipants];
-        }
-        else {
-            return _thread.users.allObjects.count > 0 ? [NSBundle t:bActiveParticipants] : [NSBundle t:bNoActiveParticipants];
-        }
-    }
-    if (section == bLeaveConvoSection) {
-        return @"";
-    }
+//    if (section == bParticipantsSection) {
+//
+//        if (_thread.type.integerValue & bThreadFilterPrivate) {
+//            return [NSBundle t:bParticipants];
+//        }
+//        else {
+//            return _thread.users.allObjects.count > 0 ? [NSBundle t:bActiveParticipants] : [NSBundle t:bNoActiveParticipants];
+//        }
+//    }
+//    if (section == bLeaveConvoSection) {
+//        return @"";
+//    }
     return @"";
 }
 

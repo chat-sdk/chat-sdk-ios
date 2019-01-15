@@ -97,6 +97,17 @@
 // 2 - Show's a message or the list of usersBTextInputView
 // 3 - Show's who's typing
 -(void) setupNavigationBar {
+    self.viewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    
+    
+//    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+//    [backButtonItem setTintColor:[UIColor blackColor]];
+//    self.viewController.navigationItem.backBarButtonItem = backButtonItem;
+    UIImage *image = [[UIImage imageNamed:@"option"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
+//    UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithTitle:@"..."               style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
+//    [refreshItem setTintColor:[UIColor blackColor]];
+//    self.navigationItem.rightBarButtonItem = refreshItem;
     
     UIView * containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 220, 40)];
     
@@ -123,6 +134,38 @@
     _subtitleLabel.keepHorizontalCenter.equal = 0.5;
     
     [self.navigationItem setTitleView:containerView];
+}
+
+
+-(void)openOptionActionSheet{
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+        // Cancel button tappped.
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Members" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        // Distructive button tapped.
+        [self navigationBarTapped];
+
+//        [self dismissViewControllerAnimated:YES completion:^{
+//        }];
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Invite" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        // OK button tapped.
+        [self openInviteScreen];
+//        [self dismissViewControllerAnimated:YES completion:^{
+//        }];
+    }]];
+    
+    // Present action sheet.
+    [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
 // The options handler is responsible for displaying options to the user
@@ -261,7 +304,8 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    self.viewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+
     [self addObservers];
     
     self.tabBarController.tabBar.hidden = YES;
@@ -889,6 +933,10 @@
 - (void) navigationBarTapped {
     
     [delegate navigationBarTapped];
+}
+
+- (void) openInviteScreen {
+    [delegate openInviteScreen];
 }
 
 - (void)updateInterfaceForReachabilityStateChange {

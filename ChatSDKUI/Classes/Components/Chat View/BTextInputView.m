@@ -29,12 +29,13 @@
 @synthesize sendButton = _sendButton;
 @synthesize placeholderLabel = _placeholderLabel;
 
+
 -(instancetype) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         
 //        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor colorWithRed:242/255.0f green:242/255.0f blue:242/255.0f alpha:1.0];// [UIColor redColor];//
         
         // Decide how many lines the message should have
         minLines = bMinLines;
@@ -47,17 +48,21 @@
 
         // Create an options button which shows an action sheet
         _optionsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _optionsButton.hidden = YES;
         [self addSubview:_optionsButton];
 
         _textView = [[HKWTextView alloc] init];
         // If we use the mentions functionality we need to set the external delegate
         // This is the way to set the UITextView delegate to keep mentions functionality working
         _textView.simpleDelegate = self;
-      
+        _textView.layer.cornerRadius = 2;
+        _textView.layer.masksToBounds = true;
         [self addSubview: _textView];
 
         // Add a send button
         _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [_sendButton setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+        [[_sendButton titleLabel] setFont:[UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize]];
         [self addSubview: _sendButton];
         
         [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
@@ -75,8 +80,8 @@
         [_sendButton addTarget:self action:@selector(sendButtonCancelled) forControlEvents:UIControlEventTouchUpOutside];
         
         _textView.scrollEnabled = YES;
-        _textView.backgroundColor = [UIColor clearColor];
-        
+        _textView.backgroundColor = [UIColor whiteColor];
+        _textView.font =  [UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize];
         // For some reason using scrollEnabled = NO causes probalems
         _textView.bounces = NO;
         
@@ -123,8 +128,7 @@
         [_placeholderLabel setBackgroundColor:[UIColor clearColor]];
         
         [_placeholderLabel setTextColor:_placeholderColor];
-        
-        [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+        [_placeholderLabel setText:[NSBundle t:NSLocalizedString(bWriteSomething, nil)]];
         
         [self setFont:[UIFont systemFontOfSize:bFontSize]];
         
@@ -176,7 +180,7 @@
                      forState:UIControlStateNormal];
     }
     else {
-        [_sendButton setTitle:[NSBundle t:bSend] forState:UIControlStateNormal];
+        [_sendButton setTitle:[NSBundle t:NSLocalizedString(bSend, nil)] forState:UIControlStateNormal];
         [_sendButton setImage:Nil forState:UIControlStateNormal];
     }
 }
@@ -257,7 +261,7 @@
 -(void) stopRecording {
     [[BAudioManager sharedManager] finishRecording];
     [_sendBarDelegate.view hideAllToasts];
-    [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+    [_placeholderLabel setText:[NSBundle t:NSLocalizedString(bWriteSomething, nil)]];
     [self cancelRecordingToastTimer];
 }
 
@@ -292,7 +296,7 @@
 // If the user touches up off the button we cancel the recording
 - (void)sendButtonCancelled {
     [_sendBarDelegate.view hideAllToasts];
-    [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+    [_placeholderLabel setText:[NSBundle t:NSLocalizedString(bWriteSomething, nil)]];
     CSToastStyle * style = [[CSToastStyle alloc] initWithDefaultStyle];
     style.backgroundColor = [UIColor redColor];
     [_sendBarDelegate.view makeToast:[NSBundle t:bCancelled]

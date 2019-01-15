@@ -363,11 +363,31 @@
     NSMutableArray * users = [NSMutableArray arrayWithArray: _thread.model.users.allObjects];
     [users removeObject:BChatSDK.currentUser];
     
+
+  //  -(UIViewController *) usersViewControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent
+//    if let privateThreadsViewController = BChatSDK.ui().BFriendsListViewController()
+//        privateThreadsViewController.thread
+//    UINavigationController *rootVC = [[UINavigationController alloc] initWithRootViewController:[BChatSDK.ui usersViewControllerWithThread:_thread parentNavigationController:self.navigationController]];
+ //   if let privateThreadsViewController = BChatSDK.ui().privateThreadsViewController()
     UINavigationController * nvc = [BChatSDK.ui usersViewNavigationControllerWithThread:_thread
-                                                                    parentNavigationController:self.navigationController];
+                                                                parentNavigationController:self.navigationController];
     
     [self presentViewController:nvc animated:YES completion:nil];
     
+}
+
+-(void) openInviteScreen{
+    UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
+        
+        [BChatSDK.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
+            [UIView alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];
+            // [self reloadData];
+            return Nil;
+        }, Nil);
+    }];
+    [((id<PFriendsListViewController>) nav.topViewController) setRightBarButtonActionTitle:[NSBundle t: bAdd]];
+    
+    [self presentViewController:nav animated:YES completion:Nil];
 }
 
 -(void) dealloc {

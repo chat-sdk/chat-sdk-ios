@@ -38,8 +38,8 @@
         _profilePicture = [[UIImageView alloc] init];
         _profilePicture.contentMode = UIViewContentModeScaleAspectFill;
         _profilePicture.clipsToBounds = YES;
-        
-        [self.contentView addSubview:_profilePicture];
+
+       [self.contentView addSubview:_profilePicture];
         
         _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         
@@ -248,11 +248,13 @@
     // Layout the date label this will be the full size of the cell
     // This will automatically center the text in the y direction
     // we'll set the side using text alignment
-    [_timeLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0];
-    
+    [_timeLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0 -  _profilePicture.fw];
+    [_timeLabel setViewFrameY:_profilePicture.fh];
+    [_timeLabel setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin + bTimeLabelPadding]; // + _profilePicture.fw
     // We don't want the label getting in the way of the read receipt
-    [_timeLabel setViewFrameHeight:self.cellHeight * 0.8];
-    
+    [_timeLabel setViewFrameHeight:16];
+    //    [_timeLabel setViewFrameHeight:self.cellHeight * 0.8];
+
     [_readMessageImageView setViewFrameWidth:bReadReceiptWidth];
     [_readMessageImageView setViewFrameHeight:bReadReceiptHeight];
     [_readMessageImageView setViewFrameY:_timeLabel.fh * 2.0 / 3.0];
@@ -261,25 +263,29 @@
     [_nameLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0 - _profilePicture.fw];
     [_nameLabel setViewFrameHeight:self.nameHeight];
     
+    //CHANGE
     // Layout the bubble
     // The bubble is translated the "margin" to the right of the profile picture
     if (!isMine) {
+        _profilePicture.hidden = NO;
         [_profilePicture setViewFrameX:_profilePicture.hidden ? 0 : self.profilePicturePadding];
         [bubbleImageView setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin];
         [_nameLabel setViewFrameX:bTimeLabelPadding];
         
-        _timeLabel.textAlignment = NSTextAlignmentRight;
+        _timeLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.textAlignment = NSTextAlignmentLeft;
     }
     else {
+        _profilePicture.hidden = YES;
         [_profilePicture setViewFrameX:_profilePicture.hidden ? self.contentView.fw : self.contentView.fw - _profilePicture.fw - self.profilePicturePadding];
-        [bubbleImageView setViewFrameX:_profilePicture.fx - self.bubbleWidth - self.bubbleMargin.right - xMargin];
+        [bubbleImageView setViewFrameX:self.fw - self.bubbleWidth - self.bubbleMargin.right - xMargin];
         //[_nameLabel setViewFrameX: bTimeLabelPadding];
         
-        _timeLabel.textAlignment = NSTextAlignmentLeft;
+        _timeLabel.textAlignment = NSTextAlignmentRight;
         _nameLabel.textAlignment = NSTextAlignmentRight;
     }
-    
+  
+
 //        self.bubbleImageView.layer.borderColor = UIColor.redColor.CGColor;
 //        self.bubbleImageView.layer.borderWidth = 1;
 //        self.contentView.layer.borderColor = UIColor.blueColor.CGColor;
@@ -416,7 +422,10 @@
         case bMessageTypeFile:
             return 60;
         default:
-            return [self getText: message.textString heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth]];
+            return [self getText: message.textString heightWithFont:[UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth]];
+            
+          //   UIFont(name:"SFProText-Regular" , size: fontSize)
+            //[UIFont systemFontOfSize:bDefaultFontSize]
     }
 }
 
@@ -445,7 +454,7 @@
 
 +(float) textWidth: (NSString *) text maxWidth: (float) maxWidth {
     if (text) {
-        UIFont * font = [UIFont systemFontOfSize:bDefaultFontSize];
+        UIFont * font = [UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize];// [UIFont systemFontOfSize:bDefaultFontSize];
         if (font) {
             return [text boundingRectWithSize:CGSizeMake(maxWidth, CGFLOAT_MAX)
                                       options:NSStringDrawingUsesLineFragmentOrigin

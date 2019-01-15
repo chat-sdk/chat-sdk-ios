@@ -7,7 +7,7 @@
 //
 
 #import "BUserCell.h"
-
+#import <ChatSDK/PUser.h>
 #import <ChatSDK/UI.h>
 
 @implementation BUserCell
@@ -22,15 +22,14 @@
 }
 
 -(void) setUser: (id<PUser>) user {
-    
+  //  _statusImageView.image = 
     // TODO: Don't use absolute value
-    self.profileImageView.layer.cornerRadius = 22;
-    self.profileImageView.clipsToBounds = YES;
+   // self.profileImageView.layer.cornerRadius = 22;
+   // self.profileImageView.clipsToBounds = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.accessoryType = UITableViewCellAccessoryNone; // If we don't set this then sometimes the cells don't refresh properly
-    
-    //self.profileImageView.layer.borderWidth = 2;
-    self.statusImageView.layer.cornerRadius = 6;
+   // self.profileImageView.layer.borderWidth = 2;
+   // self.statusImageView.layer.cornerRadius = 6;
     [self setStateLabelText:@""];
     
     [self.profileImageView sd_setImageWithURL:[NSURL URLWithString: user.imageURL]
@@ -39,13 +38,13 @@
     
     self.title.text = user.name;
     self.subtitle.text = user.statusText;
-    
-    if (user.online.boolValue) {
-        [self setOnline];
-    }
-    else {
-        [self setOffline];
-    }
+
+//    if (user.online.boolValue) {
+//        [self setOnline];
+//    }
+//    else {
+//        [self setOffline];
+//    }
 }
 
 -(void) setStateLabelText: (NSString *) state {
@@ -57,6 +56,17 @@
     }
     self.stateLabel.text = state;
 }
+
+-(void) setSelectedImage {
+    self.statusImageView.image = [NSBundle uiImageNamed: @"checkBox@2x"];
+}
+
+-(void) setDeSelectedImage {
+    self.statusImageView.image = [NSBundle uiImageNamed: @"empty_checkBox@2x.png"];
+}
+
+
+
 
 -(void) setOnline {
     self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_online.png"];

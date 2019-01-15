@@ -36,7 +36,7 @@
 
 -(instancetype) initWithUsersToExclude: (NSArray *) users onComplete: (void(^)(NSArray * users, NSString * name)) action {
     if ((self = [self init])) {
-        self.title = [NSBundle t:bPickFriends];
+        self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
         [_contactsToExclude addObjectsFromArray:users];
         self.usersToInvite = action;
     }
@@ -46,7 +46,7 @@
 -(instancetype) init {
     self = [super initWithNibName:@"BFriendsListViewController" bundle:[NSBundle uiBundle]];
     if (self) {
-        self.title = [NSBundle t:bPickFriends];
+        self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
         _selectedContacts = [NSMutableArray new];
         _contacts = [NSMutableArray new];
         _contactsToExclude = [NSMutableArray new];
@@ -59,7 +59,7 @@
     
     groupNameTextField.placeholder = [NSBundle t:bGroupName];
     groupNameTextField.delegate = self;
-
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.getRightBarButtonActionTitle style:UIBarButtonItemStylePlain target:self action:@selector(composeMessage)];
     
@@ -68,9 +68,11 @@
     
     self.names = [NSMutableArray array];
     _tokenField.delegate = self;
+    _tokenField.inputTextFieldAccessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search"]];
+    
     _tokenField.dataSource = self;
-    _tokenField.placeholderText = [NSBundle t:bEnterNamesHere];
-    _tokenField.toLabelText = [NSBundle t:bTo];
+    _tokenField.placeholderText =[NSBundle t: NSLocalizedString(bEnterNamesHere, nil)]; // [NSBundle t:bEnterNamesHere];
+   // _tokenField.toLabelText = [NSBundle t:bTo];
     _tokenField.userInteractionEnabled = YES;
     
     [_tokenField setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
@@ -84,7 +86,7 @@
     [self reloadData];
     
     [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bUserCellIdentifier];
-
+    
     [self setGroupNameHidden:YES duration:0];
 }
 
@@ -106,7 +108,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+
     __weak __typeof__(self) weakSelf = self;
     _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
         __typeof__(self) strongSelf = weakSelf;
@@ -152,11 +155,43 @@
         return;
     }
     else {
-        [self dismissViewControllerAnimated:YES completion:^{
-            if (self.usersToInvite != Nil) {
-                self.usersToInvite(_selectedContacts, groupNameTextField.text);
-            }
-        }];
+        //Create Group
+        if (_selectedContacts.count > 1)
+        {
+            UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"Group Name"
+                                                                                      message: nil
+                                                                               preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"Group Name";
+                textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            }];
+            
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                
+            }]];
+        
+            [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self dismissViewControllerAnimated:YES completion:^{
+                    if (self.usersToInvite != Nil) {
+                        NSArray * textfields = alertController.textFields;
+                        UITextField * groupName = textfields[0];
+                        self.usersToInvite(_selectedContacts, groupName.text);
+                    }
+                }];
+                
+            }]];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        else //1-1 chat
+        {
+            [self dismissViewControllerAnimated:YES completion:^{
+                if (self.usersToInvite != Nil) {
+                    self.usersToInvite(_selectedContacts, groupNameTextField.text);
+                }
+            }];
+        }
+        
+      
     }
 }
 
@@ -175,9 +210,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
-    if (section == bContactsSection) {
-        return _contacts.count ? [NSBundle t:bContacts] : @"";
-    }
+//    if (section == bContactsSection) {
+//        return _contacts.count ? [NSBundle t:bContacts] : @"";
+//    }
     
     return @"";
 }
@@ -191,14 +226,19 @@
     if (indexPath.section == bContactsSection) {
         user = _contacts[indexPath.row];
     }
-    
+    if ([_selectedContacts containsObject:user]){
+         [cell setSelectedImage];
+    }
+    else{
+      [cell setDeSelectedImage];
+    }
     [cell setUser:user];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50;
+    return 71;
 }
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -209,9 +249,9 @@
     
     [tableView_ deselectRowAtIndexPath:indexPath animated:YES];
     
-    [UIView animateWithDuration:0.2 animations:^{
-        _tokenView.keepHeight.equal = _tokenField.bounds.size.height;
-    }];
+//    [UIView animateWithDuration:0.2 animations:^{
+//        _tokenView.keepHeight.equal = _tokenField.bounds.size.height;
+//    }];
     
     [self reloadData];
 }
@@ -261,18 +301,22 @@
 
 - (void) selectUser: (id<PUser>) user {
     
-    if(_selectedContacts.count < maximumSelectedUsers || maximumSelectedUsers <= 0) {
+   // if(_selectedContacts.count < maximumSelectedUsers || maximumSelectedUsers <= 0) {
+    if ([_selectedContacts containsObject:user]){
+        [_selectedContacts removeObject:user];
+    }
+    else{
         [_selectedContacts addObject:user];
-        
-        [self.names addObject:user.name];
+    }
+        //   [self.names addObject:user.name];
         
         _filterByName = Nil;
         [_tokenField reloadData];
         
-        [self setGroupNameHidden:_selectedContacts.count < 2 || _contactsToExclude.count > 0 duration:0.4];
+        //        [self setGroupNameHidden:_selectedContacts.count < 2 || _contactsToExclude.count > 0 duration:0.4];
         
         [self reloadData];
-    }
+ //   }
     
 }
 
@@ -314,7 +358,7 @@
         [_contacts addObjectsFromArray: self.overrideContacts()];
     }
     
-    [_contacts removeObjectsInArray:_selectedContacts];
+    //  [_contacts removeObjectsInArray:_selectedContacts];
     
     // _contactsToExclude is the users already in the thread - make sure we don't include anyone already in the thread
     [_contacts removeObjectsInArray:_contactsToExclude];
@@ -390,3 +434,4 @@
 
 
 @end
+
