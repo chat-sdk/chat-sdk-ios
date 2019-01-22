@@ -369,14 +369,20 @@
 //        privateThreadsViewController.thread
 //    UINavigationController *rootVC = [[UINavigationController alloc] initWithRootViewController:[BChatSDK.ui usersViewControllerWithThread:_thread parentNavigationController:self.navigationController]];
  //   if let privateThreadsViewController = BChatSDK.ui().privateThreadsViewController()
-    UINavigationController * nvc = [BChatSDK.ui usersViewNavigationControllerWithThread:_thread
-                                                                parentNavigationController:self.navigationController];
+//   UINavigationController * nvc = [BChatSDK.ui usersViewNavigationControllerWithThread:_thread
+//                                                                parentNavigationController:self.navigationController];
+    //[self usersViewControllerWithThread:thread parentNavigationController:parent]
     
-    [self presentViewController:nvc animated:YES completion:nil];
+    BUsersViewController * vc = [[BUsersViewController alloc] initWithThread:_thread];
+    [self.navigationController pushViewController:vc animated:YES];
+  //  [self presentViewController:nvc animated:YES completion:nil];
     
 }
 
 -(void) openInviteScreen{
+    BFriendsListViewController * vc = [[BFriendsListViewController alloc] initWithUsersToExclude:_thread.users.allObjects onComplete:nil];
+  //  [[BFriendsListViewController alloc] initWithUsersToExclude:usersToExclude onComplete:action]
+    
     UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
         
         [BChatSDK.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
@@ -386,8 +392,9 @@
         }, Nil);
     }];
     [((id<PFriendsListViewController>) nav.topViewController) setRightBarButtonActionTitle:[NSBundle t: bAdd]];
-    
-    [self presentViewController:nav animated:YES completion:Nil];
+    [self.navigationController pushViewController:vc animated:YES];
+
+   // [self presentViewController:nav animated:YES completion:Nil];
 }
 
 -(void) dealloc {

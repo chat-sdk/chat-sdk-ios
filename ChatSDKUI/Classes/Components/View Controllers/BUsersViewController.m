@@ -245,7 +245,8 @@
 }
 
 - (void)backButtonPressed {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:true];
+   // [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
