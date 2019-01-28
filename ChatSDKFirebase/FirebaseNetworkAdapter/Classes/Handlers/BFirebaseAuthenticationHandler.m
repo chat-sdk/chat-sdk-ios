@@ -93,7 +93,16 @@
             [promise rejectWithReason:error];
         }
     };
-    
+
+    void(^handleUserResult)(FIRUser * user, NSError *error) = ^(FIRUser * _Nullable user, NSError * _Nullable error) {
+        if (!error) {
+            [promise resolveWithResult:user];
+        }
+        else {
+            [promise rejectWithReason:error];
+        }
+    };
+
     promise = promise.thenOnMain(^id(FIRUser * firebaseUser) {
         return [self loginWithFirebaseUser: firebaseUser accountDetails:details];
     }, Nil);
@@ -150,19 +159,19 @@
             break;
         case bAccountTypeUsername:
         {
-            [[FIRAuth auth] signInWithEmail:details.username password:details.password completion:handleResult];
+            [[FIRAuth auth] signInWithEmail:details.username password:details.password completion:handleUserResult];
         }
             break;
         case bAccountTypeCustom:
-            [[FIRAuth auth] signInWithCustomToken:details.token completion:handleResult];
+            [[FIRAuth auth] signInWithCustomToken:details.token completion:handleUserResult];
             break;
         case bAccountTypeRegister:
         {
-            [[FIRAuth auth] createUserWithEmail:details.username password:details.password completion:handleResult];
+            [[FIRAuth auth] createUserWithEmail:details.username password:details.password completion:handleUserResult];
         }
             break;
         case bAccountTypeAnonymous: {
-            [[FIRAuth auth] signInAnonymouslyWithCompletion:handleResult];
+            [[FIRAuth auth] signInAnonymouslyWithCompletion:handleUserResult];
         }
             break;
         default:
