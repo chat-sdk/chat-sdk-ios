@@ -380,6 +380,10 @@
 }
 
 -(void) openInviteScreen{
+    
+    [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"isPoped"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     BFriendsListViewController * vc = [[BFriendsListViewController alloc] initWithUsersToExclude:_thread.users.allObjects onComplete:nil];
   //  [[BFriendsListViewController alloc] initWithUsersToExclude:usersToExclude onComplete:action]
     
@@ -393,8 +397,9 @@
     }];
     [((id<PFriendsListViewController>) nav.topViewController) setRightBarButtonActionTitle:[NSBundle t: bAdd]];
     [self.navigationController pushViewController:vc animated:YES];
+    
 
-   // [self presentViewController:nav animated:YES completion:Nil];
+   //[self presentViewController:nav animated:YES completion:Nil];
 }
 
 -(void) dealloc {

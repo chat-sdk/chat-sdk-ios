@@ -121,6 +121,9 @@
     _titleLabel.keepInsets.equal = 0;
     _titleLabel.keepBottomInset.equal = 15;
     
+    
+    
+    
     _subtitleLabel = [[UILabel alloc] init];
     _subtitleLabel.textAlignment = NSTextAlignmentCenter;
     _subtitleLabel.font = [UIFont italicSystemFontOfSize:12.0];
@@ -188,6 +191,8 @@
 
 -(void) setTitle: (NSString *) title {
     _titleLabel.text = title;
+    [[NSUserDefaults standardUserDefaults] setObject:_titleLabel.text forKey:@"chatViewTitle"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(void) setSubtitle: (NSString *) subtitle {

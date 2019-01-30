@@ -22,6 +22,7 @@
 #define bSearchTerm @"bSearchTerm"
 
 #define bPickFriends @"NewChat"
+#define bInviteFriend @"Invite"
 
 #define bBack @"bBack"
 #define bImageSaved @"bImageSaved"

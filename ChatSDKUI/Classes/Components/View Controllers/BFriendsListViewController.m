@@ -36,7 +36,18 @@
 
 -(instancetype) initWithUsersToExclude: (NSArray *) users onComplete: (void(^)(NSArray * users, NSString * name)) action {
     if ((self = [self init])) {
-        self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
+        
+        BOOL isPoped = [[NSUserDefaults standardUserDefaults]
+                        boolForKey:@"isPoped"];
+        if (isPoped)
+        {
+            self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
+        }
+        else
+        {
+            self.title =  [NSBundle t: NSLocalizedString(bInviteFriend, nil)];
+        }
+        
         [_contactsToExclude addObjectsFromArray:users];
         self.usersToInvite = action;
     }
@@ -46,7 +57,18 @@
 -(instancetype) init {
     self = [super initWithNibName:@"BFriendsListViewController" bundle:[NSBundle uiBundle]];
     if (self) {
-        self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
+        
+        BOOL isPoped = [[NSUserDefaults standardUserDefaults]
+                        boolForKey:@"isPoped"];
+        if (isPoped)
+        {
+            self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
+        }
+        else
+        {
+            self.title =  [NSBundle t: NSLocalizedString(bInviteFriend, nil)];
+        }
+        
         _selectedContacts = [NSMutableArray new];
         _contacts = [NSMutableArray new];
         _contactsToExclude = [NSMutableArray new];
@@ -60,9 +82,22 @@
     groupNameTextField.placeholder = [NSBundle t:bGroupName];
     groupNameTextField.delegate = self;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
+    
+    BOOL isPoped = [[NSUserDefaults standardUserDefaults]
+                    boolForKey:@"isPoped"];
+    if (isPoped)
+    {
+        NSLog(@"View controller was present");
+        UIImage *image = [[UIImage imageNamed:@"cross"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+    }
+    
+    //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bImageSaved] style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.getRightBarButtonActionTitle style:UIBarButtonItemStylePlain target:self action:@selector(composeMessage)];
     
+    /*UIImage *image = [[UIImage imageNamed:@"cross"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+    */
     // Takes into account the status and navigation bar
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -425,7 +460,10 @@
 -(void) dismissView {
     [self dismissViewControllerAnimated:YES completion:Nil];
 }
-
+- (void)backButtonPressed {
+    [self dismissViewControllerAnimated:YES completion:Nil];
+    //[self.navigationController popViewControllerAnimated:true];
+}
 - (void)updateButtonStatusForInternetConnection {
     BOOL connected = BChatSDK.connectivity.isConnected;
     self.navigationItem.rightBarButtonItem.enabled = connected;

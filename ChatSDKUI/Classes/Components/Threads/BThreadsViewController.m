@@ -127,6 +127,28 @@
                                                [weakSelf reloadData];
                                            });
                                        }]];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receiveTestNotification:)
+                                                 name:@"threadNotification"
+                                               object:nil];
+    
+    
+
+    
+    
+}
+
+
+- (void) receiveTestNotification:(NSNotification *) notification
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    NSLog(@"%@",notification.userInfo);
+    NSDictionary *userInfo = notification.userInfo;
+    id<PThread> thread = [userInfo objectForKey:@"thread"];
+    [self pushChatViewControllerWithThread:thread];
+    
 }
 
 -(void) removeObservers {

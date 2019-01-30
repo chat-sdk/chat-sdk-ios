@@ -43,7 +43,7 @@
         
         _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         
-        _timeLabel.font = [UIFont italicSystemFontOfSize:12];
+        _timeLabel.font = [UIFont italicSystemFontOfSize:11];
         if(BChatSDK.config.messageTimeFont) {
             _timeLabel.font = BChatSDK.config.messageTimeFont;
         }
@@ -53,13 +53,15 @@
         
         [self.contentView addSubview:_timeLabel];
 
-        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
+        //_nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
+        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding , 0, 0, 0)];
+        
         _nameLabel.userInteractionEnabled = NO;
         
-        _nameLabel.font = [UIFont boldSystemFontOfSize:bDefaultUserNameLabelSize];
-        if(BChatSDK.config.messageNameFont) {
+        _nameLabel.font = [UIFont boldSystemFontOfSize:bSmallUserNameLabelSize];
+        /*if(BChatSDK.config.messageNameFont) {
             _nameLabel.font = BChatSDK.config.messageNameFont;
-        }
+        }*/
         [self.contentView addSubview:_nameLabel];
 
         _readMessageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
@@ -180,6 +182,7 @@
     }
     
     _nameLabel.text = _message.userModel.name;
+     _nameLabel.textColor = [UIColor lightGrayColor];
 
 //    
 //    // We only want to show the name label if the previous message was posted by someone else and if this is enabled in the thread
@@ -203,7 +206,8 @@
                                          self.bubbleWidth,
                                          self.bubbleHeight)];
     
-    [_nameLabel setViewFrameY:self.bubbleHeight + 5];
+    //[_nameLabel setViewFrameY:self.bubbleHeight + 5];
+    [_nameLabel setViewFrameY:5];
     
     // #1 Because of the text view insets we want the cellContentView of the
     // text cell to extend to the right edge of the bubble
@@ -249,8 +253,9 @@
     // This will automatically center the text in the y direction
     // we'll set the side using text alignment
     [_timeLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0 -  _profilePicture.fw];
-    [_timeLabel setViewFrameY:_profilePicture.fh];
-    [_timeLabel setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin + bTimeLabelPadding]; // + _profilePicture.fw
+    [_timeLabel setViewFrameY:bubbleImageView.fh];
+    [_timeLabel setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin + bTimeLabelPadding];
+    //[_timeLabel setViewFrameX:self.bubbleMargin.left + bubbleImageView.fw + _profilePicture.fw + xMargin + bTimeLabelPadding]; // + _profilePicture.fw
     // We don't want the label getting in the way of the read receipt
     [_timeLabel setViewFrameHeight:16];
     //    [_timeLabel setViewFrameHeight:self.cellHeight * 0.8];
@@ -269,8 +274,12 @@
     if (!isMine) {
         _profilePicture.hidden = NO;
         [_profilePicture setViewFrameX:_profilePicture.hidden ? 0 : self.profilePicturePadding];
+        [_profilePicture setViewFrameY: _nameLabel.fh];
         [bubbleImageView setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin];
-        [_nameLabel setViewFrameX:bTimeLabelPadding];
+        [bubbleImageView setViewFrameY:_nameLabel.fh];
+        [_timeLabel setViewFrameY:_profilePicture.fh + _nameLabel.fh];
+        [_nameLabel setViewFrameX:_profilePicture.fw + bTimeLabelPadding];
+        
         
         _timeLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.textAlignment = NSTextAlignmentLeft;
@@ -496,8 +505,21 @@
 }
 
 +(float) cellHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
+    
     UIEdgeInsets bubbleMargin = [self bubbleMargin:message];
-    return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message];
+    id<PElmMessage> nextMessage = message.lazyNextMessage;
+    
+    float finalHeight = [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message] + 16;
+    
+    if (nextMessage && [nextMessage.date minutesFrom:message.date] < 10) {
+        if (message.date.minute == nextMessage.date.minute && [message.userModel isEqual: nextMessage.userModel]) {
+            //_timeLabel.text = Nil;
+            finalHeight -= 16;
+        }
+    }
+    return finalHeight;
+    //return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message];
+
 }
 
 -(float) nameHeight {

@@ -10,9 +10,13 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import "FIRAuthAppDelegateProxy.h"
+
+@class AppDelegate;
 
 
 #define bMessagesBadgeValueKey @"bMessagesBadgeValueKey"
+#define kAppDelegate ((AppDelegate *)[[UIApplication sharedApplication] delegate]);
 
 @interface BAppTabBarController ()
 
@@ -21,6 +25,8 @@
 @implementation BAppTabBarController
 
 @synthesize lifecycleHelper = _helper;
+
+ id<UIApplicationDelegate> _appDelegate;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -42,6 +48,9 @@
     if(!_helper) {
         _helper = [[BMainControllerLifecycleHelper alloc] init];
     }
+    
+    
+    
     
     [_helper viewDidLoad: self];
     
@@ -65,6 +74,28 @@
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageAdded object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf updateBadge];
+            
+            id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
+             NSLog(@"Message: %@, %@, %@, %@", messageModel.textString, messageModel.date, messageModel.userModel.name, messageModel.thread);
+            NSDictionary *dict = @{ @"message" : messageModel.textString, @"date" : messageModel.date, @"userName" : messageModel.userModel.name,@"thread" :  messageModel.thread};
+            
+            UIViewController *topMostViewControllerObj = [self topViewController];
+            
+           
+            
+            if([topMostViewControllerObj isKindOfClass:[BChatViewController class]]){
+                
+                NSString * title = [[NSUserDefaults standardUserDefaults]valueForKey:@"chatViewTitle"];
+                if(![title isEqualToString:messageModel.userModel.name]){
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"TestNotification" object:Nil userInfo:dict];
+                }
+ 
+            }else{
+                 [[NSNotificationCenter defaultCenter]postNotificationName:@"TestNotification" object:Nil userInfo:dict];
+            }
+            NSLog(@"%@", topMostViewControllerObj.navigationItem.title);
+            
+           
         });
     }];
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
@@ -226,5 +257,37 @@
 -(NSBundle *) uiBundle {
     return [NSBundle uiBundle];
 }
+
+
+- (UIViewController*)topViewController {
+    return [self topViewControllerWithRootViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+}
+
+- (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController {
+    if ([viewController isKindOfClass:[UITabBarController class]]) {
+        UITabBarController* tabBarController = (UITabBarController*)viewController;
+        return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
+    } else if ([viewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController* navContObj = (UINavigationController*)viewController;
+        return [self topViewControllerWithRootViewController:navContObj.visibleViewController];
+    } else if (viewController.presentedViewController && !viewController.presentedViewController.isBeingDismissed) {
+        UIViewController* presentedViewController = viewController.presentedViewController;
+        return [self topViewControllerWithRootViewController:presentedViewController];
+    }
+    else {
+        for (UIView *view in [viewController.view subviews])
+        {
+            id subViewController = [view nextResponder];
+            if ( subViewController && [subViewController isKindOfClass:[UIViewController class]])
+            {
+                if ([(UIViewController *)subViewController presentedViewController]  && ![subViewController presentedViewController].isBeingDismissed) {
+                    return [self topViewControllerWithRootViewController:[(UIViewController *)subViewController presentedViewController]];
+                }
+            }
+        }
+        return viewController;
+    }
+}
+
 
 @end

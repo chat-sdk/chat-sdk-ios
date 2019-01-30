@@ -39,6 +39,8 @@
     
     // If we have no threads we don't have the edit button
     self.navigationItem.leftBarButtonItem = _threads.count ? _editButton : nil;
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    
 }
 
 - (void)viewDidLoad {
@@ -56,6 +58,9 @@
 }
 
 -(void) createPrivateThread {
+    [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"isPoped"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
 
     __weak __typeof__(self) weakSelf = self;
 
@@ -97,6 +102,7 @@
     [_threads removeAllObjects];
     [_threads addObjectsFromArray:[BChatSDK.core threadsWithType:bThreadFilterPrivateThread includeDeleted:NO]];
     [super reloadData];
+    
 }
 
 @end

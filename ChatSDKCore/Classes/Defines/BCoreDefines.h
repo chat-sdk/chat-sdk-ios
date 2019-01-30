@@ -27,6 +27,8 @@
 
 #define bDefaultFontSize 16
 #define bDefaultUserNameLabelSize 14
+#define bSmallUserNameLabelSize 11
+
 #define bDefaultTextColor @"000000"
 
 #endif /* BCoreDefines_h */
