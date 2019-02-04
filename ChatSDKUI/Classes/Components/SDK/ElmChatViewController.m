@@ -48,6 +48,9 @@
             UITapGestureRecognizer * titleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navigationBarTapped)];
             [self.navigationItem.titleView addGestureRecognizer:titleTapRecognizer];
         }
+        
+        _notificationList = [BNotificationObserverList new];
+
     }
     return self;
 }

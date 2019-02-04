@@ -25,7 +25,6 @@
         [_thread resetMessages];
         self = [super initWithDelegate:self];
         _messageCache = [NSMutableArray new];
-        _notificationList = [BNotificationObserverList new];
     }
     return self;
 }
@@ -79,23 +78,24 @@
         });
     }]];
    
-    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         id<PMessage> messageModel = data[bHook_PMessage];
-        
-        if (![messageModel.thread isEqual:_thread.model] && [currentUserModel.threads containsObject:_thread] && messageModel) {
-            
-            // If we are in chat and receive a message in another chat then vibrate the phone
-            if (![messageModel.userModel isEqual:currentUserModel]) {
-                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+
+        // If this is a message for another thread for this user
+        if (messageModel && [currentUserModel.threads containsObject:_thread]) {
+            if (![messageModel.thread isEqual:_thread.model]) {
+                // If we are in chat and receive a message in another chat then vibrate the phone
+                if (!messageModel.userModel.isMe) {
+                    AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+                }
+            } else if (BChatSDK.readReceipt) {
+                [BChatSDK.readReceipt markRead:_thread.model];
             }
-        }
-        else {
-            [BChatSDK.readReceipt markRead:_thread.model];
         }
         messageModel.delivered = @YES;
         
         [weakSelf updateMessages];
-    }] withNames:@[bHookMessageWillSend, bHookMessageRecieved, bHookMessageWillUpload]];
+    }] withNames:@[bHookMessageWillSend, bHookMessageRecieved, bHookMessageWillUpload]]];
     
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved
                                                                                 object:Nil

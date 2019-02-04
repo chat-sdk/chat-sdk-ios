@@ -85,23 +85,23 @@
     RXPromise * promise = [RXPromise new];
     
     // Create a completion block to handle the login result
-    void(^handleResult)(FIRAuthDataResult * firebaseUser, NSError * error) = ^(FIRAuthDataResult * firebaseUser, NSError * error) {
+    void(^handleResult)(FIRAuthDataResult * result, NSError * error) = ^(FIRAuthDataResult * result, NSError * error) {
         if (!error) {
-            [promise resolveWithResult:firebaseUser.user];
+            [promise resolveWithResult:result.user];
         }
         else {
             [promise rejectWithReason:error];
         }
     };
 
-    void(^handleUserResult)(FIRUser * user, NSError *error) = ^(FIRUser * _Nullable user, NSError * _Nullable error) {
-        if (!error) {
-            [promise resolveWithResult:user];
-        }
-        else {
-            [promise rejectWithReason:error];
-        }
-    };
+//    void(^handleUserResult)(FIRUser * user, NSError *error) = ^(FIRUser * _Nullable user, NSError * _Nullable error) {
+//        if (!error) {
+//            [promise resolveWithResult:user];
+//        }
+//        else {
+//            [promise rejectWithReason:error];
+//        }
+//    };
 
     promise = promise.thenOnMain(^id(FIRUser * firebaseUser) {
         return [self loginWithFirebaseUser: firebaseUser accountDetails:details];
@@ -159,19 +159,19 @@
             break;
         case bAccountTypeUsername:
         {
-            [[FIRAuth auth] signInWithEmail:details.username password:details.password completion:handleUserResult];
+            [[FIRAuth auth] signInWithEmail:details.username password:details.password completion:handleResult];
         }
             break;
         case bAccountTypeCustom:
-            [[FIRAuth auth] signInWithCustomToken:details.token completion:handleUserResult];
+            [[FIRAuth auth] signInWithCustomToken:details.token completion:handleResult];
             break;
         case bAccountTypeRegister:
         {
-            [[FIRAuth auth] createUserWithEmail:details.username password:details.password completion:handleUserResult];
+            [[FIRAuth auth] createUserWithEmail:details.username password:details.password completion:handleResult];
         }
             break;
         case bAccountTypeAnonymous: {
-            [[FIRAuth auth] signInAnonymouslyWithCompletion:handleUserResult];
+            [[FIRAuth auth] signInAnonymouslyWithCompletion:handleResult];
         }
             break;
         default:

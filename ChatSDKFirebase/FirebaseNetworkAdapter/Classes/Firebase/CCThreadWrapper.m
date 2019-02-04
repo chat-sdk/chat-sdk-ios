@@ -170,6 +170,9 @@
                     
                     [BChatSDK.core save];
 
+                    if(BChatSDK.readReceipt) {
+                        [BChatSDK.readReceipt updateReadReceiptsForThread:self.model];
+                    }
 
                     if (newMessage) {
                         dispatch_async(dispatch_get_main_queue(), ^{
@@ -177,9 +180,6 @@
                             
 //                            NSLog(@"Message: %@, %@", message.model.textString, message.model.date);
                             
-                            if(BChatSDK.readReceipt) {
-                                [BChatSDK.readReceipt updateReadReceiptsForThread:self.model];
-                            }
                         });
                     }
                     [promise resolveWithResult:self];
