@@ -1,0 +1,178 @@
+/* 
+  localizable.strings
+  Chat SDK
+
+  Created by Pepe Becker on 02/02/2019.
+  Copyright © 2019 Pepe Becker. All rights reserved.
+*/
+
+"bLogout" = "Uitloggen";
+"bSettings" = "Instellingen";
+//"bLogginIn" = "Logging in";
+"bProfile" = "Profiel";
+//"bLoggingOut" = "Logging out";
+//"bErrorTitle" = "Error";
+//"bUserCreatedError" = "User could not be created";
+"bContacts" = "Contacten";
+"bConversations" = "Gesprekken";
+//"bBroadcast" = "Broadcasts";
+//"bThreadCreationError" = "Thread creation failed";
+"bChatRooms" = "Gespreksruimten";
+"bPickFriends" = "Gebruikers kiezen";
+//"bReset" = "Reset";
+//"bForgotPassword" = "Reset";
+//"bEnterCredentialToResetPassword" = "Enter email to reset password";
+//"bPasswordResetSuccess" = "Your password reset has been successful";
+
+//"bBack" = "Back";
+//"bOpenInMaps" = "Open in maps";
+"bImageSaved" = "De afbeelding is opgeslagen";
+"bLocation" = "Plaatsbepaling";
+//"bCompose" = "Compose";
+//"bLoadingFriends" = "Loading Friends";
+"bLoading" = "Bezig met laden";
+//"bErrorLoadingFriends" = "Error loading friends";
+//"bInvalidSelection" = "Invalid selection";
+//"bSelectAtLeastOneFriend" = "Select at least one friend";
+//"bFacebook" = "Facebook";
+//"bFriendsOnChatSDK" = "Facebook friends";
+"bInviteFriendsFromFacebook" = "Nodig mensen uit";
+//"bFriendsAdded_i" = "Friends added %i";
+//"bErrorAddingUser_s" = "Error adding %@ to thread";
+//"bSuccess" = "Success";
+//"bAdded" = "Added";
+//"bAdd" = "Add";
+"bCreatingThread" = "Bezig met het aanmaken van het gesprek";
+//"bLogoutErrorTitle" = "Logout error";
+"bAuthenticating" = "Bezig met de authentificatie";
+//"bOpen" = "Open";
+
+//"bFlagged" = "Flagged";
+//"bFlag" = "Flag";
+"bDelete" = "Verwijderen";
+//"bUnflag" = "Unflag";
+
+"bSearch" = "Zoeken";
+//"bSearching" = "Searching";
+"bAddUsers" = "Gebruikers toevoegen";
+//"bNoNearbyUsers" = "No nearby users";
+
+//"bOnline" = "Online";
+//"bOffline" = "Offline";
+
+//"bCreatePublicThread" = "Create public thread";
+//"bThreadName" = "Thread name";
+"bThread" = "Gesprek";
+"bCancel" = "Annuleer";
+"bOk" = "Oké";
+//"bUnableToCreateThread" = "Unable to create thread";
+//"bChat" = "Chat";
+"bOptions" = "Options";
+//"bChooseExistingPhoto" = "Choose existing photo";
+//"bTakePhoto" = "Take photo";
+"bTakeVideo" = "Maak een video";
+//"bTakePhotoOrVideo" = "Take photo or video";
+//"bChooseExistingPhoto" = "Choose existing photo";
+//"bChooseExistingVideo" = "Choose existing video";
+//"bCurrentLocation" = "Current location";
+"bSend" = "Versturen";
+//"bReply" = "Reply";
+//"bRec" = "Record";
+//"bWriteSomething" = "Write something...";
+//"bSlideToCancel" = "Slide to cancel...";
+//"bName" = "Name";
+"bTapHereForContactInfo" = "Tik voor meer contactinformatie";
+//"bPhoneNumber" = "Telefoonnummer";
+"bEmail" = "E-mail";
+//"bDetails" = "Details";
+//"bAddParticipant" = "Add Participant";
+//"bLeaveConversation" = "Leave Conversation";
+//"bRejoinConversation" = "Rejoin Conversation";
+//"bParticipants" = "Participants";
+//"bActiveParticipants" = "Active Participants";
+//"bNoActiveParticipants" = "No Active Participants";
+//"bDone" = "Done";
+//"bEdit" = "Edit";
+"bNoMessages" = "Geen berichten...";
+"bGroupName" = "Groepsnaam";
+"bLastSeen_at_" = "Laatst gezien op %@ om %@";
+//"b_at_" = "%@ at %@";
+//"bToday" = "Today";
+//"bYesterday" = "Yesterday";
+
+//"bSearchTerm" = "Search Term";
+
+//"bTo" = "To";
+//"bEnterNamesHere" = "Enter names here";
+//"bSearchedContacts" = "Searched contacts";
+//"bNearbyContacts" = "Nearby contacts";
+
+"bTyping" = "Bezig met schrijven...";
+//"bRefreshingUsers" = "Refreshing Users...";
+
+//"bSelectYourSearch" = "Select your search";
+//"bPhonebook" = "Phonebook";
+"bSearchWithName" = "Zoeken volgens naam";
+//"bWarning" = "Warning";
+//"bYouMustEnableContactPermissionsToUseThisFunctionalityEnableInTheSettingsApp" = "You must enable contact permissions to use this functionality. You can change this in Settings";
+
+//"bTermsAndConditions" = "Terms and Conditions";
+//"bNoNewUsersFoundForThisSearch" = "No new users found for this search";
+
+"bDefaultThreadName" = "Gesprek";
+//"bHoldToSendAudioMessageError" = "Hold to send audio message. Audio messages must be longer than 1 second";
+"bRecording" = "Bezig met de opname";
+"bSecondsRemaining_" = "Resterende seconden %i";
+//"bCancelled" = "Cancelled";
+
+"bAudioLengthLimitReached" = "Limiet van je audiobericht bereikt";
+"bSendOrDiscardRecording" = "Opname versturen of annuleren";
+
+//"bAddFriend" = "Add Friend";
+//"bRemoveFriend" = "Remove Friend";
+
+"bBlock" = "Blokkeren";
+"bUnblock" = "Deblokkeren";
+
+//"bSave" = "Save";
+//"bSaving" = "Saving";
+
+//"b_Ago" = "%@ ago";
+
+//"b_LeftTheGroup" = "%@ left the group";
+//"b_JoinedTheGroup" = "%@ joined the group";
+//"bCreateGroup" = "Create Group";
+//"bYouLeftTheGroup" = "You left the group";
+//"bYouJoinedTheGroup" = "You joined the group";
+//"bRejoinGroup" = "Rejoin group";
+
+"bDeleteContact" = "Contact verwijderen";
+"bDeleteContactMessage" = "Ben je zeker dat je dit gesprek wil verwijderen?";
+
+"bLocation" = "Plaatsbepaling";
+"bCamera" = "Camera";
+//"bChoosePhoto" = "Choose Photo";
+"bChooseVideo" = "Kies een video";
+"bSticker" = "Sticker";
+
+//"bImageMessagesNotSupported" = "Image messages are not supported";
+//"bAudioMessagesNotSupported" = "Audio messages are not supported";
+//"bStickerMessagesNotSupported" = "Sticker messages are not supported";
+//"bLocationMessagesNotSupported" = "Location messages are not supported";
+//"bVideoMessagesNotSupported" = "Video messages are not supported";
+
+//"bRefreshingUsers" = "Message Burst";
+//"bInviteContact" = "Invite Contact";
+"bInviteByEmail" = "E-mail";
+"bInviteBySMS" = "SMS";
+
+"bImageMessage" = "Afbeelding";
+"bLocationMessage" = "Plaatsbepaling";
+"bAudioMessage" = "Audio-opname";
+"bVideoMessage" = "Video-opname";
+"bStickerMessage" = "Sticker";
+"bFileMessage" = "Bestand";
+//"bPhoto" = "Photo";
+//"bFile" = "File";
+
+"" = "";
