@@ -58,8 +58,8 @@
 }
 
 -(void) createPrivateThread {
-    [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"isPoped"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+//    [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"isPoped"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
     
 
     __weak __typeof__(self) weakSelf = self;
@@ -82,7 +82,9 @@
         }];
     }];
     
-    [self presentViewController:nav animated:YES completion:Nil];
+   
+    [[self navigationController] pushViewController:nav.viewControllers[0] animated:true];
+   // [self presentViewController:nav animated:YES completion:Nil];
 }
 
 -(void) editButtonPressed: (UIBarButtonItem *) item {

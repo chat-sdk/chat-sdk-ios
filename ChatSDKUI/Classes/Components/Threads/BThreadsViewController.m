@@ -264,7 +264,8 @@
 -(void) pushChatViewControllerWithThread: (id<PThread>) thread {
     if (thread) {
         UIViewController * vc = [BChatSDK.ui chatViewControllerWithThread:thread];
-        [self.navigationController pushViewController:vc animated:YES];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController: vc];
+       [self.navigationController pushViewController:vc animated:YES];
         // Stop multiple touches opening multiple chat views
         [tableView setUserInteractionEnabled:NO];
     }

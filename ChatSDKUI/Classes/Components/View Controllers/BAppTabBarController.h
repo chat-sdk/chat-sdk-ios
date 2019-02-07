@@ -16,6 +16,6 @@
 }
 
 @property (nonatomic, readwrite) BMainControllerLifecycleHelper * lifecycleHelper;
-
+-(void)registerNotifications;
 
 @end

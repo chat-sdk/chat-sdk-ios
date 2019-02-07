@@ -192,6 +192,7 @@
     
     // Hide the read receipt view if this is a public thread or if read receipts are disabled
     _readMessageImageView.hidden = _message.thread.type.intValue & bThreadFilterPublic || !BChatSDK.readReceipt;
+    [self layoutSubviews];
 }
 
 -(void) willDisplayCell {
@@ -277,7 +278,9 @@
         [_profilePicture setViewFrameY: _nameLabel.fh];
         [bubbleImageView setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin];
         [bubbleImageView setViewFrameY:_nameLabel.fh];
-        [_timeLabel setViewFrameY:_profilePicture.fh + _nameLabel.fh];
+        [_timeLabel setViewFrameY:bubbleImageView.fh];
+
+        //[_timeLabel setViewFrameY:_profilePicture.fh + _nameLabel.fh + bubbleImageView.fh];
         [_nameLabel setViewFrameX:_profilePicture.fw + bTimeLabelPadding];
         
         

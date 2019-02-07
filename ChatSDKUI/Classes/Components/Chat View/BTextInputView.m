@@ -62,7 +62,7 @@
         // Add a send button
         _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [_sendButton setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
-        [[_sendButton titleLabel] setFont:[UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize]];
+        [[_sendButton titleLabel] setFont:[UIFont fontWithName:@"SFProText-Semibold" size:bDefaultFontSize]];
         [self addSubview: _sendButton];
         
         [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];

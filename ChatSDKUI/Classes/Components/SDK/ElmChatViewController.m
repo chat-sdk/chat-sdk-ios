@@ -103,11 +103,10 @@
 //    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< Back" style:UIBarButtonItemStylePlain target:nil action:nil];
 //    [backButtonItem setTintColor:[UIColor blackColor]];
 //    self.viewController.navigationItem.backBarButtonItem = backButtonItem;
-    UIImage *image = [[UIImage imageNamed:@"option"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
-//    UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithTitle:@"..."               style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
-//    [refreshItem setTintColor:[UIColor blackColor]];
-//    self.navigationItem.rightBarButtonItem = refreshItem;
+    
+//    UIImage *image = [[UIImage imageNamed:@"option"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
+
     
     UIView * containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 220, 40)];
     
@@ -115,11 +114,13 @@
     
     _titleLabel.text = [NSBundle t: bThread];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.font = [UIFont boldSystemFontOfSize:_titleLabel.font.pointSize];
-    
+    _titleLabel.font = [UIFont fontWithName:@"SFProText-Semibold" size:14];
     [containerView addSubview:_titleLabel];
     _titleLabel.keepInsets.equal = 0;
-    _titleLabel.keepBottomInset.equal = 15;
+    //allign it in center
+    _titleLabel.keepBottomInset.equal = 10;
+
+    //_titleLabel.keepBottomInset.equal = 15;
     
     
     
@@ -261,6 +262,7 @@
     [self setupKeyboardOverlay];
 
 }
+
 
 -(void) tableRefreshed {
     if ([delegate respondsToSelector:@selector(loadMoreMessages)]) {

@@ -381,8 +381,8 @@
 
 -(void) openInviteScreen{
     
-    [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"isPoped"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+//    [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"isPoped"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
     
     BFriendsListViewController * vc = [[BFriendsListViewController alloc] initWithUsersToExclude:_thread.users.allObjects onComplete:nil];
   //  [[BFriendsListViewController alloc] initWithUsersToExclude:usersToExclude onComplete:action]

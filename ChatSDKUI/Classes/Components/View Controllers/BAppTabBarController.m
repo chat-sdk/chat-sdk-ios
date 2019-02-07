@@ -44,6 +44,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self registerNotifications];
+    
+}
+
+
+-(void)registerNotifications{
     
     if(!_helper) {
         _helper = [[BMainControllerLifecycleHelper alloc] init];
@@ -58,13 +64,13 @@
     
     NSArray * vcs = [BChatSDK.ui tabBarNavigationViewControllers];
     self.viewControllers = vcs;
-
+    
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [self setSelectedIndex:0];
     }] withName:bHookDidLogout];
     
     __weak __typeof__(self) weakSelf = self;
-
+    
     // When a message is recieved we increase the messages tab number
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationBadgeUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -76,26 +82,26 @@
             [weakSelf updateBadge];
             
             id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
-             NSLog(@"Message: %@, %@, %@, %@", messageModel.textString, messageModel.date, messageModel.userModel.name, messageModel.thread);
+            NSLog(@"Message: %@, %@, %@, %@", messageModel.textString, messageModel.date, messageModel.userModel.name, messageModel.thread);
             NSDictionary *dict = @{ @"message" : messageModel.textString, @"date" : messageModel.date, @"userName" : messageModel.userModel.name,@"thread" :  messageModel.thread};
             
             UIViewController *topMostViewControllerObj = [self topViewController];
             
-           
+            
             
             if([topMostViewControllerObj isKindOfClass:[BChatViewController class]]){
                 
                 NSString * title = [[NSUserDefaults standardUserDefaults]valueForKey:@"chatViewTitle"];
                 if(![title isEqualToString:messageModel.userModel.name]){
-                    [[NSNotificationCenter defaultCenter]postNotificationName:@"TestNotification" object:Nil userInfo:dict];
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"ChatNotification" object:Nil userInfo:dict];
                 }
- 
+                
             }else{
-                 [[NSNotificationCenter defaultCenter]postNotificationName:@"TestNotification" object:Nil userInfo:dict];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"ChatNotification" object:Nil userInfo:dict];
             }
             NSLog(@"%@", topMostViewControllerObj.navigationItem.title);
             
-           
+            
         });
     }];
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
@@ -128,7 +134,6 @@
     
     NSInteger badge = [[NSUserDefaults standardUserDefaults] integerForKey:bMessagesBadgeValueKey];
     [self setPrivateThreadsBadge:badge];
-    
 }
 
 -(void) presentChatViewWithThread: (id<PThread>) thread {

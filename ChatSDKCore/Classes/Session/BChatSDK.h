@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <ChatSDK/BNetworkFacade.h>
-
+@class TabbarVC;
 @class BConfiguration;
 @class RXPromise;
 @class BBackgroundPushNotificationQueue;

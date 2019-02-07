@@ -37,9 +37,9 @@
 -(instancetype) initWithUsersToExclude: (NSArray *) users onComplete: (void(^)(NSArray * users, NSString * name)) action {
     if ((self = [self init])) {
         
-        BOOL isPoped = [[NSUserDefaults standardUserDefaults]
-                        boolForKey:@"isPoped"];
-        if (isPoped)
+      //  BOOL isPoped = [[NSUserDefaults standardUserDefaults]
+                       // boolForKey:@"isPoped"];
+        if ([self isModal])
         {
             self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
         }
@@ -54,13 +54,25 @@
     return self;
 }
 
+
+- (BOOL)isModal {
+    if([[self presentingViewController] presentedViewController] == self)
+        return YES;
+    if([[[self navigationController] presentingViewController] presentedViewController] == [self navigationController])
+        return YES;
+    if([[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]])
+        return YES;
+    
+    return NO;
+}
+
 -(instancetype) init {
     self = [super initWithNibName:@"BFriendsListViewController" bundle:[NSBundle uiBundle]];
     if (self) {
         
-        BOOL isPoped = [[NSUserDefaults standardUserDefaults]
-                        boolForKey:@"isPoped"];
-        if (isPoped)
+   //     BOOL isPoped = [[NSUserDefaults standardUserDefaults]
+                      //  boolForKey:@"isPoped"];
+        if ([self isModal])
         {
             self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
         }
@@ -82,12 +94,13 @@
     groupNameTextField.placeholder = [NSBundle t:bGroupName];
     groupNameTextField.delegate = self;
     
-    
-    BOOL isPoped = [[NSUserDefaults standardUserDefaults]
-                    boolForKey:@"isPoped"];
-    if (isPoped)
+    if ([self isMovingFromParentViewController]){
+        
+    }
+  //  BOOL isPoped = [[NSUserDefaults standardUserDefaults]
+               //     boolForKey:@"isPoped"];
+    if ([self isModal])
     {
-        NSLog(@"View controller was present");
         UIImage *image = [[UIImage imageNamed:@"cross"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
     }
@@ -95,15 +108,13 @@
     //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bImageSaved] style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.getRightBarButtonActionTitle style:UIBarButtonItemStylePlain target:self action:@selector(composeMessage)];
     
-    /*UIImage *image = [[UIImage imageNamed:@"cross"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
-    */
+  
     // Takes into account the status and navigation bar
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.names = [NSMutableArray array];
     _tokenField.delegate = self;
-    _tokenField.inputTextFieldAccessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search"]];
+  //  _tokenField.inputTextFieldAccessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search"]];
     
     _tokenField.dataSource = self;
     _tokenField.placeholderText =[NSBundle t: NSLocalizedString(bEnterNamesHere, nil)]; // [NSBundle t:bEnterNamesHere];
@@ -219,11 +230,15 @@
         }
         else //1-1 chat
         {
-            [self dismissViewControllerAnimated:YES completion:^{
-                if (self.usersToInvite != Nil) {
-                    self.usersToInvite(_selectedContacts, groupNameTextField.text);
-                }
-            }];
+            [self.navigationController popViewControllerAnimated:true];
+            if (self.usersToInvite != Nil) {
+                self.usersToInvite(_selectedContacts, groupNameTextField.text);
+            }
+//            [self dismissViewControllerAnimated:YES completion:^{
+//                if (self.usersToInvite != Nil) {
+//                    self.usersToInvite(_selectedContacts, groupNameTextField.text);
+//                }
+//            }];
         }
         
       
@@ -276,6 +291,11 @@
     return 71;
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [_tokenField resignFirstResponder];
+}
+
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == bContactsSection) {
@@ -308,7 +328,7 @@
 // This is when we press enter in the text field
 - (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text {
     
-    [_tokenField reloadData];
+    //[_tokenField reloadData];
     [self reloadData];
     
     [_tokenField resignFirstResponder];
@@ -335,12 +355,14 @@
 }
 
 - (void) selectUser: (id<PUser>) user {
-    
+    // for 1-1 chat
+
    // if(_selectedContacts.count < maximumSelectedUsers || maximumSelectedUsers <= 0) {
     if ([_selectedContacts containsObject:user]){
         [_selectedContacts removeObject:user];
     }
     else{
+        [_selectedContacts removeAllObjects];
         [_selectedContacts addObject:user];
     }
         //   [self.names addObject:user.name];
