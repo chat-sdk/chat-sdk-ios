@@ -93,16 +93,7 @@
             [promise rejectWithReason:error];
         }
     };
-
-//    void(^handleUserResult)(FIRUser * user, NSError *error) = ^(FIRUser * _Nullable user, NSError * _Nullable error) {
-//        if (!error) {
-//            [promise resolveWithResult:user];
-//        }
-//        else {
-//            [promise rejectWithReason:error];
-//        }
-//    };
-
+    
     promise = promise.thenOnMain(^id(FIRUser * firebaseUser) {
         return [self loginWithFirebaseUser: firebaseUser accountDetails:details];
     }, Nil);
