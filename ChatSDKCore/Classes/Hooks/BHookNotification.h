@@ -18,6 +18,11 @@
 +(void) notificationMessageDidUpload: (id<PMessage>) message;
 +(void) notificationMessageReceived: (id<PMessage>) message;
 
++(void) notificationContactWillBeAdded: (id<PUser>) user;
++(void) notificationContactWasAdded: (id<PUser>) user;
++(void) notificationContactWillBeDeleted: (id<PUser>) user;
++(void) notificationContactWasDeleted: (id<PUser>) user;
+
 +(void) notificationDidAuthenticate: (id<PUser>) user;
 +(void) notificationWillLogout: (id<PUser>) user;
 +(void) notificationDidLogout: (id<PUser>) user;

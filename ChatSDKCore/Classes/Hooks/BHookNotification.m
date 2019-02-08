@@ -46,6 +46,22 @@
     [BChatSDK.hook executeHookWithName:bHookUserOn data:@{bHook_PUser:user}];
 }
 
++(void) notificationContactWillBeAdded: (id<PUser>) user {
+    [BChatSDK.hook executeHookWithName:bHookContactWillBeAdded data:@{bHook_PUser:user}];
+}
+
++(void) notificationContactWasAdded: (id<PUser>) user {
+    [BChatSDK.hook executeHookWithName:bHookContactWasAdded data:@{bHook_PUser:user}];
+}
+
++(void) notificationContactWillBeDeleted: (id<PUser>) user {
+    [BChatSDK.hook executeHookWithName:bHookContactWillBeDeleted data:@{bHook_PUser:user}];
+}
+
++(void) notificationContactWasDeleted: (id<PUser>) user {
+    [BChatSDK.hook executeHookWithName:bHookContactWasDeleted data:@{bHook_PUser:user}];
+}
+
 +(void) notificationInternetConnectivityDidChange {
     [BChatSDK.hook executeHookWithName:bHookInternetConnectivityDidChange data:@{}];
 }

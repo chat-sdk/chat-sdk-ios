@@ -19,6 +19,7 @@
 +(FIRDatabaseReference *) userRef: (NSString *) firebaseID;
 +(FIRDatabaseReference *) userThreadsRef: (NSString *) firebaseID;
 +(FIRDatabaseReference *) userMetaRef: (NSString *) firebaseID;
++(FIRDatabaseReference *) userContactsRef: (NSString *) firebaseID;
 
 // Messages
 +(FIRDatabaseReference *) threadsRef;

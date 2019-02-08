@@ -51,6 +51,7 @@
 #define bUsersPath @"users"
 #define bMessagesPath @"messages"
 #define bThreadsPath @"threads"
+#define bContactsPath @"contacts"
 #define bPublicThreadsPath @"public-threads"
 #define bMetaPath @"meta"
 #define bOnlinePath @"online"

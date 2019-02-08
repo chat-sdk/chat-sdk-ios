@@ -58,7 +58,7 @@
     
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [weakSelf updateBadge];
-    }] withNames:@[bHookMessageDidSend]];
+    }] withNames:@[bHookMessageRecieved]];
 
     // When a message is recieved we increase the messages tab number
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationBadgeUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
@@ -211,7 +211,7 @@
     }
 }
 
--(void) setPrivateThreadsBadge: (int) badge {
+-(void) setPrivateThreadsBadge: (NSInteger) badge {
     [self setBadge:badge forViewController:BChatSDK.ui.privateThreadsViewController];
     
     // Save the value to defaults

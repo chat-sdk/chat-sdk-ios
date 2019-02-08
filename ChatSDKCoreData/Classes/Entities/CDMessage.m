@@ -153,12 +153,13 @@
     if (self.senderIsMe) {
         return NO;
     }
-    
+
+    if ((self.thread.type.intValue & bThreadFilterPublic || self.thread.users.count > 2) && position & bMessagePosLast) {
+        return YES;
+    }
+
     if (!(position & bMessagePosLast)) {
         return NO;
-    }
-    if (self.thread.type.integerValue & bThreadFilterPublic || self.thread.users.count > 2) {
-        return YES;
     }
 
     return NO;
@@ -277,8 +278,8 @@
 }
 
 -(void) updatePosition {
-    BOOL isFirst = !self.lastMessage || self.lastMessage.senderIsMe != self.senderIsMe;
-    BOOL isLast = !self.nextMessage || self.nextMessage.senderIsMe != self.senderIsMe;
+    BOOL isFirst = !self.lastMessage || ![self.lastMessage.user.entityID isEqualToString: self.user.entityID];
+    BOOL isLast = !self.nextMessage || ![self.nextMessage.user.entityID isEqualToString: self.user.entityID];;
     
     // Also check if we are the first or last message of a day
     isFirst = isFirst || [self.date isNextDay: self.lastMessage.date];

@@ -254,6 +254,10 @@ static BChatSDK * instance;
     return BChatSDK.core.currentUserModel;
 }
 
++(NSString *) currentUserID {
+    return self.currentUser.entityID;
+}
+
 +(BOOL) isMe: (id<PUser>) user {
     return [[self currentUser].entityID isEqualToString:user.entityID];
 }

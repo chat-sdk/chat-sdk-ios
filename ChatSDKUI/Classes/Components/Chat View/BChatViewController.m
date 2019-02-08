@@ -102,9 +102,7 @@
                                                                                  queue:Nil
                                                                             usingBlock:^(NSNotification * notification) {
                                                                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                        [weakSelf updateMessages];
-                                                                                    });
+                                                                                    [weakSelf updateMessages];
                                                                                 });
     }]];
     

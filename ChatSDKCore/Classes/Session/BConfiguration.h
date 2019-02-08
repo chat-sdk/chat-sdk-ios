@@ -202,6 +202,10 @@
 // Show local notifications when a message is received
 @property (nonatomic, readwrite) BOOL showLocalNotifications;
 
+// Nearby Users Module Settings
+
+// Distance bands in meters
+@property (nonatomic, readwrite) NSArray<NSNumber *> * nearbyUserDistanceBands;
 
 // XMPP Auth type used which can be:
 // default, scramsha1, digestmd5, plain

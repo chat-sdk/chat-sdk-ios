@@ -161,7 +161,7 @@
 "bLocationMessagesNotSupported" = "Location messages are not supported";
 "bVideoMessagesNotSupported" = "Video messages are not supported";
 
-"bRefreshingUsers" = "Message Burst";
+"bRefreshingUsers" = "Updating...";
 "bInviteContact" = "Invite Contact";
 "bInviteByEmail" = "Email";
 "bInviteBySMS" = "SMS";

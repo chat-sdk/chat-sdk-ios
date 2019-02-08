@@ -15,6 +15,11 @@
 
 #define bHookUserOn @"bHookUserOn"
 
+#define bHookContactWillBeAdded @"bHookContactWillBeAdded"
+#define bHookContactWasAdded @"bHookContactWasAdded"
+#define bHookContactWillBeDeleted @"bHookContactWillBeDeleted"
+#define bHookContactWasDeleted @"bHookContactWasDeleted"
+
 #define bHookMessageRecieved @"bHookMessageRecieved"
 
 #define bHookMessageWillSend @"bHookMessageWillSend"

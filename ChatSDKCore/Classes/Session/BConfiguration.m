@@ -76,6 +76,8 @@
 @synthesize shouldAskForNotificationsPermission;
 @synthesize xmppAuthType;
 
+@synthesize nearbyUserDistanceBands;
+
 -(instancetype) init {
     if((self = [super init])) {
         
@@ -169,6 +171,8 @@
         textInputViewMaxLines = 5;
         
         xmppAuthType = @"default";
+        
+        nearbyUserDistanceBands = @[@1000, @5000, @10000, @50000];
         
     }
     return self;

@@ -40,6 +40,9 @@
     return [[self userRef:firebaseID] child:bThreadsPath];
 }
 
++(FIRDatabaseReference *) userContactsRef: (NSString *) firebaseID {
+    return [[self userRef:firebaseID] child:bContactsPath];
+}
 
 +(FIRDatabaseReference *) userOnlineRef: (NSString *) firebaseID {
     return [[self userRef: firebaseID] child:bOnlinePath];

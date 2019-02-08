@@ -35,6 +35,7 @@
         self.contact = [[BBaseContactHandler alloc] init];
         self.publicThread = [[BFirebasePublicThreadHandler alloc] init];
         self.users = [[BFirebaseUsersHandler alloc] init];
+        self.contact = [[BFirebaseContactHandler alloc] init];
 
     }
     return self;

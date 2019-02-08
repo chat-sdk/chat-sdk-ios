@@ -81,6 +81,35 @@
     if (BChatSDK.config.enableMessageModerationTab) {
         [BChatSDK.moderation on];
     }
+    
+    FIRDatabaseReference * ref = [FIRDatabaseReference userContactsRef:BChatSDK.currentUserID];
+    
+    [ref observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
+        if(snapshot.value) {
+            id<PUser> contact = [BChatSDK.db fetchOrCreateEntityWithID:snapshot.key withType:bUserEntity];
+            if ([snapshot.value isKindOfClass: [NSDictionary class]]) {
+                NSDictionary * dictionaryValue = (NSDictionary *) snapshot.value;
+                NSNumber * type = dictionaryValue[bType];
+                if (type) {
+                    [BChatSDK.contact addLocalContact:contact withType:type.intValue];
+                }
+            }
+        }
+    }];
+
+    [ref observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
+        if(snapshot.value) {
+            id<PUser> contact = [BChatSDK.db fetchOrCreateEntityWithID:snapshot.key withType:bUserEntity];
+            if ([snapshot.value isKindOfClass: [NSDictionary class]]) {
+                NSDictionary * dictionaryValue = (NSDictionary *) snapshot.value;
+                NSNumber * type = dictionaryValue[bType];
+                if (type) {
+                    [BChatSDK.contact deleteLocalContact:contact withType:type.intValue];
+                }
+            }
+        }
+    }];
+
 }
 
 +(void) userOff: (NSString *) entityID {
