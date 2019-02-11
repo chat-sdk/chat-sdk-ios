@@ -115,6 +115,11 @@
 #define bTapHereForContactInfo @"bTapHereForContactInfo"
 
 #define bProfile @"bProfile"
+#define bProfilePictures @"bProfilePictures"
+#define bAddPictures @"bAddPicture"
+#define bDeletePicture @"bDeletePicture"
+#define bSetAsDefaultPicture @"bSetAsDefaultPicture"
+#define bDeleteLastPictureWarning @"bDeleteLastPictureWarning"
 #define bDone @"bDone"
 #define bEdit @"bEdit"
 #define b_Ago @"b_Ago"
