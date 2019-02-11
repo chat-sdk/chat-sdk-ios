@@ -25,6 +25,9 @@
 "bChatRooms" = "Gespreksruimten";
 "bPickFriends" = "Gebruikers kiezen";
 "bReset" = "Opnieuw instellen";
+"bLogin" = "Log in";
+"bRegister" = "Registreren";
+"bPassword" = "Paswoord";
 "bForgotPassword" = "Je paswoord opnieuw instellen";
 "bEnterCredentialToResetPassword" = "Geef je e-mail om je paswoord te vernieuwen";
 "bPasswordResetSuccess" = "Je paswoord vernieuwen is gelukt";
@@ -101,7 +104,7 @@
 "bNoMessages" = "Geen berichten...";
 "bGroupName" = "Groepsnaam";
 "bLastSeen_at_" = "Laatst gezien op %@ om %@";
-"b_at_" = "%@ at %@";
+"b_at_" = "%@ om %@";
 "bToday" = "Vandaag";
 "bYesterday" = "Gisteren";
 
