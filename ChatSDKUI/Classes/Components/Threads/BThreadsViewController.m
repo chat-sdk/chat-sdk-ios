@@ -213,6 +213,10 @@
         text = [NSBundle textForMessage:lastMessage];
     }
     
+    if (thread.user.online) != nil{
+        [cell setIsOnline:thread.user.online];
+    }
+    
     if (threadDate) {
         cell.dateLabel.text = threadDate.threadTimeAgo;
     }
@@ -241,7 +245,6 @@
     int unreadCount = thread.unreadMessageCount;
     cell.unreadMessagesLabel.hidden = !unreadCount;
     cell.unreadMessagesLabel.text = [@(unreadCount) stringValue];
-    
     // Add the typing indicator
     NSString * typingText = _threadTypingMessages[thread.entityID];
     if (typingText && typingText.length) {

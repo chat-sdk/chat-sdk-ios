@@ -61,4 +61,18 @@
     self.messageTextView.textColor = [UIColor lightGrayColor];
 }
 
+- (void)drawRect:(CGRect)rect
+{
+    CGRect borderRect = CGRectMake(0.0, 0.0, 60.0, 60.0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 1.0);
+    CGContextSetRGBFillColor(context, colorRed, colorGreen, colorBlue, 1.0);
+    CGContextSetLineWidth(context, 2.0);
+    CGFloat lineWidth = 2;
+    CGRect borderRect = CGRectInset(rect, lineWidth * 0.5, lineWidth * 0.5);
+    CGContextFillEllipseInRect (context, borderRect);
+    CGContextStrokeEllipseInRect(context, borderRect);
+    CGContextFillPath(context);
+}
+
 @end

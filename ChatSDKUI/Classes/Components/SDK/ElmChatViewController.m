@@ -56,7 +56,6 @@
 -(void) setupTextInputView {
     _sendBarView = [BChatSDK.ui sendBarView];
     [_sendBarView setSendBarDelegate:self];
-    
     [self.view addSubview:_sendBarView];
     
 //    [_sendBarView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:0];
@@ -275,6 +274,7 @@
         });
     }
 }
+
 
 -(void) startTypingWithMessage: (NSString *) message {
     if(message && message.length) {
