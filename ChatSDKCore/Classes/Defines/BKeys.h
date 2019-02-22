@@ -24,8 +24,6 @@
 #define bTokenKey @"token"
 
 // Underscore keys
-#define bPayload @"payload"
-#define bJSON @"JSON"
 #define bJSONV2 @"json_v2"
 #define bType @"type"
 #define bTypeV4 @"type_v4"
@@ -53,6 +51,7 @@
 #define bUsersPath @"users"
 #define bMessagesPath @"messages"
 #define bThreadsPath @"threads"
+#define bContactsPath @"contacts"
 #define bPublicThreadsPath @"public-threads"
 #define bMetaPath @"meta"
 #define bOnlinePath @"online"

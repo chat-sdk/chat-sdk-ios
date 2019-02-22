@@ -11,6 +11,6 @@
 
 @interface BBaseImageMessageHandler : NSObject<PImageMessageHandler>
 
-- (UIImage*)imageWithScaledImage:(UIImage*) image;
-
+- (UIImage*)imageWithScaledImage:(UIImage*)image maxDimension: (float) maxDimension;
+- (UIImage*)imageWithScaledImage:(UIImage*)image;
 @end

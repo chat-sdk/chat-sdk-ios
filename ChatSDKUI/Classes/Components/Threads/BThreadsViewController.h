@@ -21,7 +21,6 @@
     NSMutableDictionary * _threadTypingMessages;
     
     BNotificationObserverList * _notificationList;
-    BHook * _internetConnectionHook;
 
 }
 

@@ -92,7 +92,7 @@
         __typeof__(self) strongSelf = weakSelf;
         [strongSelf updateInterfaceForReachabilityStateChange];
     }];
-    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
 
 }
 
@@ -101,7 +101,7 @@
     
     [self hideHUDWithDuration:0];
     
-    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+    [BChatSDK.hook removeHook:_internetConnectionHook];
 }
 
 -(void) viewWillDisappear:(BOOL)animated {

@@ -252,7 +252,7 @@
         
       "users": {
         
-       ".indexOn": ["meta/name", "meta/phone", "meta/email", "meta/location", "meta/country-code"],
+       ".indexOn": ["meta/name", "meta/phone", "meta/email", "meta/location", "meta/country-code, meta/username"],
 
          ".read": "data.child(auth.uid).exists() || !data.child(auth.uid).exists()",
          
@@ -266,6 +266,10 @@
             },
             
             "meta": {
+              ".write": "auth.uid == $user_id",
+            },
+              
+            "contacts": {
               ".write": "auth.uid == $user_id",
             },
               

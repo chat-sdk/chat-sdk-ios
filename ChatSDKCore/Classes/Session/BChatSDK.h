@@ -75,6 +75,7 @@
 +(id<PStickerMessageHandler>) stickerMessage;
 +(id<PSocialLoginHandler>) socialLogin;
 +(id<PUser>) currentUser;
++(NSString *) currentUserID;
 +(id) handler: (NSString *) name;
 +(id<PHookHandler>) hook;
 +(id<PUsersHandler>) users;

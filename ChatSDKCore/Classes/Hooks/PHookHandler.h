@@ -10,34 +10,37 @@
 #define PHookHandler_h
 
 #define bHookDidAuthenticate @"bHookDidAuthenticate"
-#define bHookDidAuthenticate_PUser @"bHookDidAuthenticate_PUser"
-
-// Deprecated
-#define bHookUserAuthFinished bHookDidAuthenticate
-#define bHookUserAuthFinished_PUser bHookDidAuthenticate_PUser
+#define bHookWillLogout @"bHookWillLogout"
+#define bHookDidLogout @"bHookDidLogout"
 
 #define bHookUserOn @"bHookUserOn"
-#define bHookUserOn_PUser @"bHookUserOn_PUser"
+
+#define bHookContactWillBeAdded @"bHookContactWillBeAdded"
+#define bHookContactWasAdded @"bHookContactWasAdded"
+#define bHookContactWillBeDeleted @"bHookContactWillBeDeleted"
+#define bHookContactWasDeleted @"bHookContactWasDeleted"
 
 #define bHookMessageRecieved @"bHookMessageRecieved"
-#define bHookMessageReceived_PMessage @"bHookMessageReceived_PMessage"
 
-#define bHookWillLogout @"bHookWillLogout"
-#define bHookWillLogout_PUser @"bHookWillLogout_PUser"
+#define bHookMessageWillSend @"bHookMessageWillSend"
+#define bHookMessageDidSend @"bHookMessageDidSend"
+#define bHookMessageWillUpload @"bHookMessageWillUpload"
+#define bHookMessageDidUpload @"bHookMessageDidUpload"
 
-#define bHookDidLogout @"bHookDidLogout"
-#define bHookDidLogout_PUser @"bHookDidLogout_PUser"
+#define bHook_PMessage @"bHook_PMessage"
+#define bHook_PUser @"bHook_PUser"
 
-#define bHookInternetConnectivityChanged @"bHookInternetConnectivityChanged"
+#define bHookInternetConnectivityDidChange @"bHookInternetConnectivityDidChange"
 
 @class BHook;
 
 @protocol PHookHandler <NSObject>
 
--(void) addHook: (BHook *) hook withName: (NSString *) name;
--(void) removeHook: (BHook *) hook withName: (NSString *) name;
+-(BHook *) addHook: (BHook *) hook withName: (NSString *) name;
 -(void) executeHookWithName: (NSString *) name data: (NSDictionary *) data;
 
+-(BHook *) addHook: (BHook *) hook withNames: (NSArray<NSString *> *) names;
+-(void) removeHook: (BHook *) hook;
 @end
 
 #endif /* PHookHandler_h */

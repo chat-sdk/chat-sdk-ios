@@ -67,6 +67,56 @@
     }
 }
 
+#pragma Cell sizing static methods
+
++(NSNumber *) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
+    return @([self getText: message.textString heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth].floatValue]);
+}
+
++(NSNumber *) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
+    return @([self textWidth:message.textString maxWidth:maxWidth]);
+}
+
++(NSValue *) messageBubblePadding: (id<PElmMessage>) message {
+    return [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(8.0, 9.0, 8.0, 9.0)];
+}
+
+#pragma Text size
+
+-(float) getTextHeightWithWidth: (float) width {
+    return [BTextMessageCell getText:_message.textString heightWithWidth:width];
+}
+
++(float) getText: (NSString *) text heightWithWidth: (float) width {
+    return [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+                              options:NSStringDrawingUsesLineFragmentOrigin
+                           attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:bDefaultFontSize]}
+                              context:Nil].size.height;
+}
+
+-(float) getTextHeightWithFont: (UIFont *) font withWidth: (float) width {
+    return [BTextMessageCell getText:_message.textString heightWithFont:font withWidth:width];
+}
+
++(float) getText: (NSString *) text heightWithFont: (UIFont *) font withWidth: (float) width {
+    return [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+                              options:NSStringDrawingUsesLineFragmentOrigin
+                           attributes:@{NSFontAttributeName: font}
+                              context:Nil].size.height;
+}
+
++(float) textWidth: (NSString *) text maxWidth: (float) maxWidth {
+    if (text) {
+        UIFont * font = [UIFont systemFontOfSize:bDefaultFontSize];
+        if (font) {
+            return [text boundingRectWithSize:CGSizeMake(maxWidth, CGFLOAT_MAX)
+                                      options:NSStringDrawingUsesLineFragmentOrigin
+                                   attributes:@{NSFontAttributeName: font}
+                                      context:Nil].size.width;
+        }
+    }
+    return 0;
+}
 
 #pragma Cell Properties
 

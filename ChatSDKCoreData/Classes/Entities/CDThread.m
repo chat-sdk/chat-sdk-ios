@@ -66,21 +66,22 @@
 }
 
 -(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages {
+    NSMutableArray * messageList = self.messagesWorkingList;
     
-    NSInteger count = _messagesWorkingList.count + numberOfMessages;
+    NSInteger count = messageList.count + numberOfMessages;
     count = MAX(count, BChatSDK.config.chatMessagesToLoad);
     
     // Get the next batch of messages
-    [_messagesWorkingList removeAllObjects];
+    [messageList removeAllObjects];
     
     // We want to get the count newest messages so we sent ascending to NO
     // Then we have to reverse the order of the list...
-    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:count ascending:NO]];
+    [messageList addObjectsFromArray:[self loadMessagesWithCount:count ascending:YES]];
     
     // Now we need to reverse the order of the list
-    [self reverse:_messagesWorkingList];
+//    [self reverse:_messagesWorkingList];
     
-    return _messagesWorkingList;
+    return messageList;
 }
 
 -(void) optimize {

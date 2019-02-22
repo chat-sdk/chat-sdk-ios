@@ -10,9 +10,6 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
-#import "FIRAuthAppDelegateProxy.h"
-
-@class AppDelegate;
 
 
 #define bMessagesBadgeValueKey @"bMessagesBadgeValueKey"
@@ -44,13 +41,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self registerNotifications];
-    
-}
 
+    __weak __typeof__(self) weakSelf = self;
 
--(void)registerNotifications{
-    
     if(!_helper) {
         _helper = [[BMainControllerLifecycleHelper alloc] init];
     }
@@ -69,41 +62,17 @@
         [self setSelectedIndex:0];
     }] withName:bHookDidLogout];
     
-    __weak __typeof__(self) weakSelf = self;
-    
+    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+        [weakSelf updateBadge];
+    }] withNames:@[bHookMessageRecieved]];
+
     // When a message is recieved we increase the messages tab number
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationBadgeUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf updateBadge];
         });
     }];
-    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageAdded object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf updateBadge];
-            
-            id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
-            NSLog(@"Message: %@, %@, %@, %@", messageModel.textString, messageModel.date, messageModel.userModel.name, messageModel.thread);
-        //    NSDictionary *dict = @{ @"message" : messageModel.textString, @"date" : messageModel.date, @"userName" : messageModel.userModel.name,@"thread" :  messageModel.thread};
-            
-            UIViewController *topMostViewControllerObj = [self topViewController];
-            
-            
-            
-            if([topMostViewControllerObj isKindOfClass:[BChatViewController class]]){
-                
-                NSString * title = [[NSUserDefaults standardUserDefaults]valueForKey:@"chatViewTitle"];
-                if(![title isEqualToString:messageModel.userModel.name]){
-                   // [[NSNotificationCenter defaultCenter]postNotificationName:@"ChatNotification" object:Nil userInfo:dict];
-                }
-                
-            }else{
-               // [[NSNotificationCenter defaultCenter]postNotificationName:@"ChatNotification" object:Nil userInfo:dict];
-            }
-            NSLog(@"%@", topMostViewControllerObj.navigationItem.title);
-            
-            
-        });
-    }];
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf updateBadge];
@@ -247,7 +216,7 @@
     }
 }
 
--(void) setPrivateThreadsBadge: (int) badge {
+-(void) setPrivateThreadsBadge: (NSInteger) badge {
     [self setBadge:badge forViewController:BChatSDK.ui.privateThreadsViewController];
     
     // Save the value to defaults
@@ -262,37 +231,5 @@
 -(NSBundle *) uiBundle {
     return [NSBundle uiBundle];
 }
-
-
-- (UIViewController*)topViewController {
-    return [self topViewControllerWithRootViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
-}
-
-- (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController {
-    if ([viewController isKindOfClass:[UITabBarController class]]) {
-        UITabBarController* tabBarController = (UITabBarController*)viewController;
-        return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
-    } else if ([viewController isKindOfClass:[UINavigationController class]]) {
-        UINavigationController* navContObj = (UINavigationController*)viewController;
-        return [self topViewControllerWithRootViewController:navContObj.visibleViewController];
-    } else if (viewController.presentedViewController && !viewController.presentedViewController.isBeingDismissed) {
-        UIViewController* presentedViewController = viewController.presentedViewController;
-        return [self topViewControllerWithRootViewController:presentedViewController];
-    }
-    else {
-        for (UIView *view in [viewController.view subviews])
-        {
-            id subViewController = [view nextResponder];
-            if ( subViewController && [subViewController isKindOfClass:[UIViewController class]])
-            {
-                if ([(UIViewController *)subViewController presentedViewController]  && ![subViewController presentedViewController].isBeingDismissed) {
-                    return [self topViewControllerWithRootViewController:[(UIViewController *)subViewController presentedViewController]];
-                }
-            }
-        }
-        return viewController;
-    }
-}
-
 
 @end

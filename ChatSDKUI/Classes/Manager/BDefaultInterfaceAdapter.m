@@ -23,9 +23,15 @@
         _additionalChatOptions = [NSMutableArray new];
         _additionalTabBarViewControllers = [NSMutableArray new];
         _additionalSearchViewControllers = [NSMutableDictionary new];
-        _customMessageCellTypes = [NSMutableArray new];
+        _messageCellTypes = [NSMutableArray new];
         // MEM1
         //[[SDWebImageDownloader sharedDownloader] setShouldDecompressImages:NO];
+        
+        [self registerMessageWithCellClass:BTextMessageCell.class messageType:@(bMessageTypeText)];
+        [self registerMessageWithCellClass:BImageMessageCell.class messageType:@(bMessageTypeImage)];
+        [self registerMessageWithCellClass:BLocationCell.class messageType:@(bMessageTypeLocation)];
+        [self registerMessageWithCellClass:BSystemMessageCell.class messageType:@(bMessageTypeSystem)];
+
     }
     return self;
 }
@@ -238,7 +244,7 @@
 
 -(id<PChatOptionsHandler>) chatOptionsHandlerWithDelegate: (id<BChatOptionDelegate>) delegate {
     if (_chatOptionsHandler) {
-        _chatOptionsHandler.delegate = delegate;
+        [_chatOptionsHandler setDelegate:delegate];
         return _chatOptionsHandler;
     }
     return [[BChatOptionsActionSheet alloc] initWithDelegate:delegate];
@@ -300,12 +306,21 @@
     return [self navigationControllerWithRootViewController:[self searchIndexViewControllerWithIndexes:indexes withCallback:callback]];
 }
 
--(void) registerCustomMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type {
-    [_customMessageCellTypes addObject:@[cellClass, type]];
+-(void) registerMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type {
+    [_messageCellTypes addObject:@[cellClass, type]];
 }
 
--(NSArray *) customMessageCellTypes {
-    return _customMessageCellTypes;
+-(NSArray *) messageCellTypes {
+    return _messageCellTypes;
+}
+
+-(Class) cellTypeForMessageType: (NSNumber *) messageType {
+    for(NSArray * array in self.messageCellTypes) {
+        if([array.lastObject isEqualToNumber:messageType]) {
+            return array.firstObject;
+        }
+    }
+    return Nil;
 }
 
 @end

@@ -39,9 +39,6 @@
 // Depricated: Use bHookDidLogout (and hook system) instead
 #define bNotificationLogout @"bNLogout"
 
-#define bNotificationMessageAdded @"bNMessageAdded"
-#define bNotificationMessageAddedKeyMessage @"bNMessageAddedKeyMessage"
-
 #define bNotificationMessageRemoved @"bNMessageRemoved"
 #define bNotificationMessageRemovedKeyMessage @"bNMessageRemovedKeyMessage"
 

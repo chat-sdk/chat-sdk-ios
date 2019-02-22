@@ -25,9 +25,6 @@
 @synthesize anonymousLoginEnabled;
 @synthesize defaultServer;
 @synthesize shouldOpenChatWhenPushNotificationClicked;
-@synthesize includeMessagePayload;
-@synthesize includeMessageJSON;
-@synthesize includeMessageJSONV2;
 @synthesize loginUsernamePlaceholder;
 @synthesize defaultAvatarURL;
 @synthesize defaultBlankAvatar;
@@ -66,6 +63,7 @@
 @synthesize inviteByEmailBody;
 @synthesize inviteBySMSBody;
 @synthesize audioMessageMaxLengthSeconds;
+@synthesize maxImageDimension;
 
 @synthesize xmppPort;
 @synthesize xmppDomain;
@@ -75,6 +73,10 @@
 
 @synthesize textInputViewMaxLines;
 @synthesize textInputViewMaxCharacters;
+@synthesize shouldAskForNotificationsPermission;
+@synthesize xmppAuthType;
+
+@synthesize nearbyUserDistanceBands;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -104,11 +106,7 @@
         
         shouldOpenChatWhenPushNotificationClicked = YES;
         onlySendPushToOfflineUsers = NO;
-        
-        includeMessagePayload = YES;
-        includeMessageJSON = YES;
-        includeMessageJSONV2 = YES;
-        
+                
         loginUsernamePlaceholder = Nil;
         
         pushNotificationSound = @"default";
@@ -134,6 +132,8 @@
         
         showLocalNotifications = YES;
         
+        shouldAskForNotificationsPermission = YES;
+        
         defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bCoreBundleName];
         defaultGroupChatAvatar = [NSBundle imageNamed:bDefaultPublicGroupImage bundle:bCoreBundleName];
         
@@ -149,6 +149,8 @@
         anonymousLoginEnabled = [BSettingsManager anonymousLoginEnabled];
         
         userChatInfoEnabled = YES;
+        
+        maxImageDimension = 600;
         
         inviteByEmailTitle = [BSettingsManager property: bEmailTitle forModule: @"contact_book"];
         inviteByEmailBody = [BSettingsManager property: bEmailBody forModule: @"contact_book"];
@@ -168,22 +170,16 @@
         textInputViewMaxCharacters = 0;
         textInputViewMaxLines = 5;
         
+        xmppAuthType = @"default";
+        
+        nearbyUserDistanceBands = @[@1000, @5000, @10000, @50000];
+        
     }
     return self;
 }
 
 -(void) setDefaultUserNamePrefix:(NSString *)defaultUserNamePrefix {
      _defaultUserName = [defaultUserNamePrefix stringByAppendingFormat:@"%i", arc4random() % 999];
-}
-
--(void) configureForCompatibilityWithVersions: (NSArray *) versions {
-    BOOL api1 = [versions containsObject:bChatSDK_API_1];
-    BOOL api2 = [versions containsObject:bChatSDK_API_2];
-    BOOL api3 = [versions containsObject:bChatSDK_API_3];
-
-    includeMessagePayload = api1;
-    includeMessageJSON = api2;
-    includeMessageJSONV2 = api3;
 }
 
 -(void) xmppWithHostAddress: (NSString *) hostAddress {

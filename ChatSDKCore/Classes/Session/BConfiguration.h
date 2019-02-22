@@ -24,6 +24,9 @@
     NSMutableDictionary * _messageBubbleMargin;
 }
 
+// Should we ask the user to allow notifications when the app initially loads up? 
+@property (nonatomic, readwrite) BOOL shouldAskForNotificationsPermission;
+    
 // Background color of messages: hex value like "FFFFFF"
 @property (nonatomic, readwrite) NSString * messageColorMe;
 @property (nonatomic, readwrite) NSString * messageColorReply;
@@ -53,6 +56,9 @@
 @property (nonatomic, readwrite) UIImage * defaultGroupChatAvatar;
 
 @property (nonatomic, readwrite) NSString * timeFormat;
+
+// The maximum dimension for an image message
+@property (nonatomic, readwrite) int maxImageDimension;
 
 // Can users make new public chats. It's recommended to set this to no otherwise
 // users will create a large number of chats
@@ -196,23 +202,14 @@
 // Show local notifications when a message is received
 @property (nonatomic, readwrite) BOOL showLocalNotifications;
 
-// Message data properties
-// This should be used for backwards compatibility with v3 of the project
-@property (nonatomic, readwrite) BOOL includeMessagePayload;
+// Nearby Users Module Settings
 
-// This should be enabled for compatibility with any version less than 4.3.x
-@property (nonatomic, readwrite) BOOL includeMessageJSON;
+// Distance bands in meters
+@property (nonatomic, readwrite) NSArray<NSNumber *> * nearbyUserDistanceBands;
 
-// In the future we will be moving towards using native JSON for the message payload enable this for 4.4.x+
-@property (nonatomic, readwrite) BOOL includeMessageJSONV2;
-
-#define bChatSDK_API_1 @"3.x"
-#define bChatSDK_API_2 @"4.0.0 - 4.3.18"
-#define bChatSDK_API_3 @"4.4.0+"
-
-// Configure Chat SDK to support the API levels of choice
-// The default version supports all API levels
--(void) configureForCompatibilityWithVersions: (NSArray *) versions;
+// XMPP Auth type used which can be:
+// default, scramsha1, digestmd5, plain
+@property (nonatomic, readwrite) NSString * xmppAuthType;
 
 +(BConfiguration *) configuration;
 

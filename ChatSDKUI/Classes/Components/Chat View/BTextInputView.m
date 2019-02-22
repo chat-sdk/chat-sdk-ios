@@ -145,7 +145,7 @@
             __typeof__(self) strongSelf = weakSelf;
             [strongSelf updateInterfaceForReachabilityStateChange];
         }];
-        [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+        [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
         
         [self updateInterfaceForReachabilityStateChange];
         
@@ -181,7 +181,7 @@
 
 -(void) setMicButtonEnabled: (BOOL) enabled sendButtonEnabled: (BOOL) sendButtonEnabled {
     _micButtonEnabled = enabled;
-    _sendButton.enabled = sendButtonEnabled;
+    _sendButton.enabled = sendButtonEnabled || enabled;
     if (enabled) {
         [_sendButton setTitle:Nil forState:UIControlStateNormal];
         [_sendButton setImage:[NSBundle uiImageNamed: @"icn_24_mic.png"]
@@ -217,9 +217,11 @@
             return;
         }
         
-        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(sendTextMessage:)]) {
-            [_sendBarDelegate sendTextMessage:_textView.text];
+        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(threadEntityID)]) {
+            NSString * newMessage = [_textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            [BChatSDK.core sendMessageWithText:newMessage withThreadEntityID:_sendBarDelegate.threadEntityID];
         }
+        
         _textView.text = @"";
         [self textViewDidChange:_textView];
     }
@@ -244,14 +246,24 @@
 
 -(void) sendAudioMessage {
     // This is where the button is released so we want to finish recording and send
-    if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(sendAudioMessage:duration:)]) {
+    if (_sendBarDelegate) {
         
         // Return the recording url and duration in an array
         NSURL * audioURL = [BAudioManager sharedManager].recorder.url;
         NSData * audioData = [NSData dataWithContentsOfURL:audioURL];
+        double duration = [BAudioManager sharedManager].recordingLength;
         
-        [_sendBarDelegate sendAudioMessage: audioData
-                                  duration: [BAudioManager sharedManager].recordingLength];
+        if (duration > 1) {
+            [BChatSDK.audioMessage sendMessageWithAudio:audioData duration:duration withThreadEntityID:_sendBarDelegate.threadEntityID];
+        }
+        else {
+            // TODO: Make the tost position above the text bar programatically
+            UIView * view = _sendBarDelegate.viewController.view;
+            [view makeToast:[NSBundle t:bHoldToSendAudioMessageError]
+                        duration:2
+                        position:[NSValue valueWithCGPoint: CGPointMake(view.frame.size.width / 2.0, view.frame.size.height - 120)]];
+            
+        }
     }
 }
 

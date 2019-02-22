@@ -20,7 +20,14 @@
     return self;
 }
 
--(void) addHook: (BHook *) hook withName: (NSString *) name {
+-(BHook *) addHook: (BHook *) hook withNames: (NSArray<NSString *> *) names {
+    for (NSString * name in names) {
+        [self addHook:hook withName:name];
+    }
+    return hook;
+}
+
+-(BHook *) addHook: (BHook *) hook withName: (NSString *) name {
     NSMutableArray * existingHooks = _hooks[name];
     if(!existingHooks) {
         existingHooks = [NSMutableArray new];
@@ -29,14 +36,13 @@
         [existingHooks addObject:hook];
     }
     _hooks[name] = existingHooks;
+    return hook;
 }
 
--(void) removeHook: (BHook *) hook withName: (NSString *) name {
-    NSMutableArray * existingHooks = _hooks[name];
-    if(!existingHooks) {
-        return;
+-(void) removeHook: (BHook *) hook {
+    for (NSString * name in _hooks.allKeys) {
+        [_hooks[name] removeObject:hook];
     }
-    [existingHooks removeObject:hook];
 }
 
 -(void) executeHookWithName: (NSString *) name data: (NSDictionary *) data {

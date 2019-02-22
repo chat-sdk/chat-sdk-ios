@@ -118,7 +118,8 @@ static BChatSDK * instance;
 
 +(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
-    if(BChatSDK.push) {
+    
+    if(BChatSDK.push && BChatSDK.config.shouldAskForNotificationsPermission) {
         [BChatSDK.push registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
     }
     if(BChatSDK.socialLogin) {
@@ -261,6 +262,10 @@ static BChatSDK * instance;
 
 +(id<PUser>) currentUser {
     return BChatSDK.core.currentUserModel;
+}
+
++(NSString *) currentUserID {
+    return self.currentUser.entityID;
 }
 
 +(BOOL) isMe: (id<PUser>) user {
