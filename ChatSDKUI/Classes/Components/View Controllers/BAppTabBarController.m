@@ -83,7 +83,7 @@
             
             id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
             NSLog(@"Message: %@, %@, %@, %@", messageModel.textString, messageModel.date, messageModel.userModel.name, messageModel.thread);
-            NSDictionary *dict = @{ @"message" : messageModel.textString, @"date" : messageModel.date, @"userName" : messageModel.userModel.name,@"thread" :  messageModel.thread};
+        //    NSDictionary *dict = @{ @"message" : messageModel.textString, @"date" : messageModel.date, @"userName" : messageModel.userModel.name,@"thread" :  messageModel.thread};
             
             UIViewController *topMostViewControllerObj = [self topViewController];
             
@@ -93,11 +93,11 @@
                 
                 NSString * title = [[NSUserDefaults standardUserDefaults]valueForKey:@"chatViewTitle"];
                 if(![title isEqualToString:messageModel.userModel.name]){
-                    [[NSNotificationCenter defaultCenter]postNotificationName:@"ChatNotification" object:Nil userInfo:dict];
+                   // [[NSNotificationCenter defaultCenter]postNotificationName:@"ChatNotification" object:Nil userInfo:dict];
                 }
                 
             }else{
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"ChatNotification" object:Nil userInfo:dict];
+               // [[NSNotificationCenter defaultCenter]postNotificationName:@"ChatNotification" object:Nil userInfo:dict];
             }
             NSLog(@"%@", topMostViewControllerObj.navigationItem.title);
             

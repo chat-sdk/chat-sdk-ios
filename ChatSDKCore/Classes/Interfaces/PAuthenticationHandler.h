@@ -35,7 +35,7 @@
 /**
  * @brief Logout the user from the current account
  */
--(logout *) logout;
+-(RXPromise *) logout;
 
 /**
  * @brief Says which networks are available this can be setup in bFirebaseDefines

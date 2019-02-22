@@ -34,7 +34,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Labely" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SDR-wu-lsl">
-                        <rect key="frame" x="72" y="27" width="232" height="20"/>
+                        <rect key="frame" x="72" y="26.5" width="232" height="19.5"/>
                         <fontDescription key="fontDescription" name="SFProText-Semibold" family="SF Pro Text" pointSize="16"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -63,10 +63,9 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="FUw-i5-1N1" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="-110" id="282-uC-Kfj"/>
+                    <constraint firstItem="SDR-wu-lsl" firstAttribute="centerY" secondItem="clE-A3-1Bc" secondAttribute="centerY" id="4jC-f9-o7f"/>
                     <constraint firstItem="FUw-i5-1N1" firstAttribute="leading" secondItem="clE-A3-1Bc" secondAttribute="trailing" constant="8" id="8or-qk-pkT"/>
                     <constraint firstItem="clE-A3-1Bc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IGw-3Y-Rlf"/>
-                    <constraint firstItem="SDR-wu-lsl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="27" id="OEz-lW-9Gf"/>
-                    <constraint firstAttribute="bottom" secondItem="SDR-wu-lsl" secondAttribute="bottom" constant="25.5" id="RGj-Le-qTi"/>
                     <constraint firstItem="SDR-wu-lsl" firstAttribute="leading" secondItem="Efj-wV-T2c" secondAttribute="trailing" constant="27" id="Z1T-MQ-YSW"/>
                     <constraint firstItem="clE-A3-1Bc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-5" id="cmt-87-fdT"/>
                     <constraint firstItem="FUw-i5-1N1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="38" id="maO-1r-JAS"/>

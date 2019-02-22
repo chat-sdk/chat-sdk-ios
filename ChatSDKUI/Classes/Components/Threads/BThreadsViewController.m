@@ -207,15 +207,24 @@
     NSDate * threadDate = thread.orderDate;
     
     NSString * text = [NSBundle t:bNoMessages];
+    id<PUser> user = thread.users;
     
+//     PUser *threadUser = thread.creator;
+//    printf("Thread user is %s", threadUser);
+
     id<PMessage> lastMessage = thread.lazyLastMessage;
     if (lastMessage) {
         text = [NSBundle textForMessage:lastMessage];
     }
     
-    if (thread.user.online) != nil{
-        [cell setIsOnline:thread.user.online];
+    id<PUser> userIn = lastMessage.userModel;
+    if([userIn.online isEqualToNumber:[NSNumber numberWithBool:YES]]){
+        [cell setIsOnline:true];
     }
+    else{
+        [cell setIsOnline:false];
+    }
+  
     
     if (threadDate) {
         cell.dateLabel.text = threadDate.threadTimeAgo;
@@ -235,7 +244,6 @@
     if(BChatSDK.config.threadSubtitleFont) {
         cell.messageTextView.font = BChatSDK.config.threadSubtitleFont;
     }
-    
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
     
     cell.profileImageView.image = thread.imageForThread;
@@ -322,6 +330,7 @@
 }
 
 -(void) reloadData {
+
     [_threads sortUsingComparator:^(id<PThread>t1, id<PThread> t2) {
         return [t2.orderDate compare:t1.orderDate];
     }];

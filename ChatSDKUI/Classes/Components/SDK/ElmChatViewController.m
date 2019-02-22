@@ -117,7 +117,7 @@
     [containerView addSubview:_titleLabel];
     _titleLabel.keepInsets.equal = 0;
     //allign it in center
-    _titleLabel.keepBottomInset.equal = 10;
+    _titleLabel.keepBottomInset.equal = 15;
 
     //_titleLabel.keepBottomInset.equal = 15;
     

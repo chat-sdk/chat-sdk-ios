@@ -33,7 +33,7 @@
 -(instancetype) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        
+    //    self.frame = CGRectMake(0.0f, 0.0f, 375.0f, 52.0f);//CGRect(x: 0, y: 0, width: 375, height: 52)
 //        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
         self.backgroundColor = [UIColor colorWithRed:242/255.0f green:242/255.0f blue:242/255.0f alpha:1.0];// [UIColor redColor];//
         
@@ -43,7 +43,7 @@
         maxCharacters = bMaxCharacters;
         
         // Set the text color
-        _placeholderColor = [UIColor darkGrayColor];
+        _placeholderColor = [UIColor colorWithRed:0.61f green:0.61f blue:0.61f alpha:1.0]; //[UIColor darkGrayColor];
         _textColor = [UIColor blackColor];
 
         // Create an options button which shows an action sheet
@@ -56,12 +56,14 @@
         // This is the way to set the UITextView delegate to keep mentions functionality working
         _textView.simpleDelegate = self;
         _textView.layer.cornerRadius = 2;
+        _textView.layer.borderColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0].CGColor;
+        _textView.layer.borderWidth = 1.0;
         _textView.layer.masksToBounds = true;
+        [_textView setClipsToBounds:YES];
         [self addSubview: _textView];
 
         // Add a send button
         _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [_sendButton setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         [[_sendButton titleLabel] setFont:[UIFont fontWithName:@"SFProText-Semibold" size:bDefaultFontSize]];
         [self addSubview: _sendButton];
         
@@ -72,13 +74,13 @@
         
         NSString * sendButtonTitle = [NSBundle t:bSend];
         [_sendButton setTitle:sendButtonTitle forState:UIControlStateNormal];
-        
         [_sendButton addTarget:self action:@selector(sendButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [_sendButton addTarget:self action:@selector(sendButtonHeld) forControlEvents:UIControlEventTouchDown];
         
         // We don't want to send a message if they touch up outside the button area
         [_sendButton addTarget:self action:@selector(sendButtonCancelled) forControlEvents:UIControlEventTouchUpOutside];
         
+   //   [_textView  setTextContainerInset:UIEdgeInsetsMake(0,12, 0, 0)];
         _textView.scrollEnabled = YES;
         _textView.backgroundColor = [UIColor whiteColor];
         _textView.font =  [UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize];
@@ -91,7 +93,8 @@
             _textView.contentInset = UIEdgeInsetsMake(-6.0, -4.0, -6.0, 0.0);
         }
         else {
-            _textView.contentInset = UIEdgeInsetsMake(-6.0, -1.0, -6.0, 0.0);
+            //top, left, bottom, righ
+            _textView.contentInset = UIEdgeInsetsMake(-6.0, 5.0, -6.0, 0.0);
         }
 
         // Constrain the elements
@@ -105,32 +108,37 @@
         
         _optionsButton.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _sendButton.keepRightInset.equal = bMargin;
-        _sendButton.keepBottomInset.equal = 0;
-        _sendButton.keepHeight.equal = 40;
-        _sendButton.keepWidth.equal = 48;
-        _sendButton.translatesAutoresizingMaskIntoConstraints = NO;
-        
         _textView.keepLeftOffsetTo(_optionsButton).equal = bMargin;
         _textView.keepRightOffsetTo(_sendButton).equal = bMargin;
         _textView.keepBottomInset.equal = bMargin;
         _textView.keepTopInset.equal = bMargin;
         _textView.translatesAutoresizingMaskIntoConstraints = NO;
 
+        _sendButton.keepRightInset.equal = bMargin;
+        _sendButton.keepVerticalCenter.equal = 0.5;
+        //    _sendButton.keepBottomInset.equal = 5;
+        //_sendButton.keepHorizontalAlignTo(_textView);
+        //_sendButton.keepCenterAlignTo(_textView);
+
+        _sendButton.keepHeight.equal = 40;
+        _sendButton.keepWidth.equal = 48;
+       // _sendButton.translatesAutoresizingMaskIntoConstraints = NO;
+        
         // Create a placeholder text label
         _placeholderLabel = [[UILabel alloc] init];
         [self addSubview:_placeholderLabel];
         
-        _placeholderLabel.keepBottomInset.equal = 0;
-        _placeholderLabel.keepTopInset.equal = 0;
-        _placeholderLabel.keepLeftOffsetTo(_optionsButton).equal = bMargin + 4;
+        _placeholderLabel.keepBottomInset.equal = bMargin;//0;
+        _placeholderLabel.keepTopInset.equal = bMargin;//0;
+        _placeholderLabel.keepLeftOffsetTo(_optionsButton).equal = bMargin + 14;
         _placeholderLabel.keepWidth.equal = 200;
+
         [_placeholderLabel setBackgroundColor:[UIColor clearColor]];
         
         [_placeholderLabel setTextColor:_placeholderColor];
         [_placeholderLabel setText:[NSBundle t:NSLocalizedString(bWriteSomething, nil)]];
         
-        [self setFont:[UIFont systemFontOfSize:bFontSize]];
+        [self setFont:[UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize]];
         
         __weak __typeof__(self) weakSelf = self;
         _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
@@ -182,6 +190,12 @@
     else {
         [_sendButton setTitle:[NSBundle t:NSLocalizedString(bSend, nil)] forState:UIControlStateNormal];
         [_sendButton setImage:Nil forState:UIControlStateNormal];
+    }
+    if (_sendButton.enabled){
+       [_sendButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }
+    else{
+        [_sendButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     }
 }
 

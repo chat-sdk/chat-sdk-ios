@@ -35,6 +35,7 @@
     
     [_sendBarView setMaxLines:BChatSDK.config.textInputViewMaxLines];
     [_sendBarView setMaxCharacters:BChatSDK.config.textInputViewMaxCharacters];
+    [_sendBarView setFrame: CGRectMake(0.0f, 0.0f, 375.0f, 52.0f)];
 
     // Set the title
     [self updateTitle];
@@ -57,14 +58,25 @@
 }
 
 -(void) updateSubtitle {
-    
-    if (BChatSDK.config.userChatInfoEnabled) {
-        [self setSubtitle:[NSBundle t: bTapHereForContactInfo]];
+    id<PMessage> lastMessage = _thread.lazyLastMessage;
+
+    id<PUser> userIn = lastMessage.userModel;
+    if([userIn.online isEqualToNumber:[NSNumber numberWithBool:YES]]){
+        [self setSubtitle:[NSBundle t: bOnline]];
+        
+    }
+    else{
+        [self setSubtitle:@""];
+        
     }
     
-    if (_thread.type.intValue & bThreadFilterGroup) {
-        [self setSubtitle:_thread.memberListString];
-    }
+//    if (BChatSDK.config.userChatInfoEnabled) {
+//        [self setSubtitle:[NSBundle t: bTapHereForContactInfo]];
+//    }
+//
+//    if (_thread.type.intValue & bThreadFilterGroup) {
+//        [self setSubtitle:_thread.memberListString];
+//    }
 }
 
 -(void) addObservers {
@@ -105,6 +117,9 @@
                                                                             usingBlock:^(NSNotification * notification) {
                                                                                 dispatch_async(dispatch_get_main_queue(), ^{
                                                                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                      
+                                                                                        [self setSubtitle:[NSBundle t: bTapHereForContactInfo]];
+
                                                                                         [weakSelf updateMessages];
                                                                                     });
                                                                                 });
@@ -118,6 +133,13 @@
                                                                       dispatch_async(dispatch_get_main_queue(), ^{
                                                                           id<PUser> user = notification.userInfo[bNotificationUserUpdated_PUser];
                                                                           if (user && [_thread.users containsObject:user]) {
+                                                                              if([user.online isEqualToNumber:[NSNumber numberWithBool:YES]])
+                                                                             {
+                                                                                  [self setSubtitle:[NSBundle t: bOnline]];
+                                                                              }
+                                                                              else{
+                                                                                 [self setSubtitle:@""];
+                                                                              }
                                                                               [weakSelf updateMessages];
                                                                           }
                                                                       });
