@@ -35,6 +35,7 @@
 }
 
 + (NSArray< NSString *> *)removePicture:(NSString *)url fromPictures:(NSArray<NSString *> *)pictures {
+    if (!url || url.length == 0) return pictures;
     NSMutableArray<NSString *> * mutablePictures = [pictures mutableCopy];
     int index = [self indexForPicture:url inPictures:mutablePictures];
     if (index < 0) return mutablePictures;
@@ -44,6 +45,7 @@
 }
 
 + (NSArray<NSString *> *)addPicture:(NSString *)url toPictures:(NSArray<NSString *> *)pictures {
+    if (!url || url.length == 0) return pictures;
     NSUInteger picturesCount = pictures.count;
     NSMutableArray<NSString *> * mutablePictures = [[self nonnullPictures:pictures] mutableCopy];
     int index = [self indexForPicture:url inPictures:mutablePictures];
@@ -53,11 +55,12 @@
 }
 
 + (NSArray<NSString *> *)setDefaultPicture:(NSString *)url inPictures:(NSArray<NSString *> *)pictures {
+    if (!url || url.length == 0) return pictures;
     NSUInteger picturesCount = pictures.count;
-    NSMutableArray<NSString *> * nonnullPictures = [[self nonnullPictures:pictures] mutableCopy];
+    NSArray<NSString *> * nonnullPictures = [self nonnullPictures:pictures];
     NSMutableArray<NSString *> * mutablePictures = [[self removePicture:url fromPictures:nonnullPictures] mutableCopy];
     [mutablePictures insertObject:url atIndex:0];
-    return [self fillPictures:mutablePictures withCount:picturesCount];;
+    return [self fillPictures:mutablePictures withCount:picturesCount];
 }
 
 @end

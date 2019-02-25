@@ -15,7 +15,7 @@
 
 @implementation BProfilePicturesViewController {
     UIImagePickerController * _imagePicker;
-    NSArray<NSString *> *_pictures;
+    NSArray<NSString *> * _pictures;
     UIEdgeInsets _sectionInsets;
     CGFloat _itemsPerRow;
 }
@@ -47,7 +47,6 @@
         lpgr.delaysTouchesBegan = YES;
         [self.collectionView addGestureRecognizer:lpgr];
     }
-
 
     _itemsPerRow = 2;
     _sectionInsets = UIEdgeInsetsMake(8, 8, 8, 8);
@@ -197,7 +196,6 @@
     }
 
     NSString * pictureURL = _pictures[indexPath.row];
-
 
     if (indexPath.row > 0) {
         [alert addAction:[UIAlertAction actionWithTitle:[NSBundle t:bSetAsDefaultPicture] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
