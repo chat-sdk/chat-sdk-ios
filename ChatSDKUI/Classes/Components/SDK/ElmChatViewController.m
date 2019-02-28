@@ -449,7 +449,7 @@
 - (CGFloat)tableView:(UITableView *)tableView_ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
     if(message) {
-        return [BMessageCell cellHeight:message];
+        return [BMessageCell cellHeight:message] + 15;
     }
     else {
         return 0;

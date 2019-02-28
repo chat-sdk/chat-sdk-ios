@@ -39,12 +39,12 @@
         _profilePicture = [[UIImageView alloc] init];
         _profilePicture.contentMode = UIViewContentModeScaleAspectFill;
         _profilePicture.clipsToBounds = YES;
-
-       [self.contentView addSubview:_profilePicture];
+        
+        [self.contentView addSubview:_profilePicture];
         
         _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         
-        _timeLabel.font = [UIFont italicSystemFontOfSize:11];
+        _timeLabel.font = [UIFont italicSystemFontOfSize:12];
         if(BChatSDK.config.messageTimeFont) {
             _timeLabel.font = BChatSDK.config.messageTimeFont;
         }
@@ -54,15 +54,13 @@
         
         [self.contentView addSubview:_timeLabel];
 
-        //_nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
-        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding , 0, 0, 0)];
-        
+        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         _nameLabel.userInteractionEnabled = NO;
         
-        _nameLabel.font = [UIFont boldSystemFontOfSize:bSmallUserNameLabelSize];
-        /*if(BChatSDK.config.messageNameFont) {
+        _nameLabel.font = [UIFont boldSystemFontOfSize:bDefaultUserNameLabelSize];
+        if(BChatSDK.config.messageNameFont) {
             _nameLabel.font = BChatSDK.config.messageNameFont;
-        }*/
+        }
         [self.contentView addSubview:_nameLabel];
 
         _readMessageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
@@ -183,7 +181,6 @@
     }
     
     _nameLabel.text = _message.userModel.name;
-     _nameLabel.textColor = [UIColor lightGrayColor];
 
 //    
 //    // We only want to show the name label if the previous message was posted by someone else and if this is enabled in the thread
@@ -193,7 +190,6 @@
     
     // Hide the read receipt view if this is a public thread or if read receipts are disabled
     _readMessageImageView.hidden = _message.thread.type.intValue & bThreadFilterPublic || !BChatSDK.readReceipt;
-    [self layoutSubviews];
 }
 
 -(void) willDisplayCell {
@@ -208,8 +204,7 @@
                                          self.bubbleWidth,
                                          self.bubbleHeight)];
     
-    //[_nameLabel setViewFrameY:self.bubbleHeight + 5];
-    [_nameLabel setViewFrameY:5];
+    [_nameLabel setViewFrameY:self.bubbleHeight + 5];
     
     // #1 Because of the text view insets we want the cellContentView of the
     // text cell to extend to the right edge of the bubble
@@ -261,7 +256,7 @@
     // We don't want the label getting in the way of the read receipt
     [_timeLabel setViewFrameHeight:16];
     //    [_timeLabel setViewFrameHeight:self.cellHeight * 0.8];
-
+    
     [_readMessageImageView setViewFrameWidth:bReadReceiptWidth];
     [_readMessageImageView setViewFrameHeight:bReadReceiptHeight];
     [_readMessageImageView setViewFrameY:_timeLabel.fh * 2.0 / 3.0];
@@ -279,9 +274,9 @@
         [_profilePicture setViewFrameY: _nameLabel.fh];
         [bubbleImageView setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin];
         [bubbleImageView setViewFrameY:_nameLabel.fh];
+      //  [_timeLabel setViewFrameY:_profilePicture.fh + _nameLabel.fh];
         [_timeLabel setViewFrameY:bubbleImageView.fh];
 
-        //[_timeLabel setViewFrameY:_profilePicture.fh + _nameLabel.fh + bubbleImageView.fh];
         [_nameLabel setViewFrameX:_profilePicture.fw + bTimeLabelPadding];
         
         
@@ -297,14 +292,14 @@
         _timeLabel.textAlignment = NSTextAlignmentRight;
         _nameLabel.textAlignment = NSTextAlignmentRight;
     }
-  
-
-//        self.bubbleImageView.layer.borderColor = UIColor.redColor.CGColor;
-//        self.bubbleImageView.layer.borderWidth = 1;
-//        self.contentView.layer.borderColor = UIColor.blueColor.CGColor;
-//        self.contentView.layer.borderWidth = 1;
-//        self.cellContentView.layer.borderColor = UIColor.greenColor.CGColor;
-//        self.cellContentView.layer.borderWidth = 1;
+    
+    
+    //        self.bubbleImageView.layer.borderColor = UIColor.redColor.CGColor;
+    //        self.bubbleImageView.layer.borderWidth = 1;
+    //        self.contentView.layer.borderColor = UIColor.blueColor.CGColor;
+    //        self.contentView.layer.borderWidth = 1;
+    //        self.cellContentView.layer.borderColor = UIColor.greenColor.CGColor;
+    //        self.cellContentView.layer.borderWidth = 1;
 }
 
 
@@ -473,22 +468,9 @@
     return [BMessageCell cellHeight:_message maxWidth:self.maxTextWidth];
 }
 
-+(float) cellHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    
++(float) cellHeight : (id<PElmMessage>) message maxWidth: (float) maxWidth {
     UIEdgeInsets bubbleMargin = [self bubbleMargin:message];
-    id<PElmMessage> nextMessage = message.lazyNextMessage;
-    
-    float finalHeight = [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message] + 16;
-    
-    if (nextMessage && [nextMessage.date minutesFrom:message.date] < 10) {
-        if (message.date.minute == nextMessage.date.minute && [message.userModel isEqual: nextMessage.userModel]) {
-            //_timeLabel.text = Nil;
-            finalHeight -= 16;
-        }
-    }
-    return finalHeight;
-    //return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message];
-
+    return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message];
 }
 
 +(float) cellHeight: (id<PElmMessage>) message {

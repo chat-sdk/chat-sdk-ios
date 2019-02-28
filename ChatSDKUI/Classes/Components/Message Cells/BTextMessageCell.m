@@ -32,7 +32,7 @@
         textView.textContainer.lineFragmentPadding = 0;
         textView.textContainerInset = UIEdgeInsetsZero;
 
-        textView.font = [UIFont systemFontOfSize:bDefaultFontSize];
+        textView.font = [UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize];//[UIFont systemFontOfSize:bDefaultFontSize];
         if(BChatSDK.config.messageTextFont) {
             textView.font = BChatSDK.config.messageTextFont;
         }
@@ -70,7 +70,7 @@
 #pragma Cell sizing static methods
 
 +(NSNumber *) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return @([self getText: message.textString heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth].floatValue]);
+    return @([self getText: message.textString heightWithFont:[UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth].floatValue] );
 }
 
 +(NSNumber *) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
@@ -90,7 +90,7 @@
 +(float) getText: (NSString *) text heightWithWidth: (float) width {
     return [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
                               options:NSStringDrawingUsesLineFragmentOrigin
-                           attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:bDefaultFontSize]}
+                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize]}
                               context:Nil].size.height;
 }
 
@@ -107,7 +107,7 @@
 
 +(float) textWidth: (NSString *) text maxWidth: (float) maxWidth {
     if (text) {
-        UIFont * font = [UIFont systemFontOfSize:bDefaultFontSize];
+        UIFont * font = [UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize];
         if (font) {
             return [text boundingRectWithSize:CGSizeMake(maxWidth, CGFLOAT_MAX)
                                       options:NSStringDrawingUsesLineFragmentOrigin
