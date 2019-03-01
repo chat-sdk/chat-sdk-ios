@@ -215,7 +215,7 @@
 }
 
 - (IBAction)termsAndConditionsButtonPressed:(id)sender {
-    UINavigationController * nvc = BChatSDK.ui.eulaNavigationController;
+    UINavigationController * nvc = BChatSDK.ui.termsOfServiceNavigationController;
     [self presentViewController:nvc animated:YES completion:Nil];
 }
 

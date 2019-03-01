@@ -100,12 +100,20 @@
     return controller;
 }
 
+-(UIViewController *) termsOfServiceViewController {
+    return [[BTermsOfServiceViewController alloc] init];
+}
+
+-(UINavigationController *) termsOfServiceNavigationController {
+    return [self navigationControllerWithRootViewController:self.eulaViewController];
+}
+
 -(UIViewController *) eulaViewController {
-    return [[BEULAViewController alloc] init];
+    return [self termsOfServiceViewController];
 }
 
 -(UINavigationController *) eulaNavigationController {
-    return [self navigationControllerWithRootViewController:self.eulaViewController];
+    return [self termsOfServiceNavigationController];
 }
 
 -(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread {
