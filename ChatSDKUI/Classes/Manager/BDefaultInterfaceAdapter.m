@@ -108,6 +108,12 @@
     return [self navigationControllerWithRootViewController:self.eulaViewController];
 }
 
+-(UIViewController *) profilePicturesViewControllerWithUser: (id<PUser>) user {
+    BProfilePicturesViewController * controller = [[BProfilePicturesViewController alloc] init];
+    controller.user = user;
+    return controller;
+}
+
 -(UIViewController *) eulaViewController {
     return [self termsOfServiceViewController];
 }

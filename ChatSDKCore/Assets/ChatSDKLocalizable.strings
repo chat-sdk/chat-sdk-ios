@@ -10,6 +10,11 @@
 "bSettings" = "Settings";
 "bLogginIn" = "Logging in";
 "bProfile" = "Profile";
+"bProfilePictures" = "Profile Pictures";
+"bAddPicture" = "Add Picture";
+"bDeletePicture" = "Delete Picture";
+"bSetAsDefaultPicture" = "Set as Default Picture";
+"bDeleteLastPictureWarning" = "You need to add a new profile picture before deleteing the last picture.";
 "bLoggingOut" = "Logging out";
 "bErrorTitle" = "Error";
 "bUserCreatedError" = "User could not be created";

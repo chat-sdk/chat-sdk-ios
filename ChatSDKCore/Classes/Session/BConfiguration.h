@@ -203,6 +203,9 @@
 // Show local notifications when a message is received
 @property (nonatomic, readwrite) BOOL showLocalNotifications;
 
+// Profile Pictures
+@property (nonatomic, readwrite) BOOL profilePicturesEnabled;
+
 // Nearby Users Module Settings
 
 // Distance bands in meters
