@@ -15,6 +15,7 @@
 @class BPublicThreadsViewController;
 @class BFlaggedMessagesViewController;
 @class BContactsViewController;
+@class BProfilePicturesViewController;
 @class UIViewController;
 @class BFriendsListViewController;
 @class BChatViewController;

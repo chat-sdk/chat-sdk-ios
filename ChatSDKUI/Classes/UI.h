@@ -43,6 +43,7 @@
 #import <ChatSDK/BSearchViewController.h>
 #import <ChatSDK/BLoginViewController.h>
 #import <ChatSDK/BProfileTableViewController.h>
+#import <ChatSDK/BProfilePicturesViewController.h>
 #import <ChatSDK/BPrivateThreadsViewController.h>
 #import <ChatSDK/BPublicThreadsViewController.h>
 #import <ChatSDK/BFlaggedMessagesViewController.h>
