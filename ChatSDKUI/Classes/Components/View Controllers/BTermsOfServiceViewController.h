@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIWebView * webView;
 
+- (void)load;
+- (void)dismiss;
+
 @end
 
 NS_ASSUME_NONNULL_END
