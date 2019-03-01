@@ -232,7 +232,7 @@
 
 - (IBAction)profilePictureButtonPressed:(UIButton *)sender {
 
-    if (_useProfilePictures) {
+    if (BChatSDK.config.profilePicturesEnabled) {
         BProfilePicturesViewController * ppvc = [[BProfilePicturesViewController alloc] init];
         ppvc.user = self.user;
         [self.navigationController pushViewController:ppvc animated:YES];
@@ -321,7 +321,7 @@
     phoneNumberField.backgroundColor = borderColor;
     phoneNumberField.userInteractionEnabled = isCurrent;
 
-    if (!_useProfilePictures) {
+    if (!BChatSDK.config.profilePicturesEnabled) {
         profilePictureButton.userInteractionEnabled = isCurrent;
     }
 }

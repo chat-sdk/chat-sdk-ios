@@ -52,7 +52,6 @@
 
 //@property (nonatomic, readwrite) id<PUserConnection> userConnection;
 @property (nonatomic, readwrite) id<PUser> user;
-@property (nonatomic, readwrite) BOOL useProfilePictures;
 
 -(void) logout;
 -(void) loadUserImage;

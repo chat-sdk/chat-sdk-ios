@@ -159,7 +159,7 @@
     hud.label.text = [NSBundle t:bSaving];
     [BChatSDK.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if ([BProfilePicturesHelper nonnullPictures:_pictures].count > 0) {
+        if ([BProfilePicturesHelper nonnullPictures:self->_pictures].count > 0) {
             [self addPictureURL:urls[bImagePath]];
         } else {
             [self setDefaultPictureURL:urls[bImagePath]];
