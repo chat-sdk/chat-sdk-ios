@@ -106,16 +106,16 @@
 - (void)savePictures {
     if (!_user.isMe) return;
 
-    MBProgressHUD * progress = [[MBProgressHUD alloc] initWithView:self.collectionView];
-    [progress showAnimated:YES];
+    MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.label.text = [NSBundle t:bSaving];
     [BChatSDK.currentUser.meta setValue:_pictures forKey:bUserPictures];
     BChatSDK.core.pushUser.thenOnMain(^id(id result) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self reloadPictures];
-        [progress hideAnimated:YES];
         return Nil;
     }, ^id(NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self reloadPictures];
-        [progress hideAnimated:YES];
         return Nil;
     });
 }
@@ -155,16 +155,20 @@
     image = [image resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
     UIImage * thumbnail = [image resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
 
-    MBProgressHUD * progress = [[MBProgressHUD alloc] initWithView:self.collectionView];
-    [progress showAnimated:YES];
+    MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.label.text = [NSBundle t:bSaving];
     [BChatSDK.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
-        [self addPictureURL:urls[bImagePath]];
-        [progress hideAnimated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([BProfilePicturesHelper nonnullPictures:_pictures].count > 0) {
+            [self addPictureURL:urls[bImagePath]];
+        } else {
+            [self setDefaultPictureURL:urls[bImagePath]];
+        }
         [self savePictures];
         return Nil;
     }, ^id(NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self reloadPictures];
-        [progress hideAnimated:YES];
         return Nil;
     });
 
