@@ -92,6 +92,7 @@
 @property (nonatomic, readwrite) int xmppPort;
 @property (nonatomic, readwrite) NSString * xmppResource;
 @property (nonatomic, readwrite) int xmppMucMessageHistory;
+@property (nonatomic, readwrite) NSString * termsOfServiceURL;
 
 // The message view text input box, max lines and characters
 @property (nonatomic, readwrite) int textInputViewMaxLines;
