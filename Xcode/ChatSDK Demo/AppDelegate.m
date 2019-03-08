@@ -22,7 +22,7 @@
     // The network adapter handles network traffic
 
     BConfiguration * config = [BConfiguration configuration];
-    config.rootPath = @"19_02_public_thread";
+    config.rootPath = @"19_03";
     config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = NO;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
@@ -49,7 +49,7 @@
     
     // Set the root view controller
     [self.window setRootViewController:rootViewController];
-        
+    
     return YES;
 }
 

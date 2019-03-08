@@ -172,6 +172,8 @@
         textInputViewMaxLines = 5;
         
         xmppAuthType = @"default";
+
+        _termsOfServiceURL = @"https://chatsdk.co/terms-and-conditions";
         
         nearbyUserDistanceBands = @[@1000, @5000, @10000, @50000];
         

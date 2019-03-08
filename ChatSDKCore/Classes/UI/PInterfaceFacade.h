@@ -29,8 +29,11 @@
 -(UIViewController *) publicThreadsViewController;
 -(UIViewController *) contactsViewController;
 -(UIViewController *) profileViewControllerWithUser: (id<PUser>) user ;
+-(UIViewController *) profilePicturesViewControllerWithUser: (id<PUser>) user;
 -(UIViewController *) appTabBarViewController;
 
+-(UIViewController *) termsOfServiceViewController;
+-(UINavigationController *) termsOfServiceNavigationController;
 -(UIViewController *) eulaViewController;
 -(UINavigationController *) eulaNavigationController;
 

@@ -239,8 +239,9 @@
 
     FIRDatabaseReference * ref = [FIRDatabaseReference threadMetaRef:_model.entityID];
     [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
-        if(snapshot.value != [NSNull null]) {
-            for(NSString * key in snapshot.value) {
+        if(snapshot.value != [NSNull null] && [snapshot.value isKindOfClass: [NSDictionary class]]) {
+            NSDictionary * dict = (NSDictionary *) snapshot.value;
+            for(NSString * key in dict.allKeys) {
                 [_model setMetaValue:snapshot.value[key] forKey:key];
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadMetaUpdated object:Nil];
             }

@@ -100,12 +100,26 @@
     return controller;
 }
 
+-(UIViewController *) termsOfServiceViewController {
+    return [[BTermsOfServiceViewController alloc] init];
+}
+
+-(UINavigationController *) termsOfServiceNavigationController {
+    return [self navigationControllerWithRootViewController:self.eulaViewController];
+}
+
+-(UIViewController *) profilePicturesViewControllerWithUser: (id<PUser>) user {
+    BProfilePicturesViewController * controller = [[BProfilePicturesViewController alloc] init];
+    controller.user = user;
+    return controller;
+}
+
 -(UIViewController *) eulaViewController {
-    return [[BEULAViewController alloc] init];
+    return [self termsOfServiceViewController];
 }
 
 -(UINavigationController *) eulaNavigationController {
-    return [self navigationControllerWithRootViewController:self.eulaViewController];
+    return [self termsOfServiceNavigationController];
 }
 
 -(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread {
