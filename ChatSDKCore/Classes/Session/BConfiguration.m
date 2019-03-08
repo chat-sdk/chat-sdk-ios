@@ -77,6 +77,7 @@
 @synthesize xmppAuthType;
 
 @synthesize nearbyUserDistanceBands;
+@synthesize publicChatRoomLifetimeMinutes;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -173,6 +174,8 @@
         xmppAuthType = @"default";
         
         nearbyUserDistanceBands = @[@1000, @5000, @10000, @50000];
+        
+        publicChatRoomLifetimeMinutes = 7 * 60 * 24;
         
     }
     return self;

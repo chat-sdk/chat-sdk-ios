@@ -211,6 +211,9 @@
 // default, scramsha1, digestmd5, plain
 @property (nonatomic, readwrite) NSString * xmppAuthType;
 
+// How long should a public chat room live until expires and is removed from the list
+@property (nonatomic, readwrite) int publicChatRoomLifetimeMinutes;
+
 +(BConfiguration *) configuration;
 
 -(void) xmppWithHostAddress: (NSString *) hostAddress;

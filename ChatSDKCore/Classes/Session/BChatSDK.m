@@ -290,6 +290,10 @@ static BChatSDK * instance;
     return self.a.encryption;
 }
 
++(id<PEventHandler>) event {
+    return self.a.event;
+}
+
 +(id<PInternetConnectivityHandler>) connectivity {
     return self.a.connectivity;
 }

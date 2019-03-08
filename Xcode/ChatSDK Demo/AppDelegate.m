@@ -22,13 +22,16 @@
     // The network adapter handles network traffic
 
     BConfiguration * config = [BConfiguration configuration];
-    config.rootPath = @"18_12_refactor";
+    config.rootPath = @"19_02_public_thread";
     config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = NO;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
     config.clearDataWhenRootPathChanges = YES;
     config.loginUsernamePlaceholder = @"Email";
-//    config.allowUsersToCreatePublicChats = YES;
+    config.allowUsersToCreatePublicChats = YES;
+    
+    // For the demo version of the client exire rooms after 24 hours
+    config.publicChatRoomLifetimeMinutes = 60 * 24;
     
     // Twitter Setup
     config.twitterApiKey = @"Kqprq5b6bVeEfcMAGoHzUmB3I";
@@ -46,7 +49,7 @@
     
     // Set the root view controller
     [self.window setRootViewController:rootViewController];
-
+        
     return YES;
 }
 

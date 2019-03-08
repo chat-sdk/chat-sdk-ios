@@ -35,5 +35,6 @@
 @property (nonatomic, readwrite) id<PHookHandler> hook;
 @property (nonatomic, readwrite) id<PEncryptionHandler> encryption;
 @property (nonatomic, readwrite) id<PInternetConnectivityHandler> connectivity;
+@property (nonatomic, readwrite) id<PEventHandler> event;
 
 @end

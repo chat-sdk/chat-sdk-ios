@@ -18,7 +18,7 @@
 #import "CCThreadWrapper.h"
 #import "CCUserWrapper.h"
 #import "CCMessageWrapper.h"
-#import "BStateManager.h"
+#import "BFirebaseEventHandler.h"
 #import "BFirebaseUsersHandler.h"
 #import "BEntity.h"
 

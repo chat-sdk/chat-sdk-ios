@@ -84,6 +84,7 @@
 +(id<BStorageAdapter>) db;
 +(id<PFileMessageHandler>) fileMessage;
 +(id<PEncryptionHandler>) encryption;
++(id<PEventHandler>) event;
 +(id<PInternetConnectivityHandler>) connectivity;
 
 @end

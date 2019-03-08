@@ -56,7 +56,7 @@
     // Stop observing the user
     if(user) {
         [BHookNotification notificationWillLogout:user];
-        [BStateManager userOff: user.entityID];
+        [BChatSDK.event currentUserOff: user.entityID];
     }
     
     NSError * error = Nil;
@@ -222,7 +222,7 @@
                 NSLog(@"User On: %@", user.entityID);
                 
                 // Add listeners here
-                [BStateManager userOn: user.entityID];
+                [BChatSDK.event currentUserOn:user.entityID];
                 
                 [BChatSDK.core setUserOnline];
                 
