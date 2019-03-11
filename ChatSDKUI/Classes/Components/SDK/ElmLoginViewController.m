@@ -270,8 +270,7 @@
 }
 
 -(void) authenticationFinished {
-    [self dismissViewControllerAnimated:YES completion:Nil];
-    [self hideHUD];
+    [self hideHUDWithDuration:0];
 }
 
 #pragma TextField delegate

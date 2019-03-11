@@ -356,6 +356,24 @@ There are a number of configuration options available. Check out the [BConfigura
 - Show or hide empty chats
 - etc...
 
+### Customize the UI
+
+To customize the UI, you can register subclasses for different views. You can do that using the UI service `BChatSDK.ui`. For example, to register a new login view controller you would use:
+
+```
+BChatSDK.ui.loginViewController = [[YourViewController alloc] initWithNibName:Nil bundle: Nil];
+```
+
+To modify the chat view you would register a provider:
+
+```
+[BChatSDK.ui setChatViewController:^BChatViewController *(id<PThread> thread) {
+        return [[YourChatViewController alloc] initWithThread:thread];
+}];
+```
+
+Every view controller in the app can be customized this way. 
+
 ### Use Chat SDK views in your app
 
 Any of the Chat SDK views can be added into your app. Checkout the [PInterfaceFacade](https://github.com/chat-sdk/chat-sdk-ios/blob/master/ChatSDKCore/Classes/UI/PInterfaceFacade.h) for options. You can add a any view using the following pattern. Here we are using the interface service to get the particular view. 

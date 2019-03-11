@@ -27,8 +27,6 @@
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:Nil queue:0 usingBlock:^(NSNotification * notificaiton) {
             [FBSDKAppEvents activateApp];
         }];
-        
-
     }
     return self;
 }

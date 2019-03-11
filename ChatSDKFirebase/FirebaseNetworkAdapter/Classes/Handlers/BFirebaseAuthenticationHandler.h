@@ -12,7 +12,7 @@
 @class FIRUser;
 
 @interface BFirebaseAuthenticationHandler : BAbstractAuthenticationHandler {
-    BOOL _userAuthenticatedThisSession;
+    BOOL _isAuthenticatedThisSession;
 }
 
 -(RXPromise *) loginWithFirebaseUser: (FIRUser *) firebaseUser;

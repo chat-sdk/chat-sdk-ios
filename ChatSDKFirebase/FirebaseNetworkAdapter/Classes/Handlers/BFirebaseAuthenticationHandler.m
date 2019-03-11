@@ -13,21 +13,20 @@
 
 @implementation BFirebaseAuthenticationHandler
 
-
 // Note: this method gets called often
 // Each time the main tab bar appears the app check that
 // the user is authenticated
--(RXPromise *) authenticateWithCachedToken {
-    
+-(RXPromise *) authenticate {
+
     [BChatSDK.core goOnline];
     
-    BOOL authenticated = [self userAuthenticated];
+    BOOL authenticated = [self isAuthenticated];
     if (authenticated) {
         
 //        [[FIRAuth auth] signOut:Nil];
         
         // If the user listeners have been added then authenticate completed successfully
-        if(_userAuthenticatedThisSession) {
+        if(_isAuthenticatedThisSession) {
             return [RXPromise resolveWithResult:BChatSDK.currentUser];
         }
         else {
@@ -39,7 +38,7 @@
     }
 }
 
--(BOOL) userAuthenticated {
+-(BOOL) isAuthenticated {
     
     // Return if there is a current user authenticated
     return [FIRAuth auth].currentUser != Nil;
@@ -62,7 +61,7 @@
     NSError * error = Nil;
     if([[FIRAuth auth] signOut:&error]) {
 
-        _userAuthenticatedThisSession = NO;
+        _isAuthenticatedThisSession = NO;
         [self setLoginInfo:Nil];
         [BChatSDK.core goOffline];
         
@@ -210,8 +209,8 @@
             [user.model setName:details.name];
         }
         
-        if (!strongSelf->_userAuthenticatedThisSession) {
-            strongSelf->_userAuthenticatedThisSession = YES;
+        if (!strongSelf->_isAuthenticatedThisSession) {
+            strongSelf->_isAuthenticatedThisSession = YES;
             // Update the user from the remote server
             return [user once].thenOnMain(^id(id<PUserWrapper> user_) {
             

@@ -144,7 +144,7 @@
         if(threadEntityID) {
             id<PThread> thread = [BChatSDK.db fetchOrCreateEntityWithID:threadEntityID withType:bThreadEntity];
             
-            if (BChatSDK.auth.userAuthenticatedThisSession) {
+            if (BChatSDK.auth.isAuthenticatedThisSession) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationPresentChatView object:Nil userInfo: @{bNotificationPresentChatView_PThread: thread}];
             }
             else {

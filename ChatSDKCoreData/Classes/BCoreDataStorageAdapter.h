@@ -1,5 +1,5 @@
 //
-//  BCoreDataManager.h
+//  BCoreDataStorageAdapter.h
 //  NekNominate
 //
 //  Created by Benjamin Smiley-andrews on 12/02/2014.
@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import <ChatSDK/BStorageAdapter.h>
+#import <ChatSDK/PStorageAdapter.h>
 
-@interface BCoreDataManager : NSObject<BStorageAdapter> {
+@interface BCoreDataStorageAdapter : NSObject<PStorageAdapter> {
     NSManagedObjectContext * _moc;
     NSManagedObjectContext * _privateMoc;
     NSManagedObjectContext * _backgrondMoc;

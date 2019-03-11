@@ -1,34 +1,21 @@
 //
-//  BCoreDataManager.m
+//  BCoreDataStorageAdapter.m
 //  NekNominate
 //
 //  Created by Benjamin Smiley-andrews on 12/02/2014.
 //  Copyright (c) 2014 deluge. All rights reserved.
 //
 
-#import "BCoreDataManager.h"
+#import "BCoreDataStorageAdapter.h"
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/CoreData.h>
 
-static BCoreDataManager * manager;
+static BCoreDataStorageAdapter * manager;
 
 static void * kMainQueueKey = (void *) "Key1";
 
-@implementation BCoreDataManager
-
-+(BCoreDataManager *) sharedManager {
-    
-    @synchronized(self) {
-        
-        // If the sharedSoundManager var is nil then we need to allocate it.
-        if(manager == nil) {
-            // Allocate and initialize an instance of this class
-            manager = [[self alloc] init];
-        }
-    }
-    return manager;
-}
+@implementation BCoreDataStorageAdapter
 
 -(instancetype) init {
     if ((self = [super init])) {

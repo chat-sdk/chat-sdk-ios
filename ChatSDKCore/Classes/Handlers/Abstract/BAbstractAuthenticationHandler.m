@@ -32,8 +32,12 @@
     return NO;
 }
 
--(BOOL) userAuthenticatedThisSession {
+-(BOOL) isAuthenticatedThisSession {
     return _authenticatedThisSession && self.userAuthenticated;
+}
+
+-(BOOL) userAuthenticatedThisSession __deprecated {
+    return [self isAuthenticatedThisSession];
 }
 
 -(RXPromise *) authenticateWithDictionary:(NSDictionary *)details {
@@ -96,20 +100,17 @@
 }
 
 /**
- * @brief Check to see if the user is already authenticated
- */
--(RXPromise *) authenticateWithCachedToken {
-    assert(NO);
-}
-
-/**
  * @brief Authenticate with Firebase
  */
 
 /**
  * @brief Checks whether the user has been authenticated this session
  */
--(BOOL) userAuthenticated {
+-(BOOL) userAuthenticated __deprecated {
+    return [self isAuthenticated];
+}
+
+-(BOOL) isAuthenticated {
     assert(NO);
 }
 
@@ -117,6 +118,21 @@
  * @brief Logout the user from the current account
  */
 -(RXPromise *) logout {
+    assert(NO);
+}
+
+/**
+ * @brief Check to see if the user is already authenticated
+ * @deprecated Use authenticate
+ */
+-(RXPromise *) authenticateWithCachedToken __deprecated {
+    return [self authenticate];
+}
+
+/**
+ * @brief Check to see if the user is already authenticated
+ */
+-(RXPromise *) authenticate {
     assert(NO);
 }
 

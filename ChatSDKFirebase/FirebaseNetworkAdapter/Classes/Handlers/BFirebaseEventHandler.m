@@ -88,13 +88,6 @@
 
 -(void) contactsOn: (id<PUser>) user {
     
-//    for (id<PUserConnection> contact in [user connectionsWithType:bUserConnectionTypeContact]) {
-//        // Turn the contact on
-//        id<PUser> contactModel = contact.user;
-//        [[CCUserWrapper userWithModel:contactModel] metaOn];
-//        [[CCUserWrapper userWithModel:contactModel] onlineOn];
-//    }
-    
     FIRDatabaseReference * ref = [FIRDatabaseReference userContactsRef:BChatSDK.currentUserID];
     
     [ref observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {

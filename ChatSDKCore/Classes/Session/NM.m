@@ -112,7 +112,7 @@
     return self.a.hook;
 }
     
-+(id<BNetworkFacade>) a {
++(id<PNetworkAdapter>) a {
     return [BNetworkManager sharedManager].a;
 }
 

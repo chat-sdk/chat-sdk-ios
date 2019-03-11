@@ -24,9 +24,9 @@
 
 // Elements
 
-#import <ChatSDK/PElmMessage.h>
-#import <ChatSDK/PElmThread.h>
-#import <ChatSDK/PElmUser.h>
+//#import <ChatSDK/PElmMessage.h>
+//#import <ChatSDK/PElmThread.h>
+//#import <ChatSDK/PUser.h>
 
 #import <ChatSDK/NSBundle+UI.h>
 #import <ChatSDK/UIImage+Additions.h>
@@ -58,6 +58,7 @@
 #import <ChatSDK/BAppTabBarController.h>
 #import <ChatSDK/BDefaultInterfaceAdapter.h>
 #import <ChatSDK/BMessageSection.h>
+#import <ChatSDK/BSplashScreenViewController.h>
 
 #import <ChatSDK/BMapViewWrapper.h>
 #import <ChatSDK/BMapViewManager.h>
@@ -77,7 +78,6 @@
 #import <ChatSDK/PChatOptionsHandler.h>
 #import <ChatSDK/BChatOptionsActionSheet.h>
 #import <ChatSDK/BMessageCache.h>
-#import <ChatSDK/BMainControllerLifecycleHelper.h>
 
 #import <ChatSDK/PAction.h>
 #import <ChatSDK/BSelectLocationAction.h>

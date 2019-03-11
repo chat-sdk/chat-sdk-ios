@@ -25,8 +25,8 @@
 #import <ChatSDK/NSDictionary+Meta.h>
 
 #import <ChatSDK/BNetworkManager.h>
-#import <ChatSDK/BStorageManager.h>
-#import <ChatSDK/BNetworkFacade.h>
+#import <ChatSDK/PStorageAdapter.h>
+#import <ChatSDK/PNetworkAdapter.h>
 #import <ChatSDK/BAbstractNetworkAdapter.h>
 #import <ChatSDK/BBaseHookHandler.h>
 
@@ -45,7 +45,7 @@
 #import <ChatSDK/PUserWrapper.h>
 #import <ChatSDK/PGroup.h>
 #import <ChatSDK/PModule.h>
-#import <ChatSDK/PInterfaceFacade.h>
+#import <ChatSDK/PInterfaceAdapter.h>
 #import <ChatSDK/BBaseInternetConnectivityHandler.h>
 
 #import <ChatSDK/PElmMessage.h>
@@ -72,7 +72,7 @@
 #import <ChatSDK/PReadReceiptHandler.h>
 #import <ChatSDK/PStickerMessageHandler.h>
 #import <ChatSDK/PFileMessageHandler.h>
-#import <ChatSDK/BStorageAdapter.h>
+#import <ChatSDK/PStorageAdapter.h>
 #import <ChatSDK/PSocialLoginHandler.h>
 #import <ChatSDK/NSBundle+Core.h>
 #import <ChatSDK/BAccountDetails.h>

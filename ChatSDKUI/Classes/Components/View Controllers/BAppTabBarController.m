@@ -20,8 +20,6 @@
 
 @implementation BAppTabBarController
 
-@synthesize lifecycleHelper = _helper;
-
 -(instancetype) init {
     if((self = [super init])) {
     }
@@ -40,17 +38,12 @@
     [super viewDidLoad];
 
     __weak __typeof__(self) weakSelf = self;
-
-    if(!_helper) {
-        _helper = [[BMainControllerLifecycleHelper alloc] init];
-    }
-    
-    [_helper viewDidLoad: self];
     
     self.delegate = self;
     
     NSArray * vcs = [BChatSDK.ui tabBarNavigationViewControllers];
     self.viewControllers = vcs;
+    [self.tabBar setTranslucent:NO];
 
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [self setSelectedIndex:0];
@@ -131,11 +124,8 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [_helper viewDidAppear].thenOnMain(^id(id<PUser> user) {
-        [self updateBadge];
-        return Nil;
-    }, Nil);
 
+    // Handle push notifications - open the relevant chat
     BBackgroundPushAction * action = BChatSDK.shared.pushQueue.tryFirst;
     if (action && action.type == bPushActionTypeOpenThread) {
         [BChatSDK.shared.pushQueue popFirst];
@@ -145,10 +135,10 @@
             [self presentChatViewWithThread:thread];
         }
     }
-
+    
+    [self updateBadge];
 }
 
-// #6704 Start bug fix for v3.0.2
 // If the user changes tab they must be online
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     [BChatSDK.core setUserOnline];
@@ -166,7 +156,6 @@
     [BChatSDK.ui setShowLocalNotifications:NO];
     
 }
-// End bug fix for v3.0.2
 
 -(void) updateBadge {
     
@@ -181,9 +170,6 @@
     }
     
     [BChatSDK.core save];
-    // This way does not set the tab bar number
-    //BChatSDK.ui.privateThreadsViewController.tabBarItem.badgeValue = badge;
-    
 }
 
 -(int) unreadMessagesCount: (bThreadType) type {
@@ -201,7 +187,6 @@
 }
 
 // TODO - move this to a more appropriate place in the code
-
 -(void) setBadge: (int) badge forViewController: (UIViewController *) controller {
     NSInteger index = [BChatSDK.ui.tabBarViewControllers indexOfObject:controller];
     if (index != NSNotFound) {

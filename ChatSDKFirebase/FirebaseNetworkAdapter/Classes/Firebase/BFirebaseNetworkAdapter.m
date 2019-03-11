@@ -22,6 +22,7 @@
                 NSString * path = [[NSBundle mainBundle] pathForResource:plist ofType:@"plist"];
                 FIROptions * options = [[FIROptions alloc] initWithContentsOfFile:path];
                 [FIRApp configureWithOptions:options];
+                [FIRDatabase database].persistenceEnabled = YES;
             }
             else {
                 [FIRApp configure];

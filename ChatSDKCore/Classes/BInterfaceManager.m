@@ -17,7 +17,7 @@ static BInterfaceManager * manager;
     return [[self alloc] init];
 }
 
--(id<PInterfaceFacade>) a {
+-(id<PInterfaceAdapter>) a {
     return BChatSDK.ui;
 }
 

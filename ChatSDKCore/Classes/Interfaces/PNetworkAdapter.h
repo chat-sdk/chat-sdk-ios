@@ -1,5 +1,5 @@
 //
-//  BNetworkFacade.h
+//  PNetworkAdapter.h
 //  Chat SDK
 //
 //  Created by Benjamin Smiley-andrews on 01/03/2014.
@@ -84,7 +84,7 @@
 #define bNotificationAuthenticationComplete @"bNAuthenticationComplete"
 
 
-@protocol BNetworkFacade <NSObject>
+@protocol PNetworkAdapter <NSObject>
 
 // Handlers
 -(id<PCoreHandler>) core;

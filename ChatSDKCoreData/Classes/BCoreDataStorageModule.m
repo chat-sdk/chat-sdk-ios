@@ -11,7 +11,7 @@
 @implementation BCoreDataStorageModule
 
 -(void) activate {
-    [BStorageManager sharedManager].a = [[BCoreDataManager alloc] init];
+    BChatSDK.shared.storageAdapter = [[BCoreDataStorageAdapter alloc] init];
 }
 
 @end

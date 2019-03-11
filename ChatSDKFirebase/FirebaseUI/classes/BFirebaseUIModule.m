@@ -27,8 +27,7 @@
     
     FUIAuthPickerViewController * controller = [[FUIAuthPickerViewController alloc] initWithAuthUI:authUI];
     
-    // Present the controller as the default authentication controller
-    [BNetworkManager sharedManager].a.auth.challengeViewController = [[UINavigationController alloc] initWithRootViewController:controller];
+    BChatSDK.ui.loginViewController = controller;
 }
 
 - (void)authUI:(FUIAuth *)authUI didSignInWithUser:(nullable FIRUser *)user error:(nullable NSError *)error {

@@ -105,7 +105,7 @@
 
 // The the image to be displayed on the login screen. Image should be
 // 120x120px
-@property (nonatomic, readwrite) UIImage * loginScreenLogoImage;
+@property (nonatomic, readwrite) UIImage * logoImage;
 
 // The app name text displayed on the login screen
 @property (nonatomic, readwrite) NSString * loginScreenAppName;

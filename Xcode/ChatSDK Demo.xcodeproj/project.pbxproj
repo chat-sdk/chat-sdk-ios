@@ -13,6 +13,7 @@
 		AC7BD9BF1E096E9000C785EE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */; };
 		B5081AC81F56C04B0015417B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7BD99E1E0874B400C785EE /* AppDelegate.m */; };
 		B5081AC91F56C04B0015417B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7BD99B1E0874B400C785EE /* main.m */; };
+		B53797E2223659230003F6F8 /* ApiExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = B53797E1223659230003F6F8 /* ApiExamples.m */; };
 		E0513705C1DDC02B5F61025B /* Pods_ChatSDK_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DBE00139FB7801429739B60 /* Pods_ChatSDK_Demo.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,8 @@
 		AC7BD9A91E0874B400C785EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC7BD9AB1E0874B400C785EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B53797E0223659230003F6F8 /* ApiExamples.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApiExamples.h; sourceTree = "<group>"; };
+		B53797E1223659230003F6F8 /* ApiExamples.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApiExamples.m; sourceTree = "<group>"; };
 		B5736DD220A1F25900D0947B /* ChatSDK Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ChatSDK Demo.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +94,8 @@
 				AC7BD9A81E0874B400C785EE /* LaunchScreen.storyboard */,
 				AC7BD9AB1E0874B400C785EE /* Info.plist */,
 				AC7BD99A1E0874B400C785EE /* Supporting Files */,
+				B53797E0223659230003F6F8 /* ApiExamples.h */,
+				B53797E1223659230003F6F8 /* ApiExamples.m */,
 			);
 			path = "ChatSDK Demo";
 			sourceTree = "<group>";
@@ -190,10 +195,8 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/ChatSDK/ChatSDK.framework",
@@ -252,7 +255,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		127236AC99E27B5A8BE396DA /* [CP] Check Pods Manifest.lock */ = {
@@ -295,17 +298,13 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/ChatSDKFirebase/ChatFirebaseSocialLogin.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChatFirebaseSocialLogin.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
@@ -313,7 +312,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -325,6 +324,7 @@
 			files = (
 				B5081AC81F56C04B0015417B /* AppDelegate.m in Sources */,
 				B5081AC91F56C04B0015417B /* main.m in Sources */,
+				B53797E2223659230003F6F8 /* ApiExamples.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

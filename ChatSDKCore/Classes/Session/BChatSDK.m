@@ -15,7 +15,9 @@
 @implementation BChatSDK
 
 @synthesize configuration = _configuration;
-@synthesize interfaceManager = _interfaceManager;
+@synthesize interfaceAdapter = _interfaceAdapter;
+@synthesize storageAdapter = _storageAdapter;
+@synthesize networkAdapter = _networkAdapter;
 
 static BChatSDK * instance;
 
@@ -34,28 +36,63 @@ static BChatSDK * instance;
 
 -(instancetype) init {
     if((self = [super init])) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(appDidResignActive)
+                                                     name:UIApplicationWillResignActiveNotification
+                                                   object:Nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(appDidBecomeActive)
+                                                     name:UIApplicationDidBecomeActiveNotification
+                                                   object:Nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(saveData)
+                                                     name:UIApplicationWillTerminateNotification
+                                                   object:Nil];
     }
     return self;
 }
 
-+(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceFacade>) adapter {
-    [self shared]->_configuration = config;
++(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceAdapter>) adapter {
+    [self.shared initialize:config app:application options:launchOptions interfaceAdapter: adapter];
+    [self application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+-(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceAdapter>) adapter {
+    _configuration = config;
     
     [BModuleHelper activateCoreModules];
     if(adapter) {
-        [self shared]->_interfaceManager = adapter;
+        _interfaceAdapter = adapter;
     }
     [BModuleHelper activateModules];
-    [self application:application didFinishLaunchingWithOptions:launchOptions];
     
-    [[self shared] clearDataIfNecessary];
-    
-    if (config.clearDataWhenRootPathChanges) {
-    }
+    [self clearDataIfNecessary];
 }
 
 +(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions {
     [self initialize:config app:application options:launchOptions interfaceAdapter:Nil];
+}
+
+-(void) appDidResignActive {
+    if(self.networkAdapter) {
+        [self.networkAdapter.core save];
+        [self.networkAdapter.core goOffline];
+    }
+}
+
+-(void) appDidBecomeActive {
+    if(self.networkAdapter) {
+        // TODO: Check this
+        [self.networkAdapter.core goOnline];
+    }
+}
+
+-(void) saveData {
+    if (self.networkAdapter) {
+        [self.networkAdapter.core save];
+    }
 }
 
 +(void) activateModules {
@@ -135,7 +172,7 @@ static BChatSDK * instance;
 }
 
 +(BConfiguration *) config {
-    return [self shared].configuration;
+    return self.shared.configuration;
 }
 
 -(void) clearDataIfNecessary {
@@ -270,16 +307,16 @@ static BChatSDK * instance;
     return self.a.hook;
 }
 
-+(id<BNetworkFacade>) a {
++(id<PNetworkAdapter>) a {
     return [BNetworkManager sharedManager].a;
 }
 
-+(id<PInterfaceFacade>) ui {
-    return [self shared]->_interfaceManager;
++(id<PInterfaceAdapter>) ui {
+    return self.shared.interfaceAdapter;
 }
 
-+(id<BStorageAdapter>) db {
-    return [BStorageManager sharedManager].a;
++(id<PStorageAdapter>) db {
+    return self.shared.storageAdapter;
 }
 
 +(id<PFileMessageHandler>) fileMessage {

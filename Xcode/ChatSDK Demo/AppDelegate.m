@@ -45,9 +45,9 @@
     
     [BChatSDK initialize:config app:application options:launchOptions];
 
-    UIViewController * rootViewController = [BInterfaceManager sharedManager].a.appTabBarViewController;
+    // TODO: Fix Firebase UI!!!!!!!
+    UIViewController * rootViewController = BChatSDK.ui.splashScreenNavigationController;
     
-    // Set the root view controller
     [self.window setRootViewController:rootViewController];
     
     return YES;
@@ -73,6 +73,5 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {}
 - (void)applicationWillEnterForeground:(UIApplication *)application {}
 - (void)applicationWillTerminate:(UIApplication *)application {}
-
 
 @end

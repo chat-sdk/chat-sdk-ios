@@ -346,7 +346,7 @@
             [BEntity pushUserMetaUpdated:self.model.entityID];
             
             // We only want to do this if we are logged in
-            if (BChatSDK.auth.userAuthenticated) {
+            if (BChatSDK.auth.isAuthenticated) {
                 [BChatSDK.search updateIndexForUser:self.model];
                 [promise resolveWithResult:self.model];
             }
