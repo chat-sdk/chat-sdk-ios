@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NM.moderation().on()
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = BChatSDK.ui().appTabBarViewController();
+        self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();
         self.window?.makeKeyAndVisible();
 
         return true
