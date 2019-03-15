@@ -180,7 +180,7 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   [BChatSDK initialize:config app:application options:launchOptions];
 
   // Set the root view controller
-  [self.window setRootViewController:BChatSDK.ui.appTabBarViewController];
+  [self.window setRootViewController:BChatSDK.ui.splashScreenNavigationController];
   ```
   
   Then add the following methods:
@@ -222,7 +222,7 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   BChatSDK.initialize(config, app: application, options: launchOptions)
         
   self.window = UIWindow.init(frame: UIScreen.main.bounds)
-  self.window?.rootViewController = BChatSDK.ui().appTabBarViewController();
+  self.window?.rootViewController = BChatSDK.ui()?.splashScreenNavigationController()
   self.window?.makeKeyAndVisible();
   ```
   

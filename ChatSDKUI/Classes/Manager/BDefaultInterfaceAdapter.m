@@ -97,7 +97,7 @@
     return [self navigationControllerWithRootViewController:[self friendsViewControllerWithUsersToExclude:usersToExclude onComplete:action]];
 }
 -(UIViewController *) appTabBarViewController __deprecated {
-    return [self mainViewController];
+    return [self splashScreenNavigationController];
 }
 
 -(UIViewController *) mainViewController {

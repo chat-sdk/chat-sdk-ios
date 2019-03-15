@@ -52,7 +52,7 @@
 @property (nonatomic, readwrite) UIViewController * locationViewController;
 @property (nonatomic, readwrite) UIViewController * settingsViewController;
 @property (nonatomic, readwrite) UIViewController * (^usersViewController)(id<PThread> thread, UINavigationController * parent);
-@property (nonatomic, readwrite) UIViewController * splashScreenViewController;
+@property (nonatomic, readwrite) UIViewController<PSplashScreenViewController> * splashScreenViewController;
 @property (nonatomic, readwrite) UIViewController * loginViewController;
 
 @end
