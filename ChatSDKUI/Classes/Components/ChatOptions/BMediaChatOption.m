@@ -61,14 +61,14 @@
     return title;
 }
 
-- (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID {
-    BSelectMediaAction * action =  [[BSelectMediaAction alloc] initWithType:_type viewController:viewController];
+- (RXPromise * ) execute {
+    BSelectMediaAction * action =  [[BSelectMediaAction alloc] initWithType:_type viewController:self.parent.delegate.currentViewController];
     return [action execute].thenOnMain(^id(id success) {
         if(action.videoData && action.coverImage && BChatSDK.videoMessage) {
-            return [BChatSDK.videoMessage sendMessageWithVideo:action.videoData coverImage:action.coverImage withThreadEntityID:threadEntityID];
+            return [self.parent.delegate sendVideoMessage:action.videoData withCoverImage:action.coverImage];
         }
         else if(action.photo && BChatSDK.imageMessage) {
-            return [BChatSDK.imageMessage sendMessageWithImage:action.photo withThreadEntityID:threadEntityID];
+            return [self.parent.delegate sendImageMessage:action.photo];
         }
         return Nil;
     }, Nil);

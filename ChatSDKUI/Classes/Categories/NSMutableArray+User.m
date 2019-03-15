@@ -22,7 +22,7 @@
         if ([obj2 respondsToSelector:@selector(user)]) {
             u2 = [obj2 user];
         }
-        return [u1.name compare:u2.name];
+        return [u1.name caseInsensitiveCompare:u2.name];
     }];
 }
 

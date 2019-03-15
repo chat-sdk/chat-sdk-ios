@@ -30,9 +30,8 @@ typedef enum {
     bMessagePosSingle = bMessagePosFirst | bMessagePosLast,
 } bMessagePos;
 
-#define bMessageText @"text"
+#define bMessageTextKey @"text"
 
-// We need the key here so it doesn't clash with the enum
 #define bMessageTypeKey @"type"
 
 #define bMessageImageURL @"image-url"
@@ -48,9 +47,6 @@ typedef enum {
 #define bMessageLatitude @"latitude"
 #define bMessageAudioURL @"audio-url"
 #define bMessageAudioLength @"audio-length"
-
-#define bMessageSystemType @"system-type"
-
 
 // Is the message the first, last or a middle message
 //#define bMessagePosition @"position"
@@ -136,6 +132,8 @@ typedef enum {
  */
 -(NSData *) placeholder;
 -(void) setPlaceholder: (NSData *) placeholder;
+
+- (NSURL *)thumbnailURL;
 
 - (NSInteger)imageWidth;
 

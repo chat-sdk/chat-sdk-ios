@@ -30,7 +30,22 @@
     // Set the URLs for the images and save it in CoreData
     [BChatSDK.db beginUndoGroup];
     
-    id<PMessage> message = [[[[BMessageBuilder textMessage:text] meta:meta] thread:threadID] build];
+    id<PMessage> message = [BChatSDK.db createMessageEntity];
+    
+    id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadID withType:bThreadEntity];
+    
+    message.type = @(bMessageTypeText);
+    [message setTextString:text];
+    
+    message.date = [NSDate date];
+    message.userModel = self.currentUserModel;
+    message.delivered = @NO;
+    message.read = @YES;
+    message.flagged = @NO;
+    message.meta = meta;
+    
+    [thread addMessage: message];
+    
     return [self sendMessage:message];
 }
 
@@ -106,10 +121,33 @@
 }
 
 -(void) sendLocalSystemMessageWithText:(NSString *)text type: (bSystemMessageType) type withThreadEntityID:(NSString *)threadID {
-    id<PMessage> message = [[[BMessageBuilder systemMessage:text type:type] thread:threadID] build];
-    [BHookNotification notificationMessageDidSend: message];
-}
+    
+    // Set the URLs for the images and save it in CoreData
+    id<PMessage> message = [BChatSDK.db createMessageEntity];
+    message.entityID = [BCoreUtilities getUUID];
+    
+    message.type = @(bMessageTypeSystem);
+    //message.text = text;
+    [message setTextString:text];
+    
+    id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadID withType:bThreadEntity];
 
+    message.date = [NSDate date];
+    message.userModel = self.currentUserModel;
+    message.delivered = @YES;
+    message.read = @YES;
+    message.flagged = @NO;
+    message.type = @(type);
+
+    [thread addMessage: message];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageAdded
+                                                            object:Nil
+                                                          userInfo:@{bNotificationMessageAddedKeyMessage: message}];
+    });
+    
+}
 
 -(id<PUser>) userForEntityID: (NSString *) entityID {
     // Get the user and make sure it's updated

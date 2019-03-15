@@ -26,32 +26,28 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="72.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="clE-A3-1Bc">
-                        <rect key="frame" x="11" y="14.5" width="44" height="44"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="clE-A3-1Bc">
+                        <rect key="frame" x="16" y="14.5" width="44" height="44"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="44" id="EZL-4Q-cU7"/>
                             <constraint firstAttribute="height" constant="44" id="hJf-jP-3gf"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Labely" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SDR-wu-lsl">
-                        <rect key="frame" x="72" y="26.5" width="232" height="19.5"/>
+                        <rect key="frame" x="72" y="27" width="204" height="20"/>
                         <fontDescription key="fontDescription" name="SFProText-Semibold" family="SF Pro Text" pointSize="16"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FUw-i5-1N1">
-                        <rect key="frame" x="63" y="49" width="131" height="18"/>
-                        <fontDescription key="fontDescription" name="SFProText-Bold" family="SF Pro Text" pointSize="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FUw-i5-1N1">
+                        <rect key="frame" x="77" y="49" width="131" height="18"/>
+                        <fontDescription key="fontDescription" name="SFProText-Bold" family="SF Pro Text" pointSize="10"/>
                         <color key="textColor" red="0.43030598958333333" green="0.43030598958333333" blue="0.43030598958333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Efj-wV-T2c">
-                        <rect key="frame" x="27" y="27" width="18" height="18"/>
+                        <rect key="frame" x="278" y="27" width="18" height="18"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="18" id="qg4-bx-l6w"/>
-                            <constraint firstAttribute="height" constant="18" id="quD-CP-IFo"/>
-                        </constraints>
                     </imageView>
                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcG-Cw-1Tj">
                         <rect key="frame" x="204" y="49" width="100" height="21"/>
@@ -62,18 +58,20 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="FUw-i5-1N1" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="-110" id="282-uC-Kfj"/>
-                    <constraint firstItem="SDR-wu-lsl" firstAttribute="centerY" secondItem="clE-A3-1Bc" secondAttribute="centerY" id="4jC-f9-o7f"/>
-                    <constraint firstItem="FUw-i5-1N1" firstAttribute="leading" secondItem="clE-A3-1Bc" secondAttribute="trailing" constant="8" id="8or-qk-pkT"/>
+                    <constraint firstItem="FUw-i5-1N1" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="-96" id="282-uC-Kfj"/>
+                    <constraint firstAttribute="trailing" secondItem="Efj-wV-T2c" secondAttribute="trailing" constant="24" id="2b1-u2-HxG"/>
+                    <constraint firstItem="Efj-wV-T2c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="27" id="6vQ-UZ-crM"/>
+                    <constraint firstItem="FUw-i5-1N1" firstAttribute="leading" secondItem="clE-A3-1Bc" secondAttribute="trailing" constant="17" id="8or-qk-pkT"/>
                     <constraint firstItem="clE-A3-1Bc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IGw-3Y-Rlf"/>
-                    <constraint firstItem="SDR-wu-lsl" firstAttribute="leading" secondItem="Efj-wV-T2c" secondAttribute="trailing" constant="27" id="Z1T-MQ-YSW"/>
-                    <constraint firstItem="clE-A3-1Bc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-5" id="cmt-87-fdT"/>
+                    <constraint firstItem="SDR-wu-lsl" firstAttribute="leading" secondItem="clE-A3-1Bc" secondAttribute="trailing" constant="12" id="MCj-gz-mUV"/>
+                    <constraint firstItem="SDR-wu-lsl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="27" id="OEz-lW-9Gf"/>
+                    <constraint firstAttribute="bottom" secondItem="SDR-wu-lsl" secondAttribute="bottom" constant="25.5" id="RGj-Le-qTi"/>
+                    <constraint firstItem="clE-A3-1Bc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="cmt-87-fdT"/>
+                    <constraint firstItem="Efj-wV-T2c" firstAttribute="leading" secondItem="SDR-wu-lsl" secondAttribute="trailing" constant="2" id="h5b-Jm-maL"/>
+                    <constraint firstAttribute="bottom" secondItem="Efj-wV-T2c" secondAttribute="bottom" constant="27.5" id="lFO-ck-DC8"/>
                     <constraint firstItem="FUw-i5-1N1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="38" id="maO-1r-JAS"/>
-                    <constraint firstAttribute="bottom" secondItem="Efj-wV-T2c" secondAttribute="bottom" constant="27.5" id="pom-4F-Xz3"/>
                     <constraint firstAttribute="bottomMargin" secondItem="FUw-i5-1N1" secondAttribute="bottom" constant="-5" id="q0d-df-jSY"/>
-                    <constraint firstItem="Efj-wV-T2c" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="27" id="tSP-hu-YWj"/>
-                    <constraint firstItem="Efj-wV-T2c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="27" id="vDF-bV-vEJ"/>
-                    <constraint firstAttribute="trailing" secondItem="SDR-wu-lsl" secondAttribute="trailing" constant="16" id="zuH-d2-3eF"/>
+                    <constraint firstAttribute="trailing" secondItem="SDR-wu-lsl" secondAttribute="trailing" constant="44" id="zuH-d2-3eF"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

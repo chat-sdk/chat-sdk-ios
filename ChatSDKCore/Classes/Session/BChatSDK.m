@@ -8,12 +8,6 @@
 #import "BChatSDK.h"
 #import "BConfiguration.h"
 #import <ChatSDK/Core.h>
-//#import <Hoopit/HoopItV2-Swift.h>
-//Hoopit Testing
-//#import <Hoopit_Testing/HoopItV2-Swift.h>
-
-//#import <Hoopit_Testing-Swift.h>
-//#import <Hoopit/HoopitV2-Swift.h>AppDelegate
 
 #define bRootPathKey @"chat_sdk_root_path"
 #define bDatabaseVersionKey @"chat_sdk_database_version"
@@ -108,18 +102,13 @@ static BChatSDK * instance;
 
 +(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     if(BChatSDK.push) {
-      
-       // AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//        TabbarVC *tabBar = [[TabbarVC alloc] init];
-//        [tabBar setselectedTabBar:3];
         [BChatSDK.push application:application didReceiveRemoteNotification:userInfo];
     }
 }
 
 +(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
-    
-    if(BChatSDK.push && BChatSDK.config.shouldAskForNotificationsPermission) {
+    if(BChatSDK.push) {
         [BChatSDK.push registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
     }
     if(BChatSDK.socialLogin) {
@@ -262,10 +251,6 @@ static BChatSDK * instance;
 
 +(id<PUser>) currentUser {
     return BChatSDK.core.currentUserModel;
-}
-
-+(NSString *) currentUserID {
-    return self.currentUser.entityID;
 }
 
 +(BOOL) isMe: (id<PUser>) user {

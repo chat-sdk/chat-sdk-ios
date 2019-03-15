@@ -14,6 +14,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.profileImageView.layer.cornerRadius = self.profileImageView.fh/2.0;
+    self.profileImageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.profileImageView.layer.borderWidth = 1.0;
+    self.profileImageView.clipsToBounds = YES;
 
 }
 
@@ -37,7 +41,31 @@
                                       options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
     
     self.title.text = user.name;
-    self.subtitle.text = user.statusText;
+    self.subtitle.text = @"";
+    self.statusImageView.hidden = false;
+
+    BOOL value = [[user.meta metaValueForKey:@"can_message"] boolValue];
+    if (value == false){
+        self.statusImageView.hidden = true;
+        self.subtitle.text = @"Not installed application";
+    }
+//    printf("%@", [user.meta metaStringForKey:@"can_message"]);
+//    if ([user.meta metaValueForKey:@"can_message"] == true) {
+//        self.subtitle.text = @"Available";
+//    }
+//    else{
+//        self.subtitle.text = @"Not Available";
+//    }
+//    if ((NSNumber*)[user.meta metaValueForKey:@"can_message"] == 1) {
+//        self.subtitle.text = @"Available";
+//    }
+//    else{
+//        self.subtitle.text = @"Not Available";
+//    }
+    
+
+    
+   // self.subtitle.text = user.statusText;
 
 //    if (user.online.boolValue) {
 //        [self setOnline];

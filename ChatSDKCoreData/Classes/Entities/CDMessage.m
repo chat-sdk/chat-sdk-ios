@@ -36,8 +36,38 @@
 
 #pragma Image information
 
+- (NSURL *)thumbnailURL {
+    NSString * url = self.compatibilityMeta[bMessageThumbnailURL];
+
+    // TODO: Depricated - remove this
+    if (!url) {
+        // Split up the message text then return the url of the thumbnail
+        NSArray * myArray = [self.textString componentsSeparatedByString:@","];
+        if (myArray.count > 0) {
+            url = myArray[0];
+        }
+        else {
+            return Nil;
+        }
+    }
+    
+    return [NSURL URLWithString:url];
+}
+
 - (NSURL *)imageURL {
     NSString * url = self.compatibilityMeta[bMessageImageURL];
+    
+    // TODO: Depricated - remove this
+    if (!url) {
+        // Split up the message text then return the url of the thumbnail
+        NSArray * myArray = [self.textString componentsSeparatedByString:@","];
+        if (myArray.count > 1) {
+            url = myArray[1];
+        }
+        else {
+            return Nil;
+        }
+    }
     return [NSURL URLWithString:url];
 }
 
@@ -141,11 +171,11 @@
 }
 
 -(NSString *) textString {
-    return self.json[bMessageText];
+    return self.json[bMessageTextKey];
 }
 
 -(void) setTextString: (NSString *) text {
-    [self setJson:@{bMessageText: text ? text : @""}];
+    [self setJson:@{bMessageTextKey: text ? text : @""}];
 }
 
 // This helps us know if we want to show it in the thread
@@ -153,13 +183,12 @@
     if (self.senderIsMe) {
         return NO;
     }
-
-    if ((self.thread.type.intValue & bThreadFilterPublic || self.thread.users.count > 2) && position & bMessagePosLast) {
-        return YES;
-    }
-
+    
     if (!(position & bMessagePosLast)) {
         return NO;
+    }
+    if (self.thread.type.integerValue & bThreadFilterPublic || self.thread.users.count > 2) {
+        return YES;
     }
 
     return NO;
@@ -278,8 +307,8 @@
 }
 
 -(void) updatePosition {
-    BOOL isFirst = !self.lastMessage || ![self.lastMessage.user.entityID isEqualToString: self.user.entityID];
-    BOOL isLast = !self.nextMessage || ![self.nextMessage.user.entityID isEqualToString: self.user.entityID];;
+    BOOL isFirst = !self.lastMessage || self.lastMessage.senderIsMe != self.senderIsMe;
+    BOOL isLast = !self.nextMessage || self.nextMessage.senderIsMe != self.senderIsMe;
     
     // Also check if we are the first or last message of a day
     isFirst = isFirst || [self.date isNextDay: self.lastMessage.date];

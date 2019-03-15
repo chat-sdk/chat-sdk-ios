@@ -18,7 +18,11 @@
         self.delegate = delegate;
         
         _options = BChatSDK.ui.chatOptions;
-                
+        
+        for(BChatOption * o in _options) {
+            o.parent = self;
+        }
+        
     }
     return self;
 }
@@ -35,7 +39,7 @@
         for (BChatOption * option in _options) {
             [actionSheet addButtonWithTitle:option.title];
         }
-        [actionSheet showInView:_delegate.currentViewController.view];
+        [actionSheet showInView:_delegate.view];
     }
     else {
         // TODO: hide the option button
@@ -46,7 +50,7 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex) {
         BChatOption * option = _options[buttonIndex - 1];
-        [option execute:_delegate.currentViewController threadEntityID:_delegate.threadEntityID];
+        [_delegate chatOptionActionExecuted:[option execute]];
     }
 }
 

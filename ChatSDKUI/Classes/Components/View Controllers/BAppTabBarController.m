@@ -10,6 +10,9 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import "FIRAuthAppDelegateProxy.h"
+
+@class AppDelegate;
 
 
 #define bMessagesBadgeValueKey @"bMessagesBadgeValueKey"
@@ -41,9 +44,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    __weak __typeof__(self) weakSelf = self;
-
+    
     if(!_helper) {
         _helper = [[BMainControllerLifecycleHelper alloc] init];
     }
@@ -57,14 +58,12 @@
     
     NSArray * vcs = [BChatSDK.ui tabBarNavigationViewControllers];
     self.viewControllers = vcs;
-    
+
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [self setSelectedIndex:0];
     }] withName:bHookDidLogout];
     
-    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        [weakSelf updateBadge];
-    }] withNames:@[bHookMessageRecieved]];
+    __weak __typeof__(self) weakSelf = self;
 
     // When a message is recieved we increase the messages tab number
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationBadgeUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
@@ -72,7 +71,33 @@
             [weakSelf updateBadge];
         });
     }];
-    
+    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageAdded object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf updateBadge];
+            
+            id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
+             NSLog(@"Message: %@, %@, %@, %@", messageModel.textString, messageModel.date, messageModel.userModel.name, messageModel.thread);
+            NSDictionary *dict = @{ @"message" : messageModel.textString, @"date" : messageModel.date, @"userName" : messageModel.userModel.name,@"thread" :  messageModel.thread};
+            
+            UIViewController *topMostViewControllerObj = [self topViewController];
+            
+           
+            
+            if([topMostViewControllerObj isKindOfClass:[BChatViewController class]]){
+                
+                NSString * title = [[NSUserDefaults standardUserDefaults]valueForKey:@"chatViewTitle"];
+                if(![title isEqualToString:messageModel.userModel.name]){
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"TestNotification" object:Nil userInfo:dict];
+                }
+ 
+            }else{
+                 [[NSNotificationCenter defaultCenter]postNotificationName:@"TestNotification" object:Nil userInfo:dict];
+            }
+            NSLog(@"%@", topMostViewControllerObj.navigationItem.title);
+            
+           
+        });
+    }];
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf updateBadge];
@@ -103,6 +128,7 @@
     
     NSInteger badge = [[NSUserDefaults standardUserDefaults] integerForKey:bMessagesBadgeValueKey];
     [self setPrivateThreadsBadge:badge];
+    
 }
 
 -(void) presentChatViewWithThread: (id<PThread>) thread {
@@ -216,7 +242,7 @@
     }
 }
 
--(void) setPrivateThreadsBadge: (NSInteger) badge {
+-(void) setPrivateThreadsBadge: (int) badge {
     [self setBadge:badge forViewController:BChatSDK.ui.privateThreadsViewController];
     
     // Save the value to defaults
@@ -231,5 +257,37 @@
 -(NSBundle *) uiBundle {
     return [NSBundle uiBundle];
 }
+
+
+- (UIViewController*)topViewController {
+    return [self topViewControllerWithRootViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+}
+
+- (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController {
+    if ([viewController isKindOfClass:[UITabBarController class]]) {
+        UITabBarController* tabBarController = (UITabBarController*)viewController;
+        return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
+    } else if ([viewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController* navContObj = (UINavigationController*)viewController;
+        return [self topViewControllerWithRootViewController:navContObj.visibleViewController];
+    } else if (viewController.presentedViewController && !viewController.presentedViewController.isBeingDismissed) {
+        UIViewController* presentedViewController = viewController.presentedViewController;
+        return [self topViewControllerWithRootViewController:presentedViewController];
+    }
+    else {
+        for (UIView *view in [viewController.view subviews])
+        {
+            id subViewController = [view nextResponder];
+            if ( subViewController && [subViewController isKindOfClass:[UIViewController class]])
+            {
+                if ([(UIViewController *)subViewController presentedViewController]  && ![subViewController presentedViewController].isBeingDismissed) {
+                    return [self topViewControllerWithRootViewController:[(UIViewController *)subViewController presentedViewController]];
+                }
+            }
+        }
+        return viewController;
+    }
+}
+
 
 @end

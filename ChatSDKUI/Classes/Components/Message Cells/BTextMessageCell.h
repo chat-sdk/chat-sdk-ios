@@ -17,9 +17,4 @@
 
 @property (nonatomic, readwrite) UITextView * textView;
 
-+(float) getText: (NSString *) text heightWithWidth: (float) width;
-+(float) getText: (NSString *) text heightWithFont: (UIFont *) font withWidth: (float) width;
-+(float) maxTextWidth: (id<PElmMessage>) message;
-+(float) textWidth: (NSString *) text maxWidth: (float) maxWidth;
-
 @end

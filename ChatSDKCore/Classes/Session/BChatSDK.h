@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <ChatSDK/BNetworkFacade.h>
-@class TabbarVC;
+
 @class BConfiguration;
 @class RXPromise;
 @class BBackgroundPushNotificationQueue;
@@ -75,7 +75,6 @@
 +(id<PStickerMessageHandler>) stickerMessage;
 +(id<PSocialLoginHandler>) socialLogin;
 +(id<PUser>) currentUser;
-+(NSString *) currentUserID;
 +(id) handler: (NSString *) name;
 +(id<PHookHandler>) hook;
 +(id<PUsersHandler>) users;

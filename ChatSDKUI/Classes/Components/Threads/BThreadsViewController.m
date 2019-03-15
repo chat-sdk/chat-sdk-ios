@@ -65,24 +65,28 @@
     __weak __typeof__(self) weakSelf = self;
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
-        id<PMessage> messageModel = dict[bHook_PMessage];
-        messageModel.delivered = @YES;
-        
-        // This makes the phone vibrate when we get a new message
-        
-        // Only vibrate if a message is received from a private thread
-        if (messageModel.thread.type.intValue & bThreadFilterPrivate) {
-            if (!messageModel.userModel.isMe && [BChatSDK.currentUser.threads containsObject:messageModel.thread]) {
-                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-            }
-        }
-        
-        // Move thread to top
-        [weakSelf reloadData];
-    }] withNames: @[bHookMessageWillSend, bHookMessageRecieved]]];
-
+    
+    [_notificationList add:[nc addObserverForName:bNotificationMessageAdded
+                                           object:Nil
+                                            queue:Nil
+                                       usingBlock:^(NSNotification * notification) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
+                                               messageModel.delivered = @YES;
+                                               
+                                               // This makes the phone vibrate when we get a new message
+                                               
+                                               // Only vibrate if a message is received from a private thread
+                                               if (messageModel.thread.type.intValue & bThreadFilterPrivate) {
+                                                   if (!messageModel.userModel.isMe && [BChatSDK.currentUser.threads containsObject:messageModel.thread]) {
+                                                       AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+                                                   }
+                                               }
+                                               
+                                               // Move thread to top
+                                               [weakSelf reloadData];
+                                           });
+                                       }]];
     [_notificationList add:[nc addObserverForName:bNotificationMessageRemoved
                                            object:Nil
                                             queue:Nil
@@ -100,10 +104,11 @@
                                            });
                                        }]];
     
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
         [weakSelf updateButtonStatusForInternetConnection];
-    }] withName:bHookInternetConnectivityDidChange]];
-    
+    }];
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+        
     [_notificationList add:[nc addObserverForName:bNotificationTypingStateChanged
                                            object:nil
                                             queue:Nil
@@ -147,6 +152,7 @@
 }
 
 -(void) removeObservers {
+    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
     [_notificationList dispose];
 }
 
@@ -201,24 +207,11 @@
     NSDate * threadDate = thread.orderDate;
     
     NSString * text = [NSBundle t:bNoMessages];
-    id<PUser> user = thread.users;
     
-//     PUser *threadUser = thread.creator;
-//    printf("Thread user is %s", threadUser);
-
     id<PMessage> lastMessage = thread.lazyLastMessage;
     if (lastMessage) {
         text = [NSBundle textForMessage:lastMessage];
     }
-    
-    id<PUser> userIn = lastMessage.userModel;
-    if([userIn.online isEqualToNumber:[NSNumber numberWithBool:YES]]){
-        [cell setIsOnline:true];
-    }
-    else{
-        [cell setIsOnline:false];
-    }
-  
     
     if (threadDate) {
         cell.dateLabel.text = threadDate.threadTimeAgo;
@@ -238,17 +231,24 @@
     if(BChatSDK.config.threadSubtitleFont) {
         cell.messageTextView.font = BChatSDK.config.threadSubtitleFont;
     }
+    
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
     
-    NSDictionary *userMeta = userIn.meta;
-    [cell.profileImageView sd_setImageWithURL:[userMeta valueForKey:@"pictureURLThumbnail"]];
-   // cell.profileImageView.image = [userMeta valueForKey:"pictureURLThumbnail"];//thread.imageForThread;
+    cell.profileImageView.image = thread.imageForThread;
     
     //    cell.unreadView.hidden = !thread.unreadMessageCount;
+    id<PUser> userIn = lastMessage.userModel;
+    if([userIn.online isEqualToNumber:[NSNumber numberWithBool:YES]]){
+        [cell setIsOnline:true];
+    }
+    else{
+        [cell setIsOnline:false];
+    }
     
     int unreadCount = thread.unreadMessageCount;
     cell.unreadMessagesLabel.hidden = !unreadCount;
     cell.unreadMessagesLabel.text = [@(unreadCount) stringValue];
+    
     // Add the typing indicator
     NSString * typingText = _threadTypingMessages[thread.entityID];
     if (typingText && typingText.length) {
@@ -271,8 +271,7 @@
 -(void) pushChatViewControllerWithThread: (id<PThread>) thread {
     if (thread) {
         UIViewController * vc = [BChatSDK.ui chatViewControllerWithThread:thread];
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController: vc];
-       [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:vc animated:YES];
         // Stop multiple touches opening multiple chat views
         [tableView setUserInteractionEnabled:NO];
     }
@@ -326,7 +325,6 @@
 }
 
 -(void) reloadData {
-
     [_threads sortUsingComparator:^(id<PThread>t1, id<PThread> t2) {
         return [t2.orderDate compare:t1.orderDate];
     }];

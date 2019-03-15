@@ -13,7 +13,6 @@
 
 @protocol PElmThread <NSObject>
 
--(NSString *) entityID;
 -(NSNumber *) type;
 -(NSString *) displayName;
 -(NSString *) memberListAsString;

@@ -10,17 +10,12 @@
 #define PChatOption_h
 
 @class RXPromise;
-@protocol PChatOptionsHandler;
 
 @protocol PChatOption <NSObject>
 
 -(UIImage *) icon;
 -(NSString *) title;
-
-@optional
-- (RXPromise * ) execute: (NSString *) threadEntityID;
-- (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID;
-- (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID handler: (id<PChatOptionsHandler>) handler;
+-(RXPromise *) execute;
 
 @end
 

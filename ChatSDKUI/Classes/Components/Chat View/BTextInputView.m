@@ -33,7 +33,7 @@
 -(instancetype) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-    //    self.frame = CGRectMake(0.0f, 0.0f, 375.0f, 52.0f);//CGRect(x: 0, y: 0, width: 375, height: 52)
+        
 //        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
         self.backgroundColor = [UIColor colorWithRed:242/255.0f green:242/255.0f blue:242/255.0f alpha:1.0];// [UIColor redColor];//
         
@@ -43,7 +43,7 @@
         maxCharacters = bMaxCharacters;
         
         // Set the text color
-        _placeholderColor = [UIColor colorWithRed:0.61f green:0.61f blue:0.61f alpha:1.0]; //[UIColor darkGrayColor];
+        _placeholderColor = [UIColor darkGrayColor];
         _textColor = [UIColor blackColor];
 
         // Create an options button which shows an action sheet
@@ -64,7 +64,7 @@
 
         // Add a send button
         _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [[_sendButton titleLabel] setFont:[UIFont fontWithName:@"SFProText-Semibold" size:bDefaultFontSize]];
+        [[_sendButton titleLabel] setFont:[UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize]];
         [self addSubview: _sendButton];
         
         [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
@@ -74,13 +74,13 @@
         
         NSString * sendButtonTitle = [NSBundle t:bSend];
         [_sendButton setTitle:sendButtonTitle forState:UIControlStateNormal];
+        
         [_sendButton addTarget:self action:@selector(sendButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [_sendButton addTarget:self action:@selector(sendButtonHeld) forControlEvents:UIControlEventTouchDown];
         
         // We don't want to send a message if they touch up outside the button area
         [_sendButton addTarget:self action:@selector(sendButtonCancelled) forControlEvents:UIControlEventTouchUpOutside];
         
-   //   [_textView  setTextContainerInset:UIEdgeInsetsMake(0,12, 0, 0)];
         _textView.scrollEnabled = YES;
         _textView.backgroundColor = [UIColor whiteColor];
         _textView.font =  [UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize];
@@ -93,8 +93,8 @@
             _textView.contentInset = UIEdgeInsetsMake(-6.0, -4.0, -6.0, 0.0);
         }
         else {
-            //top, left, bottom, righ
             _textView.contentInset = UIEdgeInsetsMake(-6.0, 5.0, -6.0, 0.0);
+//            _textView.contentInset = UIEdgeInsetsMake(-6.0, -1.0, -6.0, 0.0);
         }
 
         // Constrain the elements
@@ -108,22 +108,21 @@
         
         _optionsButton.translatesAutoresizingMaskIntoConstraints = NO;
         
+        _sendButton.keepRightInset.equal = bMargin;
+        _sendButton.keepVerticalCenter.equal = 0.5;
+        //    _sendButton.keepBottomInset.equal = 5;
+        //_sendButton.keepHorizontalAlignTo(_textView);
+        //_sendButton.keepCenterAlignTo(_textView);
+        
+        _sendButton.keepHeight.equal = 40;
+        _sendButton.keepWidth.equal = 48;
+        
         _textView.keepLeftOffsetTo(_optionsButton).equal = bMargin;
         _textView.keepRightOffsetTo(_sendButton).equal = bMargin;
         _textView.keepBottomInset.equal = bMargin;
         _textView.keepTopInset.equal = bMargin;
         _textView.translatesAutoresizingMaskIntoConstraints = NO;
 
-        _sendButton.keepRightInset.equal = bMargin;
-        _sendButton.keepVerticalCenter.equal = 0.5;
-        //    _sendButton.keepBottomInset.equal = 5;
-        //_sendButton.keepHorizontalAlignTo(_textView);
-        //_sendButton.keepCenterAlignTo(_textView);
-
-        _sendButton.keepHeight.equal = 40;
-        _sendButton.keepWidth.equal = 48;
-       // _sendButton.translatesAutoresizingMaskIntoConstraints = NO;
-        
         // Create a placeholder text label
         _placeholderLabel = [[UILabel alloc] init];
         [self addSubview:_placeholderLabel];
@@ -132,20 +131,19 @@
         _placeholderLabel.keepTopInset.equal = bMargin;//0;
         _placeholderLabel.keepLeftOffsetTo(_optionsButton).equal = bMargin + 14;
         _placeholderLabel.keepWidth.equal = 200;
-
         [_placeholderLabel setBackgroundColor:[UIColor clearColor]];
-        
+
         [_placeholderLabel setTextColor:_placeholderColor];
         [_placeholderLabel setText:[NSBundle t:NSLocalizedString(bWriteSomething, nil)]];
         
         [self setFont:[UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize]];
-        
+
         __weak __typeof__(self) weakSelf = self;
         _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
             __typeof__(self) strongSelf = weakSelf;
             [strongSelf updateInterfaceForReachabilityStateChange];
         }];
-        [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
+        [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
         
         [self updateInterfaceForReachabilityStateChange];
         
@@ -181,7 +179,7 @@
 
 -(void) setMicButtonEnabled: (BOOL) enabled sendButtonEnabled: (BOOL) sendButtonEnabled {
     _micButtonEnabled = enabled;
-    _sendButton.enabled = sendButtonEnabled || enabled;
+    _sendButton.enabled = sendButtonEnabled;
     if (enabled) {
         [_sendButton setTitle:Nil forState:UIControlStateNormal];
         [_sendButton setImage:[NSBundle uiImageNamed: @"icn_24_mic.png"]
@@ -192,7 +190,7 @@
         [_sendButton setImage:Nil forState:UIControlStateNormal];
     }
     if (_sendButton.enabled){
-       [_sendButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_sendButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     else{
         [_sendButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -217,11 +215,9 @@
             return;
         }
         
-        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(threadEntityID)]) {
-            NSString * newMessage = [_textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            [BChatSDK.core sendMessageWithText:newMessage withThreadEntityID:_sendBarDelegate.threadEntityID];
+        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(sendTextMessage:)]) {
+            [_sendBarDelegate sendTextMessage:_textView.text];
         }
-        
         _textView.text = @"";
         [self textViewDidChange:_textView];
     }
@@ -246,24 +242,14 @@
 
 -(void) sendAudioMessage {
     // This is where the button is released so we want to finish recording and send
-    if (_sendBarDelegate) {
+    if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(sendAudioMessage:duration:)]) {
         
         // Return the recording url and duration in an array
         NSURL * audioURL = [BAudioManager sharedManager].recorder.url;
         NSData * audioData = [NSData dataWithContentsOfURL:audioURL];
-        double duration = [BAudioManager sharedManager].recordingLength;
         
-        if (duration > 1) {
-            [BChatSDK.audioMessage sendMessageWithAudio:audioData duration:duration withThreadEntityID:_sendBarDelegate.threadEntityID];
-        }
-        else {
-            // TODO: Make the tost position above the text bar programatically
-            UIView * view = _sendBarDelegate.viewController.view;
-            [view makeToast:[NSBundle t:bHoldToSendAudioMessageError]
-                        duration:2
-                        position:[NSValue valueWithCGPoint: CGPointMake(view.frame.size.width / 2.0, view.frame.size.height - 120)]];
-            
-        }
+        [_sendBarDelegate sendAudioMessage: audioData
+                                  duration: [BAudioManager sharedManager].recordingLength];
     }
 }
 

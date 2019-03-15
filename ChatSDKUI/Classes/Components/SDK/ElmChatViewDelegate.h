@@ -49,6 +49,11 @@
 // When the user pulls down on the table view
 -(RXPromise *) loadMoreMessages;
 
+// An array of dictionaries containing dictionaries
+// @{(Class) tableViewCellClass, (NSNumber *) messageType }
+-(NSMutableArray *) customCellTypes;
+
+
 @end
 
 #endif /* ElmChatViewDelegate_h */

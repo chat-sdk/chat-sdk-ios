@@ -49,6 +49,8 @@
 -(id<PElmMessage>) lazyNextMessage;
 -(id<PElmMessage>) lazyLastMessage;
 
+
+-(NSURL *) thumbnailURL;
 -(bMessageReadStatus) readStatus;
 
 -(NSDictionary *) meta;

@@ -18,6 +18,7 @@
     NSMutableArray * _contacts;
     __strong BSearchViewController * _searchViewController;
     BNotificationObserverList * _notificationList;
+    BHook * _internetConnectionHook;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

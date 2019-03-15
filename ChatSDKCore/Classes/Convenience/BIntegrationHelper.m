@@ -39,7 +39,7 @@
     else {
         [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
             pushUser();
-        }] withName:bHookDidAuthenticate];
+        }] withName:bHookUserAuthFinished];
     }
 }
 

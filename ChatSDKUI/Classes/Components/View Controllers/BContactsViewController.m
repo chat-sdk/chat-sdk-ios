@@ -66,6 +66,7 @@
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [searchController.searchBar sizeToFit];
+    [self reloadData];
 }
 
 // This sets up the searchController properly
@@ -88,18 +89,13 @@
                                                                                  [strongSelf reloadData];
                                                                              });
                                                                          }]];
-    
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
-        __typeof__(self) strongSelf = weakSelf;
-        [strongSelf reloadData];
-    }] withNames:@[bHookContactWasAdded, bHookContactWasDeleted]]];
-    
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        __typeof__(self) strongSelf = weakSelf;
-        [strongSelf updateButtonStatusForInternetConnection];
-    }] withName:bHookInternetConnectivityDidChange]];
 
-    [self reloadData];
+    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
+        __typeof__(self) strongSelf = weakSelf;
+        [self updateButtonStatusForInternetConnection];
+    }];
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+
     // We need to call this to ensure the search controller is correctly formatted when the view is shown
     [self viewDidLayoutSubviews];
 }
@@ -108,7 +104,8 @@
     [super viewDidDisappear:animated];
     
     [_notificationList dispose];
-    
+    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+
     // This removes the active search once a user goes back to this page
     searchController.active = NO;
 }
@@ -229,24 +226,6 @@
     
     [self.navigationController pushViewController:profileView animated:YES];
     
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellEditingStyleDelete;
-}
-
-// Called when a thread is to be deleted
-- (void)tableView:(UITableView *)tableView_ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *) indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete )
-    {
-        id<PUser> user = _contacts[indexPath.row];
-        [BChatSDK.contact deleteContact:user withType:bUserConnectionTypeContact];
-    }
-}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return true;
 }
 
 -(void) reloadData {

@@ -61,5 +61,4 @@
     self.messageTextView.textColor = [UIColor lightGrayColor];
 }
 
-
 @end

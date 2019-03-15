@@ -23,7 +23,8 @@
     if (self) {
         //Changed
         self.title = [NSBundle t: NSLocalizedString(@"Chat", nil)];
-        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_chat.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed:@"chat_icon.png"];
+        self.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -4.0);
 
     }
     return self;
@@ -63,7 +64,7 @@
     
 
     __weak __typeof__(self) weakSelf = self;
-
+    
     UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:@[] onComplete:^(NSArray * users, NSString * groupName){
         __typeof__(self) strongSelf = weakSelf;
         
@@ -82,9 +83,8 @@
         }];
     }];
     
-   
+    
     [[self navigationController] pushViewController:nav.viewControllers[0] animated:true];
-   // [self presentViewController:nav animated:YES completion:Nil];
 }
 
 -(void) editButtonPressed: (UIBarButtonItem *) item {

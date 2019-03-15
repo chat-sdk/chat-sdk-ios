@@ -81,12 +81,10 @@
 #import <ChatSDK/PImageViewController.h>
 #import <ChatSDK/PLocationViewController.h>
 #import <ChatSDK/PFriendsListViewController.h>
-#import <ChatSDK/BMessageBuilder.h>
 
 #import <ChatSDK/BHook.h>
 #import <ChatSDK/PHookHandler.h>
 #import <ChatSDK/BNotificationObserverList.h>
-#import <ChatSDK/BHookNotification.h>
 
 #import <ChatSDK/BBaseContactHandler.h>
 #import <ChatSDK/BBaseImageMessageHandler.h>

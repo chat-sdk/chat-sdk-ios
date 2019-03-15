@@ -388,7 +388,7 @@ static void * kMainQueueKey = (void *) "Key1";
     NSManagedObjectContext * parent = self.privateManagedObjectContext;
     NSManagedObjectContext * background = self.backgroundManagedObjectContext;
     NSManagedObjectContext * main = self.managedObjectContext;
-
+    
     if([context isEqual:parent]) {
         NSLog(@"Parent");
     }
@@ -401,16 +401,6 @@ static void * kMainQueueKey = (void *) "Key1";
     else {
         NSLog(@"None");
     }
-    
-    id updated = notification.userInfo[@"updated"];
-    if ([updated isKindOfClass:[NSSet class]]) {
-        for (id entity in (NSSet *) updated) {
-            [self handleUpdatedEntity:entity];
-        }
-    } else {
-        [self handleUpdatedEntity:updated];
-    }
-
     
     //    if ([context isEqual:parent]) {
     //        //Collect the objectIDs of the objects that changed
@@ -449,22 +439,6 @@ static void * kMainQueueKey = (void *) "Key1";
     //        }];
     //    }
 }
-
--(void) handleUpdatedEntity: (id) updated {
-    if ([updated isKindOfClass:[CDUser class]]) {
-        CDUser * user = (CDUser *) updated;
-        NSLog(@"User: %@ %@ updated", user.entityID, user.name);
-    }
-    if ([updated isKindOfClass:[CDThread class]]) {
-        CDThread * thread = (CDThread *) updated;
-        NSLog(@"Thread: %@ updated", thread.entityID);
-    }
-    if ([updated isKindOfClass:[CDMessage class]]) {
-        CDMessage * message = (CDMessage *) updated;
-        NSLog(@"Message: %@ %@ updated", message.entityID, message.text);
-    }
-}
-
 - (void)privateQueueObjectContextDidSaveNotification:(NSNotification *)notification {
     //NSLog(@"private Q MOC has saved");
     //    [self.mainQueueObjectContext performBlock:^{

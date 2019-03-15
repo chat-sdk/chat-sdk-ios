@@ -15,6 +15,7 @@
 
 @dynamic apiKey;
 @dynamic creationDate;
+@dynamic creatorEntityID;
 @dynamic deleted_;
 @dynamic dirty;
 @dynamic entityID;
