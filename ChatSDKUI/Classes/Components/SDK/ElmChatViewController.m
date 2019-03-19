@@ -725,10 +725,9 @@
 }
 
 -(float) textInputViewBottomInset {
-    // Fix for the iPhone X
     // Move the text input up to avoid the bottom area
-    if([UIScreen mainScreen].nativeBounds.size.height == 2436) {
-        return 30;
+    if (@available(iOS 11, *)) {
+        return self.view.safeAreaInsets.bottom;
     }
     return 0;
 }
