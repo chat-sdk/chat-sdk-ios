@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.9.9"
+  s.version          = "4.9.5"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -72,7 +72,7 @@ Pod::Spec.new do |s|
 	  ui.dependency 'ChatSDKKeepLayout'
 	  ui.dependency 'Toast', '~>4.0.0'
 
-	  ui.dependency 'ChatSDK/CoreData'
+	  ui.dependency 'ChatSDK/CoreData', '~>4.9.5'
 	  
 	  ui.frameworks = 'CoreLocation'
   
@@ -87,7 +87,7 @@ Pod::Spec.new do |s|
 # 			
 # 	  ex.dependency 'SideMenu'
 # 
-# 	  ex.dependency 'ChatSDK/UI'
+# 	  ex.dependency 'ChatSDK/UI', '~>4.9.5'
 #   
 #   end
 
@@ -95,10 +95,10 @@ Pod::Spec.new do |s|
 # 
 # 	fb.source_files = ['ChatSDKFirebase/FirebaseNetworkAdapter/Classes/**/*']
 # 	
-#     fb.dependency 'Firebase/Auth'
-#     fb.dependency 'Firebase/Database'
+#     fb.dependency 'Firebase/Auth', '~>5.6.0'
+#     fb.dependency 'Firebase/Database', '~>5.6.0'
 #  
-# 	fb.dependency 'ChatSDK/Core'
+# 	fb.dependency 'ChatSDK/Core', '~>4.9.5'
 #   
 #   end
 # 
@@ -106,7 +106,7 @@ Pod::Spec.new do |s|
 # 
 # 	ffs.source_files = ['ChatSDKFirebase/FirebaseFileStorage/Classes/**/*']
 # 
-#     ffs.dependency 'Firebase/Storage'
+#     ffs.dependency 'Firebase/Storage', '~>5.6.0'
 # 	ffs.dependency 'ChatSDK/FirebaseAdapter'
 #   
 #   end
@@ -115,8 +115,8 @@ Pod::Spec.new do |s|
 # 
 # 	fp.source_files = ['ChatSDKFirebase/FirebasePush/Classes/**/*']
 # 
-#     fp.dependency 'Firebase/Messaging'
-#     fp.dependency 'Firebase/Functions'
+#     fp.dependency 'Firebase/Messaging', '~>5.6.0'
+#     fp.dependency 'Firebase/Functions', '~>5.6.0'
 # 	fp.dependency 'ChatSDK/FirebaseAdapter'
 # 
 #   end
@@ -136,7 +136,7 @@ Pod::Spec.new do |s|
 #     fsl.dependency 'FBSDKLoginKit'
 # 
 # 	fsl.dependency 'ChatSDK/FirebaseAdapter'
-# 	fsl.dependency 'ChatSDK/UI'
+# 	fsl.dependency 'ChatSDK/UI', '~>4.9.5'
 # 
 #   end
       
