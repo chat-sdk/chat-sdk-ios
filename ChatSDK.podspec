@@ -107,7 +107,7 @@ Pod::Spec.new do |s|
 # 	ffs.source_files = ['ChatSDKFirebase/FirebaseFileStorage/Classes/**/*']
 # 
 #     ffs.dependency 'Firebase/Storage', '~>5.6.0'
-# 	ffs.dependency 'ChatSDK/FirebaseAdapter', '~>4.9.3'
+# 	ffs.dependency 'ChatSDK/FirebaseAdapter', '~>4.9.0'
 #   
 #   end
 # 
@@ -117,7 +117,7 @@ Pod::Spec.new do |s|
 # 
 #     fp.dependency 'Firebase/Messaging', '~>5.6.0'
 #     fp.dependency 'Firebase/Functions', '~>5.6.0'
-# 	fp.dependency 'ChatSDK/FirebaseAdapter', '~>4.9.3'
+# 	fp.dependency 'ChatSDK/FirebaseAdapter', '~>4.9.0'
 # 
 #   end
 #   
@@ -135,7 +135,7 @@ Pod::Spec.new do |s|
 #     fsl.dependency 'GoogleSignIn'
 #     fsl.dependency 'FBSDKLoginKit'
 # 
-# 	fsl.dependency 'ChatSDK/FirebaseAdapter', '~>4.9.3'
+# 	fsl.dependency 'ChatSDK/FirebaseAdapter', '~>4.9.0'
 # 	fsl.dependency 'ChatSDK/UI', '~>4.9.5'
 # 
 #   end
