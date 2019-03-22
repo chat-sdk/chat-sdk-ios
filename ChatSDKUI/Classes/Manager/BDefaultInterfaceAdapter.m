@@ -148,7 +148,7 @@
     return [self termsOfServiceNavigationController];
 }
 
--(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread {
+-(UIViewController *) chatViewControllerWithThread: (id<PThread>) thread {
     if (_chatViewController != Nil) {
         return _chatViewController(thread);
     }
