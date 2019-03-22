@@ -14,12 +14,6 @@
 -(void) activate {
     BFirebasePushHandler * pushHandler = [[BFirebasePushHandler alloc] init];
     [BNetworkManager sharedManager].a.push = pushHandler;
-//    pushHandler.tokenRefreshed = ^{
-//        [BChatSDK.core pushUser].thenOnMain(^id(id success) {
-//            [BChatSDK.core goOnline];
-//            return Nil;
-//        }, Nil);
-//    };
 }
 
 @end

@@ -54,7 +54,10 @@
         searchController.searchBar.scopeButtonTitles = @[];
         searchController.searchBar.delegate = self;
         
-        self.navigationItem.searchController = searchController;
+        if (@available(iOS 11.0, *)) {
+            self.navigationItem.searchController = searchController;
+        }
+        
         self.definesPresentationContext = YES;
     }
     

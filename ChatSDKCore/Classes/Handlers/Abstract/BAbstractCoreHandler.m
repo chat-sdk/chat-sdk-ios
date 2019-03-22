@@ -143,7 +143,9 @@
  * @brief Mark the user as online
  */
 -(void) setUserOnline {
-    assert(NO);
+    if(BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
+        [BChatSDK.lastOnline setLastOnlineForUser:self.currentUserModel];
+    }
 }
 
 /**
@@ -159,9 +161,7 @@
  * @brief Disconnect from the server
  */
 -(void) goOnline {
-    if(BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
-        [BChatSDK.lastOnline setLastOnlineForUser:self.currentUserModel];
-    }
+    assert(NO);
 }
 
 // TODO: Consider removing / refactoring this

@@ -41,16 +41,6 @@
     // Set the subtitle
     [self updateSubtitle];
     
-    // Setup last online
-    if (_thread.type.intValue == bThreadType1to1) {
-        if(BChatSDK.lastOnline) {
-            __weak __typeof__(self) weakSelf = self;
-            [BChatSDK.lastOnline getLastOnlineForUser:_thread.otherUser].thenOnMain(^id(NSDate * date) {
-                [weakSelf setSubtitle:date.lastSeenTimeAgo];
-                return Nil;
-            }, Nil);
-        }
-    }
     
     [super setAudioEnabled: BChatSDK.audioMessage != Nil];
 }
@@ -63,6 +53,17 @@
     
     if (_thread.type.intValue & bThreadFilterGroup) {
         [self setSubtitle:_thread.memberListString];
+    } else {
+        // 1-to-1 Chat
+        if (_thread.otherUser.online.boolValue) {
+            [self setSubtitle:[NSBundle t: bOnline]];
+        } else if(BChatSDK.lastOnline) {
+            __weak __typeof__(self) weakSelf = self;
+            [BChatSDK.lastOnline getLastOnlineForUser:_thread.otherUser].thenOnMain(^id(NSDate * date) {
+                [weakSelf setSubtitle:date.lastSeenTimeAgo];
+                return Nil;
+            }, Nil);
+        }
     }
 }
 
@@ -112,8 +113,9 @@
                                                                   usingBlock:^(NSNotification * notification) {
                                                                       dispatch_async(dispatch_get_main_queue(), ^{
                                                                           id<PUser> user = notification.userInfo[bNotificationUserUpdated_PUser];
-                                                                          if (user && [_thread.users containsObject:user]) {
+                                                                          if (user && [weakSelf.thread.users containsObject:user]) {
                                                                               [weakSelf updateMessages];
+                                                                              [weakSelf updateSubtitle];
                                                                           }
                                                                       });
     }]];
@@ -124,7 +126,7 @@
                                                                     usingBlock:^(NSNotification * notification) {
                                                                         dispatch_async(dispatch_get_main_queue(), ^{
                                                                             id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
-                                                                            if ([thread isEqual: _thread]) {
+                                                                            if ([thread isEqual: weakSelf.thread]) {
                                                                                 [weakSelf startTypingWithMessage:notification.userInfo[bNotificationTypingStateChangedKeyMessage]];
                                                                             }
                                                                         });

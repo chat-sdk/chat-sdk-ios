@@ -37,9 +37,8 @@
 -(void) subscribeToPushChannel: (NSString *) channel;
 -(void) unsubscribeFromPushChannel: (NSString *) channel;
 
-//-(void) pushToChannels: (NSArray *) channels withData:(NSDictionary *) data;
--(void) pushForMessage: (id<PMessage>) message;
-//-(void) pushToUsers: (NSArray *) users withData: (NSDictionary *) data;
+-(NSDictionary *) pushDataForMessage: (id<PMessage>) message;
+-(void) sendPushNotification: (NSDictionary *) data;
 
 @end
 

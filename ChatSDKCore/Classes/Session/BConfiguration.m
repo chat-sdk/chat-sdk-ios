@@ -78,6 +78,7 @@
 
 @synthesize nearbyUserDistanceBands;
 @synthesize publicChatRoomLifetimeMinutes;
+@synthesize nearbyUsersMinimumLocationChangeToUpdateServer;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -176,6 +177,7 @@
         _termsOfServiceURL = @"https://chatsdk.co/terms-and-conditions";
         
         nearbyUserDistanceBands = @[@1000, @5000, @10000, @50000];
+        nearbyUsersMinimumLocationChangeToUpdateServer = 50;
         
         publicChatRoomLifetimeMinutes = 7 * 60 * 24;
         

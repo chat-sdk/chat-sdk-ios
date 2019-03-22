@@ -10,7 +10,6 @@
 
 #import <ChatSDKFirebase/BFirebasePushHandler.h>
 #import <ChatSDKFirebase/BFirebasePushModule.h>
-#import <ChatSDKFirebase/BLocalNotificationDelegate.h>
 #import <ChatSDKFirebase/FirebaseAdapter.h>
 #import <ChatSDK/Core.h>
 

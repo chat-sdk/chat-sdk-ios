@@ -156,7 +156,9 @@
     [super viewDidLoad];
     
     // Large titles will interfere with the custom navigation bar
-    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+    if (@available(iOS 11.0, *)) {
+        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+    }
     
     // Keep the table header at the top
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {

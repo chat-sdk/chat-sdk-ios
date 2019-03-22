@@ -29,6 +29,7 @@
 #import <ChatSDK/PNetworkAdapter.h>
 #import <ChatSDK/BAbstractNetworkAdapter.h>
 #import <ChatSDK/BBaseHookHandler.h>
+#import <ChatSDK/BAbstractPushHandler.h>
 
 #import <ChatSDK/BCoreUtilities.h>
 #import <ChatSDK/BFileCache.h>
@@ -47,6 +48,7 @@
 #import <ChatSDK/PModule.h>
 #import <ChatSDK/PInterfaceAdapter.h>
 #import <ChatSDK/BBaseInternetConnectivityHandler.h>
+#import <ChatSDK/BLocalNotificationDelegate.h>
 
 #import <ChatSDK/PElmMessage.h>
 #import <ChatSDK/PElmThread.h>

@@ -21,6 +21,7 @@
 }
 
 -(void) setUserOnline {
+    [super setUserOnline];
     id<PUser> user = self.currentUserModel;
     if(!user || !user.entityID) {
         return;
@@ -36,7 +37,6 @@
     [[CCUserWrapper userWithModel:user] goOffline];
 }
 -(void) goOnline {
-    [super goOnline];
     [FIRDatabaseReference goOnline];
     if (self.currentUserModel) {
         [self setUserOnline];
@@ -65,7 +65,7 @@
         CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
         
         return [thread push].thenOnMain(^id(id<PThread> thread) {
-            
+                        
             // Add the users to the thread
             if (threadCreated != Nil) {
                 threadCreated(Nil, thread);
@@ -147,7 +147,8 @@
     return [[CCMessageWrapper messageWithModel:messageModel] send].thenOnMain(^id(id success) {
         
         // Send a push notification for the message
-        [BChatSDK.push pushForMessage:messageModel];
+        NSDictionary * pushData = [BChatSDK.push pushDataForMessage:messageModel];
+        [BChatSDK.push sendPushNotification:pushData];
         
         [BHookNotification notificationMessageDidSend:messageModel];
         return success;
