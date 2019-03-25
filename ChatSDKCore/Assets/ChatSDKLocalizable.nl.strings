@@ -1,0 +1,186 @@
+/* 
+  localizable.strings
+  Chat SDK
+
+  Created by Pepe Becker on 02/02/2019.
+  Copyright © 2019 Pepe Becker. All rights reserved.
+*/
+
+"bLogout" = "Uitloggen";
+"bSettings" = "Instellingen";
+"bLogginIn" = "Inloggen";
+"bProfile" = "Profiel";
+"bProfilePictures" = "Profielfoto's";
+"bAddPicture" = "Een afbeelding toevoegen";
+"bDeletePicture" = "De afbeelding verwijderen";
+"bSetAsDefaultPicture" = "Als standaard instellen";
+"bDeleteLastPictureWarning" = "Voor je je laatste foto verwijdert moet je een nieuwe profielfoto toevoegen.";
+"bLoggingOut" = "Uitloggen";
+"bErrorTitle" = "Foutje";
+"bUserCreatedError" = "De gebruiker kon niet aangemaakt worden";
+"bContacts" = "Contacten";
+"bConversations" = "Gesprekken";
+"bBroadcast" = "Uitzendingen";
+"bThreadCreationError" = "Dit gesprek aanmaken is mislukt";
+"bChatRooms" = "Gespreksruimten";
+"bPickFriends" = "Gebruikers kiezen";
+"bReset" = "Opnieuw instellen";
+"bLogin" = "Log in";
+"bRegister" = "Registreren";
+"bPassword" = "Paswoord";
+"bForgotPassword" = "Je paswoord opnieuw instellen";
+"bEnterCredentialToResetPassword" = "Geef je e-mail om je paswoord te vernieuwen";
+"bPasswordResetSuccess" = "Je paswoord vernieuwen is gelukt";
+
+"bBack" = "Terug";
+"bOpenInMaps" = "Openen in Maps";
+"bImageSaved" = "De afbeelding is opgeslagen";
+"bLocation" = "Plaatsbepaling";
+"bCompose" = "Opstellen";
+"bLoadingFriends" = "Bezig met je vrienden op te halen";
+"bLoading" = "Bezig met laden";
+"bErrorLoadingFriends" = "Je vrienden gaven niet thuis";
+"bInvalidSelection" = "Dit kun je niet kiezen";
+"bSelectAtLeastOneFriend" = "Kies tenminste één vriend";
+"bFacebook" = "Facebook";
+"bFriendsOnChatSDK" = "Facebook-vrienden";
+"bInviteFriendsFromFacebook" = "Nodig mensen uit";
+"bFriendsAdded_i" = "Aantal toegevoegde gebruikers: %i";
+"bErrorAddingUser_s" = "Ik krijg die %@ niet toegevoegd";
+"bSuccess" = "Succes";
+"bAdded" = "Toegevoegd";
+"bAdd" = "Toevoegen";
+"bCreatingThread" = "Bezig met het aanmaken van het gesprek";
+"bLogoutErrorTitle" = "'t Ging fout met de logout.";
+"bAuthenticating" = "Bezig met de authentificatie";
+"bOpen" = "Openen";
+
+"bFlagged" = "Gemarkeerd";
+"bFlag" = "Markering";
+"bDelete" = "Verwijderen";
+"bUnflag" = "Markering verwijderen";
+
+"bSearch" = "Zoeken";
+"bSearching" = "Aan het zoeken";
+"bAddUsers" = "Gebruikers toevoegen";
+"bNoNearbyUsers" = "Niemand in de buurt";
+
+"bOnline" = "Online";
+"bOffline" = "Offline";
+
+"bCreatePublicThread" = "Publiek gesprek aanmaken";
+"bThreadName" = "Gespreksnaam";
+"bThread" = "Gesprek";
+"bCancel" = "Annuleer";
+"bOk" = "Oké";
+"bUnableToCreateThread" = "Het lukt me niet dit gesprek aan te maken";
+"bChat" = "Chat";
+"bOptions" = "Opties";
+"bChooseExistingPhoto" = "Kies een bestaande foto";
+"bTakePhoto" = "Neem een foto";
+"bTakeVideo" = "Maak een video";
+"bTakePhotoOrVideo" = "Neem een foto of maak een video";
+"bChooseExistingPhoto" = "Kies een bestaande foto";
+"bChooseExistingVideo" = "Kies een bestaande video";
+"bCurrentLocation" = "Huidige locatie";
+"bSend" = "Versturen";
+"bReply" = "Antwoorden";
+"bRec" = "Opnemen";
+"bWriteSomething" = "Schrijf iets...";
+"bSlideToCancel" = "Vegen om te annuleren...";
+"bName" = "Naam";
+"bTapHereForContactInfo" = "Tik voor meer contactinformatie";
+"bPhoneNumber" = "Telefoonnummer";
+"bEmail" = "E-mail";
+"bDetails" = "Details";
+"bAddParticipant" = "Voeg een deelnemer toe";
+"bLeaveConversation" = "Verlaat dit gesprek";
+"bRejoinConversation" = "Keer terug naar dit gesprek";
+"bParticipants" = "Deelnemers";
+"bActiveParticipants" = "Actieve deelnemers";
+"bNoActiveParticipants" = "Niemand actief";
+"bDone" = "Klaar";
+"bEdit" = "Aanpassen";
+"bNoMessages" = "Geen berichten...";
+"bGroupName" = "Groepsnaam";
+"bLastSeen_at_" = "Laatst gezien op %@ om %@";
+"b_at_" = "%@ om %@";
+"bToday" = "Vandaag";
+"bYesterday" = "Gisteren";
+
+"bSearchTerm" = "Zoekterm";
+
+"bTo" = "Aan";
+"bEnterNamesHere" = "Naam hier invullen";
+"bSearchedContacts" = "Gezochte contacten";
+"bNearbyContacts" = "Contacten in de buurt";
+
+"bTyping" = "Bezig met schrijven...";
+"bRefreshingUsers" = "Gebruikers bijwerken...";
+
+"bSelectYourSearch" = "Kies je opzoeking";
+"bPhonebook" = "Telefoonboek";
+"bSearchWithName" = "Zoeken volgens naam";
+"bWarning" = "Waarschuwing";
+"bYouMustEnableContactPermissionsToUseThisFunctionalityEnableInTheSettingsApp" = "Je moet toelating voor je contacten geven. Dit kun je doen bij Instellingen.";
+
+"bTermsAndConditions" = "Gebruiksvoorwaarden";
+"bNoNewUsersFoundForThisSearch" = "Geen nieuwe gebruikers gevonden voor deze opzoeking";
+
+"bDefaultThreadName" = "Gesprek";
+"bHoldToSendAudioMessageError" = "Ingedrukt houden om een audiobericht op te nemen dat langer is dan 1 seconde, anders werkt het niet ";
+"bRecording" = "Bezig met de opname";
+"bSecondsRemaining_" = "Resterende seconden %i";
+"bCancelled" = "Geanulleerd";
+
+"bAudioLengthLimitReached" = "Limiet van je audiobericht bereikt";
+"bSendOrDiscardRecording" = "Opname versturen of annuleren";
+
+"bAddFriend" = "Een vriend toevoegen";
+"bRemoveFriend" = "Een 'vriend' verwijderen";
+
+"bBlock" = "Blokkeren";
+"bUnblock" = "Deblokkeren";
+
+"bSave" = "Opslaan";
+"bSaving" = "Aan het opslaan";
+
+"b_Ago" = "%@ geleden";
+
+"b_LeftTheGroup" = "%@ is ons beu en is weg uit de groep";
+"b_JoinedTheGroup" = "%@ is lid geworden van onze groep";
+"bCreateGroup" = "Maak een groep";
+"bYouLeftTheGroup" = "Je bent ze beu en nu ben je weg";
+"bYouJoinedTheGroup" = "Je bent lid geworden van de groep";
+"bRejoinGroup" = "Toch maar terug lid worden";
+
+"bDeleteContact" = "Contact verwijderen";
+"bDeleteContactMessage" = "Ben je zeker dat je dit gesprek wil verwijderen?";
+
+"bLocation" = "Plaatsbepaling";
+"bCamera" = "Camera";
+"bChoosePhoto" = "Choose Photo";
+"bChooseVideo" = "Kies een video";
+"bSticker" = "Sticker";
+
+"bImageMessagesNotSupported" = "Afbeeldingsberichten versturen doe ik niet";
+"bAudioMessagesNotSupported" = "Audioberichten? Kan ik niet";
+"bStickerMessagesNotSupported" = "Berichten met stickers? Ik staak";
+"bLocationMessagesNotSupported" = "Berichten over locaties versturen is niks voor mij";
+"bVideoMessagesNotSupported" = "Ik werk niet met videoberichten";
+
+"bRefreshingUsers" = "Eens kijken of er iets nieuws binnenloopt";
+"bInviteContact" = "Nodig een contact uit";
+"bInviteByEmail" = "E-mail";
+"bInviteBySMS" = "SMS";
+
+"bImageMessage" = "Afbeelding";
+"bLocationMessage" = "Plaatsbepaling";
+"bAudioMessage" = "Audio-opname";
+"bVideoMessage" = "Video-opname";
+"bStickerMessage" = "Sticker";
+"bFileMessage" = "Bestand";
+"bPhoto" = "Foto";
+"bFile" = "Bestand";
+
+"" = "";
