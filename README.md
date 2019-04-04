@@ -1,3 +1,9 @@
+# Website down - Important
+
+Our web host recently migrated our site to new hardware without telling us in advance and in the process caused a lot of issues. Currently the site **isn't accessible** our **email server was down from the 30th**. We are working hard to resolve this and it should be fixed in the next 24 - 48 hours. In the meantime if you sent us an email in the last 5 days can you please resend it to [team@sdk.chat](mailto:team@sdk.chat).
+
+If you have any sales enquires or need to access the latest versions of any modules you have purchased you can contact us directly.
+
 # Chat SDK
 ### Open Source Messaging framework for iOS
 
@@ -103,7 +109,7 @@ We're very excited about the project and we're looking for other people to get i
 + Write a tutorial - **we pay $100** for quality tutorials
 
 If you're interested please review the [Contributing
-Document](https://github.com/chat-sdk/chat-sdk-ios/blob/master/CONTRIBUTING.md) for details of our development flow and the CLA then email me at [**team@chatsdk.co**](mailto:team@chatsdk.co).
+Document](https://github.com/chat-sdk/chat-sdk-ios/blob/master/CONTRIBUTING.md) for details of our development flow and the CLA then email me at [**team@sdk.chat**](mailto:team@sdk.chat).
 
 ## Apps that use Chat SDK
 
@@ -121,7 +127,7 @@ We provide extensive documentation on Github but if you’re a non-technical use
 
 ##### Consulting services
 
-We are specialists in real-time application development including: Firebase, Firestore, XMPP and WebRTC for iOS and Android. If you need help integrating the Chat SDK with your app or another app development project email us at [team@chatsdk.co](mailto: team@chatsdk.co). 
+We are specialists in real-time application development including: Firebase, Firestore, XMPP and WebRTC for iOS and Android. If you need help integrating the Chat SDK with your app or another app development project email us at [team@sdk.chat](mailto: team@sdk.chat). 
 
 ## Running the demo project
 This repository contains a fully functional version of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 

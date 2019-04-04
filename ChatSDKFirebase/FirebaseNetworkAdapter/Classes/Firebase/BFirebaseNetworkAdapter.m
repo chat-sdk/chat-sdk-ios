@@ -27,6 +27,8 @@
             else {
                 [FIRApp configure];
             }
+            
+        
         }
         
         self.core = [[BFirebaseCoreHandler alloc] init];

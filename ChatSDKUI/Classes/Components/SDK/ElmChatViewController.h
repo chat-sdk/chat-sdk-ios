@@ -57,6 +57,7 @@
     BNotificationObserverList * _notificationList;
     
     BOOL _observersAdded;
+    BOOL _keyboardVisible;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView * tableView;

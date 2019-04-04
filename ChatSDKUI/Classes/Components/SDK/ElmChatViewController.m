@@ -268,6 +268,11 @@
 
 -(void) viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+
+    // Make sure the bottom inset is correct
+    if (!_keyboardVisible) {
+        _sendBarView.keepBottomInset.equal = [self textInputViewBottomInset];
+    }
 }
 
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
@@ -640,6 +645,8 @@
 // Move the toolbar up
 -(void) keyboardWillShow: (NSNotification *) notification {
     
+    _keyboardVisible = YES;
+    
     // Get the keyboard size
     CGRect keyboardBounds = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect keyboardBoundsConverted = [self.view convertRect:keyboardBounds toView:Nil];
@@ -739,6 +746,7 @@
     // the toolbar again
     tableView.keepBottomOffsetTo(_sendBarView).equal = -_sendBarView.fh;
     [_keyboardOverlay removeFromSuperview];
+    _keyboardVisible = NO;
 
 }
 
