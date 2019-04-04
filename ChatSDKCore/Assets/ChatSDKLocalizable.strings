@@ -25,7 +25,10 @@
 "bChatRooms" = "Chat Rooms";
 "bPickFriends" = "Pick Friends";
 "bReset" = "Reset";
-"bForgotPassword" = "Reset";
+"bLogin" = "Login";
+"bRegister" = "Register";
+"bPassword" = "Password";
+"bForgotPassword" = "Forgot password";
 "bEnterCredentialToResetPassword" = "Enter email to reset password";
 "bPasswordResetSuccess" = "Your password reset has been successful";
 
