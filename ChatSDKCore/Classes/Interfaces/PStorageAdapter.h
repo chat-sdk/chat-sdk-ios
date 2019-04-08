@@ -1,13 +1,13 @@
 //
-//  BStorageAdapter.h
+//  PStorageAdapter.h
 //  Pods
 //
 //  Created by Benjamin Smiley-andrews on 25/11/2015.
 //
 //
 
-#ifndef BStorageAdapter_h
-#define BStorageAdapter_h
+#ifndef PStorageAdapter_h
+#define PStorageAdapter_h
 
 #import "PMessage.h"
 #import "PThread_.h"
@@ -29,7 +29,7 @@ typedef enum {
     bQueueTypeBackground,
 } bQueueType;
 
-@protocol BStorageAdapter <NSObject>
+@protocol PStorageAdapter <NSObject>
 
 -(NSArray *) fetchEntitiesWithName: (NSString *) entityName withPredicate: (NSPredicate *) predicate;
 -(NSArray *) fetchEntitiesWithName: (NSString *) entityName;
@@ -70,4 +70,4 @@ typedef enum {
 
 @end
 
-#endif /* BStorageAdapter_h */
+#endif /* PStorageAdapter_h */

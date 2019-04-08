@@ -176,6 +176,10 @@
 #define bVideoMessage @"bVideoMessage"
 #define bStickerMessage @"bStickerMessage"
 #define bFileMessage @"bFileMessage"
+#define bProfilePictures @"bProfilePictures"
+#define bDeletePicture @"bDeletePicture"
+#define bSetAsDefaultPicture @"bSetAsDefaultPicture"
+#define bDeleteLastPictureWarning @"bDeleteLastPictureWarning"
 
 @protocol PMessage;
 

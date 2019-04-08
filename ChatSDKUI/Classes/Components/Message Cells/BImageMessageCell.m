@@ -57,7 +57,7 @@
         placeholder = [NSBundle uiImageNamed:bDefaultPlaceholderImage];
     }
         
-    [imageView sd_setImageWithURL:message.thumbnailURL
+    [imageView sd_setImageWithURL:message.imageURL
                  placeholderImage:placeholder
                           options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages
                         completed:nil];
@@ -65,6 +65,23 @@
 
 -(UIView *) cellContentView {
     return imageView;
+}
+
+#pragma Cell sizing static methods
+
++(NSNumber *) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
+    if (message.imageHeight > 0 && message.imageWidth > 0) {
+        
+        // We want the height to be less than the max height and more than the min height
+        // First check if the calculated height is bigger than the max height, we take the smaller of these
+        // Next we take the max of this value and the min value, this ensures the image is at least the min height
+        return @(MAX(bMinMessageHeight, MIN([self messageContentWidth:message maxWidth:maxWidth].intValue * message.imageHeight / message.imageWidth, bMaxMessageHeight)));
+    }
+    return @(0);
+}
+
++(NSValue *) messageBubblePadding: (id<PElmMessage>) message {
+    return [NSValue valueWithUIEdgeInsets:UIEdgeInsetsMake(3.0, 3.0, 3.0, 3.0)];
 }
 
 @end

@@ -17,18 +17,15 @@
 #define bTypingTimeout 5.0
 #define bLocationDefaultArea 1000
 
-//Change
-#define bDefaultMessageColorMe @"735DF9" //@"abcff4"
-#define bDefaultMessageColorReply @"F2F2F2"//@"d7d4d3"
+#define bDefaultMessageColorMe @"abcff4"
+#define bDefaultMessageColorReply @"d7d4d3"
 
 #define bDefaultProfileImage @"icn_100_anonymous.png"
 #define bDefaultPublicGroupImage @"icn_100_anonymous_group.png"
 #define bDefaultPlaceholderImage @"icn_300_placeholder.png"
 
-#define bDefaultFontSize 16
+#define bDefaultFontSize 17
 #define bDefaultUserNameLabelSize 14
-#define bSmallUserNameLabelSize 11
-
 #define bDefaultTextColor @"000000"
 
 #endif /* BCoreDefines_h */

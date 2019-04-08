@@ -71,25 +71,9 @@
 }
 
 -(void) registerMessageCells {
-    
-    // Default message types
-    
-    [self.tableView registerClass:[BTextMessageCell class] forCellReuseIdentifier:@(bMessageTypeText).stringValue];
-    [self.tableView registerClass:[BImageMessageCell class] forCellReuseIdentifier:@(bMessageTypeImage).stringValue];
-    [self.tableView registerClass:[BLocationCell class] forCellReuseIdentifier:@(bMessageTypeLocation).stringValue];
-    [self.tableView registerClass:[BSystemMessageCell class] forCellReuseIdentifier:@(bMessageTypeSystem).stringValue];
-    
-    // Some optional message types
-    if ([delegate respondsToSelector:@selector(customCellTypes)]) {
-        for (NSArray * cell in delegate.customCellTypes) {
-            [self.tableView registerClass:cell.firstObject forCellReuseIdentifier:[cell.lastObject stringValue]];
-        }
-    }
-    
-    for(NSArray * cell in BChatSDK.ui.customMessageCellTypes) {
+    for(NSArray * cell in BChatSDK.ui.messageCellTypes) {
         [self.tableView registerClass:cell.firstObject forCellReuseIdentifier:[cell.lastObject stringValue]];
     }
-    
 }
 
 // The naivgation bar has three functions
@@ -431,8 +415,8 @@
         __typeof__(self) strongSelf = weakSelf;
         [strongSelf updateInterfaceForReachabilityStateChange];
     }];
-    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
-    
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
+
     // Observe for keyboard appear and disappear notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:Nil];
@@ -443,8 +427,8 @@
 -(void) removeObservers {
     [_notificationList dispose];
     
-    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
-    
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
+
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:Nil];
@@ -469,7 +453,7 @@
 - (CGFloat)tableView:(UITableView *)tableView_ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
     if(message) {
-        return [BMessageCell cellHeight:message maxWidth:[BMessageCell maxTextWidth:message]];
+        return [BMessageCell cellHeight:message];
     }
     else {
         return 0;
@@ -487,12 +471,12 @@
         if (!_imageViewNavigationController) {
             _imageViewNavigationController = [BChatSDK.ui imageViewNavigationController];
         }
-
+        
         // TODO: Refactor this to use the JSON keys
         url = cell.message.imageURL;
         // Only allow the user to click if the image is not still loading hence the alpha is 1
         if (cell.imageView.alpha == 1 && url) {
-
+            
             [cell showActivityIndicator];
             cell.imageView.alpha = 0.75;
             
@@ -517,17 +501,17 @@
         float latitude = [[cell.message compatibilityMeta][bMessageLatitude] floatValue];
         
         [((id<PLocationViewController>) _locationViewNavigationController.topViewController) setLatitude:latitude longitude:longitude];
-
+        
         [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
     }
     
     if(BChatSDK.videoMessage && [cell isKindOfClass:BChatSDK.videoMessage.cellClass]) {
-            
+        
         // Only allow the user to click if the image is not still loading hence the alpha is 1
         if (cell.imageView.alpha == 1) {
             
             NSURL * url = [NSURL URLWithString:cell.message.compatibilityMeta[bMessageVideoURL]];
-                        
+            
             // Add an activity indicator while the image is loading
             UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             activityIndicator.frame = CGRectMake(cell.imageView.fw/2 - 20, cell.imageView.fh/2 -20, 40, 40);
@@ -548,10 +532,10 @@
             
         }
     }
-
+    
     if (BChatSDK.fileMessage && [cell isKindOfClass:BChatSDK.fileMessage.cellClass]) {
         NSDictionary * file = cell.message.compatibilityMeta;
-
+        
         if (![BFileCache isFileCached:cell.message.entityID]) {
             [cell.imageView setImage:[NSBundle imageNamed:@"file.png" bundle:BChatSDK.fileMessage.bundle]];
         }
@@ -559,7 +543,7 @@
         [cell showActivityIndicator];
         
         NSURL * url = [NSURL URLWithString:file[bMessageFileURL]];
-        [BFileCache cacheFileFromURL:url withFileName:file[bMessageTextKey] andCacheName:cell.message.entityID]
+        [BFileCache cacheFileFromURL:url withFileName:file[bMessageText] andCacheName:cell.message.entityID]
         .thenOnMain(^id(NSURL * cacheUrl) {
             NSLog(@"Cache URL: %@", [cacheUrl absoluteString]);
             [cell setMessage:cell.message];

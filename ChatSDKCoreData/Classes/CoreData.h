@@ -11,7 +11,7 @@
 
 #define bCoreDataBundle @"Frameworks/ChatSDK.framework/ChatCoreData"
 
-#import <ChatSDK/BCoreDataManager.h>
+#import <ChatSDK/BCoreDataStorageAdapter.h>
 #import <ChatSDK/CDUser.h>
 #import <ChatSDK/CDThread.h>
 #import <ChatSDK/CDMessage.h>

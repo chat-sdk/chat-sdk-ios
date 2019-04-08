@@ -30,6 +30,10 @@
 @synthesize placeholderLabel = _placeholderLabel;
 
 
+- (double)extracted {
+    return bMargin;
+}
+
 -(instancetype) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -89,13 +93,13 @@
         
         // Adjust the insets to make the text closer to the outside of the
         // box - ios6 is slightly different from ios7
-        if ([UIDevice currentDevice].systemVersion.intValue < 7) {
-            _textView.contentInset = UIEdgeInsetsMake(-6.0, -4.0, -6.0, 0.0);
-        }
-        else {
-            _textView.contentInset = UIEdgeInsetsMake(-6.0, 5.0, -6.0, 0.0);
-//            _textView.contentInset = UIEdgeInsetsMake(-6.0, -1.0, -6.0, 0.0);
-        }
+//        if ([UIDevice currentDevice].systemVersion.intValue < 7) {
+//            _textView.contentInset = UIEdgeInsetsMake(-6.0, -4.0, -6.0, 0.0);
+//        }
+//        else {
+//            _textView.contentInset = UIEdgeInsetsMake(-6.0, 5.0, -6.0, 0.0);
+//           // _textView.contentInset = UIEdgeInsetsMake(-6.0, -1.0, -6.0, 0.0);
+//        }
 
         // Constrain the elements
         _optionsButton.keepLeftInset.equal = bMargin +keepRequired;
@@ -117,19 +121,20 @@
         _sendButton.keepHeight.equal = 40;
         _sendButton.keepWidth.equal = 48;
         
-        _textView.keepLeftOffsetTo(_optionsButton).equal = bMargin;
+        _textView.keepLeftOffsetTo(_optionsButton).equal = [self extracted];
         _textView.keepRightOffsetTo(_sendButton).equal = bMargin;
         _textView.keepBottomInset.equal = bMargin;
         _textView.keepTopInset.equal = bMargin;
         _textView.translatesAutoresizingMaskIntoConstraints = NO;
+        //_textView.text = [NSBundle t:NSLocalizedString(bWriteSomething, nil)];
 
         // Create a placeholder text label
         _placeholderLabel = [[UILabel alloc] init];
         [self addSubview:_placeholderLabel];
-        
+
         _placeholderLabel.keepBottomInset.equal = bMargin;//0;
         _placeholderLabel.keepTopInset.equal = bMargin;//0;
-        _placeholderLabel.keepLeftOffsetTo(_optionsButton).equal = bMargin + 14;
+        _placeholderLabel.keepLeftOffsetTo(_optionsButton).equal = bMargin + 4; //bMargin + 14;
         _placeholderLabel.keepWidth.equal = 200;
         [_placeholderLabel setBackgroundColor:[UIColor clearColor]];
 
@@ -143,8 +148,8 @@
             __typeof__(self) strongSelf = weakSelf;
             [strongSelf updateInterfaceForReachabilityStateChange];
         }];
-        [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
-        
+        [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
+
         [self updateInterfaceForReachabilityStateChange];
         
         UIView * topMarginView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -215,8 +220,9 @@
             return;
         }
         
-        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(sendTextMessage:)]) {
-            [_sendBarDelegate sendTextMessage:_textView.text];
+        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(threadEntityID)]) {
+            NSString * newMessage = [_textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            [BChatSDK.core sendMessageWithText:newMessage withThreadEntityID:_sendBarDelegate.threadEntityID];
         }
         _textView.text = @"";
         [self textViewDidChange:_textView];
@@ -242,14 +248,24 @@
 
 -(void) sendAudioMessage {
     // This is where the button is released so we want to finish recording and send
-    if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(sendAudioMessage:duration:)]) {
+    if (_sendBarDelegate) {
         
         // Return the recording url and duration in an array
         NSURL * audioURL = [BAudioManager sharedManager].recorder.url;
         NSData * audioData = [NSData dataWithContentsOfURL:audioURL];
+        double duration = [BAudioManager sharedManager].recordingLength;
         
-        [_sendBarDelegate sendAudioMessage: audioData
-                                  duration: [BAudioManager sharedManager].recordingLength];
+        if (duration > 1) {
+            [BChatSDK.audioMessage sendMessageWithAudio:audioData duration:duration withThreadEntityID:_sendBarDelegate.threadEntityID];
+        }
+        else {
+            // TODO: Make the tost position above the text bar programatically
+            UIView * view = _sendBarDelegate.viewController.view;
+            [view makeToast:[NSBundle t:bHoldToSendAudioMessageError]
+                   duration:2
+                   position:[NSValue valueWithCGPoint: CGPointMake(view.frame.size.width / 2.0, view.frame.size.height - 120)]];
+            
+        }
     }
 }
 
@@ -361,6 +377,14 @@
                                    context:Nil].size.height;
 }
 
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView {
+    _placeholderLabel.hidden = ![textView.text isEqualToString:@""];
+    return true;
+}
+
+
+
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
     // Typing Indicator
@@ -394,7 +418,7 @@
     else {
         [self setMicButtonEnabled:YES];
     }
-    
+   
     
     [self resizeToolbar];
 
@@ -404,11 +428,19 @@
 
 -(void) resizeToolbar {
     
+    
     float originalHeight = self.keepHeight.equal;
     
 //    float newHeight = MAX(_textView.contentSize.height, _textView.font.lineHeight);//[self getTextBoxTextHeight];
+
+  //  float newHeight = MAX(_textView.font.lineHeight, [self measureHeightOfUITextView:_textView]);
     float newHeight = MAX(_textView.font.lineHeight, [self measureHeightOfUITextView:_textView]);
-    
+    //        _textView.text = [NSBundle t:NSLocalizedString(bWriteSomething, nil)];
+
+//    if ([_textView.text isEqualToString: [NSBundle t:NSLocalizedString(bWriteSomething, nil)]])
+//    {
+//        newHeight = _textView.font.lineHeight;
+//    }
     // Calcualte the new textview height
     float textBoxHeight = newHeight + bTextViewVerticalPadding;
 
@@ -435,6 +467,7 @@
             }
         }];
     }
+    
 }
 
 - (CGFloat)measureHeightOfUITextView:(UITextView *)textView
@@ -469,13 +502,17 @@
         
         // NSString class method: boundingRectWithSize:options:attributes:context is
         // available only on ios7.0 sdk.
-        
+//        CGSize textViewSize = [text sizeWithFont:[UIFont fontWithName:@"Marker Felt" size:20]
+//                               constrainedToSize:CGSizeMake(WIDHT_OF_VIEW, FLT_MAX)
+//                                   lineBreakMode:UILineBreakModeTailTruncation];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+        [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping]; //NSLineBreakByWordWrapping
         
         NSDictionary *attributes = @{ NSFontAttributeName: textView.font, NSParagraphStyleAttributeName : paragraphStyle };
         
-        CGRect size = [textToMeasure boundingRectWithSize:CGSizeMake(CGRectGetWidth(frame), MAXFLOAT)
+    
+        CGRect size =
+        [textToMeasure boundingRectWithSize:CGSizeMake(CGRectGetWidth(frame), MAXFLOAT)
                                                   options:NSStringDrawingUsesLineFragmentOrigin
                                                attributes:attributes
                                                   context:nil];

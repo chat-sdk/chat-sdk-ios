@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class BHook;
+
 @interface BNotificationObserverList : NSObject {
     NSMutableArray * _observers;
 }

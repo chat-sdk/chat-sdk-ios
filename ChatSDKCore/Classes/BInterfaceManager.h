@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol PInterfaceFacade;
+@protocol PInterfaceAdapter;
 
 @interface BInterfaceManager : NSObject
 
 +(BInterfaceManager *) sharedManager;
--(id<PInterfaceFacade>) a;
+-(id<PInterfaceAdapter>) a;
 
 @end

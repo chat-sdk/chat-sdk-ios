@@ -165,8 +165,8 @@
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
-    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
-    
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
+
     [self reloadData];
 }
 
@@ -192,7 +192,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+    [BChatSDK.hook removeHook:_internetConnectionHook];
 }
 
 -(void) composeMessage {
@@ -248,6 +248,12 @@
 }
 
 #pragma UITableView delegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [_tokenField resignFirstResponder];
+}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return bSectionCount;
@@ -335,7 +341,7 @@
 // This is when we press enter in the text field
 - (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text {
     
-    [_tokenField reloadData];
+   // [_tokenField reloadData];
     [self reloadData];
     
     [_tokenField resignFirstResponder];

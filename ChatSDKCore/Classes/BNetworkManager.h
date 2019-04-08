@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol BNetworkFacade;
+@protocol PNetworkAdapter;
 
 @interface BNetworkManager : NSObject {
 }
 
-@property (nonatomic, readwrite) id<BNetworkFacade> a;
+@property (nonatomic, readwrite) id<PNetworkAdapter> a;
 
 +(BNetworkManager *) sharedManager;
 

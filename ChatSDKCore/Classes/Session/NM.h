@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <ChatSDK/BNetworkFacade.h>
+#import <ChatSDK/PNetworkAdapter.h>
 
 @protocol PUser;
 

@@ -10,6 +10,11 @@
 "bSettings" = "Settings";
 "bLogginIn" = "Logging in";
 "bProfile" = "Profile";
+"bProfilePictures" = "Profile Pictures";
+"bAddPicture" = "Add Picture";
+"bDeletePicture" = "Delete Picture";
+"bSetAsDefaultPicture" = "Set as Default Picture";
+"bDeleteLastPictureWarning" = "You need to add a new profile picture before deleteing the last picture.";
 "bLoggingOut" = "Logging out";
 "bErrorTitle" = "Error";
 "bUserCreatedError" = "User could not be created";
@@ -18,9 +23,12 @@
 "bBroadcast" = "Broadcasts";
 "bThreadCreationError" = "Thread creation failed";
 "bChatRooms" = "Chat Rooms";
-"bPickFriends" = "NewChat";
+"bPickFriends" = "Pick Friends";
 "bReset" = "Reset";
-"bForgotPassword" = "Reset";
+"bLogin" = "Login";
+"bRegister" = "Register";
+"bPassword" = "Password";
+"bForgotPassword" = "Forgot password";
 "bEnterCredentialToResetPassword" = "Enter email to reset password";
 "bPasswordResetSuccess" = "Your password reset has been successful";
 
@@ -161,7 +169,7 @@
 "bLocationMessagesNotSupported" = "Location messages are not supported";
 "bVideoMessagesNotSupported" = "Video messages are not supported";
 
-"bRefreshingUsers" = "Message Burst";
+"bRefreshingUsers" = "Updating...";
 "bInviteContact" = "Invite Contact";
 "bInviteByEmail" = "Email";
 "bInviteBySMS" = "SMS";

@@ -1,5 +1,5 @@
 //
-//  BNetworkFacade.h
+//  PNetworkAdapter.h
 //  Chat SDK
 //
 //  Created by Benjamin Smiley-andrews on 01/03/2014.
@@ -36,11 +36,10 @@
 @protocol PUsersHandler;
 @protocol PEncryptionHandler;
 @protocol PInternetConnectivityHandler;
+@protocol PEventHandler;
+
 // Depricated: Use bHookDidLogout (and hook system) instead
 #define bNotificationLogout @"bNLogout"
-
-#define bNotificationMessageAdded @"bNMessageAdded"
-#define bNotificationMessageAddedKeyMessage @"bNMessageAddedKeyMessage"
 
 #define bNotificationMessageRemoved @"bNMessageRemoved"
 #define bNotificationMessageRemovedKeyMessage @"bNMessageRemovedKeyMessage"
@@ -85,7 +84,7 @@
 #define bNotificationAuthenticationComplete @"bNAuthenticationComplete"
 
 
-@protocol BNetworkFacade <NSObject>
+@protocol PNetworkAdapter <NSObject>
 
 // Handlers
 -(id<PCoreHandler>) core;
@@ -112,6 +111,7 @@
 -(id<PUsersHandler>) users;
 -(id<PInternetConnectivityHandler>) connectivity;
 -(id<PEncryptionHandler>) encryption;
+-(id<PEventHandler>) event;
 -(id) handlerWithName: (NSString *) name;
 
 -(void) setCore: (id<PCoreHandler>) core;
@@ -138,6 +138,7 @@
 -(void) setHookHandler: (id<PHookHandler>) hook;
 -(void) setUsers: (id<PUsersHandler>) users;
 -(void) setEncryption: (id<PEncryptionHandler>) encryption;
+-(void) setEvent: (id<PEventHandler>) event;
 -(void) setConnectivity: (id<PInternetConnectivityHandler>) connectivity;
 
 @end

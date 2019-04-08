@@ -23,10 +23,11 @@
 
 @protocol PNearbyUsersHandler <NSObject>
 
--(void) findNearbyUsersWithRadius: (double) radiusInMetres;
+-(BOOL) startListeningForUsersInRadius: (double) radiusInMetres;
 
--(RXPromise *)startUpdatingUserLocation;
--(void)stopUpdatingUserLocation;
+-(void) start;
+-(void) stop;
+
 -(CLLocation *)getCurrentLocation;
 -(void) setDelegate: (id<PNearbyUsersDelegate>) delegate;
 

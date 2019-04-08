@@ -9,7 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PPushHandler.h>
 
-@interface BAbstractPushHandler : NSObject<PPushHandler>
+@class BLocalNotificationDelegate;
+
+#define bChatSDKNotificationCategory @"co.chatsdk.QuickReply"
+#define bChatSDKReplyAction @"co.chatsdk.ReplyAction"
+#define bChatSDKOpenAppAction @"co.chatsdk.OpenAppAction"
+
+@interface BAbstractPushHandler : NSObject<PPushHandler> {
+    BLocalNotificationDelegate * notificationDelegate;
+}
 
 -(NSString *) safeChannel: (NSString *) channel;
 

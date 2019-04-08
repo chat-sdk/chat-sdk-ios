@@ -92,7 +92,7 @@
         __typeof__(self) strongSelf = weakSelf;
         [strongSelf updateInterfaceForReachabilityStateChange];
     }];
-    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
 
 }
 
@@ -101,7 +101,7 @@
     
     [self hideHUDWithDuration:0];
     
-    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
+    [BChatSDK.hook removeHook:_internetConnectionHook];
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
@@ -215,7 +215,7 @@
 }
 
 - (IBAction)termsAndConditionsButtonPressed:(id)sender {
-    UINavigationController * nvc = BChatSDK.ui.eulaNavigationController;
+    UINavigationController * nvc = BChatSDK.ui.termsOfServiceNavigationController;
     [self presentViewController:nvc animated:YES completion:Nil];
 }
 
@@ -270,8 +270,7 @@
 }
 
 -(void) authenticationFinished {
-    [self dismissViewControllerAnimated:YES completion:Nil];
-    [self hideHUD];
+    [self hideHUDWithDuration:0];
 }
 
 #pragma TextField delegate

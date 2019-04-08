@@ -14,6 +14,4 @@
     BOOL _authenticatedThisSession;
 }
 
-@property (nonatomic, readwrite) UIViewController * challengeViewController;
-
 @end

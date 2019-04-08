@@ -39,20 +39,14 @@
 
 -(void) markRead;
 -(void) navigationBarTapped;
--(void) openInviteScreen;
-
 -(bThreadType) threadType;
 -(void) viewDidScroll: (UIScrollView *) scrollView withOffset: (int) offset;
+-(void) openInviteScreen;
 
 @optional
 
 // When the user pulls down on the table view
 -(RXPromise *) loadMoreMessages;
-
-// An array of dictionaries containing dictionaries
-// @{(Class) tableViewCellClass, (NSNumber *) messageType }
--(NSMutableArray *) customCellTypes;
-
 
 @end
 

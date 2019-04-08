@@ -12,7 +12,6 @@
 
 @protocol PThread;
 
-
 @interface BChatViewController : ElmChatViewController<ElmChatViewDelegate> {
     id<PThread> _thread;
     
@@ -29,8 +28,5 @@
 -(instancetype) initWithThread: (id<PThread>) thread;
 - (void) updateSubtitle;
 -(void) updateTitle;
-
-
-
 
 @end

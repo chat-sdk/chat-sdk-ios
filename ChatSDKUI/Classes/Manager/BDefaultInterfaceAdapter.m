@@ -18,14 +18,23 @@
 
 @implementation BDefaultInterfaceAdapter
 
+@synthesize privateThreadsViewController = _privateThreadsViewController;
+@synthesize publicThreadsViewController = _publicThreadsViewController;
+
 -(instancetype) init {
     if((self = [super init])) {
         _additionalChatOptions = [NSMutableArray new];
         _additionalTabBarViewControllers = [NSMutableArray new];
         _additionalSearchViewControllers = [NSMutableDictionary new];
-        _customMessageCellTypes = [NSMutableArray new];
+        _messageCellTypes = [NSMutableArray new];
         // MEM1
         //[[SDWebImageDownloader sharedDownloader] setShouldDecompressImages:NO];
+        
+        [self registerMessageWithCellClass:BTextMessageCell.class messageType:@(bMessageTypeText)];
+        [self registerMessageWithCellClass:BImageMessageCell.class messageType:@(bMessageTypeImage)];
+        [self registerMessageWithCellClass:BLocationCell.class messageType:@(bMessageTypeLocation)];
+        [self registerMessageWithCellClass:BSystemMessageCell.class messageType:@(bMessageTypeSystem)];
+
     }
     return self;
 }
@@ -64,27 +73,44 @@
 }
 
 -(UIViewController *) flaggedMessagesViewController {
-    return [[BFlaggedMessagesViewController alloc] init];
+    if (!_flaggedMessagesViewController) {
+        _flaggedMessagesViewController = [[BFlaggedMessagesViewController alloc] init];
+    }
+    return _flaggedMessagesViewController;
 }
 
 -(UIViewController *) contactsViewController {
-    return [[BContactsViewController alloc] init];
+    if (!_contactsViewController) {
+        _contactsViewController = [[BContactsViewController alloc] init];
+    }
+    return _contactsViewController;
 }
 
--(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action{
+-(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * groupName)) action{
+    if (_friendsListViewController != Nil) {
+        return _friendsListViewController(usersToExclude, action);
+    }
     return [[BFriendsListViewController alloc] initWithUsersToExclude:usersToExclude onComplete:action];
 }
 
 -(UINavigationController *) friendsNavigationControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action {
     return [self navigationControllerWithRootViewController:[self friendsViewControllerWithUsersToExclude:usersToExclude onComplete:action]];
 }
-
--(UIViewController *) appTabBarViewController {
-    return [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
+-(UIViewController *) appTabBarViewController __deprecated {
+    return [self splashScreenNavigationController];
 }
 
--(UIViewController *) profileViewControllerWithUser: (id<PElmUser>) user {
-    
+-(UIViewController *) mainViewController {
+    if (!_mainViewController) {
+        _mainViewController = [[BAppTabBarController alloc] initWithNibName:Nil bundle:Nil];
+    }
+    return _mainViewController;
+}
+
+-(UIViewController *) profileViewControllerWithUser: (id<PUser>) user {
+    if (_profileViewController != Nil) {
+        return _profileViewController(user);
+    }
     UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Profile"
                                                           bundle:[NSBundle uiBundle]];
     
@@ -94,15 +120,38 @@
     return controller;
 }
 
--(UIViewController *) eulaViewController {
-    return [[BEULAViewController alloc] init];
+-(UIViewController *) termsOfServiceViewController {
+    if (!_termsOfServiceViewController) {
+        _termsOfServiceViewController = [[BTermsOfServiceViewController alloc] init];
+    }
+    return _termsOfServiceViewController;
 }
 
--(UINavigationController *) eulaNavigationController {
+-(UINavigationController *) termsOfServiceNavigationController {
     return [self navigationControllerWithRootViewController:self.eulaViewController];
 }
 
--(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread {
+-(UIViewController *) profilePicturesViewControllerWithUser: (id<PUser>) user {
+    if (_profilePicturesViewController != Nil) {
+        return _profilePicturesViewController(user);
+    }
+    BProfilePicturesViewController * controller = [[BProfilePicturesViewController alloc] init];
+    controller.user = user;
+    return controller;
+}
+
+-(UIViewController *) eulaViewController __deprecated {
+    return [self termsOfServiceViewController];
+}
+
+-(UINavigationController *) eulaNavigationController __deprecated {
+    return [self termsOfServiceNavigationController];
+}
+
+-(UIViewController *) chatViewControllerWithThread: (id<PThread>) thread {
+    if (_chatViewController != Nil) {
+        return _chatViewController(thread);
+    }
     return [[BChatViewController alloc] initWithThread:thread];
 }
 
@@ -133,7 +182,11 @@
     NSMutableArray * controllers = [NSMutableArray new];
     for (id vc in self.tabBarViewControllers) {
         UINavigationController * controller = [self navigationControllerWithRootViewController:vc];
-        controller.navigationBar.prefersLargeTitles = BChatSDK.config.prefersLargeTitles;
+        
+        if (@available(iOS 11.0, *)) {
+            controller.navigationBar.prefersLargeTitles = BChatSDK.config.prefersLargeTitles;
+        }
+        
         [controllers addObject:controller];
     }
     return controllers;
@@ -173,7 +226,7 @@
 }
 
 -(UIViewController *) searchViewControllerWithType: (NSString *) type excludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {
-
+    
     UIViewController<PSearchViewController> * vc;
     
     if([type isEqualToString:bSearchTypeNameSearch]) {
@@ -226,6 +279,9 @@
 
 
 -(UIViewController<PSearchViewController> *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded {
+    if (_searchViewController != Nil) {
+        return _searchViewController(users, usersAdded);
+    }
     BSearchViewController * vc = [[BSearchViewController alloc] initWithUsersToExclude: users];
     [vc setSelectedAction:usersAdded];
     [vc setExcludedUsers:users];
@@ -238,13 +294,16 @@
 
 -(id<PChatOptionsHandler>) chatOptionsHandlerWithDelegate: (id<BChatOptionDelegate>) delegate {
     if (_chatOptionsHandler) {
-        _chatOptionsHandler.delegate = delegate;
+        [_chatOptionsHandler setDelegate:delegate];
         return _chatOptionsHandler;
     }
     return [[BChatOptionsActionSheet alloc] initWithDelegate:delegate];
 }
 
 -(UIViewController *) usersViewControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent {
+    if (_usersViewController != Nil) {
+        return _usersViewController(thread, parent);
+    }
     BUsersViewController * vc = [[BUsersViewController alloc] initWithThread:thread];
     vc.parentNavigationController = parent;
     return vc;
@@ -273,7 +332,7 @@
 }
 
 -(UIViewController *) settingsViewController {
-    return Nil;
+    return _settingsViewController;
 }
 
 -(UIColor *) colorForName: (NSString *) name {
@@ -292,20 +351,50 @@
     _showLocalNotifications = show;
 }
 
--(UIViewController *) searchIndexViewControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback {
+-(UIViewController *) searchIndexViewControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray * index)) callback {
+    if (_searchIndexViewController != Nil) {
+        return _searchIndexViewController(indexes, callback);
+    }
     return [[BSearchIndexViewController alloc] initWithIndexes:indexes withCallback:callback];
 }
 
--(UINavigationController *) searchIndexNavigationControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback {
+-(UINavigationController *) searchIndexNavigationControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray * index)) callback {
     return [self navigationControllerWithRootViewController:[self searchIndexViewControllerWithIndexes:indexes withCallback:callback]];
 }
 
--(void) registerCustomMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type {
-    [_customMessageCellTypes addObject:@[cellClass, type]];
+-(void) registerMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type {
+    [_messageCellTypes addObject:@[cellClass, type]];
 }
 
--(NSArray *) customMessageCellTypes {
-    return _customMessageCellTypes;
+-(NSArray *) messageCellTypes {
+    return _messageCellTypes;
+}
+
+-(Class) cellTypeForMessageType: (NSNumber *) messageType {
+    for(NSArray * array in self.messageCellTypes) {
+        if([array.lastObject isEqualToNumber:messageType]) {
+            return array.firstObject;
+        }
+    }
+    return Nil;
+}
+
+-(UIViewController<PSplashScreenViewController> *) splashScreenViewController {
+    if (!_splashScreenViewController) {
+        _splashScreenViewController = [[BSplashScreenViewController alloc] initWithNibName:Nil bundle:Nil];
+    }
+    return _splashScreenViewController;
+}
+
+-(UIViewController<PSplashScreenViewController> *) splashScreenNavigationController {
+    return [self navigationControllerWithRootViewController:self.splashScreenViewController];
+}
+
+-(UIViewController *) loginViewController {
+    if (!_loginViewController) {
+        _loginViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
+    }
+    return _loginViewController;
 }
 
 @end

@@ -37,8 +37,9 @@
  * @brief Add a user to contacts
  */
 -(RXPromise *) addContact: (id<PUser>) contact withType: (bUserConnectionType) type;
-
--(RXPromise *) deleteContact: (id<PUser>) user;
+-(RXPromise *) addLocalContact: (id<PUser>) contact withType: (bUserConnectionType) type;
+-(RXPromise *) deleteContact: (id<PUser>) user withType: (bUserConnectionType) type;
+-(RXPromise *) deleteLocalContact: (id<PUser>) user withType: (bUserConnectionType) type;
 
 @end
 

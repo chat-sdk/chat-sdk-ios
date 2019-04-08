@@ -12,6 +12,4 @@
 
 @interface BChatOption : NSObject<PChatOption>
 
-@property (nonatomic, readwrite, weak) id<PChatOptionsHandler> parent;
-
 @end

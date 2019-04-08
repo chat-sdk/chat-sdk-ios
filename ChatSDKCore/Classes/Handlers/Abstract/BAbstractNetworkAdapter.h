@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDK/BNetworkFacade.h>
+#import <ChatSDK/PNetworkAdapter.h>
 
-@interface BAbstractNetworkAdapter : NSObject<BNetworkFacade>
+@interface BAbstractNetworkAdapter : NSObject<PNetworkAdapter>
 
 @property (nonatomic, readwrite) id<PCoreHandler> core;
 @property (nonatomic, readwrite) id<PPushHandler> push;
@@ -35,5 +35,6 @@
 @property (nonatomic, readwrite) id<PHookHandler> hook;
 @property (nonatomic, readwrite) id<PEncryptionHandler> encryption;
 @property (nonatomic, readwrite) id<PInternetConnectivityHandler> connectivity;
+@property (nonatomic, readwrite) id<PEventHandler> event;
 
 @end

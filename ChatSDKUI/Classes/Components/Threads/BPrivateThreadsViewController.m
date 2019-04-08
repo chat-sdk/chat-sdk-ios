@@ -11,6 +11,7 @@
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
 
+
 @interface BPrivateThreadsViewController ()
 
 @end
@@ -32,7 +33,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    
     _editButton = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bEdit]
                                                    style:UIBarButtonItemStylePlain
                                                   target:self
@@ -43,6 +43,9 @@
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     
 }
+
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

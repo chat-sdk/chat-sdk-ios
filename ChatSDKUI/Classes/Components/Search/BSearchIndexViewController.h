@@ -17,6 +17,6 @@
 @property (nonatomic, readonly) NSMutableArray * indexes;
 @property (nonatomic, readwrite) void(^indexSelected)(NSArray * index);
 
--(instancetype) initWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback;
+-(instancetype) initWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray * index)) callback;
 
 @end

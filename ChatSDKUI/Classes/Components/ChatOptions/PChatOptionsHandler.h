@@ -19,11 +19,17 @@
 
 -(instancetype) initWithDelegate: (id<BChatOptionDelegate>) delegate;
 
+// Show or hide the options view
 -(BOOL) show;
 -(BOOL) hide;
--(id<BChatOptionDelegate>) delegate;
+
+// Set the delegate aka chat view controller
 -(void) setDelegate: (id<BChatOptionDelegate>) delegate;
+
+// Get the view to be displayed in the keyboard area
 -(UIView *) keyboardView;
+
+// Present or hide view within keyboard view
 -(void) presentView: (UIView *) view;
 -(void) dismissView;
 

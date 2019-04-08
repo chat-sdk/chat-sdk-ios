@@ -1,13 +1,13 @@
 //
-//  PInterfaceFacade.h
+//  PInterfaceAdapter.h
 //  Pods
 //
 //  Created by Benjamin Smiley-andrews on 14/12/2016.
 //
 //
 
-#ifndef PInterfaceFacade_h
-#define PInterfaceFacade_h
+#ifndef PInterfaceAdapter_h
+#define PInterfaceAdapter_h
 
 @protocol PUser;
 @protocol PThread;
@@ -17,31 +17,59 @@
 @protocol BChatOptionDelegate;
 @protocol PImageViewController;
 @protocol PLocationViewController;
+@protocol PSplashScreenViewController;
 
 @class BChatViewController;
 @class BFriendsListViewController;
 @class BChatOption;
 @class BTextInputView;
 
-@protocol PInterfaceFacade <NSObject>
+@protocol PInterfaceAdapter <NSObject>
 
+-(void) setPrivateThreadsViewController: (UIViewController *) controller;
 -(UIViewController *) privateThreadsViewController;
+
+-(void) setPublicThreadsViewController: (UIViewController *) controller;
 -(UIViewController *) publicThreadsViewController;
+
+-(void) setContactsViewController: (UIViewController *) controller;
 -(UIViewController *) contactsViewController;
--(UIViewController *) profileViewControllerWithUser: (id<PUser>) user ;
--(UIViewController *) appTabBarViewController;
 
--(UIViewController *) eulaViewController;
--(UINavigationController *) eulaNavigationController;
+-(void) setProfileViewController: (UIViewController * (^)(id<PUser> user)) provider;
+-(UIViewController *) profileViewControllerWithUser: (id<PUser>) user;
 
+-(void) setProfilePicturesViewController: (UIViewController * (^)(id<PUser> user)) provider;
+-(UIViewController *) profilePicturesViewControllerWithUser: (id<PUser>) user;
+
+/**
+ * @deprecated Use mainViewController method instead
+ */
+-(UIViewController *) appTabBarViewController __deprecated;
+
+-(void) setMainViewController: (UIViewController *) controller;
+-(UIViewController *) mainViewController;
+
+-(void) setTermsOfServiceViewController: (UIViewController *) controller;
+-(UIViewController *) termsOfServiceViewController;
+-(UINavigationController *) termsOfServiceNavigationController;
+
+// Use termsOfServiceViewController instead
+-(UIViewController *) eulaViewController __deprecated;
+
+// Use termsOfServiceNavigationController instead
+-(UINavigationController *) eulaNavigationController __deprecated;
+
+-(void) setFriendsListViewController: (BFriendsListViewController * (^)(NSArray * usersToExclude, void(^onComplete)(NSArray * users, NSString * groupName))) provider;
 -(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action;
 -(UINavigationController *) friendsNavigationControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action;
 
--(BChatViewController *) chatViewControllerWithThread: (id<PThread>) thread;
+-(void) setChatViewController: (BChatViewController * (^)(id<PThread> thread)) provider;
+-(UIViewController *) chatViewControllerWithThread: (id<PThread>) thread;
 
 -(NSArray *) defaultTabBarViewControllers;
 -(UIView<PSendBar> *) sendBarView;
 
+-(void) setSearchViewController: (UIViewController * (^)(NSArray * usersToExclude, void(^usersAdded)(NSArray * users))) provider;
 -(UIViewController *) searchViewControllerWithType: (NSString *) type excludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded;
 -(UIViewController<PSearchViewController> *) searchViewControllerExcludingUsers: (NSArray *) users usersAdded: (void(^)(NSArray * users)) usersAdded;
 
@@ -56,6 +84,7 @@
 -(NSMutableArray *) chatOptions;
 -(id<PChatOptionsHandler>) chatOptionsHandlerWithDelegate: (id<BChatOptionDelegate>) delegate;
 
+-(void) setUsersViewController: (UIViewController * (^)(id<PThread> thread, UINavigationController * parent)) provider;
 -(UIViewController *) usersViewControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent;
 -(UINavigationController *) usersViewNavigationControllerWithThread: (id<PThread>) thread parentNavigationController: (UINavigationController *) parent;
 
@@ -73,20 +102,30 @@
 -(BOOL) showLocalNotification: (id) notification;
 -(void) setShowLocalNotifications: (BOOL) shouldShow;
 
+-(void) setImageViewController: (UIViewController *) controller;
 -(UIViewController<PImageViewController> *) imageViewController;
 -(UINavigationController *) imageViewNavigationController;
 
+-(void) setLocationViewController: (UIViewController *) controller;
 -(UIViewController<PLocationViewController> *) locationViewController;
 -(UINavigationController *) locationViewNavigationController;
 
+-(void) setSearchIndexViewController: (UIViewController * (^)(NSArray * indexes, void(^callback)(NSArray *))) provider;
 -(UIViewController *) searchIndexViewControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback;
-
 -(UINavigationController *) searchIndexNavigationControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray *)) callback;
 
--(void) registerCustomMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type;
--(NSArray *) customMessageCellTypes;
+-(void) setSplashScreenViewController: (UIViewController<PSplashScreenViewController> *) controller;
+-(UIViewController<PSplashScreenViewController> *) splashScreenViewController;
+-(UIViewController<PSplashScreenViewController> *) splashScreenNavigationController;
+
+-(void) setLoginViewController: (UIViewController *) controller;
+-(UIViewController *) loginViewController;
+
+-(void) registerMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type;
+-(NSArray *) messageCellTypes;
+-(Class) cellTypeForMessageType: (NSNumber *) messageType;
 
 @end
 
 
-#endif /* PInterfaceFacade_h */
+#endif /* PInterfaceAdapter_h */

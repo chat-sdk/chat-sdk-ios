@@ -65,28 +65,24 @@
     __weak __typeof__(self) weakSelf = self;
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    
-    [_notificationList add:[nc addObserverForName:bNotificationMessageAdded
-                                           object:Nil
-                                            queue:Nil
-                                       usingBlock:^(NSNotification * notification) {
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               id<PMessage> messageModel = notification.userInfo[bNotificationMessageAddedKeyMessage];
-                                               messageModel.delivered = @YES;
-                                               
-                                               // This makes the phone vibrate when we get a new message
-                                               
-                                               // Only vibrate if a message is received from a private thread
-                                               if (messageModel.thread.type.intValue & bThreadFilterPrivate) {
-                                                   if (!messageModel.userModel.isMe && [BChatSDK.currentUser.threads containsObject:messageModel.thread]) {
-                                                       AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-                                                   }
-                                               }
-                                               
-                                               // Move thread to top
-                                               [weakSelf reloadData];
-                                           });
-                                       }]];
+
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
+        id<PMessage> messageModel = dict[bHook_PMessage];
+        messageModel.delivered = @YES;
+        
+        // This makes the phone vibrate when we get a new message
+        
+        // Only vibrate if a message is received from a private thread
+        if (messageModel.thread.type.intValue & bThreadFilterPrivate) {
+            if (!messageModel.userModel.isMe && [BChatSDK.currentUser.threads containsObject:messageModel.thread]) {
+                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+            }
+        }
+        
+        // Move thread to top
+        [weakSelf reloadData];
+    }] withNames: @[bHookMessageWillSend, bHookMessageRecieved]]];
+
     [_notificationList add:[nc addObserverForName:bNotificationMessageRemoved
                                            object:Nil
                                             queue:Nil
@@ -104,11 +100,10 @@
                                            });
                                        }]];
     
-    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [weakSelf updateButtonStatusForInternetConnection];
-    }];
-    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
-        
+    }] withName:bHookInternetConnectivityDidChange]];
+    
     [_notificationList add:[nc addObserverForName:bNotificationTypingStateChanged
                                            object:nil
                                             queue:Nil
@@ -127,32 +122,9 @@
                                                [weakSelf reloadData];
                                            });
                                        }]];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receiveTestNotification:)
-                                                 name:@"threadNotification"
-                                               object:nil];
-    
-    
-
-    
-    
-}
-
-
-- (void) receiveTestNotification:(NSNotification *) notification
-{
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
-    NSLog(@"%@",notification.userInfo);
-    NSDictionary *userInfo = notification.userInfo;
-    id<PThread> thread = [userInfo objectForKey:@"thread"];
-    [self pushChatViewControllerWithThread:thread];
-    
 }
 
 -(void) removeObservers {
-    [BChatSDK.hook removeHook:_internetConnectionHook withName:bHookInternetConnectivityChanged];
     [_notificationList dispose];
 }
 
@@ -237,13 +209,6 @@
     cell.profileImageView.image = thread.imageForThread;
     
     //    cell.unreadView.hidden = !thread.unreadMessageCount;
-    id<PUser> userIn = lastMessage.userModel;
-    if([userIn.online isEqualToNumber:[NSNumber numberWithBool:YES]]){
-        [cell setIsOnline:true];
-    }
-    else{
-        [cell setIsOnline:false];
-    }
     
     int unreadCount = thread.unreadMessageCount;
     cell.unreadMessagesLabel.hidden = !unreadCount;

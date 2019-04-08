@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -46,12 +46,12 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ok8-lm-Uad">
-                    <rect key="frame" x="24" y="62" width="327" height="36"/>
+                    <rect key="frame" x="-1" y="46" width="377" height="44"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UkR-FR-EHR" customClass="VENTokenField">
-                            <rect key="frame" x="0.0" y="0.0" width="327" height="36"/>
+                            <rect key="frame" x="0.0" y="0.0" width="377" height="44"/>
                             <constraints>
-                                <constraint firstAttribute="height" priority="250" constant="36" id="0jf-Wt-DFp"/>
+                                <constraint firstAttribute="height" priority="250" constant="44" id="0jf-Wt-DFp"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -60,11 +60,11 @@
                         <constraint firstItem="UkR-FR-EHR" firstAttribute="top" secondItem="Ok8-lm-Uad" secondAttribute="top" id="2hD-tE-qDY"/>
                         <constraint firstItem="UkR-FR-EHR" firstAttribute="leading" secondItem="Ok8-lm-Uad" secondAttribute="leading" id="PQZ-qY-97C"/>
                         <constraint firstAttribute="trailing" secondItem="UkR-FR-EHR" secondAttribute="trailing" id="Qz4-km-9Uc"/>
-                        <constraint firstAttribute="height" priority="750" constant="36" id="ZqI-ur-oOm"/>
+                        <constraint firstAttribute="height" priority="750" constant="44" id="ZqI-ur-oOm"/>
                     </constraints>
                 </view>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3eB-zr-9l2">
-                    <rect key="frame" x="0.0" y="106" width="375" height="561"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3eB-zr-9l2">
+                    <rect key="frame" x="0.0" y="90" width="375" height="577"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="g5S-wH-o6i"/>
@@ -74,18 +74,18 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Ok8-lm-Uad" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="24" id="283-gg-XOG"/>
+                <constraint firstItem="Ok8-lm-Uad" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="-1" id="283-gg-XOG"/>
                 <constraint firstItem="281-dx-DD4" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Msp-Dy-Ks6"/>
                 <constraint firstAttribute="trailing" secondItem="3eB-zr-9l2" secondAttribute="trailing" id="TaF-Ng-9y0"/>
-                <constraint firstItem="Ok8-lm-Uad" firstAttribute="top" secondItem="281-dx-DD4" secondAttribute="bottom" constant="16" id="UL8-Y6-Tdd"/>
-                <constraint firstItem="3eB-zr-9l2" firstAttribute="top" secondItem="Ok8-lm-Uad" secondAttribute="bottom" constant="8" id="bLk-iP-8Vs"/>
-                <constraint firstAttribute="trailing" secondItem="Ok8-lm-Uad" secondAttribute="trailing" constant="24" id="fpp-8a-4rt"/>
+                <constraint firstItem="Ok8-lm-Uad" firstAttribute="top" secondItem="281-dx-DD4" secondAttribute="bottom" id="UL8-Y6-Tdd"/>
+                <constraint firstItem="3eB-zr-9l2" firstAttribute="top" secondItem="Ok8-lm-Uad" secondAttribute="bottom" id="bLk-iP-8Vs"/>
+                <constraint firstAttribute="trailing" secondItem="Ok8-lm-Uad" secondAttribute="trailing" constant="-1" id="fpp-8a-4rt"/>
                 <constraint firstItem="281-dx-DD4" firstAttribute="top" secondItem="1" secondAttribute="top" priority="900" id="giL-Rv-TKJ"/>
                 <constraint firstAttribute="trailing" secondItem="281-dx-DD4" secondAttribute="trailing" id="nWm-ZW-M7l"/>
                 <constraint firstItem="3eB-zr-9l2" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="qS1-Yx-AL2"/>
                 <constraint firstAttribute="bottom" secondItem="3eB-zr-9l2" secondAttribute="bottom" id="zAS-aa-dRu"/>
             </constraints>
-            <point key="canvasLocation" x="-160.80000000000001" y="-82.3088455772114"/>
+            <point key="canvasLocation" x="-100.5" y="-91.5"/>
         </view>
     </objects>
 </document>

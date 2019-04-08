@@ -18,7 +18,8 @@
 /**
  * @brief Check to see if the user is already authenticated
  */
--(RXPromise *) authenticateWithCachedToken;
+-(RXPromise *) authenticateWithCachedToken __deprecated;
+-(RXPromise *) authenticate;
 
 /**
  * @brief Authenticate with Firebase
@@ -29,8 +30,11 @@
 /**
  * @brief Checks whether the user has been authenticated this session
  */
--(BOOL) userAuthenticated;
--(BOOL) userAuthenticatedThisSession;
+-(BOOL) userAuthenticated __deprecated;
+-(BOOL) userAuthenticatedThisSession __deprecated;
+
+-(BOOL) isAuthenticated;
+-(BOOL) isAuthenticatedThisSession;
 
 /**
  * @brief Logout the user from the current account
@@ -63,12 +67,6 @@
  * @brief Get the current user's authentication id
  */
 -(NSString *) currentUserEntityID;
-
-/**
- * @brief The view controller that should be displayed when the user isn't logged in 
- */
--(UIViewController *) challengeViewController;
--(void) setChallengeViewController: (UIViewController *) viewController;
 
 -(RXPromise *) resetPasswordWithCredential: (NSString *) credential;
 

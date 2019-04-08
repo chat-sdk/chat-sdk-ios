@@ -56,7 +56,7 @@ static BMessageCache * cache;
             bubbleImageName = @"chat_bubble_right_ST.png";
             break;
         case bMessagePosSingle:
-            bubbleImageName = @"chat_bubble_right_0S.png";// @"chat_bubble_right_0T.png";
+            bubbleImageName = @"chat_bubble_right_0T.png";
             break;
     }
     
