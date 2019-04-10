@@ -66,4 +66,10 @@
     [BChatSDK.hook executeHookWithName:bHookInternetConnectivityDidChange data:@{}];
 }
 
++(void) notificationUserWillDisconnect {
+    [BChatSDK.hook executeHookWithName:bHookUserWillDisconnect data:@{}];
+}
+
+
+
 @end

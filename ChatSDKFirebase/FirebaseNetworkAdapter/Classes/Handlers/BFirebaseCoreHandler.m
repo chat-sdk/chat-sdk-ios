@@ -34,6 +34,9 @@
     if(!user || !user.entityID) {
         return;
     }
+    
+    [BHookNotification notificationUserWillDisconnect];
+    
     [[CCUserWrapper userWithModel:user] goOffline];
 }
 -(void) goOnline {

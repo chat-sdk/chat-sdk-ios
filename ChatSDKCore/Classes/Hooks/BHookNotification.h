@@ -28,5 +28,6 @@
 +(void) notificationDidLogout: (id<PUser>) user;
 +(void) notificationUserOn: (id<PUser>) user;
 +(void) notificationInternetConnectivityDidChange;
++(void) notificationUserWillDisconnect;
 
 @end

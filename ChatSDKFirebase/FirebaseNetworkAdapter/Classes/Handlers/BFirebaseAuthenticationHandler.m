@@ -81,6 +81,8 @@
 
 -(RXPromise *) authenticate: (BAccountDetails *) details {
     
+    [BChatSDK.core goOnline];
+    
     RXPromise * promise = [RXPromise new];
     
     // Create a completion block to handle the login result

@@ -31,6 +31,7 @@
 #define bHook_PUser @"bHook_PUser"
 
 #define bHookInternetConnectivityDidChange @"bHookInternetConnectivityDidChange"
+#define bHookUserWillDisconnect @"bHookUserWillDisconnect"
 
 @class BHook;
 
