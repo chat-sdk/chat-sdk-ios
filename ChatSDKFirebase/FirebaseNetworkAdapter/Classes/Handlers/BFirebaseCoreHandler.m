@@ -56,15 +56,19 @@
     [[CCUserWrapper userWithModel:contactModel] onlineOn];
 }
 
--(RXPromise *) createThreadWithUsers: (NSArray *) users name: (NSString *) name threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                                name: (NSString *) name
+                                type: (bThreadType) type
+                         forceCreate: (BOOL) force
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
     
     id<PThread> threadModel = [self fetchThreadWithUsers: users];
-    if (threadModel && threadCreated != Nil) {
+    if (threadModel && threadCreated != Nil && !force) {
         threadCreated(Nil, threadModel);
         return [RXPromise resolveWithResult:Nil];
     }
     else {
-        threadModel = [self createThreadWithUsers:users name:name];
+        threadModel = [self createThreadWithUsers:users name:name type: type];
         CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
         
         return [thread push].thenOnMain(^id(id<PThread> thread) {
@@ -85,11 +89,6 @@
         });
     }
 }
-
--(RXPromise *) createThreadWithUsers: (NSArray *) users threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
-    return [self createThreadWithUsers:users name:nil threadCreated:threadCreated];
-}
-
 
 -(RXPromise *) addUsers: (NSArray *) users toThread: (id<PThread>) threadModel {
     

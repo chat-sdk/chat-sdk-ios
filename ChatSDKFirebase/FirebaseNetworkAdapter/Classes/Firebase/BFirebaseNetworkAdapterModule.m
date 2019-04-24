@@ -12,7 +12,7 @@
 @implementation BFirebaseNetworkAdapterModule
 
 -(void) activate {
-    [BNetworkManager sharedManager].a = [[BFirebaseNetworkAdapter alloc] init];
+    BChatSDK.shared.networkAdapter = [[BFirebaseNetworkAdapter alloc] init];
 }
 
 @end

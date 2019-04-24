@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PPublicThreadHandler.h>
 
-@interface BFirebasePublicThreadHandler : NSObject<PPublicThreadHandler>
+@interface BFirebasePublicThreadHandler : NSObject<PPublicThreadHandler> {
+}
 
 @end

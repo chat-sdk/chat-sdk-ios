@@ -73,6 +73,7 @@
             }
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
         }];
+        
     }];
     
     [self presentViewController:nav animated:YES completion:Nil];

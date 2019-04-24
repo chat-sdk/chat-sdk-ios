@@ -13,7 +13,7 @@
 @implementation BFirebaseSocialLoginModule
 
 -(void) activate {
-    [BNetworkManager sharedManager].a.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
+    BChatSDK.shared.networkAdapter.socialLogin = [[BFirebaseSocialLoginHandler alloc] init];
 }
 
 @end

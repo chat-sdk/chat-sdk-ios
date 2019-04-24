@@ -80,8 +80,18 @@
             }
         }
         else if (thread.type.intValue & bThreadFilterPublic) {
-            if(thread.type.intValue & type) {
-                [threads addObject:thread];
+            if (BChatSDK.config.publicChatRoomLifetimeMinutes == 0) {
+                [threads addObjectsFromArray:threads];
+            } else {
+                NSDate * now = [NSDate date];
+                for (id<PThread> thread in threads) {
+                    NSTimeInterval interval = [now timeIntervalSinceDate:thread.creationDate];
+                    if (interval < BChatSDK.config.publicChatRoomLifetimeMinutes * 60) {
+                        [threads addObject:thread];
+                    } else {
+                        [thread markRead];
+                    }
+                }
             }
         }
     }
@@ -179,13 +189,36 @@
  */
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
                                 name: (NSString *) name
+                                type: (bThreadType) type
+                         forceCreate: (BOOL) force
                        threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
     assert(NO);
 }
 
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
-                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) thread {
-    assert(NO);
+                                name: (NSString *) name
+                         forceCreate: (BOOL) force
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+    return [self createThreadWithUsers:users
+                                  name:name
+                                  type:bThreadTypeNone
+                           forceCreate:force
+                         threadCreated:threadCreated];
+}
+
+
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                                name: (NSString *) name
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+    return [self createThreadWithUsers:users
+                                  name:name
+                           forceCreate:NO
+                         threadCreated:threadCreated];
+}
+
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+    return [self createThreadWithUsers:users name:nil threadCreated:threadCreated];
 }
 
 /**
@@ -273,6 +306,11 @@
 }
 
 -(id<PThread>) createThreadWithUsers: (NSArray *) users name: (NSString *) name {
+    return [self createThreadWithUsers:users name:name type:bThreadTypeNone];
+}
+
+-(id<PThread>) createThreadWithUsers: (NSArray *) users name: (NSString *) name type: (bThreadType) type {
+
     id<PUser> currentUser = self.currentUserModel;
     
     NSMutableArray * usersToAdd = [NSMutableArray arrayWithArray:users];
@@ -286,8 +324,15 @@
     id<PThread> threadModel = [BChatSDK.db createThreadEntity];
     threadModel.creationDate = [NSDate date];
     threadModel.creator = currentUser;
-    threadModel.type = usersToAdd.count == 2 ? @(bThreadType1to1) : @(bThreadTypePrivateGroup);
-    threadModel.name = name;
+    if (type != bThreadTypeNone) {
+        threadModel.type = @(type);
+    } else {
+        threadModel.type = usersToAdd.count == 2 ? @(bThreadType1to1) : @(bThreadTypePrivateGroup);
+    }
+    
+    if (name) {
+        threadModel.name = name;
+    }
     
     for (id<PUser> user in usersToAdd) {
         [threadModel addUser:user];

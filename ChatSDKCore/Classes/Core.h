@@ -24,7 +24,6 @@
 #import <ChatSDK/NSDate+Additions.h>
 #import <ChatSDK/NSDictionary+Meta.h>
 
-#import <ChatSDK/BNetworkManager.h>
 #import <ChatSDK/PStorageAdapter.h>
 #import <ChatSDK/PNetworkAdapter.h>
 #import <ChatSDK/BAbstractNetworkAdapter.h>
@@ -99,7 +98,6 @@
 #import <ChatSDK/bChatState.h>
 #import <ChatSDK/BKeys.h>
 #import <ChatSDK/BCoreDefines.h>
-#import <ChatSDK/NM.h>
 #import <ChatSDK/BModuleHelper.h>
 #import <ChatSDK/BIntegrationHelper.h>
 

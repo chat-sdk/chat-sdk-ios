@@ -10,6 +10,9 @@
 #define PHookHandler_h
 
 #define bHookDidAuthenticate @"bHookDidAuthenticate"
+#define bHookDidLogin @"bHookDidLogin"
+#define bHookDidSignUp @"bHookDidSignUp"
+
 #define bHookWillLogout @"bHookWillLogout"
 #define bHookDidLogout @"bHookDidLogout"
 

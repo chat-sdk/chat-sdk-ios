@@ -12,6 +12,7 @@
 @class RXPromise;
 @class BBackgroundPushNotificationQueue;
 @class BInternetConnectivity;
+@class BModuleHelper;
 
 @protocol PInterfaceAdapter;
 @protocol PUser;
@@ -23,6 +24,7 @@
     id<PStorageAdapter> _storageAdapter;
     id<PNetworkAdapter> _networkAdapter;
     BBackgroundPushNotificationQueue * _pushQueue;
+    BModuleHelper * _moduleHelper;
 }
 
 @property (nonatomic, readonly) BConfiguration * configuration;
@@ -51,6 +53,9 @@
 // Update the username image and image url safely i.e. this method will wait until
 // the user has been authenticated correctly by using the post auth hook
 +(void) updateUserWithName: (NSString *) name image: (UIImage *) image url: (NSString *) url;
+
+-(void) preventAutomaticActivationForModule: (NSString *) moduleName;
+-(BOOL) activateModuleForName: (NSString *) name;
 
 // Logout
 +(RXPromise *) logout;
@@ -87,6 +92,7 @@
 //+(BOOL) isMe: (id<PUser>) user;
 +(id<PInterfaceAdapter>) ui;
 +(id<PStorageAdapter>) db;
++(id<PNetworkAdapter>) a;
 +(id<PFileMessageHandler>) fileMessage;
 +(id<PEncryptionHandler>) encryption;
 +(id<PEventHandler>) event;

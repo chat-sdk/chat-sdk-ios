@@ -18,6 +18,7 @@
 // or private.
 typedef enum {
     // Group types
+    bThreadTypeNone = 0x0,
     bThreadTypePrivateGroup = 0x1,
     bThreadType1to1 = 0x2,
     bThreadTypePublicGroup = 0x4,

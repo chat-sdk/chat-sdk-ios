@@ -215,8 +215,17 @@
             strongSelf->_isAuthenticatedThisSession = YES;
             // Update the user from the remote server
             return [user once].thenOnMain(^id(id<PUserWrapper> user_) {
-            
-                [BHookNotification notificationDidAuthenticate:user.model];
+
+                // If the user was authenticated automatically
+                if (!details) {
+                    [BHookNotification notificationDidAuthenticate:user.model];
+                }
+                else if (details.type == bAccountTypeRegister) {
+                    [BHookNotification notificationDidSignUp:user.model];
+                }
+                else {
+                    [BHookNotification notificationDidLogin:user.model];
+                }
                 
                 [BChatSDK.core save];
                 

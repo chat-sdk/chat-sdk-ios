@@ -34,6 +34,15 @@
     [BChatSDK.hook executeHookWithName:bHookDidAuthenticate data:@{bHook_PUser: user}];
 }
 
++(void) notificationDidLogin: (id<PUser>) user {
+    [BChatSDK.hook executeHookWithName:bHookDidLogin data:@{bHook_PUser: user}];
+}
+
++(void) notificationDidSignUp: (id<PUser>) user {
+    [BChatSDK.hook executeHookWithName:bHookDidSignUp data:@{bHook_PUser: user}];
+}
+
+
 +(void) notificationWillLogout: (id<PUser>) user {
     [BChatSDK.hook executeHookWithName:bHookWillLogout data:@{bHook_PUser:user}];
 }

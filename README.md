@@ -41,6 +41,13 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 
 Full breakdown is available on the [features page](http://chatsdk.co/features/).
 
+## Quick Start
+
+- [Standard Documentation](https://github.com/chat-sdk/chat-sdk-ios#adding-the-chat-sdk-to-your-project) (For experienced developers) 
+- [API Documentation](https://github.com/chat-sdk/docs)
+- [Code Examples](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Xcode/ChatSDK%20Demo/ApiExamples.m)
+- [Wiki](https://github.com/chat-sdk/chat-sdk-ios/wiki)
+
 ## Demo
 
 You can test the XMPP Chat SDK on the [App Store](https://itunes.apple.com/us/app/xmpp-messenger/id1218669006?ls=1&mt=8)

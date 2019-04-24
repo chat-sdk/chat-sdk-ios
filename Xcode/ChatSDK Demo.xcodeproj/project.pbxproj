@@ -30,10 +30,10 @@
 		AC7BD9A91E0874B400C785EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC7BD9AB1E0874B400C785EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		B53797E0223659230003F6F8 /* ApiExamples.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApiExamples.h; sourceTree = "<group>"; };
-		B53797E1223659230003F6F8 /* ApiExamples.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApiExamples.m; sourceTree = "<group>"; };
 		B1C991DC220AF8B8002F0C64 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
 		B1C991DD220AF8B8002F0C64 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		B53797E0223659230003F6F8 /* ApiExamples.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApiExamples.h; sourceTree = "<group>"; };
+		B53797E1223659230003F6F8 /* ApiExamples.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApiExamples.m; sourceTree = "<group>"; };
 		B5736DD220A1F25900D0947B /* ChatSDK Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ChatSDK Demo.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,7 +164,9 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				Base,
+				nl,
 			);
 			mainGroup = AC7BD98E1E0874B400C785EE;
 			productRefGroup = AC7BD9981E0874B400C785EE /* Products */;
@@ -472,7 +474,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -489,7 +491,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

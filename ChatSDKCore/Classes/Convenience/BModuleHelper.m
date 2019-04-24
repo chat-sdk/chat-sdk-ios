@@ -10,11 +10,19 @@
 
 @implementation BModuleHelper
 
-+(void) activateModules {
+-(instancetype) init {
+    if((self = [super init])) {
+        _excludingModules = [NSMutableArray new];
+        _activated = [NSMutableArray new];
+    }
+    return self;
+}
+
+-(void) activateModules {
     [self activateCommonModules:[self currentServer]];
 }
 
-+(NSString *) currentServer {
+-(NSString *) currentServer {
     bool firebaseAdapter = NSClassFromString(@"BFirebaseNetworkAdapter") != Nil;
     bool xmppAdapter = NSClassFromString(@"BXMPPNetworkAdapter") != Nil;
     
@@ -32,15 +40,15 @@
     return BChatSDK.shared.configuration.defaultServer;
 }
 
-+(void) activateModulesForFirebase {
+-(void) activateModulesForFirebase {
     [self activateCommonModules:bServerFirebase];
 }
 
-+(void) activateModulesForXMPP {
+-(void) activateModulesForXMPP {
     [self activateCommonModules: bServerXMPP];
 }
 
-+(void) activateCommonModules: (NSString *) server {
+-(void) activateCommonModules: (NSString *) server {
     [self activateModuleForName:@"BBlockingModule"];
     [self activateModuleForName:@"BLastOnlineModule"];
     [self activateModuleForName:@"BAudioMessageModule"];
@@ -56,7 +64,7 @@
     [self activateModuleForName:@"BKeyboardOverlayOptionsModule"];
 }
 
-+(void) activateCoreModules {
+-(void) activateCoreModules {
     NSString * server = [self currentServer];
     
     if([server isEqualToString:bServerFirebase]) {
@@ -75,11 +83,14 @@
     [self activateModuleForName:@"BFirebasePushModule"];
 }
 
-+(void) activateModuleForName: (NSString *) name {
-    [self activateModuleForName:name server:Nil];
+-(BOOL) activateModuleForName: (NSString *) name {
+    return [self activateModuleForName:name server:Nil];
 }
 
-+(void) activateModuleForName: (NSString *) name server: (NSString *) server {
+-(BOOL) activateModuleForName: (NSString *) name server: (NSString *) server {
+    if ([self shouldExclude:name]) {
+        return NO;
+    }
     Class module = NSClassFromString(name);
     if (module) {
         id<PModule> instance = (id<PModule>) [[module alloc] init];
@@ -90,10 +101,21 @@
             [instance activate];
         }
         NSLog(@"%@ activated successfully", name);
+        [_activated addObject:name];
+        return YES;
     }
     else {
         NSLog(@"%@ wasn't available", name);
+        return NO;
     }
+}
+
+-(BOOL) shouldExclude: (NSString *) moduleName {
+    return [_excludingModules containsObject:moduleName] || [_activated containsObject:moduleName];;
+}
+
+-(void) excludeModules: (NSArray *) modules {
+    [_excludingModules addObjectsFromArray:modules];
 }
 
 @end

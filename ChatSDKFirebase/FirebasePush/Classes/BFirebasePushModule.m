@@ -13,7 +13,7 @@
 
 -(void) activate {
     BFirebasePushHandler * pushHandler = [[BFirebasePushHandler alloc] init];
-    [BNetworkManager sharedManager].a.push = pushHandler;
+    BChatSDK.shared.networkAdapter.push = pushHandler;
 }
 
 @end

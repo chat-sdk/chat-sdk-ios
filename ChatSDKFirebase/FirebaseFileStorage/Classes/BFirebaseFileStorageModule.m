@@ -14,13 +14,13 @@
 -(void) activate {}
 -(void) activateWithServer:(NSString *)server {
     if([server isEqualToString:bServerFirebase]) {
-        [BNetworkManager sharedManager].a.upload = [[BFirebaseUploadHandler alloc] init];
+        BChatSDK.shared.networkAdapter.upload = [[BFirebaseUploadHandler alloc] init];
     }
     else if([server isEqualToString:bServerXMPP]) {
         if(BChatSDK.config.firebaseShouldConfigureAutomatically) {
             [FIRApp configure];
         }
-        [BNetworkManager sharedManager].a.upload = [[BFirebaseUploadHandler alloc] init];
+        BChatSDK.shared.networkAdapter.upload = [[BFirebaseUploadHandler alloc] init];
     }
 }
 

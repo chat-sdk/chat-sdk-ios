@@ -62,10 +62,14 @@
 }
 
 -(void) publicThreadsOn: (id<PUser>) user {
-    NSString * entityID = user.entityID;
-    
     FIRDatabaseReference * publicThreadsRef = [FIRDatabaseReference publicThreadsRef];
-    [publicThreadsRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
+
+    // TODO: This may cause issues if the device's clock is wrong
+    FIRDatabaseQuery * query = [publicThreadsRef queryOrderedByChild:bCreationDate];
+    double loadRoomsSince = ([[NSDate date] timeIntervalSince1970] - BChatSDK.config.publicChatRoomLifetimeMinutes * 60) * 1000;
+    [query queryStartingAtValue: @(loadRoomsSince)];
+    
+    [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
         if (snapshot.value != [NSNull null]) {
             // Make the new thread
             CCThreadWrapper * thread = [CCThreadWrapper threadWithEntityID:snapshot.key];

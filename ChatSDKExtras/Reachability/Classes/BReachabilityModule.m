@@ -14,7 +14,7 @@
 
 -(void) activate {
     BInternetConnectivityHandler * handler = [[BInternetConnectivityHandler alloc] init];
-    [BNetworkManager sharedManager].a.connectivity = handler;
+    BChatSDK.shared.networkAdapter.connectivity = handler;
 }
 
 
