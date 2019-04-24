@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDKFirebase"
-  s.version          = "4.10.2"
+  s.version          = "4.10.3"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
-  s.homepage         = "http://chatsdk.co"
+  s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
   s.author           = { "Ben Smiley" => "ben@chatsdk.co" }
   s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => s.version.to_s }
@@ -10,6 +10,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '9.0'
   s.requires_arc = true
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
   
   s.default_subspec = 'Adapter'
   
