@@ -32,7 +32,7 @@
 
 - (void)authUI:(FUIAuth *)authUI didSignInWithUser:(nullable FIRUser *)user error:(nullable NSError *)error {
     if(!error) {
-        [NM.auth authenticateWithCachedToken].thenOnMain(^id(id<PUser> user) {
+        [BChatSDK.auth authenticateWithCachedToken].thenOnMain(^id(id<PUser> user) {
             [self notifyDelegate:Nil];
             return Nil;
         }, ^id(NSError * error) {

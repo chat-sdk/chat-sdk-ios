@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let config = BConfiguration.init();
-        config.rootPath = "18_10"
+        config.rootPath = "19_05_web_test"
         config.allowUsersToCreatePublicChats = false
         config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
         config.clearDatabaseWhenDataVersionChanges = true
