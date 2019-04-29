@@ -23,6 +23,7 @@
 #import <ChatSDK/NSBundle+Additions.h>
 #import <ChatSDK/NSDate+Additions.h>
 #import <ChatSDK/NSDictionary+Meta.h>
+#import <ChatSDK/NSString+Safe.h>
 
 #import <ChatSDK/PStorageAdapter.h>
 #import <ChatSDK/PNetworkAdapter.h>

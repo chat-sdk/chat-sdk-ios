@@ -22,4 +22,10 @@
     }];
 }
 
+-(void) searchForUser: (NSString *) value {
+    [BChatSDK.search usersForIndexes:@[bUserNameKey, bUserEmailKey, bUserPhoneKey] withValue:value limit:0 userAdded:^(id<PUser> user) {
+        
+    }];
+}
+
 @end

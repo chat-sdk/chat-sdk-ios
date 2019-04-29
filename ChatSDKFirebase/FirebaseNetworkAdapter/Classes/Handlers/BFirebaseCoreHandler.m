@@ -50,10 +50,10 @@
     [FIRDatabaseReference goOffline];
 }
 
--(void)observeUser: (NSString *)entityID {
-    id<PUser> contactModel = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
-    [[CCUserWrapper userWithModel:contactModel] metaOn];
-    [[CCUserWrapper userWithModel:contactModel] onlineOn];
+-(RXPromise *)observeUser: (NSString *)entityID {
+    id<PUser> userModel = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
+    [[CCUserWrapper userWithModel:userModel] onlineOn];
+    return [[CCUserWrapper userWithModel:userModel] metaOn];
 }
 
 -(RXPromise *) createThreadWithUsers: (NSArray *) users

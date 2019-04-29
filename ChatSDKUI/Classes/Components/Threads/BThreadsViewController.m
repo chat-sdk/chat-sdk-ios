@@ -206,7 +206,7 @@
     
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
     
-    cell.profileImageView.image = thread.imageForThread;
+    [cell.profileImageView sd_setImageWithURL:[thread.meta metaValueForKey:bImageURL] placeholderImage:thread.imageForThread];
     
     //    cell.unreadView.hidden = !thread.unreadMessageCount;
     

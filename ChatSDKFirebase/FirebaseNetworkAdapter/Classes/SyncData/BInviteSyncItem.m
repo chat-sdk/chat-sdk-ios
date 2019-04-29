@@ -13,11 +13,11 @@
 @implementation BInviteSyncItem
 
 -(NSDictionary *) serialize {
-    return @{@"title": self.title ? self.title : @"",
+    return @{@"title": [NSString safe: self.title],
              @"userEntityID": self.userEntityID,
              @"message": self.message,
              @"date": [FIRServerValue timestamp],
-             @"avatarURL": self.avatarURL ? self.avatarURL : @""};
+             @"avatarURL": [NSString safe: self.avatarURL]};
 }
 
 -(void) deserialize: (NSDictionary *) dict {

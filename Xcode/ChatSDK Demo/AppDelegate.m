@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-
 #import <ChatSDK/UI.h>
 
 @interface AppDelegate ()
@@ -22,7 +21,7 @@
     // The network adapter handles network traffic
 
     BConfiguration * config = [BConfiguration configuration];
-    config.rootPath = @"19_03";
+    config.rootPath = @"19_05_fixes";
     config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = NO;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";

@@ -197,14 +197,22 @@
 }
 
 -(void) markRead {
+    
+    BOOL didMarkRead = NO;
+    
     for(id<PMessage> message in self.messages) {
-        message.read = @YES;
-        
-        // TODO: Should we have this here? Maybe this gets called too soon
-        // but it's a good backup in case the app closes before we save
-        message.delivered = @YES;
+        if (!message.read.boolValue) {
+            message.read = @YES;
+            
+            // TODO: Should we have this here? Maybe this gets called too soon
+            // but it's a good backup in case the app closes before we save
+            message.delivered = @YES;
+            didMarkRead = YES;
+        }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadRead object:Nil];
+    if (didMarkRead) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadRead object:Nil];
+    }
 }
 
 -(int) unreadMessageCount {
@@ -257,7 +265,7 @@
 }
 
 -(void) setMetaValue: (id) value forKey: (NSString *) key {
-    [self updateMeta:@{key: value ? value : @""}];
+    [self updateMeta:@{key: [NSString safe: value]}];
 }
 
 // TODO: Move this to UI module

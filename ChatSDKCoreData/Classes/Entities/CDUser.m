@@ -66,7 +66,7 @@
 }
 
 -(void) setMetaValue: (id) value forKey: (NSString *) key {
-    [self updateMeta:@{key: value ? value : @""}];
+    [self updateMeta:@{key: [NSString safe: value]}];
 }
 
 //-(void) addContact: (id<PUser>) user {

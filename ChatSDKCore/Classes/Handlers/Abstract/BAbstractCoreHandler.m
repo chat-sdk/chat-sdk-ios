@@ -81,16 +81,14 @@
         }
         else if (thread.type.intValue & bThreadFilterPublic) {
             if (BChatSDK.config.publicChatRoomLifetimeMinutes == 0) {
-                [threads addObjectsFromArray:threads];
+                [threads addObjectsFromArray:thread];
             } else {
                 NSDate * now = [NSDate date];
-                for (id<PThread> thread in threads) {
-                    NSTimeInterval interval = [now timeIntervalSinceDate:thread.creationDate];
-                    if (interval < BChatSDK.config.publicChatRoomLifetimeMinutes * 60) {
-                        [threads addObject:thread];
-                    } else {
-                        [thread markRead];
-                    }
+                NSTimeInterval interval = [now timeIntervalSinceDate:thread.creationDate];
+                if (interval < BChatSDK.config.publicChatRoomLifetimeMinutes * 60) {
+                    [threads addObject:thread];
+                } else {
+                    [thread markRead];
                 }
             }
         }
@@ -178,7 +176,7 @@
 /**
  * @brief Subscribe to a user's updates
  */
--(void)observeUser: (NSString *)entityID {
+-(RXPromise *)observeUser: (NSString *)entityID {
     assert(NO);
 }
 

@@ -49,7 +49,7 @@
 /**
  * @brief Subscribe to a user's updates
  */
--(void)observeUser: (NSString *)entityID;
+-(RXPromise *)observeUser: (NSString *)entityID;
 
 /**
  * @brief This method invites adds the users provided to a a conversation thread

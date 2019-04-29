@@ -145,7 +145,7 @@
 }
 
 -(void) setTextString: (NSString *) text {
-    [self setJson:@{bMessageText: text ? text : @""}];
+    [self setJson:@{bMessageText: [NSString safe:text]}];
 }
 
 // This helps us know if we want to show it in the thread
@@ -318,7 +318,7 @@
 }
 
 -(void) setMetaValue: (id) value forKey: (NSString *) key {
-    [self updateMeta:@{key: value ? value : @""}];
+    [self updateMeta:@{key: [NSString safe:value]}];
 }
 
 

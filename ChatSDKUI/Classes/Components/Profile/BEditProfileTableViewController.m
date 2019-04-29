@@ -114,8 +114,8 @@
     
     NSString * gender = genderSegmentControl.selectedSegmentIndex ? @"F" : @"M";
     
-    [user updateMeta:@{bDescription: statusTextView.text ? statusTextView.text : @"",
-                       bLocation: locationTextField.text ? locationTextField.text : @"",
+    [user updateMeta:@{bDescription: statusTextView.text ? [NSString safe: statusTextView.text],
+                       bLocation: locationTextField.text ? [NSString safe: locationTextField.text],
                        bGender: gender,
                        bCountry: countryPickerView.selectedCountryCode}];
     

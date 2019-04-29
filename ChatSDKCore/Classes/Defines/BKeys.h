@@ -34,6 +34,7 @@
 #define bLastMessage @"lastMessage"
 #define bUserName @"userName"
 #define bReadPath @"read"
+#define bImageURL @"image-url"
 
 #define bCreationDate @"creation-date"
 #define bMessage @"message"
