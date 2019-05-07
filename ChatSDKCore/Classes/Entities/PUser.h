@@ -47,9 +47,6 @@
 -(NSString *) imageURL;
 -(void) setImageURL: (NSString *) url;
 
--(void) setThumbnail: (NSData *) image;
--(NSData *) thumbnail;
--(UIImage *) thumbnailAsImage;
 -(void) setName: (NSString *) name;
 -(NSString *) name;
 
@@ -72,7 +69,6 @@
 -(NSString *) authenticationType;
 
 -(RXPromise *) loadProfileImage: (BOOL) force;
--(RXPromise *) loadProfileThumbnail: (BOOL) force;
 
 -(void) addLinkedAccountsObject: (id<PUserAccount>) account;
 

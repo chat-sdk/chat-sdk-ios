@@ -277,7 +277,6 @@
     
     // Now reduce the image to 200x200 for the profile picture
     image = [image resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
-    UIImage * thumbnail = [image resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
 
     // Set the user image
     [profilePictureButton setImage:image forState:UIControlStateNormal];
@@ -285,13 +284,12 @@
     // Update the user
     id<PUser> user = BChatSDK.currentUser;
     [user setImage:UIImagePNGRepresentation(image)];
-    [user setThumbnail:UIImagePNGRepresentation(thumbnail)];
     
     // Set the image now
-    [BChatSDK.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
+    [BChatSDK.upload uploadImage:image].thenOnMain(^id(NSDictionary * urls) {
     
         // Set the meta data
-        [user updateMeta:@{bUserImageURLKey: urls[bImagePath], bUserThumbnailURLKey: urls[bThumbnailPath]}];
+        [user updateMeta:@{bUserImageURLKey: urls[bImagePath]}];
     
         // Update the user
         [BChatSDK.core pushUser];

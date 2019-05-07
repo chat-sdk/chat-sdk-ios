@@ -116,11 +116,9 @@
         
         // If the user doesn't have a default profile picture then set it automatically
         UIImage * defaultImage = [self.model.defaultImage resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
-        UIImage * thumbnail = [defaultImage resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
         
         // Update the user
         [self.model setImage:UIImagePNGRepresentation(defaultImage)];
-        [self.model setThumbnail:UIImagePNGRepresentation(thumbnail)];
         
         [self setPersonProfilePicture];
     }
@@ -137,23 +135,19 @@
     id<PUser> user = BChatSDK.currentUser;
     
     // Only set the user picture if they are logging on the first time
-    if (url && !user.thumbnail) {
+    if (url && !user.image) {
         
         return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:url]].thenOnMain(^id(UIImage * image) {
             
             if(image) {
                 
-                UIImage * thumbnail = [image resizeImageToSize:bProfilePictureThumbnailSize];
-                //UIImage * thumbnail = [image resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
-                
                 [user setImage:UIImagePNGRepresentation(image)];
-                [user setThumbnail:UIImagePNGRepresentation(thumbnail)];
                 
                 if(BChatSDK.upload) {
-                    return [BChatSDK.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
+                    return [BChatSDK.upload uploadImage:image].thenOnMain(^id(NSDictionary * urls) {
                         
                         // Set the meta data
-                        [user updateMeta:@{bUserImageURLKey: urls[bImagePath], bUserThumbnailURLKey: urls[bThumbnailPath]}];
+                        [user updateMeta:@{bUserImageURLKey: urls[bImagePath]}];
                         
                         return [user loadProfileImage:NO].thenOnMain(^id(UIImage * image) {
                             
@@ -188,8 +182,7 @@
 -(id) initWithEntityID: (NSString *) entityID {
     if((self = [self init])) {
         
-        _model = [BChatSDK.db fetchOrCreateEntityWithID:entityID
-                                                                           withType:bUserEntity];
+        _model = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
         
     }
     return self;
@@ -406,7 +399,6 @@
     NSDictionary * newMeta = value;
 
     // Check to see if the image has changed
-    BOOL thumbnailChanged = ![meta[bUserThumbnailURLKey] isEqualToString:newMeta[bUserThumbnailURLKey]];
     BOOL imageChanged = ![meta[bUserImageURLKey] isEqualToString:newMeta[bUserImageURLKey]];
     
     for (NSString * key in [newMeta allKeys]) {
@@ -419,14 +411,7 @@
         [_model setMeta:meta];
     }
     
-    NSMutableArray * promises = [NSMutableArray new];
-    [promises addObject:[_model loadProfileThumbnail:thumbnailChanged]];
-    
-    if (self.entityID == BChatSDK.currentUser.entityID) {
-        [promises addObject:[_model loadProfileImage:imageChanged]];
-    }
-    
-    return [RXPromise all:promises];
+    return [_model loadProfileImage:imageChanged];
 }
 
 -(FIRDatabaseReference *) ref {

@@ -54,7 +54,6 @@
 #import <ChatSDK/BUsersViewController.h>
 #import <ChatSDK/BTermsOfServiceViewController.h>
 #import <ChatSDK/BInterfaceManager.h>
-#import <ChatSDK/BDetailedProfileDefines.h>
 #import <ChatSDK/BAppTabBarController.h>
 #import <ChatSDK/BDefaultInterfaceAdapter.h>
 #import <ChatSDK/BMessageSection.h>
@@ -84,6 +83,12 @@
 #import <ChatSDK/BSelectMediaAction.h>
 #import <ChatSDK/BSelectFileAction.h>
 #import <ChatSDK/BDefaultUIModule.h>
+
+#import <ChatSDK/BDetailedUserWrapper.h>
+#import <ChatSDK/BDetailedProfileTableViewController.h>
+#import <ChatSDK/BEditDetailedProfileTableViewController.h>
+#import <ChatSDK/BAvailabilityState.h>
+#import <ChatSDK/BUserConnectionWrapper.h>
 
 #import <Toast/Toast.h>
 

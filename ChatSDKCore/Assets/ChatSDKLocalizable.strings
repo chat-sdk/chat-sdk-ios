@@ -183,4 +183,12 @@
 "bPhoto" = "Photo";
 "bFile" = "File";
 
+// To Translate
+
+"bAvailable" = "Available";
+"bAway" = "Away";
+"bExtendedAway" = "Extended Away";
+"bBusy" = "Busy";
+"bAddContact" = "Add Contact";
+
 "" = "";

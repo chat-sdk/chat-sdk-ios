@@ -81,7 +81,6 @@
 #define bUserPhoneKey @"phone"
 #define bUserPrefixKey @"user"
 #define bUserImageURLKey @"pictureURL"
-#define bUserThumbnailURLKey @"pictureURLThumbnail"
 #define bUserPictures @"pictures"
 
 #define bUserPrivilegeKey @"privilege"

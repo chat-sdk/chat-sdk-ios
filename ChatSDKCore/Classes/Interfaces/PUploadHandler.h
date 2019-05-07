@@ -18,7 +18,7 @@
 
 -(RXPromise *) uploadFile:(NSData *)file withName: (NSString *) name mimeType: (NSString *) mimeType;
 
--(RXPromise *) uploadImage:(UIImage *)image thumbnail: (UIImage *) thumbnail;
+-(RXPromise *) uploadImage:(UIImage *)image;
 
 @end
 

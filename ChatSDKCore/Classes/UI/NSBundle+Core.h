@@ -129,6 +129,7 @@
 
 #define bRemoveFriend @"bRemoveFriend"
 #define bAddFriend @"bAddFriend"
+#define bAddContact @"bAddContact"
 #define bUnblock @"bUnblock"
 #define bBlock @"bBlock"
 #define b_LeftTheGroup @"b_LeftTheGroup"
@@ -183,6 +184,11 @@
 #define bVideoMessage @"bVideoMessage"
 #define bStickerMessage @"bStickerMessage"
 #define bFileMessage @"bFileMessage"
+
+#define bAvailable @"bAvailable"
+#define bAway @"bAway"
+#define bExtendedAway @"bExtendedAway"
+#define bBusy @"bBusy"
 
 @protocol PMessage;
 

@@ -283,7 +283,7 @@
     for (id<PUser> user in tempUsers) {
         
         // Check if the user picture has been uploaded
-        if (!user.thumbnail) {
+        if (!user.image) {
             [users removeObject:user];
         }
     }
@@ -302,12 +302,12 @@
     else if (users.count == 1) {
         // Only one user left so use their picture
         id<PUser> user = users.firstObject;
-        return [UIImage imageWithData:user.thumbnail];
+        return [UIImage imageWithData:user.image];
     }
     else {
         
         // When we get the user thumbnail image we make sure it is the size we want so resize it to be 100 x 100
-        UIImage * image1 = [[UIImage imageWithData:((id<PUser>)users.firstObject).thumbnail] resizeImageToSize:CGSizeMake(100, 100)];
+        UIImage * image1 = [[UIImage imageWithData:((id<PUser>)users.firstObject).image] resizeImageToSize:CGSizeMake(100, 100)];
         
         // Then crop the image
         image1 = [image1 croppedImage:CGRectMake(25, 0, 49, 100)];
@@ -316,7 +316,7 @@
         if (users.count == 2) {
             
             // When we get the user thumbnail image we make sure it is the size we want so resize it to be 100 x 100
-            UIImage * image2 = [[UIImage imageWithData:((id<PUser>)users.lastObject).thumbnail] resizeImageToSize:CGSizeMake(100, 100)];
+            UIImage * image2 = [[UIImage imageWithData:((id<PUser>)users.lastObject).image] resizeImageToSize:CGSizeMake(100, 100)];
             
             // Then crop the image
             image2 = [image2 croppedImage:CGRectMake(25, 0, 49, 100)];
@@ -330,8 +330,8 @@
         else {
             
             // Thumbnails done by using parse change
-            UIImage * image2 = [UIImage imageWithData:((id<PUser>)users[1]).thumbnail];
-            UIImage * image3 = [UIImage imageWithData:((id<PUser>)users[2]).thumbnail];
+            UIImage * image2 = [UIImage imageWithData:((id<PUser>)users[1]).image];
+            UIImage * image3 = [UIImage imageWithData:((id<PUser>)users[2]).image];
             
             // Combine the images
             UIGraphicsBeginImageContextWithOptions(CGSizeMake(100, 100), NO, 0.0);

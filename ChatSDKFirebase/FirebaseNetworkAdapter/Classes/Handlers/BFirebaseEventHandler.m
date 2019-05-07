@@ -17,7 +17,7 @@
     id<PUser> user = [BChatSDK.db fetchEntityWithID:entityID withType:bUserEntity];
 
     [BHookNotification notificationUserOn:user];
-        
+    
     [self threadsOn:user];
     [self publicThreadsOn:user];
     [self contactsOn:user];

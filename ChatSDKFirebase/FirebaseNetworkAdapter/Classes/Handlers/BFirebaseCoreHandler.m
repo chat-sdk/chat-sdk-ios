@@ -30,11 +30,12 @@
 }
 
 -(void) setUserOffline {
+    [super setUserOffline];
     id<PUser> user = self.currentUserModel;
     if(!user || !user.entityID) {
         return;
     }
-    
+
     [BHookNotification notificationUserWillDisconnect];
     
     [[CCUserWrapper userWithModel:user] goOffline];

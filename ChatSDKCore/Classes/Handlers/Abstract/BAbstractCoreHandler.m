@@ -151,8 +151,11 @@
  * @brief Mark the user as online
  */
 -(void) setUserOnline {
-    if(BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
-        [BChatSDK.lastOnline setLastOnlineForUser:self.currentUserModel];
+    if (BChatSDK.currentUser) {
+        BChatSDK.currentUser.online = @YES;
+        if(BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
+            [BChatSDK.lastOnline setLastOnlineForUser:self.currentUserModel];
+        }
     }
 }
 
@@ -259,7 +262,9 @@
 }
 
 - (void)setUserOffline {
-    assert(NO);
+    if (BChatSDK.currentUser) {
+        BChatSDK.currentUser.online = @NO;
+    }
 }
 
 -(id<PThread>) fetchThreadWithUsers: (NSArray *) users {

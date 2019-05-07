@@ -22,8 +22,6 @@
 @dynamic messageColor;
 @dynamic meta;
 @dynamic online;
-@dynamic status;
-@dynamic thumbnail;
 @dynamic linkedAccounts;
 @dynamic messages;
 @dynamic threads;

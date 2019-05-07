@@ -27,8 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *messageColor;
 @property (nullable, nonatomic, retain) id meta;
 @property (nullable, nonatomic, retain) NSNumber *online;
-@property (nullable, nonatomic, retain) NSData *status;
-@property (nullable, nonatomic, retain) NSData *thumbnail;
 @property (nullable, nonatomic, retain) NSSet<CDUserAccount *> *linkedAccounts;
 @property (nullable, nonatomic, retain) NSSet<CDMessage *> *messages;
 @property (nullable, nonatomic, retain) NSSet<CDThread *> *threads;

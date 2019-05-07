@@ -111,11 +111,8 @@
     if (_profileViewController != Nil) {
         return _profileViewController(user);
     }
-    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Profile"
-                                                          bundle:[NSBundle uiBundle]];
-    
-    BProfileTableViewController * controller = [storyboard instantiateInitialViewController];
-    // TODO: Fix this
+    BDetailedProfileTableViewController * controller = [[UIStoryboard storyboardWithName:@"DetailedProfile"
+                                                                              bundle:[NSBundle uiBundle]] instantiateInitialViewController];
     controller.user = user;
     return controller;
 }

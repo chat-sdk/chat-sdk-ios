@@ -145,30 +145,30 @@
 }
 
 // TODO: Check this
--(RXPromise *) loadProfileThumbnail: (BOOL) force {
-    
-    if (!self.thumbnail || force) {
-        
-        // If there's no image set on temporarily
-        if(!self.thumbnail) {
-            [self setThumbnail: UIImagePNGRepresentation(self.defaultImage)];
-        }
-        
-        // Then try to load the image from the URL
-        NSString * imageURL = [self.meta metaStringForKey:bUserImageURLKey];
-        if (imageURL) {
-            return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:imageURL]].thenOnMain(^id(UIImage * image) {
-                if(image) {
-                    [self setThumbnail:UIImagePNGRepresentation(image)];
-                }
-                return image;
-            }, Nil);
-        }
-    }
-    RXPromise * promise = [RXPromise new];
-    [promise resolveWithResult:[UIImage imageWithData:self.thumbnail]];
-    return promise;
-}
+//-(RXPromise *) loadProfileThumbnail: (BOOL) force {
+//    
+//    if (!self.thumbnail || force) {
+//        
+//        // If there's no image set on temporarily
+//        if(!self.thumbnail) {
+//            [self setThumbnail: UIImagePNGRepresentation(self.defaultImage)];
+//        }
+//        
+//        // Then try to load the image from the URL
+//        NSString * imageURL = [self.meta metaStringForKey:bUserImageURLKey];
+//        if (imageURL) {
+//            return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:imageURL]].thenOnMain(^id(UIImage * image) {
+//                if(image) {
+//                    [self setThumbnail:UIImagePNGRepresentation(image)];
+//                }
+//                return image;
+//            }, Nil);
+//        }
+//    }
+//    RXPromise * promise = [RXPromise new];
+//    [promise resolveWithResult:[UIImage imageWithData:self.thumbnail]];
+//    return promise;
+//}
 
 -(int) unreadMessageCount {
     // Get all the threads
@@ -193,39 +193,24 @@
     return [@"facebook:" stringByAppendingString:fid];
 }
 
--(void) setStatusDictionary: (NSDictionary *) dictionary {
-    self.status = [NSKeyedArchiver archivedDataWithRootObject:dictionary];
-}
-
--(NSDictionary *) getStatusDictionary {
-    return self.status ? [NSKeyedUnarchiver unarchiveObjectWithData:self.status] : Nil;
-}
-
--(void) setStatusValue: (id) value forKey: (NSString *) key {
-    NSDictionary * status = self.getStatusDictionary ? self.getStatusDictionary : [NSDictionary new];
-    NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:status];
-    [dict setValue:value forKey:key];
-    [self setStatusDictionary:dict];
-}
-
 -(void) setState: (NSString *) state {
-    [self setStatusValue:state forKey:bUserStateKey];
+    [self setMetaValue:state forKey:bUserStateKey];
+//    [self setStatusValue:state forKey:bUserStateKey];
 }
 
 -(NSString *) state {
-    return self.getStatusDictionary[bUserStateKey];
+    return [self.meta valueForKey:bUserStateKey];
+//    return self.getStatusDictionary[bUserStateKey];
 }
 
 -(void) setStatusText: (NSString *) statusText {
-    [self setStatusValue:statusText forKey:bUserStatusTextKey];
+    [self setMetaValue:statusText forKey:bUserStatusTextKey];
+//    [self setStatusValue:statusText forKey:bUserStatusTextKey];
 }
 
 -(NSString *) statusText {
-    return self.getStatusDictionary[bUserStatusTextKey];
-}
-
--(UIImage *) thumbnailAsImage {
-    return [[self imageAsImage] resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
+    return [self.meta valueForKey:bUserStatusTextKey];
+//    return self.getStatusDictionary[bUserStatusTextKey];
 }
 
 -(UIImage *) imageAsImage {
@@ -242,7 +227,7 @@
 }
 
 -(void) setImageURL: (NSString *) url {
-    [self updateMeta:@{bUserImageURLKey: url, bUserThumbnailURLKey: url}];
+    [self updateMeta:@{bUserImageURLKey: url}];
 }
 
 // TODO: Remove UI dependency on CoreData
