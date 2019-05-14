@@ -1,0 +1,194 @@
+﻿/*
+  localizable.strings
+  Chat SDK
+
+  Created by Benjamin Smiley-andrews on 22/05/2014.
+  Copyright (c) 2014 deluge. All rights reserved.
+*/
+
+"bLogout" = "退出登录";
+"bSettings" = "设置";
+"bLogginIn" = "正在登录";
+"bProfile" = "个人资料";
+"bProfilePictures" = "头像";
+"bAddPicture" = "添加照片";
+"bDeletePicture" = "删除照片";
+"bSetAsDefaultPicture" = "设为默认图片";
+"bDeleteLastPictureWarning" = "在删除原有头像前请先上传一张新照片。";
+"bLoggingOut" = "正在登出";
+"bErrorTitle" = "错误";
+"bUserCreatedError" = "无法创建用户";
+"bContacts" = "通讯录";
+"bConversations" = "对话";
+"bBroadcast" = "广播";
+"bThreadCreationError" = "无法创建会话";
+"bChatRooms" = "聊天室";
+"bPickFriends" = "选择需要添加的好友";
+"bReset" = "重设";
+"bLogin" = "登录";
+"bRegister" = "注册";
+"bPassword" = "密码";
+"bForgotPassword" = "忘记密码?";
+"bEnterCredentialToResetPassword" = "输入你的邮箱地址来重设你的密码";
+"bPasswordResetSuccess" = "你已成功重设你的密码";
+
+"bBack" = "返回";
+"bOpenInMaps" = "在地图中打开";
+"bImageSaved" = "图片已保存";
+"bLocation" = "位置";
+"bCompose" = "创建";
+"bLoadingFriends" = "正在加载好友列表";
+"bLoading" = "加载中";
+"bErrorLoadingFriends" = "加载好友列表错误";
+"bInvalidSelection" = "无效的选择";
+"bSelectAtLeastOneFriend" = "你给我至少选一个好友啊";
+"bFacebook" = "脸书";
+"bFriendsOnChatSDK" = "脸书好友";
+"bInviteFriendsFromFacebook" = "邀请你的小伙伴们一起来玩啊";
+"bFriendsAdded_i" = "好友已添加";
+"bErrorAddingUser_s" = "无法添加 %@ 至会话";
+"bSuccess" = "成功";
+"bAdded" = "已添加";
+"bAdd" = "添加";
+"bCreatingThread" = "正在创建会话";
+"bLogoutErrorTitle" = "登出错误";
+"bAuthenticating" = "认证中";
+"bOpen" = "打开";
+
+"bFlagged" = "已标记";
+"bFlag" = "标记";
+"bDelete" = "删除";
+"bUnflag" = "取消标记";
+
+"bSearch" = "搜索";
+"bSearching" = "搜索中";
+"bAddUsers" = "添加用户";
+"bNoNearbyUsers" = "无临近用户";
+
+"bOnline" = "在线";
+"bOffline" = "离线";
+
+"bCreatePublicThread" = "创建公共会话";
+"bThreadName" = "会话名";
+"bThread" = "会话";
+"bCancel" = "取消";
+"bOk" = "确认";
+"bUnableToCreateThread" = "无法创建会话";
+"bChat" = "聊天";
+"bOptions" = "选项";
+"bChooseExistingPhoto" = "选择已有照片";
+"bTakePhoto" = "拍照";
+"bTakeVideo" = "拍视频";
+"bTakePhotoOrVideo" = "拍摄照片或视频";
+"bChooseExistingPhoto" = "选择已有照片";
+"bChooseExistingVideo" = "选择已有视频";
+"bCurrentLocation" = "当前位置";
+"bSend" = "发送";
+"bReply" = "回复";
+"bRec" = "记录";
+"bWriteSomething" = "写点什么吧...";
+"bSlideToCancel" = "轻扫以取消...";
+"bName" = "姓名";
+"bTapHereForContactInfo" = "点击此处以查看名片";
+"bPhoneNumber" = "手机号";
+"bEmail" = "邮箱";
+"bDetails" = "详细信息";
+"bAddParticipant" = "添加成员";
+"bLeaveConversation" = "离开会话";
+"bRejoinConversation" = "重新加入会话";
+"bParticipants" = "成员";
+"bActiveParticipants" = "活跃成员";
+"bNoActiveParticipants" = "无活跃成员";
+"bDone" = "完成";
+"bEdit" = "编辑";
+"bNoMessages" = "此处还没有消息...";
+"bGroupName" = "群组名";
+"bLastSeen_at_" = "%@ 的最后位置在 %@ ";
+"b_at_" = "%@ 在 %@";
+"bToday" = "今天";
+"bYesterday" = "昨天";
+
+"bSearchTerm" = "检索项";
+
+"bTo" = "收件人";
+"bEnterNamesHere" = "在此处输入姓名";
+"bSearchedContacts" = "搜索过的联系人";
+"bNearbyContacts" = "附近的联系人";
+
+"bTyping" = "正在打字...";
+"bRefreshingUsers" = "刷新用户...";
+
+"bSelectYourSearch" = "选择搜索结果";
+"bPhonebook" = "电话簿";
+"bSearchWithName" = "使用姓名搜索";
+"bWarning" = "警告";
+"bYouMustEnableContactPermissionsToUseThisFunctionalityEnableInTheSettingsApp" = "使用此项功能之前，您需要授权程序访问您的通讯录。你可以在设置中修改此设定";
+
+"bTermsAndConditions" = "条款与条件";
+"bNoNewUsersFoundForThisSearch" = "没有找到任何符合条件的用户";
+
+"bDefaultThreadName" = "会话";
+"bHoldToSendAudioMessageError" = "按下以发送语音消息。语音消息必须长于1秒";
+"bRecording" = "正在录音";
+"bSecondsRemaining_" = "Seconds Remaining %i 秒";
+"bCancelled" = "已取消";
+
+"bAudioLengthLimitReached" = "已达到语音长度限制";
+"bSendOrDiscardRecording" = "发送或删除录音";
+
+"bAddFriend" = "添加好友";
+"bRemoveFriend" = "删除好友";
+
+"bBlock" = "加入黑名单";
+"bUnblock" = "从黑名单中移除";
+
+"bSave" = "保存";
+"bSaving" = "正在保存";
+
+"b_Ago" = "%@ 之前";
+
+"b_LeftTheGroup" = "%@ 已退出群组";
+"b_JoinedTheGroup" = "%@ 已加入群组";
+"bCreateGroup" = "创建群组";
+"bYouLeftTheGroup" = "你退出了这个群组";
+"bYouJoinedTheGroup" = "你加入了这个群组";
+"bRejoinGroup" = "重新加入群组";
+
+"bDeleteContact" = "删除联系人";
+"bDeleteContactMessage" = "你确定要删除这个联系人吗？";
+
+"bLocation" = "位置";
+"bCamera" = "相机";
+"bChoosePhoto" = "选择照片";
+"bChooseVideo" = "选择视频";
+"bSticker" = "表情贴图";
+
+"bImageMessagesNotSupported" = "不支持图片消息";
+"bAudioMessagesNotSupported" = "不支持语音消息";
+"bStickerMessagesNotSupported" = "不支持贴图消息";
+"bLocationMessagesNotSupported" = "不支持位置消息";
+"bVideoMessagesNotSupported" = "不支持视频消息";
+
+"bRefreshingUsers" = "正在刷新...";
+"bInviteContact" = "邀请联系人";
+"bInviteByEmail" = "邮箱";
+"bInviteBySMS" = "短信";
+
+"bImageMessage" = "图片消息";
+"bLocationMessage" = "位置消息";
+"bAudioMessage" = "语音消息";
+"bVideoMessage" = "视频消息";
+"bStickerMessage" = "贴图消息";
+"bFileMessage" = "文件消息";
+"bPhoto" = "图片";
+"bFile" = "文件";
+
+// To Translate
+
+"bAvailable" = "在线";
+"bAway" = "离开";
+"bExtendedAway" = "长时间离开";
+"bBusy" = "忙碌";
+"bAddContact" = "添加联系人";
+
+"" = "";
