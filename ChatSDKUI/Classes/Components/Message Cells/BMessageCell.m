@@ -127,14 +127,14 @@
     
     BOOL isMine = message.senderIsMe;
     if (isMine) {
-        [self setReadStatus:message.readStatus];
+        [self setReadStatus:message.messageReadStatus];
     }
     else {
         [self setReadStatus:bMessageReadStatusHide];
     }
     
     bMessagePos position = message.messagePosition;
-    id<PElmMessage> nextMessage = message.lazyNextMessage;
+    id<PElmMessage> nextMessage = message.nextMessage;
     
     // Set the bubble to be the correct color
     bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message withColorWeight:colorWeight];
@@ -302,7 +302,7 @@
 -(void) showProfileView {
     
     // Cannot view our own profile this way
-    if (![_message.userModel.entityID isEqualToString:BChatSDK.currentUser.entityID]) {
+    if (!_message.userModel.isMe) {
         UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:_message.userModel];
         [self.navigationController pushViewController:profileView animated:YES];
     }

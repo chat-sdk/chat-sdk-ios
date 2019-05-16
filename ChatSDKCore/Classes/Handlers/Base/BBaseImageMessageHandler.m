@@ -28,8 +28,7 @@
         NSURL * url = info[bFilePath] ? info[bFilePath] : Nil;
         NSString * urlString = url ? url.absoluteString : @"";
 
-        [message setJson:@{bMessageImageURL: urlString,
-                           bMessageThumbnailURL: urlString,
+        [message setMeta:@{bMessageImageURL: urlString,
                            bMessageImageWidth: @(image.size.width),
                            bMessageImageHeight: @(image.size.height)}];
         

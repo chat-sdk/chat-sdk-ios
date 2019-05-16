@@ -97,7 +97,7 @@
 }
 
 -(void) addConnection: (id<PUserConnection>) connection {
-    if (![self.userConnections containsObject:connection] && ![self connectionExists:connection] && ![connection.entityID isEqualToString:self.entityID]) {
+    if (![self.userConnections containsObject:connection] && ![self connectionExists:connection] && ![connection isEqualToEntity:self]) {
         [self addUserConnectionsObject:connection];
     }
 }
@@ -112,7 +112,7 @@
 }
 
 -(BOOL) connection: (CDUserConnection *) c1 isEqual: (CDUserConnection *) c2 {
-    return [c1.entityID isEqualToString:c2.entityID] && c1.userConnectionType == c2.userConnectionType;
+    return [c1 isEqualToEntity:c2] && c1.userConnectionType == c2.userConnectionType;
 }
 
 -(void) removeConnection: (id<PUserConnection>) connection {
@@ -144,39 +144,13 @@
     return promise;
 }
 
-// TODO: Check this
-//-(RXPromise *) loadProfileThumbnail: (BOOL) force {
-//    
-//    if (!self.thumbnail || force) {
-//        
-//        // If there's no image set on temporarily
-//        if(!self.thumbnail) {
-//            [self setThumbnail: UIImagePNGRepresentation(self.defaultImage)];
-//        }
-//        
-//        // Then try to load the image from the URL
-//        NSString * imageURL = [self.meta metaStringForKey:bUserImageURLKey];
-//        if (imageURL) {
-//            return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:imageURL]].thenOnMain(^id(UIImage * image) {
-//                if(image) {
-//                    [self setThumbnail:UIImagePNGRepresentation(image)];
-//                }
-//                return image;
-//            }, Nil);
-//        }
-//    }
-//    RXPromise * promise = [RXPromise new];
-//    [promise resolveWithResult:[UIImage imageWithData:self.thumbnail]];
-//    return promise;
-//}
-
 -(int) unreadMessageCount {
     // Get all the threads
     int i = 0;
     for (id<PThread> thread in self.threads) {
         if (thread.type.intValue & bThreadFilterPrivate) {
             for (id<PMessage> message in thread.messagesOrderedByDateDesc) {
-                if (!message.read.boolValue) {
+                if (!message.isRead) {
                     i++;
                 }
             }
@@ -193,14 +167,12 @@
     return [@"facebook:" stringByAppendingString:fid];
 }
 
--(void) setState: (NSString *) state {
-    [self setMetaValue:state forKey:bUserStateKey];
-//    [self setStatusValue:state forKey:bUserStateKey];
+-(void) setAvailability: (NSString *) availability {
+    [self setMetaValue:availability forKey:bUserAvailabilityKey];
 }
 
--(NSString *) state {
-    return [self.meta valueForKey:bUserStateKey];
-//    return self.getStatusDictionary[bUserStateKey];
+-(NSString *) availability {
+    return [self.meta valueForKey:bUserAvailabilityKey];
 }
 
 -(void) setStatusText: (NSString *) statusText {
@@ -236,13 +208,11 @@
 }
 
 -(BOOL) isMe {
-    return [self.entityID isEqualToString:BChatSDK.currentUser.entityID];
+    return [self isEqualToEntity:BChatSDK.currentUser];
 }
 
--(void) optimize {
-    for (CDThread * thread in self.threads) {
-        [thread optimize];
-    }
+-(BOOL) isEqualToEntity: (id<PEntity>) entity {
+    return [self.entityID isEqualToString:entity.entityID];
 }
 
 @end

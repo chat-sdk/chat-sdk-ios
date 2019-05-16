@@ -11,11 +11,12 @@
 
 #import <ChatSDK/bSubscriptionType.h>
 #import <ChatSDK/BUserConnectionType.h>
+#import <ChatSDK/PEntity.h>
 
 @protocol PUser;
 @protocol PGroup;
 
-@protocol PUserConnection<NSObject>
+@protocol PUserConnection<PEntity>
 
 -(NSString *) entityID;
 -(void) setEntityID: (NSString *) entityID;

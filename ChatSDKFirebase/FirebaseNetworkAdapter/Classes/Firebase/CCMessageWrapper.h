@@ -45,5 +45,7 @@
 -(NSDictionary *) lastMessageData;
 
 -(FIRDatabaseReference *) ref;
+-(RXPromise *) markAsReceived;
+-(RXPromise *) setReadStatus: (bMessageReadStatus) status;
 
 @end

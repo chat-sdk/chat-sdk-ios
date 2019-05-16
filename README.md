@@ -130,6 +130,34 @@ We provide extensive documentation on Github but if you’re a non-technical use
 
 We are specialists in real-time application development including: Firebase, Firestore, XMPP and WebRTC for iOS and Android. If you need help integrating the Chat SDK with your app or another app development project email us at [team@sdk.chat](mailto: team@sdk.chat). 
 
+## Updating from 4.10.x to 4.11.x
+
+The latest update brings a range of improvements and new features including:
+
+- Detailed profile screen:
+	- User status
+	- User availability
+	- Country
+- Update to message view
+	- Vastly improved lazy loading
+	- Efficiency improvements
+- Contacts
+	- Add / remove contact from contact screen 
+
+There are also a range of bug fixes and overall improvments. If we aren't able to document all the changes but if you have any issues updating your project, you can post on this [issue](https://github.com/chat-sdk/chat-sdk-ios/issues/360) and we will answer your questions. 
+
+The [security rules](firebase-rules.json) have also been updated so make sure to bring your project up to date. 		
+Several schema have also been deprecated and will be removed at some point in the future. These include:
+
+- `message/to` field added
+- `message/meta` will replace `json_v2`
+- `message/from` will replace `user-firebase-id`
+- `thread/meta` will replace `details`
+- `thread/meta/creator` will replace `creator-entity-id`
+- `thread/meta/type` will replace `type_v4`
+
+At the moment these fields are not being used and are only included for future compatibility. However, in a future version of the client, the old fields will be removed and any old versions of the client will stop working.
+
 ## Running the demo project
 This repository contains a fully functional version of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
 

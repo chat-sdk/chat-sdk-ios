@@ -75,7 +75,7 @@
     
     for(id<PThread> thread in allThreads) {
         if(thread.type.intValue & bThreadFilterPrivate) {
-            if(thread.type.intValue & type  && (!thread.deleted_.boolValue || includeDeleted) && (thread.hasMessages || includeEmpty)) {
+            if(thread.type.intValue & type && (!thread.deletedDate || includeDeleted) && (thread.hasMessages || includeEmpty)) {
                 [threads addObject:thread];
             }
         }
@@ -140,7 +140,6 @@
         _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID
                                                                    withType:bUserEntity];
         _currentUserEntityID = currentUserID;
-        [_currentUser optimize];
         [self save];
     }
     return _currentUser;
@@ -240,8 +239,15 @@
  * @brief Lazy loading of messages this method will load
  * that are not already in memory
  */
--(RXPromise *) loadMoreMessagesForThread: (id<PThread>) threadModel {
-    assert(NO);
+-(RXPromise *) loadMoreMessagesFromDate: (NSDate *) date forThread: (id<PThread>) threadModel {
+    return [self loadMoreMessagesFromDate:date forThread:threadModel fromServer:YES];
+}
+
+-(RXPromise *) loadMoreMessagesFromDate: (NSDate *) date forThread: (id<PThread>) threadModel fromServer: (BOOL) fromServer {
+    RXPromise * promise = [RXPromise new];
+    NSArray * messages = [BChatSDK.db loadMessagesForThread:threadModel fromDate:date count:BChatSDK.config.messagesToLoadPerBatch];
+    [promise resolveWithResult:messages];
+    return promise;
 }
 
 /**
@@ -293,7 +299,7 @@
         
         // Complete with the thread
         if(jointThread) {
-            [jointThread setDeleted: @NO];
+            [jointThread setDeletedDate: Nil];
             return jointThread;
         }
     }

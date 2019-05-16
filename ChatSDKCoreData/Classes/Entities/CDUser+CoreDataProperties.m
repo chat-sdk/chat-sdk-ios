@@ -13,19 +13,14 @@
 
 @implementation CDUser (CoreDataProperties)
 
-@dynamic authenticationType;
-@dynamic dirty;
 @dynamic entityID;
 @dynamic image;
 @dynamic lastOnline;
-@dynamic lastUpdated;
-@dynamic messageColor;
 @dynamic meta;
 @dynamic online;
 @dynamic linkedAccounts;
 @dynamic messages;
 @dynamic threads;
-@dynamic threadsCreated;
 @dynamic userConnections;
 
 @end

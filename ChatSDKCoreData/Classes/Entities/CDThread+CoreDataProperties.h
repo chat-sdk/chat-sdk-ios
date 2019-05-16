@@ -15,21 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CDThread (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSString *apiKey;
 @property (nullable, nonatomic, retain) NSDate *creationDate;
-@property (nullable, nonatomic, retain) NSNumber *deleted_;
-@property (nullable, nonatomic, retain) NSNumber *dirty;
+@property (nullable, nonatomic, retain) NSDate *deletedDate;
 @property (nullable, nonatomic, retain) NSString *entityID;
-@property (nullable, nonatomic, retain) NSNumber *hasUnreadMessages;
-@property (nullable, nonatomic, retain) NSDate *lastMessageAdded;
 @property (nullable, nonatomic, retain) NSString *name;
-@property (nullable, nonatomic, retain) NSString *rootKey;
 @property (nullable, nonatomic, retain) NSNumber *type;
 @property (nullable, nonatomic, retain) id meta;
 @property (nullable, nonatomic, retain) CDUser *creator;
 @property (nullable, nonatomic, retain) NSSet<CDMessage *> *messages;
 @property (nullable, nonatomic, retain) NSSet<CDUser *> *users;
-@property (nullable, nonatomic, retain) CDMessage * lastMessage;
 
 @end
 

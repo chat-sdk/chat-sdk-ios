@@ -67,7 +67,7 @@
         text = [self t:bFileMessage];
     }
     else {
-        text = message.textString;
+        text = message.text;
     }
     return text;
 }

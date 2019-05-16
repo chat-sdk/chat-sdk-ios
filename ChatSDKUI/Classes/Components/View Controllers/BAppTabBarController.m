@@ -51,7 +51,7 @@
     
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [weakSelf updateBadge];
-    }] withNames:@[bHookMessageRecieved]];
+    }] withNames:@[bHookMessageRecieved, bHookMessageWasDeleted]];
 
     // When a message is recieved we increase the messages tab number
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationBadgeUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
@@ -60,11 +60,6 @@
         });
     }];
     
-    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf updateBadge];
-        });
-    }];
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadRead object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf updateBadge];
@@ -178,7 +173,7 @@
     NSArray * threads = [BChatSDK.core threadsWithType:type];
     for (id<PThread> thread in threads) {
         for (id<PMessage> message in thread.allMessages) {
-            if (!message.read.boolValue) {
+            if (!message.isRead) {
                 i++;
             }
         }

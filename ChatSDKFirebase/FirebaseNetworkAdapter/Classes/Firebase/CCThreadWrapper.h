@@ -74,7 +74,7 @@
 /**
  * @brief Lazyload a certain number of historic messages
  */
--(RXPromise *) loadMoreMessages: (int) numberOfMessages;
+-(RXPromise *) loadMoreMessagesFromDate: (NSDate *) date count: (int) count;
 
 /**
  * @brief Mark the thread as deleted on the server

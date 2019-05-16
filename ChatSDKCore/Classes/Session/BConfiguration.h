@@ -157,7 +157,9 @@
 @property (nonatomic, readwrite) BOOL prefersLargeTitles;
 
 // How many messages should be loaded initially when a chat is opened
+// Deprecated: use messagesToLoadPerBatch
 @property (nonatomic, readwrite) int chatMessagesToLoad;
+@property (nonatomic, readwrite) int messagesToLoadPerBatch;
 
 // Push notification sound - name of sound file to play i.e. "mySound"
 @property (nonatomic, readwrite) NSString * pushNotificationSound;

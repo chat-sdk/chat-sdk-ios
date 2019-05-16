@@ -218,18 +218,18 @@
 
                 // If the user was authenticated automatically
                 if (!details) {
-                    [BHookNotification notificationDidAuthenticate:user.model];
+                    [BHookNotification notificationDidAuthenticate:user.model type:bHook_AuthenticationTypeCached];
                 }
                 else if (details.type == bAccountTypeRegister) {
-                    [BHookNotification notificationDidSignUp:user.model];
+                    [BHookNotification notificationDidAuthenticate:user.model type:bHook_AuthenticationTypeSignUp];
                 }
                 else {
-                    [BHookNotification notificationDidLogin:user.model];
+                    [BHookNotification notificationDidAuthenticate:user.model type:bHook_AuthenticationTypeLogin];
                 }
                 
                 [BChatSDK.core save];
                 
-                NSLog(@"User On: %@", user.entityID);
+//                NSLog(@"User On: %@", user.entityID);
                 
                 // Add listeners here
                 [BChatSDK.event currentUserOn:user.entityID];

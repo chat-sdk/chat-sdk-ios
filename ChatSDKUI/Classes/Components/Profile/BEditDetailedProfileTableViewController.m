@@ -69,7 +69,7 @@
     int i = 0;
     
     for (NSArray * option in _availabilityOptions) {
-        if([option.lastObject isEqualToString:user.state]) {
+        if([option.lastObject isEqualToString:user.availability]) {
             break;
         }
         i++;
@@ -254,7 +254,7 @@
     [userWrapper setCountry: countryPickerView.selectedCountryCode];
     [user setPhoneNumber:phoneTextField.text];
     [user setEmail:emailTextField.text];
-    [user setState:[_availabilityOptions[[_availabilityPicker selectedRowInComponent:0]] lastObject]];
+    [user setAvailability:[_availabilityOptions[[_availabilityPicker selectedRowInComponent:0]] lastObject]];
     if (_profileImage) {
         [user setImage:UIImageJPEGRepresentation(_profileImage, 0.5)];
     }

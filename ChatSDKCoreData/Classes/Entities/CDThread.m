@@ -19,24 +19,6 @@
     return self;
 }
 
--(NSMutableArray *) messagesWorkingList {
-    if(!_messagesWorkingList) {
-        _messagesWorkingList = [NSMutableArray new];
-        [self resetMessages];
-    }
-    return _messagesWorkingList;
-}
-
--(void) clearMessageCache {
-    [_messagesWorkingList removeAllObjects];
-}
-
--(void) resetMessages {
-    [_messagesWorkingList removeAllObjects];
-    [_messagesWorkingList addObjectsFromArray:[self loadMessagesWithCount:BChatSDK.config.chatMessagesToLoad ascending:NO]];
-    [self reverse:_messagesWorkingList];
-}
-
 - (void)reverse: (NSMutableArray *) array {
     if ([array count] <= 1)
         return;
@@ -51,86 +33,86 @@
     }
 }
 
--(NSArray *) loadMessagesWithCount: (NSInteger) count ascending: (BOOL) ascending {
-    NSFetchRequest * request = [[NSFetchRequest alloc] init];
-    request.includesPendingChanges = YES;
-    [request setFetchLimit:count];
-    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:ascending]];
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread = %@", self];
-    
-    NSArray * messages = [BChatSDK.db executeFetchRequest:request
-                                                                     entityName:bMessageEntity
-                                                                      predicate:predicate];
-    
-    return messages;
-}
-
--(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages {
-    NSMutableArray * messageList = self.messagesWorkingList;
-    
-    NSInteger count = messageList.count + numberOfMessages;
-    count = MAX(count, BChatSDK.config.chatMessagesToLoad);
-    
-    // Get the next batch of messages
-    [messageList removeAllObjects];
-    
-    // We want to get the count newest messages so we sent ascending to NO
-    // Then we have to reverse the order of the list...
-    [messageList addObjectsFromArray:[self loadMessagesWithCount:count ascending:YES]];
-    
-    // Now we need to reverse the order of the list
-//    [self reverse:_messagesWorkingList];
-    
-    return messageList;
-}
-
--(void) optimize {
-    NSArray * messages = [self loadMessagesWithCount:BChatSDK.config.chatMessagesToLoad ascending:YES];
-    for(int i = 0; i < messages.count; i++) {
-        CDMessage * message = (CDMessage *) messages[i];
-        [message clearOptimizationProperties];
-        [message updateOptimizationProperties];
-    }
-}
-
 -(NSArray *) allMessages {
     return self.messages.allObjects;
 }
 
 -(BOOL) hasMessages {
-    return self.lazyLastMessage != Nil;
+    return self.newestMessage != Nil;
 }
 
--(void) addMessage: (id<PMessage>) message {
-    CDMessage * cdMessage = (CDMessage *) message;
-    cdMessage.thread = self;
-    self.lastMessage = cdMessage;
+-(void) addMessage: (id<PMessage>) theMessage {
+    [self addMessage:theMessage toStart:NO];
+}
 
-    [[message lazyLastMessage] updatePosition];
+-(void) addMessage: (id<PMessage>) theMessage toStart: (BOOL) toStart {
+    CDMessage * message = (CDMessage *) theMessage;
     
-    if(![self.messagesWorkingList containsObject:message]) {
-        [self.messagesWorkingList addObject:message];
+    // Check if the message has already been added
+    if ([self.messages containsObject:message]) {
+        return;
     }
-}
 
--(void) removeMessage: (id<PMessage>) message {
-    CDMessage * cdMessage = (CDMessage *) message;
-    cdMessage.thread = Nil;
-    
-    [BChatSDK.db deleteEntity:cdMessage];
-    if([self.messagesWorkingList containsObject:message]) {
-        [self.messagesWorkingList removeObject:message];
+    if (toStart) {
+        // Set the last message for this message
+        CDMessage * oldestMessage = (CDMessage *) self.oldestMessage;
+        if (oldestMessage) {
+            message.nextMessage = oldestMessage;
+            oldestMessage.previousMessage = message;
+        }
+    } else {
+        // Set the last message for this message
+        CDMessage * newestMessage = (CDMessage *) self.newestMessage;
+        if (newestMessage) {
+            message.previousMessage = newestMessage;
+            newestMessage.nextMessage = message;
+        }
     }
     
-    // This is a bit nasty. Essentially, sometimes the working list will be empty
-    // if we left the thread so we have to repopulate it
-    [self resetMessages];
-    self.lastMessage = self.messagesOrderedByDateDesc.firstObject;
-    [[message lazyLastMessage] updatePosition];
+    // Add the message to the thread
+    message.thread = self;
+    
+    if (message.nextMessage) {
+        [message.nextMessage updatePosition];
+    }
+    if(message.previousMessage) {
+        [message.previousMessage updatePosition];
+    }
+    [message updatePosition];
 }
 
--(void) setDeleted:(NSNumber *)deleted_ {
-    self.deleted_ = deleted_;
+-(id<PMessage>) newestMessage {
+    NSArray * messages = [BChatSDK.db loadMessagesForThread:self newest:1];
+    if (messages.count) {
+        return messages.firstObject;
+    }
+    return Nil;
+}
+
+-(id<PMessage>) oldestMessage {
+    NSArray * messages = [BChatSDK.db loadMessagesForThread:self oldest:1];
+    if (messages.count) {
+        return messages.firstObject;
+    }
+    return Nil;
+}
+-(void) removeMessage: (id<PMessage>) theMessage {
+    CDMessage * message = (CDMessage *) theMessage;
+    
+    CDMessage * previousMessage = message.previousMessage;
+    CDMessage * nextMessage = message.nextMessage;
+
+    if (previousMessage) {
+        previousMessage.nextMessage = message.nextMessage;
+        [previousMessage updatePosition];
+    }
+    if (nextMessage) {
+        nextMessage.previousMessage = previousMessage;
+        [nextMessage updatePosition];
+    }
+
+    message.thread = Nil;
+    [BChatSDK.db deleteEntity:message];
 }
 
 -(NSArray *) orderMessagesByDateAsc: (NSArray *) messages {
@@ -140,28 +122,25 @@
 }
 
 -(NSArray *) messagesOrderedByDateAsc {
-    return [self orderMessagesByDateAsc:self.messagesWorkingList];
+    return [self messagesOrderedByDateOldestFirst];
+}
+
+-(NSArray *) messagesOrderedByDateNewestFirst {
+    return [BChatSDK.db loadAllMessagesForThread:self newestFirst:YES];
+}
+
+-(NSArray *) messagesOrderedByDateOldestFirst {
+    return [BChatSDK.db loadAllMessagesForThread:self newestFirst:NO];
 }
 
 -(NSArray *) messagesOrderedByDateDesc {
-    return [self.messagesWorkingList sortedArrayUsingComparator:^(id<PMessage> m1, id<PMessage> m2) {
-        return [m2.date compare:m1.date];
-    }];
+    return [self messagesOrderedByDateNewestFirst];
 }
 
 -(NSArray *) orderMessagesByDateDesc: (NSArray *) messages {
     return [messages sortedArrayUsingComparator:^(id<PMessage> m1, id<PMessage> m2) {
         return [m2.date compare:m1.date];
     }];
-}
-
--(CDMessage *) lazyLastMessage {
-    if (self.lastMessage) {
-        return self.lastMessage;
-    }
-    else {
-        return self.messagesOrderedByDateDesc.firstObject;
-    }
 }
 
 -(NSString *) displayName {
@@ -183,7 +162,7 @@
     NSString * name = @"";
     
     for (id<PUser> user in self.users) {
-        if (![user isEqual:BChatSDK.currentUser]) {
+        if (!user.isMe) {
             if (user.name.length) {
                 name = [name stringByAppendingFormat:@"%@, ", user.name];
             }
@@ -201,12 +180,12 @@
     BOOL didMarkRead = NO;
     
     for(id<PMessage> message in self.messages) {
-        if (!message.read.boolValue) {
-            message.read = @YES;
+        if (!message.isRead && !message.senderIsMe) {
+            [message setRead: @YES];
             
             // TODO: Should we have this here? Maybe this gets called too soon
             // but it's a good backup in case the app closes before we save
-            message.delivered = @YES;
+            [message setDelivered: @YES];
             didMarkRead = YES;
         }
     }
@@ -217,8 +196,9 @@
 
 -(int) unreadMessageCount {
     int i = 0;
-    for (id<PMessage> message in _messagesWorkingList) {
-        if (!message.read.boolValue) {
+    NSArray<PMessage> * messages = [BChatSDK.db loadMessagesForThread:self newest:BChatSDK.config.messageHistoryDownloadLimit];
+    for (id<PMessage> message in messages) {
+        if (!message.isRead && !message.senderIsMe) {
             i++;
         }
     }
@@ -249,7 +229,7 @@
     id<PUser> currentUser = BChatSDK.currentUser;
     if (self.type.intValue == bThreadType1to1 || self.users.count == 2) {
         for (id<PUser> user in self.users) {
-            if (![user isEqual:currentUser]) {
+            if (!user.isMe) {
                 return user;
             }
         }
@@ -350,13 +330,17 @@
 }
 
 -(NSDate *) orderDate {
-    id<PMessage> message = self.lazyLastMessage;
+    id<PMessage> message = self.newestMessage;
     if (message) {
         return message.date;
     }
     else {
         return self.creationDate;
     }
+}
+
+-(BOOL) isEqualToEntity: (id<PEntity>) entity {
+    return [self.entityID isEqualToString:entity.entityID];
 }
 
 @end

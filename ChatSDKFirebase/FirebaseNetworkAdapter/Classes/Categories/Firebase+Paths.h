@@ -32,13 +32,12 @@
 +(FIRDatabaseReference *) threadMetaRef: (NSString *) firebaseID;
 +(FIRDatabaseReference *) threadLastMessageRef: (NSString *) firebaseID;
 
++(FIRDatabaseReference *) thread: (NSString *) threadID messageReadRef: (NSString *) messageID;
++(FIRDatabaseReference *) thread: (NSString *) threadID messageRef: (NSString *) messageID;
+
 // Flagged
 +(FIRDatabaseReference *) flaggedMessagesRef;
 +(FIRDatabaseReference *) flaggedRefWithMessage: (NSString *) messageID;
-
-// Indexes
-+(FIRDatabaseReference *) indexRef;
-+(FIRDatabaseReference *) searchIndexRef;
 
 +(FIRDatabaseReference *) onlineRef: (NSString *) userID;
 

@@ -57,5 +57,8 @@
     [self updateMeta:@{key: [NSString safe: value]}];
 }
 
+-(BOOL) isEqualToEntity: (id<PEntity>) entity {
+    return [self.entityID isEqualToString:entity.entityID];
+}
 
 @end

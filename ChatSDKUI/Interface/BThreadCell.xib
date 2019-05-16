@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wu0-14-d8t">
-                        <rect key="frame" x="10" y="15" width="40" height="40"/>
+                        <rect key="frame" x="10" y="15.5" width="40" height="40"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" priority="800" constant="40" id="1od-Bk-cTe"/>
@@ -28,7 +27,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thread Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfJ-hD-fSk">
-                        <rect key="frame" x="58" y="5" width="159" height="21"/>
+                        <rect key="frame" x="58" y="10" width="159" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="eWv-nY-2LL"/>
                         </constraints>
@@ -47,7 +46,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ioR-cp-Qbb">
-                        <rect key="frame" x="55" y="21" width="260" height="44"/>
+                        <rect key="frame" x="55" y="26" width="227" height="34.5"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <attributedString key="attributedText">
                             <fragment>
@@ -83,15 +82,15 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="eEV-Zx-MJo" secondAttribute="trailing" id="0LX-OX-zTL"/>
-                    <constraint firstAttribute="bottom" secondItem="ioR-cp-Qbb" secondAttribute="bottom" constant="5" id="7cc-1W-kmi"/>
+                    <constraint firstItem="KaM-I9-NGN" firstAttribute="leading" secondItem="ioR-cp-Qbb" secondAttribute="trailing" constant="5" id="3T8-5I-LSd"/>
+                    <constraint firstAttribute="bottom" secondItem="ioR-cp-Qbb" secondAttribute="bottom" constant="10" id="7cc-1W-kmi"/>
                     <constraint firstItem="cUf-Bo-VE1" firstAttribute="leading" secondItem="bfJ-hD-fSk" secondAttribute="trailing" constant="5" id="BGP-eJ-Yzk"/>
                     <constraint firstAttribute="centerY" secondItem="eEV-Zx-MJo" secondAttribute="centerY" id="HCV-qC-8hq"/>
                     <constraint firstItem="KaM-I9-NGN" firstAttribute="trailing" secondItem="cUf-Bo-VE1" secondAttribute="trailing" id="Qas-yy-3yU"/>
                     <constraint firstItem="cUf-Bo-VE1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Vi0-cw-spy"/>
                     <constraint firstAttribute="centerY" secondItem="wu0-14-d8t" secondAttribute="centerY" id="X2V-cm-YBm"/>
                     <constraint firstItem="ioR-cp-Qbb" firstAttribute="top" secondItem="bfJ-hD-fSk" secondAttribute="bottom" constant="-5" id="aXg-gY-3jE"/>
-                    <constraint firstItem="bfJ-hD-fSk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="bJN-Z8-7u3"/>
-                    <constraint firstAttribute="trailing" secondItem="ioR-cp-Qbb" secondAttribute="trailing" constant="5" id="enC-qv-VVE"/>
+                    <constraint firstItem="bfJ-hD-fSk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="bJN-Z8-7u3"/>
                     <constraint firstItem="ioR-cp-Qbb" firstAttribute="leading" secondItem="wu0-14-d8t" secondAttribute="trailing" constant="5" id="ft3-u5-Cnh"/>
                     <constraint firstItem="KaM-I9-NGN" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="5" id="j6Z-4p-k1w"/>
                     <constraint firstItem="wu0-14-d8t" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="lbJ-hn-NgJ"/>
@@ -107,6 +106,7 @@
                 <outlet property="unreadMessagesLabel" destination="KaM-I9-NGN" id="k1S-cP-4AN"/>
                 <outlet property="unreadView" destination="eEV-Zx-MJo" id="6dX-Ng-UOJ"/>
             </connections>
+            <point key="canvasLocation" x="-166.40000000000001" y="135.38230884557723"/>
         </tableViewCell>
     </objects>
 </document>

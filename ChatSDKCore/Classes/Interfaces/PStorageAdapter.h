@@ -20,6 +20,9 @@
 #define bUserConnectionEntity @"CDUserConnection"
 #define bGroupEntity @"CDGroup"
 
+#define bMessageOrderNewestFirst = 1;
+#define bMessageOrderOldestFirst = 2;
+
 @class BMessageDef;
 @class BThreadDef;
 @class NSFetchRequest;
@@ -62,6 +65,12 @@ typedef enum {
 
 -(NSArray *) fetchUserConnectionsWithType: (bUserConnectionType) type entityID: (NSString *) entityID;
 -(NSArray *) fetchUserConnectionsWithType: (bUserConnectionType) type;
+
+-(NSArray<PMessage> *) loadMessagesForThread: (id<PThread>) thread fromDate: (NSDate *) date count: (int) count newestFirst: (BOOL) newestFirst;
+-(NSArray<PMessage> *) loadAllMessagesForThread: (id<PThread>) thread newestFirst: (BOOL) newestFirst;
+-(NSArray<PMessage> *) loadMessagesForThread: (id<PThread>) thread fromDate: (NSDate *) date count: (int) count;
+-(NSArray<PMessage> *) loadMessagesForThread: (id<PThread>) thread newest: (int) count;
+-(NSArray<PMessage> *) loadMessagesForThread: (id<PThread>) thread oldest: (int) count;
 
 -(RXPromise *) performOnPrivate: (id (^)(void)) block;
 -(RXPromise *) performOnMain: (id (^)(void)) block;

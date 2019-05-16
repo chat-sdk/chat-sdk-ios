@@ -58,6 +58,8 @@
 #import <ChatSDK/BDefaultInterfaceAdapter.h>
 #import <ChatSDK/BMessageSection.h>
 #import <ChatSDK/BSplashScreenViewController.h>
+#import <ChatSDK/BMessageManager.h>
+#import <ChatSDK/BLazyReloadManager.h>
 
 #import <ChatSDK/BMapViewWrapper.h>
 #import <ChatSDK/BMapViewManager.h>

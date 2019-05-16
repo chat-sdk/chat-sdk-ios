@@ -22,9 +22,7 @@
         _thread = thread;
         
         // Reset the working list (so we don't load any more messages than necessary)
-        [_thread resetMessages];
         self = [super initWithDelegate:self];
-        _messageCache = [NSMutableArray new];
     }
     return self;
 }
@@ -41,8 +39,12 @@
     // Set the subtitle
     [self updateSubtitle];
     
-    
     [super setAudioEnabled: BChatSDK.audioMessage != Nil];
+    
+    // Add the initial batch of messages
+    NSArray<PMessage> * messages = [BChatSDK.db loadMessagesForThread:_thread newest:BChatSDK.config.messagesToLoadPerBatch];
+    messages = [messages sortedArrayUsingComparator:[BMessageSorter oldestFirst]];
+    [self setMessages:messages scrollToBottom:NO animate:NO force: YES];
 }
 
 -(void) updateSubtitle {
@@ -75,37 +77,40 @@
     __weak __typeof__(self) weakSelf = self;
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationReadReceiptUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf updateMessages];
+            id<PMessage> message = notification.userInfo[bNotificationReadReceiptUpdatedKeyMessage];
+            [weakSelf reloadDataForMessage:message];
         });
     }]];
    
     [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        id<PMessage> messageModel = data[bHook_PMessage];
+        id<PMessage> message = data[bHook_PMessage];
 
-        // If this is a message for another thread for this user
-        if (messageModel && [currentUserModel.threads containsObject:_thread]) {
-            if (![messageModel.thread isEqual:_thread.model]) {
-                // If we are in chat and receive a message in another chat then vibrate the phone
-                if (!messageModel.userModel.isMe) {
-                    AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-                }
-            } else if (BChatSDK.readReceipt) {
+        if (![message.thread isEqualToEntity:_thread]) {
+            // If we are in chat and receive a message in another chat then vibrate the phone
+            if (!message.userModel.isMe) {
+                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+            }
+        } else {
+            if (BChatSDK.readReceipt) {
                 [BChatSDK.readReceipt markRead:_thread.model];
             }
+            [message setDelivered:@YES];
+            [weakSelf addMessage:message];
         }
-        messageModel.delivered = @YES;
         
-        [weakSelf updateMessages];
     }] withNames:@[bHookMessageWillSend, bHookMessageRecieved, bHookMessageWillUpload]]];
-    
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationMessageRemoved
-                                                                                object:Nil
-                                                                                 queue:Nil
-                                                                            usingBlock:^(NSNotification * notification) {
-                                                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                    [weakSelf updateMessages];
-                                                                                });
-    }]];
+
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+        id<PMessage> message = data[bHook_PMessage];
+        if (message && [message.thread isEqualToEntity:_thread]) {
+            [self removeMessage:message];
+        }
+    }] withNames:@[bHookMessageWillBeDeleted]]];
+
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+        [self reloadData];
+    }] withNames:@[bHookMessageWasDeleted]]];
+
     
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
                                                                       object:Nil
@@ -126,7 +131,7 @@
                                                                     usingBlock:^(NSNotification * notification) {
                                                                         dispatch_async(dispatch_get_main_queue(), ^{
                                                                             id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
-                                                                            if ([thread isEqual: weakSelf.thread]) {
+                                                                            if ([thread isEqualToEntity: weakSelf.thread]) {
                                                                                 [weakSelf startTypingWithMessage:notification.userInfo[bNotificationTypingStateChangedKeyMessage]];
                                                                             }
                                                                         });
@@ -145,6 +150,10 @@
     
 }
 
+-(void) updateMessages {
+    [self reloadData];
+}
+
 -(void) updateTitle {
     [self setTitle:_thread.displayName ? _thread.displayName : [NSBundle t: bDefaultThreadName]];
 }
@@ -152,7 +161,6 @@
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [BChatSDK.ui setShowLocalNotifications:NO];
-    [self updateMessages];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -203,59 +211,8 @@
 
 // You can pull more messages from the server and add them to the thread object
 -(RXPromise *) loadMoreMessages {
-    __weak __typeof__(self) weakSelf = self;
-    return [BChatSDK.core loadMoreMessagesForThread:_thread].thenOnMain(^id(NSArray * messages) {
-        [weakSelf updateMessages];
-        return Nil;
-    },^id(NSError * error) {
-        return Nil;
-    });
-}
-
--(void) updateMessages {
-    _messageCacheDirty = YES;
-    [self setMessages:self.messages];
-}
-
-// TODO: We could make this more efficient
--(NSArray *) messages {
-    if (!_messageCache || !_messageCache.count || _messageCacheDirty) {
-        [_messageCache removeAllObjects];
-
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//        NSCalendar *calendar = [NSCalendar currentCalendar];
-        dateFormatter.dateFormat = @"ddMMyyyy";
-
-        // Don't load any additional messages - we will already load the
-        // number of messages as defined the config.chatMessagesToLoad property
-        NSArray * messages = [_thread loadMoreMessages:0];
-        NSDate * lastMessageDate;
-        BMessageSection * section;
-        
-        for (id<PElmMessage> message in messages) {
-            // This is a new day
-            // It is a new day if either the calendar date has changed
-            NSString * lastDateString = [dateFormatter stringFromDate:lastMessageDate];
-            NSString * dateString = [dateFormatter stringFromDate:message.date];
-            
-            if (!lastMessageDate || ![dateString isEqual:lastDateString]) {
-                section = [[BMessageSection alloc] init];
-                [_messageCache addObject:section];
-            }
-            [section addMessage:message];
-            lastMessageDate = message.date;
-        }
-        if (![_messageCache containsObject:section] && section) {
-            [_messageCache addObject:section];
-        }
-        
-        _messageCacheDirty = NO;
-    }
-    return _messageCache;
-}
-
--(void) viewDidScroll: (UIScrollView *) scrollView withOffset: (int) offset {
-
+    id<PMessage> oldestMessage = _messageManager.oldestMessage;
+    return [BChatSDK.core loadMoreMessagesFromDate:oldestMessage ? oldestMessage.date : Nil forThread:_thread];
 }
 
 -(void) markRead {
@@ -288,7 +245,6 @@
 }
 
 -(void) dealloc {
-    [_thread clearMessageCache];
 }
 
 

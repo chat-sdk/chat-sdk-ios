@@ -59,12 +59,6 @@
     
     for (id<FIRUserInfo> provider in dataProvider) {
         
-        //NSDictionary * userData = data.providerData;
-        
-        //_model.entityID = data.uid;
-        //_model.authenticationType = data.provider;
-        
-            // TODO: Meta data
         NSString * name = provider.displayName;
         if (name && !_model.name) {
             _model.name = name;
@@ -121,12 +115,6 @@
         [self.model setImage:UIImagePNGRepresentation(defaultImage)];
         
         [self setPersonProfilePicture];
-    }
-    
-    // Setup the message color defaults
-    // TODO: Maybe remove this...
-    if (!_model.messageColor || !_model.messageColor.length) {
-        _model.messageColor = [BCoreUtilities colorToString:[BCoreUtilities colorWithHexString:BChatSDK.shared.configuration.messageColorMe]];
     }
 }
 
@@ -201,30 +189,6 @@
         }, Nil);
 
     }, Nil);
-    
-//    FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
-//
-//    RXPromise * promise = [RXPromise new];
-//
-//    __block FIRDatabaseHandle handle = 0;
-//
-//    handle = [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
-//        if (handle != 0) {
-//            [ref removeObserverWithHandle:handle];
-//        }
-//        if(![snapshot.value isEqual: [NSNull null]]) {
-//            [promise resolveWithResult: [self deserialize:snapshot.value].thenOnMain(^id(id success) {
-//                return self;
-//            }, Nil)];
-//        }
-//        else {
-//            [promise resolveWithResult:Nil];
-//        }
-//    } withCancelBlock: ^(NSError * error) {
-//        NSLog(@"Error");
-//    }];
-
-//    return promise;
 }
 
 -(RXPromise *) on {
@@ -340,7 +304,6 @@
             
             // We only want to do this if we are logged in
             if (BChatSDK.auth.isAuthenticated) {
-                [BChatSDK.search updateIndexForUser:self.model];
                 [promise resolveWithResult:self.model];
             }
             else {
@@ -420,10 +383,6 @@
 
 -(FIRDatabaseReference *) metaRef {
     return [[self ref] child:bMetaPath];
-}
-
--(FIRDatabaseReference *) thumbnailRef {
-    return [[self ref] child:bThumbnailPath];
 }
 
 -(FIRDatabaseReference *) imageRef {

@@ -120,10 +120,29 @@
     
 }
 
--(RXPromise *) loadMoreMessagesForThread: (id<PThread>) threadModel {
-    CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
-    return [thread loadMoreMessages: 30];
+-(RXPromise *) loadMoreMessagesFromDate:(NSDate *)date forThread:(id<PThread>)threadModel fromServer:(BOOL)fromServer {
+    return [super loadMoreMessagesFromDate:date forThread:threadModel fromServer:fromServer].then(^id(NSArray * messages) {
+        
+        int messagesToLoad = BChatSDK.config.messagesToLoadPerBatch;
+        int localMessageCount = messages.count;
+        
+        if (localMessageCount < messagesToLoad && fromServer) {
+            NSDate * finalFromDate = localMessageCount > 0 ? ((id<PMessage>)messages.lastObject).date : date;
+            return [[CCThreadWrapper threadWithModel:threadModel] loadMoreMessagesFromDate:finalFromDate count:messagesToLoad - localMessageCount].then(^id(NSArray * remoteMessages) {
+                NSMutableArray * mergedMessages = [NSMutableArray arrayWithArray:messages];
+                [mergedMessages addObjectsFromArray:remoteMessages];
+                return mergedMessages;
+            }, Nil);
+        } else {
+            return messages;
+        }
+    }, Nil);
 }
+
+//-(RXPromise *) loadMoreMessagesForThread: (id<PThread>) threadModel {
+//    CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
+//    return [thread loadMoreMessages: 30];
+//}
 
 -(RXPromise *) deleteThread: (id<PThread>) thread {
     return [[CCThreadWrapper threadWithModel:thread] deleteThread];
@@ -139,14 +158,11 @@
 }
 
 -(RXPromise *) sendMessage: (id<PMessage>) messageModel {
-    
-    if(BChatSDK.encryption) {
-        [BChatSDK.encryption encryptMessage:messageModel];
-    }
 
     [BHookNotification notificationMessageWillSend:messageModel];
-    
+
     // Create the new CCMessage wrapper
+    [BHookNotification notificationMessageSending:messageModel];
     return [[CCMessageWrapper messageWithModel:messageModel] send].thenOnMain(^id(id success) {
         
         // Send a push notification for the message

@@ -96,14 +96,12 @@
     return [[self threadRef:firebaseID] child:bMetaPath];
 }
 
-#pragma Indexes
-
-+(FIRDatabaseReference *) indexRef {
-    return [[self firebaseRef] child:bIndexPath];
++(FIRDatabaseReference *) thread: (NSString *) threadID messageRef: (NSString *) messageID {
+    return [[self threadMessagesRef:threadID] child:messageID];
 }
 
-+(FIRDatabaseReference *) searchIndexRef {
-    return [[self firebaseRef] child:bSearchIndexPath];
++(FIRDatabaseReference *) thread: (NSString *) threadID messageReadRef: (NSString *) messageID {
+    return [[self thread:threadID messageRef:messageID] child:bReadPath];
 }
 
 

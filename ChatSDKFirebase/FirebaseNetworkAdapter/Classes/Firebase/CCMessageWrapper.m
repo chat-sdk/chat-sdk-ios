@@ -76,19 +76,30 @@
     NSMutableDictionary * data = self.serialize;
     data[bUserName] = self.model.userModel.name; // TODO: Remove this
     [data removeObjectForKey:bReadPath];
-    [data removeObjectForKey:bMetaPath];
     return data;
 }
 
 -(NSMutableDictionary *) serialize {
-    NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:@{bType: _model.type,
-                                                                                 bJSONV2: _model.json,
-                                                                                 bDate: [FIRServerValue timestamp],
-                                                                                 bUserFirebaseID: _model.userModel.entityID,
-                                                                                 bReadPath: self.initialReadReceipts,
-                                                                                 bMetaPath: _model.meta ? _model.meta : @{}}];
+    NSDictionary * dict = @{bType: _model.type,
+                             bJSONV2: _model.meta, // Deprecated in favour of bMeta
+                             bDate: [FIRServerValue timestamp],
+                             bUserFirebaseID: _model.userModel.entityID, // Deprecated in favour of bTo
+                             bReadPath: self.initialReadReceipts,
+                             bMetaPath: _model.meta,
+                             bFrom: _model.userModel.entityID,
+                             bTo: self.getTo};
 
-    return dict;
+    return [NSMutableDictionary dictionaryWithDictionary:dict];
+}
+
+-(NSArray<NSString *> *) getTo {
+    NSMutableArray<NSString *> * users = [NSMutableArray new];
+    for (id<PUser> user in _model.thread.users) {
+        if (!user.isMe) {
+            [users addObject:user.entityID];
+        }
+    }
+    return users;
 }
 
 -(NSDictionary *) initialReadReceipts {
@@ -96,8 +107,10 @@
     NSMutableDictionary * readReceipts = [NSMutableDictionary new];
     id<PUser> currentUser = BChatSDK.currentUser;
     for (id<PUser> user in self.model.thread.users) {
-        if (![user isEqual:currentUser]) {
-            readReceipts[user.entityID] = @{bStatus: @(bMessageReadStatusNone)};
+        if (!user.isMe) {
+            readReceipts[user.entityID] = @{bStatus: @(bMessageReadStatusNone), bDate: FIRServerValue.timestamp};
+        } else {
+            readReceipts[user.entityID] = @{bStatus: @(bMessageReadStatusRead), bDate: FIRServerValue.timestamp};
         }
     }
     return readReceipts;
@@ -109,7 +122,7 @@
     
     NSDictionary * json2 = value[bJSONV2];
     if(json2) {
-        [_model setJson:json2];
+        [_model setMeta:json2];
     }
     else {
         [_model setText:@""];
@@ -164,8 +177,12 @@
 
 -(RXPromise *) send {
     if (_model.thread) {
+
+        // Get this first so it's not decrypted then pushed
+        NSDictionary * lastMessageData = [self lastMessageData];
+        
         return [self push].thenOnMain(^id(id success) {
-            [[CCThreadWrapper threadWithModel:_model.thread] pushLastMessage:[self lastMessageData]].thenOnMain(^id(id success) {
+            [[CCThreadWrapper threadWithModel:_model.thread] pushLastMessage:lastMessageData].thenOnMain(^id(id success) {
                 _model.delivered = @YES;
                 return [BEntity pushThreadMessagesUpdated:_model.thread.entityID];
             },Nil);
@@ -182,8 +199,9 @@
     RXPromise * promise = [RXPromise new];
     
     NSDictionary * data = @{bCreatorEntityID: BChatSDK.currentUser.entityID,
+                            bCreator: BChatSDK.currentUser.entityID,
                             bSenderEntityID: _model.userModel.entityID,
-                            bMessage: _model.compatibilityMeta,
+                            bMessage: _model.meta,
                             bThread: _model.thread.entityID,
                             bDate: [FIRServerValue timestamp]};
     
@@ -247,9 +265,8 @@
         if(!originalThreadID) {
             originalThreadID = _model.thread.entityID;
         }
-        
-        return [[FIRDatabaseReference threadMessagesRef:originalThreadID] child: _model.entityID];
-    }
+        return [FIRDatabaseReference thread:originalThreadID messageRef:_model.entityID];
+   }
     else {
         return [[FIRDatabaseReference threadMessagesRef:_model.thread.entityID] childByAutoId];
     }
@@ -267,5 +284,47 @@
     return _model.entityID;
 }
 
+-(RXPromise *) markAsReceived {
+    return [self setReadStatus:bMessageReadStatusDelivered];
+}
+
+-(RXPromise *) setReadStatus: (bMessageReadStatus) status {
+    
+    // Don't set read status for our own messages
+    if(_model.senderIsMe) {
+        return [RXPromise resolveWithResult:Nil];
+    }
+    
+    NSString * entityID = BChatSDK.currentUser.entityID;
+    
+    // Check to see if we've already set the status?
+    bMessageReadStatus currentStatus = [_model readStatusForUserID:entityID];
+    
+    // If the status is the same or lower than the new status just return
+    if (currentStatus >= status) {
+        return [RXPromise resolveWithResult:Nil];
+    }
+    
+    // Set the status - this prevents a race condition where
+    // the message is to set to be delivered later
+    [_model setReadStatus:status forUserID:entityID];
+
+    // Set our status area
+    RXPromise * promise = [RXPromise new];
+
+    FIRDatabaseReference * ref = [FIRDatabaseReference thread:_model.thread.entityID messageReadRef:_model.entityID];
+    
+    [[ref child: entityID] setValue:@{bStatus: @(status), bDate: FIRServerValue.timestamp} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref ) {
+        if (!error) {
+            [promise resolveWithResult:Nil];
+        }
+        else {
+            [promise rejectWithReason:error];
+        }
+    }];
+    
+    return promise;
+    
+}
 
 @end

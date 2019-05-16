@@ -40,7 +40,6 @@
 -(void) markRead;
 -(void) navigationBarTapped;
 -(bThreadType) threadType;
--(void) viewDidScroll: (UIScrollView *) scrollView withOffset: (int) offset;
 
 @optional
 

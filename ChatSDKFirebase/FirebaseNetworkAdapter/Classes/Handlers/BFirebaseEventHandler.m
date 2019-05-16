@@ -22,7 +22,22 @@
     [self publicThreadsOn:user];
     [self contactsOn:user];
     [self moderationOn: user];
+    [self onlineOn];
 
+}
+
+-(void) onlineOn {
+    [[[[FIRDatabase database] reference] child:@".info/connected"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+        if (![snapshot.value isEqual: NSNull.null]) {
+            NSLog(@"Connected");
+        } else {
+            NSLog(@"Disconnected");
+        }
+    }];
+}
+
+-(void) onlineOff {
+    [[[[FIRDatabase database] reference] child:@".info/connected"] removeAllObservers];
 }
 
 -(void) threadsOn: (id<PUser>) user {
@@ -133,6 +148,7 @@
     [self publicThreadsOff:user];
     [self contactsOff:user];
     [self moderationOff:user];
+    [self onlineOff];
 }
 
 -(void) threadsOff: (id<PUser>) user {

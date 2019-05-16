@@ -29,12 +29,15 @@
 @synthesize delegate;
 @synthesize sendBarView = _sendBarView;
 @synthesize titleLabel = _titleLabel;
+@synthesize messageManager = _messageManager;
 
 -(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate_
 {
     self.delegate = delegate_;
     self = [super initWithNibName:@"BChatViewController" bundle:[NSBundle uiBundle]];
     if (self) {
+        
+        _messageManager = [BMessageManager new];
         
         // Add a tap recognizer so when we tap the table we dismiss the keyboard
         _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
@@ -50,6 +53,14 @@
         }
         
         _notificationList = [BNotificationObserverList new];
+        
+        _lazyReloadManager = [[BLazyReloadManager alloc] initWithTableView:tableView messageManager:_messageManager];
+        _lazyReloadManager.loadMoreMessages = ^() {
+            if (self.delegate) {
+                return [self.delegate loadMoreMessages];
+            }
+            return [RXPromise resolveWithResult:Nil];
+        };
 
     }
     return self;
@@ -62,15 +73,16 @@
     
     [self.view addSubview:_sendBarView];
     
-//    [_sendBarView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:0];
-
-    _sendBarView.keepBottomInset.equal = [self textInputViewBottomInset];
+    _sendBarView.keepBottomInset.equal = self.safeAreaBottomInset;
     _sendBarView.keepLeftInset.equal = 0;
     _sendBarView.keepRightInset.equal = 0;
     
     // Constrain the table to the top of the toolbar
-    tableView.keepBottomOffsetTo(_sendBarView).equal = -_sendBarView.fh;
-    [self setTableViewBottomContentInset:_sendBarView.fh];
+    tableView.keepBottomOffsetTo(_sendBarView).equal = 2;
+    
+//    tableView.layer.borderColor = [UIColor redColor].CGColor;
+//    tableView.layer.borderWidth = 2;
+    
 }
 
 -(void) registerMessageCells {
@@ -139,17 +151,97 @@
     _subtitleLabel.text = subtitle;
 }
 
--(void) setMessages: (NSArray<BMessageSection *> *) messages {
-    BOOL scroll = NO;
-    if ((tableView.contentSize.height - tableView.frame.size.height) - tableView.contentOffset.y <= bTableViewRefreshHeight) {
-        scroll = YES;
-    }
-    [self setMessages:messages scrollToBottom:scroll];
+-(void) addMessage: (id<PMessage>) message {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.messageManager addMessage: message];
+//        NSIndexPath * indexPath = [self.messageManager addMessage: message];
+//        NSIndexPath * indexPathOfPreviousMessage;
+        
+//        [self.tableView beginUpdates];
+        
+//        if (indexPath) {
+//            // Also refresh the previous cell
+//            indexPathOfPreviousMessage = [self.messageManager indexPathForPreviousMessageInSection:message];
+//        }
+//
+//        if (indexPath) {
+//            // We are adding a new section
+//            if (indexPath.section == self.tableView.numberOfSections) {
+//                [self.tableView insertSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+//            } else {
+//                [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            }
+//            if (indexPathOfPreviousMessage) {
+//                [self.tableView reloadRowsAtIndexPaths:@[indexPathOfPreviousMessage] withRowAnimation:UITableViewRowAnimationFade];
+//            }
+//        }
+//        [self.tableView endUpdates];
+        [self reloadData:YES animate:YES force:message.senderIsMe];
+    });
 }
 
--(void) setMessages: (NSArray<BMessageSection *> *) messages scrollToBottom: (BOOL) scroll {
-    _messages = messages;
-    [self reloadData:scroll];
+-(void) reloadDataForMessageInSection: (id<PMessage>) message {
+    [self reloadDataForIndexPath:[_messageManager indexPathForPreviousMessageInSection:message]];
+}
+
+-(void) reloadDataForMessage: (id<PMessage>) message {
+    [self reloadDataForIndexPath:[_messageManager indexPathForMessage:message]];
+}
+
+-(void) reloadDataForIndexPath: (NSIndexPath *) indexPath {
+    if (indexPath) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"Reload %@", NSStringFromSelector(_cmd));
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        });
+    }
+}
+
+-(void) addMessages: (NSArray<id<PMessage>> *) messages {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        id<PMessage> oldestMessage = self.messageManager.oldestMessage;
+        NSMutableArray<NSIndexPath *> * indexPaths = [NSMutableArray arrayWithArray:[self.messageManager addMessages: messages]];
+
+//        [self.tableView beginUpdates];
+        NSLog(@"Reload %@", NSStringFromSelector(_cmd));
+        [self.tableView reloadData];
+        
+//        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+//
+//        // Also refrest the oldest message because we have loaded a message before that
+//        NSIndexPath * oldestMessagePath = [self.messageManager indexPathForMessage:oldestMessage];
+//        if (oldestMessagePath) {
+//            [indexPaths addObject:oldestMessagePath];
+//        }
+//        [self.tableView endUpdates];
+////        [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+//
+//        // Move the top of the list to the old first message
+//        NSIndexPath * oldestMessagePath = [self.messageManager indexPathForMessage:oldestMessage];
+//        if (oldestMessagePath) {
+//            [self.tableView scrollToRowAtIndexPath:oldestMessagePath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//        }
+    });
+}
+
+-(void) removeMessage: (id<PMessage>) message {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.messageManager removeMessage: message];
+    });
+}
+
+//-(void) removeMessages: (NSArray<id<PMessage>> *) messages {
+//    NSArray<NSIndexPath *> * indexPaths = [_messageManager removeMessages: messages];
+//    [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+//}
+
+-(void) setMessages: (NSArray<PMessage> *) messages {
+    [self setMessages:messages scrollToBottom:YES animate:YES force: NO];
+}
+
+-(void) setMessages: (NSArray<PMessage> *) messages scrollToBottom: (BOOL) scroll animate: (BOOL) animate force:(BOOL) force {
+    [_messageManager setMessages:messages];
+    [self reloadData:scroll animate:animate force: force];
 }
 
 - (void)viewDidLoad {
@@ -258,12 +350,11 @@
     // The effect that this gives is that the
     // view starts off almost at the bottom and
     // scrolls the last bit animated (viewDidAppear)
-    [self scrollToBottomOfTable:NO];
+    [self scrollToBottomOfTable:NO force:YES];
     
     [self setChatState:bChatStateActive];
     
-    
-    [self reloadData];
+//    [self reloadData];
 }
 
 -(void) viewDidLayoutSubviews {
@@ -271,19 +362,13 @@
 
     // Make sure the bottom inset is correct
     if (!_keyboardVisible) {
-        _sendBarView.keepBottomInset.equal = [self textInputViewBottomInset];
+        _sendBarView.keepBottomInset.equal = self.safeAreaBottomInset;
     }
 }
 
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [self reloadData];
 }
-
--(void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self scrollToBottomOfTable:YES];
-}
-
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -308,25 +393,28 @@
 #pragma TableView delegates
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return _messages.count;
+    return _messageManager.sectionCount;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_messages[section] rowCount];
+    return [_messageManager rowCountForSection:section];
 }
 
 -(id<PElmMessage>) messageForIndexPath: (NSIndexPath *) path {
-    return [_messages[path.section] messageForRow:path.row];
+    return [_messageManager messageForIndexPath:path];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [_messages[section] view];
+    return [_messageManager headerForSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
-
+    
+    if (BChatSDK.encryption) {
+        [BChatSDK.encryption decryptMessage:message];
+    }
     
     BMessageCell<BMessageDelegate> * messageCell;
 
@@ -404,10 +492,12 @@
 // Set the message height based on the text height
 - (CGFloat)tableView:(UITableView *)tableView_ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
-    if(message) {
+    if(message && [message entityID]) {
         return [BMessageCell cellHeight:message];
     }
     else {
+//        NSLog(@"Section: %i, row: %i" , indexPath.section, indexPath.row);
+        [_messageManager debug];
         return 0;
     }
 }
@@ -449,8 +539,8 @@
             _locationViewNavigationController = [BChatSDK.ui locationViewNavigationController];
         }
         
-        float longitude = [[cell.message compatibilityMeta][bMessageLongitude] floatValue];
-        float latitude = [[cell.message compatibilityMeta][bMessageLatitude] floatValue];
+        float longitude = [cell.message.meta[bMessageLongitude] floatValue];
+        float latitude = [cell.message.meta[bMessageLatitude] floatValue];
         
         [((id<PLocationViewController>) _locationViewNavigationController.topViewController) setLatitude:latitude longitude:longitude];
 
@@ -462,7 +552,7 @@
         // Only allow the user to click if the image is not still loading hence the alpha is 1
         if (cell.imageView.alpha == 1) {
             
-            NSURL * url = [NSURL URLWithString:cell.message.compatibilityMeta[bMessageVideoURL]];
+            NSURL * url = [NSURL URLWithString:cell.message.meta[bMessageVideoURL]];
                         
             // Add an activity indicator while the image is loading
             UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -486,7 +576,7 @@
     }
 
     if (BChatSDK.fileMessage && [cell isKindOfClass:BChatSDK.fileMessage.cellClass]) {
-        NSDictionary * file = cell.message.compatibilityMeta;
+        NSDictionary * meta = cell.message.meta;
 
         if (![BFileCache isFileCached:cell.message.entityID]) {
             [cell.imageView setImage:[NSBundle imageNamed:@"file.png" bundle:BChatSDK.fileMessage.bundle]];
@@ -494,8 +584,8 @@
         
         [cell showActivityIndicator];
         
-        NSURL * url = [NSURL URLWithString:file[bMessageFileURL]];
-        [BFileCache cacheFileFromURL:url withFileName:file[bMessageText] andCacheName:cell.message.entityID]
+        NSURL * url = [NSURL URLWithString:meta[bMessageFileURL]];
+        [BFileCache cacheFileFromURL:url withFileName:meta[bMessageText] andCacheName:cell.message.entityID]
         .thenOnMain(^id(NSURL * cacheUrl) {
             NSLog(@"Cache URL: %@", [cacheUrl absoluteString]);
             [cell setMessage:cell.message];
@@ -543,10 +633,10 @@
 }
 
 -(void) didResizeTextInputViewWithDelta:(float)delta {
-    if (fabsf(delta) > 0.01) {
-        [self setTableViewBottomContentInsetWithDelta:delta];
-        [self scrollToBottomOfTable:NO];
-    }
+//    if (fabsf(delta) > 0.01) {
+//        [self setTableViewBottomContentInsetWithDelta:delta];
+//        [self scrollToBottomOfTable:NO];
+//    }
 }
 
 -(void) hideKeyboard {
@@ -558,19 +648,6 @@
 -(UIViewController *) currentViewController {
     return self;
 }
-
-
-// TODO: Change this to handleMessageSend
-//-(void) chatOptionActionExecuted:(RXPromise *)promise {
-//
-//    [self handleMessageSend:promise];
-//    __weak __typeof__(self) weakSelf = self;
-//    promise.thenOnMain(^id(id success) {
-//        __typeof__(self) strongSelf = weakSelf;
-//        [strongSelf reloadData];
-//        return Nil;
-//    }, Nil);
-//}
 
 #pragma  Picture selection
 
@@ -587,8 +664,8 @@
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
     
     [delegate setMessageFlagged:message isFlagged:message.flagged.intValue].thenOnMain(^id(id success) {
-    // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
-        [tableView_ reloadData];
+        // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
+        [self reloadDataForMessage:message];
         return Nil;
     }, Nil);
     
@@ -608,12 +685,7 @@
         UITableViewRowAction * button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault
                                                                            title:[NSBundle t:bDelete]
                                                                          handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-    
-            [BChatSDK.moderation deleteMessage:message.entityID].thenOnMain(^id(id result) {
-                // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
-                [tableView_ reloadData];
-                return Nil;
-            }, Nil);
+            [BChatSDK.moderation deleteMessage:message.entityID];
         }];
         
         button.backgroundColor = [UIColor redColor];
@@ -627,7 +699,7 @@
             __typeof__(self) strongSelf = weakSelf;
             [strongSelf.delegate setMessageFlagged:message isFlagged:message.flagged.intValue].thenOnMain(^id(id success) {
                 // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
-                [tableView_ reloadData];
+                [strongSelf reloadDataForMessage:message];
                 return Nil;
             }, Nil);
             
@@ -674,34 +746,22 @@
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:duration.doubleValue];
     [UIView setAnimationCurve:curve.integerValue];
-    
+
+    float contentOffsetY = tableView.contentOffset.y + keyboardBoundsConverted.size.height - self.safeAreaBottomInset;
+
+    [tableView setContentOffset:CGPointMake(0, contentOffsetY)];
+
+    [UIView setAnimationsEnabled:NO];
+    for(UITableViewCell * cell in tableView.visibleCells) {
+        [cell layoutIfNeeded];
+    }
+    [UIView setAnimationsEnabled:YES];
+
+
     [self.view layoutIfNeeded];
 
     [UIView commitAnimations];
     
-    // Set the scroll view to the last message
-    [self scrollToBottomOfTable:NO];
-    
-}
-
--(void) keyboardDidShow: (NSNotification *) notification {
-
-    // Get the keyboard size
-    CGRect keyboardBounds = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGRect keyboardBoundsConverted = [self.view convertRect:keyboardBounds toView:Nil];
-
-    // Once the keyboard appears we remove the constraint to the toolbar
-    // and add y displacement by adding an offset instead. This allows
-    // the messages to scroll under the keyboard
-    __weak __typeof__(self) weakSelf = self;
-
-    [UIView animateWithDuration:0.3 animations:^ {
-        [weakSelf setTableViewBottomContentInset:keyboardBoundsConverted.size.height + _sendBarView.fh];
-        [tableView.keepBottomOffsetTo(_sendBarView) deactivate];
-    }];
-    
-    // Enable the tap gesture recognizer to hide the keyboard
-    _tapRecognizer.enabled = YES;
 }
 
 -(void) keyboardWillHide: (NSNotification *) notification {
@@ -710,21 +770,32 @@
     NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     
     CGRect keyboardBounds = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
+    CGRect keyboardBoundsConverted = [self.view convertRect:keyboardBounds toView:Nil];
+
     _keyboardOverlay.frame = keyboardBounds;
     
-    _sendBarView.keepBottomInset.equal = [self textInputViewBottomInset];
-    [self.view setNeedsUpdateConstraints];
+    _sendBarView.keepBottomInset.equal = self.safeAreaBottomInset;
+    [_sendBarView setNeedsUpdateConstraints];
     
     [UIView beginAnimations:Nil context:Nil];
+    
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:duration.doubleValue];
     [UIView setAnimationCurve:curve.integerValue];
     
-    [self.view layoutIfNeeded];
     
-    // Set the inset so it's correct when we animate back to normal
-    [self setTableViewBottomContentInset:_sendBarView.fh];
+    [UIView setAnimationsEnabled:NO];
+    
+    for(UITableViewCell * cell in tableView.visibleCells) {
+        [cell setNeedsLayout];
+        [cell layoutIfNeeded];
+    }
+    [UIView setAnimationsEnabled:YES];
+
+    float contentOffsetY = tableView.contentOffset.y - keyboardBoundsConverted.size.height + self.safeAreaBottomInset;
+    [tableView setContentOffset:CGPointMake(0, contentOffsetY)];
+
+    [self.view layoutIfNeeded];
 
     [UIView commitAnimations];
     
@@ -733,7 +804,18 @@
     
 }
 
--(float) textInputViewBottomInset {
+-(void) keyboardDidShow: (NSNotification *) notification {
+    
+    // Get the keyboard size
+    CGRect keyboardBounds = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardBoundsConverted = [self.view convertRect:keyboardBounds toView:Nil];
+    
+    // Enable the tap gesture recognizer to hide the keyboard
+    _tapRecognizer.enabled = YES;
+}
+
+
+-(float) safeAreaBottomInset {
     // Move the text input up to avoid the bottom area
     if (@available(iOS 11, *)) {
         return self.view.safeAreaInsets.bottom;
@@ -742,69 +824,68 @@
 }
 
 -(void) keyboardDidHide: (NSNotification *) notification {
-    // Do the reverse process to above. So the table sticks back to
-    // the toolbar again
-    tableView.keepBottomOffsetTo(_sendBarView).equal = -_sendBarView.fh;
     [_keyboardOverlay removeFromSuperview];
     _keyboardVisible = NO;
-
 }
-
--(void) setTableViewBottomContentInset: (float) inset {
-    UIEdgeInsets insets = tableView.contentInset;
-    insets.bottom = inset;
-    tableView.contentInset = insets;
-}
-
--(void) setTableViewBottomContentInsetWithDelta: (float) delta {
-    UIEdgeInsets insets = tableView.contentInset;
-    insets.bottom += delta;
-    tableView.contentInset = insets;
-}
-
 
 -(void) scrollToBottomOfTable: (BOOL) animated {
-    NSInteger lastSection = tableView.numberOfSections - 1;
-    if (lastSection < 0) {
-        return;
-    }
-    NSInteger lastRow = [tableView numberOfRowsInSection:lastSection] - 1;
-    if (lastRow < 0) {
-        return;
-    }
-    
-    [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:lastRow inSection:lastSection] atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+    [self scrollToBottomOfTable:animated force:NO];
+}
+
+-(void) scrollToBottomOfTable: (BOOL) animated force: (BOOL) force {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSInteger lastSection = self.tableView.numberOfSections - 1;
+        if (lastSection < 0) {
+            return;
+        }
+        NSInteger lastRow = [self.tableView numberOfRowsInSection:lastSection] - 1;
+        if (lastRow < 0) {
+            return;
+        }
+        
+        BOOL scroll = NO;
+        if ((self.tableView.contentSize.height - self.tableView.frame.size.height) - self.tableView.contentOffset.y <= bTableViewRefreshHeight) {
+            scroll = YES;
+        }
+        
+        if (scroll || force) {
+            NSIndexPath * indexPath = [NSIndexPath indexPathForItem:lastRow inSection:lastSection];
+            [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+        }
+    });
 }
 
 -(void) reloadData {
-    [self reloadData:YES];
+    [self reloadData:YES animate: YES force:NO];
 }
 
--(void) reloadData: (BOOL) scroll {
-    [tableView reloadData];
-    [self scrollToBottomOfTable:scroll];
+-(void) reloadData: (BOOL) scroll animate: (BOOL) animate force: (BOOL) force {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIView transitionWithView: self.tableView
+                          duration: animate ? 0.2f : 0
+                           options: UIViewAnimationOptionTransitionCrossDissolve
+                        animations: ^(void) {
+                            NSLog(@"Reload %@", NSStringFromSelector(_cmd));
+                            [self.tableView reloadData];
+                        }
+                        completion: ^(BOOL finished) {
+                            if (scroll) {
+                                [self scrollToBottomOfTable:animate force:force];
+                            }
+                        } ];
+    });
 }
-
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-    float scrollViewHeight = scrollView.frame.size.height;
-    float scrollContentSizeHeight = scrollView.contentSize.height;
-    float scrollOffset = scrollView.contentOffset.y;
-    
-    if (scrollOffset == 0)
-    {
-        // then we are at the top
-    }
-    else if (scrollOffset + scrollViewHeight == scrollContentSizeHeight)
-    {
-        
-    }
-    if(scrollOffset < 50) {
-    }
-    if([delegate respondsToSelector:@selector(viewDidScroll:withOffset:)]) {
-        [delegate viewDidScroll:scrollView withOffset:scrollOffset];
-    }
+    [_lazyReloadManager scrollViewDidScroll: scrollView];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [_lazyReloadManager scrollViewWillBeginDragging:scrollView];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [_lazyReloadManager scrollViewDidEndDecelerating:scrollView];
 }
 
 #pragma Utility Methods

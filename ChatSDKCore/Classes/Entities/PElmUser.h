@@ -16,8 +16,6 @@
 -(NSString *) entityID;
 -(NSString *) name;
 
-// Should return a UIImage for RXPromise success
-//-(RXPromise *) loadProfileThumbnail: (BOOL) force;
 -(UIImage *) defaultImage;
 -(NSString *) imageURL;
 -(UIImage *) imageAsImage;

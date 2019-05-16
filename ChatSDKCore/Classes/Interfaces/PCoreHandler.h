@@ -92,7 +92,8 @@
  * @brief Lazy loading of messages this method will load
  * that are not already in memory
  */
--(RXPromise *) loadMoreMessagesForThread: (id<PThread>) threadModel;
+-(RXPromise *) loadMoreMessagesFromDate: (NSDate *) date forThread: (id<PThread>) threadModel;
+-(RXPromise *) loadMoreMessagesFromDate: (NSDate *) date forThread: (id<PThread>) threadModel fromServer: (BOOL) fromServer;
 
 /**
  * @brief This method deletes an existing thread. It deletes the thread from memory

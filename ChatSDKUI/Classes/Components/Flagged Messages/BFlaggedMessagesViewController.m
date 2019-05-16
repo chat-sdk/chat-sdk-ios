@@ -57,7 +57,7 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [notificationList add:[nc addObserverForName:bNotificationFlaggedMessageAdded object:Nil queue:Nil usingBlock:^(NSNotification *notification) {
         id<PMessage> message = notification.userInfo[bNotificationFlaggedMessageAdded_PMessage];
-        NSLog(@"Flagged message added: %@", message.textString);
+        NSLog(@"Flagged message added: %@", message.text);
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.flaggedMessages.count inSection:0];
         [self updateFlaggedMessages];
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -65,7 +65,7 @@
     [notificationList add:[nc addObserverForName:bNotificationFlaggedMessageRemoved object:Nil queue:Nil usingBlock:^(NSNotification *notification) {
         id<PMessage> message = notification.userInfo[bNotificationFlaggedMessageRemoved_PMessage];
         if (message) {
-            NSLog(@"Flagged message removed: %@", message.textString);
+            NSLog(@"Flagged message removed: %@", message.text);
             NSInteger row = [self indexForMessage:message];
             if (row > -1) {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
@@ -118,7 +118,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     id<PMessage> message = [self.flaggedMessages objectAtIndex:indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@: %@", message.userModel.name, message.textString];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@: %@", message.userModel.name, message.text];
     return cell;
 }
 

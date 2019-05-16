@@ -67,34 +67,6 @@
     }, Nil);
 }
 
-// TODO: add the user index to user/index
-#pragma Depricated
--(RXPromise *) updateIndexForUser: (id<PUser>) userModel  {
-    
-    RXPromise * promise = [RXPromise new];
-    
-    FIRDatabaseReference * ref = [[FIRDatabaseReference searchIndexRef] child:BChatSDK.auth.currentUserEntityID];
-    
-    NSString * email = [userModel.meta metaStringForKey:bUserEmailKey];
-    NSString * phone = [userModel.meta metaStringForKey:bUserPhoneKey];
-    
-    NSDictionary * value = @{bUserNameKey: userModel.name ? [self processForQuery:userModel.name] : @"",
-                             bUserEmailKey: email ? [self processForQuery:email] : @"",
-                             bUserPhoneKey: phone ? [self processForQuery:phone] : @""};
-    
-    // The search index works like: /searchIndex/[user entity id]/user details
-    [ref setValue:value withCompletionBlock:^(NSError * error, FIRDatabaseReference * firebase) {
-        if (!error) {
-            [promise resolveWithResult:Nil];
-        }
-        else {
-            [promise rejectWithReason:error];
-        }
-    }];
-    
-    return promise;
-}
-
 -(NSString *) processForQuery: (NSString *) string {
     return [[string stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
 }

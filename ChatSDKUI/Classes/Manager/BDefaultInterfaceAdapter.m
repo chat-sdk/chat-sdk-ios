@@ -383,7 +383,7 @@
     return _splashScreenViewController;
 }
 
--(UIViewController<PSplashScreenViewController> *) splashScreenNavigationController {
+-(UINavigationController *) splashScreenNavigationController {
     return [self navigationControllerWithRootViewController:self.splashScreenViewController];
 }
 

@@ -60,21 +60,18 @@
     
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         if (self.impl_shouldPushViewControllerOnAuth) {
-            [self pushMainViewController];
+            NSString * type = data[bHook_AuthenticationType];
+            if ([type isEqualToString:bHook_AuthenticationTypeCached]) {
+                [self pushMainViewController];
+            }
+            if ([type isEqualToString:bHook_AuthenticationTypeLogin]) {
+                [self pushPostLoginViewController];
+            }
+            if ([type isEqualToString:bHook_AuthenticationTypeSignUp]) {
+                [self pushPostSignUpViewController];
+            }
         }
     }] withName:bHookDidAuthenticate];
-
-    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        if (self.impl_shouldPushViewControllerOnAuth) {
-            [self pushLoginViewController];
-        }
-    }] withName:bHookDidLogin];
-
-    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        if (self.impl_shouldPushViewControllerOnAuth) {
-            [self pushPostSignUpViewController];
-        }
-    }] withName:bHookDidSignUp];
     
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [self pushLoginViewController];

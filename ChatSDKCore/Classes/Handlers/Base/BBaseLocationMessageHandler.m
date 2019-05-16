@@ -26,8 +26,8 @@
 
     message.date = [NSDate date];
     message.userModel = BChatSDK.currentUser;
-    message.delivered = @NO;
-    message.read = @YES;
+    [message setDelivered:@NO];
+    [message setRead:@YES];
     message.flagged = @NO;
 
     [thread addMessage: message];
@@ -35,7 +35,7 @@
     // TODO: Get rid of this
     NSString * messageText = [NSString stringWithFormat:@"%f,%f",location.coordinate.latitude,location.coordinate.longitude];
 
-    [message setJson:@{bMessageText: messageText,
+    [message setMeta:@{bMessageText: messageText,
                        bMessageLongitude: @(location.coordinate.longitude),
                        bMessageLatitude: @(location.coordinate.latitude)}];
     

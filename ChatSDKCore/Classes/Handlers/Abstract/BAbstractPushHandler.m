@@ -152,7 +152,7 @@
 }
 
 -(NSDictionary *) pushDataForMessage: (id<PMessage>) message {
-    if (!message.textString || !message.textString.length || !BChatSDK.config.clientPushEnabled) {
+    if (!message.text || !message.text.length || !BChatSDK.config.clientPushEnabled) {
         return Nil;
     }
         
@@ -171,7 +171,7 @@
     }
     
     NSMutableDictionary * data = [NSMutableDictionary dictionaryWithDictionary: @{@"userIds" : users,
-                                                                                  @"body": message.textString,
+                                                                                  @"body": message.text,
                                                                                   @"type": message.type,
                                                                                   @"senderId": message.userModel.entityID,
                                                                                   @"threadId": message.thread.entityID,

@@ -95,20 +95,6 @@
         user = BChatSDK.currentUser;
     }
     
-    self.profilePictureButton.userInteractionEnabled = NO;
-    if (!self.userIsCurrent) {
-        self.title = user.name;
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_22_chat.png"]
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(startChat)];
-        
-    }
-    else {
-        [self cell:blockUserCell setHidden:YES];
-        [self cell:addContactCell setHidden:YES];
-    }
-    
     [self refreshInterfaceAnimated:NO];
 }
 
@@ -135,6 +121,15 @@
     // Stop the app from crashing when we log out
     if (!user) {
         return;
+    }
+    
+    self.profilePictureButton.userInteractionEnabled = NO;
+    if (!self.user.isMe) {
+        self.title = user.name;
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_22_chat.png"]
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(startChat)];
     }
 
     //
@@ -200,27 +195,33 @@
     // State
     //
     
-    NSString * state = [BAvailabilityState titleForKey:user.state];
+    NSString * availability = [BAvailabilityState titleForKey:user.availability];
     
     // There are two more states... If the user has no state but they are online
     // then their state is online. If they are offline, their state is offline
-    if (!state || !state.length) {
+    if (!availability || !availability.length) {
         if (user.online.boolValue) {
-            state = [NSBundle t:bAvailable];
+            availability = [NSBundle t:bAvailable];
         }
         else {
-            state = [NSBundle t:bOffline];
+            availability = [NSBundle t:bOffline];
         }
     }
-    availabilityLabel.text = state;
+    availabilityLabel.text = availability;
     
     [self cell:availabilityCell setHidden:!availabilityLabel.text || !availabilityLabel.text.length];
+
+    //
+    // Contact
+    //
     
+    [self cell:addContactCell setHidden:user.isMe];
+
     //
     // Blocking
     //
     
-    [self cell:blockUserCell setHidden:!BChatSDK.blocking || !BChatSDK.blocking.serviceAvailable];
+    [self cell:blockUserCell setHidden:user.isMe || !BChatSDK.blocking || !BChatSDK.blocking.serviceAvailable];
     
     BOOL isBlocked = [BChatSDK.blocking isBlocked:user];
     [self setIsBlocked:isBlocked setRemote:NO];
@@ -268,7 +269,7 @@
     id<PUser> currentUser = BChatSDK.currentUser;
     id<PUserConnection> connection = Nil;
     for (id<PUserConnection> connection in [currentUser connectionsWithType:bUserConnectionTypeContact]) {
-        if ([connection.user.entityID isEqualToString:user.entityID]) {
+        if ([connection.user isEqualToEntity:user]) {
             return connection;
         }
     }

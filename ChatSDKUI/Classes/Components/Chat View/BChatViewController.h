@@ -17,8 +17,6 @@
     
     BOOL _usersViewLoaded;
     
-    NSMutableArray * _messageCache;
-    BOOL _messageCacheDirty;
 
 }
 

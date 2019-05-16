@@ -14,16 +14,17 @@
 
 @implementation BMessageSection
 
--(instancetype) initWithMessages: (NSArray *) messages {
-    if((self = [self init])) {
-        [_messages addObjectsFromArray:messages];
-    }
-    return self;
-}
+//-(instancetype) initWithMessages: (NSArray *) messages {
+//    if((self = [self init])) {
+//        [_messages addObjectsFromArray:messages];
+//    }
+//    return self;
+//}
 
--(instancetype) init {
+-(instancetype) initWithDateText: (NSString *) dateText {
     if ((self = [super init])) {
         _messages = [NSMutableArray new];
+        _dateText = dateText;
     }
     return self;
 }
@@ -40,12 +41,31 @@
     return Nil;
 }
 
+-(NSInteger) rowForMessage: (id<PMessage>) message {
+    return [_messages indexOfObject:message];
+}
+
+
 -(NSInteger) rowCount {
     return _messages.count;
 }
 
--(void) addMessage:(id<PElmMessage>)message {
-    [_messages addObject:message];
+-(NSInteger) addMessage:(id<PMessage>)message {
+    if (![_messages containsObject:message]) {
+        [_messages addObject:message];
+        [self sortMessages];
+        return [self rowForMessage:message];
+    }
+    return NSNotFound;
+}
+
+-(NSInteger) removeMessage: (id<PMessage>) message {
+    if ([_messages containsObject:message]) {
+        int index = [self rowForMessage:message];
+        [_messages removeObject:message];
+        return index;
+    }
+    return NSNotFound;
 }
 
 -(UIView *) view {
@@ -77,6 +97,33 @@
 
     }
     return _view;
+}
+
+-(void) sortMessages {
+    [_messages sortUsingComparator:[BMessageSorter oldestFirst]];
+}
+
+-(NSString *) dateText {
+    return _dateText;
+}
+
+-(id<PMessage>) newestMessage {
+    return _messages.lastObject;
+}
+
+-(id<PMessage>) oldestMessage {
+    return _messages.firstObject;
+}
+
+-(void) debug {
+    int i = 0;
+    for (id<PMessage> message in _messages) {
+        if (message.entityID) {
+            NSLog(@"-- %i: %@, %@", i++, message.entityID, message.text);
+        } else {
+            NSLog(@"-- %i: null");
+        }
+    }
 }
 
 @end

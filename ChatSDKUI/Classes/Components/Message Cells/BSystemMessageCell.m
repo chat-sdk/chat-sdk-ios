@@ -46,7 +46,7 @@
 -(void) setMessage: (id<PElmMessage>) message withColorWeight:(float)colorWeight {
     [super setMessage:message withColorWeight:colorWeight];
     
-    NSDictionary * dict = [message compatibilityMeta];
+    NSDictionary * dict = message.meta;
     
     self.bubbleImageView.image = Nil;
     
@@ -98,11 +98,11 @@
 #pragma Cell sizing static methods
 
 +(NSNumber *) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return @([BTextMessageCell getText: message.textString heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth].floatValue]);
+    return @([BTextMessageCell getText: message.text heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth].floatValue]);
 }
 
 +(NSNumber *) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return @([BTextMessageCell textWidth:message.textString maxWidth:maxWidth]);
+    return @([BTextMessageCell textWidth:message.text maxWidth:maxWidth]);
 }
 
 +(NSValue *) messageBubblePadding: (id<PElmMessage>) message {

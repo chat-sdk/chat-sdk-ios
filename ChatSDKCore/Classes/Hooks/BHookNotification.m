@@ -14,6 +14,10 @@
     [BChatSDK.hook executeHookWithName:bHookMessageWillSend data:@{bHook_PMessage: message}];
 }
 
++(void) notificationMessageSending: (id<PMessage>) message {
+    [BChatSDK.hook executeHookWithName:bHookMessageSending data:@{bHook_PMessage: message}];
+}
+
 +(void) notificationMessageDidSend: (id<PMessage>) message {
     [BChatSDK.hook executeHookWithName:bHookMessageDidSend data:@{bHook_PMessage: message}];
 }
@@ -26,6 +30,14 @@
     [BChatSDK.hook executeHookWithName:bHookMessageDidUpload data:@{bHook_PMessage: message}];
 }
 
++(void) notificationMessageWillBeDeleted: (id<PMessage>) message {
+    [BChatSDK.hook executeHookWithName:bHookMessageWillBeDeleted data:@{bHook_PMessage: message}];
+}
+
++(void) notificationMessageWasDeleted {
+    [BChatSDK.hook executeHookWithName:bHookMessageWasDeleted data:@{}];
+}
+
 +(void) notificationMessageReceived: (id<PMessage>) message {
     [BChatSDK.hook executeHookWithName:bHookMessageRecieved data:@{bHook_PMessage: message}];
 }
@@ -34,14 +46,9 @@
     [BChatSDK.hook executeHookWithName:bHookDidAuthenticate data:@{bHook_PUser: user}];
 }
 
-+(void) notificationDidLogin: (id<PUser>) user {
-    [BChatSDK.hook executeHookWithName:bHookDidLogin data:@{bHook_PUser: user}];
++(void) notificationDidAuthenticate: (id<PUser>) user type: (NSString *) type {
+    [BChatSDK.hook executeHookWithName:bHookDidAuthenticate data:@{bHook_PUser: user, bHook_AuthenticationType: type}];
 }
-
-+(void) notificationDidSignUp: (id<PUser>) user {
-    [BChatSDK.hook executeHookWithName:bHookDidSignUp data:@{bHook_PUser: user}];
-}
-
 
 +(void) notificationWillLogout: (id<PUser>) user {
     [BChatSDK.hook executeHookWithName:bHookWillLogout data:@{bHook_PUser:user}];
