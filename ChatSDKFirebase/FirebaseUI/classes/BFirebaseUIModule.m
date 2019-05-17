@@ -14,8 +14,7 @@
 
 @implementation BFirebaseUIModule
 
--(void) activateWithProviders: (NSArray *) providers {
-    
+-(FUIAuthPickerViewController *) viewControllerForProviders: (NSArray *) providers {
     FIRAuth * auth = [FIRAuth auth];
     FUIAuth * authUI = [FUIAuth authUIWithAuth:auth];
     
@@ -25,14 +24,17 @@
     // Add the phone provider
     [authUI setProviders:providers];
     
-    FUIAuthPickerViewController * controller = [[FUIAuthPickerViewController alloc] initWithAuthUI:authUI];
-    
-    BChatSDK.ui.loginViewController = controller;
+    return [[FUIAuthPickerViewController alloc] initWithAuthUI:authUI];
 }
 
-- (void)authUI:(FUIAuth *)authUI didSignInWithUser:(nullable FIRUser *)user error:(nullable NSError *)error {
-    if(!error) {
-        [BChatSDK.auth authenticateWithCachedToken].thenOnMain(^id(id<PUser> user) {
+-(void) activateWithProviders: (NSArray *) providers {
+    BChatSDK.ui.loginViewController = [self viewControllerForProviders:providers];
+}
+
+- (void)authUI:(FUIAuth *)authUI didSignInWithAuthDataResult:(FIRAuthDataResult *)authDataResult error:(NSError *)error {
+    if (!error) {
+        
+        [BChatSDK.auth authenticate].thenOnMain(^id(id<PUser> user) {
             [self notifyDelegate:Nil];
             return Nil;
         }, ^id(NSError * error) {

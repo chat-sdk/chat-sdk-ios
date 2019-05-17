@@ -146,7 +146,12 @@ The latest update brings a range of improvements and new features including:
 
 There are also a range of bug fixes and overall improvments. If we aren't able to document all the changes but if you have any issues updating your project, you can post on this [issue](https://github.com/chat-sdk/chat-sdk-ios/issues/360) and we will answer your questions. 
 
-The [security rules](firebase-rules.json) have also been updated so make sure to bring your project up to date. 		
+The [security rules](firebase-rules.json) have also been updated so make sure to bring your project up to date. 	
+
+**Update the CoreData model**
+
+Make sure that the CoreData model is the latest version. This model lives in `ChatSDK/CoreData/Resources/ChatSDK.xcdatamodelId`
+	
 Several schema have also been deprecated and will be removed at some point in the future. These include:
 
 - `message/to` field added

@@ -21,6 +21,7 @@
 @interface BFirebaseUIModule : NSObject<FUIAuthDelegate>
 
 -(void) activateWithProviders: (NSArray *) providers;
+-(FUIAuthPickerViewController *) viewControllerForProviders: (NSArray *) providers;
 
 @property (nonatomic, readwrite, weak) id<BFirebaseUIModuleDelegate> delegate;
 

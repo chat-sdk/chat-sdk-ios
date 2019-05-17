@@ -53,7 +53,11 @@ Pod::Spec.new do |s|
 	f.source_files = ['ChatSDKFirebase/FirebaseUI/Classes/**/*']
 
 	f.dependency 'ChatSDKFirebase/Adapter'
-	f.dependency 'FirebaseUI/Auth'
+	f.dependency 'FirebaseUI'
+#     f.dependency 'FirebaseUI/Auth', '~> 5.0'
+#     f.dependency 'FirebaseUI/Facebook', '~> 5.0'
+#     f.dependency 'FirebaseUI/Google', '~> 5.0'
+#     f.dependency 'FirebaseUI/Phone', '~> 5.0'
 
   end
   
