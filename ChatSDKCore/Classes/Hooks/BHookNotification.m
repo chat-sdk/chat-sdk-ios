@@ -47,6 +47,9 @@
 }
 
 +(void) notificationDidAuthenticate: (id<PUser>) user type: (NSString *) type {
+    if (!type) {
+        type = bHook_AuthenticationTypeCached;
+    }
     [BChatSDK.hook executeHookWithName:bHookDidAuthenticate data:@{bHook_PUser: user, bHook_AuthenticationType: type}];
 }
 

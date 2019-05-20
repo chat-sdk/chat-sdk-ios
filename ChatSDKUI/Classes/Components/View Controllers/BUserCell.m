@@ -51,7 +51,7 @@
         }
     }
     
-    if (user.availability && user.online.boolValue && ![user.availability isEqualToString:bAvailabilityStateChat]) {
+    if (user.availability && user.availability.length && user.online.boolValue && ![user.availability isEqualToString:bAvailabilityStateChat]) {
         [self setAway];
     } else {
         if (user.online.boolValue) {

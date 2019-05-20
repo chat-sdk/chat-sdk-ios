@@ -241,7 +241,6 @@
     [self dismissViewControllerAnimated:YES completion:Nil];
 }
 
-// #6679 Start bug fix for v3.0.2
 -(void) updateUserAndIndexes {
     
     // Add the user to the index
