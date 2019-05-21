@@ -214,6 +214,15 @@
     cell.unreadMessagesLabel.hidden = !unreadCount;
     cell.unreadMessagesLabel.text = [@(unreadCount) stringValue];
     
+    //Adding online status
+    id<PUser> userIn = lastMessage.userModel;
+    if([userIn.online isEqualToNumber:[NSNumber numberWithBool:YES]]){
+        [cell setIsOnline:true];
+    }
+    else{
+        [cell setIsOnline:false];
+    }
+    
     // Add the typing indicator
     NSString * typingText = _threadTypingMessages[thread.entityID];
     if (typingText && typingText.length) {
