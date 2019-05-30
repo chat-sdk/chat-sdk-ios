@@ -30,6 +30,7 @@
 @synthesize defaultBlankAvatar;
 @synthesize timeFormat;
 @synthesize chatMessagesToLoad;
+@synthesize messagesToLoadPerBatch;
 @synthesize pushNotificationSound;
 @synthesize firebaseGoogleServicesPlistName;
 @synthesize firebaseShouldConfigureAutomatically;
@@ -113,7 +114,9 @@
         
         pushNotificationSound = @"default";
         
-        chatMessagesToLoad = 50;
+        messagesToLoadPerBatch = 100;
+        chatMessagesToLoad = messagesToLoadPerBatch;
+
         audioMessageMaxLengthSeconds = 300;
         
         firebaseShouldConfigureAutomatically = YES;

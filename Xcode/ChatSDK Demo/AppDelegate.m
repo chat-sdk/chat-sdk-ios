@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-
 #import <ChatSDK/UI.h>
 
 @interface AppDelegate ()
@@ -22,13 +21,16 @@
     // The network adapter handles network traffic
 
     BConfiguration * config = [BConfiguration configuration];
-    config.rootPath = @"19_02";
+    config.rootPath = @"19_05_v1";
     config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = NO;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
     config.clearDataWhenRootPathChanges = YES;
     config.loginUsernamePlaceholder = @"Email";
-//    config.allowUsersToCreatePublicChats = YES;
+    config.allowUsersToCreatePublicChats = YES;
+    
+    // For the demo version of the client exire rooms after 24 hours
+    config.publicChatRoomLifetimeMinutes = 60 * 24;
     
     // Twitter Setup
     config.twitterApiKey = @"Kqprq5b6bVeEfcMAGoHzUmB3I";
@@ -41,10 +43,10 @@
     config.googleClientKey = @"1088435112418-4cm46hg39okkf0skj2h5roj1q62anmec.apps.googleusercontent.com";
     
     [BChatSDK initialize:config app:application options:launchOptions];
-
-    UIViewController * rootViewController = [BInterfaceManager sharedManager].a.appTabBarViewController;
     
-    // Set the root view controller
+    // TODO: Fix Firebase UI!!!!!!!
+    UIViewController * rootViewController = BChatSDK.ui.splashScreenNavigationController;
+    
     [self.window setRootViewController:rootViewController];
     
     return YES;
@@ -70,6 +72,5 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {}
 - (void)applicationWillEnterForeground:(UIApplication *)application {}
 - (void)applicationWillTerminate:(UIApplication *)application {}
-
 
 @end

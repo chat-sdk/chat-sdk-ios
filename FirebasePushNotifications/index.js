@@ -177,11 +177,11 @@ exports.pushToChannels = functions.https.onCall((data, context) => {
     }
 
     if(threadId === "undefined" || !threadId || threadId === null) {
-        throw new functions.https.HttpsError("invalid-argument", "Sender ID not valid");
+        throw new functions.https.HttpsError("invalid-argument", "Thread ID not valid");
     }
 
     if(body === "undefined" || !body || body === null) {
-        throw new functions.https.HttpsError("invalid-argument", "Sender ID not valid");
+        throw new functions.https.HttpsError("invalid-argument", "Body not valid");
     }
 
     var status = {};

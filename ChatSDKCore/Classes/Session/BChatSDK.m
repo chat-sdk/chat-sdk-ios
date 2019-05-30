@@ -50,6 +50,7 @@ static BChatSDK * instance;
                                                  selector:@selector(saveData)
                                                      name:UIApplicationWillTerminateNotification
                                                    object:Nil];
+        _moduleHelper = [BModuleHelper new];
     }
     return self;
 }
@@ -62,11 +63,11 @@ static BChatSDK * instance;
 -(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceAdapter>) adapter {
     _configuration = config;
     
-    [BModuleHelper activateCoreModules];
+    [_moduleHelper activateCoreModules];
     if(adapter) {
         _interfaceAdapter = adapter;
     }
-    [BModuleHelper activateModules];
+    [_moduleHelper activateModules];
     
     [self clearDataIfNecessary];
 }
@@ -95,16 +96,20 @@ static BChatSDK * instance;
     }
 }
 
-+(void) activateModules {
-    [BModuleHelper activateModules];
+-(BOOL) activateModuleForName: (NSString *) name {
+    return [_moduleHelper activateModuleForName:name];
 }
 
-+(void) activateModulesForFirebase {
-    [BModuleHelper activateModulesForFirebase];
+-(void) activateModules {
+    [_moduleHelper activateModules];
 }
 
-+(void) activateModulesForXMPP {
-    [BModuleHelper activateModulesForXMPP];
+-(void) activateModulesForFirebase {
+    [_moduleHelper activateModulesForFirebase];
+}
+
+-(void) activateModulesForXMPP {
+    [_moduleHelper activateModulesForXMPP];
 }
 
 // If the configuration isn't set, return a default value
@@ -153,6 +158,10 @@ static BChatSDK * instance;
         [BChatSDK.socialLogin application:application didFinishLaunchingWithOptions:launchOptions];
     }
     return YES;
+}
+
+-(void) preventAutomaticActivationForModule: (NSString *) moduleName {
+    [_moduleHelper excludeModules:@[moduleName]];
 }
 
 // Authenticate using a Firebase token
@@ -296,7 +305,7 @@ static BChatSDK * instance;
 }
 
 +(BOOL) isMe: (id<PUser>) user {
-    return [[self currentUser].entityID isEqualToString:user.entityID];
+    return [self.currentUser isEqualToEntity:user];
 }
 
 +(id) handler: (NSString *) name {
@@ -308,7 +317,7 @@ static BChatSDK * instance;
 }
 
 +(id<PNetworkAdapter>) a {
-    return [BNetworkManager sharedManager].a;
+    return self.shared.networkAdapter;
 }
 
 +(id<PInterfaceAdapter>) ui {

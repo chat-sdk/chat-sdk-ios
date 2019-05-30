@@ -18,10 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /* Two Factor Auth */
     //var verifyViewController:BVerifyViewController?;
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let config = BConfiguration.init();
-        config.rootPath = "18_10"
+        config.rootPath = "19_05_v1"
         config.allowUsersToCreatePublicChats = false
         config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
         config.clearDatabaseWhenDataVersionChanges = true
@@ -40,11 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.googleClientKey = "1088435112418-4cm46hg39okkf0skj2h5roj1q62anmec.apps.googleusercontent.com"
         
         BChatSDK.initialize(config, app: application, options: launchOptions)
-
-        NM.moderation().on()
-
+        
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = BChatSDK.ui().appTabBarViewController();
+        self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();
         self.window?.makeKeyAndVisible();
 
         return true
@@ -67,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return BChatSDK.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         return BChatSDK.application(app, open: url, options: options)
     }
 

@@ -47,6 +47,14 @@
 //        return Nil;
 //    });
     
+    // Localization
+    self.emailField.placeholder = [NSBundle t:bEmail];
+    self.passwordField.placeholder = [NSBundle t:bPassword];
+    [self.loginButton setTitle:[NSBundle t:bLogin] forState:UIControlStateNormal];
+    [self.registerButton setTitle:[NSBundle t:bRegister] forState:UIControlStateNormal];
+    [self.forgotPasswordButton setTitle:[NSBundle t:bForgotPassword] forState:UIControlStateNormal];
+    [self.termsAndConditionsButton setTitle:[NSBundle t:bTermsAndConditions] forState:UIControlStateNormal];
+
     UIButton * activeSocialButton = Nil;
     
     if (![BChatSDK.auth accountTypeEnabled:bAccountTypeFacebook]) {

@@ -40,20 +40,12 @@
     
     self.bubbleImageView.image = Nil;
     
-    float longitude = [[self.message compatibilityMeta][bMessageLongitude] floatValue];
-    float latitude = [[self.message compatibilityMeta][bMessageLatitude] floatValue];
+    float longitude = [self.message.meta[bMessageLongitude] floatValue];
+    float latitude = [self.message.meta[bMessageLatitude] floatValue];
     
-    // Load the map from Google Maps
-    NSString * api = @"https://maps.googleapis.com/maps/api/staticmap";
-    NSString * markers = [NSString stringWithFormat:@"markers=%f,%f", latitude, longitude];
-    NSString * size = [NSString stringWithFormat:@"zoom=18&size=%ix%i", bMaxMessageWidth, bMaxMessageWidth];
-    NSString * key = [NSString stringWithFormat:@"key=%@", BChatSDK.config.googleMapsApiKey];
-    NSString * url = [NSString stringWithFormat:@"%@?%@&%@&%@", api, markers, size, key];
-    
-    [mapImageView sd_setImageWithURL:url placeholderImage:Nil options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
-    
-    // Get a new map
-//    [map setLongitude:longitude withLatitude:latitude];
+    [mapImageView sd_setImageWithURL:[BGoogleUtils getMapImageURL:latitude longitude:longitude width:bMaxMessageWidth height:bMaxMessageWidth]
+                    placeholderImage:Nil
+                             options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
     
 }
 

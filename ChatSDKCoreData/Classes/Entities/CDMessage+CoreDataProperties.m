@@ -15,22 +15,16 @@
 
 @dynamic date;
 @dynamic delivered;
-@dynamic dirty;
 @dynamic entityID;
 @dynamic flagged;
 @dynamic placeholder;
 @dynamic read;
-@dynamic resource;
-@dynamic resourcePath;
-@dynamic text;
 @dynamic type;
 @dynamic thread;
 @dynamic user;
-@dynamic status;
 @dynamic meta;
-@dynamic json;
-@dynamic lastMessage;
+@dynamic readStatus;
+@dynamic previousMessage;
 @dynamic nextMessage;
-@dynamic lastMessageThread;
 
 @end

@@ -53,7 +53,7 @@
 -(void) setMessage: (id<PElmMessage>) message withColorWeight:(float)colorWeight {
     [super setMessage:message withColorWeight:colorWeight];
     
-    textView.text = message.textString;
+    textView.text = message.text;
     
     if(BChatSDK.config.messageTextColorMe && message.userModel.isMe) {
         textView.textColor = [BCoreUtilities colorWithHexString:BChatSDK.config.messageTextColorMe];
@@ -70,11 +70,11 @@
 #pragma Cell sizing static methods
 
 +(NSNumber *) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return @([self getText: message.textString heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth].floatValue]);
+    return @([self getText: message.text heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth].floatValue]);
 }
 
 +(NSNumber *) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return @([self textWidth:message.textString maxWidth:maxWidth]);
+    return @([self textWidth:message.text maxWidth:maxWidth]);
 }
 
 +(NSValue *) messageBubblePadding: (id<PElmMessage>) message {
@@ -84,7 +84,7 @@
 #pragma Text size
 
 -(float) getTextHeightWithWidth: (float) width {
-    return [BTextMessageCell getText:_message.textString heightWithWidth:width];
+    return [BTextMessageCell getText:_message.text heightWithWidth:width];
 }
 
 +(float) getText: (NSString *) text heightWithWidth: (float) width {
@@ -95,7 +95,7 @@
 }
 
 -(float) getTextHeightWithFont: (UIFont *) font withWidth: (float) width {
-    return [BTextMessageCell getText:_message.textString heightWithFont:font withWidth:width];
+    return [BTextMessageCell getText:_message.text heightWithFont:font withWidth:width];
 }
 
 +(float) getText: (NSString *) text heightWithFont: (UIFont *) font withWidth: (float) width {

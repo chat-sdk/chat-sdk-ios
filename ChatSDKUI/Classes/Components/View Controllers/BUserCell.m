@@ -32,15 +32,40 @@
    // self.profileImageView.clipsToBounds = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.accessoryType = UITableViewCellAccessoryNone; // If we don't set this then sometimes the cells don't refresh properly
-   // self.profileImageView.layer.borderWidth = 2;
-   // self.statusImageView.layer.cornerRadius = 6;
-    [self setStateLabelText:@""];
+    
+    //self.profileImageView.layer.borderWidth = 2;
+    self.statusImageView.layer.cornerRadius = 6;
+    [self setAvailabilityLabelText:@""];
     
     [self.profileImageView sd_setImageWithURL:[NSURL URLWithString: user.imageURL]
                              placeholderImage:user.imageAsImage
                                       options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
     
     self.title.text = user.name;
+    self.subtitle.text = user.statusText;
+    
+    if (user.availability) {
+        [self setAvailabilityLabelText:user.availability];
+    } else {
+        if (user.online.boolValue) {
+            [self setAvailabilityLabelText:[NSBundle t: bOnline]];
+        }
+        else {
+            [self setAvailabilityLabelText:[NSBundle t: bOffline]];
+        }
+    }
+    
+    if (user.availability && user.availability.length && user.online.boolValue && ![user.availability isEqualToString:bAvailabilityStateChat]) {
+        [self setAway];
+    } else {
+        if (user.online.boolValue) {
+            [self setOnline];
+        }
+        else {
+            [self setOffline];
+        }
+    }
+    
     self.subtitle.text = @"";
     self.statusImageView.hidden = false;
 
@@ -75,14 +100,14 @@
 //    }
 }
 
--(void) setStateLabelText: (NSString *) state {
-    if(!state || state.length == 0) {
+-(void) setAvailabilityLabelText: (NSString *) availability {
+    if(!availability || availability.length == 0) {
         [self.statusImageView keepVerticallyCentered];
     }
     else {
         self.statusImageView.keepBottomOffsetTo(self.stateLabel).equal = 5;
     }
-    self.stateLabel.text = state;
+    self.stateLabel.text = [NSBundle t:availability];
 }
 
 -(void) setSelectedImage {

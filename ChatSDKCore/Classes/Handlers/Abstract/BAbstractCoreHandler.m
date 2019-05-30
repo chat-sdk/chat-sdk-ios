@@ -75,13 +75,21 @@
     
     for(id<PThread> thread in allThreads) {
         if(thread.type.intValue & bThreadFilterPrivate) {
-            if(thread.type.intValue & type  && (!thread.deleted_.boolValue || includeDeleted) && (thread.hasMessages || includeEmpty)) {
+            if(thread.type.intValue & type && (!thread.deletedDate || includeDeleted) && (thread.hasMessages || includeEmpty)) {
                 [threads addObject:thread];
             }
         }
         else if (thread.type.intValue & bThreadFilterPublic) {
-            if(thread.type.intValue & type) {
-                [threads addObject:thread];
+            if (BChatSDK.config.publicChatRoomLifetimeMinutes == 0) {
+                [threads addObjectsFromArray:thread];
+            } else {
+                NSDate * now = [NSDate date];
+                NSTimeInterval interval = [now timeIntervalSinceDate:thread.creationDate];
+                if (interval < BChatSDK.config.publicChatRoomLifetimeMinutes * 60) {
+                    [threads addObject:thread];
+                } else {
+                    [thread markRead];
+                }
             }
         }
     }
@@ -132,7 +140,6 @@
         _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID
                                                                    withType:bUserEntity];
         _currentUserEntityID = currentUserID;
-        [_currentUser optimize];
         [self save];
     }
     return _currentUser;
@@ -143,8 +150,11 @@
  * @brief Mark the user as online
  */
 -(void) setUserOnline {
-    if(BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
-        [BChatSDK.lastOnline setLastOnlineForUser:self.currentUserModel];
+    if (BChatSDK.currentUser) {
+        BChatSDK.currentUser.online = @YES;
+        if(BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
+            [BChatSDK.lastOnline setLastOnlineForUser:self.currentUserModel];
+        }
     }
 }
 
@@ -168,7 +178,7 @@
 /**
  * @brief Subscribe to a user's updates
  */
--(void)observeUser: (NSString *)entityID {
+-(RXPromise *)observeUser: (NSString *)entityID {
     assert(NO);
 }
 
@@ -179,13 +189,36 @@
  */
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
                                 name: (NSString *) name
+                                type: (bThreadType) type
+                         forceCreate: (BOOL) force
                        threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
     assert(NO);
 }
 
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
-                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) thread {
-    assert(NO);
+                                name: (NSString *) name
+                         forceCreate: (BOOL) force
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+    return [self createThreadWithUsers:users
+                                  name:name
+                                  type:bThreadTypeNone
+                           forceCreate:force
+                         threadCreated:threadCreated];
+}
+
+
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                                name: (NSString *) name
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+    return [self createThreadWithUsers:users
+                                  name:name
+                           forceCreate:NO
+                         threadCreated:threadCreated];
+}
+
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+    return [self createThreadWithUsers:users name:nil threadCreated:threadCreated];
 }
 
 /**
@@ -206,8 +239,15 @@
  * @brief Lazy loading of messages this method will load
  * that are not already in memory
  */
--(RXPromise *) loadMoreMessagesForThread: (id<PThread>) threadModel {
-    assert(NO);
+-(RXPromise *) loadMoreMessagesFromDate: (NSDate *) date forThread: (id<PThread>) threadModel {
+    return [self loadMoreMessagesFromDate:date forThread:threadModel fromServer:YES];
+}
+
+-(RXPromise *) loadMoreMessagesFromDate: (NSDate *) date forThread: (id<PThread>) threadModel fromServer: (BOOL) fromServer {
+    RXPromise * promise = [RXPromise new];
+    NSArray * messages = [BChatSDK.db loadMessagesForThread:threadModel fromDate:date count:BChatSDK.config.messagesToLoadPerBatch];
+    [promise resolveWithResult:messages];
+    return promise;
 }
 
 /**
@@ -228,7 +268,9 @@
 }
 
 - (void)setUserOffline {
-    assert(NO);
+    if (BChatSDK.currentUser) {
+        BChatSDK.currentUser.online = @NO;
+    }
 }
 
 -(id<PThread>) fetchThreadWithUsers: (NSArray *) users {
@@ -257,7 +299,7 @@
         
         // Complete with the thread
         if(jointThread) {
-            [jointThread setDeleted: @NO];
+            [jointThread setDeletedDate: Nil];
             return jointThread;
         }
     }
@@ -273,6 +315,11 @@
 }
 
 -(id<PThread>) createThreadWithUsers: (NSArray *) users name: (NSString *) name {
+    return [self createThreadWithUsers:users name:name type:bThreadTypeNone];
+}
+
+-(id<PThread>) createThreadWithUsers: (NSArray *) users name: (NSString *) name type: (bThreadType) type {
+
     id<PUser> currentUser = self.currentUserModel;
     
     NSMutableArray * usersToAdd = [NSMutableArray arrayWithArray:users];
@@ -286,8 +333,15 @@
     id<PThread> threadModel = [BChatSDK.db createThreadEntity];
     threadModel.creationDate = [NSDate date];
     threadModel.creator = currentUser;
-    threadModel.type = usersToAdd.count == 2 ? @(bThreadType1to1) : @(bThreadTypePrivateGroup);
-    threadModel.name = name;
+    if (type != bThreadTypeNone) {
+        threadModel.type = @(type);
+    } else {
+        threadModel.type = usersToAdd.count == 2 ? @(bThreadType1to1) : @(bThreadTypePrivateGroup);
+    }
+    
+    if (name) {
+        threadModel.name = name;
+    }
     
     for (id<PUser> user in usersToAdd) {
         [threadModel addUser:user];

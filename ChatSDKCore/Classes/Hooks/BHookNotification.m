@@ -14,6 +14,10 @@
     [BChatSDK.hook executeHookWithName:bHookMessageWillSend data:@{bHook_PMessage: message}];
 }
 
++(void) notificationMessageSending: (id<PMessage>) message {
+    [BChatSDK.hook executeHookWithName:bHookMessageSending data:@{bHook_PMessage: message}];
+}
+
 +(void) notificationMessageDidSend: (id<PMessage>) message {
     [BChatSDK.hook executeHookWithName:bHookMessageDidSend data:@{bHook_PMessage: message}];
 }
@@ -26,12 +30,27 @@
     [BChatSDK.hook executeHookWithName:bHookMessageDidUpload data:@{bHook_PMessage: message}];
 }
 
++(void) notificationMessageWillBeDeleted: (id<PMessage>) message {
+    [BChatSDK.hook executeHookWithName:bHookMessageWillBeDeleted data:@{bHook_PMessage: message}];
+}
+
++(void) notificationMessageWasDeleted {
+    [BChatSDK.hook executeHookWithName:bHookMessageWasDeleted data:@{}];
+}
+
 +(void) notificationMessageReceived: (id<PMessage>) message {
     [BChatSDK.hook executeHookWithName:bHookMessageRecieved data:@{bHook_PMessage: message}];
 }
 
 +(void) notificationDidAuthenticate: (id<PUser>) user {
     [BChatSDK.hook executeHookWithName:bHookDidAuthenticate data:@{bHook_PUser: user}];
+}
+
++(void) notificationDidAuthenticate: (id<PUser>) user type: (NSString *) type {
+    if (!type) {
+        type = bHook_AuthenticationTypeCached;
+    }
+    [BChatSDK.hook executeHookWithName:bHookDidAuthenticate data:@{bHook_PUser: user, bHook_AuthenticationType: type}];
 }
 
 +(void) notificationWillLogout: (id<PUser>) user {
@@ -65,5 +84,11 @@
 +(void) notificationInternetConnectivityDidChange {
     [BChatSDK.hook executeHookWithName:bHookInternetConnectivityDidChange data:@{}];
 }
+
++(void) notificationUserWillDisconnect {
+    [BChatSDK.hook executeHookWithName:bHookUserWillDisconnect data:@{}];
+}
+
+
 
 @end

@@ -35,6 +35,13 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 
 Full breakdown is available on the [features page](http://chatsdk.co/features/).
 
+## Quick Start
+
+- [Standard Documentation](https://github.com/chat-sdk/chat-sdk-ios#adding-the-chat-sdk-to-your-project) (For experienced developers) 
+- [API Documentation](https://github.com/chat-sdk/docs)
+- [Code Examples](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Xcode/ChatSDK%20Demo/ApiExamples.m)
+- [Wiki](https://github.com/chat-sdk/chat-sdk-ios/wiki)
+
 ## Demo
 
 You can test the XMPP Chat SDK on the [App Store](https://itunes.apple.com/us/app/xmpp-messenger/id1218669006?ls=1&mt=8)
@@ -103,7 +110,7 @@ We're very excited about the project and we're looking for other people to get i
 + Write a tutorial - **we pay $100** for quality tutorials
 
 If you're interested please review the [Contributing
-Document](https://github.com/chat-sdk/chat-sdk-ios/blob/master/CONTRIBUTING.md) for details of our development flow and the CLA then email me at [**team@chatsdk.co**](mailto:team@chatsdk.co).
+Document](https://github.com/chat-sdk/chat-sdk-ios/blob/master/CONTRIBUTING.md) for details of our development flow and the CLA then email me at [**team@sdk.chat**](mailto:team@sdk.chat).
 
 ## Apps that use Chat SDK
 
@@ -121,7 +128,40 @@ We provide extensive documentation on Github but if you’re a non-technical use
 
 ##### Consulting services
 
-We are specialists in real-time application development including: Firebase, Firestore, XMPP and WebRTC for iOS and Android. If you need help integrating the Chat SDK with your app or another app development project email us at [team@chatsdk.co](mailto: team@chatsdk.co). 
+We are specialists in real-time application development including: Firebase, Firestore, XMPP and WebRTC for iOS and Android. If you need help integrating the Chat SDK with your app or another app development project email us at [team@sdk.chat](mailto: team@sdk.chat). 
+
+## Updating from 4.10.x to 4.11.x
+
+The latest update brings a range of improvements and new features including:
+
+- Detailed profile screen:
+	- User status
+	- User availability
+	- Country
+- Update to message view
+	- Vastly improved lazy loading
+	- Efficiency improvements
+- Contacts
+	- Add / remove contact from contact screen 
+
+There are also a range of bug fixes and overall improvments. If we aren't able to document all the changes but if you have any issues updating your project, you can post on this [issue](https://github.com/chat-sdk/chat-sdk-ios/issues/360) and we will answer your questions. 
+
+The [security rules](firebase-rules.json) have also been updated so make sure to bring your project up to date. 	
+
+**Update the CoreData model**
+
+Make sure that the CoreData model is the latest version. This model lives in `ChatSDK/CoreData/Resources/ChatSDK.xcdatamodelId`
+	
+Several schema have also been deprecated and will be removed at some point in the future. These include:
+
+- `message/to` field added
+- `message/meta` will replace `json_v2`
+- `message/from` will replace `user-firebase-id`
+- `thread/meta` will replace `details`
+- `thread/meta/creator` will replace `creator-entity-id`
+- `thread/meta/type` will replace `type_v4`
+
+At the moment these fields are not being used and are only included for future compatibility. However, in a future version of the client, the old fields will be removed and any old versions of the client will stop working.
 
 ## Running the demo project
 This repository contains a fully functional version of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
@@ -180,7 +220,7 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   [BChatSDK initialize:config app:application options:launchOptions];
 
   // Set the root view controller
-  [self.window setRootViewController:BChatSDK.ui.appTabBarViewController];
+  [self.window setRootViewController:BChatSDK.ui.splashScreenNavigationController];
   ```
   
   Then add the following methods:
@@ -222,7 +262,7 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   BChatSDK.initialize(config, app: application, options: launchOptions)
         
   self.window = UIWindow.init(frame: UIScreen.main.bounds)
-  self.window?.rootViewController = BChatSDK.ui().appTabBarViewController();
+  self.window?.rootViewController = BChatSDK.ui()?.splashScreenNavigationController()
   self.window?.makeKeyAndVisible();
   ```
   
@@ -355,6 +395,24 @@ There are a number of configuration options available. Check out the [BConfigura
 - Enable or disable different types of login
 - Show or hide empty chats
 - etc...
+
+### Customize the UI
+
+To customize the UI, you can register subclasses for different views. You can do that using the UI service `BChatSDK.ui`. For example, to register a new login view controller you would use:
+
+```
+BChatSDK.ui.loginViewController = [[YourViewController alloc] initWithNibName:Nil bundle: Nil];
+```
+
+To modify the chat view you would register a provider:
+
+```
+[BChatSDK.ui setChatViewController:^BChatViewController *(id<PThread> thread) {
+        return [[YourChatViewController alloc] initWithThread:thread];
+}];
+```
+
+Every view controller in the app can be customized this way. 
 
 ### Use Chat SDK views in your app
 

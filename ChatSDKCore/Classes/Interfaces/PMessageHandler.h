@@ -9,7 +9,12 @@
 #ifndef PMessageHandler_h
 #define PMessageHandler_h
 
+@protocol PMessage;
+
 @protocol PMessageHandler <NSObject>
+
+//-(NSDictionary *) serialize: (id<PMessage>) message;
+//-(void) deserialize: (id<PMessage>) message withData: (NSDictionary *) data;
 
 // This is really needed for modules which provide a custom message cell class
 @optional

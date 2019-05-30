@@ -13,20 +13,14 @@
 
 @implementation CDThread (CoreDataProperties)
 
-@dynamic apiKey;
 @dynamic creationDate;
-@dynamic deleted_;
-@dynamic dirty;
+@dynamic deletedDate;
 @dynamic entityID;
-@dynamic hasUnreadMessages;
-@dynamic lastMessageAdded;
 @dynamic name;
-@dynamic rootKey;
 @dynamic type;
 @dynamic meta;
 @dynamic creator;
 @dynamic messages;
 @dynamic users;
-@dynamic lastMessage;
 
 @end

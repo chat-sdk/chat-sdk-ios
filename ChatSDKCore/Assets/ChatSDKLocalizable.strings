@@ -68,6 +68,10 @@
 "bOnline" = "Online";
 "bOffline" = "Offline";
 
+"away" = "Away";
+"xa" = "Extended Away";
+"dnd" = "Busy";
+
 "bCreatePublicThread" = "Create public thread";
 "bThreadName" = "Thread name";
 "bThread" = "Thread";
@@ -182,5 +186,13 @@
 "bFileMessage" = "File Message";
 "bPhoto" = "Photo";
 "bFile" = "File";
+
+// To Translate
+
+"bAvailable" = "Available";
+"bAway" = "Away";
+"bExtendedAway" = "Extended Away";
+"bBusy" = "Busy";
+"bAddContact" = "Add Contact";
 
 "" = "";

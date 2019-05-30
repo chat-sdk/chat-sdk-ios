@@ -28,6 +28,6 @@
 -(void) setOnline;
 -(void) setAway;
 -(void) setOffline;
--(void) setStateLabelText: (NSString *) state;
+-(void) setAvailabilityLabelText: (NSString *) state;
 
 @end

@@ -10,7 +10,6 @@
 #define BCoreDefines_h
 
 #define bProfilePictureSize CGSizeMake(300, 300)
-#define bProfilePictureThumbnailSize CGSizeMake(100, 100)
 
 // How longer after the user stops typing until the recipient
 // stops seeing the "typing" indicator

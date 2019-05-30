@@ -14,7 +14,7 @@
 @implementation CDMessage
 
 -(float) getTextHeightWithFont: (UIFont *) font withWidth: (float) width {
-    return [self.textString boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+    return [self.text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
                                    options:NSStringDrawingUsesLineFragmentOrigin
                                 attributes:@{NSFontAttributeName: font}
                                    context:Nil].size.height;
@@ -37,7 +37,7 @@
 #pragma Image information
 
 - (NSURL *)imageURL {
-    NSString * url = self.compatibilityMeta[bMessageImageURL];
+    NSString * url = self.meta[bMessageImageURL];
     return [NSURL URLWithString:url];
 }
 
@@ -59,8 +59,8 @@
 }
 
 -(CGSize) getImageSize {
-    NSNumber * widthNumber = self.compatibilityMeta[bMessageImageWidth];
-    NSNumber * heightNumber = self.compatibilityMeta[bMessageImageHeight];
+    NSNumber * widthNumber = self.meta[bMessageImageWidth];
+    NSNumber * heightNumber = self.meta[bMessageImageHeight];
     
     float height = -1;
     float width = -1;
@@ -68,7 +68,7 @@
     // TODO: Depricated - remove this
     if (!widthNumber || !heightNumber) {
         
-        NSArray * myArray = [self.textString componentsSeparatedByString:@","];
+        NSArray * myArray = [self.text componentsSeparatedByString:@","];
         
         if (myArray.count > 2) {
             
@@ -100,33 +100,7 @@
     if (self.meta) {
         return self.meta;
     }
-    else {
-        return self.json;
-    }
-}
-
-// TODO: Depricated - remove this
--(NSError *) setTextAsDictionary: (NSDictionary *) dict {
-    [self setJson:dict];
-    return Nil;
-}
-
-// TODO: Depricated - remove this
-//-(NSDictionary *) textAsDictionary {
-//    if(!self.json) {
-//        NSData *data =[self.text dataUsingEncoding:NSUTF8StringEncoding];
-//        NSDictionary * response;
-//        NSError * error;
-//        if(data!=nil){
-//            response = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-//        }
-//        self.json = response;
-//    }
-//    return self.json;
-//}
-
--(NSString *) color {
-    return self.user.messageColor;
+    return @{};
 }
 
 -(id<PMessage>) model {
@@ -134,18 +108,15 @@
 }
 
 -(bMessagePos) messagePosition {
-    if (_position == Nil) {
-        [self updateOptimizationProperties];
-    }
     return [_position intValue];
 }
 
--(NSString *) textString {
-    return self.json[bMessageText];
+-(NSString *) text {
+    return self.meta[bMessageText];
 }
 
--(void) setTextString: (NSString *) text {
-    [self setJson:@{bMessageText: text ? text : @""}];
+-(void) setText: (NSString *) text {
+    [self setMeta:@{bMessageText: [NSString safe:text]}];
 }
 
 // This helps us know if we want to show it in the thread
@@ -165,16 +136,12 @@
     return NO;
 }
 
--(void) setReadStatus:(NSDictionary *)status {
-    self.status = status;
-}
-
 -(bMessageReadStatus) readStatusForUserID: (NSString *) uid {
-    if (!self.status) {
+    if (!self.readStatus) {
         return bMessageReadStatusNone;
     }
 
-    NSDictionary * status = self.status;
+    NSDictionary * status = self.readStatus;
     if(status && uid) {
         NSDictionary * userStatus = status[uid];
         return [userStatus[bStatus] intValue];
@@ -183,31 +150,39 @@
 }
 
 -(void) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid {
-    NSMutableDictionary * mutableStatus = [NSMutableDictionary dictionaryWithDictionary:self.status];
+    NSMutableDictionary * mutableStatus = [NSMutableDictionary dictionaryWithDictionary:self.readStatus];
     mutableStatus[uid] = @{bStatus: @(status_)};
     [self setReadStatus:mutableStatus];
 }
 
--(bMessageReadStatus) readStatus {
-    if (!self.status) {
+-(bMessageReadStatus) messageReadStatus {
+    if (!self.readStatus) {
         return bMessageReadStatusNone;
     }
     
-    NSDictionary * status = self.status;
-    BOOL allDelivered = YES;
-    BOOL allRead = YES;
-    for (NSDictionary * userStatus in status.allValues) {
-        //NSString * date = userStatus[bDate];
-        NSNumber * sts = userStatus[bStatus];
-        
-        bMessageReadStatus s = sts.intValue;
-        allDelivered = bMessageReadStatusDelivered <= s && allDelivered;
-        allRead = bMessageReadStatusRead <= s && allRead;
+    int userCount = 0;
+    int deliveredCount = 0;
+    int readCount = 0;
+    
+    NSDictionary * messageStatus = self.readStatus;
+
+    for (NSDictionary * userStatus in messageStatus.allValues) {
+        bMessageReadStatus status = [userStatus[bStatus] intValue];
+        if (status != bMessageReadStatusHide) {
+            if (status == bMessageReadStatusDelivered) {
+                deliveredCount++;
+            }
+            if (status == bMessageReadStatusRead) {
+                deliveredCount++;
+                readCount++;
+            }
+            userCount++;
+        }
     }
-    if(allRead) {
+    if(readCount == userCount) {
         return bMessageReadStatusRead;
     }
-    else if (allDelivered) {
+    else if (deliveredCount == userCount) {
         return bMessageReadStatusDelivered;
     }
     else {
@@ -215,75 +190,21 @@
     }
 }
 
-//-(CDMessage *) copy {
-//    CDMessage * message = [BChatSDK.db createMessageEntity];
-//    message.entityID = [self.entityID copy];
-//    message.date = [self.date copy];
-//    message.placeholder = [self.placeholder copy];
-//    message.read = [self.read copy];
-//    message.resource = [self.resource copy];
-//    message.resourcePath = [self.resourcePath copy];
-//    message.text = [self.text copy];
-//    message.type = [self.type copy];
-//    message.thread = self.thread;
-//    message.user = self.user;
-//    message.status = [self.status copy];
-//    message.meta = [self.meta copy];
-//    message.json = [self.json copy];
-//    
-//    return message;
-//}
-
 -(BOOL) senderIsMe {
-    
     return self.userModel.isMe;
-    
-//    if(_senderIsMe == Nil) {
-//        [self updateOptimizationProperties];
-//    }
-//
-//    return [_senderIsMe boolValue];
-}
-
-// We store certain shortcuts for optimization purposes
-// Message position
-// Sender is me
-// Next and last message
-// Update these if necessary
--(void) updateOptimizationProperties {
-    if(!self.lastMessage || !self.nextMessage) {
-        NSArray * messages = self.thread.messagesOrderedByDateAsc;
-        NSInteger index = [messages indexOfObject:self];
-        
-        if(index != NSNotFound) {
-            if(!self.lastMessage && index > 0) {
-                self.lastMessage = messages[index - 1];
-            }
-            if (!self.nextMessage && index < messages.count - 1) {
-                self.nextMessage = messages[index + 1];
-            }
-        }
-    }
-    
-//    if(_senderIsMe == Nil) {
-//        _senderIsMe = @(self.userModel.isMe);
-//    }
-    
-    [self updatePosition];
-}
-
--(void) clearOptimizationProperties {
-    _senderIsMe = Nil;
-    _position = Nil;
 }
 
 -(void) updatePosition {
-    BOOL isFirst = !self.lastMessage || ![self.lastMessage.user.entityID isEqualToString: self.user.entityID];
-    BOOL isLast = !self.nextMessage || ![self.nextMessage.user.entityID isEqualToString: self.user.entityID];;
+    BOOL isFirst = !self.previousMessage || ![self.previousMessage.user isEqualToEntity: self.user];
+    BOOL isLast = !self.nextMessage || ![self.nextMessage.user isEqualToEntity: self.user];;
     
     // Also check if we are the first or last message of a day
-    isFirst = isFirst || [self.date isNextDay: self.lastMessage.date];
-    isLast = isLast || [self.date isPreviousDay:self.nextMessage.date];
+    isFirst = isFirst || [self.date isNextDay: self.previousMessage.date];
+    isLast = isLast || [self.date isPreviousDay:self.nextMessage.date] ;
+    
+    // Also check to see the message type is different
+    isFirst = isFirst || self.type.intValue != self.previousMessage.type.intValue;
+    isLast = isLast || self.type.intValue != self.nextMessage.type.intValue;
     
     int position = 0;
     if (isFirst) {
@@ -296,20 +217,6 @@
     _position = @(position);
 }
 
--(CDMessage *) lazyLastMessage {
-    if(!self.lastMessage) {
-        [self updateOptimizationProperties];
-    }
-    return self.lastMessage;
-}
-
--(CDMessage *) lazyNextMessage {
-    if(!self.nextMessage) {
-        [self updateOptimizationProperties];
-    }
-    return self.nextMessage;
-}
-
 -(void) updateMeta: (NSDictionary *) dict {
     if (!self.meta) {
         self.meta = @{};
@@ -318,7 +225,15 @@
 }
 
 -(void) setMetaValue: (id) value forKey: (NSString *) key {
-    [self updateMeta:@{key: value ? value : @""}];
+    [self updateMeta:@{key: [NSString safe:value]}];
+}
+
+-(BOOL) isRead {
+    return [self readStatusForUserID:BChatSDK.currentUserID] == bMessageReadStatusRead || self.read;
+}
+
+-(BOOL) isDelivered {
+    return [self readStatusForUserID:BChatSDK.currentUserID] >= bMessageReadStatusDelivered || self.read || self.delivered;
 }
 
 

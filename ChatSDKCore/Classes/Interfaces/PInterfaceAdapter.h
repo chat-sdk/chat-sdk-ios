@@ -116,7 +116,7 @@
 
 -(void) setSplashScreenViewController: (UIViewController<PSplashScreenViewController> *) controller;
 -(UIViewController<PSplashScreenViewController> *) splashScreenViewController;
--(UIViewController<PSplashScreenViewController> *) splashScreenNavigationController;
+-(UINavigationController *) splashScreenNavigationController;
 
 -(void) setLoginViewController: (UIViewController *) controller;
 -(UIViewController *) loginViewController;

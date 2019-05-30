@@ -13,7 +13,6 @@
 // Used for Video messages
 #define bNullString @"null"
 
-#define bThumbnailPath @"thumbnail"
 #define bImagePath @"image"
 
 #define bCurrentUserLoginInfo @"current-user-login-info"
@@ -25,15 +24,22 @@
 
 // Underscore keys
 #define bJSONV2 @"json_v2"
-#define bType @"type"
+
+// Deprecated in favour of bType
 #define bTypeV4 @"type_v4"
+#define bType @"type"
 #define bDate @"date"
 #define bUserFirebaseID @"user-firebase-id"
+#define bFrom @"from"
+#define bTo @"to"
+// Deprecated in favour of bCreator
 #define bCreatorEntityID @"creator-entity-id"
+#define bCreator @"creator"
 #define bSenderEntityID @"sender-entity-id"
 #define bLastMessage @"lastMessage"
 #define bUserName @"userName"
 #define bReadPath @"read"
+#define bImageURL @"image-url"
 
 #define bCreationDate @"creation-date"
 #define bMessage @"message"
@@ -55,8 +61,6 @@
 #define bPublicThreadsPath @"public-threads"
 #define bMetaPath @"meta"
 #define bOnlinePath @"online"
-#define bIndexPath @"index"
-#define bSearchIndexPath @"searchIndex"
 #define bLastOnlinePath @"last-online"
 
 #define bAudioPath @"audio"
@@ -72,7 +76,7 @@
 #define bLoginPasswordKey @"login-password"
 #define bLoginCustomToken @"custom-token"
 
-#define bUserStateKey @"state"
+#define bUserAvailabilityKey @"availability"
 #define bUserStatusTextKey bStatus
 #define bUserNameKey @"name"
 #define bUserEmailKey @"email"
@@ -80,7 +84,6 @@
 #define bUserPhoneKey @"phone"
 #define bUserPrefixKey @"user"
 #define bUserImageURLKey @"pictureURL"
-#define bUserThumbnailURLKey @"pictureURLThumbnail"
 #define bUserPictures @"pictures"
 
 #define bUserPrivilegeKey @"privilege"

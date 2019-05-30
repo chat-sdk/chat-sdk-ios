@@ -18,6 +18,7 @@
 // or private.
 typedef enum {
     // Group types
+    bThreadTypeNone = 0x0,
     bThreadTypePrivateGroup = 0x1,
     bThreadType1to1 = 0x2,
     bThreadTypePublicGroup = 0x4,
@@ -68,19 +69,20 @@ typedef enum {
 -(NSString *) name;
 -(NSString *) memberListString;
 
--(void) setDeleted: (NSNumber *) deleted;
--(NSNumber *) deleted_;
+-(void) setDeletedDate: (NSDate *) date;
+-(NSDate *) deletedDate;
 
 -(void) addUser: (id<PUser>) user;
 -(void) removeUser:(id<PUser>) user;
 -(void) addMessage: (id<PMessage>) message;
+-(void) addMessage: (id<PMessage>) theMessage toStart: (BOOL) toStart;
 -(void) removeMessage: (id<PMessage>) message;
 
 -(NSString *) displayName;
 
 -(NSSet *) users;
 -(id<PUser>) otherUser;
--(id<PMessage>) lazyLastMessage;
+-(id<PMessage>) newestMessage;
 
 -(void) markRead;
 -(int) unreadMessageCount;
@@ -89,15 +91,15 @@ typedef enum {
 
 -(NSArray *) messagesOrderedByDateAsc;
 -(NSArray *) messagesOrderedByDateDesc;
+
+-(NSArray *) messagesOrderedByDateNewestFirst;
+-(NSArray *) messagesOrderedByDateOldestFirst;
+
 -(NSArray *) allMessages;
 -(BOOL) hasMessages;
 
--(NSArray *) loadMoreMessages: (NSInteger) numberOfMessages;
--(void) resetMessages;
-
 -(UIImage *)imageForThread;
 -(NSDate *) orderDate;
--(void) clearMessageCache;
 
 -(void) setMeta: (NSDictionary *) meta;
 -(NSDictionary *) meta;

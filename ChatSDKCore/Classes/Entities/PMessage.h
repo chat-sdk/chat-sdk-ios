@@ -36,7 +36,6 @@ typedef enum {
 #define bMessageTypeKey @"type"
 
 #define bMessageImageURL @"image-url"
-#define bMessageThumbnailURL @"thumbnail-url"
 
 #define bMessageImageWidth @"image-width"
 #define bMessageImageHeight @"image-height"
@@ -74,9 +73,7 @@ typedef enum {
 -(void) setText: (NSString *) text;
 -(NSString *) text;
 
--(NSString *) textString;
--(void) setTextString: (NSString *) text;
-
+// Use Meta instead
 -(NSDictionary *) json;
 -(void) setJson: (NSDictionary *) json;
 -(NSDictionary *) compatibilityMeta;
@@ -96,11 +93,6 @@ typedef enum {
 -(NSString *) entityID;
 
 /**
- * Deprecated in favour of setJson:
- */
--(NSError *) setTextAsDictionary: (NSDictionary *) dict;
-
-/**
  * @brief Set user that sent the message
  * @param user id<PUser> user
  */
@@ -111,7 +103,8 @@ typedef enum {
  * @brief Has the user seen this message
  */
 -(void) setRead: (NSNumber *) read;
--(NSNumber *) read;
+-(BOOL) isRead;
+-(BOOL) isDelivered;
 
 /**
  * @brief Message creation date
@@ -123,12 +116,6 @@ typedef enum {
  * @brief The message is marked as delivered once it arrives at the server successfully
  */
 -(void) setDelivered: (NSNumber *) delivered;
--(NSNumber *) delivered;
-
-/**
- * @brief Message bubble color
- */
--(NSString *) color;
 
 /**
  * @brief Placeholder image
@@ -146,8 +133,6 @@ typedef enum {
 
 -(bMessagePos) messagePosition;
 -(BOOL) senderIsMe;
--(id<PMessage>) lazyNextMessage;
--(id<PMessage>) lazyLastMessage;
 -(void) updatePosition;
 
 - (BOOL)showUserNameLabelForPosition: (bMessagePos) position;
@@ -163,10 +148,9 @@ typedef enum {
 @optional
 
 -(void) setReadStatus:(NSDictionary *)status;
-
 -(void) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid;
 -(bMessageReadStatus) readStatusForUserID: (NSString *) uid;
--(bMessageReadStatus) readStatus;
+-(bMessageReadStatus) messageReadStatus;
 -(void) setMetaValue: (id) value forKey: (NSString *) key;
 
 @end

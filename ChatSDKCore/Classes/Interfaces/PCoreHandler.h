@@ -49,13 +49,25 @@
 /**
  * @brief Subscribe to a user's updates
  */
--(void)observeUser: (NSString *)entityID;
+-(RXPromise *)observeUser: (NSString *)entityID;
 
 /**
  * @brief This method invites adds the users provided to a a conversation thread
  * Register block to:
  * - Handle thread creation
  */
+
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                                name: (NSString *) name
+                                type: (bThreadType) type
+                         forceCreate: (BOOL) force
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated;
+
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                                name: (NSString *) name
+                         forceCreate: (BOOL) force
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated;
+
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
                                 name: (NSString *) name
                        threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated;
@@ -80,7 +92,8 @@
  * @brief Lazy loading of messages this method will load
  * that are not already in memory
  */
--(RXPromise *) loadMoreMessagesForThread: (id<PThread>) threadModel;
+-(RXPromise *) loadMoreMessagesFromDate: (NSDate *) date forThread: (id<PThread>) threadModel;
+-(RXPromise *) loadMoreMessagesFromDate: (NSDate *) date forThread: (id<PThread>) threadModel fromServer: (BOOL) fromServer;
 
 /**
  * @brief This method deletes an existing thread. It deletes the thread from memory
