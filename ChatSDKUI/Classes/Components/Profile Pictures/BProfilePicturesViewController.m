@@ -153,11 +153,10 @@
 - (void)cropViewController:(TOCropViewController *)cropViewController didCropToImage:(UIImage *)image withRect:(CGRect)cropRect angle:(NSInteger)angle {
 
     image = [image resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
-    UIImage * thumbnail = [image resizedImage:bProfilePictureThumbnailSize interpolationQuality:kCGInterpolationHigh];
 
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.label.text = [NSBundle t:bSaving];
-    [BChatSDK.upload uploadImage:image thumbnail:thumbnail].thenOnMain(^id(NSDictionary * urls) {
+    [BChatSDK.upload uploadImage:image].thenOnMain(^id(NSDictionary * urls) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([BProfilePicturesHelper nonnullPictures:self->_pictures].count > 0) {
             [self addPictureURL:urls[bImagePath]];

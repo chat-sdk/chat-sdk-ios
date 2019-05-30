@@ -21,6 +21,7 @@
     self.profileImageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     self.profileImageView.layer.borderWidth = 1.0;
     self.messageTextView.userInteractionEnabled = NO;
+    self.messageTextView.textContainer.lineBreakMode = NSLineBreakByTruncatingTail;
     self.unreadView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     self.unreadView.layer.borderWidth = 1.0;
     self.unreadView.layer.cornerRadius = self.unreadView.fh / 2.0;

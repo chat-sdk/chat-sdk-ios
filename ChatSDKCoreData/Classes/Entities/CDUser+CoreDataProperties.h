@@ -16,23 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CDUser (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSString *authenticationType;
-@property (nullable, nonatomic, retain) NSNumber *dirty;
 @property (nullable, nonatomic, retain) NSString *entityID;
 @property (nullable, nonatomic, retain) NSData *image;
 @property (nullable, nonatomic, retain) NSDate *lastOnline;
-@property (nullable, nonatomic, retain) NSDate *lastUpdated;
-
-// TODO: Remove this
-@property (nullable, nonatomic, retain) NSString *messageColor;
 @property (nullable, nonatomic, retain) id meta;
 @property (nullable, nonatomic, retain) NSNumber *online;
-@property (nullable, nonatomic, retain) NSData *status;
-@property (nullable, nonatomic, retain) NSData *thumbnail;
 @property (nullable, nonatomic, retain) NSSet<CDUserAccount *> *linkedAccounts;
 @property (nullable, nonatomic, retain) NSSet<CDMessage *> *messages;
 @property (nullable, nonatomic, retain) NSSet<CDThread *> *threads;
-@property (nullable, nonatomic, retain) NSSet<CDThread *> *threadsCreated;
 @property (nullable, nonatomic, retain) NSSet<CDUserConnection *> *userConnections;
 
 @end
@@ -53,11 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeThreadsObject:(CDThread *)value;
 - (void)addThreads:(NSSet<CDThread *> *)values;
 - (void)removeThreads:(NSSet<CDThread *> *)values;
-
-- (void)addThreadsCreatedObject:(CDThread *)value;
-- (void)removeThreadsCreatedObject:(CDThread *)value;
-- (void)addThreadsCreated:(NSSet<CDThread *> *)values;
-- (void)removeThreadsCreated:(NSSet<CDThread *> *)values;
 
 - (void)addUserConnectionsObject:(CDUserConnection *)value;
 - (void)removeUserConnectionsObject:(CDUserConnection *)value;

@@ -15,6 +15,7 @@
 #import <RXPromise/RXPromise+RXExtension.h>
 #import <AFNetworking/AFNetworking.h>
 #import <DateTools/NSDate+DateTools.h>
+#import <ChatSDK/BGoogleUtils.h>
 
 #import <ChatSDK/NSArray+KeyPair.h>
 #import <ChatSDK/NSObject+AssociatedObject.h>
@@ -23,8 +24,8 @@
 #import <ChatSDK/NSBundle+Additions.h>
 #import <ChatSDK/NSDate+Additions.h>
 #import <ChatSDK/NSDictionary+Meta.h>
+#import <ChatSDK/NSString+Safe.h>
 
-#import <ChatSDK/BNetworkManager.h>
 #import <ChatSDK/PStorageAdapter.h>
 #import <ChatSDK/PNetworkAdapter.h>
 #import <ChatSDK/BAbstractNetworkAdapter.h>
@@ -53,6 +54,8 @@
 #import <ChatSDK/PElmMessage.h>
 #import <ChatSDK/PElmThread.h>
 #import <ChatSDK/PElmUser.h>
+#import <ChatSDK/BMessageSorter.h>
+#import <ChatSDK/BAudioItem.h>
 
 #import <ChatSDK/PCoreHandler.h>
 #import <ChatSDK/PVideoMessageHandler.h>
@@ -99,7 +102,6 @@
 #import <ChatSDK/bChatState.h>
 #import <ChatSDK/BKeys.h>
 #import <ChatSDK/BCoreDefines.h>
-#import <ChatSDK/NM.h>
 #import <ChatSDK/BModuleHelper.h>
 #import <ChatSDK/BIntegrationHelper.h>
 

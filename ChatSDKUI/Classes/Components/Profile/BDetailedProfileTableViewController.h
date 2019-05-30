@@ -9,13 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <StaticDataTableViewController/StaticDataTableViewController.h>
 
-@class BNotificationObserverList;
 @protocol PUser;
 
-@interface BDetailedProfileTableViewController : StaticDataTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface BDetailedProfileTableViewController : StaticDataTableViewController {
     
     UIImage * _anonymousProfilePicture;
-    UIImagePickerController * _picker;
     
     BOOL _didLogout;
     
@@ -23,33 +21,43 @@
     BOOL _phoneIndexed;
     BOOL _emailIndexed;
     
-    BNotificationObserverList * _notificationList;
+    id _userObserver;
 }
 
-@property (nonatomic, readwrite) id<PUser> overrideUser;
+@property (nonatomic, readwrite) id<PUser> user;
+
 
 @property (weak, nonatomic) IBOutlet UIButton *profilePictureButton;
 @property (weak, nonatomic) IBOutlet UIImageView *flagImageView;
 @property (weak, nonatomic) IBOutlet UITextView *statusTextView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
-@property (weak, nonatomic) IBOutlet UIButton *genderButton;
+@property (weak, nonatomic) IBOutlet UILabel *localityLabel;
 @property (weak, nonatomic) IBOutlet UILabel *ageLabel;
-@property (weak, nonatomic) IBOutlet UIButton *editPhotoButton;
-
-@property (weak, nonatomic) IBOutlet UIImageView *addFriendImageView;
-@property (weak, nonatomic) IBOutlet UILabel *addFriendTextView;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *addFriendActivityIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *phoneNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *emailLabel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *blockImageView;
 @property (weak, nonatomic) IBOutlet UILabel *blockTextView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *blockUserActivityIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *availabilityLabel;
+
+@property (weak, nonatomic) IBOutlet UIButton *followsButton;
+@property (weak, nonatomic) IBOutlet UIButton *followedButton;
 
 // Cell Outlets
 @property (weak, nonatomic) IBOutlet UITableViewCell *statusCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *locationCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *localityCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *ageCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *addFriendCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *blockUserCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *phoneNumberCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *availabilityCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *followsCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *followedCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *addContactCell;
+@property (weak, nonatomic) IBOutlet UIImageView *addContactImageView;
+@property (weak, nonatomic) IBOutlet UILabel *addContactLabel;
+
+//@property (nonatomic, readwrite) BOOL didLogout;
 
 @end

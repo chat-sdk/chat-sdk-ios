@@ -47,17 +47,14 @@
 -(NSString *) imageURL;
 -(void) setImageURL: (NSString *) url;
 
--(void) setThumbnail: (NSData *) image;
--(NSData *) thumbnail;
--(UIImage *) thumbnailAsImage;
 -(void) setName: (NSString *) name;
 -(NSString *) name;
 
 -(void) setStatusDictionary: (NSDictionary *) dictionary;
 -(NSDictionary *) getStatusDictionary;
 
--(void) setState: (NSString *) state;
--(NSString *) state;
+-(void) setAvailability: (NSString *) availability;
+-(NSString *) availability;
 
 -(void) setStatusText: (NSString *) statusText;
 -(NSString *) statusText;
@@ -65,14 +62,7 @@
 //-(void) addContact: (id<PUser>) user;
 -(NSArray *) getContacts;
 
--(void) setMessageColor: (NSString *) color;
--(NSString *) messageColor;
-
--(void) setAuthenticationType: (NSString *) type;
--(NSString *) authenticationType;
-
 -(RXPromise *) loadProfileImage: (BOOL) force;
--(RXPromise *) loadProfileThumbnail: (BOOL) force;
 
 -(void) addLinkedAccountsObject: (id<PUserAccount>) account;
 

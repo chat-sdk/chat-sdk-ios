@@ -20,7 +20,7 @@
 -(NSNumber *) type;
 
 // The 'text' property of the message JSON
--(NSString *) textString;
+-(NSString *) text;
 
 // Messages should be encoded as JSON if you want to support location messages
 // This method should turn the JSON into a dictionary
@@ -46,10 +46,10 @@
 -(NSData *) placeholder;
 
 -(BOOL) senderIsMe;
--(id<PElmMessage>) lazyNextMessage;
--(id<PElmMessage>) lazyLastMessage;
+-(id<PElmMessage>) nextMessage;
+-(id<PElmMessage>) previousMessage;
 
--(bMessageReadStatus) readStatus;
+-(bMessageReadStatus) messageReadStatus;
 
 -(NSDictionary *) meta;
 

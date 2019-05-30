@@ -8,11 +8,12 @@
 
 #import "BDetailedProfileTableViewController.h"
 
+#import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
 
 #define bStatusSection 1
-#define bAddFriendCellTag 1
 #define bBlockCellTag 2
+#define bAddContactCellTag 3
 
 @interface BDetailedProfileTableViewController ()
 
@@ -22,73 +23,76 @@
 
 @synthesize profilePictureButton;
 @synthesize flagImageView;
-@synthesize genderButton;
 @synthesize nameLabel;
 @synthesize statusTextView;
-@synthesize locationLabel;
-@synthesize overrideUser;
+@synthesize localityLabel;
+@synthesize phoneNumberLabel;
+@synthesize emailLabel;
 
-@synthesize addFriendImageView;
-@synthesize addFriendTextView;
-@synthesize addFriendActivityIndicator;
+@synthesize user;
 
 @synthesize blockImageView;
 @synthesize blockTextView;
 @synthesize blockUserActivityIndicator;
+@synthesize availabilityLabel;
 
 @synthesize statusCell;
-@synthesize locationCell;
-@synthesize addFriendCell;
+@synthesize localityCell;
 @synthesize blockUserCell;
+@synthesize phoneNumberCell;
+@synthesize emailCell;
+@synthesize availabilityCell;
+@synthesize addContactCell;
 
--(instancetype) initWithCoder:(NSCoder *)aDecoder {
+@synthesize addContactLabel;
+@synthesize addContactImageView;
+
+-(id) initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         self.title = [NSBundle t:bProfile];
-        [self updateTabBarIcon];
-        _notificationList = [BNotificationObserverList new];
+        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_profile.png"];
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
     
-    _anonymousProfilePicture = BChatSDK.config.defaultBlankAvatar;
+    [super viewDidLoad];
+    _anonymousProfilePicture = [NSBundle uiImageNamed:bDefaultProfileImage];
     profilePictureButton.layer.cornerRadius = 50;
     
     self.hideSectionsWithHiddenRows = YES;
     
     [self refreshInterfaceAnimated:NO];
 
-    
-}
+    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
+                                                      object:Nil
+                                                       queue:Nil
+                                                  usingBlock:^(NSNotification * notification) {
+                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                          [self reloadDataAnimated:NO];
+                                                      });
 
--(id<PUser>) user {
-    if (self.overrideUser) {
-        return self.overrideUser;
-    }
-    else {
-        return BChatSDK.currentUser;
-    }
+    }];
+    
+    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+        user = Nil;
+    }] withName:bHookDidLogout];
+    
+//    NSString * backButtonTitle = self.title;
+//    if (backButtonTitle.length > 9) {
+//        backButtonTitle = [[backButtonTitle substringToIndex:9] stringByAppendingString:@"..."];
+//    }
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStylePlain target:Nil action:Nil];
+
 }
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // Update the user's details
-    id<PUser> user = self.user;
-    
-    if (overrideUser) {
-        self.title = user.name;
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_22_chat.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(startChat)];
-        
-        self.editPhotoButton.hidden = YES;
-        self.profilePictureButton.userInteractionEnabled = NO;
-    }
-    else {
-        [self cell:addFriendCell setHidden:YES];
-        [self cell:blockUserCell setHidden:YES];
+    if(!user) {
+        user = BChatSDK.currentUser;
     }
     
     [self refreshInterfaceAnimated:NO];
@@ -96,48 +100,89 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self refreshInterfaceAnimated:NO];
-        });
-    }]];
+//    _userObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
+//                                                                      object:Nil
+//                                                                       queue:dispatch_get_main_queue()
+//                                                                  usingBlock:^(NSNotification * notification) {
+//            [self refreshInterfaceAnimated:NO];
+//    }];
+
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [_notificationList dispose];
+    [[NSNotificationCenter defaultCenter] removeObserver:_userObserver];
 }
 
 -(void) refreshInterfaceAnimated: (BOOL) animated {
 
-    [self updateTabBarIcon];
-
-    id<PUser> user = self.user;
+    BDetailedUserWrapper * userWrapper = [BDetailedUserWrapper wrapperWithUser:user];
     
     // Stop the app from crashing when we log out
     if (!user) {
         return;
     }
+    
+    self.profilePictureButton.userInteractionEnabled = NO;
+    if (!self.user.isMe) {
+        self.title = user.name;
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_22_chat.png"]
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(startChat)];
+    }
 
-    UIImage * countryCodeImage = [NSBundle imageNamed:[user.meta metaStringForKey:bCountry] framework:@"CountryPicker" bundle:@"CountryPicker"];
-    [flagImageView setImage:countryCodeImage];
+    //
+    // Flag
+    //
     
-    nameLabel.text = [user.meta metaStringForKey:bName];
+    UIImage * flag = [NSBundle imageNamed:userWrapper.country framework:@"CountryPicker" bundle:@"CountryPicker"];
+    [flagImageView setImage:flag];
     
-    NSString * status = [user.meta metaStringForKey:bDescription];
+    //
+    // Name
+    //
+    
+    nameLabel.text = user.name;
+
+    //
+    // Status
+    //
+    
+    NSString * status = user.statusText;
     if (!status || status.length == 0) {
         status = @"";
     }
     statusTextView.text = status;
     
     [self cell:statusCell setHidden:!status || ![status stringByReplacingOccurrencesOfString:@" " withString:@""].length];
+
+    //
+    // City
+    //
     
-    NSString * location = [user.meta metaStringForKey:bLocation];
-    locationLabel.text = location;
+    NSString * locality = userWrapper.locality;
+    localityLabel.text = locality;
     
-    [self cell:locationCell setHidden:!location || !location.length];
+    [self cell:localityCell setHidden:!locality || !locality.length];
+        
+    //
+    // Phone number
+    //
     
-    genderButton.selected = [[user.meta metaStringForKey:bGender] isEqualToString:@"F"];
+    phoneNumberLabel.text = user.phoneNumber;
+    [self cell:phoneNumberCell setHidden:!user.phoneNumber || !user.phoneNumber.length];
+
+    //
+    // Email
+    //
+
+    emailLabel.text = user.email;
+    [self cell:emailCell setHidden:!user.email || !user.email.length];
+    
+    //
+    // Profile picture
+    //
     
     // Set the profile picture
     // Does the user already have a profile picture?
@@ -146,30 +191,89 @@
         return image;
     }, Nil);
     
+    //
+    // State
+    //
+    
+    NSString * availability = [BAvailabilityState titleForKey:user.availability];
+    
+    // There are two more states... If the user has no state but they are online
+    // then their state is online. If they are offline, their state is offline
+    if (!availability || !availability.length) {
+        if (user.online.boolValue) {
+            availability = [NSBundle t:bAvailable];
+        }
+        else {
+            availability = [NSBundle t:bOffline];
+        }
+    }
+    availabilityLabel.text = availability;
+    
+    [self cell:availabilityCell setHidden:!availabilityLabel.text || !availabilityLabel.text.length];
+
+    //
+    // Contact
+    //
+    
+    [self cell:addContactCell setHidden:user.isMe];
+
+    //
+    // Blocking
+    //
+    
+    [self cell:blockUserCell setHidden:user.isMe || !BChatSDK.blocking || !BChatSDK.blocking.serviceAvailable];
+    
+    BOOL isBlocked = [BChatSDK.blocking isBlocked:user];
+    [self setIsBlocked:isBlocked setRemote:NO];
+    
+    if (self.isContact) {
+        addContactLabel.text = [NSBundle t: bDelete];
+        addContactLabel.textColor = [UIColor redColor];
+        addContactImageView.highlighted = YES;
+    } else {
+        addContactLabel.text = [NSBundle t: bAddContact];
+        addContactImageView.highlighted = NO;
+        addContactLabel.textColor = [UIColor darkGrayColor];
+    }
+    
+    id<PUserConnection> userConnection = self.userConnection;
+    BUserConnectionWrapper * wrapper = [BUserConnectionWrapper wrapperWithConnection:userConnection];
+    
+    // Presence
+    BOOL hideFollow = !userConnection || !userConnection.subscriptionType || !wrapper.ask;
+    [self cell:_followsCell setHidden:hideFollow];
+    [self cell:_followedCell setHidden:hideFollow];
+    
+    UIImage * tick = [NSBundle uiImageNamed:@"icn_36_tick.png"];
+    UIImage * cross = [NSBundle uiImageNamed:@"icn_36_cross.png"];
+    UIImage * clock = [NSBundle uiImageNamed:@"icn_36_clock.png"];
+    
+    // Choose the icons based on the presence status
+    bSubscriptionType subscription = userConnection.subscriptionType;
+    BOOL ask = wrapper.ask != Nil;
+   
+    // Follows
+    if (ask) {
+        [_followsButton setImage:clock forState:UIControlStateNormal];
+    }
+    else {
+        [_followsButton setImage:subscription & bSubscriptionTypeFrom ? tick : cross forState:UIControlStateNormal];
+    }
+    [_followedButton setImage:subscription & bSubscriptionTypeTo ? tick : cross forState:UIControlStateNormal];
+    
     [self reloadDataAnimated:animated];
 }
 
--(void) setIsFriend: (BOOL) isFriend setRemote: (BOOL) setRemote {
-    
-    addFriendActivityIndicator.hidden = NO;
-    [addFriendActivityIndicator startAnimating];
-    
-    // Handle the result:
-//    promise_completionHandler_t success = ^id(id success) {
-//        addFriendImageView.highlighted = isFriend;
-//        addFriendTextView.text = isFriend ? [NSBundle t: bRemoveFriend] : [NSBundle t:bAddFriend];
-//        addFriendActivityIndicator.hidden = YES;
-//        return success;
-//    };
-//    
-//    promise_errorHandler_t error = ^id(NSError * error) {
-//        addFriendActivityIndicator.hidden = YES;
-//        return error;
-//    };
-}
-
--(BOOL) isFriend {
-    return addFriendImageView.highlighted;
+-(id<PUserConnection>) userConnection {
+    // Get the user connection
+    id<PUser> currentUser = BChatSDK.currentUser;
+    id<PUserConnection> connection = Nil;
+    for (id<PUserConnection> connection in [currentUser connectionsWithType:bUserConnectionTypeContact]) {
+        if ([connection.user isEqualToEntity:user]) {
+            return connection;
+        }
+    }
+    return Nil;
 }
 
 -(void) setIsBlocked: (BOOL) isBlocked setRemote: (BOOL) setRemote {
@@ -177,28 +281,53 @@
     blockUserActivityIndicator.hidden = NO;
     [blockUserActivityIndicator startAnimating];
     
-    // Handle the result:
-//    promise_completionHandler_t success = ^id(id success) {
-//        blockImageView.highlighted = isBlocked;
-//        blockTextView.text = isBlocked ? [NSBundle t:bUnblock] : [NSBundle t:bBlock];
-//        blockUserActivityIndicator.hidden = YES;
-//        return success;
-//    };
-//
-//    promise_errorHandler_t error = ^id(NSError * error) {
-//        blockUserActivityIndicator.hidden = YES;
-//        return error;
-//    };
+    promise_completionHandler_t success = ^id(id success) {
+        blockImageView.highlighted = isBlocked;
+        blockTextView.text = isBlocked ? [NSBundle t:bUnblock] : [NSBundle t:bBlock];
+        blockUserActivityIndicator.hidden = YES;
+        return Nil;
+    };
+    
+    promise_errorHandler_t error = ^id(NSError * error) {
+        blockUserActivityIndicator.hidden = YES;
+        return Nil;
+    };
+    
+    if (setRemote) {
+        if (isBlocked) {
+            [BChatSDK.blocking blockUser:user].thenOnMain(success, error);
+        }
+        else {
+            [BChatSDK.blocking unblockUser:user].thenOnMain(success, error);
+        }
+    }
+    else {
+        success(Nil);
+    }
+}
+
+-(void) deleteUser {
+    [BChatSDK.contact deleteContact:self.user withType:bUserConnectionTypeContact].thenOnMain(^id(id success) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return Nil;
+    }, ^id(NSError * error) {
+        [UIView alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+        return Nil;
+    });
+}
+
+-(void) addContact {
+    [BChatSDK.contact addContact:self.user withType:bUserConnectionTypeContact].thenOnMain(^id(id success) {
+        [self refreshInterfaceAnimated:YES];
+        return Nil;
+    }, ^id(NSError * error) {
+        [UIView alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+        return Nil;
+    });
 }
 
 -(BOOL) isBlocked {
     return blockImageView.highlighted;
-}
-
--(void) updateTabBarIcon {
-    BOOL female = [[BChatSDK.currentUser.meta metaStringForKey:bGender] isEqualToString:@"F"];
-    self.tabBarItem.image = [NSBundle uiImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
-    self.tabBarItem.selectedImage = [NSBundle uiImageNamed: female ? @"icn_30_profile_f.png" :  @"icn_30_profile.png"];
 }
 
 -(UIImage *) profilePicture {
@@ -206,58 +335,40 @@
     return user.imageAsImage;
 }
 
-- (IBAction)editButtonPressed:(id)sender {
-    [self profilePictureButtonPressed:Nil];
-}
-
-- (IBAction)profilePictureButtonPressed:(UIButton *)sender {
-    
-    if (!_picker) {
-        _picker = [[UIImagePickerController alloc] init];
-        _picker.delegate = self;
-        _picker.allowsEditing = YES;
-    }
-    
-    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
-    [self presentViewController:_picker animated:YES completion:Nil];
-}
-
 -(void) startChat {
-    [BChatSDK.core createThreadWithUsers:@[self.overrideUser] threadCreated:^(NSError * error, id<PThread> thread) {
-        UIViewController * cvc = [BChatSDK.ui chatViewControllerWithThread:thread];
+    [BChatSDK.core createThreadWithUsers:@[self.user] threadCreated:^(NSError * error, id<PThread> thread) {
+        BChatViewController * cvc = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:cvc animated:YES];
     }];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage * image = [info objectForKey:UIImagePickerControllerEditedImage];
-    
-    // Now reduce the image to 200x200 for the profile picture
-    image = [image resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
-    
-    // Set the user image
-    
-    // Update the user
-    id<PUser> user = BChatSDK.currentUser;
-    [user setImage:UIImagePNGRepresentation(image)];
-    
-    [BChatSDK.core pushUser];
-    
-    [picker dismissViewControllerAnimated:YES completion:Nil];
-}
-
--(void) imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissViewControllerAnimated:NO completion:Nil];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell.tag == bAddFriendCellTag) {
-        [self setIsFriend:!self.isFriend setRemote:YES];
-    }
     if (cell.tag == bBlockCellTag) {
         [self setIsBlocked:!self.isBlocked setRemote:YES];
+    }
+    if (cell.tag == bAddContactCellTag) {
+        if (self.isContact) {
+            [[[UIAlertView alloc] initWithTitle:[NSBundle t:bDeleteContact]
+                                        message:[NSBundle t:bDeleteContactMessage]
+                                       delegate:self
+                              cancelButtonTitle:[NSBundle t:bCancel]
+                              otherButtonTitles:[NSBundle t:bOk], nil] show];
+        } else {
+            [self addContact];
+        }
+    }
+}
+
+-(BOOL) isContact {
+    id<PUserConnection> userConnection = self.userConnection;
+    // If the user is a contact
+    return userConnection && userConnection.type.intValue == bUserConnectionTypeContact;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex) {
+        [self deleteUser];
     }
 }
 
@@ -267,5 +378,21 @@
     }
     return [super tableView: tableView heightForRowAtIndexPath:indexPath];
 }
+
+- (IBAction)editButtonPressed:(id)sender {
+    
+    //[[BNetworkManager sharedManager].authenticationAdapter logout];
+
+    
+    BDetailedEditProfileTableViewController * vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"EditProfile"];
+    vc.profileViewController = self;
+    UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nc animated:YES completion:Nil];
+}
+
+-(BOOL) userIsCurrent {
+    return [user isMe];
+}
+
 
 @end

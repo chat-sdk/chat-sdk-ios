@@ -68,7 +68,7 @@
 
     [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
         id<PMessage> messageModel = dict[bHook_PMessage];
-        messageModel.delivered = @YES;
+        [messageModel setDelivered:@YES];
         
         // This makes the phone vibrate when we get a new message
         
@@ -83,14 +83,10 @@
         [weakSelf reloadData];
     }] withNames: @[bHookMessageWillSend, bHookMessageRecieved]]];
 
-    [_notificationList add:[nc addObserverForName:bNotificationMessageRemoved
-                                           object:Nil
-                                            queue:Nil
-                                       usingBlock:^(NSNotification * notification) {
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               [weakSelf reloadData];
-                                           });
-                                       }]];
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
+        [self reloadData];
+    }] withNames: @[bHookMessageWasDeleted]]];
+    
     [_notificationList add:[nc addObserverForName:bNotificationUserUpdated
                                            object:Nil
                                             queue:Nil
@@ -141,6 +137,9 @@
     // Stop multiple touches opening multiple chat views
     [tableView setUserInteractionEnabled:YES];
     
+    // Stop the typing text from being frozen
+    [_threadTypingMessages removeAllObjects];
+    
     [self reloadData];
 }
 
@@ -178,11 +177,11 @@
     
     NSDate * threadDate = thread.orderDate;
     
-    NSString * text = [NSBundle t:bNoMessages];
+    NSString * text = @"";// [NSBundle t:bNoMessages];
     
-    id<PMessage> lastMessage = thread.lazyLastMessage;
-    if (lastMessage) {
-        text = [NSBundle textForMessage:lastMessage];
+    id<PMessage> newestMessage = thread.newestMessage;
+    if (newestMessage) {
+        text = [NSBundle textForMessage:newestMessage];
     }
     
     if (threadDate) {
@@ -206,7 +205,7 @@
     
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
     
-    cell.profileImageView.image = thread.imageForThread;
+    [cell.profileImageView sd_setImageWithURL:[thread.meta metaValueForKey:bImageURL] placeholderImage:thread.imageForThread];
     
     //    cell.unreadView.hidden = !thread.unreadMessageCount;
     

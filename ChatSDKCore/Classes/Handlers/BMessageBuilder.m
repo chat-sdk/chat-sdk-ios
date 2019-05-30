@@ -38,13 +38,15 @@
 }
 
 -(BMessageBuilder *) textMessage: (NSString *) text {
-    [_message setTextString:text];
+    [_message setText:text];
     [self type:bMessageTypeText];
     return self;
 }
 
 -(BMessageBuilder *) meta: (NSDictionary *) meta {
-    _message.meta = meta;
+    for (id key in meta.allKeys) {
+        [_message setMetaValue:meta[key] forKey:key];
+    }
     return self;
 }
 
@@ -91,8 +93,8 @@
     
     _message.date = [NSDate date];
     _message.userModel = BChatSDK.currentUser;
-    _message.delivered = @NO;
-    _message.read = @YES;
+    [_message setDelivered: @NO];
+    [_message setRead: @YES];
     _message.flagged = @NO;
     
     return self;

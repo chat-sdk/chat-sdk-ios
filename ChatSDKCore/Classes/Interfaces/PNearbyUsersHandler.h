@@ -13,23 +13,13 @@
 @class RXPromise;
 @protocol PUser;
 
-@protocol PNearbyUsersDelegate <NSObject>
-
-- (void)userAdded: (id<PUser>)user location: (CLLocation *)location;
-- (void)userRemoved: (id<PUser>)user;
-- (void)userMoved: (id<PUser>)user location: (CLLocation *)location;
-
-@end
+#import <ChatSDK/PNearbyUsersListener.h>
 
 @protocol PNearbyUsersHandler <NSObject>
 
--(BOOL) startListeningForUsersInRadius: (double) radiusInMetres;
-
--(void) start;
--(void) stop;
-
--(CLLocation *)getCurrentLocation;
--(void) setDelegate: (id<PNearbyUsersDelegate>) delegate;
+-(CLLocation *) currentLocation;
+-(void) addListener: (id<PNearbyUsersListener>) listener;
+-(void) removeListener: (id<PNearbyUsersListener>) listener;
 
 @end
 

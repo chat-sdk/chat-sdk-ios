@@ -367,6 +367,45 @@ static void * kMainQueueKey = (void *) "Key1";
     return Nil;
 }
 
+-(NSArray<PMessage> *) loadMessagesForThread: (id<PThread>) thread fromDate: (NSDate *) date count: (int) count {
+    return [self loadMessagesForThread:thread fromDate:date count:count newestFirst:YES];
+}
+
+-(NSArray<PMessage> *) loadAllMessagesForThread: (id<PThread>) thread newestFirst: (BOOL) newestFirst {
+    return [self loadMessagesForThread:thread fromDate:Nil count:0 newestFirst:newestFirst];
+}
+
+-(NSArray<PMessage> *) loadMessagesForThread: (id<PThread>) thread newest: (int) count {
+    return [self loadMessagesForThread:thread fromDate:Nil count:count newestFirst:YES];
+}
+
+-(NSArray<PMessage> *) loadMessagesForThread: (id<PThread>) thread oldest: (int) count {
+    return [self loadMessagesForThread:thread fromDate:Nil count:count newestFirst:NO];
+}
+
+-(NSArray<PMessage> *) loadMessagesForThread: (id<PThread>) thread fromDate: (NSDate *) date count: (int) count newestFirst: (BOOL) newestFirst {
+    NSFetchRequest * request = [[NSFetchRequest alloc] init];
+    request.includesPendingChanges = YES;
+    if (count > 0) {
+        [request setFetchLimit:count];
+    } else if (count < 0) {
+        [request setFetchLimit:BChatSDK.config.messagesToLoadPerBatch];
+    }
+    
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:!newestFirst]];
+
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread = %@", thread];
+    if (date) {
+        predicate = [NSPredicate predicateWithFormat:@"thread = %@ AND date < %@", thread, date];
+    }
+    
+    NSArray * messages = [BChatSDK.db executeFetchRequest:request
+                                               entityName:bMessageEntity
+                                                predicate:predicate];
+    
+    return messages;
+}
+
 /// https://stackoverflow.com/questions/36338135/nsmanagedobjectcontext-how-to-update-child-when-parent-changes
 /// I need this firing as sometimes objects change and the save notification below is not enough to make sure the UI updates.
 - (void)privateQueueObjectContextDidChangeNotification:(NSNotification *)notification {
@@ -377,16 +416,16 @@ static void * kMainQueueKey = (void *) "Key1";
     NSManagedObjectContext * main = self.managedObjectContext;
 
     if([context isEqual:parent]) {
-        NSLog(@"Parent");
+//        NSLog(@"Parent");
     }
     else if([context isEqual:background]) {
-        NSLog(@"Background");
+//        NSLog(@"Background");
     }
     else if([context isEqual:main]) {
-        NSLog(@"Main");
+//        NSLog(@"Main");
     }
     else {
-        NSLog(@"None");
+//        NSLog(@"None");
     }
     
     id updated = notification.userInfo[@"updated"];
@@ -440,15 +479,15 @@ static void * kMainQueueKey = (void *) "Key1";
 -(void) handleUpdatedEntity: (id) updated {
     if ([updated isKindOfClass:[CDUser class]]) {
         CDUser * user = (CDUser *) updated;
-        NSLog(@"User: %@ %@ updated", user.entityID, user.name);
+//        NSLog(@"User: %@ %@ updated", user.entityID, user.name);
     }
     if ([updated isKindOfClass:[CDThread class]]) {
         CDThread * thread = (CDThread *) updated;
-        NSLog(@"Thread: %@ updated", thread.entityID);
+//        NSLog(@"Thread: %@ updated", thread.entityID);
     }
     if ([updated isKindOfClass:[CDMessage class]]) {
         CDMessage * message = (CDMessage *) updated;
-        NSLog(@"Message: %@ %@ updated", message.entityID, message.text);
+//        NSLog(@"Message: %@ %@ updated", message.entityID, message.text);
     }
 }
 

@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.9.5"
+  s.version          = "4.11.1"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
-  s.homepage         = "http://chatsdk.co"
+  s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
   s.author           = { "Ben Smiley" => "ben@chatsdk.co" }
   s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => s.version.to_s }
@@ -10,6 +10,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '9.0'
   s.requires_arc = true
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
   
   s.default_subspec = 'Complete'
   
@@ -65,14 +66,14 @@ Pod::Spec.new do |s|
 	  ui.dependency 'MBProgressHUD', '~> 1.0'
 	  ui.dependency 'VENTokenField', '~> 2.0'
 	  ui.dependency 'SDWebImage', '~> 4.0'
-	  ui.dependency 'StaticDataTableViewController', '~> 2.5.0'
+	  ui.dependency 'StaticDataTableViewController', '~> 2.0'
 	  ui.dependency 'CountryPicker', '~> 1.0'
 	  ui.dependency 'TOCropViewController', '~> 2.0'
-	  ui.dependency 'Hakawai', '~> 5.1.6'
-	  ui.dependency 'ChatSDKKeepLayout', '~> 1.7.5'
+	  ui.dependency 'Hakawai', '~> 5.1.5'
+	  ui.dependency 'ChatSDKKeepLayout'
 	  ui.dependency 'Toast', '~>4.0.0'
 
-	  ui.dependency 'ChatSDK/CoreData', '~>4.9.5'
+	  ui.dependency 'ChatSDK/CoreData'
 	  
 	  ui.frameworks = 'CoreLocation'
   
@@ -87,18 +88,18 @@ Pod::Spec.new do |s|
 # 			
 # 	  ex.dependency 'SideMenu'
 # 
-# 	  ex.dependency 'ChatSDK/UI', '~>4.9.5'
+# 	  ex.dependency 'ChatSDK/UI'
 #   
 #   end
 
 #  s.subspec 'FirebaseAdapter' do |fb|
 # 
 # 	fb.source_files = ['ChatSDKFirebase/FirebaseNetworkAdapter/Classes/**/*']
-#      fb.version   = "4.9.3"
-#     fb.dependency 'Firebase/Auth', '~>5.6.0'
-#     fb.dependency 'Firebase/Database', '~>5.6.0'
+# 	
+#     fb.dependency 'Firebase/Auth'
+#     fb.dependency 'Firebase/Database'
 #  
-# 	fb.dependency 'ChatSDK/Core', '~>4.9.5'
+# 	fb.dependency 'ChatSDK/Core'
 #   
 #   end
 # 
@@ -106,8 +107,8 @@ Pod::Spec.new do |s|
 # 
 # 	ffs.source_files = ['ChatSDKFirebase/FirebaseFileStorage/Classes/**/*']
 # 
-#     ffs.dependency 'Firebase/Storage', '~>5.6.0'
-# 	ffs.dependency 'ChatSDK/FirebaseAdapter', '~>4.9.3'
+#     ffs.dependency 'Firebase/Storage'
+# 	ffs.dependency 'ChatSDK/FirebaseAdapter'
 #   
 #   end
 # 
@@ -115,9 +116,9 @@ Pod::Spec.new do |s|
 # 
 # 	fp.source_files = ['ChatSDKFirebase/FirebasePush/Classes/**/*']
 # 
-#     fp.dependency 'Firebase/Messaging', '~>5.6.0'
-#     fp.dependency 'Firebase/Functions', '~>5.6.0'
-# 	fp.dependency 'ChatSDK/FirebaseAdapter', '~>4.9.3'
+#     fp.dependency 'Firebase/Messaging'
+#     fp.dependency 'Firebase/Functions'
+# 	fp.dependency 'ChatSDK/FirebaseAdapter'
 # 
 #   end
 #   
@@ -135,8 +136,8 @@ Pod::Spec.new do |s|
 #     fsl.dependency 'GoogleSignIn'
 #     fsl.dependency 'FBSDKLoginKit'
 # 
-# 	fsl.dependency 'ChatSDK/FirebaseAdapter', '~>4.9.3'
-# 	fsl.dependency 'ChatSDK/UI', '~>4.9.5'
+# 	fsl.dependency 'ChatSDK/FirebaseAdapter'
+# 	fsl.dependency 'ChatSDK/UI'
 # 
 #   end
       

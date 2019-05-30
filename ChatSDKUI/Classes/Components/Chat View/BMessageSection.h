@@ -8,18 +8,31 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol PElmMessage;
+@protocol PMessage;
 
 @interface BMessageSection : NSObject {
     NSMutableArray * _messages;
     UIView * _view;
+    NSString * _dateText;
 }
 
--(instancetype) initWithMessages: (NSArray *) messages;
+//-(instancetype) initWithMessages: (NSArray *) messages;
+-(instancetype) initWithDateText: (NSString *) dateText;
 -(NSString *) title;
--(id<PElmMessage>) messageForRow: (NSInteger) row;
+-(id<PMessage>) messageForRow: (NSInteger) row;
 -(NSInteger) rowCount;
--(void) addMessage: (id<PElmMessage>) message;
+
+-(NSInteger) addMessage: (id<PMessage>) message;
+-(NSInteger) removeMessage: (id<PMessage>) message;
+
 -(UIView *) view;
+-(NSString *) dateText;
+
+-(int) rowForMessage: (id<PMessage>) message;
+
+-(id<PMessage>) newestMessage;
+-(id<PMessage>) oldestMessage;
+
+-(void) debug;
 
 @end

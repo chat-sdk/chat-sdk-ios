@@ -62,6 +62,9 @@
 #define bCancel @"bCancel"
 #define bOk @"bOk"
 #define bReset @"bReset"
+#define bLogin @"bLogin"
+#define bRegister @"bRegister"
+#define bPassword @"bPassword"
 #define bForgotPassword @"bForgotPassword"
 #define bEnterCredentialToResetPassword @"bEnterCredentialToResetPassword"
 #define bPasswordResetSuccess @"bPasswordResetSuccess"
@@ -116,12 +119,18 @@
 #define bTapHereForContactInfo @"bTapHereForContactInfo"
 
 #define bProfile @"bProfile"
+#define bProfilePictures @"bProfilePictures"
+#define bAddPictures @"bAddPicture"
+#define bDeletePicture @"bDeletePicture"
+#define bSetAsDefaultPicture @"bSetAsDefaultPicture"
+#define bDeleteLastPictureWarning @"bDeleteLastPictureWarning"
 #define bDone @"bDone"
 #define bEdit @"bEdit"
 #define b_Ago @"b_Ago"
 
 #define bRemoveFriend @"bRemoveFriend"
 #define bAddFriend @"bAddFriend"
+#define bAddContact @"bAddContact"
 #define bUnblock @"bUnblock"
 #define bBlock @"bBlock"
 #define b_LeftTheGroup @"b_LeftTheGroup"
@@ -180,6 +189,11 @@
 #define bDeletePicture @"bDeletePicture"
 #define bSetAsDefaultPicture @"bSetAsDefaultPicture"
 #define bDeleteLastPictureWarning @"bDeleteLastPictureWarning"
+
+#define bAvailable @"bAvailable"
+#define bAway @"bAway"
+#define bExtendedAway @"bExtendedAway"
+#define bBusy @"bBusy"
 
 @protocol PMessage;
 

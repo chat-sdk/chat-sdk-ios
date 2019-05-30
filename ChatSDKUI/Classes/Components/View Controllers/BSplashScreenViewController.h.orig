@@ -1,0 +1,41 @@
+//
+//  BSplashScreenViewController.h
+//  AFNetworking
+//
+//  Created by Benjamin Smiley-Andrews on 08/03/2019.
+//
+
+#import <UIKit/UIKit.h>
+#import <ChatSDK/PSplashScreenViewController.h>
+NS_ASSUME_NONNULL_BEGIN
+
+<<<<<<< HEAD
+@interface BSplashScreenViewController : UIViewController<PSplashScreenViewController>
+=======
+@interface BSplashScreenViewController : UIViewController<PSplashScreenViewController> {
+    BOOL _impl_shouldPushViewControllerOnAuth;
+    BOOL _shouldPushViewControllerOnAuth;
+}
+>>>>>>> 00827ca87d18cb522c2b21a887f5560b0193d140
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+
+<<<<<<< HEAD
+=======
+-(void) setShouldPushViewControllerOnAuth: (BOOL) shouldPush;
+-(BOOL) shouldPushViewControllerOnAuth;
+
+-(void) runViewDidLoad;
+-(void) startActivityIndicator;
+-(void) stopActivityIndicator;
+-(void) pushLoginViewController;
+-(void) pushMainViewController;
+
+-(void) pushPostLoginViewController;
+-(void) pushPostSignUpViewController;
+
+>>>>>>> 00827ca87d18cb522c2b21a887f5560b0193d140
+@end
+
+NS_ASSUME_NONNULL_END

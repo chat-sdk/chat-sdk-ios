@@ -24,11 +24,11 @@
 @class BNotificationObserverList;
 @class BCoreUtilities;
 @class BHook;
+@class BMessageManager;
+@class BLazyReloadManager;
 
 @interface ElmChatViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, PSendBarDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, BChatOptionDelegate, UIDocumentInteractionControllerDelegate> {
-    
-    NSArray<BMessageSection *> * _messages;
-    
+        
     UIView<PSendBar> * _sendBarView;
     
     UIGestureRecognizer * _tapRecognizer;
@@ -59,12 +59,19 @@
     BNotificationObserverList * _notificationList;
     
     BOOL _observersAdded;
+    BOOL _keyboardVisible;
+    
+    BMessageManager * _messageManager;
+    BOOL _loadingMessages;
+    
+    BLazyReloadManager * _lazyReloadManager;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView * tableView;
 @property (nonatomic, readwrite, weak) id<ElmChatViewDelegate> delegate;
 @property (nonatomic, readonly) UIView<PSendBar> * sendBarView;
 @property (nonatomic, readonly) UILabel * titleLabel;
+@property (nonatomic, readonly) BMessageManager * messageManager;
 
 -(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate;
 
@@ -74,8 +81,14 @@
 -(void) startTypingWithMessage: (NSString *) message;
 -(void) stopTyping;
 
--(void) setMessages: (NSArray<BMessageSection *> *) messages;
--(void) setMessages: (NSArray<BMessageSection *> *) messages scrollToBottom: (BOOL) scroll;
+-(void) addMessages: (NSArray<PMessage> *) messages;
+-(void) addMessages: (NSArray<PMessage> *) messages;
+-(void) addMessage: (id<PMessage>) message;
+
+-(void) setMessages: (NSArray<PMessage> *) messages;
+-(void) setMessages: (NSArray<PMessage> *) messages scrollToBottom: (BOOL) scroll animate: (BOOL) animate force:(BOOL) force;
+-(void) removeMessage: (id<PMessage>) message;
+-(void) reloadDataForMessage: (id<PMessage>) message;
 
 -(void) hideKeyboard;
 -(void) setAudioEnabled: (BOOL) enabled;

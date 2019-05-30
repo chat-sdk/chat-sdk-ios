@@ -10,5 +10,6 @@
 
 -(NSString *) entityID;
 -(void) setEntityID: (NSString *) uid;
+-(BOOL) isEqualToEntity: (id<PEntity>) entity;
 
 @end
