@@ -42,29 +42,29 @@
                                       options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
     
     self.title.text = user.name;
-    self.subtitle.text = user.statusText;
-    
-    if (user.availability) {
-        [self setAvailabilityLabelText:user.availability];
-    } else {
-        if (user.online.boolValue) {
-            [self setAvailabilityLabelText:[NSBundle t: bOnline]];
-        }
-        else {
-            [self setAvailabilityLabelText:[NSBundle t: bOffline]];
-        }
-    }
-    
-    if (user.availability && user.availability.length && user.online.boolValue && ![user.availability isEqualToString:bAvailabilityStateChat]) {
-        [self setAway];
-    } else {
-        if (user.online.boolValue) {
-            [self setOnline];
-        }
-        else {
-            [self setOffline];
-        }
-    }
+//    self.subtitle.text = user.statusText;
+//
+//    if (user.availability) {
+//        [self setAvailabilityLabelText:user.availability];
+//    } else {
+//        if (user.online.boolValue) {
+//            [self setAvailabilityLabelText:[NSBundle t: NSLocalizedString(bOnline, nil)]];
+//        }
+//        else {
+//            [self setAvailabilityLabelText:[NSBundle t: bOffline]];
+//        }
+//    }
+//
+//    if (user.availability && user.availability.length && user.online.boolValue && ![user.availability isEqualToString:bAvailabilityStateChat]) {
+//        [self setAway];
+//    } else {
+//        if (user.online.boolValue) {
+//            [self setOnline];
+//        }
+//        else {
+//            [self setOffline];
+//        }
+//    }
     
     self.subtitle.text = @"";
     self.statusImageView.hidden = false;
@@ -72,7 +72,7 @@
     BOOL value = [[user.meta metaValueForKey:@"can_message"] boolValue];
     if (value == false){
         self.statusImageView.hidden = true;
-        self.subtitle.text = @"Not installed application";
+        self.subtitle.text = [NSBundle t: NSLocalizedString(@"not_installed_application", nil)];
     }
 //    printf("%@", [user.meta metaStringForKey:@"can_message"]);
 //    if ([user.meta metaValueForKey:@"can_message"] == true) {

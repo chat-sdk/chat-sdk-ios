@@ -54,7 +54,7 @@
     tableView.keepInsets.equal = 0;
     
     // Sets the back button for the thread views as back meaning we have more space for the title
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t: NSLocalizedString(bBack, nil)] style:UIBarButtonItemStylePlain target:nil action:nil];
     
     [tableView registerNib:[UINib nibWithNibName:@"BThreadCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bCellIdentifier];
     
@@ -157,10 +157,10 @@
 
 -(void) setEditingEnabled: (BOOL) enabled {
     if (enabled) {
-        [_editButton setTitle:[NSBundle t:bDone]];
+        [_editButton setTitle:[NSBundle t: NSLocalizedString(bDone, nil)]];
     }
     else {
-        [_editButton setTitle:[NSBundle t:bEdit]];
+        [_editButton setTitle:[NSBundle t: NSLocalizedString(bEdit, nil)]];
     }
     [tableView setEditing:enabled animated:YES];
 }
@@ -177,7 +177,7 @@
     
     NSDate * threadDate = thread.orderDate;
     
-    NSString * text = @"";// [NSBundle t:bNoMessages];
+    NSString * text = [NSBundle t: NSLocalizedString(bNoMessages, nil)];
     
     id<PMessage> newestMessage = thread.newestMessage;
     if (newestMessage) {
@@ -214,7 +214,7 @@
     cell.unreadMessagesLabel.text = [@(unreadCount) stringValue];
     
     //Adding online status
-    id<PUser> userIn = lastMessage.userModel;
+    id<PUser> userIn = newestMessage.userModel;
     if([userIn.online isEqualToNumber:[NSNumber numberWithBool:YES]]){
         [cell setIsOnline:true];
     }

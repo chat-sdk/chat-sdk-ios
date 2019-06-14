@@ -24,11 +24,11 @@
 #define bPickFriends @"NewChat"
 #define bInviteFriend @"Invite"
 
-#define bBack @"bBack"
+#define bBack @"Back"
 #define bImageSaved @"bImageSaved"
 #define bOpenInMaps @"bOpenInMaps"
 #define bLocation @"bLocation"
-#define bCompose @"bCompose"
+#define bCompose @"Create"
 #define bCreateGroup @"bCreateGroup"
 
 #define bLoadingFriends @"bLoadingFriends"
@@ -54,7 +54,7 @@
 
 #define bAddUsers @"bAddUsers"
 
-#define bOnline @"bOnline"
+#define bOnline @"online"
 #define bOffline @"bOffline"
 
 #define bCreatePublicThread @"bCreatePublicThread"
@@ -81,7 +81,7 @@
 #define bOpen @"bOpen"
 #define bReply @"bReply"
 #define bRec @"bRec"
-#define bWriteSomething @"TYPESOMETHING"
+#define bWriteSomething @"type_something"
 #define bSlideToCancel @"bSlideToCancel"
 #define bFlagged @"bFlagged"
 #define bFlag @"bFlag"
@@ -124,8 +124,8 @@
 #define bDeletePicture @"bDeletePicture"
 #define bSetAsDefaultPicture @"bSetAsDefaultPicture"
 #define bDeleteLastPictureWarning @"bDeleteLastPictureWarning"
-#define bDone @"bDone"
-#define bEdit @"bEdit"
+#define bDone @"Done"
+#define bEdit @"Edit"
 #define b_Ago @"b_Ago"
 
 #define bRemoveFriend @"bRemoveFriend"
@@ -138,12 +138,12 @@
 
 #define bTermsAndConditions @"bTermsAndConditions"
 
-#define bNoMessages @"bNoMessages"
+#define bNoMessages @"no_messages"
 #define bNoNewUsersFoundForThisSearch @"bNoNewUsersFoundForThisSearch"
 #define bLastSeen_at_ @"bLastSeen_at_"
 #define b_at_ @"b_at_"
-#define bToday @"Today"
-#define bYesterday @"Yesterday"
+#define bToday @"today"
+#define bYesterday @"yesterday"
 #define bYouLeftTheGroup @"bYouLeftTheGroup"
 #define bYouJoinedTheGroup @"bYouJoinedTheGroup"
 #define bRejoinGroup @"bRejoinGroup"

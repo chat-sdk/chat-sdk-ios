@@ -109,7 +109,10 @@
     
     //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bImageSaved] style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.getRightBarButtonActionTitle style:UIBarButtonItemStylePlain target:self action:@selector(composeMessage)];
-    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: [NSBundle t: NSLocalizedString(bBack, nil)]
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:@selector(backButtonPressed)];
     
     // Takes into account the status and navigation bar
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -120,7 +123,7 @@
     
     _tokenField.dataSource = self;
     _tokenField.placeholderText =[NSBundle t: NSLocalizedString(bEnterNamesHere, nil)]; // [NSBundle t:bEnterNamesHere];
-    // _tokenField.toLabelText = [NSBundle t:bTo];
+    _tokenField.toLabelText = [NSBundle t: NSLocalizedString(bTo, nil)];
     _tokenField.userInteractionEnabled = YES;
     
     [_tokenField setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
@@ -142,12 +145,13 @@
     if (self.rightBarButtonActionTitle) {
         return self.rightBarButtonActionTitle;
     }
-    else if (_selectedContacts.count <= 1) {
-        return [NSBundle t: bCompose];
-    }
-    else {
-        return [NSBundle t: bCreateGroup];
-    }
+     return [NSBundle t: NSLocalizedString(bCompose, nil)];
+//    else if (_selectedContacts.count <= 1) {
+//        return [NSBundle t: bCompose];
+//    }
+//    else {
+//        return [NSBundle t: bCreateGroup];
+//    }
 }
 
 -(void) updateRightBarButtonActionTitle {
@@ -497,8 +501,7 @@
     [self dismissViewControllerAnimated:YES completion:Nil];
 }
 - (void)backButtonPressed {
-    [self dismissViewControllerAnimated:YES completion:Nil];
-    //[self.navigationController popViewControllerAnimated:true];
+    [self.navigationController popViewControllerAnimated:true];
 }
 - (void)updateButtonStatusForInternetConnection {
     BOOL connected = BChatSDK.connectivity.isConnected;

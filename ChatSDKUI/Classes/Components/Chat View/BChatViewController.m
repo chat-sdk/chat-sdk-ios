@@ -58,7 +58,7 @@
     } else {
         // 1-to-1 Chat
         if (_thread.otherUser.online.boolValue) {
-            [self setSubtitle:[NSBundle t: bOnline]];
+            [self setSubtitle:[NSBundle t: NSLocalizedString(bOnline, nil)]];
         } else if(BChatSDK.lastOnline) {
             __weak __typeof__(self) weakSelf = self;
             [BChatSDK.lastOnline getLastOnlineForUser:_thread.otherUser].thenOnMain(^id(NSDate * date) {

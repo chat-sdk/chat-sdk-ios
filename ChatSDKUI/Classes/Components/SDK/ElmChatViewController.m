@@ -956,7 +956,7 @@
 }
 
 - (void) openInviteScreen {
-    [delegate openInviteScreen];
+   // [delegate openInviteScreen];
 }
 
 - (void)updateInterfaceForReachabilityStateChange {

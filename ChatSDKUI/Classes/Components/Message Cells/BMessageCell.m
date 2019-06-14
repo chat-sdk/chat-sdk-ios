@@ -476,7 +476,7 @@
 +(float) cellHeight: (id<PElmMessage>) message {
     float maxWidth = [self maxTextWidth:message];
     UIEdgeInsets bubbleMargin = [self bubbleMargin:message];
-    id<PElmMessage> nextMessage = message.lazyNextMessage;
+    id<PElmMessage> nextMessage = message.nextMessage;
     
     float finalHeight = [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message] + 16;
     

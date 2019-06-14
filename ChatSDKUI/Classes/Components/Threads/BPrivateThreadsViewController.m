@@ -24,7 +24,8 @@
     if (self) {
         //Changed
         self.title = [NSBundle t: NSLocalizedString(@"Chat", nil)];
-        self.tabBarItem.image = [NSBundle uiImageNamed:@"chat_icon.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed:@"chat_icon_unSelected@2x.png"];
+        self.tabBarItem.selectedImage = [NSBundle uiImageNamed:@"chat_icon@2x.png"];
         self.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -4.0);
 
     }
@@ -33,7 +34,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    _editButton = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bEdit]
+    _editButton = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t: NSLocalizedString(bEdit, nil)]
                                                    style:UIBarButtonItemStylePlain
                                                   target:self
                                                   action:@selector(editButtonPressed:)];
