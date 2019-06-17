@@ -12,7 +12,9 @@
 
 -(RXPromise *) addContact: (id<PUser>) contact withType: (bUserConnectionType) type {
     RXPromise * promise = [RXPromise new];
-    
+    if (!BChatSDK.currentUserID) {
+        return promise;
+    }
     FIRDatabaseReference * ref = [[FIRDatabaseReference userContactsRef:BChatSDK.currentUserID] child:contact.entityID];
     [ref setValue:@{bType: @(type)} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
