@@ -12,6 +12,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import "EmptyChatView.h"
 
 #define bCellIdentifier @"bCellIdentifier"
 
@@ -49,10 +50,13 @@
     tableView.delegate = self;
     tableView.dataSource = self;
     
+    EmptyChatView *emptyView = [[EmptyChatView alloc] initWithNibName:@"EmptyChatView" bundle:[NSBundle uiBundle]];
+    [self.view addSubview:emptyView.view];
+    emptyView.view.keepInsets.equal = 0;
+    [emptyView setText:NSLocalizedString(@"main_chat_empty_view_title_text", nil) setSubTitle:NSLocalizedString(@"main_chat_empty_view_subtitle_text", nil) setEmptyImage:[NSBundle uiImageNamed: @"empty_chat_view@2x.png"]];
+    
     [self.view addSubview:tableView];
-    
-    tableView.keepInsets.equal = 0;
-    
+     tableView.keepInsets.equal = 0;
     // Sets the back button for the thread views as back meaning we have more space for the title
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t: NSLocalizedString(bBack, nil)] style:UIBarButtonItemStylePlain target:nil action:nil];
     
@@ -122,6 +126,10 @@
 
 -(void) removeObservers {
     [_notificationList dispose];
+}
+
+-(void) showEmptyView:(BOOL)showView {
+    [self.tableView setHidden:showView];
 }
 
 -(void) createThread {
@@ -301,6 +309,12 @@
     [_threads sortUsingComparator:^(id<PThread>t1, id<PThread> t2) {
         return [t2.orderDate compare:t1.orderDate];
     }];
+    if ([_threads count] > 0) {
+        [self showEmptyView:false];
+    }
+    else {
+        [self showEmptyView:true];
+    }
     [tableView reloadData];
 }
 

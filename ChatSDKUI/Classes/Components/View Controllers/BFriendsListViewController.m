@@ -10,6 +10,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import "EmptyChatView.h"
 
 #define bUserCellIdentifier @"bUserCellIdentifier"
 
@@ -131,6 +132,14 @@
     _tokenView.layer.borderWidth = 0.5;
     _tokenView.layer.borderColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0].CGColor;
     
+    //Add empty view
+    EmptyChatView *emptyView = [[EmptyChatView alloc] initWithNibName:@"EmptyChatView" bundle:[NSBundle uiBundle]];
+    [self.view insertSubview:emptyView.view atIndex:0];
+   // [self.view insertSubview:emptyView.view belowSubview:self.tableView];
+    //[self.view addSubview:emptyView.view];
+    emptyView.view.keepInsets.equal = 0;
+    [emptyView setText:NSLocalizedString(@"contacts_empty_view_title_text", nil) setSubTitle:NSLocalizedString(@"contacts_empty_view_subtitle_text", nil) setEmptyImage:[NSBundle uiImageNamed: @"empty_chat_view@2x.png"]];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
     
@@ -176,6 +185,10 @@
 
 -(void) viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+}
+
+-(void) showEmptyView:(BOOL)showView {
+    [self.tableView setHidden:showView];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -312,6 +325,7 @@
     
     BOOL value = [[user.meta metaValueForKey:@"can_message"] boolValue];
     if (value == false){
+        [self showAlertMessage];
         return;
     }
     if (indexPath.section == bContactsSection) {
@@ -326,6 +340,24 @@
     //    }];
     
    // [self reloadData];
+}
+
+-(void) showAlertMessage {
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:NSLocalizedString(@"unavailable", nil)
+                                 message:NSLocalizedString(@"application_not_installed", nil)
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    UIAlertAction* okButton = [UIAlertAction
+                               actionWithTitle:NSLocalizedString(@"Ok", nil)
+                               style:UIAlertActionStyleCancel
+                               handler:^(UIAlertAction * action) {
+                                   //Handle no, thanks button
+                               }];
+    
+    [alert addAction:okButton];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - VENTokenFieldDelegate
@@ -379,7 +411,7 @@
         [_selectedContacts removeObject:user];
     }
     else{
-        [_selectedContacts removeAllObjects];
+    //    [_selectedContacts removeAllObjects];
         [_selectedContacts addObject:user];
     }
     //   [self.names addObject:user.name];
@@ -444,6 +476,13 @@
         [_contacts filterUsingPredicate:predicate];
     }
     
+    //Show empty View
+    if ([_contacts count] > 0) {
+        [self showEmptyView:false];
+    }
+    else {
+        [self showEmptyView:true];
+    }
     [tableView reloadData];
     [self updateRightBarButtonActionTitle];
     self.navigationItem.rightBarButtonItem.enabled = _selectedContacts.count;
