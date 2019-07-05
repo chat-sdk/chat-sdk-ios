@@ -100,6 +100,8 @@
 //    }
 }
 
+
+
 -(void) setAvailabilityLabelText: (NSString *) availability {
     if(!availability || availability.length == 0) {
         [self.statusImageView keepVerticallyCentered];

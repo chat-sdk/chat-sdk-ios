@@ -56,7 +56,9 @@
 
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         _nameLabel.userInteractionEnabled = NO;
-        
+        if(BChatSDK.config.messageTextColorMe) {
+        _nameLabel.textColor = [BCoreUtilities colorWithHexString:BChatSDK.config.threadNameColor];
+        }
         _nameLabel.font = [UIFont boldSystemFontOfSize:bDefaultUserNameLabelSize];
         if(BChatSDK.config.messageNameFont) {
             _nameLabel.font = BChatSDK.config.messageNameFont;
@@ -204,7 +206,7 @@
                                          self.bubbleWidth,
                                          self.bubbleHeight)];
     
-    [_nameLabel setViewFrameY:self.bubbleHeight + 5];
+   // [_nameLabel setViewFrameY:self.bubbleHeight + 5];
     
     // #1 Because of the text view insets we want the cellContentView of the
     // text cell to extend to the right edge of the bubble
@@ -275,10 +277,11 @@
         [bubbleImageView setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin];
         [bubbleImageView setViewFrameY:_nameLabel.fh];
         //        [_timeLabel setViewFrameY:_profilePicture.fh + _nameLabel.fh];
-        [_timeLabel setViewFrameY:bubbleImageView.fh];
+        [_timeLabel setViewFrameY:bubbleImageView.fh + bubbleImageView.fy];
         
         [_nameLabel setViewFrameX:_profilePicture.fw + bTimeLabelPadding];
-        
+        [_nameLabel setViewFrameY:bubbleImageView.fy -  _nameLabel.fh];
+
         
         _timeLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.textAlignment = NSTextAlignmentLeft;

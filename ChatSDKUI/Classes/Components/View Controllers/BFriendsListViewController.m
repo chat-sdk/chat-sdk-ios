@@ -48,8 +48,7 @@
         {
             self.title =  [NSBundle t: NSLocalizedString(bInviteFriend, nil)];
         }
-        
-        [_contactsToExclude addObjectsFromArray:users];
+       [_contactsToExclude addObjectsFromArray:users];
         self.usersToInvite = action;
     }
     return self;
@@ -105,7 +104,7 @@
     if ([self isModal])
     {
         UIImage *image = [[UIImage imageNamed:@"cross"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+        self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
     }
     
     //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bImageSaved] style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
@@ -236,12 +235,13 @@
             }]];
             
             [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                NSArray * textfields = alertController.textFields;
+                UITextField * groupName = textfields[0];
+                self.usersToInvite(_selectedContacts, groupName.text);
                 [self dismissViewControllerAnimated:YES completion:^{
-                    if (self.usersToInvite != Nil) {
-                        NSArray * textfields = alertController.textFields;
-                        UITextField * groupName = textfields[0];
-                        self.usersToInvite(_selectedContacts, groupName.text);
-                    }
+//                    if (self.usersToInvite != Nil) {
+                    
+//                    }
                 }];
                 
             }]];
@@ -302,7 +302,7 @@
     if (indexPath.section == bContactsSection) {
         user = _contacts[indexPath.row];
     }
-    if ([_selectedContacts containsObject:user]){
+    if ([_selectedContacts containsObject:user] || [_contactsToExclude containsObject:user]){
         [cell setSelectedImage];
     }
     else{
@@ -319,6 +319,10 @@
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     id<PUser> user;
+    if ([_contactsToExclude containsObject:user]){
+        return;
+    }
+    
     if (indexPath.section == bContactsSection) {
         user = _contacts[indexPath.row];
     }
@@ -467,8 +471,8 @@
     //  [_contacts removeObjectsInArray:_selectedContacts];
     
     // _contactsToExclude is the users already in the thread - make sure we don't include anyone already in the thread
-    [_contacts removeObjectsInArray:_contactsToExclude];
-   // [_contacts sortOnlineThenAlphabetical];
+//    [_contacts removeObjectsInArray:_contactsToExclude];
+//    [_contacts sortOnlineThenAlphabetical];
     [_contacts sortAlphabetical];
 
     if (_filterByName && _filterByName.length) {

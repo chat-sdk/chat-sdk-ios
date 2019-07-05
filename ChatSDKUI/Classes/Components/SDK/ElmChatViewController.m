@@ -104,9 +104,9 @@
 //    self.viewController.navigationItem.backBarButtonItem = backButtonItem;
 //    UIImage *image = [[UIImage imageNamed:@"option"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 //    self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
-//    UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithTitle:@"..."               style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
-//    [refreshItem setTintColor:[UIColor blackColor]];
-//    self.navigationItem.rightBarButtonItem = refreshItem;
+    UIBarButtonItem *chatOptionButton = [[UIBarButtonItem alloc] initWithTitle:@"..."               style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
+    [chatOptionButton setTintColor:[UIColor blackColor]];
+    self.navigationItem.rightBarButtonItem = chatOptionButton;
     
     UIView * containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 220, 40)];
     
@@ -142,14 +142,14 @@
 -(void)openOptionActionSheet{
     UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
-    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         
         // Cancel button tappped.
         [self dismissViewControllerAnimated:YES completion:^{
         }];
     }]];
     
-    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Members" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"members", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         // Distructive button tapped.
         [self navigationBarTapped];
@@ -158,12 +158,27 @@
 //        }];
     }]];
     
-    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Invite" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"invite_others", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         // OK button tapped.
         [self openInviteScreen];
 //        [self dismissViewControllerAnimated:YES completion:^{
 //        }];
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"edit_group_name", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        // OK button tapped.
+        [self openInviteScreen];
+        //        [self dismissViewControllerAnimated:YES completion:^{
+        //        }];
+    }]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"leave_chat", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        // OK button tapped.
+        [self openInviteScreen];
+        //        [self dismissViewControllerAnimated:YES completion:^{
+        //        }];
     }]];
     
     // Present action sheet.

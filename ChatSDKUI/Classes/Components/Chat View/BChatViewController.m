@@ -255,9 +255,10 @@
     [users removeObject:BChatSDK.currentUser];
     
     UINavigationController * nvc = [BChatSDK.ui usersViewNavigationControllerWithThread:_thread
-                                                                    parentNavigationController:self.navigationController];
-    
-    [self presentViewController:nvc animated:YES completion:nil];
+                                                                     parentNavigationController:self.navigationController];
+    [self.navigationController pushViewController:[nvc topViewController] animated:YES];
+
+ //   [self presentViewController:nvc animated:YES completion:nil];
     
 }
 
