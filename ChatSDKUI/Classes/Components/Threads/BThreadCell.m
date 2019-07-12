@@ -28,7 +28,7 @@
     
     self.unreadMessagesLabel.layer.cornerRadius = 5;
     self.unreadMessagesLabel.clipsToBounds = YES;
-    
+    [self.unreadMessagesLabel setHidden:YES];
     self.preservesSuperviewLayoutMargins = NO;
     self.separatorInset = UIEdgeInsetsZero;
     self.layoutMargins = UIEdgeInsetsZero;

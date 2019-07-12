@@ -40,7 +40,7 @@
         
         //  BOOL isPoped = [[NSUserDefaults standardUserDefaults]
         // boolForKey:@"isPoped"];
-        if ([self isModal])
+        if (users.count == 0)
         {
             self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
         }
@@ -253,11 +253,11 @@
             if (self.usersToInvite != Nil) {
                 self.usersToInvite(_selectedContacts, groupNameTextField.text);
             }
-            //            [self dismissViewControllerAnimated:YES completion:^{
-            //                if (self.usersToInvite != Nil) {
-            //                    self.usersToInvite(_selectedContacts, groupNameTextField.text);
-            //                }
-            //            }];
+//                        [self dismissViewControllerAnimated:YES completion:^{
+//                            if (self.usersToInvite != Nil) {
+//                                self.usersToInvite(_selectedContacts, groupNameTextField.text);
+//                            }
+//                        }];
         }
         
         

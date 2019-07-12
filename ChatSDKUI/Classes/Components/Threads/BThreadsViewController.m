@@ -199,27 +199,43 @@
         cell.dateLabel.text = @"";
     }
     
-    if(BChatSDK.config.threadTimeFont) {
-        cell.dateLabel.font = BChatSDK.config.threadTimeFont;
-    }
     
-    if(BChatSDK.config.threadTitleFont) {
-        cell.titleLabel.font = BChatSDK.config.threadTitleFont;
+    if (thread.unreadMessageCount) {
+        if(BChatSDK.config.threadTimeFont) {
+            cell.dateLabel.font = BChatSDK.config.threadTimeFont;
+        }
+        
+        if(BChatSDK.config.threadTitleFont) {
+            cell.titleLabel.font = BChatSDK.config.threadTitleFont;
+        }
+        
+        if(BChatSDK.config.threadSubtitleFont) {
+            cell.messageTextView.font = BChatSDK.config.threadSubtitleFont;
+        }
     }
-    
-    if(BChatSDK.config.threadSubtitleFont) {
-        cell.messageTextView.font = BChatSDK.config.threadSubtitleFont;
+    else {
+        if(BChatSDK.config.unreadThreadTimeFont) {
+            cell.dateLabel.font = BChatSDK.config.unreadThreadTimeFont;
+        }
+        
+        if(BChatSDK.config.unreadThreadTitleFont) {
+            cell.titleLabel.font = BChatSDK.config.unreadThreadTitleFont;
+        }
+        
+        if(BChatSDK.config.unreadThreadSubtitleFont) {
+            cell.messageTextView.font = BChatSDK.config.unreadThreadSubtitleFont;
+        }
     }
     
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
     
     [cell.profileImageView sd_setImageWithURL:[thread.meta metaValueForKey:bImageURL] placeholderImage:thread.imageForThread];
     
-    //    cell.unreadView.hidden = !thread.unreadMessageCount;
+    cell.unreadView.hidden = true;
     
-    int unreadCount = thread.unreadMessageCount;
-    cell.unreadMessagesLabel.hidden = !unreadCount;
-    cell.unreadMessagesLabel.text = [@(unreadCount) stringValue];
+//    int unreadCount = thread.unreadMessageCount;
+//    cell.unreadMessagesLabel.hidden = !unreadCount;
+//    cell.unreadMessagesLabel.text = [@(unreadCount) stringValue];
     
     //Adding online status
     id<PUser> userIn = newestMessage.userModel;

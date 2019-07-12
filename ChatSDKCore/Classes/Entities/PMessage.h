@@ -21,6 +21,10 @@ typedef enum {
     bMessageTypeSticker = 6,
     bMessageTypeFile = 7,
     bMessageTypeCustom = 99,
+    bMessageTypeLeaveConversation = 8,
+    bMessageTypeAddedMember = 9,
+    bMessageTypeGroupRenamed = 10,
+
 } bMessageType;
 
 typedef enum {
