@@ -16,7 +16,7 @@
 #define bTextViewVerticalPadding 5.72
 
 #define bFontSize 19
-#define bMaxLines 5
+#define bMaxLines 5 // this will not work as shouldChangeTextInRange implementation is changed
 #define bMinLines 1
 #define bMaxCharacters 0
 
@@ -405,16 +405,17 @@
     
     if(maxCharacters > 0 && newText.length > maxCharacters) {
         return NO;
-     }
-    
-    NSInteger numberOfLines = [self getTextHeight:newText]/textView.font.lineHeight;
-    numberOfLines = MAX(numberOfLines, [newText componentsSeparatedByString:@"\n"].count);
-    
-    if (numberOfLines > maxLines) {
-        return NO;
     }
     
-    else return YES;
+    //    NSInteger numberOfLines = [self getTextHeight:newText]/textView.font.lineHeight;
+    //    numberOfLines = MAX(numberOfLines, [newText componentsSeparatedByString:@"\n"].count);
+    
+    //    if (numberOfLines > maxLines) {
+    //        return NO;
+    //    }
+    //
+    //    else
+    return YES;
 }
 
 -(void) textViewDidChange:(UITextView *)textView {
@@ -451,10 +452,22 @@
 //    }
     // Calcualte the new textview height
     float textBoxHeight = newHeight + bTextViewVerticalPadding;
-
+    // Make textview scrollable
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    CGFloat textViewCurrentHeight = self.keepHeight.equal;
+    if (textViewCurrentHeight >  screenHeight/6) {
+        return;
+    }
     // Set the toolbar height - the text view will resize automatically
     // using autolayout
-    self.keepHeight.equal = bMargin * 2 + textBoxHeight;
+    float newTextBoxHeight = (bMargin * 2 + textBoxHeight);
+    if (newTextBoxHeight > screenHeight/6) {
+        self.keepHeight.equal = screenHeight/6;
+    }
+    else {
+        self.keepHeight.equal = newTextBoxHeight;
+    }
     
     float delta = self.keepHeight.equal - originalHeight;
     
