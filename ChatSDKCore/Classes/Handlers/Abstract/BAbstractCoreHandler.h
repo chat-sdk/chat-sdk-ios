@@ -19,5 +19,5 @@
 -(id<PThread>) createThreadWithUsers: (NSArray *) users name: (NSString *) name type: (bThreadType) type;
 
 -(RXPromise *) prepareSendMessage: (id<PMessage>) messageModel;
-
+-(RXPromise *) updateThread: (id<PThread>) threadModel dataPushed: (void(^)(NSError * error, id<PThread> thread)) dataPushed;
 @end
