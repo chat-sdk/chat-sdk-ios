@@ -40,7 +40,7 @@
         
         //  BOOL isPoped = [[NSUserDefaults standardUserDefaults]
         // boolForKey:@"isPoped"];
-        if ([self isModal])
+        if (users.count == 0)
         {
             self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
         }
@@ -253,11 +253,11 @@
             if (self.usersToInvite != Nil) {
                 self.usersToInvite(_selectedContacts, groupNameTextField.text);
             }
-            //            [self dismissViewControllerAnimated:YES completion:^{
-            //                if (self.usersToInvite != Nil) {
-            //                    self.usersToInvite(_selectedContacts, groupNameTextField.text);
-            //                }
-            //            }];
+//                        [self dismissViewControllerAnimated:YES completion:^{
+//                            if (self.usersToInvite != Nil) {
+//                                self.usersToInvite(_selectedContacts, groupNameTextField.text);
+//                            }
+//                        }];
         }
         
         
@@ -319,9 +319,9 @@
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     id<PUser> user;
-    if ([_contactsToExclude containsObject:user]){
-        return;
-    }
+//    if ([_contactsToExclude containsObject:user]){
+//        return;
+//    }
     
     if (indexPath.section == bContactsSection) {
         user = _contacts[indexPath.row];
@@ -415,7 +415,7 @@
         [_selectedContacts removeObject:user];
     }
     else{
-    //    [_selectedContacts removeAllObjects];
+        [_selectedContacts removeAllObjects];
         [_selectedContacts addObject:user];
     }
     //   [self.names addObject:user.name];

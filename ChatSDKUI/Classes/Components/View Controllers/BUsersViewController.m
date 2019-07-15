@@ -53,11 +53,11 @@
 //                                                                            target:self
 //                                                                            action:@selector(backButtonPressed)];
 
-    if(_thread.creator.isMe) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                                               target:self
-                                                                                               action:@selector(addUser)];
-    }
+//    if(_thread.creator.isMe) {
+//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+//                                                                                               target:self
+//                                                                                               action:@selector(addUser)];
+//    }
 
     tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
     
@@ -66,6 +66,8 @@
     
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bCell];
     [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bUserCellIdentifier];
+    self.tableView.tableFooterView = [[UIView alloc]
+                                      initWithFrame:CGRectZero];
 
 }
 
@@ -190,29 +192,29 @@
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // The add user button
-    if (indexPath.section == bParticipantsSection) {
-        
-        if (_users.count) {
-            id<PUser> user = _users[indexPath.row];
-            
-            // Open the users profile
-            UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:user];
-            [self.navigationController pushViewController:profileView animated:YES];
-        }
-    }
-    if (indexPath.section == bLeaveConvoSection) {
-        
-        [BChatSDK.core deleteThread:_thread];
-        [BChatSDK.core leaveThread:_thread];
-        
-        [self.navigationController dismissViewControllerAnimated:NO completion:^{
-            if (self.parentNavigationController) {
-                [self.parentNavigationController popViewControllerAnimated:YES];
-            }
-        }];
-    }
-    
-    [tableView_ deselectRowAtIndexPath:indexPath animated:YES];
+//    if (indexPath.section == bParticipantsSection) {
+//
+//        if (_users.count) {
+//            id<PUser> user = _users[indexPath.row];
+//
+//            // Open the users profile
+//            UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:user];
+//            [self.navigationController pushViewController:profileView animated:YES];
+//        }
+//    }
+//    if (indexPath.section == bLeaveConvoSection) {
+//
+//        [BChatSDK.core deleteThread:_thread];
+//        [BChatSDK.core leaveThread:_thread];
+//
+//        [self.navigationController dismissViewControllerAnimated:NO completion:^{
+//            if (self.parentNavigationController) {
+//                [self.parentNavigationController popViewControllerAnimated:YES];
+//            }
+//        }];
+//    }
+//
+//    [tableView_ deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {

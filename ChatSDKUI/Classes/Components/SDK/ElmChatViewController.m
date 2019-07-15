@@ -104,6 +104,7 @@
 //    self.viewController.navigationItem.backBarButtonItem = backButtonItem;
 //    UIImage *image = [[UIImage imageNamed:@"option"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 //    self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
+    
     UIBarButtonItem *chatOptionButton = [[UIBarButtonItem alloc] initWithTitle:@"..."               style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
     [chatOptionButton setTintColor:[UIColor blackColor]];
     self.navigationItem.rightBarButtonItem = chatOptionButton;
@@ -138,8 +139,11 @@
     [self.navigationItem setTitleView:containerView];
 }
 
+-(void)hideRightBarButton {
+    self.navigationItem.rightBarButtonItem = nil;
+}
 
--(void)openOptionActionSheet{
+-(void)openOptionActionSheet {
     UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
@@ -153,38 +157,49 @@
         
         // Distructive button tapped.
         [self navigationBarTapped];
-
-//        [self dismissViewControllerAnimated:YES completion:^{
-//        }];
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"invite_others", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        // OK button tapped.
-        [self openInviteScreen];
-//        [self dismissViewControllerAnimated:YES completion:^{
-//        }];
+        [self addUser];
+
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"edit_group_name", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        // OK button tapped.
-        [self openInviteScreen];
-        //        [self dismissViewControllerAnimated:YES completion:^{
-        //        }];
+        [self editGroupNameAlert];
     }]];
     [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"leave_chat", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        // OK button tapped.
-        [self openInviteScreen];
-        //        [self dismissViewControllerAnimated:YES completion:^{
-        //        }];
+        [self leaveGroupAction];
     }]];
     
     // Present action sheet.
     [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
+-(void) editGroupNameAlert {
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: NSLocalizedString(@"group_name", nil)
+                                                                              message: nil
+                                                                       preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = _titleLabel.text;
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    }];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSArray * textfields = alertController.textFields;
+        UITextField * groupName = textfields[0];
+        if (groupName.text != nil) {
+            [self setTitle:groupName.text];
+             [self setThreadName:groupName.text];
+        }
+      
+        
+    }]];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 // The options handler is responsible for displaying options to the user
 // when the options button is pressed. These can either be in an alert view
 // or a collection view shown in the keyboard overlay
@@ -479,9 +494,20 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyIdentifier"];
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MyIdentifier"];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        
+//    }
+//    cell.textLabel.font =  BChatSDK.config.messageTimeFont;
+//    cell.textLabel.text = @"user left the chat";
+//    cell.textLabel.backgroundColor = [UIColor redColor];
+//    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+//    return cell;
     
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
-    
+
     if (BChatSDK.encryption) {
         [BChatSDK.encryption decryptMessage:message];
     }
@@ -561,6 +587,7 @@
 
 // Set the message height based on the text height
 - (CGFloat)tableView:(UITableView *)tableView_ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 40;
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
     if(message && [message entityID]) {
         return [BMessageCell cellHeight:message];
@@ -972,6 +999,31 @@
 
 - (void) openInviteScreen {
    // [delegate openInviteScreen];
+}
+
+-(void)leaveChat {
+}
+
+-(void) addUser {
+}
+
+-(void)leaveGroupAction {
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: NSLocalizedString(@"leave_chat_title", nil)
+                                                                              message: NSLocalizedString(@"leave_chat_subtitle", nil)
+                                                                       preferredStyle:UIAlertControllerStyleAlert];
+  
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"leave", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self leaveChat];
+    }]];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+-(void) setThreadName: (NSString *)updatedName {
 }
 
 - (void)updateInterfaceForReachabilityStateChange {
