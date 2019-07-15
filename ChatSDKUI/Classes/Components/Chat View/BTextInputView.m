@@ -468,6 +468,7 @@
     else {
           self.keepHeight.equal = newTextBoxHeight;
     }
+
     float delta = self.keepHeight.equal - originalHeight;
     
     if(fabsf(delta) > 0.01) {
