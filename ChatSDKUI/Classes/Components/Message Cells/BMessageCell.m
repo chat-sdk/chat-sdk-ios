@@ -56,7 +56,7 @@
 
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         _nameLabel.userInteractionEnabled = NO;
-        if(BChatSDK.config.messageTextColorMe) {
+        if(BChatSDK.config.threadNameColor) {
         _nameLabel.textColor = [BCoreUtilities colorWithHexString:BChatSDK.config.threadNameColor];
         }
         _nameLabel.font = [UIFont boldSystemFontOfSize:bDefaultUserNameLabelSize];

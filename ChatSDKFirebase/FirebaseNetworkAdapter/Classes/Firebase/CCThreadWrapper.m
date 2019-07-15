@@ -562,6 +562,7 @@
     return promise;
 }
 
+
 -(RXPromise *) addUserWithEntityID: (NSString *) entityID {
     
     FIRDatabaseReference * threadUsersRef = [[FIRDatabaseReference threadUsersRef:_model.entityID] child:entityID];
