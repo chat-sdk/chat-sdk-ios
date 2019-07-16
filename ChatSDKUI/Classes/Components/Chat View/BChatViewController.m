@@ -218,6 +218,8 @@
     
 }
 
+
+
 -(void) addUserToPublicThreadIfNecessary {
     // For public threads we add the user when we view the thread
     // TODO: This is called multiple times... maybe move it to view did load
@@ -229,6 +231,11 @@
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    // Delete thread if no message was sent
+    if (!_thread.newestMessage) {
+        [self leaveChat];
+    }
     
     // Remove the user from the thread
     if (_thread.type.intValue & bThreadFilterPublic && !_usersViewLoaded) {
