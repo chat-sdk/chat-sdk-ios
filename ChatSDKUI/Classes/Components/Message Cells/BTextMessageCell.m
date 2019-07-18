@@ -70,7 +70,11 @@
 #pragma Cell sizing static methods
 
 +(NSNumber *) messageContentHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return @([self getText: message.text heightWithFont:[UIFont systemFontOfSize:bDefaultFontSize] withWidth:[self messageContentWidth:message maxWidth:maxWidth].floatValue]);
+    UIFont * font = [UIFont systemFontOfSize:bDefaultFontSize];
+    if(BChatSDK.config.messageTextFont) {
+        font = BChatSDK.config.messageTextFont;
+    }
+    return @([self getText: message.text heightWithFont:font withWidth:[self messageContentWidth:message maxWidth:maxWidth].floatValue]);
 }
 
 +(NSNumber *) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
@@ -107,7 +111,11 @@
 
 +(float) textWidth: (NSString *) text maxWidth: (float) maxWidth {
     if (text) {
+      
         UIFont * font = [UIFont systemFontOfSize:bDefaultFontSize];
+        if(BChatSDK.config.messageTextFont) {
+            font = BChatSDK.config.messageTextFont;
+        }
         if (font) {
             return [text boundingRectWithSize:CGSizeMake(maxWidth, CGFLOAT_MAX)
                                       options:NSStringDrawingUsesLineFragmentOrigin
