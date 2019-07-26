@@ -53,8 +53,8 @@
 
 #define bAddUsers @"bAddUsers"
 
-#define bOnline @"bOnline"
-#define bOffline @"bOffline"
+#define bOnline @"online"
+#define bOffline @"offline"
 
 #define bCreatePublicThread @"bCreatePublicThread"
 #define bThreadName @"bThreadName"

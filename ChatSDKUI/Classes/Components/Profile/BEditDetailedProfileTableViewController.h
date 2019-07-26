@@ -41,9 +41,18 @@
 @property (weak, nonatomic) IBOutlet UIButton *profilePictureButton;
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *availabilityCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *countryCell;
 
 @property (weak, nonatomic) IBOutlet CountryPicker *countryPickerView;
+
+@property (weak, nonatomic) IBOutlet UITableViewCell *nameCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *localityCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *phoneCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;
+
+@property (weak, nonatomic) IBOutlet UITableViewCell *countryButtonCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *countryPickerCell;
+
+@property (weak, nonatomic) IBOutlet UITableViewCell *clearLocalDataCell;
 
 
 @end

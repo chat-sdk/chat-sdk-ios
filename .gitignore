@@ -52,6 +52,7 @@ XcodeXMPPClient/
 ChatSDKModules/
 Archived/
 XcodeModules/
+versions/
 
 # Ignore these in subfolders, but track in root of repo
 ChatSDKFirebase/

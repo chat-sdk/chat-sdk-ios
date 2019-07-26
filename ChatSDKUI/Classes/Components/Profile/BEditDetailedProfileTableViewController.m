@@ -28,9 +28,9 @@
 @synthesize emailTextField;
 @synthesize availabilityButton;
 @synthesize availabilityCell;
-@synthesize countryCell;
 @synthesize countryButton;
 @synthesize profilePictureButton;
+@synthesize countryPickerCell;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -87,16 +87,14 @@
     
     // Set the profile picture
     // Does the user already have a profile picture?
-    [user loadProfileImage: YES].thenOnMain(^id(UIImage * image) {
-        [profilePictureButton setImage:image forState:UIControlStateNormal];
-        return image;
-    }, Nil);
+    
+    [profilePictureButton loadAvatarForUser:user forControlState:UIControlStateNormal];
     profilePictureButton.layer.cornerRadius = 50;
     
     // Hide the picker cells - they are displayed when their button is pressed
     [self cell:availabilityCell setHidden:YES];
-    [self cell:countryCell setHidden:YES];
-    
+    [self cell:countryPickerCell setHidden:YES];
+
     [self reloadDataAnimated:NO];
     
 }
@@ -167,8 +165,8 @@
 }
 
 - (IBAction)countryButtonPressed:(UIButton *)sender {
-    BOOL hidden = ![self cellIsHidden: countryCell];
-    [self cell:countryCell setHidden:hidden];
+    BOOL hidden = ![self cellIsHidden: countryPickerCell];
+    [self cell:countryPickerCell setHidden:hidden];
     [sender setTintColor:hidden ? self.defaultButtonTintColor : [UIColor redColor]];
     [self reloadDataAnimated:NO];
 }

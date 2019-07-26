@@ -26,6 +26,8 @@
 
 @property (nonatomic, readwrite) id<PUser> user;
 
+@property (weak, nonatomic) IBOutlet UIImageView *localityImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *availabilityImageView;
 
 @property (weak, nonatomic) IBOutlet UIButton *profilePictureButton;
 @property (weak, nonatomic) IBOutlet UIImageView *flagImageView;
@@ -58,6 +60,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *addContactImageView;
 @property (weak, nonatomic) IBOutlet UILabel *addContactLabel;
 
-//@property (nonatomic, readwrite) BOOL didLogout;
+-(void) refreshInterfaceAnimated: (BOOL) animated;
 
 @end

@@ -87,6 +87,14 @@
     
     emailField.text = @"";
     passwordField.text = @"";
+
+    if (BChatSDK.config.debugUsername) {
+        self.emailField.text = BChatSDK.config.debugUsername;
+    }
+    
+    if (BChatSDK.config.debugPassword) {
+        self.passwordField.text = BChatSDK.config.debugPassword;
+    }
     
     _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
         __typeof__(self) strongSelf = weakSelf;

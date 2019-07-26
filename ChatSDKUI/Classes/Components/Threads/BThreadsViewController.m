@@ -110,14 +110,11 @@
                                                [weakSelf reloadData];
                                            });
                                        }]];
-    [_notificationList add:[nc addObserverForName:bNotificationThreadDeleted
-                                           object:Nil
-                                            queue:Nil
-                                       usingBlock:^(NSNotification * notification) {
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               [weakSelf reloadData];
-                                           });
-                                       }]];
+    
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
+        [self reloadData];
+    }] withNames: @[bHookThreadAdded, bHookThreadRemoved]]];
+
 }
 
 -(void) removeObservers {

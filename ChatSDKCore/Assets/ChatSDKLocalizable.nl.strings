@@ -65,8 +65,8 @@
 "bAddUsers" = "Gebruikers toevoegen";
 "bNoNearbyUsers" = "Niemand in de buurt";
 
-"bOnline" = "Online";
-"bOffline" = "Offline";
+"online" = "Online";
+"offline" = "Offline";
 
 "bCreatePublicThread" = "Publiek gesprek aanmaken";
 "bThreadName" = "Gespreksnaam";

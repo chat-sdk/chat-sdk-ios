@@ -1,4 +1,4 @@
-﻿/*
+/*
   localizable.strings
   Chat SDK
 
@@ -65,8 +65,8 @@
 "bAddUsers" = "添加用户";
 "bNoNearbyUsers" = "无临近用户";
 
-"bOnline" = "在线";
-"bOffline" = "离线";
+"online" = "在线";
+"offline" = "离线";
 
 "bCreatePublicThread" = "创建公共会话";
 "bThreadName" = "会话名";

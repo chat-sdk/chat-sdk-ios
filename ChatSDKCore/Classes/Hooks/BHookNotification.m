@@ -89,6 +89,14 @@
     [BChatSDK.hook executeHookWithName:bHookUserWillDisconnect data:@{}];
 }
 
++(void) notificationThreadAdded: (id<PThread>) thread {
+    [BChatSDK.hook executeHookWithName:bHookThreadAdded data:@{bHook_PThread:thread}];
+}
+
++(void) notificationThreadRemoved: (id<PThread>) thread {
+    [BChatSDK.hook executeHookWithName:bHookThreadRemoved data:@{bHook_PThread:thread}];
+}
+
 
 
 @end

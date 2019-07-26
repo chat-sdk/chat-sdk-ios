@@ -43,6 +43,10 @@
 @property (nonatomic, readonly) NSString * defaultUserName;
 @property (nonatomic, readwrite) NSString * defaultUserNamePrefix;
 
+// These will be input into the login screen if they are set
+@property (nonatomic, readwrite) NSString * debugUsername;
+@property (nonatomic, readwrite) NSString * debugPassword;
+
 // Should empty chats be shown in the threads view?
 @property (nonatomic, readwrite) BOOL showEmptyChats;
 

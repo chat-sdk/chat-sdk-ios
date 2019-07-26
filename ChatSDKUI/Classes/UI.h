@@ -33,6 +33,8 @@
 #import <ChatSDK/UIView+Additions.h>
 #import <ChatSDK/NSMutableArray+User.h>
 #import <ChatSDK/UITextView+Resize.h>
+#import <ChatSDK/UIButton+Avatar.h>
+#import <ChatSDK/UIImageView+Avatar.h>
 
 #import <ChatSDK/BThreadCell.h>
 

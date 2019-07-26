@@ -62,7 +62,7 @@
 //-(void) addContact: (id<PUser>) user;
 -(NSArray *) getContacts;
 
--(RXPromise *) loadProfileImage: (BOOL) force;
+//-(RXPromise *) loadProfileImage: (BOOL) force;
 
 -(void) addLinkedAccountsObject: (id<PUserAccount>) account;
 

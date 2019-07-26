@@ -119,7 +119,7 @@
         // TODO: Check this
         FBSDKLoginManager * manager = [[FBSDKLoginManager alloc] init];
         
-        [manager logInWithReadPermissions:@[@"public_profile", @"email"] fromViewController: Nil handler:^(FBSDKLoginManagerLoginResult * result, NSError * error) {
+        [manager logInWithPermissions:@[@"public_profile", @"email"] fromViewController: Nil handler:^(FBSDKLoginManagerLoginResult * result, NSError * error) {
             if(!error && [FBSDKAccessToken currentAccessToken].tokenString != Nil) {
                 [promise resolveWithResult:[FBSDKAccessToken currentAccessToken].tokenString];
             }

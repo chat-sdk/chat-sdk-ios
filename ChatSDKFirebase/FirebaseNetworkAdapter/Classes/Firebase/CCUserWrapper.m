@@ -136,11 +136,8 @@
                         
                         // Set the meta data
                         [user updateMeta:@{bUserImageURLKey: urls[bImagePath]}];
-                        
-                        return [user loadProfileImage:NO].thenOnMain(^id(UIImage * image) {
-                            
-                            return [BChatSDK.core pushUser];
-                        }, Nil);
+
+                        return [BChatSDK.core pushUser];
                     }, Nil);
                 }
                 else {
@@ -169,9 +166,7 @@
 
 -(id) initWithEntityID: (NSString *) entityID {
     if((self = [self init])) {
-        
         _model = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
-        
     }
     return self;
 }
@@ -183,30 +178,25 @@
     FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
 
     return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {
-
-        return [self deserialize:response].thenOnMain(^id(id success) {
-            return self;
-        }, Nil);
-
+        [self deserialize:response];
+        return self;
     }, Nil);
 }
 
 -(RXPromise *) on {
-    RXPromise * promise = [RXPromise new];
     
     if (((NSManagedObject *)_model).on) {
-        [promise resolveWithResult:Nil];
-        return promise;
+        return [RXPromise resolveWithResult:Nil];
     }
     ((NSManagedObject *)_model).on = YES;
 
     FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
     
+    RXPromise * promise = [RXPromise new];
     [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
         if(![snapshot.value isEqual: [NSNull null]]) {
-            [promise resolveWithResult:[self deserialize:snapshot.value].thenOnMain(^id(id success) {
-                return self;
-            }, Nil)];
+            [self deserialize:snapshot.value];
+            [promise resolveWithResult:self];
         }
         else {
             [promise resolveWithResult:Nil];
@@ -226,24 +216,22 @@
 }
 
 -(RXPromise *) metaOn {
-    RXPromise * promise = [RXPromise new];
     
     if (((NSManagedObject *)_model).metaOn) {
-        [promise resolveWithResult:Nil];
-        return promise;
+        return [RXPromise resolveWithResult:Nil];
     }
+
     ((NSManagedObject *)_model).metaOn = YES;
     
     FIRDatabaseReference * ref = [FIRDatabaseReference userMetaRef:self.entityID];
     
+    RXPromise * promise = [RXPromise new];
     [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
         if(![snapshot.value isEqual: [NSNull null]]) {
-            [promise resolveWithResult:[self deserializeMeta:snapshot.value].thenOnMain(^id(id success) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: self.model}];
-                return self;
-            }, Nil)];
-        }
-        else {
+            [self deserializeMeta:snapshot.value];
+            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: self.model}];
+            [promise resolveWithResult:self];
+        } else {
             [promise resolveWithResult:Nil];
         }
     }];
@@ -339,14 +327,13 @@
     return promise;
 }
 
--(RXPromise *) deserialize: (NSDictionary *) value {
+-(void) deserialize: (NSDictionary *) value {
     
     NSNumber * online = value[bOnlinePath];
     if (online) {
         _model.online = online;
     }
-        
-    return [self deserializeMeta:value[bMetaPath]];
+    [self deserializeMeta:value[bMetaPath]];
 }
 
 -(NSDictionary *) serialize {
@@ -356,7 +343,7 @@
 }
 
 // TODO: Find a way to determine if the meta has actually been updated i.e. is it 
--(RXPromise *) deserializeMeta: (NSDictionary *) value {
+-(void) deserializeMeta: (NSDictionary *) value {
     // Get the user's meta data
     NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:_model.meta];
     NSDictionary * newMeta = value;
@@ -373,8 +360,6 @@
     if (meta) {
         [_model setMeta:meta];
     }
-    
-    return [_model loadProfileImage:imageChanged];
 }
 
 -(FIRDatabaseReference *) ref {

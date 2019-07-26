@@ -130,6 +130,8 @@ We provide extensive documentation on Github but if you’re a non-technical use
 
 We are specialists in real-time application development including: Firebase, Firestore, XMPP and WebRTC for iOS and Android. If you need help integrating the Chat SDK with your app or another app development project email us at [team@sdk.chat](mailto: team@sdk.chat). 
 
+
+
 ## Updating from 4.10.x to 4.11.x
 
 The latest update brings a range of improvements and new features including:
@@ -347,28 +349,11 @@ The Push Notification module allows you to send free push notifications using Fi
 
 ##### Setup Firebase Cloud Functions
 
-To handle push notifications, we use [Firebase Cloud Functions](https://firebase.google.com/docs/functions/). This service allows you to upload a script to Firebase hosting. This script monitors the realtime database and whenever a new messsage is detected, it sends a push notification to the recipient. 
-
-Below is a summary of the steps that are required to setup push using the Firebase Cloud Functions script. For further instructions you can look at the [Firebase Documentation](https://firebase.google.com/docs/functions/get-started). 
-
-1. Run `firebase login` and login using the browser
-2. Make a new directory to store your push functions in. It can be called anything
-3. Navigate to that directory using the terminal
-4. Run `firebase init functions`
-5. Choose the correct app from the list
-6. Choose `JavaScript`
-7. Choose `y` for ESLint
-8. Choose `Y` to install node dependencies
-9. Find the `functions` directory you've just created and copy the `index.js` file from [Github](https://raw.githubusercontent.com/chat-sdk/chat-sdk-ios/master/FirebasePushNotifications/index.js) into the directory
-10. Run `firebase deploy` 
-
-Now the script is active and push notifications will be set out automatically. 
+Follow the instructions on our [Chat SDK Firebase repository](https://github.com/chat-sdk/chat-sdk-firebase)
 
 ### Security Rules
 
-Firebase secures your data by allowing you to write rules to govern who can access the database and what can be written. On the Firebase dashboard click **Database** then the **Rules** tab. 
-
-Copy the contents of the [**rules.json**](https://github.com/chat-sdk/chat-sdk-ios/blob/master/rules.json) file into the rules and click publish.
+Firebase secures your data by allowing you to write rules to govern who can access the database and what can be written. The rules are also needed to enable user search. To enable the rules see the guide [Enabling Security Rules](https://github.com/chat-sdk/chat-sdk-firebase).
 
 ### Conclusion
 

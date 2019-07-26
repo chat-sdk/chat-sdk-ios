@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #define bAvailabilityStateChat @"chat"
+#define bAvailabilityStateAvailable @"available"
 #define bAvailabilityStateAway @"away"
 #define bAvailabilityStateBusy @"dnd"
 #define bAvailabilityStateEntendedAway @"xa"
