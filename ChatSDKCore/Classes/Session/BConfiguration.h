@@ -160,6 +160,10 @@
 
 @property (nonatomic, readwrite) BOOL prefersLargeTitles;
 
+// The default search indexes - i.e. which user/meta values are we searching for? If you add
+// custom values remember to add the relevant indexOn values to the Firebase security rules
+@property (nonatomic, readwrite) NSArray * searchIndexes;
+
 // How many messages should be loaded initially when a chat is opened
 // Deprecated: use messagesToLoadPerBatch
 @property (nonatomic, readwrite) int chatMessagesToLoad;

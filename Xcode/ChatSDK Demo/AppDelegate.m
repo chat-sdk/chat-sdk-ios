@@ -49,6 +49,7 @@
     UIViewController * rootViewController = BChatSDK.ui.splashScreenNavigationController;
     
     [self.window setRootViewController:rootViewController];
+
     
     return YES;
 }

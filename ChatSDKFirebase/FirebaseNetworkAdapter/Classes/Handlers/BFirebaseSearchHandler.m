@@ -53,7 +53,7 @@
 -(RXPromise *) usersForIndexes: (NSArray *) indexes withValue: (NSString *) value limit: (int) limit userAdded: (void(^)(id<PUser> user)) userAdded {
     
     if(!indexes) {
-        indexes = @[bUserNameKey, bUserEmailKey, bUserPhoneKey, bUserNameLowercase];
+        indexes = BChatSDK.config.searchIndexes;
     }
     
     NSMutableArray * promises = [NSMutableArray new];
