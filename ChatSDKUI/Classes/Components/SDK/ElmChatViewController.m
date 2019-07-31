@@ -779,7 +779,7 @@
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
     if (message.senderIsMe) {
         UITableViewRowAction * button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault
-                                                                           title:[NSBundle t:bDelete]
+                                                                           title:NSLocalizedString(@"Delete", nil)
                                                                          handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
             [BChatSDK.moderation deleteMessage:message.entityID];
         }];

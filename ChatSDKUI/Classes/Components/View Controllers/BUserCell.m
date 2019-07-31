@@ -72,7 +72,7 @@
     BOOL value = [[user.meta metaValueForKey:@"can_message"] boolValue];
     if (value == false){
         self.statusImageView.image = [NSBundle uiImageNamed:@"checkbox_disabeled@2x.png"];
-        self.subtitle.text = [NSBundle t: NSLocalizedString(@"not_installed_application", nil)];
+        self.subtitle.text = [NSBundle t: NSLocalizedString(@"application_not_installed", nil)];
     }
 //    printf("%@", [user.meta metaStringForKey:@"can_message"]);
 //    if ([user.meta metaValueForKey:@"can_message"] == true) {
