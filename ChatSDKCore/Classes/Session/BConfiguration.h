@@ -231,6 +231,8 @@
 // How long should a public chat room live until expires and is removed from the list
 @property (nonatomic, readwrite) int publicChatRoomLifetimeMinutes;
 
+@property (nonatomic, readwrite) BOOL vibrateOnNewMessage;
+
 +(BConfiguration *) configuration;
 
 -(void) xmppWithHostAddress: (NSString *) hostAddress;

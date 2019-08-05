@@ -61,6 +61,8 @@
 @synthesize readReceiptMaxAgeInSeconds;
 @synthesize searchIndexes;
 
+@synthesize vibrateOnNewMessage;
+
 @synthesize inviteByEmailTitle;
 @synthesize inviteByEmailBody;
 @synthesize inviteBySMSBody;
@@ -185,7 +187,9 @@
         
         publicChatRoomLifetimeMinutes = 7 * 60 * 24;
         
-        searchIndexes = @[bUserNameKey, bUserEmailKey, bUserPhoneKey, bUserNameLowercase];;
+        searchIndexes = @[bUserNameKey, bUserEmailKey, bUserPhoneKey, bUserNameLowercase];
+        
+        vibrateOnNewMessage = YES;
         
     }
     return self;
