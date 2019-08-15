@@ -93,6 +93,7 @@
 #import <ChatSDK/BEditDetailedProfileTableViewController.h>
 #import <ChatSDK/BAvailabilityState.h>
 #import <ChatSDK/BUserConnectionWrapper.h>
+#import <ChatSDK/BMessageSectionDateProvider.h>
 
 #import <Toast/Toast.h>
 

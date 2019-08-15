@@ -35,10 +35,6 @@
     
     [self.profileImageView loadAvatar:user];
     
-    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString: user.imageURL]
-                             placeholderImage:user.imageAsImage
-                                      options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
-    
     self.title.text = user.name;
     self.subtitle.text = user.statusText;
     
@@ -60,6 +56,7 @@
     }
     else {
         self.statusImageView.keepBottomOffsetTo(self.stateLabel).equal = 5;
+//        self.statusImageView.keepVerticalAlignTo(self.statusImageView.superview).equal = -15;
     }
     self.stateLabel.text = [NSBundle t:availability];
 }
@@ -70,6 +67,7 @@
         availability = bOnline;
     }
     self.statusImageView.image = [NSBundle uiImageNamed: [NSString stringWithFormat:@"icn_16_status_%@.png", availability]];
+
     [self setAvailabilityLabelText:availability];
 }
 

@@ -31,7 +31,8 @@
 
 -(NSString *) title {
     id<PElmMessage> message = _messages.firstObject;
-    return [message.date dateAgo];
+    BMessageSectionDateProvider * provider = [BChatSDK.ui providerForName:bMessageSectionDateProvider];
+    return [provider provideString: message];
 }
 
 -(id<PElmMessage>) messageForRow: (NSInteger) row {

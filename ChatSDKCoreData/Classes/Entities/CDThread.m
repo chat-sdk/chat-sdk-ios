@@ -249,8 +249,22 @@
 }
 
 // TODO: Move this to UI module
-- (UIImage *)imageForThread {
+-(RXPromise *) imageForThread {
+
+    NSMutableArray * userPromises = [NSMutableArray new];
+    NSMutableArray * users = [NSMutableArray arrayWithArray:self.users.allObjects];
+    for (id<PUser> user in users) {
+        if (!user.image && !user.isMe) {
+            [userPromises addObject:user.updateAvatarFromURL];
+        }
+    }
     
+    return [RXPromise all:userPromises].thenOnMain(^id(id result) {
+        return self.buildImageForThread;
+    }, Nil);
+}
+
+- (UIImage *) buildImageForThread {
     NSMutableArray * users = [NSMutableArray arrayWithArray:self.users.allObjects];
     
     // Remove the current user from the array
@@ -326,8 +340,7 @@
         UIGraphicsEndImageContext();
         
         return finalImage;
-    }
-}
+    }}
 
 -(NSDate *) orderDate {
     id<PMessage> message = self.newestMessage;

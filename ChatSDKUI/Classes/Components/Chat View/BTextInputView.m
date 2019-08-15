@@ -105,7 +105,7 @@
         _sendButton.keepHeight.equal = 40;
         _sendButton.keepWidth.equal = 48;
         _sendButton.translatesAutoresizingMaskIntoConstraints = NO;
-        
+                
         _textView.keepLeftOffsetTo(_optionsButton).equal = bMargin;
         _textView.keepRightOffsetTo(_sendButton).equal = bMargin;
         _textView.keepBottomInset.equal = bMargin;

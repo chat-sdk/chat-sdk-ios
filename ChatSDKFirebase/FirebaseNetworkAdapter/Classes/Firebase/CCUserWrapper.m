@@ -349,7 +349,16 @@
     NSDictionary * newMeta = value;
 
     // Check to see if the image has changed
-    BOOL imageChanged = ![meta[bUserImageURLKey] isEqualToString:newMeta[bUserImageURLKey]];
+    NSString * newURL = newMeta[bUserImageURLKey];
+    BOOL imageChanged = ![meta[bUserImageURLKey] isEqualToString:newURL];
+    if (imageChanged && newURL && newURL.length) {
+        [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:newURL]].thenOnMain(^id(UIImage * image) {
+            if(image) {
+                [_model setImage:UIImagePNGRepresentation(image)];
+            }
+            return Nil;
+        }, Nil);
+    }
     
     for (NSString * key in [newMeta allKeys]) {
         if (![meta[key] isEqual:newMeta[key]]) {

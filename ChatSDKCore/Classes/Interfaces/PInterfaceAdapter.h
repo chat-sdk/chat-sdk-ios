@@ -18,6 +18,7 @@
 @protocol PImageViewController;
 @protocol PLocationViewController;
 @protocol PSplashScreenViewController;
+@protocol PProvider;
 
 @class BChatViewController;
 @class BFriendsListViewController;
@@ -124,6 +125,9 @@
 -(void) registerMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type;
 -(NSArray *) messageCellTypes;
 -(Class) cellTypeForMessageType: (NSNumber *) messageType;
+
+-(id<PProvider>) providerForName: (NSString *) name;
+-(void) setProvider: (id<PProvider>) provider forName: (NSString *) name;
 
 @end
 

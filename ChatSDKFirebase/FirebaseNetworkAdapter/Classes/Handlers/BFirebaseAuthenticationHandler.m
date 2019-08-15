@@ -246,6 +246,7 @@
             }, Nil);
         }
         else {
+            [BHookNotification notificationDidAuthenticate:user.model type:bHook_AuthenticationTypeCached];
             return user.model;
         }
         

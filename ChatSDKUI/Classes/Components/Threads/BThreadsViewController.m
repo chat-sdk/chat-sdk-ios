@@ -202,7 +202,17 @@
     
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
     
-    [cell.profileImageView sd_setImageWithURL:[thread.meta metaValueForKey:bImageURL] placeholderImage:thread.imageForThread];
+    NSString * threadImagePath = [thread.meta metaValueForKey:bImageURL];
+    NSURL * threadURL = threadImagePath && threadImagePath.length ? [NSURL URLWithString:threadImagePath] : Nil;
+    
+    if (threadURL) {
+        [cell.profileImageView sd_setImageWithURL:threadURL];
+    } else {
+        [thread imageForThread].thenOnMain(^id(UIImage * image) {
+            [cell.profileImageView sd_setImageWithURL:threadURL placeholderImage:image];
+            return Nil;
+        }, Nil);
+    }
     
     //    cell.unreadView.hidden = !thread.unreadMessageCount;
     

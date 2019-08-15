@@ -98,7 +98,7 @@ typedef enum {
 -(NSArray *) allMessages;
 -(BOOL) hasMessages;
 
--(UIImage *)imageForThread;
+-(RXPromise *) imageForThread;
 -(NSDate *) orderDate;
 
 -(void) setMeta: (NSDictionary *) meta;

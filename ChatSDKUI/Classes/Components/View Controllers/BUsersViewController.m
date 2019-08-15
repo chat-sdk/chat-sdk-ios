@@ -118,7 +118,7 @@
             id<PUser> user = _users[indexPath.row];
             
             cell.textLabel.text = user.name;
-            cell.imageView.image = user && user.imageAsImage ? user.imageAsImage : [NSBundle uiImageNamed: @"icn_user.png"];
+            [cell.imageView loadAvatar:user];
             
             cell.imageView.layer.cornerRadius = 20;
             cell.imageView.clipsToBounds = YES;

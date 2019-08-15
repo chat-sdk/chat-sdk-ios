@@ -43,6 +43,7 @@
  */
 -(NSData *) image;
 -(UIImage *) imageAsImage;
+
 -(UIImage *) defaultImage;
 -(NSString *) imageURL;
 -(void) setImageURL: (NSString *) url;
@@ -94,6 +95,7 @@
 -(NSDictionary *) meta;
 -(void) setMetaValue: (id) value forKey: (NSString *) key;
 -(void) updateMeta: (NSDictionary *) dict;
+-(RXPromise *) updateAvatarFromURL;
 
 @optional
 
