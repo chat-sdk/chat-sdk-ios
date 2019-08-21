@@ -11,7 +11,7 @@
 #import "PGoogleLoginDelegate.h"
 #import <GoogleSignIn/GoogleSignIn.h>
 
-@interface BGoogleLoginViewController : UIViewController <GIDSignInDelegate, GIDSignInUIDelegate>
+@interface BGoogleLoginViewController : UIViewController <GIDSignInDelegate, GIDSignInDelegate>
 
 @property (nonatomic, strong) id<PGoogleLoginDelegate> delegate;
 
