@@ -31,4 +31,10 @@
     assert(NO);
 }
 
+// By default we assume that we don't need to upload the
+// avatar.
+-(BOOL) shouldUploadAvatar {
+    return NO;
+}
+
 @end

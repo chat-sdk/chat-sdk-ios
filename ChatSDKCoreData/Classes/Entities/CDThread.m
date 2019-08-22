@@ -196,7 +196,7 @@
 
 -(int) unreadMessageCount {
     int i = 0;
-    NSArray<PMessage> * messages = [BChatSDK.db loadMessagesForThread:self newest:BChatSDK.config.messageHistoryDownloadLimit];
+    NSArray<PMessage> * messages = [BChatSDK.db loadAllMessagesForThread:self newestFirst:YES];
     for (id<PMessage> message in messages) {
         if (!message.isRead && !message.senderIsMe) {
             i++;

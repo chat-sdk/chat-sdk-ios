@@ -277,15 +277,14 @@
     id<PUser> user = BChatSDK.currentUser;
     [user setImage:UIImagePNGRepresentation(image)];
     
-    // Set the image now
     [BChatSDK.upload uploadImage:image].thenOnMain(^id(NSDictionary * urls) {
-    
+        
         // Set the meta data
         [user updateMeta:@{bUserImageURLKey: urls[bImagePath]}];
-    
+        
         // Update the user
         [BChatSDK.core pushUser];
-    
+        
         return urls;
     }, Nil);
     

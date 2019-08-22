@@ -133,11 +133,11 @@
         query = [query queryOrderedByChild:bDate];
         if (startDate) {
             query = [query queryStartingAtValue:[BFirebaseCoreHandler dateToTimestamp:startDate] childKey:bDate];
+        } else {
+            // Limit to 50 messages just to be safe - on a busy public thread we wouldn't want to
+            // download 50k messages!
+            query = [query queryLimitedToLast:BChatSDK.config.messageHistoryDownloadLimit];
         }
-
-        // Limit to 50 messages just to be safe - on a busy public thread we wouldn't want to
-        // download 50k messages!
-        query = [query queryLimitedToLast:BChatSDK.config.messageHistoryDownloadLimit];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
@@ -168,6 +168,8 @@
                     
                     // Add the message to this thread;
                     [strongSelf.model addMessage:message.model];
+                    
+                    NSLog(@"Message: %@", message.model.text);
                     
                     [BChatSDK.core save];
 

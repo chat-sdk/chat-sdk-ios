@@ -130,6 +130,21 @@
     
     [profilePictureButton setImage:_profileImage forState:UIControlStateNormal];
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    // Upload the image
+    if(BChatSDK.upload.shouldUploadAvatar) {
+        [BChatSDK.upload uploadImage:_profileImage].thenOnMain(^id(NSDictionary * urls) {
+
+            // Set the meta data
+            [BChatSDK.currentUser updateMeta:@{bUserImageURLKey: urls[bImagePath]}];
+            
+            [MBProgressHUD hideHUDForView:self.view animated: YES];
+            
+            return urls;
+        }, Nil);
+    }
+    
     [picker dismissViewControllerAnimated:YES completion:Nil];
 }
 
