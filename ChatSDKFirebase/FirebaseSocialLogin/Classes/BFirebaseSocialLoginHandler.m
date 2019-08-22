@@ -65,9 +65,7 @@
         return YES;
     }
     else {
-        return [[GIDSignIn sharedInstance] handleURL:url
-                                   sourceApplication:sourceApplication
-                                          annotation:annotation];
+        return [[GIDSignIn sharedInstance] handleURL:url];
     }
 }
 
