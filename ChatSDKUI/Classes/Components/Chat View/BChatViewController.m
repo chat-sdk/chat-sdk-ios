@@ -40,11 +40,23 @@
     [self updateSubtitle];
     
     [super setAudioEnabled: BChatSDK.audioMessage != Nil];
+
+    if (BChatSDK.calling) {
+        UIBarButtonItem * callItem = [[UIBarButtonItem alloc] initWithTitle:@"Call" style:UIBarButtonItemStylePlain target:self action:@selector(call)];
+        self.navigationItem.rightBarButtonItem = callItem;
+    }
     
     // Add the initial batch of messages
     NSArray<PMessage> * messages = [BChatSDK.db loadMessagesForThread:_thread newest:BChatSDK.config.messagesToLoadPerBatch];
     messages = [messages sortedArrayUsingComparator:[BMessageSorter oldestFirst]];
     [self setMessages:messages scrollToBottom:NO animate:NO force: YES];
+}
+
+-(void) call {
+    if (!BChatSDK.calling) return;
+    [BChatSDK.calling callUserWithId:_thread.otherUser.entityID];
+    UIViewController * controller = [BChatSDK.calling callNavigationController];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 -(void) updateSubtitle {

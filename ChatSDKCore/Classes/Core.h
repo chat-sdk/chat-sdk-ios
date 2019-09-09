@@ -73,6 +73,9 @@
 #import <ChatSDK/PPublicThreadHandler.h>
 #import <ChatSDK/PEncryptionHandler.h>
 #import <ChatSDK/PBlockingHandler.h>
+#import <ChatSDK/PCallHandler.h>
+#import <ChatSDK/PCallDelegate.h>
+#import <ChatSDK/PCall.h>
 #import <ChatSDK/PLastOnlineHandler.h>
 #import <ChatSDK/PNearbyUsersHandler.h>
 #import <ChatSDK/PReadReceiptHandler.h>

@@ -25,6 +25,7 @@
 @property (nonatomic, readwrite) id<PSearchHandler> search;
 @property (nonatomic, readwrite) id<PPublicThreadHandler> publicThread;
 @property (nonatomic, readwrite) id<PBlockingHandler> blocking;
+@property (nonatomic, readwrite) id<PCallHandler> calling;
 @property (nonatomic, readwrite) id<PLastOnlineHandler> lastOnline;
 @property (nonatomic, readwrite) id<PNearbyUsersHandler> nearbyUsers;
 @property (nonatomic, readwrite) id<PReadReceiptHandler> readReceipt;

@@ -79,6 +79,7 @@
 +(id<PSearchHandler>) search;
 +(id<PPublicThreadHandler>) publicThread;
 +(id<PBlockingHandler>) blocking;
++(id<PCallHandler>) calling;
 +(id<PLastOnlineHandler>) lastOnline;
 +(id<PNearbyUsersHandler>) nearbyUsers;
 +(id<PReadReceiptHandler>) readReceipt;
