@@ -19,7 +19,7 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:self action:@selector(dismiss)];
     }
     
-    _webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    _webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:_webView];
     _webView.keepInsets.equal = 0 + keepRequired;
 

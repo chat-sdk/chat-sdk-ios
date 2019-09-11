@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BTermsOfServiceViewController : UIViewController
 
-@property (nonatomic, strong) UIWebView * webView;
+@property (nonatomic, strong) WKWebView * webView;
 
 - (void)load;
 - (void)dismiss;
