@@ -10,6 +10,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import "EmptyChatView.h"
 
 #define bUserCellIdentifier @"bUserCellIdentifier"
 
@@ -36,17 +37,52 @@
 
 -(instancetype) initWithUsersToExclude: (NSArray *) users onComplete: (void(^)(NSArray * users, NSString * name)) action {
     if ((self = [self init])) {
-        self.title = [NSBundle t:bPickFriends];
-        [_contactsToExclude addObjectsFromArray:users];
+        
+        //  BOOL isPoped = [[NSUserDefaults standardUserDefaults]
+        // boolForKey:@"isPoped"];
+        if (users.count == 0)
+        {
+            self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
+        }
+        else
+        {
+            self.title =  [NSBundle t: NSLocalizedString(bInviteFriend, nil)];
+        }
+       [_contactsToExclude addObjectsFromArray:users];
         self.usersToInvite = action;
     }
     return self;
 }
 
+
+
+- (BOOL)isModal {
+    if([[self presentingViewController] presentedViewController] == self)
+        return YES;
+    if([[[self navigationController] presentingViewController] presentedViewController] == [self navigationController])
+        return YES;
+    if([[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]])
+        return YES;
+    
+    return NO;
+}
+
+
 -(instancetype) init {
     self = [super initWithNibName:@"BFriendsListViewController" bundle:[NSBundle uiBundle]];
     if (self) {
-        self.title = [NSBundle t:bPickFriends];
+        
+        //     BOOL isPoped = [[NSUserDefaults standardUserDefaults]
+        //  boolForKey:@"isPoped"];
+        if ([self isModal])
+        {
+            self.title =  [NSBundle t: NSLocalizedString(bPickFriends, nil)];//[NSBundle t:bPickFriends];
+        }
+        else
+        {
+            self.title =  [NSBundle t: NSLocalizedString(bInviteFriend, nil)];
+        }
+        
         _selectedContacts = [NSMutableArray new];
         _contacts = [NSMutableArray new];
         _contactsToExclude = [NSMutableArray new];
@@ -59,18 +95,35 @@
     
     groupNameTextField.placeholder = [NSBundle t:bGroupName];
     groupNameTextField.delegate = self;
-
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
+    
+    if ([self isMovingFromParentViewController]){
+        
+    }
+    //  BOOL isPoped = [[NSUserDefaults standardUserDefaults]
+    //     boolForKey:@"isPoped"];
+    if ([self isModal])
+    {
+        UIImage *image = [[UIImage imageNamed:@"cross"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
+    }
+    
+    //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bImageSaved] style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.getRightBarButtonActionTitle style:UIBarButtonItemStylePlain target:self action:@selector(composeMessage)];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: [NSBundle t: NSLocalizedString(bBack, nil)]
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:@selector(backButtonPressed)];
     
     // Takes into account the status and navigation bar
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.names = [NSMutableArray array];
     _tokenField.delegate = self;
+    //  _tokenField.inputTextFieldAccessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search"]];
+    
     _tokenField.dataSource = self;
-    _tokenField.placeholderText = [NSBundle t:bEnterNamesHere];
-    _tokenField.toLabelText = [NSBundle t:bTo];
+    _tokenField.placeholderText =[NSBundle t: NSLocalizedString(bEnterNamesHere, nil)]; // [NSBundle t:bEnterNamesHere];
+    _tokenField.toLabelText = [NSBundle t: NSLocalizedString(bTo, nil)];
     _tokenField.userInteractionEnabled = YES;
     
     [_tokenField setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
@@ -78,13 +131,21 @@
     _tokenView.layer.borderWidth = 0.5;
     _tokenView.layer.borderColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0].CGColor;
     
+    //Add empty view
+    EmptyChatView *emptyView = [[EmptyChatView alloc] initWithNibName:@"EmptyChatView" bundle:[NSBundle uiBundle]];
+    [self.view insertSubview:emptyView.view atIndex:0];
+   // [self.view insertSubview:emptyView.view belowSubview:self.tableView];
+    //[self.view addSubview:emptyView.view];
+    emptyView.view.keepInsets.equal = 0;
+    [emptyView setText:NSLocalizedString(@"contacts_empty_view_title_text", nil) setSubTitle:NSLocalizedString(@"contacts_empty_view_subtitle_text", nil) setEmptyImage:[NSBundle uiImageNamed: @"empty_chat_view@2x.png"]];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
     
     [self reloadData];
     
     [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bUserCellIdentifier];
-
+    
     [self setGroupNameHidden:YES duration:0];
 }
 
@@ -92,12 +153,13 @@
     if (self.rightBarButtonActionTitle) {
         return self.rightBarButtonActionTitle;
     }
-    else if (_selectedContacts.count <= 1) {
-        return [NSBundle t: bCompose];
-    }
-    else {
-        return [NSBundle t: bCreateGroup];
-    }
+     return [NSBundle t: NSLocalizedString(bCompose, nil)];
+//    else if (_selectedContacts.count <= 1) {
+//        return [NSBundle t: bCompose];
+//    }
+//    else {
+//        return [NSBundle t: bCreateGroup];
+//    }
 }
 
 -(void) updateRightBarButtonActionTitle {
@@ -106,7 +168,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+
     __weak __typeof__(self) weakSelf = self;
     _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
         __typeof__(self) strongSelf = weakSelf;
@@ -115,12 +178,16 @@
         }
     }];
     [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
-    
+
     [self reloadData];
 }
 
 -(void) viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+}
+
+-(void) showEmptyView:(BOOL)showView {
+    [self.tableView setHidden:showView];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -152,15 +219,58 @@
         return;
     }
     else {
-        [self dismissViewControllerAnimated:YES completion:^{
+        //Create Group
+        if (_selectedContacts.count > 1)
+        {
+            UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"Group Name"
+                                                                                      message: nil
+                                                                               preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"Group Name";
+                textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            }];
+            
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                
+            }]];
+            
+            [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                NSArray * textfields = alertController.textFields;
+                UITextField * groupName = textfields[0];
+                self.usersToInvite(_selectedContacts, groupName.text);
+                [self dismissViewControllerAnimated:YES completion:^{
+//                    if (self.usersToInvite != Nil) {
+                    
+//                    }
+                }];
+                
+            }]];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        else //1-1 chat
+        {
+            [self.navigationController popViewControllerAnimated:true];
             if (self.usersToInvite != Nil) {
                 self.usersToInvite(_selectedContacts, groupNameTextField.text);
             }
-        }];
+//                        [self dismissViewControllerAnimated:YES completion:^{
+//                            if (self.usersToInvite != Nil) {
+//                                self.usersToInvite(_selectedContacts, groupNameTextField.text);
+//                            }
+//                        }];
+        }
+        
+        
     }
 }
 
 #pragma UITableView delegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [_tokenField resignFirstResponder];
+}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return bSectionCount;
@@ -175,15 +285,16 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
-    if (section == bContactsSection) {
-        return _contacts.count ? [NSBundle t:bContacts] : @"";
-    }
+//    if (section == bContactsSection) {
+//        return _contacts.count ? [NSBundle t:bContacts] : @"";
+//    }
     
     return @"";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+ 
     BUserCell * cell = [tableView_ dequeueReusableCellWithIdentifier:bUserCellIdentifier];
     
     
@@ -191,29 +302,66 @@
     if (indexPath.section == bContactsSection) {
         user = _contacts[indexPath.row];
     }
-    
+    if ([_selectedContacts containsObject:user] || [_contactsToExclude containsObject:user]){
+        [cell setSelectedImage];
+    }
+    else{
+        [cell setDeSelectedImage];
+    }
     [cell setUser:user];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50;
+    return 71;
 }
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    id<PUser> user;
+//    if ([_contactsToExclude containsObject:user]){
+//        return;
+//    }
     
     if (indexPath.section == bContactsSection) {
-        [self selectUser:_contacts[indexPath.row]];
+        user = _contacts[indexPath.row];
     }
     
+    BOOL value = [[user.meta metaValueForKey:@"can_message"] boolValue];
+    if (value == false){
+        [self showAlertMessage];
+        return;
+    }
+    if (indexPath.section == bContactsSection) {
+        [self selectUser:user];
+    }
+    self.navigationItem.rightBarButtonItem.enabled = _selectedContacts.count;
     [tableView_ deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView_ reloadData];
     
-    [UIView animateWithDuration:0.2 animations:^{
-        _tokenView.keepHeight.equal = _tokenField.bounds.size.height;
-    }];
+    //    [UIView animateWithDuration:0.2 animations:^{
+    //        _tokenView.keepHeight.equal = _tokenField.bounds.size.height;
+    //    }];
     
-    [self reloadData];
+   // [self reloadData];
+}
+
+-(void) showAlertMessage {
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:NSLocalizedString(@"unavailable", nil)
+                                 message:NSLocalizedString(@"application_not_installed", nil)
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    UIAlertAction* okButton = [UIAlertAction
+                               actionWithTitle:NSLocalizedString(@"Ok", nil)
+                               style:UIAlertActionStyleCancel
+                               handler:^(UIAlertAction * action) {
+                                   //Handle no, thanks button
+                               }];
+    
+    [alert addAction:okButton];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - VENTokenFieldDelegate
@@ -233,7 +381,7 @@
 // This is when we press enter in the text field
 - (void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text {
     
-    [_tokenField reloadData];
+   // [_tokenField reloadData];
     [self reloadData];
     
     [_tokenField resignFirstResponder];
@@ -260,19 +408,25 @@
 }
 
 - (void) selectUser: (id<PUser>) user {
+    // for 1-1 chat
     
-    if(_selectedContacts.count < maximumSelectedUsers || maximumSelectedUsers <= 0) {
-        [_selectedContacts addObject:user];
-        
-        [self.names addObject:user.name];
-        
-        _filterByName = Nil;
-        [_tokenField reloadData];
-        
-        [self setGroupNameHidden:_selectedContacts.count < 2 || _contactsToExclude.count > 0 duration:0.4];
-        
-        [self reloadData];
+    // if(_selectedContacts.count < maximumSelectedUsers || maximumSelectedUsers <= 0) {
+    if ([_selectedContacts containsObject:user]){
+        [_selectedContacts removeObject:user];
     }
+    else{
+        [_selectedContacts removeAllObjects];
+        [_selectedContacts addObject:user];
+    }
+    //   [self.names addObject:user.name];
+    
+    _filterByName = Nil;
+   // [_tokenField reloadData];
+    
+    //        [self setGroupNameHidden:_selectedContacts.count < 2 || _contactsToExclude.count > 0 duration:0.4];
+    
+  //  [self reloadData];
+    //   }
     
 }
 
@@ -314,17 +468,25 @@
         [_contacts addObjectsFromArray: self.overrideContacts()];
     }
     
-    [_contacts removeObjectsInArray:_selectedContacts];
+    //  [_contacts removeObjectsInArray:_selectedContacts];
     
     // _contactsToExclude is the users already in the thread - make sure we don't include anyone already in the thread
-    [_contacts removeObjectsInArray:_contactsToExclude];
-    [_contacts sortOnlineThenAlphabetical];
-    
+//    [_contacts removeObjectsInArray:_contactsToExclude];
+//    [_contacts sortOnlineThenAlphabetical];
+    [_contacts sortAlphabetical];
+
     if (_filterByName && _filterByName.length) {
         NSPredicate * predicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", _filterByName];
         [_contacts filterUsingPredicate:predicate];
     }
     
+    //Show empty View
+    if ([_contacts count] > 0) {
+        [self showEmptyView:false];
+    }
+    else {
+        [self showEmptyView:true];
+    }
     [tableView reloadData];
     [self updateRightBarButtonActionTitle];
     self.navigationItem.rightBarButtonItem.enabled = _selectedContacts.count;
@@ -381,7 +543,9 @@
 -(void) dismissView {
     [self dismissViewControllerAnimated:YES completion:Nil];
 }
-
+- (void)backButtonPressed {
+    [self.navigationController popViewControllerAnimated:true];
+}
 - (void)updateButtonStatusForInternetConnection {
     BOOL connected = BChatSDK.connectivity.isConnected;
     self.navigationItem.rightBarButtonItem.enabled = connected;
@@ -390,3 +554,4 @@
 
 
 @end
+

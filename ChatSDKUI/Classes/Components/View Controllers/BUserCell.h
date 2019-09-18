@@ -23,6 +23,8 @@
 
 -(void) setUser: (id<PUser>) user;
 
+-(void) setSelectedImage;
+-(void) setDeSelectedImage;
 -(void) setOnline;
 -(void) setAway;
 -(void) setOffline;

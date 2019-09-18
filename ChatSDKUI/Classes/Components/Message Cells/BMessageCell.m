@@ -56,7 +56,9 @@
 
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         _nameLabel.userInteractionEnabled = NO;
-        
+        if(BChatSDK.config.threadNameColor) {
+        _nameLabel.textColor = [BCoreUtilities colorWithHexString:BChatSDK.config.threadNameColor];
+        }
         _nameLabel.font = [UIFont boldSystemFontOfSize:bDefaultUserNameLabelSize];
         if(BChatSDK.config.messageNameFont) {
             _nameLabel.font = BChatSDK.config.messageNameFont;
@@ -206,7 +208,7 @@
                                          self.bubbleWidth,
                                          self.bubbleHeight)];
     
-    [_nameLabel setViewFrameY:self.bubbleHeight + 5];
+   // [_nameLabel setViewFrameY:self.bubbleHeight + 5];
     
     // #1 Because of the text view insets we want the cellContentView of the
     // text cell to extend to the right edge of the bubble
@@ -251,10 +253,13 @@
     // Layout the date label this will be the full size of the cell
     // This will automatically center the text in the y direction
     // we'll set the side using text alignment
-    [_timeLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0];
-    
+    [_timeLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0 -  _profilePicture.fw];
+    [_timeLabel setViewFrameY:bubbleImageView.fh];
+    [_timeLabel setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin + bTimeLabelPadding];
+    //[_timeLabel setViewFrameX:self.bubbleMargin.left + bubbleImageView.fw + _profilePicture.fw + xMargin + bTimeLabelPadding]; // + _profilePicture.fw
     // We don't want the label getting in the way of the read receipt
-    [_timeLabel setViewFrameHeight:self.cellHeight * 0.8];
+    [_timeLabel setViewFrameHeight:16];
+    //    [_timeLabel setViewFrameHeight:self.cellHeight * 0.8];
     
     [_readMessageImageView setViewFrameWidth:bReadReceiptWidth];
     [_readMessageImageView setViewFrameHeight:bReadReceiptHeight];
@@ -264,31 +269,42 @@
     [_nameLabel setViewFrameWidth:self.fw - bTimeLabelPadding * 2.0 - _profilePicture.fw];
     [_nameLabel setViewFrameHeight:self.nameHeight];
     
+    //CHANGE
     // Layout the bubble
     // The bubble is translated the "margin" to the right of the profile picture
     if (!isMine) {
+        _profilePicture.hidden = NO;
         [_profilePicture setViewFrameX:_profilePicture.hidden ? 0 : self.profilePicturePadding];
+        [_profilePicture setViewFrameY: _nameLabel.fh];
         [bubbleImageView setViewFrameX:self.bubbleMargin.left + _profilePicture.fx + _profilePicture.fw + xMargin];
-        [_nameLabel setViewFrameX:bTimeLabelPadding];
+        [bubbleImageView setViewFrameY:_nameLabel.fh];
+        //        [_timeLabel setViewFrameY:_profilePicture.fh + _nameLabel.fh];
+        [_timeLabel setViewFrameY:bubbleImageView.fh + bubbleImageView.fy];
         
-        _timeLabel.textAlignment = NSTextAlignmentRight;
+        [_nameLabel setViewFrameX:_profilePicture.fw + bTimeLabelPadding];
+        [_nameLabel setViewFrameY:bubbleImageView.fy -  _nameLabel.fh];
+
+        
+        _timeLabel.textAlignment = NSTextAlignmentLeft;
         _nameLabel.textAlignment = NSTextAlignmentLeft;
     }
     else {
+        _profilePicture.hidden = YES;
         [_profilePicture setViewFrameX:_profilePicture.hidden ? self.contentView.fw : self.contentView.fw - _profilePicture.fw - self.profilePicturePadding];
-        [bubbleImageView setViewFrameX:_profilePicture.fx - self.bubbleWidth - self.bubbleMargin.right - xMargin];
+        [bubbleImageView setViewFrameX:self.fw - self.bubbleWidth - self.bubbleMargin.right - xMargin];
         //[_nameLabel setViewFrameX: bTimeLabelPadding];
         
-        _timeLabel.textAlignment = NSTextAlignmentLeft;
+        _timeLabel.textAlignment = NSTextAlignmentRight;
         _nameLabel.textAlignment = NSTextAlignmentRight;
     }
     
-//        self.bubbleImageView.layer.borderColor = UIColor.redColor.CGColor;
-//        self.bubbleImageView.layer.borderWidth = 1;
-//        self.contentView.layer.borderColor = UIColor.blueColor.CGColor;
-//        self.contentView.layer.borderWidth = 1;
-//        self.cellContentView.layer.borderColor = UIColor.greenColor.CGColor;
-//        self.cellContentView.layer.borderWidth = 1;
+    
+    //        self.bubbleImageView.layer.borderColor = UIColor.redColor.CGColor;
+    //        self.bubbleImageView.layer.borderWidth = 1;
+    //        self.contentView.layer.borderColor = UIColor.blueColor.CGColor;
+    //        self.contentView.layer.borderWidth = 1;
+    //        self.cellContentView.layer.borderColor = UIColor.greenColor.CGColor;
+    //        self.cellContentView.layer.borderWidth = 1;
 }
 
 
@@ -459,13 +475,24 @@
 
 +(float) cellHeight: (id<PElmMessage>) message maxWidth: (float) maxWidth {
     UIEdgeInsets bubbleMargin = [self bubbleMargin:message];
-    return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message];
+    return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message] + 16;
 }
 
 +(float) cellHeight: (id<PElmMessage>) message {
     float maxWidth = [self maxTextWidth:message];
     UIEdgeInsets bubbleMargin = [self bubbleMargin:message];
-    return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message];
+    id<PElmMessage> nextMessage = message.nextMessage;
+    
+    float finalHeight = [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message] + 16;
+    
+    if (nextMessage && [nextMessage.date minutesFrom:message.date] < 10) {
+        if (message.date.minute == nextMessage.date.minute && [message.userModel isEqual: nextMessage.userModel]) {
+            //_timeLabel.text = Nil;
+            finalHeight -= 16;
+        }
+    }
+    return finalHeight;
+   // return [BMessageCell bubbleHeight:message maxWidth:maxWidth] + bubbleMargin.top + bubbleMargin.bottom + [self nameHeight:message];
 }
 
 -(float) nameHeight {

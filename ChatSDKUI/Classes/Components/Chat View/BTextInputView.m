@@ -16,7 +16,7 @@
 #define bTextViewVerticalPadding 5.72
 
 #define bFontSize 19
-#define bMaxLines 5
+#define bMaxLines 5 // this will not work as shouldChangeTextInRange implementation is changed
 #define bMinLines 1
 #define bMaxCharacters 0
 
@@ -29,12 +29,17 @@
 @synthesize sendButton = _sendButton;
 @synthesize placeholderLabel = _placeholderLabel;
 
+
+- (double)extracted {
+    return bMargin;
+}
+
 -(instancetype) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         
 //        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor colorWithRed:242/255.0f green:242/255.0f blue:242/255.0f alpha:1.0];// [UIColor redColor];//
         
         // Decide how many lines the message should have
         minLines = bMinLines;
@@ -47,17 +52,23 @@
 
         // Create an options button which shows an action sheet
         _optionsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _optionsButton.hidden = YES;
         [self addSubview:_optionsButton];
 
         _textView = [[HKWTextView alloc] init];
         // If we use the mentions functionality we need to set the external delegate
         // This is the way to set the UITextView delegate to keep mentions functionality working
         _textView.simpleDelegate = self;
-      
+        _textView.layer.cornerRadius = 2;
+        _textView.layer.borderColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0].CGColor;
+        _textView.layer.borderWidth = 1.0;
+        _textView.layer.masksToBounds = true;
+        [_textView setClipsToBounds:YES];
         [self addSubview: _textView];
 
         // Add a send button
         _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [[_sendButton titleLabel] setFont:[UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize]];
         [self addSubview: _sendButton];
         
         [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
@@ -75,19 +86,20 @@
         [_sendButton addTarget:self action:@selector(sendButtonCancelled) forControlEvents:UIControlEventTouchUpOutside];
         
         _textView.scrollEnabled = YES;
-        _textView.backgroundColor = [UIColor clearColor];
-        
+        _textView.backgroundColor = [UIColor whiteColor];
+        _textView.font =  [UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize];
         // For some reason using scrollEnabled = NO causes probalems
         _textView.bounces = NO;
         
         // Adjust the insets to make the text closer to the outside of the
         // box - ios6 is slightly different from ios7
-        if ([UIDevice currentDevice].systemVersion.intValue < 7) {
-            _textView.contentInset = UIEdgeInsetsMake(-6.0, -4.0, -6.0, 0.0);
-        }
-        else {
-            _textView.contentInset = UIEdgeInsetsMake(-6.0, -1.0, -6.0, 0.0);
-        }
+//        if ([UIDevice currentDevice].systemVersion.intValue < 7) {
+//            _textView.contentInset = UIEdgeInsetsMake(-6.0, -4.0, -6.0, 0.0);
+//        }
+//        else {
+//            _textView.contentInset = UIEdgeInsetsMake(-6.0, 5.0, -6.0, 0.0);
+//           // _textView.contentInset = UIEdgeInsetsMake(-6.0, -1.0, -6.0, 0.0);
+//        }
 
         // Constrain the elements
         _optionsButton.keepLeftInset.equal = bMargin +keepRequired;
@@ -101,40 +113,43 @@
         _optionsButton.translatesAutoresizingMaskIntoConstraints = NO;
         
         _sendButton.keepRightInset.equal = bMargin;
-        _sendButton.keepBottomInset.equal = 0;
+        _sendButton.keepVerticalCenter.equal = 0.5;
+        //    _sendButton.keepBottomInset.equal = 5;
+        //_sendButton.keepHorizontalAlignTo(_textView);
+        //_sendButton.keepCenterAlignTo(_textView);
+        
         _sendButton.keepHeight.equal = 40;
         _sendButton.keepWidth.equal = 48;
-        _sendButton.translatesAutoresizingMaskIntoConstraints = NO;
-                
-        _textView.keepLeftOffsetTo(_optionsButton).equal = bMargin;
+        
+        _textView.keepLeftOffsetTo(_optionsButton).equal = [self extracted];
         _textView.keepRightOffsetTo(_sendButton).equal = bMargin;
         _textView.keepBottomInset.equal = bMargin;
         _textView.keepTopInset.equal = bMargin;
         _textView.translatesAutoresizingMaskIntoConstraints = NO;
+        //_textView.text = [NSBundle t:NSLocalizedString(bWriteSomething, nil)];
 
         // Create a placeholder text label
         _placeholderLabel = [[UILabel alloc] init];
         [self addSubview:_placeholderLabel];
-        
-        _placeholderLabel.keepBottomInset.equal = 0;
-        _placeholderLabel.keepTopInset.equal = 0;
-        _placeholderLabel.keepLeftOffsetTo(_optionsButton).equal = bMargin + 4;
+
+        _placeholderLabel.keepBottomInset.equal = bMargin;//0;
+        _placeholderLabel.keepTopInset.equal = bMargin;//0;
+        _placeholderLabel.keepLeftOffsetTo(_optionsButton).equal = bMargin + 4; //bMargin + 14;
         _placeholderLabel.keepWidth.equal = 200;
         [_placeholderLabel setBackgroundColor:[UIColor clearColor]];
-        
+
         [_placeholderLabel setTextColor:_placeholderColor];
+        [_placeholderLabel setText:[NSBundle t:NSLocalizedString(bWriteSomething, nil)]];
         
-        [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
-        
-        [self setFont:[UIFont systemFontOfSize:bFontSize]];
-        
+        [self setFont:[UIFont fontWithName:@"SFProText-Regular" size:bDefaultFontSize]];
+
         __weak __typeof__(self) weakSelf = self;
         _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
             __typeof__(self) strongSelf = weakSelf;
             [strongSelf updateInterfaceForReachabilityStateChange];
         }];
         [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
-        
+
         [self updateInterfaceForReachabilityStateChange];
         
         UIView * topMarginView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -169,15 +184,21 @@
 
 -(void) setMicButtonEnabled: (BOOL) enabled sendButtonEnabled: (BOOL) sendButtonEnabled {
     _micButtonEnabled = enabled;
-    _sendButton.enabled = sendButtonEnabled || enabled;
+    _sendButton.enabled = sendButtonEnabled;
     if (enabled) {
         [_sendButton setTitle:Nil forState:UIControlStateNormal];
         [_sendButton setImage:[NSBundle uiImageNamed: @"icn_24_mic.png"]
                      forState:UIControlStateNormal];
     }
     else {
-        [_sendButton setTitle:[NSBundle t:bSend] forState:UIControlStateNormal];
+        [_sendButton setTitle:[NSBundle t:NSLocalizedString(bSend, nil)] forState:UIControlStateNormal];
         [_sendButton setImage:Nil forState:UIControlStateNormal];
+    }
+    if (_sendButton.enabled){
+        [_sendButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }
+    else{
+        [_sendButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     }
 }
 
@@ -203,7 +224,6 @@
             NSString * newMessage = [_textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             [BChatSDK.core sendMessageWithText:newMessage withThreadEntityID:_sendBarDelegate.threadEntityID];
         }
-        
         _textView.text = @"";
         [self textViewDidChange:_textView];
     }
@@ -242,8 +262,8 @@
             // TODO: Make the tost position above the text bar programatically
             UIView * view = _sendBarDelegate.viewController.view;
             [view makeToast:[NSBundle t:bHoldToSendAudioMessageError]
-                        duration:2
-                        position:[NSValue valueWithCGPoint: CGPointMake(view.frame.size.width / 2.0, view.frame.size.height - 120)]];
+                   duration:2
+                   position:[NSValue valueWithCGPoint: CGPointMake(view.frame.size.width / 2.0, view.frame.size.height - 120)]];
             
         }
     }
@@ -269,7 +289,7 @@
 -(void) stopRecording {
     [[BAudioManager sharedManager] finishRecording];
     [_sendBarDelegate.view hideAllToasts];
-    [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+    [_placeholderLabel setText:[NSBundle t:NSLocalizedString(bWriteSomething, nil)]];
     [self cancelRecordingToastTimer];
 }
 
@@ -304,7 +324,7 @@
 // If the user touches up off the button we cancel the recording
 - (void)sendButtonCancelled {
     [_sendBarDelegate.view hideAllToasts];
-    [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+    [_placeholderLabel setText:[NSBundle t:NSLocalizedString(bWriteSomething, nil)]];
     CSToastStyle * style = [[CSToastStyle alloc] initWithDefaultStyle];
     style.backgroundColor = [UIColor redColor];
     [_sendBarDelegate.view makeToast:[NSBundle t:bCancelled]
@@ -365,6 +385,14 @@
                                    context:Nil].size.height;
 }
 
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView {
+    _placeholderLabel.hidden = ![textView.text isEqualToString:@""];
+    return true;
+}
+
+
+
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
     // Typing Indicator
@@ -377,16 +405,17 @@
     
     if(maxCharacters > 0 && newText.length > maxCharacters) {
         return NO;
-     }
-    
-    NSInteger numberOfLines = [self getTextHeight:newText]/textView.font.lineHeight;
-    numberOfLines = MAX(numberOfLines, [newText componentsSeparatedByString:@"\n"].count);
-    
-    if (numberOfLines > maxLines) {
-        return NO;
     }
     
-    else return YES;
+    //    NSInteger numberOfLines = [self getTextHeight:newText]/textView.font.lineHeight;
+    //    numberOfLines = MAX(numberOfLines, [newText componentsSeparatedByString:@"\n"].count);
+    
+    //    if (numberOfLines > maxLines) {
+    //        return NO;
+    //    }
+    //
+    //    else
+    return YES;
 }
 
 -(void) textViewDidChange:(UITextView *)textView {
@@ -398,7 +427,7 @@
     else {
         [self setMicButtonEnabled:YES];
     }
-    
+   
     
     [self resizeToolbar];
 
@@ -408,18 +437,38 @@
 
 -(void) resizeToolbar {
     
+    
     float originalHeight = self.keepHeight.equal;
     
 //    float newHeight = MAX(_textView.contentSize.height, _textView.font.lineHeight);//[self getTextBoxTextHeight];
+
+  //  float newHeight = MAX(_textView.font.lineHeight, [self measureHeightOfUITextView:_textView]);
     float newHeight = MAX(_textView.font.lineHeight, [self measureHeightOfUITextView:_textView]);
-    
+    //        _textView.text = [NSBundle t:NSLocalizedString(bWriteSomething, nil)];
+
+//    if ([_textView.text isEqualToString: [NSBundle t:NSLocalizedString(bWriteSomething, nil)]])
+//    {
+//        newHeight = _textView.font.lineHeight;
+//    }
     // Calcualte the new textview height
     float textBoxHeight = newHeight + bTextViewVerticalPadding;
-
+    // Make textview scrollable
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    CGFloat textViewCurrentHeight = self.keepHeight.equal;
+    if (textViewCurrentHeight >  screenHeight/6) {
+        return;
+    }
     // Set the toolbar height - the text view will resize automatically
     // using autolayout
-    self.keepHeight.equal = bMargin * 2 + textBoxHeight;
-    
+    float newTextBoxHeight = (bMargin * 2 + textBoxHeight);
+    if (newTextBoxHeight > screenHeight/6) {
+        self.keepHeight.equal = screenHeight/6;
+    }
+    else {
+          self.keepHeight.equal = newTextBoxHeight;
+    }
+
     float delta = self.keepHeight.equal - originalHeight;
     
     if(fabsf(delta) > 0.01) {
@@ -439,6 +488,7 @@
             }
         }];
     }
+    
 }
 
 - (CGFloat)measureHeightOfUITextView:(UITextView *)textView
@@ -473,13 +523,17 @@
         
         // NSString class method: boundingRectWithSize:options:attributes:context is
         // available only on ios7.0 sdk.
-        
+//        CGSize textViewSize = [text sizeWithFont:[UIFont fontWithName:@"Marker Felt" size:20]
+//                               constrainedToSize:CGSizeMake(WIDHT_OF_VIEW, FLT_MAX)
+//                                   lineBreakMode:UILineBreakModeTailTruncation];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+        [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping]; //NSLineBreakByWordWrapping
         
         NSDictionary *attributes = @{ NSFontAttributeName: textView.font, NSParagraphStyleAttributeName : paragraphStyle };
         
-        CGRect size = [textToMeasure boundingRectWithSize:CGSizeMake(CGRectGetWidth(frame), MAXFLOAT)
+    
+        CGRect size =
+        [textToMeasure boundingRectWithSize:CGSizeMake(CGRectGetWidth(frame), MAXFLOAT)
                                                   options:NSStringDrawingUsesLineFragmentOrigin
                                                attributes:attributes
                                                   context:nil];

@@ -31,7 +31,6 @@
 }
 
 @property (weak, nonatomic, readwrite) id<PSendBarDelegate> sendBarDelegate;
-
 // This is a property so we can access it from our mentions view
 @property (nonatomic, readwrite) HKWTextView * textView;
 

@@ -216,10 +216,16 @@
                          threadCreated:threadCreated];
 }
 
+-(RXPromise *) updateThread: (id<PThread>) threadModel dataPushed: (void(^)(NSError * error, id<PThread> thread)) dataPushed {
+    return [self updateThread:threadModel dataPushed:dataPushed];
+}
+
+
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
                        threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
     return [self createThreadWithUsers:users name:nil threadCreated:threadCreated];
 }
+
 
 /**
  * @brief Add users to a thread

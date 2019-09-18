@@ -96,6 +96,18 @@
 // 2 - Show's a message or the list of usersBTextInputView
 // 3 - Show's who's typing
 -(void) setupNavigationBar {
+    self.viewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    
+    
+//    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+//    [backButtonItem setTintColor:[UIColor blackColor]];
+//    self.viewController.navigationItem.backBarButtonItem = backButtonItem;
+//    UIImage *image = [[UIImage imageNamed:@"option"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
+    
+    UIBarButtonItem *chatOptionButton = [[UIBarButtonItem alloc] initWithTitle:@"..."               style:UIBarButtonItemStylePlain target:self action:@selector(openOptionActionSheet)];
+    [chatOptionButton setTintColor:[UIColor blackColor]];
+    self.navigationItem.rightBarButtonItem = chatOptionButton;
     
     UIView * containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 220, 40)];
     
@@ -108,6 +120,9 @@
     [containerView addSubview:_titleLabel];
     _titleLabel.keepInsets.equal = 0;
     _titleLabel.keepBottomInset.equal = 15;
+    
+    
+    
     
     _subtitleLabel = [[UILabel alloc] init];
     _subtitleLabel.textAlignment = NSTextAlignmentCenter;
@@ -124,6 +139,67 @@
     [self.navigationItem setTitleView:containerView];
 }
 
+-(void)hideRightBarButton {
+    self.navigationItem.rightBarButtonItem = nil;
+}
+
+-(void)openOptionActionSheet {
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+        // Cancel button tappped.
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"members", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        // Distructive button tapped.
+        [self navigationBarTapped];
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"invite_others", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self addUser];
+
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"edit_group_name", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self editGroupNameAlert];
+    }]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"leave_chat", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self leaveGroupAction];
+    }]];
+    
+    // Present action sheet.
+    [self presentViewController:actionSheet animated:YES completion:nil];
+}
+
+-(void) editGroupNameAlert {
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: NSLocalizedString(@"group_name", nil)
+                                                                              message: nil
+                                                                       preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = _titleLabel.text;
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    }];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSArray * textfields = alertController.textFields;
+        UITextField * groupName = textfields[0];
+        if (groupName.text != nil) {
+            [self setTitle:groupName.text];
+             [self setThreadName:groupName.text];
+        }
+      
+        
+    }]];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 // The options handler is responsible for displaying options to the user
 // when the options button is pressed. These can either be in an alert view
 // or a collection view shown in the keyboard overlay
@@ -144,6 +220,8 @@
 
 -(void) setTitle: (NSString *) title {
     _titleLabel.text = title;
+    [[NSUserDefaults standardUserDefaults] setObject:_titleLabel.text forKey:@"chatViewTitle"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(void) setSubtitle: (NSString *) subtitle {
@@ -336,7 +414,8 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    self.viewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+
     [self addObservers];
     
     self.tabBarController.tabBar.hidden = YES;
@@ -369,6 +448,12 @@
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [self reloadData];
 }
+
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self scrollToBottomOfTable:YES];
+}
+
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -409,9 +494,20 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyIdentifier"];
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MyIdentifier"];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        
+//    }
+//    cell.textLabel.font =  BChatSDK.config.messageTimeFont;
+//    cell.textLabel.text = @"user left the chat";
+//    cell.textLabel.backgroundColor = [UIColor redColor];
+//    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+//    return cell;
     
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
-    
+
     if (BChatSDK.encryption) {
         [BChatSDK.encryption decryptMessage:message];
     }
@@ -513,12 +609,12 @@
         if (!_imageViewNavigationController) {
             _imageViewNavigationController = [BChatSDK.ui imageViewNavigationController];
         }
-
+        
         // TODO: Refactor this to use the JSON keys
         url = cell.message.imageURL;
         // Only allow the user to click if the image is not still loading hence the alpha is 1
         if (cell.imageView.alpha == 1 && url) {
-
+            
             [cell showActivityIndicator];
             cell.imageView.alpha = 0.75;
             
@@ -543,12 +639,12 @@
         float latitude = [cell.message.meta[bMessageLatitude] floatValue];
         
         [((id<PLocationViewController>) _locationViewNavigationController.topViewController) setLatitude:latitude longitude:longitude];
-
+        
         [self.navigationController presentViewController:_locationViewNavigationController animated:YES completion:Nil];
     }
     
     if(BChatSDK.videoMessage && [cell isKindOfClass:BChatSDK.videoMessage.cellClass]) {
-            
+        
         // Only allow the user to click if the image is not still loading hence the alpha is 1
         if (cell.imageView.alpha == 1) {
             
@@ -574,7 +670,7 @@
             
         }
     }
-
+    
     if (BChatSDK.fileMessage && [cell isKindOfClass:BChatSDK.fileMessage.cellClass]) {
         NSDictionary * meta = cell.message.meta;
 
@@ -683,7 +779,7 @@
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
     if (message.senderIsMe) {
         UITableViewRowAction * button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault
-                                                                           title:[NSBundle t:bDelete]
+                                                                           title:NSLocalizedString(@"Delete", nil)
                                                                          handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
             [BChatSDK.moderation deleteMessage:message.entityID];
         }];
@@ -890,8 +986,43 @@
 
 #pragma Utility Methods
 
+-(void) dataUpdated {
+    [tableView reloadData];
+    [self scrollToBottomOfTable:YES];
+}
+
 - (void) navigationBarTapped {
+    
     [delegate navigationBarTapped];
+}
+
+- (void) openInviteScreen {
+   // [delegate openInviteScreen];
+}
+
+-(void)leaveChat {
+}
+
+-(void) addUser {
+}
+
+-(void)leaveGroupAction {
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: NSLocalizedString(@"leave_chat_title", nil)
+                                                                              message: NSLocalizedString(@"leave_chat_subtitle", nil)
+                                                                       preferredStyle:UIAlertControllerStyleAlert];
+  
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"leave", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self leaveChat];
+    }]];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+-(void) setThreadName: (NSString *)updatedName {
 }
 
 - (void)updateInterfaceForReachabilityStateChange {

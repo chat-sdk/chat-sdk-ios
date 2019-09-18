@@ -24,7 +24,7 @@
     // We check if the last date was in the last few days
     // Then check if it was exactly yesterday
     if ([self daysAgo] < 3 && today.day == otherDay.day + 1) {
-        time = [NSBundle t: bYesterday];
+        time = [NSBundle t: NSLocalizedString(bYesterday, nil)];
     }
     else if (self.daysAgo > 1 && self.daysAgo < 7) {
         [formatter setDateFormat:@"EEEE"];
@@ -62,10 +62,10 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 
     if (self.isToday) {
-        day = [NSBundle t: bToday];
+        day = [NSBundle t: NSLocalizedString(bToday, nil)];
     }
     else if (self.isYesterday) {
-        day = [NSBundle t: bYesterday];
+        day = [NSBundle t: NSLocalizedString(bYesterday, nil)];
     }
     else if (self.daysAgo < 7) {
         [formatter setDateFormat:@"EEE"];

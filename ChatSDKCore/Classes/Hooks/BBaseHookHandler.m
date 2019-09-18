@@ -32,7 +32,7 @@
     if(!existingHooks) {
         existingHooks = [NSMutableArray new];
     }
-    if(![existingHooks containsObject:hook]) {
+    if(![existingHooks containsObject:hook] && hook != nil) {
         [existingHooks addObject:hook];
     }
     _hooks[name] = existingHooks;

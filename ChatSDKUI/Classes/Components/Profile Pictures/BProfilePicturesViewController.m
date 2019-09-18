@@ -28,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = [NSBundle t: bProfilePictures];
+    self.title = [NSBundle t: NSLocalizedString(bProfilePictures, nil)];
     self.collectionView.backgroundColor = UIColor.whiteColor;
 
     if (!_user) {

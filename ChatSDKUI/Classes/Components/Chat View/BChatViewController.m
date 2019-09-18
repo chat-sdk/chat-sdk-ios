@@ -10,7 +10,6 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
-
 @implementation BChatViewController
 
 @synthesize thread = _thread;
@@ -54,11 +53,13 @@
     }
     
     if (_thread.type.intValue & bThreadFilterGroup) {
-        [self setSubtitle:_thread.memberListString];
+//        [self setSubtitle:_thread.memberListString];
     } else {
         // 1-to-1 Chat
+        // hide right bar button item
+        [self hideRightBarButton];
         if (_thread.otherUser.online.boolValue) {
-            [self setSubtitle:[NSBundle t: bOnline]];
+            [self setSubtitle:[NSBundle t: NSLocalizedString(bOnline, nil)]];
         } else if(BChatSDK.lastOnline) {
             __weak __typeof__(self) weakSelf = self;
             [BChatSDK.lastOnline getLastOnlineForUser:_thread.otherUser].thenOnMain(^id(NSDate * date) {
@@ -67,6 +68,54 @@
             }, Nil);
         }
     }
+}
+
+-(void)leaveChat {
+    [BChatSDK.core deleteThread:_thread];
+    [BChatSDK.core leaveThread:_thread];
+    // if true, back was pressed
+    if (![self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
+        [self.navigationController popViewControllerAnimated:true];
+    }
+}
+
+-(void) openInviteScreen {
+    
+    
+    BFriendsListViewController * vc = [[BFriendsListViewController alloc] initWithUsersToExclude:_thread.users.allObjects onComplete:nil];
+    //  [[BFriendsListViewController alloc] initWithUsersToExclude:usersToExclude onComplete:action]
+    
+    UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
+        
+        [BChatSDK.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
+            [UIView alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];
+            // [self reloadData];
+            return Nil;
+        }, Nil);
+    }];
+    [((id<PFriendsListViewController>) nav.topViewController) setRightBarButtonActionTitle:[NSBundle t: bAdd]];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    
+    //[self presentViewController:nav animated:YES completion:Nil];
+}
+
+
+-(void) addUser {
+    // Use initWithThread here to make sure we don't show any users already in the thread
+    // Show the friends view controller
+    UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
+        [BChatSDK.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
+           [UIView alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];
+            
+         //   [self reloadData];
+            return Nil;
+        }, Nil);
+    }];
+    [((id<PFriendsListViewController>) nav.topViewController) setRightBarButtonActionTitle:[NSBundle t: bAdd]];
+    [self.navigationController pushViewController:[nav topViewController] animated:YES];
+    
+    //   [self presentViewController:nav animated:YES completion:Nil];
 }
 
 -(void) addObservers {
@@ -172,6 +221,8 @@
     
 }
 
+
+
 -(void) addUserToPublicThreadIfNecessary {
     // For public threads we add the user when we view the thread
     // TODO: This is called multiple times... maybe move it to view did load
@@ -183,6 +234,11 @@
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    // Delete thread if no message was sent
+    if (!_thread.newestMessage) {
+        [self leaveChat];
+    }
     
     // Remove the user from the thread
     if (_thread.type.intValue & bThreadFilterPublic && !_usersViewLoaded) {
@@ -224,6 +280,11 @@
     }
 }
 
+//-(void) setThreadName {
+//    //[_thread setMetaValue:@"Test" forKey:@"name"];
+//    
+//}
+
 -(bThreadType) threadType {
     return _thread.type.intValue;
 }
@@ -234,9 +295,10 @@
     [users removeObject:BChatSDK.currentUser];
     
     UINavigationController * nvc = [BChatSDK.ui usersViewNavigationControllerWithThread:_thread
-                                                                    parentNavigationController:self.navigationController];
-    
-    [self presentViewController:nvc animated:YES completion:nil];
+                                                                     parentNavigationController:self.navigationController];
+    [self.navigationController pushViewController:[nvc topViewController] animated:YES];
+
+ //   [self presentViewController:nvc animated:YES completion:nil];
     
 }
 

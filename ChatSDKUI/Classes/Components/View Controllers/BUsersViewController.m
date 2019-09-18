@@ -11,7 +11,9 @@
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
 
-#define bUserCellIdentifier @"UserCellIdentifier"
+#define bUserCellIdentifier @"bUserCellIdentifier"
+
+//#define bUserCellIdentifier @"UserCellIdentifier"
 #define bLeaveCellIdentifier @"LeaveCellIdentifier"
 
 #define bCell @"BTableCell"
@@ -46,23 +48,27 @@
     
     self.title = [NSBundle t:bDetails];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack]
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(backButtonPressed)];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack]
+//                                                                             style:UIBarButtonItemStylePlain
+//                                                                            target:self
+//                                                                            action:@selector(backButtonPressed)];
 
-    if(_thread.creator.isMe) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                                               target:self
-                                                                                               action:@selector(addUser)];
-    }
+//    if(_thread.creator.isMe) {
+//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+//                                                                                               target:self
+//                                                                                               action:@selector(addUser)];
+//    }
 
     tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
     
-    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bUserCellIdentifier];
+   // [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bUserCellIdentifier];
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bLeaveCellIdentifier];
     
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bCell];
+    [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bUserCellIdentifier];
+    self.tableView.tableFooterView = [[UIView alloc]
+                                      initWithFrame:CGRectZero];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -89,6 +95,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:_threadUsersObserver];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (section == bParticipantsSection) {
@@ -102,7 +112,8 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // We only show the add and leave group for private groups
-    return _thread.type.intValue == bThreadTypePrivateGroup ? bSectionCount : 1;
+    return 1;
+  //  return _thread.type.intValue == bThreadTypePrivateGroup ? bSectionCount : 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -117,20 +128,25 @@
             
             id<PUser> user = _users[indexPath.row];
             
-            cell.textLabel.text = user.name;
-            [cell.imageView loadAvatar:user];
+            BUserCell * cell = [tableView_ dequeueReusableCellWithIdentifier:bUserCellIdentifier];
+            [cell setUser:user];
             
-            cell.imageView.layer.cornerRadius = 20;
-            cell.imageView.clipsToBounds = YES;
+            return cell;
             
-            CGSize itemSize = CGSizeMake(40, 40);
-            
-            UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
-            CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-            [cell.imageView.image drawInRect:imageRect];
-            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-            
-            UIGraphicsEndImageContext();
+//            cell.textLabel.text = user.name;
+//            cell.imageView.image = user && user.imageAsImage ? user.imageAsImage : [NSBundle uiImageNamed: @"icn_user.png"];
+//
+//            cell.imageView.layer.cornerRadius = 20;
+//            cell.imageView.clipsToBounds = YES;
+//
+//            CGSize itemSize = CGSizeMake(40, 40);
+//
+//            UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
+//            CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+//            [cell.imageView.image drawInRect:imageRect];
+//            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+//
+//            UIGraphicsEndImageContext();
         }
         else {
             cell.textLabel.text = [NSBundle t:bNoActiveParticipants];
@@ -167,53 +183,54 @@
         }, Nil);
     }];
     [((id<PFriendsListViewController>) nav.topViewController) setRightBarButtonActionTitle:[NSBundle t: bAdd]];
-    
-    [self presentViewController:nav animated:YES completion:Nil];
+    [self.navigationController pushViewController:[nav topViewController] animated:YES];
+
+ //   [self presentViewController:nav animated:YES completion:Nil];
 
 }
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // The add user button
-    if (indexPath.section == bParticipantsSection) {
-        
-        if (_users.count) {
-            id<PUser> user = _users[indexPath.row];
-            
-            // Open the users profile
-            UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:user];
-            [self.navigationController pushViewController:profileView animated:YES];
-        }
-    }
-    if (indexPath.section == bLeaveConvoSection) {
-        
-        [BChatSDK.core deleteThread:_thread];
-        [BChatSDK.core leaveThread:_thread];
-        
-        [self.navigationController dismissViewControllerAnimated:NO completion:^{
-            if (self.parentNavigationController) {
-                [self.parentNavigationController popViewControllerAnimated:YES];
-            }
-        }];
-    }
-    
-    [tableView_ deselectRowAtIndexPath:indexPath animated:YES];
+//    if (indexPath.section == bParticipantsSection) {
+//
+//        if (_users.count) {
+//            id<PUser> user = _users[indexPath.row];
+//
+//            // Open the users profile
+//            UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:user];
+//            [self.navigationController pushViewController:profileView animated:YES];
+//        }
+//    }
+//    if (indexPath.section == bLeaveConvoSection) {
+//
+//        [BChatSDK.core deleteThread:_thread];
+//        [BChatSDK.core leaveThread:_thread];
+//
+//        [self.navigationController dismissViewControllerAnimated:NO completion:^{
+//            if (self.parentNavigationController) {
+//                [self.parentNavigationController popViewControllerAnimated:YES];
+//            }
+//        }];
+//    }
+//
+//    [tableView_ deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
-    if (section == bParticipantsSection) {
-        
-        if (_thread.type.integerValue & bThreadFilterPrivate) {
-            return [NSBundle t:bParticipants];
-        }
-        else {
-            return _thread.users.allObjects.count > 0 ? [NSBundle t:bActiveParticipants] : [NSBundle t:bNoActiveParticipants];
-        }
-    }
-    if (section == bLeaveConvoSection) {
-        return @"";
-    }
+//    if (section == bParticipantsSection) {
+//
+//        if (_thread.type.integerValue & bThreadFilterPrivate) {
+//            return [NSBundle t:bParticipants];
+//        }
+//        else {
+//            return _thread.users.allObjects.count > 0 ? [NSBundle t:bActiveParticipants] : [NSBundle t:bNoActiveParticipants];
+//        }
+//    }
+//    if (section == bLeaveConvoSection) {
+//        return @"";
+//    }
     return @"";
 }
 

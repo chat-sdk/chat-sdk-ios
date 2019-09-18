@@ -11,6 +11,7 @@
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
 
+
 @interface BPrivateThreadsViewController ()
 
 @end
@@ -21,8 +22,11 @@
 {
     self = [super initWithNibName:Nil bundle:[NSBundle uiBundle]];
     if (self) {
-        self.title = [NSBundle t:bConversations];
-        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_chat.png"];
+        //Changed
+        self.title = [NSBundle t: NSLocalizedString(@"Chat", nil)];
+        self.tabBarItem.image = [NSBundle uiImageNamed:@"chat_icon_unSelected@2x.png"];
+        self.tabBarItem.selectedImage = [NSBundle uiImageNamed:@"chat_icon@2x.png"];
+        self.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -4.0);
 
     }
     return self;
@@ -30,15 +34,19 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    
-    _editButton = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bEdit]
+    _editButton = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t: NSLocalizedString(bEdit, nil)]
                                                    style:UIBarButtonItemStylePlain
                                                   target:self
                                                   action:@selector(editButtonPressed:)];
     
     // If we have no threads we don't have the edit button
     self.navigationItem.leftBarButtonItem = _threads.count ? _editButton : nil;
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    
 }
+
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,6 +55,7 @@
     self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                             target:self
                                                                                             action:@selector(createThread)];
+    [self setExtendedLayoutIncludesOpaqueBars:YES];
 }
 
 -(void) createThread {
@@ -54,9 +63,12 @@
 }
 
 -(void) createPrivateThread {
+//    [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"isPoped"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+    
 
     __weak __typeof__(self) weakSelf = self;
-
+    
     UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:@[] onComplete:^(NSArray * users, NSString * groupName){
         __typeof__(self) strongSelf = weakSelf;
         
@@ -76,7 +88,8 @@
         
     }];
     
-    [self presentViewController:nav animated:YES completion:Nil];
+    
+    [[self navigationController] pushViewController:nav.viewControllers[0] animated:true];
 }
 
 -(void) editButtonPressed: (UIBarButtonItem *) item {
@@ -96,6 +109,7 @@
     [_threads removeAllObjects];
     [_threads addObjectsFromArray:[BChatSDK.core threadsWithType:bThreadFilterPrivateThread includeDeleted:NO]];
     [super reloadData];
+    
 }
 
 @end

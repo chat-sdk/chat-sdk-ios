@@ -12,6 +12,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import "EmptyChatView.h"
 
 #define bCellIdentifier @"bCellIdentifier"
 
@@ -49,12 +50,15 @@
     tableView.delegate = self;
     tableView.dataSource = self;
     
+    EmptyChatView *emptyView = [[EmptyChatView alloc] initWithNibName:@"EmptyChatView" bundle:[NSBundle uiBundle]];
+    [self.view addSubview:emptyView.view];
+    emptyView.view.keepInsets.equal = 0;
+    [emptyView setText:NSLocalizedString(@"main_chat_empty_view_title_text", nil) setSubTitle:NSLocalizedString(@"main_chat_empty_view_subtitle_text", nil) setEmptyImage:[NSBundle uiImageNamed: @"empty_chat_view@2x.png"]];
+    
     [self.view addSubview:tableView];
-    
-    tableView.keepInsets.equal = 0;
-    
+     tableView.keepInsets.equal = 0;
     // Sets the back button for the thread views as back meaning we have more space for the title
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t: NSLocalizedString(bBack, nil)] style:UIBarButtonItemStylePlain target:nil action:nil];
     
     [tableView registerNib:[UINib nibWithNibName:@"BThreadCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bCellIdentifier];
     
@@ -121,6 +125,10 @@
     [_notificationList dispose];
 }
 
+-(void) showEmptyView:(BOOL)showView {
+    [self.tableView setHidden:showView];
+}
+
 -(void) createThread {
     NSLog(@"This must be overridden");
     assert(NO);
@@ -154,10 +162,10 @@
 
 -(void) setEditingEnabled: (BOOL) enabled {
     if (enabled) {
-        [_editButton setTitle:[NSBundle t:bDone]];
+        [_editButton setTitle:[NSBundle t: NSLocalizedString(bDone, nil)]];
     }
     else {
-        [_editButton setTitle:[NSBundle t:bEdit]];
+        [_editButton setTitle:[NSBundle t: NSLocalizedString(bEdit, nil)]];
     }
     [tableView setEditing:enabled animated:YES];
 }
@@ -174,7 +182,7 @@
     
     NSDate * threadDate = thread.orderDate;
     
-    NSString * text = @"";// [NSBundle t:bNoMessages];
+    NSString * text = [NSBundle t: NSLocalizedString(bNoMessages, nil)];
     
     id<PMessage> newestMessage = thread.newestMessage;
     if (newestMessage) {
@@ -188,16 +196,32 @@
         cell.dateLabel.text = @"";
     }
     
-    if(BChatSDK.config.threadTimeFont) {
-        cell.dateLabel.font = BChatSDK.config.threadTimeFont;
-    }
     
-    if(BChatSDK.config.threadTitleFont) {
-        cell.titleLabel.font = BChatSDK.config.threadTitleFont;
+    if (thread.unreadMessageCount) {
+        if(BChatSDK.config.threadTimeFont) {
+            cell.dateLabel.font = BChatSDK.config.threadTimeFont;
+        }
+        
+        if(BChatSDK.config.threadTitleFont) {
+            cell.titleLabel.font = BChatSDK.config.threadTitleFont;
+        }
+        
+        if(BChatSDK.config.threadSubtitleFont) {
+            cell.messageTextView.font = BChatSDK.config.threadSubtitleFont;
+        }
     }
-    
-    if(BChatSDK.config.threadSubtitleFont) {
-        cell.messageTextView.font = BChatSDK.config.threadSubtitleFont;
+    else {
+        if(BChatSDK.config.unreadThreadTimeFont) {
+            cell.dateLabel.font = BChatSDK.config.unreadThreadTimeFont;
+        }
+        
+        if(BChatSDK.config.unreadThreadTitleFont) {
+            cell.titleLabel.font = BChatSDK.config.unreadThreadTitleFont;
+        }
+        
+        if(BChatSDK.config.unreadThreadSubtitleFont) {
+            cell.messageTextView.font = BChatSDK.config.unreadThreadSubtitleFont;
+        }
     }
     
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
@@ -214,11 +238,20 @@
         }, Nil);
     }
     
-    //    cell.unreadView.hidden = !thread.unreadMessageCount;
+    cell.unreadView.hidden = true;
     
-    int unreadCount = thread.unreadMessageCount;
-    cell.unreadMessagesLabel.hidden = !unreadCount;
-    cell.unreadMessagesLabel.text = [@(unreadCount) stringValue];
+//    int unreadCount = thread.unreadMessageCount;
+//    cell.unreadMessagesLabel.hidden = !unreadCount;
+//    cell.unreadMessagesLabel.text = [@(unreadCount) stringValue];
+    
+    //Adding online status
+    id<PUser> userIn = newestMessage.userModel;
+    if([userIn.online isEqualToNumber:[NSNumber numberWithBool:YES]]){
+        [cell setIsOnline:true];
+    }
+    else{
+        [cell setIsOnline:false];
+    }
     
     // Add the typing indicator
     NSString * typingText = _threadTypingMessages[thread.entityID];
@@ -299,6 +332,12 @@
     [_threads sortUsingComparator:^(id<PThread>t1, id<PThread> t2) {
         return [t2.orderDate compare:t1.orderDate];
     }];
+    if ([_threads count] > 0) {
+        [self showEmptyView:false];
+    }
+    else {
+        [self showEmptyView:true];
+    }
     [tableView reloadData];
 }
 

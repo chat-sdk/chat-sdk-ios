@@ -41,6 +41,8 @@
     
     UIRefreshControl * _refreshControl;
     
+    BHook * _internetConnectionHook;
+        
     // Typing Indicator
     NSTimer * _typingTimer;
 
@@ -95,9 +97,9 @@
 -(void) setTableViewBottomContentInset: (float) inset;
 
 -(void) registerMessageCells;
-
+-(void) setThreadName: (NSString *)updatedName;
 // To be overridden
 -(void) addObservers;
 -(void) removeObservers;
-
+-(void)hideRightBarButton;
 @end

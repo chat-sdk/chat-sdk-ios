@@ -51,6 +51,7 @@
     [FIRDatabaseReference goOffline];
 }
 
+
 -(RXPromise *)observeUser: (NSString *)entityID {
     id<PUser> userModel = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
     [[CCUserWrapper userWithModel:userModel] onlineOn];
@@ -89,6 +90,25 @@
             return error;
         });
     }
+}
+
+-(RXPromise *) updateThread: (id<PThread>) threadModel dataPushed: (void(^)(NSError * error, id<PThread> thread)) dataPushed {
+    CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
+    
+    return [thread push].thenOnMain(^id(id<PThread> thread) {
+        
+        if (dataPushed != Nil) {
+            dataPushed(Nil, thread);
+        }
+    },^id(NSError * error) {
+        //[BChatSDK.db undo];
+        
+        if (dataPushed != Nil) {
+            dataPushed(error, Nil);
+        }
+        return error;
+    });
+    
 }
 
 -(RXPromise *) addUsers: (NSArray *) users toThread: (id<PThread>) threadModel {

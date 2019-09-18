@@ -36,6 +36,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, readwrite, copy) void (^usersToInvite)(NSArray * users, NSString * groupName);
 @property (nonatomic, readwrite) NSString * rightBarButtonActionTitle;
+
 @property (nonatomic, readwrite) NSArray * (^overrideContacts)(void);
 
 @property (weak, nonatomic) IBOutlet VENTokenField * _tokenField;

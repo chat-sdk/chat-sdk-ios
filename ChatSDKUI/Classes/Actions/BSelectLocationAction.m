@@ -18,7 +18,7 @@
     else {
         _promise = [RXPromise new];
     }
-    
+    /*
     if(!_locationManager) {
         _locationManager = [[CLLocationManager alloc] init];
         
@@ -32,7 +32,7 @@
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     }
     [_locationManager startUpdatingLocation];
-    
+    */
     return _promise;
 }
 

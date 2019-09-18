@@ -176,6 +176,7 @@
         for (id<PMessage> message in thread.allMessages) {
             if (!message.isRead) {
                 i++;
+                break;
             }
         }
     }
@@ -188,12 +189,12 @@
     if (index != NSNotFound) {
         // Using self.tabbar will correctly set the badge for the specific index
         NSString * badgeString = badge == 0 ? Nil : [NSString stringWithFormat:@"%i", badge];
-        [self.tabBar.items objectAtIndex:index].badgeValue = badgeString;
+       [self.tabBar.items objectAtIndex:index].badgeValue = badgeString;
     }
 }
 
 -(void) setPrivateThreadsBadge: (NSInteger) badge {
-    [self setBadge:badge forViewController:BChatSDK.ui.privateThreadsViewController];
+   [self setBadge:badge forViewController:BChatSDK.ui.privateThreadsViewController];
     
     // Save the value to defaults
     [[NSUserDefaults standardUserDefaults] setInteger:badge forKey:bMessagesBadgeValueKey];
