@@ -513,7 +513,7 @@
     }
     
     BMessageCell<BMessageDelegate> * messageCell;
-
+    
     // We want to check if the message is a premium type but without the libraries added
     // Without this check the app crashes if the user doesn't have premium cell types
     if ((!BChatSDK.stickerMessage && message.type.integerValue == bMessageTypeSticker) ||

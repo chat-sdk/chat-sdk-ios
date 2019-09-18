@@ -16,6 +16,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <DateTools/NSDate+DateTools.h>
 #import <ChatSDK/BGoogleUtils.h>
+#import <ChatSDK/PProvider.h>
 
 #import <ChatSDK/NSArray+KeyPair.h>
 #import <ChatSDK/NSObject+AssociatedObject.h>

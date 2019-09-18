@@ -33,6 +33,8 @@
 #import <ChatSDK/UIView+Additions.h>
 #import <ChatSDK/NSMutableArray+User.h>
 #import <ChatSDK/UITextView+Resize.h>
+#import <ChatSDK/UIButton+Avatar.h>
+#import <ChatSDK/UIImageView+Avatar.h>
 
 #import <ChatSDK/BThreadCell.h>
 
@@ -91,6 +93,7 @@
 #import <ChatSDK/BEditDetailedProfileTableViewController.h>
 #import <ChatSDK/BAvailabilityState.h>
 #import <ChatSDK/BUserConnectionWrapper.h>
+#import <ChatSDK/BMessageSectionDateProvider.h>
 
 #import <Toast/Toast.h>
 

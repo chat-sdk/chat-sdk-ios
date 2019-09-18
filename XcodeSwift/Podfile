@@ -8,7 +8,8 @@ target 'ChatSDKSwift' do
   pod "ChatSDKFirebase/Adapter", :path => "../"
   pod "ChatSDKFirebase/FileStorage", :path => "../"
   pod "ChatSDKFirebase/Push", :path => "../"
-  pod "ChatSDKFirebase/SocialLogin", :path => "../"
+#   pod "ChatSDKFirebase/SocialLogin", :path => "../"
+#   pod "ChatSDKFirebase/FirebaseUI", :path => "../"
 
   #pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
   #pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"

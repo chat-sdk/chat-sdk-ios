@@ -196,7 +196,7 @@
 
 -(int) unreadMessageCount {
     int i = 0;
-    NSArray<PMessage> * messages = [BChatSDK.db loadMessagesForThread:self newest:BChatSDK.config.messageHistoryDownloadLimit];
+    NSArray<PMessage> * messages = [BChatSDK.db loadAllMessagesForThread:self newestFirst:YES];
     for (id<PMessage> message in messages) {
         if (!message.isRead && !message.senderIsMe) {
             i++;
@@ -249,8 +249,22 @@
 }
 
 // TODO: Move this to UI module
-- (UIImage *)imageForThread {
+-(RXPromise *) imageForThread {
+
+    NSMutableArray * userPromises = [NSMutableArray new];
+    NSMutableArray * users = [NSMutableArray arrayWithArray:self.users.allObjects];
+    for (id<PUser> user in users) {
+        if (!user.image && !user.isMe) {
+            [userPromises addObject:user.updateAvatarFromURL];
+        }
+    }
     
+    return [RXPromise all:userPromises].thenOnMain(^id(id result) {
+        return self.buildImageForThread;
+    }, Nil);
+}
+
+- (UIImage *) buildImageForThread {
     NSMutableArray * users = [NSMutableArray arrayWithArray:self.users.allObjects];
     
     // Remove the current user from the array
@@ -326,8 +340,7 @@
         UIGraphicsEndImageContext();
         
         return finalImage;
-    }
-}
+    }}
 
 -(NSDate *) orderDate {
     id<PMessage> message = self.newestMessage;

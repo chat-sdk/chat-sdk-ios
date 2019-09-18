@@ -50,7 +50,6 @@
     RXPromise * promise = [RXPromise new];
     
     id<PUser> user = BChatSDK.currentUser;
-
     
     // Stop observing the user
     if(user) {
@@ -107,7 +106,7 @@
                 [BChatSDK.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
                     FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:token];
                     //[promise resolveWithResult:credential];
-                    [[FIRAuth auth] signInAndRetrieveDataWithCredential:credential completion:handleResult];
+                    [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
 
                     return Nil;
                 }, ^id (NSError * error) {
@@ -123,7 +122,7 @@
                 [BChatSDK.socialLogin loginWithTwitter].thenOnMain(^id(NSArray * array) {
                     FIRAuthCredential * credential = [FIRTwitterAuthProvider credentialWithToken:array.firstObject
                                                                                           secret:array.lastObject];
-                    [[FIRAuth auth] signInAndRetrieveDataWithCredential:credential completion:handleResult];
+                    [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
                     return Nil;
                     
                 }, ^id (NSError * error) {
@@ -139,7 +138,7 @@
                 [BChatSDK.socialLogin loginWithGoogle].thenOnMain(^id(NSArray * array) {
                     FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:array.firstObject
                                                                                       accessToken:array.lastObject];
-                    [[FIRAuth auth] signInAndRetrieveDataWithCredential:credential completion:handleResult];
+                    [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
                     return Nil;
                     
                 }, ^id (NSError * error) {
@@ -247,6 +246,7 @@
             }, Nil);
         }
         else {
+            [BHookNotification notificationDidAuthenticate:user.model type:bHook_AuthenticationTypeCached];
             return user.model;
         }
         

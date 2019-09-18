@@ -58,8 +58,8 @@
     <elements>
         <element name="CDGroup" positionX="-747" positionY="-387" width="128" height="73"/>
         <element name="CDMessage" positionX="-225" positionY="99" width="128" height="255"/>
-        <element name="CDThread" positionX="-236" positionY="-252" width="128" height="178"/>
-        <element name="CDUser" positionX="-693" positionY="-268" width="128" height="193"/>
+        <element name="CDThread" positionX="-236" positionY="-252" width="128" height="180"/>
+        <element name="CDUser" positionX="-693" positionY="-268" width="128" height="195"/>
         <element name="CDUserAccount" positionX="-333" positionY="-396" width="128" height="88"/>
         <element name="CDUserConnection" positionX="-945" positionY="-271" width="128" height="118"/>
     </elements>

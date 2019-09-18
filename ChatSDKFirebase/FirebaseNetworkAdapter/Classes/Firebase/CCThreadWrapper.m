@@ -133,11 +133,11 @@
         query = [query queryOrderedByChild:bDate];
         if (startDate) {
             query = [query queryStartingAtValue:[BFirebaseCoreHandler dateToTimestamp:startDate] childKey:bDate];
+        } else {
+            // Limit to 50 messages just to be safe - on a busy public thread we wouldn't want to
+            // download 50k messages!
+            query = [query queryLimitedToLast:BChatSDK.config.messageHistoryDownloadLimit];
         }
-
-        // Limit to 50 messages just to be safe - on a busy public thread we wouldn't want to
-        // download 50k messages!
-        query = [query queryLimitedToLast:BChatSDK.config.messageHistoryDownloadLimit];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
@@ -169,6 +169,8 @@
                     // Add the message to this thread;
                     [strongSelf.model addMessage:message.model];
                     
+                    NSLog(@"Message: %@", message.model.text);
+                    
                     [BChatSDK.core save];
 
                     if (newMessage) {
@@ -193,10 +195,10 @@
         });
                 
         query = [FIRDatabaseReference threadMessagesRef:strongSelf.model.entityID];
-        [query queryOrderedByChild:bDate];
+//        [query queryOrderedByChild:bDate];
         
         // Only add deletion handlers to the last 100 messages
-        query = [query queryLimitedToLast:BChatSDK.config.messageDeletionListenerLimit];
+//        query = [query queryLimitedToLast:BChatSDK.config.messageDeletionListenerLimit];
         
         [query observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
             __typeof__(self) strongSelf = weakSelf;
@@ -375,24 +377,24 @@
                 }];
         
         return promise.thenOnMain(^id(id success) {
-                                      [BChatSDK.db save];
-                                      // We can keep listening to the thread. That way, if a new message comes in,
-                                      // it get's regenerated
-                                      //[self off];
-                                      //[self messagesOff];
-                                      [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadDeleted object:Nil];
-                                      
-                                      return Nil;
-                                      
-                                  }, ^id(NSError * error) {
-                                      [BChatSDK.db undo];
-                                      return error;
-                                  });
+              [BChatSDK.db save];
+              // We can keep listening to the thread. That way, if a new message comes in,
+              // it get's regenerated
+              //[self off];
+              //[self messagesOff];
+                [BHookNotification notificationThreadRemoved:_model];
+            
+                  return Nil;
+            
+              }, ^id(NSError * error) {
+                  [BChatSDK.db undo];
+                  return error;
+              });
     }
     else {
         
         // We still want to notify the user to refresh the view
-        [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadDeleted object:Nil];
+        [BHookNotification notificationThreadRemoved:_model];
         
         // Otherwise we just remove the user
         return [self removeUser:[CCUserWrapper userWithModel:currentUser]];

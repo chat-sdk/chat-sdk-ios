@@ -59,6 +59,9 @@
 @synthesize messageHistoryDownloadLimit;
 @synthesize messageDeletionListenerLimit;
 @synthesize readReceiptMaxAgeInSeconds;
+@synthesize searchIndexes;
+
+@synthesize vibrateOnNewMessage;
 
 @synthesize inviteByEmailTitle;
 @synthesize inviteByEmailBody;
@@ -183,6 +186,10 @@
         nearbyUsersMinimumLocationChangeToUpdateServer = 50;
         
         publicChatRoomLifetimeMinutes = 7 * 60 * 24;
+        
+        searchIndexes = @[bUserNameKey, bUserEmailKey, bUserPhoneKey, bUserNameLowercase];
+        
+        vibrateOnNewMessage = YES;
         
     }
     return self;

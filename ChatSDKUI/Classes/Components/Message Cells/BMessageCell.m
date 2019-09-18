@@ -147,16 +147,18 @@
     // We only want to show the user picture if it is the latest message from the user
     if (position & bMessagePosLast) {
         if (message.userModel) {
-            if(message.userModel.imageURL) {
-                [_profilePicture sd_setImageWithURL:[NSURL URLWithString: message.userModel.imageURL]
-                                   placeholderImage:message.userModel.defaultImage options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
-            }
-            else if (message.userModel.imageAsImage) {
-                [_profilePicture setImage:message.userModel.imageAsImage];
-            }
-            else {
-                [_profilePicture setImage:message.userModel.defaultImage];
-            }
+            [_profilePicture loadAvatar:message.userModel];
+            
+//            if(message.userModel.imageURL) {
+//                [_profilePicture sd_setImageWithURL:[NSURL URLWithString: message.userModel.imageURL]
+//                                   placeholderImage:message.userModel.defaultImage options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
+//            }
+//            else if (message.userModel.imageAsImage) {
+//                [_profilePicture setImage:message.userModel.imageAsImage];
+//            }
+//            else {
+//                [_profilePicture setImage:message.userModel.defaultImage];
+//            }
         }
         else {
             // If the user doesn't have a profile picture set the default profile image

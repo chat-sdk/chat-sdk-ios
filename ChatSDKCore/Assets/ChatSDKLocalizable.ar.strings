@@ -65,8 +65,8 @@
 "bAddUsers" = "اضافة المستخدمين";
 "bNoNearbyUsers" = "لا احد حولها";
 
-"bOnline" = "على الانترنت";
-"bOffline" = "متواجد";
+"online" = "على الانترنت";
+"offline" = "متواجد";
 
 "bCreatePublicThread" = "قم بإنشاء محادثة عامة";
 "bThreadName" = "اسم المكالمة";

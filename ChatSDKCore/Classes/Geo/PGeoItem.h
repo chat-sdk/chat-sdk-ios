@@ -8,10 +8,13 @@
 #ifndef PGeoItem_h
 #define PGeoItem_h
 
+@class CLLocation;
+
 @protocol PGeoItem <NSObject>
 
 -(NSString *) entityID;
 -(NSString *) type;
+-(CLLocation *) location;
 
 @end
 

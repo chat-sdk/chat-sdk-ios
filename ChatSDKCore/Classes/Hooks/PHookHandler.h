@@ -37,9 +37,12 @@
 #define bHookMessageWillBeDeleted @"bHookMessageWillBeDeleted"
 #define bHookMessageWasDeleted @"bHookMessageWasDeleted"
 
+#define bHookThreadAdded @"bHookThreadAdded"
+#define bHookThreadRemoved @"bHookThreadRemoved"
 
 #define bHook_PMessage @"bHook_PMessage"
 #define bHook_PUser @"bHook_PUser"
+#define bHook_PThread @"bHook_PThread"
 
 #define bHookInternetConnectivityDidChange @"bHookInternetConnectivityDidChange"
 #define bHookUserWillDisconnect @"bHookUserWillDisconnect"

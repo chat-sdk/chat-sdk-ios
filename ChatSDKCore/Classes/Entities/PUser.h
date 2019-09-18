@@ -43,6 +43,7 @@
  */
 -(NSData *) image;
 -(UIImage *) imageAsImage;
+
 -(UIImage *) defaultImage;
 -(NSString *) imageURL;
 -(void) setImageURL: (NSString *) url;
@@ -62,7 +63,7 @@
 //-(void) addContact: (id<PUser>) user;
 -(NSArray *) getContacts;
 
--(RXPromise *) loadProfileImage: (BOOL) force;
+//-(RXPromise *) loadProfileImage: (BOOL) force;
 
 -(void) addLinkedAccountsObject: (id<PUserAccount>) account;
 
@@ -94,6 +95,7 @@
 -(NSDictionary *) meta;
 -(void) setMetaValue: (id) value forKey: (NSString *) key;
 -(void) updateMeta: (NSDictionary *) dict;
+-(RXPromise *) updateAvatarFromURL;
 
 @optional
 

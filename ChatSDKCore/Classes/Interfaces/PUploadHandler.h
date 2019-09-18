@@ -20,6 +20,8 @@
 
 -(RXPromise *) uploadImage:(UIImage *)image;
 
+-(BOOL) shouldUploadAvatar;
+
 @end
 
 #endif /* PUploadHandler_h */

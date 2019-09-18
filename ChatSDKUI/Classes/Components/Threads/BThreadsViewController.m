@@ -114,14 +114,11 @@
                                                [weakSelf reloadData];
                                            });
                                        }]];
-    [_notificationList add:[nc addObserverForName:bNotificationThreadDeleted
-                                           object:Nil
-                                            queue:Nil
-                                       usingBlock:^(NSNotification * notification) {
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               [weakSelf reloadData];
-                                           });
-                                       }]];
+    
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
+        [self reloadData];
+    }] withNames: @[bHookThreadAdded, bHookThreadRemoved]]];
+
 }
 
 -(void) removeObservers {
@@ -229,7 +226,17 @@
     
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
     
-    [cell.profileImageView sd_setImageWithURL:[thread.meta metaValueForKey:bImageURL] placeholderImage:thread.imageForThread];
+    NSString * threadImagePath = [thread.meta metaValueForKey:bImageURL];
+    NSURL * threadURL = threadImagePath && threadImagePath.length ? [NSURL URLWithString:threadImagePath] : Nil;
+    
+    if (threadURL) {
+        [cell.profileImageView sd_setImageWithURL:threadURL];
+    } else {
+        [thread imageForThread].thenOnMain(^id(UIImage * image) {
+            [cell.profileImageView sd_setImageWithURL:threadURL placeholderImage:image];
+            return Nil;
+        }, Nil);
+    }
     
     cell.unreadView.hidden = true;
     

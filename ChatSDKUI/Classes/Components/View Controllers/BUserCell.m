@@ -37,9 +37,7 @@
     self.statusImageView.layer.cornerRadius = 6;
     [self setAvailabilityLabelText:@""];
     
-    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString: user.imageURL]
-                             placeholderImage:user.imageAsImage
-                                      options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
+    [self.profileImageView loadAvatar:user];
     
     self.title.text = user.name;
 //    self.subtitle.text = user.statusText;
@@ -108,6 +106,7 @@
     }
     else {
         self.statusImageView.keepBottomOffsetTo(self.stateLabel).equal = 5;
+//        self.statusImageView.keepVerticalAlignTo(self.statusImageView.superview).equal = -15;
     }
     self.stateLabel.text = [NSBundle t:availability];
 }

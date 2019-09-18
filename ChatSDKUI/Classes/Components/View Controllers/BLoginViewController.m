@@ -54,7 +54,7 @@
     [self.registerButton setTitle:[NSBundle t:bRegister] forState:UIControlStateNormal];
     [self.forgotPasswordButton setTitle:[NSBundle t:bForgotPassword] forState:UIControlStateNormal];
     [self.termsAndConditionsButton setTitle:[NSBundle t:bTermsAndConditions] forState:UIControlStateNormal];
-
+    
     UIButton * activeSocialButton = Nil;
     
     if (![BChatSDK.auth accountTypeEnabled:bAccountTypeFacebook]) {

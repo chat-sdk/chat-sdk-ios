@@ -256,8 +256,7 @@
     // Get the user
     id<PUser> user = _users[indexPath.row];
     [cell setUser:user];
-    cell.statusImageView.hidden = YES;
-        
+    
     if ([_selectedUsers containsObject:user]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }

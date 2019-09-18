@@ -461,6 +461,7 @@
                         <outlet property="addContactImageView" destination="gO3-20-Cop" id="YRq-zc-SVA"/>
                         <outlet property="addContactLabel" destination="ZaT-Kl-L0x" id="2SL-G0-6Bs"/>
                         <outlet property="availabilityCell" destination="DiM-L4-wIu" id="gft-EI-pUZ"/>
+                        <outlet property="availabilityImageView" destination="aDw-9e-aKN" id="NLC-6E-Gia"/>
                         <outlet property="availabilityLabel" destination="sVo-6T-FXy" id="so9-fF-zbi"/>
                         <outlet property="blockImageView" destination="5aM-RC-ryz" id="H2J-gI-ln9"/>
                         <outlet property="blockTextView" destination="gDX-9X-rFW" id="bLg-Md-1or"/>
@@ -474,6 +475,7 @@
                         <outlet property="followsButton" destination="zmZ-NU-zuW" id="kyf-Nj-D7u"/>
                         <outlet property="followsCell" destination="xLf-kq-rla" id="nDE-9i-cfe"/>
                         <outlet property="localityCell" destination="Ocs-l1-iI1" id="ZRS-lQ-IEO"/>
+                        <outlet property="localityImageView" destination="Bne-SS-uop" id="EX4-OZ-rJl"/>
                         <outlet property="localityLabel" destination="Z2f-pJ-sUy" id="12x-SO-S8G"/>
                         <outlet property="nameLabel" destination="nRS-Tr-XlM" id="qMa-oG-0Nj"/>
                         <outlet property="phoneNumberCell" destination="cR4-sm-hFm" id="xjL-4h-c46"/>
@@ -899,12 +901,18 @@
                         <outlet property="availabilityButton" destination="fYA-th-jb8" id="qpp-3R-4OT"/>
                         <outlet property="availabilityCell" destination="Ano-KY-Wa1" id="wAU-3R-PQh"/>
                         <outlet property="availabilityPicker" destination="Nek-IJ-3mt" id="U7d-BT-1Pr"/>
+                        <outlet property="clearLocalDataCell" destination="aFN-FD-H9c" id="I9K-me-VMN"/>
                         <outlet property="countryButton" destination="zq6-jW-ASQ" id="LXT-53-9nt"/>
-                        <outlet property="countryCell" destination="Mwf-hB-L11" id="YEa-pp-7gJ"/>
+                        <outlet property="countryButtonCell" destination="Jja-Eq-P5q" id="pkW-DJ-8rh"/>
+                        <outlet property="countryPickerCell" destination="Mwf-hB-L11" id="668-rY-IfB"/>
                         <outlet property="countryPickerView" destination="jLI-Tc-iLT" id="5AK-e2-YzV"/>
+                        <outlet property="emailCell" destination="Edi-Lu-N04" id="8Gz-r1-1xb"/>
                         <outlet property="emailTextField" destination="rMg-tG-wJW" id="omS-Dq-62Y"/>
+                        <outlet property="localityCell" destination="m1Y-4B-Rgp" id="3bG-dX-2Z8"/>
                         <outlet property="localityTextField" destination="Mjp-Jg-b6s" id="vDF-CA-vlI"/>
+                        <outlet property="nameCell" destination="GyM-yN-Hnb" id="hlE-NA-lAK"/>
                         <outlet property="nameTextField" destination="H3S-Ww-GHc" id="C9f-nY-wAH"/>
+                        <outlet property="phoneCell" destination="17g-Cg-Yk8" id="taI-We-qJZ"/>
                         <outlet property="phoneTextField" destination="8sY-ri-4ns" id="rt5-12-bAO"/>
                         <outlet property="profilePictureButton" destination="teH-qH-8qz" id="EJF-j1-nOW"/>
                         <outlet property="statusTextView" destination="dyU-Rr-m7W" id="IeQ-YM-YlJ"/>

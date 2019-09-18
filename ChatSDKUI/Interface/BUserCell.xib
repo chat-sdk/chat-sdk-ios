@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -39,14 +38,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Efj-wV-T2c">
-                        <rect key="frame" x="288" y="7" width="16" height="16"/>
+                        <rect key="frame" x="288" y="2" width="16" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="6Xw-Lr-p2x"/>
                             <constraint firstAttribute="width" constant="16" id="Jy1-48-oXp"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcG-Cw-1Tj">
-                        <rect key="frame" x="204" y="29" width="100" height="21"/>
+                        <rect key="frame" x="204" y="18" width="100" height="21"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="100" id="jhT-7y-Uod"/>
                             <constraint firstAttribute="height" priority="900" constant="21" id="zt9-ru-r4X"/>
@@ -57,13 +56,13 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="jcG-Cw-1Tj" firstAttribute="top" secondItem="Efj-wV-T2c" secondAttribute="bottom" constant="6" id="1o0-TL-gLz"/>
+                    <constraint firstItem="jcG-Cw-1Tj" firstAttribute="top" secondItem="Efj-wV-T2c" secondAttribute="bottom" id="1o0-TL-gLz"/>
                     <constraint firstItem="FUw-i5-1N1" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="-110" id="282-uC-Kfj"/>
                     <constraint firstItem="SDR-wu-lsl" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="8cP-Ua-VHI"/>
                     <constraint firstItem="FUw-i5-1N1" firstAttribute="leading" secondItem="clE-A3-1Bc" secondAttribute="trailing" constant="8" id="8or-qk-pkT"/>
                     <constraint firstAttribute="trailingMargin" secondItem="jcG-Cw-1Tj" secondAttribute="trailing" id="93K-kh-bcg"/>
                     <constraint firstItem="SDR-wu-lsl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-2" id="Bbx-R3-Ydi"/>
-                    <constraint firstItem="Efj-wV-T2c" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" priority="900" constant="-10" id="DRr-2y-A9L"/>
+                    <constraint firstItem="Efj-wV-T2c" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" priority="900" constant="-15" id="DRr-2y-A9L"/>
                     <constraint firstItem="clE-A3-1Bc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IGw-3Y-Rlf"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Efj-wV-T2c" secondAttribute="trailing" id="ORz-7v-AAL"/>
                     <constraint firstItem="clE-A3-1Bc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-5" id="cmt-87-fdT"/>

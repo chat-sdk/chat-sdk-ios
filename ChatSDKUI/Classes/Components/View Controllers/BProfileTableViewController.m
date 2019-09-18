@@ -54,17 +54,14 @@
         _user = currentUser;
     }
     [self updateBlockButton];
-    
+        
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStylePlain target:Nil action:Nil];
 
 }
 
 -(void) loadUserImage {
     if(_user) {
-        UIImage * image = _user.imageAsImage;
-        [profilePictureButton sd_setImageWithURL:[NSURL URLWithString:_user.imageURL]
-                                        forState:UIControlStateNormal
-                                placeholderImage:image];
+        [profilePictureButton loadAvatarForUser:_user forControlState:UIControlStateNormal];
     }
 }
 
@@ -280,15 +277,14 @@
     id<PUser> user = BChatSDK.currentUser;
     [user setImage:UIImagePNGRepresentation(image)];
     
-    // Set the image now
     [BChatSDK.upload uploadImage:image].thenOnMain(^id(NSDictionary * urls) {
-    
+        
         // Set the meta data
         [user updateMeta:@{bUserImageURLKey: urls[bImagePath]}];
-    
+        
         // Update the user
         [BChatSDK.core pushUser];
-    
+        
         return urls;
     }, Nil);
     

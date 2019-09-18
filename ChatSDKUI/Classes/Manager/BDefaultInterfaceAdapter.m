@@ -16,6 +16,7 @@
 #define bControllerKey @"bControllerKey"
 #define bControllerNameKey @"bControllerNameKey"
 
+
 @implementation BDefaultInterfaceAdapter
 
 @synthesize privateThreadsViewController = _privateThreadsViewController;
@@ -27,6 +28,7 @@
         _additionalTabBarViewControllers = [NSMutableArray new];
         _additionalSearchViewControllers = [NSMutableDictionary new];
         _messageCellTypes = [NSMutableArray new];
+        _providers = [NSMutableDictionary new];
         // MEM1
         //[[SDWebImageDownloader sharedDownloader] setShouldDecompressImages:NO];
         
@@ -34,9 +36,19 @@
         [self registerMessageWithCellClass:BImageMessageCell.class messageType:@(bMessageTypeImage)];
         [self registerMessageWithCellClass:BLocationCell.class messageType:@(bMessageTypeLocation)];
         [self registerMessageWithCellClass:BSystemMessageCell.class messageType:@(bMessageTypeSystem)];
-
+        
+        // Setup default providers
+        [self setProvider:[BMessageSectionDateProvider new] forName:bMessageSectionDateProvider];
     }
     return self;
+}
+
+-(id<PProvider>) providerForName: (NSString *) name {
+    return _providers[name];
+}
+
+-(void) setProvider: (id<PProvider>) provider forName: (NSString *) name {
+    [_providers setObject:provider forKey:name];
 }
 
 -(void) addTabBarViewController: (UIViewController *) controller atIndex: (int) index {

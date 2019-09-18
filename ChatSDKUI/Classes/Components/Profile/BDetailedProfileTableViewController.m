@@ -100,13 +100,6 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-//    _userObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
-//                                                                      object:Nil
-//                                                                       queue:dispatch_get_main_queue()
-//                                                                  usingBlock:^(NSNotification * notification) {
-//            [self refreshInterfaceAnimated:NO];
-//    }];
-
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
@@ -183,13 +176,8 @@
     //
     // Profile picture
     //
-    
-    // Set the profile picture
-    // Does the user already have a profile picture?
-    [user loadProfileImage: YES].thenOnMain(^id(UIImage * image) {
-        [profilePictureButton setImage:image forState:UIControlStateNormal];
-        return image;
-    }, Nil);
+
+    [profilePictureButton loadAvatarForUser:user forControlState:UIControlStateNormal];
     
     //
     // State
@@ -223,7 +211,7 @@
     
     [self cell:blockUserCell setHidden:user.isMe || !BChatSDK.blocking || !BChatSDK.blocking.serviceAvailable];
     
-    BOOL isBlocked = [BChatSDK.blocking isBlocked:user];
+    BOOL isBlocked = [BChatSDK.blocking isBlocked:user.entityID];
     [self setIsBlocked:isBlocked setRemote:NO];
     
     if (self.isContact) {
@@ -267,7 +255,6 @@
 -(id<PUserConnection>) userConnection {
     // Get the user connection
     id<PUser> currentUser = BChatSDK.currentUser;
-    id<PUserConnection> connection = Nil;
     for (id<PUserConnection> connection in [currentUser connectionsWithType:bUserConnectionTypeContact]) {
         if ([connection.user isEqualToEntity:user]) {
             return connection;
@@ -282,23 +269,23 @@
     [blockUserActivityIndicator startAnimating];
     
     promise_completionHandler_t success = ^id(id success) {
-        blockImageView.highlighted = isBlocked;
-        blockTextView.text = isBlocked ? [NSBundle t:bUnblock] : [NSBundle t:bBlock];
-        blockUserActivityIndicator.hidden = YES;
+        self.blockImageView.highlighted = isBlocked;
+        self.blockTextView.text = isBlocked ? [NSBundle t:bUnblock] : [NSBundle t:bBlock];
+        self.blockUserActivityIndicator.hidden = YES;
         return Nil;
     };
     
     promise_errorHandler_t error = ^id(NSError * error) {
-        blockUserActivityIndicator.hidden = YES;
+        self.blockUserActivityIndicator.hidden = YES;
         return Nil;
     };
     
     if (setRemote) {
         if (isBlocked) {
-            [BChatSDK.blocking blockUser:user].thenOnMain(success, error);
+            [BChatSDK.blocking blockUser:user.entityID].thenOnMain(success, error);
         }
         else {
-            [BChatSDK.blocking unblockUser:user].thenOnMain(success, error);
+            [BChatSDK.blocking unblockUser:user.entityID].thenOnMain(success, error);
         }
     }
     else {
@@ -308,7 +295,7 @@
 
 -(void) deleteUser {
     [BChatSDK.contact deleteContact:self.user withType:bUserConnectionTypeContact].thenOnMain(^id(id success) {
-        [self.navigationController popViewControllerAnimated:YES];
+        [self refreshInterfaceAnimated:NO];
         return Nil;
     }, ^id(NSError * error) {
         [UIView alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
@@ -318,7 +305,7 @@
 
 -(void) addContact {
     [BChatSDK.contact addContact:self.user withType:bUserConnectionTypeContact].thenOnMain(^id(id success) {
-        [self refreshInterfaceAnimated:YES];
+        [self refreshInterfaceAnimated:NO];
         return Nil;
     }, ^id(NSError * error) {
         [UIView alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
@@ -330,10 +317,10 @@
     return blockImageView.highlighted;
 }
 
--(UIImage *) profilePicture {
-    id<PUser> user = BChatSDK.currentUser;
-    return user.imageAsImage;
-}
+//-(UIImage *) profilePicture {
+//    id<PUser> user = BChatSDK.currentUser;
+//    return user.imageAsImage;
+//}
 
 -(void) startChat {
     [BChatSDK.core createThreadWithUsers:@[self.user] threadCreated:^(NSError * error, id<PThread> thread) {

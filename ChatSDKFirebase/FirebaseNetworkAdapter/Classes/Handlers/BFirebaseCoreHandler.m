@@ -168,15 +168,6 @@
     return [[CCThreadWrapper threadWithModel:thread] deleteThread];
 }
 
-// TODO: Implement this
--(RXPromise *) leaveThread: (id<PThread>) thread {
-    return Nil;
-}
-
--(RXPromise *) joinThread: (id<PThread>) thread {
-    return Nil;
-}
-
 -(RXPromise *) sendMessage: (id<PMessage>) messageModel {
 
     [BHookNotification notificationMessageWillSend:messageModel];

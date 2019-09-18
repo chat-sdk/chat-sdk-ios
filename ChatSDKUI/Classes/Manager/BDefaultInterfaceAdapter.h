@@ -11,6 +11,9 @@
 
 #define bColorMessageLink @"bColorMessageLink"
 
+// Providers
+#define bMessageSectionDateProvider @"BMessageSectionDateProvider"
+
 @class BPrivateThreadsViewController;
 @class BPublicThreadsViewController;
 @class BFlaggedMessagesViewController;
@@ -30,7 +33,8 @@
     NSMutableArray * _additionalChatOptions;
     NSMutableArray * _additionalTabBarViewControllers;
     NSMutableDictionary * _additionalSearchViewControllers;
-    
+    NSMutableDictionary * _providers;
+
     // An array of arrays. Each sub array contains @[(Class) class, (NSNumber *) mesasageType]
     NSMutableArray * _messageCellTypes;
     BOOL _showLocalNotifications;

@@ -65,11 +65,12 @@
             [weakSelf updateBadge];
         });
     }];
-    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadDeleted object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+    
+    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf updateBadge];
         });
-    }];
+    }] withNames: @[bHookThreadAdded, bHookThreadRemoved]];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationPresentChatView object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{

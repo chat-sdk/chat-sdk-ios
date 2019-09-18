@@ -20,10 +20,16 @@
         // You could use a subclass here to customize the class
         return [[BChatViewController alloc] initWithThread:thread];
     }];
+        
 }
 
 -(void) searchForUser: (NSString *) value {
     [BChatSDK.search usersForIndexes:@[bUserNameKey, bUserEmailKey, bUserPhoneKey] withValue:value limit:0 userAdded:^(id<PUser> user) {
+    }];
+}
+
+-(void) createThreadWithUsers: (NSArray *) users {
+    [BChatSDK.core createThreadWithUsers:users name:@"Name" threadCreated:^(NSError * error, id<PThread> thread) {
         
     }];
 }

@@ -11,7 +11,7 @@
 
 -(NSString *) metaStringForKey: (NSString *) key;
 -(id) metaValueForKey: (NSString *) key;
--(NSDictionary *) setDictMetaValue: (id) value forKey: (NSString *) key;
+-(NSDictionary *) setMetaDictValue: (id) value forKey: (NSString *) key;
 -(NSDictionary *) updateMetaDict: (NSDictionary *) dict;
 
 @end

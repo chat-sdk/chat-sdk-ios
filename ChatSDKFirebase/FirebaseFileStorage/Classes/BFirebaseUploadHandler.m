@@ -44,5 +44,10 @@
     return promise;
 }
 
+// With Firebase we do want to upload the avatar then save the URL
+// in the meta data
+-(BOOL) shouldUploadAvatar {
+    return YES;
+}
 
 @end

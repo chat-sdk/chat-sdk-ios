@@ -65,8 +65,8 @@
 "bAddUsers" = "Añadir usuarios";
 "bNoNearbyUsers" = " Nadie alrededor";
 
-"bOnline" = "En linea";
-"bOffline" = " Fuera de linea";
+"online" = "En linea";
+"offline" = " Fuera de linea";
 
 "bCreatePublicThread" = "Crear una conversación pública";
 "bThreadName" = "Nombre de llamada";

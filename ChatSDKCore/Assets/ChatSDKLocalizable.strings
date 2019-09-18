@@ -65,12 +65,14 @@
 "bAddUsers" = "Add users";
 "bNoNearbyUsers" = "No nearby users";
 
-"bOnline" = "Online";
-"bOffline" = "Offline";
-
 "away" = "Away";
 "xa" = "Extended Away";
 "dnd" = "Busy";
+"available" = "Online";
+"chat" = "Online";
+"online" = "Online";
+"unavailable" = "Offline";
+"offline" = "Offline";
 
 "bCreatePublicThread" = "Create public thread";
 "bThreadName" = "Thread name";

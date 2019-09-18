@@ -7,8 +7,9 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol PMessage;
 @protocol PUser;
+@protocol PThread;
+@protocol PMessage;
 
 @interface BHookNotification : NSObject
 
@@ -33,5 +34,8 @@
 +(void) notificationUserOn: (id<PUser>) user;
 +(void) notificationInternetConnectivityDidChange;
 +(void) notificationUserWillDisconnect;
+
++(void) notificationThreadAdded: (id<PThread>) thread;
++(void) notificationThreadRemoved: (id<PThread>) thread;
 
 @end

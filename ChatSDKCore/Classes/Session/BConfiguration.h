@@ -43,6 +43,10 @@
 @property (nonatomic, readonly) NSString * defaultUserName;
 @property (nonatomic, readwrite) NSString * defaultUserNamePrefix;
 
+// These will be input into the login screen if they are set
+@property (nonatomic, readwrite) NSString * debugUsername;
+@property (nonatomic, readwrite) NSString * debugPassword;
+
 // Should empty chats be shown in the threads view?
 @property (nonatomic, readwrite) BOOL showEmptyChats;
 
@@ -161,6 +165,10 @@
 
 @property (nonatomic, readwrite) BOOL prefersLargeTitles;
 
+// The default search indexes - i.e. which user/meta values are we searching for? If you add
+// custom values remember to add the relevant indexOn values to the Firebase security rules
+@property (nonatomic, readwrite) NSArray * searchIndexes;
+
 // How many messages should be loaded initially when a chat is opened
 // Deprecated: use messagesToLoadPerBatch
 @property (nonatomic, readwrite) int chatMessagesToLoad;
@@ -227,6 +235,8 @@
 
 // How long should a public chat room live until expires and is removed from the list
 @property (nonatomic, readwrite) int publicChatRoomLifetimeMinutes;
+
+@property (nonatomic, readwrite) BOOL vibrateOnNewMessage;
 
 +(BConfiguration *) configuration;
 

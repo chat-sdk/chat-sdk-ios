@@ -136,7 +136,7 @@
 
         if (![message.thread isEqualToEntity:_thread]) {
             // If we are in chat and receive a message in another chat then vibrate the phone
-            if (!message.userModel.isMe) {
+            if (!message.userModel.isMe && BChatSDK.config.vibrateOnNewMessage) {
                 AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
             }
         } else {

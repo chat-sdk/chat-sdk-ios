@@ -85,7 +85,7 @@
             } else {
                 NSDate * now = [NSDate date];
                 NSTimeInterval interval = [now timeIntervalSinceDate:thread.creationDate];
-                if (interval < BChatSDK.config.publicChatRoomLifetimeMinutes * 60) {
+                if (interval < BChatSDK.config.publicChatRoomLifetimeMinutes * 60 && (!thread.deletedDate || includeDeleted) && (thread.hasMessages || includeEmpty)) {
                     [threads addObject:thread];
                 } else {
                     [thread markRead];
@@ -266,11 +266,13 @@
 }
 
 -(RXPromise *) leaveThread: (id<PThread>) thread {
-    assert(NO);
+    id<PUser> user = BChatSDK.currentUser;
+    return [self removeUsers:@[user] fromThread:thread];
 }
 
 -(RXPromise *) joinThread: (id<PThread>) thread {
-    assert(NO);
+    id<PUser> user = BChatSDK.currentUser;
+   return [self addUsers:@[user] toThread:thread];
 }
 
 - (void)setUserOffline {

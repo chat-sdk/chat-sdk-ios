@@ -119,29 +119,23 @@
     [self removeUserConnectionsObject:connection];
 }
 
--(RXPromise *) loadProfileImage: (BOOL) force __attribute__((deprecated)) {
-    
-    if (!self.image || force) {
-        
-        // If there's no image set on temporarily
-        if(!self.image) {
-            [self setImage: UIImagePNGRepresentation(self.defaultImage)];
-        }
-        
-        // Then try to load the image from the URL
-        NSString * imageURL = [self.meta metaStringForKey:bUserImageURLKey];
-        if (imageURL) {
-            return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:imageURL]].thenOnMain(^id(UIImage * image) {
-                if(image) {
-                    [self setImage:UIImagePNGRepresentation(image)];
-                }
-                return image;
-            }, Nil);
-        }
+-(RXPromise *) updateAvatarFromURL {
+    // If there's no image set on temporarily
+    if(!self.image) {
+        [self setImage: UIImagePNGRepresentation(self.defaultImage)];
     }
-    RXPromise * promise = [RXPromise new];
-    [promise resolveWithResult:[UIImage imageWithData:self.image]];
-    return promise;
+
+    // Then try to load the image from the URL
+    NSString * imageURL = self.imageURL;
+    if (imageURL) {
+        return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:imageURL]].thenOnMain(^id(UIImage * image) {
+            if(image) {
+                [self setImage:UIImagePNGRepresentation(image)];
+            }
+            return Nil;
+        }, Nil);
+    }
+    return [RXPromise resolveWithResult:Nil];
 }
 
 -(int) unreadMessageCount {
@@ -189,9 +183,7 @@
     if (self.image) {
         return [[UIImage imageWithData:self.image] resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
     }
-    else {
-        return [self defaultImage];
-    }
+    return Nil;
 }
 
 -(NSString *) imageURL {
