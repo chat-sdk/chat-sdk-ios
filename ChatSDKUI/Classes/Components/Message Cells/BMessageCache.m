@@ -47,16 +47,16 @@ static BMessageCache * cache;
     NSString * bubbleImageName = @"";
     switch (pos) {
         case bMessagePosFirst:
-            bubbleImageName = @"chat_bubble_right_0S.png";
+            bubbleImageName = BChatSDK.config.messageBubbleMaskFirst;
             break;
         case bMessagePosMiddle:
-            bubbleImageName = @"chat_bubble_right_SS.png";
+            bubbleImageName = BChatSDK.config.messageBubbleMaskMiddle;
             break;
         case bMessagePosLast:
-            bubbleImageName = @"chat_bubble_right_ST.png";
+            bubbleImageName = BChatSDK.config.messageBubbleMaskLast;
             break;
         case bMessagePosSingle:
-            bubbleImageName = @"chat_bubble_right_0T.png";
+            bubbleImageName = BChatSDK.config.messageBubbleMaskSingle;
             break;
     }
     

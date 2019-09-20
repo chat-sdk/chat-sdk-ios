@@ -27,10 +27,8 @@
         _additionalChatOptions = [NSMutableArray new];
         _additionalTabBarViewControllers = [NSMutableArray new];
         _additionalSearchViewControllers = [NSMutableDictionary new];
-        _messageCellTypes = [NSMutableArray new];
+        _messageCellTypes = [NSMutableDictionary new];
         _providers = [NSMutableDictionary new];
-        // MEM1
-        //[[SDWebImageDownloader sharedDownloader] setShouldDecompressImages:NO];
         
         [self registerMessageWithCellClass:BTextMessageCell.class messageType:@(bMessageTypeText)];
         [self registerMessageWithCellClass:BImageMessageCell.class messageType:@(bMessageTypeImage)];
@@ -372,22 +370,20 @@
 }
 
 -(void) registerMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type {
-    [_messageCellTypes addObject:@[cellClass, type]];
+    [_messageCellTypes setObject:cellClass forKey:type];
 }
 
 -(NSArray *) messageCellTypes {
-    return _messageCellTypes;
+    NSMutableArray * types = [NSMutableArray new];
+    for (NSNumber * type in _messageCellTypes.allKeys) {
+        [types addObject:@[_messageCellTypes[type], type]];
+    }
+    return types;
 }
 
 -(Class) cellTypeForMessageType: (NSNumber *) messageType {
-    for(NSArray * array in self.messageCellTypes) {
-        if([array.lastObject isEqualToNumber:messageType]) {
-            return array.firstObject;
-        }
-    }
-    return Nil;
+    return _messageCellTypes[messageType];
 }
-
 -(UIViewController<PSplashScreenViewController> *) splashScreenViewController {
     if (!_splashScreenViewController) {
         _splashScreenViewController = [[BSplashScreenViewController alloc] initWithNibName:Nil bundle:Nil];

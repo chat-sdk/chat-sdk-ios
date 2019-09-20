@@ -100,4 +100,7 @@
 -(void) addObservers;
 -(void) removeObservers;
 
+-(void) keyboardWillShow: (NSNotification *) notification;
+-(void) keyboardWillHide: (NSNotification *) notification;
+
 @end

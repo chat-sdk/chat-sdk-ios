@@ -63,6 +63,14 @@
 
 @synthesize vibrateOnNewMessage;
 
+@synthesize showMessageAvatarAtPosition;
+@synthesize messageBubbleMaskFirst;
+@synthesize messageBubbleMaskMiddle;
+@synthesize messageBubbleMaskLast;
+@synthesize messageBubbleMaskSingle;
+@synthesize nameLabelPosition;
+@synthesize combineTimeWithNameLabel;
+
 @synthesize inviteByEmailTitle;
 @synthesize inviteByEmailBody;
 @synthesize inviteBySMSBody;
@@ -190,6 +198,16 @@
         searchIndexes = @[bUserNameKey, bUserEmailKey, bUserPhoneKey, bUserNameLowercase];
         
         vibrateOnNewMessage = YES;
+        
+        showMessageAvatarAtPosition = bMessagePosLast;
+        
+        messageBubbleMaskFirst = @"chat_bubble_right_0S.png";
+        messageBubbleMaskMiddle = @"chat_bubble_right_SS.png";
+        messageBubbleMaskLast = @"chat_bubble_right_ST.png";
+        messageBubbleMaskSingle = @"chat_bubble_right_0T.png";
+        
+        nameLabelPosition = bNameLabelPositionBottom;
+        combineTimeWithNameLabel = NO;
         
     }
     return self;

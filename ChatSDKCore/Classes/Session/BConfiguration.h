@@ -18,6 +18,11 @@
 #define bXMPPPortKey @"port"
 #define bXMPPResourceKey @"resource"
 
+typedef enum {
+    bNameLabelPositionTop,
+    bNameLabelPositionBottom
+} bNameLabelPosition;
+
 @interface BConfiguration : NSObject {
     NSString * _defaultUserName;
     NSMutableDictionary * _messageBubblePadding;
@@ -126,6 +131,17 @@
 
 // Should the client send push notifications?
 @property(nonatomic, readwrite) BOOL clientPushEnabled;
+
+// Where should we show the user avatar?
+@property(nonatomic, readwrite) bMessagePos showMessageAvatarAtPosition;
+
+@property(nonatomic, readwrite) NSString * messageBubbleMaskFirst;
+@property(nonatomic, readwrite) NSString * messageBubbleMaskMiddle;
+@property(nonatomic, readwrite) NSString * messageBubbleMaskLast;
+@property(nonatomic, readwrite) NSString * messageBubbleMaskSingle;
+
+@property(nonatomic, readwrite) bNameLabelPosition nameLabelPosition;
+@property(nonatomic, readwrite) BOOL combineTimeWithNameLabel;
 
 // Allow the owner of a public thread to delete it
 @property (nonatomic, readwrite) BOOL allowPublicThreadDeletion;

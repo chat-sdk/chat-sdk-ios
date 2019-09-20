@@ -35,8 +35,7 @@
     NSMutableDictionary * _additionalSearchViewControllers;
     NSMutableDictionary * _providers;
 
-    // An array of arrays. Each sub array contains @[(Class) class, (NSNumber *) mesasageType]
-    NSMutableArray * _messageCellTypes;
+    NSMutableDictionary * _messageCellTypes;
     BOOL _showLocalNotifications;
 }
 

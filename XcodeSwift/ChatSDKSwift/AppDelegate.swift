@@ -28,7 +28,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.clearDataWhenRootPathChanges = true;
         config.databaseVersion = "2"
         config.loginUsernamePlaceholder = "Email"
-        
+
+        // Uncomment this if you want the user avatar and name before the messages
+//        config.nameLabelPosition = bNameLabelPositionTop
+//        config.showMessageAvatarAtPosition = bMessagePosFirst
+//        config.combineTimeWithNameLabel = true
+//        config.messageBubbleMaskLast = "chat_bubble_right_S0.png"
+//        config.messageBubbleMaskFirst = "chat_bubble_right_SS.png"
+//        config.messageBubbleMaskSingle = "chat_bubble_right_S0.png"
+
         // Twitter Setup
         config.twitterApiKey = "Kqprq5b6bVeEfcMAGoHzUmB3I"
         config.twitterSecret = "hPd9HCt3PLnifQFrGHJWi6pSZ5jF7kcHKXuoqB8GJpSDAlVcLq"
