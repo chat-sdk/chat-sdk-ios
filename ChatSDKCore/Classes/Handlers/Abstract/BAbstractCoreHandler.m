@@ -81,7 +81,7 @@
         }
         else if (thread.type.intValue & bThreadFilterPublic) {
             if (BChatSDK.config.publicChatRoomLifetimeMinutes == 0) {
-                [threads addObjectsFromArray:thread];
+                [threads addObject:thread];
             } else {
                 NSDate * now = [NSDate date];
                 NSTimeInterval interval = [now timeIntervalSinceDate:thread.creationDate];
