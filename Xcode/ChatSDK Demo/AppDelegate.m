@@ -21,7 +21,7 @@
     // The network adapter handles network traffic
 
     BConfiguration * config = [BConfiguration configuration];
-    config.rootPath = @"live_19_08";
+    config.rootPath = @"live_19_10";
     config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = NO;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
@@ -31,7 +31,7 @@
     
     // For the demo version of the client exire rooms after 24 hours
     config.publicChatRoomLifetimeMinutes = 60 * 24;
-    
+
     
     // Twitter Setup
     config.twitterApiKey = @"Kqprq5b6bVeEfcMAGoHzUmB3I";
