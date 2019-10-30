@@ -11,6 +11,7 @@
 
 @implementation BConfiguration
 
+@synthesize chatBgColor;
 @synthesize messageColorMe;
 @synthesize messageColorReply;
 @synthesize rootPath;

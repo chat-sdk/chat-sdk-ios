@@ -46,6 +46,10 @@
         _tapRecognizer.enabled = NO;
         [self.view addGestureRecognizer:_tapRecognizer];
         
+        if (BChatSDK.config.chatBgColor) {
+            self.tableView.backgroundColor = [BCoreUtilities colorWithHexString:BChatSDK.config.chatBgColor];
+        }
+        
         // When a user taps the title bar we want to know to show the options screen
         if (BChatSDK.config.userChatInfoEnabled) {
             UITapGestureRecognizer * titleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navigationBarTapped)];
