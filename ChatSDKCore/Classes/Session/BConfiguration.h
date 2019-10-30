@@ -35,6 +35,8 @@ typedef enum {
 /// Custom background color of BChatViewController's main view.
 @property (nonatomic, readwrite) NSString * chatBgColor;
 
+/// Add a shadow to the message bubble using a default shadow configuration.
+@property (nonatomic, readwrite) BOOL addShadowOnMessageBubble;
     
 // Background color of messages: hex value like "FFFFFF"
 @property (nonatomic, readwrite) NSString * messageColorMe;

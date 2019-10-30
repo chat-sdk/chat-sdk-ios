@@ -12,6 +12,7 @@
 @implementation BConfiguration
 
 @synthesize chatBgColor;
+@synthesize addShadowOnMessageBubble;
 @synthesize messageColorMe;
 @synthesize messageColorReply;
 @synthesize messageTimeColor;
