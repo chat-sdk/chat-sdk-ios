@@ -151,6 +151,8 @@ typedef enum {
 @property(nonatomic, readwrite) NSString * messageBubbleMaskLast;
 @property(nonatomic, readwrite) NSString * messageBubbleMaskSingle;
 
+/// Hide the name label for each message bubble.
+@property(nonatomic, readwrite) BOOL hideNameLabel;
 @property(nonatomic, readwrite) bNameLabelPosition nameLabelPosition;
 @property(nonatomic, readwrite) BOOL combineTimeWithNameLabel;
 

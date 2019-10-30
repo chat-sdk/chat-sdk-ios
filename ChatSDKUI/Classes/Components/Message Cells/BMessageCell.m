@@ -48,7 +48,7 @@
         if(BChatSDK.config.messageTimeFont) {
             _timeLabel.font = BChatSDK.config.messageTimeFont;
         }
-
+        
         _timeLabel.textColor = [BCoreUtilities colorWithHexString:bDefaultMessageColorTime];
         if(BChatSDK.config.messageTimeColor) {
             _timeLabel.textColor = [BCoreUtilities colorWithHexString:BChatSDK.config.messageTimeColor];
@@ -57,7 +57,7 @@
         _timeLabel.userInteractionEnabled = NO;
         
         [self.contentView addSubview:_timeLabel];
-
+        
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         _nameLabel.userInteractionEnabled = NO;
         
@@ -66,7 +66,7 @@
             _nameLabel.font = BChatSDK.config.messageNameFont;
         }
         [self.contentView addSubview:_nameLabel];
-
+        
         _readMessageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         [self setReadStatus:bMessageReadStatusNone];
         [self.contentView addSubview:_readMessageImageView];
@@ -188,11 +188,14 @@
     
     _nameLabel.text = _message.userModel.name;
 
-//    
 //    // We only want to show the name label if the previous message was posted by someone else and if this is enabled in the thread
 //    // Or if the message is mine...
     
     _nameLabel.hidden = ![BMessageCell showUserNameLabelForMessage:message atPosition:@(position)];
+    
+    if(BChatSDK.config.hideNameLabel) {
+        _nameLabel.hidden = BChatSDK.config.hideNameLabel;
+    }
     
     // Hide the read receipt view if this is a public thread or if read receipts are disabled
     _readMessageImageView.hidden = _message.thread.type.intValue & bThreadFilterPublic || !BChatSDK.readReceipt;
