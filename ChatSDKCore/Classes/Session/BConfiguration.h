@@ -42,6 +42,11 @@ typedef enum {
 @property (nonatomic, readwrite) NSString * messageColorMe;
 @property (nonatomic, readwrite) NSString * messageColorReply;
 
+/// Custom placeholder for chat screen's textview.
+@property (nonatomic, readwrite) NSString * chatTextViewPlaceholder;
+/// Custom font for chat screen's textview.
+@property (nonatomic, readwrite) UIFont * chatTextViewFont;
+
 // The Firebase root path. Data will be added to Firebase root/rootPath...
 // this allows you to run multiple chat instances on one Firebase database
 @property (nonatomic, readwrite) NSString * rootPath;

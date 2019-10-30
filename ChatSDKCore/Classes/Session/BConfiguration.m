@@ -16,6 +16,8 @@
 @synthesize messageColorMe;
 @synthesize messageColorReply;
 @synthesize messageTimeColor;
+@synthesize chatTextViewPlaceholder;
+@synthesize chatTextViewFont;
 @synthesize rootPath;
 @synthesize appBadgeEnabled;
 @synthesize defaultUserNamePrefix;
