@@ -165,6 +165,9 @@ typedef enum {
 @property (nonatomic, readwrite) UIFont * messageTimeFont;
 @property (nonatomic, readwrite) UIFont * messageNameFont;
 
+/// Set the custom color of the time label. If not set, it will use the default color of time label.
+@property (nonatomic, readwrite) NSString * messageTimeColor;
+
 @property (nonatomic, readwrite) UIFont * threadTitleFont;
 @property (nonatomic, readwrite) UIFont * threadTimeFont;
 @property (nonatomic, readwrite) UIFont * threadSubtitleFont;
