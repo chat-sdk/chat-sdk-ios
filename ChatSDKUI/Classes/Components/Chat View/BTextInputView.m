@@ -64,8 +64,13 @@
         _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self addSubview: _sendButton];
         
-        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
-        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_keyboard.png"] forState:UIControlStateSelected];
+        if(BChatSDK.config.optionsButtonIcon) {
+            [_optionsButton setImage:[UIImage imageNamed:BChatSDK.config.optionsButtonIcon] forState:UIControlStateNormal];
+            [_optionsButton setImage:[UIImage imageNamed:BChatSDK.config.optionsButtonIcon] forState:UIControlStateSelected];
+        } else {
+            [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
+            [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_keyboard.png"] forState:UIControlStateSelected];
+        }
         
         [_optionsButton addTarget:self action:@selector(optionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         

@@ -98,6 +98,7 @@
 @synthesize publicChatRoomLifetimeMinutes;
 @synthesize nearbyUsersMinimumLocationChangeToUpdateServer;
 
+@synthesize optionsButtonIcon;
 -(instancetype) init {
     if((self = [super init])) {
         

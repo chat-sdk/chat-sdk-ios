@@ -256,6 +256,8 @@ typedef enum {
 // How much distance must be moved to update the server with our new location
 @property (nonatomic, readwrite) int nearbyUsersMinimumLocationChangeToUpdateServer;
 
+/// Custom icon for the options/attachment button.
+@property (nonatomic, readwrite) NSString * optionsButtonIcon;
 // XMPP Auth type used which can be:
 // default, scramsha1, digestmd5, plain
 @property (nonatomic, readwrite) NSString * xmppAuthType;
