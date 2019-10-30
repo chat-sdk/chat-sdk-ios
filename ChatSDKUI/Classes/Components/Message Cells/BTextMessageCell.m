@@ -44,6 +44,16 @@
         
 //        textView.contentInset = UIEdgeInsetsMake(-9.0, -5.0, 0.0, 0.0);
         
+        if(BChatSDK.config.addShadowOnMessageBubble) {
+            if(BChatSDK.config.addShadowOnMessageBubble == YES) {
+                self.bubbleImageView.layer.shadowColor = UIColor.blackColor.CGColor;
+                self.bubbleImageView.layer.shadowOffset = CGSizeMake(0, 1.0);
+                self.bubbleImageView.layer.shadowRadius = 1.0;
+                self.bubbleImageView.layer.shadowOpacity = 0.2;
+                self.bubbleImageView.layer.cornerRadius = 10.0;
+            }
+        }
+        
         [self.bubbleImageView addSubview:textView];
         
     }

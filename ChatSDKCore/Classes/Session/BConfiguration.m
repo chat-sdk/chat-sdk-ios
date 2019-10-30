@@ -11,6 +11,7 @@
 
 @implementation BConfiguration
 
+@synthesize addShadowOnMessageBubble;
 @synthesize messageColorMe;
 @synthesize messageColorReply;
 @synthesize rootPath;
