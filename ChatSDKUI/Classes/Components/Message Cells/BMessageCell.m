@@ -49,7 +49,11 @@
             _timeLabel.font = BChatSDK.config.messageTimeFont;
         }
 
-        _timeLabel.textColor = [UIColor lightGrayColor];
+        _timeLabel.textColor = [BCoreUtilities colorWithHexString:bDefaultMessageColorTime];
+        if(BChatSDK.config.messageTimeColor) {
+            _timeLabel.textColor = [BCoreUtilities colorWithHexString:BChatSDK.config.messageTimeColor];
+        }
+        
         _timeLabel.userInteractionEnabled = NO;
         
         [self.contentView addSubview:_timeLabel];
