@@ -99,6 +99,8 @@
 @synthesize nearbyUsersMinimumLocationChangeToUpdateServer;
 
 @synthesize optionsButtonIcon;
+@synthesize sendButtonIcon;
+
 -(instancetype) init {
     if((self = [super init])) {
         

@@ -258,6 +258,9 @@ typedef enum {
 
 /// Custom icon for the options/attachment button.
 @property (nonatomic, readwrite) NSString * optionsButtonIcon;
+/// Custom icon for the send message button.
+@property (nonatomic, readwrite) NSString * sendButtonIcon;
+
 // XMPP Auth type used which can be:
 // default, scramsha1, digestmd5, plain
 @property (nonatomic, readwrite) NSString * xmppAuthType;

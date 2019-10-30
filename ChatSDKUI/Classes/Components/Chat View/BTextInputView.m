@@ -74,8 +74,15 @@
         
         [_optionsButton addTarget:self action:@selector(optionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
-        NSString * sendButtonTitle = [NSBundle t:bSend];
-        [_sendButton setTitle:sendButtonTitle forState:UIControlStateNormal];
+        if(BChatSDK.config.sendButtonIcon) {
+            [_sendButton setTitle:Nil forState:UIControlStateNormal];
+            [_sendButton setImage:[UIImage imageNamed:BChatSDK.config.sendButtonIcon] forState:UIControlStateNormal];
+            [_sendButton setImage:[UIImage imageNamed:BChatSDK.config.sendButtonIcon] forState:UIControlStateSelected];
+        } else {
+            NSString * sendButtonTitle = [NSBundle t:bSend];
+            [_sendButton setImage:Nil forState:UIControlStateNormal];
+            [_sendButton setTitle:sendButtonTitle forState:UIControlStateNormal];
+        }
         
         [_sendButton addTarget:self action:@selector(sendButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [_sendButton addTarget:self action:@selector(sendButtonHeld) forControlEvents:UIControlEventTouchDown];
@@ -188,8 +195,14 @@
                      forState:UIControlStateNormal];
     }
     else {
-        [_sendButton setTitle:[NSBundle t:bSend] forState:UIControlStateNormal];
-        [_sendButton setImage:Nil forState:UIControlStateNormal];
+        if(BChatSDK.config.sendButtonIcon) {
+            [_sendButton setTitle:Nil forState:UIControlStateNormal];
+            [_sendButton setImage:[UIImage imageNamed:BChatSDK.config.sendButtonIcon] forState:UIControlStateNormal];
+            [_sendButton setImage:[UIImage imageNamed:BChatSDK.config.sendButtonIcon] forState:UIControlStateSelected];
+        } else {
+            [_sendButton setTitle:[NSBundle t:bSend] forState:UIControlStateNormal];
+            [_sendButton setImage:Nil forState:UIControlStateNormal];
+        }
     }
 }
 
