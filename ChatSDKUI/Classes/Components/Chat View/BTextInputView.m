@@ -65,8 +65,8 @@
         [self addSubview: _sendButton];
         
         if(BChatSDK.config.optionsButtonIcon) {
-            [_optionsButton setImage:[UIImage imageNamed:BChatSDK.config.optionsButtonIcon] forState:UIControlStateNormal];
-            [_optionsButton setImage:[UIImage imageNamed:BChatSDK.config.optionsButtonIcon] forState:UIControlStateSelected];
+            [_optionsButton setImage:[NSBundle uiImageNamed:BChatSDK.config.optionsButtonIcon] forState:UIControlStateNormal];
+            [_optionsButton setImage:[NSBundle uiImageNamed:BChatSDK.config.optionsButtonIcon] forState:UIControlStateSelected];
         } else {
             [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
             [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_keyboard.png"] forState:UIControlStateSelected];
