@@ -107,9 +107,15 @@
 
         // Constrain the elements
         _optionsButton.keepLeftInset.equal = bMargin +keepRequired;
-
-        _optionsButton.keepBottomInset.equal = 8.0;
-        _optionsButton.keepHeight.equal = 24;
+        
+        /// If a custom options button icon has been set, then center align it.
+        if(BChatSDK.config.optionsButtonIcon) {
+            _optionsButton.keepBottomInset.equal = bMargin;
+            _optionsButton.keepTopInset.equal = bMargin;
+        } else {
+            _optionsButton.keepBottomInset.equal = 8.0;
+            _optionsButton.keepHeight.equal = 24;
+        }
         
         // If the user has no chat options available then remove the chat option button width
         _optionsButton.keepWidth.equal = BChatSDK.ui.chatOptions.count ? 24 : 0;
