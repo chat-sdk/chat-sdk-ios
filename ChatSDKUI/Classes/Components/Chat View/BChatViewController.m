@@ -49,6 +49,12 @@
     // Add the initial batch of messages
     NSArray<PMessage> * messages = [BChatSDK.db loadMessagesForThread:_thread newest:BChatSDK.config.messagesToLoadPerBatch];
     messages = [messages sortedArrayUsingComparator:[BMessageSorter oldestFirst]];
+    
+    if(BChatSDK.config.dateFilter && BChatSDK.config.dateFilterFormat) {
+        NSPredicate *dateFilterPredicate = [NSPredicate predicateWithFormat:BChatSDK.config.dateFilterFormat, BChatSDK.config.dateFilter];
+        messages = (NSArray<PMessage> *)[messages filteredArrayUsingPredicate:dateFilterPredicate];
+    }
+    
     [self setMessages:messages scrollToBottom:NO animate:NO force: YES];
 }
 

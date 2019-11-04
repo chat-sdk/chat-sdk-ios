@@ -14,6 +14,8 @@
 @synthesize chatBgColor;
 @synthesize addShadowOnMessageBubble;
 @synthesize showReadStatus;
+@synthesize dateFilterFormat;
+@synthesize dateFilter;
 @synthesize messageColorMe;
 @synthesize messageColorReply;
 @synthesize messageTimeColor;

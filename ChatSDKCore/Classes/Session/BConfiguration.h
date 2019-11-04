@@ -38,6 +38,11 @@ typedef enum {
 /// Add a shadow to the message bubble using a default shadow configuration.
 @property (nonatomic, readwrite) BOOL addShadowOnMessageBubble;
 @property (nonatomic, readwrite) BOOL showReadStatus;
+/// Format to be used for NSPredicate.
+@property (nonatomic, readwrite) NSString * dateFilterFormat;
+/// An NSDate filter used to filter thread messages to show only the messages that are greater than or equal
+/// the set dateFilter.
+@property (nonatomic, readwrite) NSDate * dateFilter;
     
 // Background color of messages: hex value like "FFFFFF"
 @property (nonatomic, readwrite) NSString * messageColorMe;
