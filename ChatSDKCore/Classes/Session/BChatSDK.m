@@ -18,6 +18,7 @@
 @synthesize interfaceAdapter = _interfaceAdapter;
 @synthesize storageAdapter = _storageAdapter;
 @synthesize networkAdapter = _networkAdapter;
+@synthesize keepAliveOnDidResignActive = _keepAliveOnDidResignActive;
 
 static BChatSDK * instance;
 
@@ -77,9 +78,7 @@ static BChatSDK * instance;
 }
 
 -(void) appDidResignActive {
-    if([BChatSDK config].keepAliveOnDidResignActive) {
-        
-    } else if(self.networkAdapter) {
+    if(self.networkAdapter && self.keepAliveOnDidResignActive == NO) {
         [self.networkAdapter.core save];
         [self.networkAdapter.core goOffline];
     }
