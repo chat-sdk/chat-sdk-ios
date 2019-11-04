@@ -37,6 +37,7 @@ typedef enum {
 
 /// Add a shadow to the message bubble using a default shadow configuration.
 @property (nonatomic, readwrite) BOOL addShadowOnMessageBubble;
+@property (nonatomic, readwrite) BOOL showReadStatus;
     
 // Background color of messages: hex value like "FFFFFF"
 @property (nonatomic, readwrite) NSString * messageColorMe;

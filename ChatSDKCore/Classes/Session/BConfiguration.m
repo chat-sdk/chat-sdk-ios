@@ -13,6 +13,7 @@
 
 @synthesize chatBgColor;
 @synthesize addShadowOnMessageBubble;
+@synthesize showReadStatus;
 @synthesize messageColorMe;
 @synthesize messageColorReply;
 @synthesize messageTimeColor;

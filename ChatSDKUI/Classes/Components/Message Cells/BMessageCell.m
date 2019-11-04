@@ -197,8 +197,13 @@
         _nameLabel.hidden = BChatSDK.config.hideNameLabel;
     }
     
-    // Hide the read receipt view if this is a public thread or if read receipts are disabled
-    _readMessageImageView.hidden = _message.thread.type.intValue & bThreadFilterPublic || !BChatSDK.readReceipt;
+    if(BChatSDK.config.showReadStatus) {
+        // TODO: Find actual way to show the message status. This is temp solution only.
+        _readMessageImageView.hidden = NO;
+    } else {
+        // Hide the read receipt view if this is a public thread or if read receipts are disabled
+        _readMessageImageView.hidden = _message.thread.type.intValue & bThreadFilterPublic || !BChatSDK.readReceipt;
+    }
     
     _timeLabel.hidden = BChatSDK.config.combineTimeWithNameLabel;
     
