@@ -65,7 +65,7 @@ Pod::Spec.new do |s|
 			
 	  ui.dependency 'MBProgressHUD', '~> 1.0'
 	  ui.dependency 'VENTokenField', '~> 2.0'
-	  ui.dependency 'SDWebImage', '~> 4.0'
+	  ui.dependency 'SDWebImage', '~> 5.0'
 	  ui.dependency 'StaticDataTableViewController', '~> 2.0'
 	  ui.dependency 'CountryPicker', '~> 1.0'
 	  ui.dependency 'TOCropViewController', '~> 2.0'
