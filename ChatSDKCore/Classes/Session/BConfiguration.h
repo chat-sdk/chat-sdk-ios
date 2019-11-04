@@ -32,6 +32,9 @@ typedef enum {
 // Should we ask the user to allow notifications when the app initially loads up? 
 @property (nonatomic, readwrite) BOOL shouldAskForNotificationsPermission;
 
+/// Keep the online status even when app resigns from an active state.
+@property (nonatomic, readwrite) BOOL keepAliveOnDidResignActive;
+
 /// Custom background color of BChatViewController's main view.
 @property (nonatomic, readwrite) NSString * chatBgColor;
 

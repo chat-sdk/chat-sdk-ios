@@ -77,7 +77,9 @@ static BChatSDK * instance;
 }
 
 -(void) appDidResignActive {
-    if(self.networkAdapter) {
+    if(self.config.keepAliveOnDidResignActive) {
+        
+    } else if(self.networkAdapter) {
         [self.networkAdapter.core save];
         [self.networkAdapter.core goOffline];
     }
