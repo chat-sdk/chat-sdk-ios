@@ -408,6 +408,14 @@
     return [_messageManager messageForIndexPath:path];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if(BChatSDK.config.hideDayOfTheWeekSection) {
+        return 0.01;
+    }
+    
+    return UITableViewAutomaticDimension;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return [_messageManager headerForSection:section];
 }

@@ -12,6 +12,7 @@
 @implementation BConfiguration
 
 @synthesize chatBgColor;
+@synthesize hideDayOfTheWeekSection;
 @synthesize addShadowOnMessageBubble;
 @synthesize showReadStatus;
 @synthesize dateFilterFormat;

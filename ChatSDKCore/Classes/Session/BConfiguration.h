@@ -35,6 +35,8 @@ typedef enum {
 /// Custom background color of BChatViewController's main view.
 @property (nonatomic, readwrite) NSString * chatBgColor;
 
+/// Hide the section that shows "Today", "Yesterday", etc.
+@property (nonatomic, readwrite) BOOL hideDayOfTheWeekSection;
 /// Add a shadow to the message bubble using a default shadow configuration.
 @property (nonatomic, readwrite) BOOL addShadowOnMessageBubble;
 @property (nonatomic, readwrite) BOOL showReadStatus;
