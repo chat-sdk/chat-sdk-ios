@@ -11,7 +11,6 @@
 
 @implementation BConfiguration
 
-@synthesize keepAliveOnDidResignActive;
 @synthesize chatBgColor;
 @synthesize addShadowOnMessageBubble;
 @synthesize showReadStatus;
