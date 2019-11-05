@@ -654,7 +654,7 @@
 }
 
 +(NSNumber *) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return @(bMaxMessageWidth);
+    return @(maxWidth);
 }
 
 +(NSValue *) messageBubblePadding: (id<PElmMessage>) message {
