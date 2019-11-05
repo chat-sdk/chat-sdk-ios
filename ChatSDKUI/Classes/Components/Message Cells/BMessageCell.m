@@ -28,12 +28,12 @@
         
         // Make sure the selected color is white
         self.selectedBackgroundView = [[UIView alloc] init];
-
+        
         // Bubble view
         bubbleImageView = [[UIImageView alloc] init];
         bubbleImageView.contentMode = UIViewContentModeScaleToFill;
         bubbleImageView.userInteractionEnabled = YES;
-
+        
         [self.contentView addSubview:bubbleImageView];
         
         _profilePicture = [[UIImageView alloc] init];
@@ -76,14 +76,14 @@
         [_profilePicture addGestureRecognizer:profileTouched];
         
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-
+        
     }
     return self;
 }
 
 -(void) setReadStatus: (bMessageReadStatus) status {
     NSString * imageName = Nil;
-
+    
     switch (status) {
         case bMessageReadStatusNone:
             imageName = @"icn_message_received.png";
@@ -142,12 +142,16 @@
     
     // Set the bubble to be the correct color
     bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message withColorWeight:colorWeight];
-
+    
     // Hide profile pictures for 1-to-1 threads
     _profilePicture.hidden = self.profilePictureHidden;
     
     // We only want to show the user picture if it is the latest message from the user
-    if (position & BChatSDK.config.showMessageAvatarAtPosition) {
+    //
+    // 11/05/2019
+    // Or we can also show a profile picture beside each message cell by setting a value to
+    // BChatSDK.config.showProfilePictureOnEveryCell, depends on the project requirements.
+    if ((position & BChatSDK.config.showMessageAvatarAtPosition) || BChatSDK.config.showProfilePictureOnEveryCell) {
         if (message.userModel) {
             [_profilePicture loadAvatar:message.userModel];
             
@@ -175,7 +179,7 @@
     if (message.flagged.intValue) {
         _timeLabel.text = [NSBundle t:bFlagged];
     }
-
+    
     _timeLabel.text = _message.date.messageTimeAt;
     // We use 10 here because if the messages are less than 10 minutes apart, then we
     // can just compare the minute figures. If they were hours apart they could have
@@ -237,7 +241,7 @@
     else {
         float ppDiameter = [BMessageCell profilePictureDiameter];
         float ppPadding = self.profilePicturePadding;
-
+        
         [_profilePicture setFrame:CGRectMake(ppPadding,
                                              (self.cellHeight - ppDiameter - self.nameHeight)/2.0,
                                              ppDiameter,
@@ -574,7 +578,7 @@
     }
     
     Class cellType = [BChatSDK.ui cellTypeForMessageType:message.type];
-
+    
     SEL selector = @selector(messageBubbleMargin:);
     if ([cellType respondsToSelector:selector]) {
         return [[cellType performSelector:selector withObject:message] UIEdgeInsetsValue];
@@ -595,12 +599,12 @@
     }
     
     Class cellType = [BChatSDK.ui cellTypeForMessageType:message.type];
-
+    
     SEL selector = @selector(messageBubblePadding:);
     if ([cellType respondsToSelector:selector]) {
         return [[cellType performSelector:selector withObject:message] UIEdgeInsetsValue];
     }
-
+    
     return [self messageBubblePadding:message].UIEdgeInsetsValue;
 }
 

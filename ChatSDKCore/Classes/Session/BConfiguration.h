@@ -74,6 +74,9 @@ typedef enum {
 // Should empty chats be shown in the threads view?
 @property (nonatomic, readwrite) BOOL showEmptyChats;
 
+/// Show profile picture on every message cell.
+@property (nonatomic, readwrite) BOOL showProfilePictureOnEveryCell;
+
 // User profile image
 @property (nonatomic, readwrite) NSString * defaultAvatarURL;
 
