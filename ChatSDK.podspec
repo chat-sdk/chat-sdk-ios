@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.11.10"
+  s.version          = "4.11.11"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -30,6 +30,7 @@ Pod::Spec.new do |s|
 
 	  core.dependency 'RXPromise', '~> 1.0'
 	  core.dependency 'AFNetworking', '~>3.2.1'
+#       core.dependency 'AFNetworking', '~> 3.0', :subspecs => ['Reachability', 'Serialization', 'Security', 'NSURLSession']
 	  core.dependency 'DateTools', '~> 2.0'
       core.dependency 'SAMKeychain'
 
@@ -65,7 +66,7 @@ Pod::Spec.new do |s|
 			
 	  ui.dependency 'MBProgressHUD', '~> 1.0'
 	  ui.dependency 'VENTokenField', '~> 2.0'
-	  ui.dependency 'SDWebImage', '~> 4.0'
+	  ui.dependency 'SDWebImage', '~> 5.0'
 	  ui.dependency 'StaticDataTableViewController', '~> 2.0'
 	  ui.dependency 'CountryPicker', '~> 1.0'
 	  ui.dependency 'TOCropViewController', '~> 2.0'
