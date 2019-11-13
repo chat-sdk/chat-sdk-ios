@@ -31,7 +31,7 @@
 #define bDate @"date"
 #define bUserFirebaseID @"user-firebase-id"
 #define bFrom @"from"
-#define bTo @"to"
+//#define bTo @"to"
 // Deprecated in favour of bCreator
 #define bCreatorEntityID @"creator-entity-id"
 #define bCreator @"creator"
