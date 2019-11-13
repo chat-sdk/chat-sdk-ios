@@ -77,6 +77,9 @@ typedef enum {
 /// Show profile picture on every message cell.
 @property (nonatomic, readwrite) BOOL showProfilePictureOnEveryCell;
 
+/// Value of profilePictureOnCellTapEnabled is enabled by default to follow previous implementation.
+@property (nonatomic, readwrite) BOOL profilePictureOnCellTapEnabled;
+
 // User profile image
 @property (nonatomic, readwrite) NSString * defaultAvatarURL;
 

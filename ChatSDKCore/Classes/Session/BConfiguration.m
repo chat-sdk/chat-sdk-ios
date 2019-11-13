@@ -36,6 +36,7 @@
 @synthesize shouldOpenChatWhenPushNotificationClicked;
 @synthesize loginUsernamePlaceholder;
 @synthesize showProfilePictureOnEveryCell;
+@synthesize profilePictureOnCellTapEnabled;
 @synthesize defaultAvatarURL;
 @synthesize defaultBlankAvatar;
 @synthesize timeFormat;
@@ -163,6 +164,8 @@
         showLocalNotifications = YES;
         
         shouldAskForNotificationsPermission = YES;
+        
+        profilePictureOnCellTapEnabled = YES;
         
         defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bCoreBundleName];
         defaultGroupChatAvatar = [NSBundle imageNamed:bDefaultPublicGroupImage bundle:bCoreBundleName];

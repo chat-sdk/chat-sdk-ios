@@ -71,9 +71,12 @@
         [self setReadStatus:bMessageReadStatusNone];
         [self.contentView addSubview:_readMessageImageView];
         
-        UITapGestureRecognizer * profileTouched = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showProfileView)];
-        _profilePicture.userInteractionEnabled = YES;
-        [_profilePicture addGestureRecognizer:profileTouched];
+        // Value of profilePictureOnCellTapEnabled is enabled by default to follow previous implementation.
+        if (BChatSDK.config.profilePictureOnCellTapEnabled) {
+            UITapGestureRecognizer * profileTouched = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showProfileView)];
+            _profilePicture.userInteractionEnabled = YES;
+            [_profilePicture addGestureRecognizer:profileTouched];
+        }
         
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         
