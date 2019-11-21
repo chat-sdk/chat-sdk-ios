@@ -215,7 +215,8 @@
 
 // Profile Pictures
 @property (nonatomic, readwrite) BOOL profilePicturesEnabled;
-
+// Show Profil view when tap on profil Icon
+@property (nonatomic, readwrite) BOOL showProfileViewOnTap;
 // Nearby Users Module Settings
 
 // Distance bands in meters

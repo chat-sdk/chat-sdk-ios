@@ -60,6 +60,7 @@
 @synthesize messageDeletionListenerLimit;
 @synthesize readReceiptMaxAgeInSeconds;
 @synthesize searchIndexes;
+@synthesize showProfileViewOnTap;
 
 @synthesize vibrateOnNewMessage;
 
@@ -144,6 +145,8 @@
         
         defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bCoreBundleName];
         defaultGroupChatAvatar = [NSBundle imageNamed:bDefaultPublicGroupImage bundle:bCoreBundleName];
+        
+        showProfileViewOnTap = YES;
         
         rootPath = [BSettingsManager firebaseRootPath];
         

@@ -304,7 +304,7 @@
 -(void) showProfileView {
     
     // Cannot view our own profile this way
-    if (!_message.userModel.isMe) {
+    if (!_message.userModel.isMe  && BChatSDK.config.showProfileViewOnTap) {
         UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:_message.userModel];
         [self.navigationController pushViewController:profileView animated:YES];
     }
