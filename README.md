@@ -38,7 +38,7 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 ## Hire us to build your next app
 
 We are now taking on projects, we are a team of full stack developers who are Firebase experts.
-For more information check out our app [development site](). 
+For more information check out our [consulting site](https://chat-sdk.github.io/dev/). 
 
 ## Quick Start
 
