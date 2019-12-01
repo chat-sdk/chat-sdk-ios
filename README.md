@@ -31,7 +31,7 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 - [Native Web Version](https://github.com/chat-sdk/chat-sdk-web)
 - [Powerful flexible API](https://github.com/chat-sdk/docs)
 
-<img src="http://img.chatcatapp.com/chat-sdk-3.jpg" />
+<img src="https://raw.githubusercontent.com/chat-sdk/dev/master/img/features.png" />
 
 Full breakdown is available on the [features page](http://chatsdk.co/features/).
 
