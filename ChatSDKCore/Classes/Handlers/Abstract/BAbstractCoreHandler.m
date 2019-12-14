@@ -74,12 +74,12 @@
     NSArray * allThreads = type & bThreadFilterPrivate ? BChatSDK.currentUser.threads : [BChatSDK.db fetchEntitiesWithName:bThreadEntity];
     
     for(id<PThread> thread in allThreads) {
-        if(thread.type.intValue & bThreadFilterPrivate) {
+        if(thread.type.intValue & bThreadFilterPrivate && thread.type.intValue & type) {
             if(thread.type.intValue & type && (!thread.deletedDate || includeDeleted) && (thread.hasMessages || includeEmpty)) {
                 [threads addObject:thread];
             }
         }
-        else if (thread.type.intValue & bThreadFilterPublic) {
+        else if (thread.type.intValue & bThreadFilterPublic && thread.type.intValue & type) {
             if (BChatSDK.config.publicChatRoomLifetimeMinutes == 0) {
                 [threads addObject:thread];
             } else {
@@ -366,5 +366,12 @@
     return threads;
 }
 
+-(RXPromise *) muteThread: (id<PThread>) thread {
+    return [RXPromise resolveWithResult:Nil];
+}
+
+-(RXPromise *) unmuteThread: (id<PThread>) thread {
+    return [RXPromise resolveWithResult:Nil];
+}
 
 @end

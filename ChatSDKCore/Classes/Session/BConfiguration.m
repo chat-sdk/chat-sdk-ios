@@ -60,6 +60,7 @@
 @synthesize messageDeletionListenerLimit;
 @synthesize readReceiptMaxAgeInSeconds;
 @synthesize searchIndexes;
+@synthesize showLocalNotificationsForPublicChats;
 
 @synthesize vibrateOnNewMessage;
 
@@ -91,6 +92,8 @@
 @synthesize nearbyUserDistanceBands;
 @synthesize publicChatRoomLifetimeMinutes;
 @synthesize nearbyUsersMinimumLocationChangeToUpdateServer;
+
+@synthesize publicChatAutoSubscriptionEnabled;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -147,6 +150,7 @@
         showUserAvatarsOn1to1Threads = YES;
         
         showLocalNotifications = YES;
+        showLocalNotificationsForPublicChats = NO;
         
         shouldAskForNotificationsPermission = YES;
         
@@ -208,6 +212,8 @@
         
         nameLabelPosition = bNameLabelPositionBottom;
         combineTimeWithNameLabel = NO;
+        
+        publicChatAutoSubscriptionEnabled = NO;
         
     }
     return self;

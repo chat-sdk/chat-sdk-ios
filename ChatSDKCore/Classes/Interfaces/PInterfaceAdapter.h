@@ -24,6 +24,7 @@
 @class BFriendsListViewController;
 @class BChatOption;
 @class BTextInputView;
+@class BLocalNotificationHandler;
 
 @protocol PInterfaceAdapter <NSObject>
 
@@ -100,8 +101,8 @@
 
 -(UIColor *) colorForName: (NSString *) name;
 
--(BOOL) showLocalNotification: (id) notification;
--(void) setShowLocalNotifications: (BOOL) shouldShow;
+-(BOOL) showLocalNotification: (id<PThread>) thread;
+-(void) setLocalNotificationHandler:(BOOL(^)(id<PThread>)) handler;
 
 -(void) setImageViewController: (UIViewController *) controller;
 -(UIViewController<PImageViewController> *) imageViewController;

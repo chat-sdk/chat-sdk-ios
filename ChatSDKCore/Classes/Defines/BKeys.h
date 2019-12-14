@@ -33,6 +33,9 @@
 #define bFrom @"from"
 #define bTo @"to"
 
+#define bMute @"mute"
+#define bUnmute @"unmute"
+
 // Deprecated in favour of bCreator
 #define bCreatorEntityID @"creator-entity-id"
 #define bCreator @"creator"

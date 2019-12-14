@@ -113,5 +113,6 @@
 -(void) metaOn;
 -(void) metaOff;
 -(RXPromise *) updateLastMessage;
+-(RXPromise *) setMuted: (BOOL) muted;
 
 @end

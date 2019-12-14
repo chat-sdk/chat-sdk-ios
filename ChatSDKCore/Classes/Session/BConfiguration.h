@@ -107,6 +107,8 @@ typedef enum {
 @property (nonatomic, readwrite) int textInputViewMaxLines;
 @property (nonatomic, readwrite) int textInputViewMaxCharacters;
 
+@property(nonatomic, readwrite) BOOL publicChatAutoSubscriptionEnabled;
+
 // Google login credentials
 @property (nonatomic, readwrite) NSString * googleClientKey;
 
@@ -228,6 +230,7 @@ typedef enum {
 
 // Show local notifications when a message is received
 @property (nonatomic, readwrite) BOOL showLocalNotifications;
+@property (nonatomic, readwrite) BOOL showLocalNotificationsForPublicChats;
 
 // Profile Pictures
 @property (nonatomic, readwrite) BOOL profilePicturesEnabled;

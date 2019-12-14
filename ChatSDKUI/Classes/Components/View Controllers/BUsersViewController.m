@@ -51,11 +51,17 @@
                                                                             target:self
                                                                             action:@selector(backButtonPressed)];
 
-    if(_thread.creator.isMe) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                                               target:self
-                                                                                               action:@selector(addUser)];
-    }
+    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bSettings]
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:@selector(settingsButtonPressed)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+
+//    if(_thread.creator.isMe) {
+//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+//                                                                                               target:self
+//                                                                                               action:@selector(addUser)];
+//    }
 
     tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
     
@@ -237,5 +243,47 @@
 - (void)backButtonPressed {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+- (void)settingsButtonPressed {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:Nil
+                                                                   message:Nil
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    NSString * text = _thread.meta[bMute] ? bUnmute : bMute;
+    
+    UIAlertAction *mute = [UIAlertAction actionWithTitle:[NSBundle t:text] style:UIAlertActionStyleDefault
+                                                 handler:^(UIAlertAction * action) {
+        [self muteUnmuteThread];
+    }];
+    
+    if(_thread.creator.isMe) {
+        UIAlertAction *addUser = [UIAlertAction actionWithTitle:[NSBundle t:bAddUsers] style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction * action) {
+            [self addUser];
+        }];
+
+    //        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+    //                                                                                               target:self
+    //                                                                                               action:@selector(addUser)];
+    }
+
+    
+    UIAlertAction * cancel = [UIAlertAction actionWithTitle:[NSBundle t:bCancel] style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+    }];
+    
+    [alert addAction:mute];
+    [alert addAction:cancel];
+    
+    [self presentViewController:alert animated:YES completion:Nil];
+}
+
+-(void) muteUnmuteThread {
+    if (_thread.meta[bMute]) {
+        [BChatSDK.core unmuteThread:_thread];
+    } else {
+        [BChatSDK.core muteThread:_thread];
+    }
+}
+
 
 @end

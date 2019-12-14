@@ -142,6 +142,8 @@
     // Hide profile pictures for 1-to-1 threads
     _profilePicture.hidden = self.profilePictureHidden;
     
+    NSLog(@"Position: %i", position);
+    
     // We only want to show the user picture if it is the latest message from the user
     if (position & BChatSDK.config.showMessageAvatarAtPosition) {
         if (message.userModel) {

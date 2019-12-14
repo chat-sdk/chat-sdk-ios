@@ -24,6 +24,7 @@
 @class BChatViewController;
 @class BSearchViewController;
 @protocol PUser;
+@class BLocalNotificationHandler;
 
 @protocol PThread;
 @protocol PUser;
@@ -36,7 +37,6 @@
     NSMutableDictionary * _providers;
 
     NSMutableDictionary * _messageCellTypes;
-    BOOL _showLocalNotifications;
 }
 
 @property (nonatomic, readwrite) UIViewController * privateThreadsViewController;
@@ -57,5 +57,6 @@
 @property (nonatomic, readwrite) UIViewController * (^usersViewController)(id<PThread> thread, UINavigationController * parent);
 @property (nonatomic, readwrite) UIViewController<PSplashScreenViewController> * splashScreenViewController;
 @property (nonatomic, readwrite) UIViewController * loginViewController;
+@property (nonatomic, readwrite) BOOL(^showLocalNotification)(id<PThread> thread);
 
 @end

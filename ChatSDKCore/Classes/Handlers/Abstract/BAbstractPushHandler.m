@@ -129,6 +129,12 @@
     if(threadEntityID) {
         id<PThread> thread = [BChatSDK.db fetchOrCreateEntityWithID:threadEntityID withType:bThreadEntity];
         
+        // TODO: Check this
+        // If the thread is muted, don't show the push
+        if (thread.meta[bMute]) {
+            return;
+        }
+        
         if (BChatSDK.auth.isAuthenticatedThisSession) {
             [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationPresentChatView object:Nil userInfo: @{bNotificationPresentChatView_PThread: thread}];
         }
