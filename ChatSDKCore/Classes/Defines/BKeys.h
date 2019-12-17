@@ -59,6 +59,7 @@
 #define bTypingPath @"typing" // Typing Indicator
 
 #define bUsersPath @"users"
+#define bConfigPath @"config"
 #define bMessagesPath @"messages"
 #define bThreadsPath @"threads"
 #define bContactsPath @"contacts"

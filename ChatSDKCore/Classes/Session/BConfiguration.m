@@ -94,6 +94,8 @@
 @synthesize nearbyUsersMinimumLocationChangeToUpdateServer;
 
 @synthesize publicChatAutoSubscriptionEnabled;
+@synthesize remote;
+@synthesize remoteConfigEnabled;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -115,6 +117,9 @@
         twitterLoginEnabled = YES;
         googleLoginEnabled = YES;
         clientPushEnabled = NO;
+        
+        remote = [NSMutableDictionary new];
+        remoteConfigEnabled = NO;
         
         timeFormat = @"HH:mm";
         
@@ -217,6 +222,20 @@
         
     }
     return self;
+}
+
+-(id) remoteConfigValueForKey: (NSString *) key {
+    return remote[key];
+}
+
+-(void) updateRemoteConfig: (NSDictionary *) dict {
+    for (id key in dict.allKeys) {
+        remote[key] = dict[key];
+    }
+}
+
+-(void) setRemoteConfigValue: (id) value forKey: (NSString *) key {
+    remote[key] = value;
 }
 
 -(void) setDefaultUserNamePrefix:(NSString *)defaultUserNamePrefix {
