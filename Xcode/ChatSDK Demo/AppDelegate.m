@@ -21,7 +21,7 @@
     // The network adapter handles network traffic
 
     BConfiguration * config = [BConfiguration configuration];
-    config.rootPath = @"live_19_08";
+    config.rootPath = @"live_12_19";
     config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = NO;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
@@ -29,9 +29,13 @@
     config.loginUsernamePlaceholder = @"Email";
     config.allowUsersToCreatePublicChats = YES;
     
+//    config.showLocalNotificationsForPublicChats = YES;
+//    config.publicChatAutoSubscriptionEnabled = YES;
+//    config.showEmptyChats = YES;
+        
     // For the demo version of the client exire rooms after 24 hours
     config.publicChatRoomLifetimeMinutes = 60 * 24;
-    
+
     
     // Twitter Setup
     config.twitterApiKey = @"Kqprq5b6bVeEfcMAGoHzUmB3I";
@@ -48,9 +52,7 @@
     // TODO: Fix Firebase UI!!!!!!!
     UIViewController * rootViewController = BChatSDK.ui.splashScreenNavigationController;
    
-
     [self.window setRootViewController:rootViewController];
-
     
     return YES;
 }

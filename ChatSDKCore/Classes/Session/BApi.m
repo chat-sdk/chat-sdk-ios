@@ -15,6 +15,8 @@
     return [BChatSDK.core observeUser:user].thenOnMain(^id(id success) {
         return user;
     }, Nil);
+    
+
 }
 
 @end

@@ -189,7 +189,7 @@
     // then their state is online. If they are offline, their state is offline
     if (!availability || !availability.length) {
         if (user.online.boolValue) {
-            availability = [NSBundle t:bAvailable];
+            availability = [NSBundle t:bAvailabilityStateAvailable];
         }
         else {
             availability = [NSBundle t:bOffline];

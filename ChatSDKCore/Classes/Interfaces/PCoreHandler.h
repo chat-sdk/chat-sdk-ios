@@ -153,7 +153,8 @@
 
 @optional
 
-
+-(RXPromise *) muteThread: (id<PThread>) thread;
+-(RXPromise *) unmuteThread: (id<PThread>) thread;
 
 @end
 

@@ -21,6 +21,7 @@
 
 @synthesize privateThreadsViewController = _privateThreadsViewController;
 @synthesize publicThreadsViewController = _publicThreadsViewController;
+@synthesize showLocalNotification;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -350,12 +351,13 @@
     return [[BTextInputView alloc] initWithFrame:CGRectZero];
 }
 
--(BOOL) showLocalNotification: (id) notification {
-    return _showLocalNotifications && BChatSDK.config.showLocalNotifications;
-}
-
--(void) setShowLocalNotifications: (BOOL) show {
-    _showLocalNotifications = show;
+-(BOOL) showLocalNotification: (id<PThread>) thread {
+    if (BChatSDK.config.showLocalNotifications) {
+        if (showLocalNotification) {
+            return showLocalNotification(thread);
+        }
+    }
+    return NO;
 }
 
 -(UIViewController *) searchIndexViewControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray * index)) callback {
@@ -400,6 +402,10 @@
         _loginViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
     }
     return _loginViewController;
+}
+
+-(void) setLocalNotificationHandler:(BOOL(^)(id<PThread>)) handler {
+    showLocalNotification = handler;
 }
 
 @end

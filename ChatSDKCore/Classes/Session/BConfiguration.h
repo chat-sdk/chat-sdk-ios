@@ -107,6 +107,8 @@ typedef enum {
 @property (nonatomic, readwrite) int textInputViewMaxLines;
 @property (nonatomic, readwrite) int textInputViewMaxCharacters;
 
+@property(nonatomic, readwrite) BOOL publicChatAutoSubscriptionEnabled;
+
 // Google login credentials
 @property (nonatomic, readwrite) NSString * googleClientKey;
 
@@ -176,6 +178,9 @@ typedef enum {
 
 @property (nonatomic, readwrite) BOOL prefersLargeTitles;
 
+@property (nonatomic, readwrite) NSMutableDictionary * remote;
+@property (nonatomic, readwrite) BOOL remoteConfigEnabled;
+
 // The default search indexes - i.e. which user/meta values are we searching for? If you add
 // custom values remember to add the relevant indexOn values to the Firebase security rules
 @property (nonatomic, readwrite) NSArray * searchIndexes;
@@ -228,6 +233,7 @@ typedef enum {
 
 // Show local notifications when a message is received
 @property (nonatomic, readwrite) BOOL showLocalNotifications;
+@property (nonatomic, readwrite) BOOL showLocalNotificationsForPublicChats;
 
 // Profile Pictures
 @property (nonatomic, readwrite) BOOL profilePicturesEnabled;
@@ -261,5 +267,9 @@ typedef enum {
 
 -(NSValue *) messageBubbleMarginForType: (bMessageType) type;
 -(NSValue *) messageBubblePaddingForType: (bMessageType) type;
+
+-(id) remoteConfigValueForKey: (NSString *) key;
+-(void) updateRemoteConfig: (NSDictionary *) dict;
+-(void) setRemoteConfigValue: (id) value forKey: (NSString *) key;
 
 @end

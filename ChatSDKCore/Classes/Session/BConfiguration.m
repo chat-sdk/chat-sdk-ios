@@ -60,6 +60,7 @@
 @synthesize messageDeletionListenerLimit;
 @synthesize readReceiptMaxAgeInSeconds;
 @synthesize searchIndexes;
+@synthesize showLocalNotificationsForPublicChats;
 
 @synthesize vibrateOnNewMessage;
 
@@ -92,6 +93,10 @@
 @synthesize publicChatRoomLifetimeMinutes;
 @synthesize nearbyUsersMinimumLocationChangeToUpdateServer;
 
+@synthesize publicChatAutoSubscriptionEnabled;
+@synthesize remote;
+@synthesize remoteConfigEnabled;
+
 -(instancetype) init {
     if((self = [super init])) {
         
@@ -112,6 +117,9 @@
         twitterLoginEnabled = YES;
         googleLoginEnabled = YES;
         clientPushEnabled = NO;
+        
+        remote = [NSMutableDictionary new];
+        remoteConfigEnabled = NO;
         
         timeFormat = @"HH:mm";
         
@@ -147,6 +155,7 @@
         showUserAvatarsOn1to1Threads = YES;
         
         showLocalNotifications = YES;
+        showLocalNotificationsForPublicChats = NO;
         
         shouldAskForNotificationsPermission = YES;
         
@@ -209,8 +218,24 @@
         nameLabelPosition = bNameLabelPositionBottom;
         combineTimeWithNameLabel = NO;
         
+        publicChatAutoSubscriptionEnabled = NO;
+        
     }
     return self;
+}
+
+-(id) remoteConfigValueForKey: (NSString *) key {
+    return remote[key];
+}
+
+-(void) updateRemoteConfig: (NSDictionary *) dict {
+    for (id key in dict.allKeys) {
+        remote[key] = dict[key];
+    }
+}
+
+-(void) setRemoteConfigValue: (id) value forKey: (NSString *) key {
+    remote[key] = value;
 }
 
 -(void) setDefaultUserNamePrefix:(NSString *)defaultUserNamePrefix {

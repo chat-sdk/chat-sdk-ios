@@ -1,7 +1,7 @@
 # Chat SDK
 ### Open Source Messaging framework for iOS
 
-<img target="_blank" src="http://img.chatcatapp.com/chat-sdk-hand.jpg" />
+<img target="_blank" src="https://raw.githubusercontent.com/chat-sdk/dev/master/img/hand.png" />
 
 Chat SDK is a fully featured open source instant messaging framework for iOS. Chat SDK is fully featured, scalable and flexible and follows the following key principles:
 
@@ -12,7 +12,7 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 
 <!--A demo of the project is available on the App Store.  
 
-<a target="_blank" href="https://itunes.apple.com/us/app/chatcat/id962537653?mt=8"><img src="http://www.binpress.com/uploads/store33364/itunes-app-store-logo.png" width="290" height="100" alt="App Store" /></a>
+<a target="_blank" href="https://itunes.apple.com/us/app/chatcat/id962537653?mt=8"><img src="https://raw.githubusercontent.com/chat-sdk/dev/master/img/app-store.jpg" width="290" height="100" alt="App Store" /></a>
 -->
 ## Features
 
@@ -31,9 +31,14 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 - [Native Web Version](https://github.com/chat-sdk/chat-sdk-web)
 - [Powerful flexible API](https://github.com/chat-sdk/docs)
 
-<img src="http://img.chatcatapp.com/chat-sdk-3.jpg" />
+<img src="https://raw.githubusercontent.com/chat-sdk/dev/master/img/features.png" />
 
 Full breakdown is available on the [features page](http://chatsdk.co/features/).
+
+## Hire us to build your next app
+
+We are now taking on projects, we are a team of full stack developers who are Firebase experts.
+For more information check out our [consulting site](https://chat-sdk.github.io/hire-us/). 
 
 ## Quick Start
 

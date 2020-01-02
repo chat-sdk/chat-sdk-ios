@@ -166,6 +166,14 @@
     
 }
 
+-(RXPromise *) muteThread: (id<PThread>) thread {
+    return [[CCThreadWrapper threadWithModel:thread] setMuted:YES];
+}
+
+-(RXPromise *) unmuteThread: (id<PThread>) thread {
+    return [[CCThreadWrapper threadWithModel:thread] setMuted:NO];
+}
+
 // TODO: Implement these
 -(RXPromise *) setChatState: (bChatState) state forThread: (id<PThread>) thread {
     return Nil;

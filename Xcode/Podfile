@@ -5,29 +5,29 @@ use_frameworks!
 # install! 'cocoapods', :disable_input_output_paths => true
 
 target 'ChatSDK Demo' do
-  
-  pod "ChatSDK", :path => "../"
-  pod "ChatSDKFirebase/Adapter", :path => "../"
-  pod "ChatSDKFirebase/FileStorage", :path => "../"
-  pod "ChatSDKFirebase/Push", :path => "../"
-  pod "ChatSDKFirebase/SocialLogin", :path => "../"
-#   pod "ChatSDK/Extras", :path => "../"
-  
-#   pod 'TwitterKit', '<3.3.0'
-#   pod 'TwitterCore', '<3.1.0'
-#   pod 'GoogleSignIn'
-#   pod 'FBSDKLoginKit'
- 
-  
-  #pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
-  #pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"
-  #pod "ChatSDKModules/ContactBook", :path => "../ChatSDKModules"
+
+  pod 'ChatSDK', :path => '../'
+  pod 'ChatSDKFirebase/Adapter', :path => '../'
+  pod 'ChatSDKFirebase/FileStorage', :path => '../'
+  pod 'ChatSDKFirebase/Push', :path => '../'
+  pod 'ChatSDKFirebase/SocialLogin', :path => '../'
+  # pod 'ChatSDK/Extras', :path => '../'
+
+  # pod 'TwitterKit', '<3.3.0'
+  # pod 'TwitterCore', '<3.1.0'
+  # pod 'GoogleSignIn'
+  # pod 'FBSDKLoginKit'
+
+
+  # pod 'ChatSDKModules/StickerMessage', :path => '../ChatSDKModules'
+  # pod 'ChatSDKModules/KeyboardOverlayOptions', :path => '../ChatSDKModules'
+  # pod 'ChatSDKModules/ContactBook', :path => '../ChatSDKModules'
 
   #### Optional ####
 
   # Crashlytics see: https://firebase.google.com/docs/crashlytics/get-started?authuser=0
 
-#   pod 'Fabric', '~> 1.7.6'
+  # pod 'Fabric', '~> 1.7.6'
   pod 'Crashlytics', '~> 3.10.1'
-  
+
 end
