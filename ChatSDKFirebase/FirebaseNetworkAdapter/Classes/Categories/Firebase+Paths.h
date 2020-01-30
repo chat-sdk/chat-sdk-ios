@@ -14,6 +14,8 @@
 
 
 +(FIRDatabaseReference *) firebaseRef;
++(FIRDatabaseReference *) configRef;
+
 // Users
 +(FIRDatabaseReference *) usersRef;
 +(FIRDatabaseReference *) userRef: (NSString *) firebaseID;

@@ -78,6 +78,23 @@
     return promise;
 }
 
+-(RXPromise *) retrieveRemoteConfig {
+    RXPromise * promise = [RXPromise new];
+    
+    if (BChatSDK.config.remoteConfigEnabled) {
+        [[FIRDatabaseReference configRef] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+            if (![snapshot.value isEqual: [NSNull null]]) {
+                [BChatSDK.config updateRemoteConfig:snapshot.value];
+            }
+            [promise resolveWithResult:Nil];
+        }];
+    } else {
+        [promise resolveWithResult:Nil];
+    }
+    
+    return promise;
+}
+
 -(RXPromise *) authenticate: (BAccountDetails *) details {
     
     [BChatSDK.core goOnline];
@@ -241,7 +258,9 @@
                 
                 [user push];
                 
-                return user.model;
+                return [self retrieveRemoteConfig].thenOnMain(^id(id success) {
+                    return user.model;
+                }, Nil);
                 
             }, Nil);
         }

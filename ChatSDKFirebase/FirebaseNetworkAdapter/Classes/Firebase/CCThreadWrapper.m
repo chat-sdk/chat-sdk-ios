@@ -294,6 +294,13 @@
                         [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadUsersUpdated object:Nil];
                     }
                 }
+                if ([userEntityID isEqualToString:BChatSDK.currentUserID]) {
+                    if ([snapshot.value[userEntityID][bMute] boolValue]) {
+                        [_model setMetaValue:@"" forKey:bMute];
+                    } else {
+                        [_model removeMetaValueForKey:bMute];
+                    }
+                }
             }
         }
     }];
@@ -567,28 +574,49 @@
 -(RXPromise *) addUserWithEntityID: (NSString *) entityID {
     
     FIRDatabaseReference * threadUsersRef = [[FIRDatabaseReference threadUsersRef:_model.entityID] child:entityID];
+//
+//    RXPromise * promise = [RXPromise new];
+//    // Add the user entities to the thread too
+//    // TODO: check this
+//    NSString * status = [self.model.creator.entityID isEqualToString:entityID] ? bStatusOwner : bStatusMember;
+//
+//    [threadUsersRef setValue:@{bStatus: status} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+//        if (!error) {
+//            [BEntity pushThreadUsersUpdated:self.model.entityID];
+//            [promise resolveWithResult:self];
+//        }
+//        else {
+//            [promise rejectWithReason:error];
+//        }
+//    }];
     
-    RXPromise * promise = [RXPromise new];
-    // Add the user entities to the thread too
-    // TODO: check this
     NSString * status = [self.model.creator.entityID isEqualToString:entityID] ? bStatusOwner : bStatusMember;
-    
-    [threadUsersRef setValue:@{bStatus: status} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
-        if (!error) {
-            [BEntity pushThreadUsersUpdated:self.model.entityID];
-            [promise resolveWithResult:self];
-        }
-        else {
-            [promise rejectWithReason:error];
-        }
-    }];
+    RXPromise * promise = [self setThreadPropertyForUser:entityID key:bStatus value:status];
     
 //    // When we disconnect, we leave all our public threads
-    if (_model.type.intValue & bThreadFilterPublic) {
+    if (_model.type.intValue & bThreadFilterPublic && !BChatSDK.config.publicChatAutoSubscriptionEnabled) {
         [threadUsersRef onDisconnectRemoveValue];
     }
     
     return promise;
+}
+
+-(RXPromise *) setThreadPropertyForUser: (NSString *) entityID key: (NSString *) key value: (NSString *) value {
+        FIRDatabaseReference * threadUsersRef = [[FIRDatabaseReference threadUsersRef:_model.entityID] child:entityID];
+        
+        RXPromise * promise = [RXPromise new];
+        
+        [threadUsersRef updateChildValues:@{key: value} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+            if (!error) {
+                [BEntity pushThreadUsersUpdated:self.model.entityID];
+                [promise resolveWithResult:self];
+            }
+            else {
+                [promise rejectWithReason:error];
+            }
+        }];
+                
+        return promise;
 }
 
 -(RXPromise *) pushLastMessage: (NSDictionary *) messageData {
@@ -642,6 +670,10 @@
     }];
 
     return promise;
+}
+
+-(RXPromise *) setMuted: (BOOL) muted {
+    return [self setThreadPropertyForUser:BChatSDK.currentUserID key:bMute value:@(muted)];
 }
 
 -(RXPromise *) removeUser: (CCUserWrapper *) user {

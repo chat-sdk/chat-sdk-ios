@@ -21,16 +21,15 @@
 
 @synthesize privateThreadsViewController = _privateThreadsViewController;
 @synthesize publicThreadsViewController = _publicThreadsViewController;
+@synthesize showLocalNotification;
 
 -(instancetype) init {
     if((self = [super init])) {
         _additionalChatOptions = [NSMutableArray new];
         _additionalTabBarViewControllers = [NSMutableArray new];
         _additionalSearchViewControllers = [NSMutableDictionary new];
-        _messageCellTypes = [NSMutableArray new];
+        _messageCellTypes = [NSMutableDictionary new];
         _providers = [NSMutableDictionary new];
-        // MEM1
-        //[[SDWebImageDownloader sharedDownloader] setShouldDecompressImages:NO];
         
         [self registerMessageWithCellClass:BTextMessageCell.class messageType:@(bMessageTypeText)];
         [self registerMessageWithCellClass:BImageMessageCell.class messageType:@(bMessageTypeImage)];
@@ -352,12 +351,13 @@
     return [[BTextInputView alloc] initWithFrame:CGRectZero];
 }
 
--(BOOL) showLocalNotification: (id) notification {
-    return _showLocalNotifications && BChatSDK.config.showLocalNotifications;
-}
-
--(void) setShowLocalNotifications: (BOOL) show {
-    _showLocalNotifications = show;
+-(BOOL) showLocalNotification: (id<PThread>) thread {
+    if (BChatSDK.config.showLocalNotifications) {
+        if (showLocalNotification) {
+            return showLocalNotification(thread);
+        }
+    }
+    return NO;
 }
 
 -(UIViewController *) searchIndexViewControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray * index)) callback {
@@ -372,22 +372,20 @@
 }
 
 -(void) registerMessageWithCellClass: (Class) cellClass messageType: (NSNumber *) type {
-    [_messageCellTypes addObject:@[cellClass, type]];
+    [_messageCellTypes setObject:cellClass forKey:type];
 }
 
 -(NSArray *) messageCellTypes {
-    return _messageCellTypes;
+    NSMutableArray * types = [NSMutableArray new];
+    for (NSNumber * type in _messageCellTypes.allKeys) {
+        [types addObject:@[_messageCellTypes[type], type]];
+    }
+    return types;
 }
 
 -(Class) cellTypeForMessageType: (NSNumber *) messageType {
-    for(NSArray * array in self.messageCellTypes) {
-        if([array.lastObject isEqualToNumber:messageType]) {
-            return array.firstObject;
-        }
-    }
-    return Nil;
+    return _messageCellTypes[messageType];
 }
-
 -(UIViewController<PSplashScreenViewController> *) splashScreenViewController {
     if (!_splashScreenViewController) {
         _splashScreenViewController = [[BSplashScreenViewController alloc] initWithNibName:Nil bundle:Nil];
@@ -404,6 +402,10 @@
         _loginViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
     }
     return _loginViewController;
+}
+
+-(void) setLocalNotificationHandler:(BOOL(^)(id<PThread>)) handler {
+    showLocalNotification = handler;
 }
 
 @end

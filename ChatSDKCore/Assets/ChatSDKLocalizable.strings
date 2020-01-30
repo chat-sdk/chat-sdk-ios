@@ -32,6 +32,8 @@
 "bEnterCredentialToResetPassword" = "Enter email to reset password";
 "bPasswordResetSuccess" = "Your password reset has been successful";
 
+
+
 "bBack" = "Back";
 "bOpenInMaps" = "Open in maps";
 "bImageSaved" = "Image saved to library";
@@ -196,5 +198,8 @@
 "bExtendedAway" = "Extended Away";
 "bBusy" = "Busy";
 "bAddContact" = "Add Contact";
+
+"mute" = "Mute Notifications";
+"unmute" = "Unmute Notifications";
 
 "" = "";

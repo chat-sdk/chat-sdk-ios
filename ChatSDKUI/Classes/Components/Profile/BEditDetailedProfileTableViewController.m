@@ -194,29 +194,27 @@
     return [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
 }
 
--(void) logout {
+-(RXPromise *) logout {
 
-    //self.profileViewController.didLogout = YES;
-
+    RXPromise * promise = [RXPromise new];
     
     // Clear fields
     nameTextField.text = @"";
     localityTextField.text = @"";
     phoneTextField.text = @"";
     emailTextField.text = @"";
-
     
     [self dismissViewControllerAnimated:NO completion:^{
         // This will prevent a strange error caused because the view is still present
         // on the stack when we try to put the login screen
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            [BChatSDK.auth logout];
+            [promise resolveWithResult:[BChatSDK.auth logout]];
         });
         
     }];
     
-    //[self.navigationController popViewControllerAnimated:NO];
-    
+    return promise;
+
 }
 
 -(void) viewTapped {
@@ -320,8 +318,10 @@
 }
 
 - (IBAction)clearLocalData:(id)sender {
-    [self logout];
-    [BChatSDK.db deleteAllData];
+    [self logout].thenOnMain(^id(id success) {
+        [BChatSDK.db deleteAllData];
+        return Nil;
+    }, Nil);
 }
 
 - (void)didReceiveMemoryWarning {

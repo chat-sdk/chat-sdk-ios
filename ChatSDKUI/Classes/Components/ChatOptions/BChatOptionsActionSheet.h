@@ -13,7 +13,7 @@
 @class BChatViewController;
 @protocol BChatViewController;
 
-@interface BChatOptionsActionSheet : NSObject<PChatOptionsHandler, UIActionSheetDelegate> {
+@interface BChatOptionsActionSheet : NSObject<PChatOptionsHandler> {
     NSMutableArray * _options;
 }
 

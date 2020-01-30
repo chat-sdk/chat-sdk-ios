@@ -18,6 +18,11 @@
 #define bXMPPPortKey @"port"
 #define bXMPPResourceKey @"resource"
 
+typedef enum {
+    bNameLabelPositionTop,
+    bNameLabelPositionBottom
+} bNameLabelPosition;
+
 @interface BConfiguration : NSObject {
     NSString * _defaultUserName;
     NSMutableDictionary * _messageBubblePadding;
@@ -102,6 +107,8 @@
 @property (nonatomic, readwrite) int textInputViewMaxLines;
 @property (nonatomic, readwrite) int textInputViewMaxCharacters;
 
+@property(nonatomic, readwrite) BOOL publicChatAutoSubscriptionEnabled;
+
 // Google login credentials
 @property (nonatomic, readwrite) NSString * googleClientKey;
 
@@ -126,6 +133,17 @@
 
 // Should the client send push notifications?
 @property(nonatomic, readwrite) BOOL clientPushEnabled;
+
+// Where should we show the user avatar?
+@property(nonatomic, readwrite) bMessagePos showMessageAvatarAtPosition;
+
+@property(nonatomic, readwrite) NSString * messageBubbleMaskFirst;
+@property(nonatomic, readwrite) NSString * messageBubbleMaskMiddle;
+@property(nonatomic, readwrite) NSString * messageBubbleMaskLast;
+@property(nonatomic, readwrite) NSString * messageBubbleMaskSingle;
+
+@property(nonatomic, readwrite) bNameLabelPosition nameLabelPosition;
+@property(nonatomic, readwrite) BOOL combineTimeWithNameLabel;
 
 // Allow the owner of a public thread to delete it
 @property (nonatomic, readwrite) BOOL allowPublicThreadDeletion;
@@ -159,6 +177,9 @@
 @property (nonatomic, readwrite) int audioMessageMaxLengthSeconds;
 
 @property (nonatomic, readwrite) BOOL prefersLargeTitles;
+
+@property (nonatomic, readwrite) NSMutableDictionary * remote;
+@property (nonatomic, readwrite) BOOL remoteConfigEnabled;
 
 // The default search indexes - i.e. which user/meta values are we searching for? If you add
 // custom values remember to add the relevant indexOn values to the Firebase security rules
@@ -212,6 +233,7 @@
 
 // Show local notifications when a message is received
 @property (nonatomic, readwrite) BOOL showLocalNotifications;
+@property (nonatomic, readwrite) BOOL showLocalNotificationsForPublicChats;
 
 // Profile Pictures
 @property (nonatomic, readwrite) BOOL profilePicturesEnabled;
@@ -246,5 +268,9 @@
 
 -(NSValue *) messageBubbleMarginForType: (bMessageType) type;
 -(NSValue *) messageBubblePaddingForType: (bMessageType) type;
+
+-(id) remoteConfigValueForKey: (NSString *) key;
+-(void) updateRemoteConfig: (NSDictionary *) dict;
+-(void) setRemoteConfigValue: (id) value forKey: (NSString *) key;
 
 @end

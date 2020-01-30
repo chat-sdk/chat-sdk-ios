@@ -248,6 +248,12 @@
     [self updateMeta:@{key: [NSString safe: value]}];
 }
 
+-(void) removeMetaValueForKey: (NSString *) key {
+    NSMutableDictionary * newMeta = [NSMutableDictionary dictionaryWithDictionary:self.meta];
+    [newMeta removeObjectForKey:key];
+    self.meta = newMeta;
+}
+
 // TODO: Move this to UI module
 -(RXPromise *) imageForThread {
 

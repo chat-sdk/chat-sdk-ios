@@ -92,7 +92,9 @@
             // Make sure that we're not in the thread
             // there's an edge case where the user could kill the app and remain
             // a member of a public thread
-            [thread removeUser:[CCUserWrapper userWithModel:user]];
+            if (!BChatSDK.config.publicChatAutoSubscriptionEnabled) {
+                [thread removeUser:[CCUserWrapper userWithModel:user]];
+            }
             
             [thread on];
             

@@ -145,12 +145,18 @@
         if (nav.viewControllers.count) {
             // Should we enable or disable local notifications? We want to show them on every tab that isn't the thread view
             BOOL showNotification = ![nav.viewControllers.firstObject isEqual:BChatSDK.ui.privateThreadsViewController] && ![nav.viewControllers.firstObject isEqual:BChatSDK.ui.publicThreadsViewController];
-            [BChatSDK.ui setShowLocalNotifications:showNotification];
+            
+            [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
+                return showNotification;
+            }];
+
             return;
         }
     }
-    [BChatSDK.ui setShowLocalNotifications:NO];
     
+    [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
+        return NO;
+    }];
 }
 
 -(void) updateBadge {

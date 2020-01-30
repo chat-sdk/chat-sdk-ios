@@ -20,6 +20,10 @@
     return [self child:component];
 }
 
++(FIRDatabaseReference *) configRef {
+    return [[self firebaseRef] child:bConfigPath];
+}
+
 #pragma Users
 
 // users
