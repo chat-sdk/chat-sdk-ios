@@ -23,6 +23,7 @@
 @protocol PPublicThreadHandler;
 @protocol PLastOnlineHandler;
 @protocol PBlockingHandler;
+@protocol PCallHandler;
 @protocol PNearbyUsersHandler;
 @protocol PReadReceiptHandler;
 @protocol PStickerMessageHandler;
@@ -94,6 +95,7 @@
 -(id<PPublicThreadHandler>) publicThread;
 -(id<PLastOnlineHandler>) lastOnline;
 -(id<PBlockingHandler>) blocking;
+-(id<PCallHandler>) calling;
 -(id<PNearbyUsersHandler>) nearbyUsers;
 -(id<PReadReceiptHandler>) readReceipt;
 -(id<PStickerMessageHandler>) stickerMessage;
@@ -121,6 +123,7 @@
 -(void) setPublicThread: (id<PPublicThreadHandler>) publicThread;
 -(void) setLastOnline: (id<PLastOnlineHandler>) lastOnline;
 -(void) setBlocking: (id<PBlockingHandler>) blocking;
+-(void) setCalling: (id<PCallHandler>) calling;
 -(void) setNearbyUsers: (id<PNearbyUsersHandler>) nearbyUsers;
 -(void) setReadReceipt: (id<PReadReceiptHandler>) readReceipt;
 -(void) setStickerMessage: (id<PStickerMessageHandler>) stickerMessage;

@@ -272,6 +272,10 @@ static BChatSDK * instance;
     return self.a.blocking;
 }
 
++(id<PCallHandler>) calling {
+    return self.a.calling;
+}
+
 +(id<PLastOnlineHandler>) lastOnline {
     return self.a.lastOnline;
 }

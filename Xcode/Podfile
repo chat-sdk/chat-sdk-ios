@@ -19,6 +19,7 @@ target 'ChatSDK Demo' do
   # pod 'FBSDKLoginKit'
 
 
+  # pod 'ChatSDKModules/SinchModule', :path => '../ChatSDKModules'
   # pod 'ChatSDKModules/StickerMessage', :path => '../ChatSDKModules'
   # pod 'ChatSDKModules/KeyboardOverlayOptions', :path => '../ChatSDKModules'
   # pod 'ChatSDKModules/ContactBook', :path => '../ChatSDKModules'
