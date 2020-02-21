@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.11.10"
+  s.version          = "4.13.0"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -30,6 +30,7 @@ Pod::Spec.new do |s|
 
 	  core.dependency 'RXPromise', '~> 1.0'
 	  core.dependency 'AFNetworking', '~>3.2.1'
+#       core.dependency 'AFNetworking', '~> 3.0', :subspecs => ['Reachability', 'Serialization', 'Security', 'NSURLSession']
 	  core.dependency 'DateTools', '~> 2.0'
       core.dependency 'SAMKeychain'
 

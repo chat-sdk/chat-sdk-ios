@@ -32,6 +32,7 @@
 #import <ChatSDK/BAbstractNetworkAdapter.h>
 #import <ChatSDK/BBaseHookHandler.h>
 #import <ChatSDK/BAbstractPushHandler.h>
+#import <ChatSDK/BLocalNotificationHandler.h>
 
 #import <ChatSDK/BCoreUtilities.h>
 #import <ChatSDK/BFileCache.h>

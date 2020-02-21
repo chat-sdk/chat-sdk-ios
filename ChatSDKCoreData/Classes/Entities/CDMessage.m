@@ -108,6 +108,9 @@
 }
 
 -(bMessagePos) messagePosition {
+    if (!_position) {
+        [self updatePosition];
+    }
     return [_position intValue];
 }
 

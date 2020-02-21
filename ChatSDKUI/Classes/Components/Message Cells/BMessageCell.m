@@ -149,6 +149,8 @@
     // Hide profile pictures for 1-to-1 threads
     _profilePicture.hidden = self.profilePictureHidden;
     
+    NSLog(@"Position: %i", position);
+    
     // We only want to show the user picture if it is the latest message from the user
     //
     // 11/05/2019
@@ -355,7 +357,7 @@
 -(void) showProfileView {
     
     // Cannot view our own profile this way
-    if (!_message.userModel.isMe) {
+    if (!_message.userModel.isMe  && BChatSDK.config.showProfileViewOnTap) {
         UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:_message.userModel];
         [self.navigationController pushViewController:profileView animated:YES];
     }

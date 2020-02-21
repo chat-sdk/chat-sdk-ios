@@ -8,10 +8,6 @@
 
 @class RXPromise;
 
-// TODO: Make these triangular brackets
-//#import "BChatState.h"
-//#import "BSubscriptionType.h"
-
 @protocol PCoreHandler;
 @protocol PPushHandler;
 @protocol PUploadHandler;

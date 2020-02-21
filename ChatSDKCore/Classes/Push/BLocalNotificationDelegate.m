@@ -16,7 +16,27 @@
 
 // The method will be called on the delegate only if the application is in the foreground. If the method is not implemented or the handler is not called in a timely manner then the notification will not be presented. The application can choose to have the notification presented as a sound, badge, alert and/or in the notification list. This decision should be based on whether the information in the notification is otherwise visible to the user.
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
-    if ([BChatSDK.ui showLocalNotification:notification]) {
+    
+    BOOL showLocalNotification = BChatSDK.config.showLocalNotifications;
+    
+    NSDictionary * userInfo = notification.request.content.userInfo;
+    NSString * threadEntityID = userInfo[bPushThreadEntityID];
+    if (threadEntityID) {
+        id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadEntityID withType:bThreadEntity];
+        if (thread) {
+            showLocalNotification = [BChatSDK.ui showLocalNotification:thread];
+        }
+        
+        // Check if we show notifications for public threads
+        if (thread.type.intValue & bThreadFilterPublic) {
+            showLocalNotification = showLocalNotification && BChatSDK.config.showLocalNotificationsForPublicChats;
+        }
+        
+        // Check if the thread is muted
+        showLocalNotification = showLocalNotification && !thread.meta[bMute];
+    }
+    
+    if (showLocalNotification) {
         completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert);
     }
 }
@@ -30,20 +50,20 @@
             UNTextInputNotificationResponse * inputResponse = (UNTextInputNotificationResponse *) response;
             NSString * text = inputResponse.userText;
             NSString * threadEntityID = userInfo[bPushThreadEntityID];
+            
             if (threadEntityID && text) {
-                if(threadEntityID) {
-                    UIBackgroundTaskIdentifier taskIndentifier = UIBackgroundTaskInvalid;
-                    taskIndentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-                        [[UIApplication sharedApplication] endBackgroundTask:taskIndentifier];
-                    }];
-                    [BChatSDK.core sendMessageWithText:text withThreadEntityID:threadEntityID].then(^id(id result) {
-                        [[UIApplication sharedApplication] endBackgroundTask:taskIndentifier];
-                        return Nil;
-                    }, ^id(NSError * error) {
-                        [[UIApplication sharedApplication] endBackgroundTask:taskIndentifier];
-                        return Nil;
-                    });
-                }
+
+                UIBackgroundTaskIdentifier taskIndentifier = UIBackgroundTaskInvalid;
+                taskIndentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+                    [[UIApplication sharedApplication] endBackgroundTask:taskIndentifier];
+                }];
+                [BChatSDK.core sendMessageWithText:text withThreadEntityID:threadEntityID].then(^id(id result) {
+                    [[UIApplication sharedApplication] endBackgroundTask:taskIndentifier];
+                    return Nil;
+                }, ^id(NSError * error) {
+                    [[UIApplication sharedApplication] endBackgroundTask:taskIndentifier];
+                    return Nil;
+                });
             }
         }
     }

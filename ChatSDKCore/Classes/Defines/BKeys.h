@@ -32,6 +32,10 @@
 #define bUserFirebaseID @"user-firebase-id"
 #define bFrom @"from"
 #define bTo @"to"
+
+#define bMute @"mute"
+#define bUnmute @"unmute"
+
 // Deprecated in favour of bCreator
 #define bCreatorEntityID @"creator-entity-id"
 #define bCreator @"creator"
@@ -55,6 +59,7 @@
 #define bTypingPath @"typing" // Typing Indicator
 
 #define bUsersPath @"users"
+#define bConfigPath @"config"
 #define bMessagesPath @"messages"
 #define bThreadsPath @"threads"
 #define bContactsPath @"contacts"

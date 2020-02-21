@@ -171,7 +171,10 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [BChatSDK.ui setShowLocalNotifications:NO];
+    
+    [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
+        return NO;
+    }];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -196,7 +199,7 @@
     [super viewWillDisappear:animated];
     
     // Remove the user from the thread
-    if (_thread.type.intValue & bThreadFilterPublic && !_usersViewLoaded) {
+    if (_thread.type.intValue & bThreadFilterPublic && (!BChatSDK.config.publicChatAutoSubscriptionEnabled || [_thread.meta valueForKey:bMute]) && !_usersViewLoaded) {
         id<PUser> currentUser = BChatSDK.currentUser;
         [BChatSDK.core removeUsers:@[currentUser] fromThread:_thread];
     }

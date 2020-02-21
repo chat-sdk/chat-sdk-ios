@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PUserConnection.h>
-#import <ChatSDK/BSubscriptionType.h>
+#import <ChatSDK/bSubscriptionType.h>
 
 @interface BUserConnectionWrapper : NSObject {
     id<PUserConnection> _connection;
