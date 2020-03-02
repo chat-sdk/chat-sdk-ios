@@ -83,7 +83,6 @@ The real-time database will support up to **100k concurrent users**. From our ex
 - [Contact book integration](https://chatsdk.co/contact-book-integration/)
 - [User Blocking](http://chatsdk.co/user-blocking/)
 - [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
-- [Social Login (free)](https://github.com/chat-sdk/chat-sdk-ios#social-login)
 - [Push Notifications (free)](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
 - [File Storage (free)](https://github.com/chat-sdk/chat-sdk-ios#file-storage)
 - [Firebase UI (free)](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)
@@ -171,7 +170,7 @@ Several schema have also been deprecated and will be removed at some point in th
 At the moment these fields are not being used and are only included for future compatibility. However, in a future version of the client, the old fields will be removed and any old versions of the client will stop working.
 
 ## Running the demo project
-This repository contains a fully functional version of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
+This repository contains a fully functional version of the Chat SDK which is configured using our Firebase account. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
 
 1. Clone Chat SDK  
 2. Run `pod install` in the **Xcode** directory  
@@ -199,10 +198,6 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   pod "ChatSDKFirebase/Adapter"
   pod "ChatSDKFirebase/FileStorage"
   pod "ChatSDKFirebase/Push"
-  
-  // Optional - for social login (see setup guide below)
-  
-  pod "ChatSDKFirebase/SocialLogin"
   ```
   
 2. Run `pod update` to get the latest version of the code.
@@ -319,9 +314,8 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
 10. Copy the following rows from the demo ChatSDK **Info.plist** file to your project's **Info.plist**  
   1. `App Transport Security Settings`
   2. `URL types`
-  3. `FacebookAppID` (If you want Facebook login)
-  4. Make sure that the URL types are all set correctly. The URL type for your app should be set to your bundle `id`
-  5. All the privacy rows. These will allow the app to access the camera, location and address book
+  3. Make sure that the URL types are all set correctly. The URL type for your app should be set to your bundle `id`
+  4. All the privacy rows. These will allow the app to access the camera, location and address book
 
 11. In the Firebase dashboard click **Authentication -> Sign-in method** and enable all the appropriate methods 
 12. Add the [security rules](https://github.com/chat-sdk/chat-sdk-ios#security-rules). The rules also enable optimized user search so this step is very important!
@@ -478,7 +472,6 @@ There are a number of free and premium extensions that can be added to the Chat 
 
 For the following modules:
 
-- [Firebase Social Login](https://github.com/chat-sdk/chat-sdk-ios#social-login) (free)
 - [Firebase UI](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui) (free)
 - [User Blocking](https://chatsdk.co/downloads/user-blocking-for-ios/)
 - [Typing indicator](http://chatsdk.co/downloads/typing-indicator/)
@@ -495,52 +488,6 @@ To install a module you should use the following steps:
 1. Copy the module code into your Xcode source code folder and add the files to your project from inside Xcode. If you are using a symlink you can use the symlink script (mentioned above) and then just add a link to the **ChatSDKFirebase** folder to Xcode.
 2. Add any necessary dependencies to your Podfile
 3. As soon as you add the module code, it will be **detected and installed automatically** by the Chat SDK.
-
-### Social Login
-
-Make sure you add the Social login pod to your `Podfile` then follow the following setup guides to enable each login type.
-
-#### Facebook
-
-1. On the [Facebook developer](https://developers.facebook.com/) site get the **App ID** and **App Secret**
-2. Go to the [Firebase Console](https://console.firebase.google.com/) and open the **Auth** section
-3. On the **Sign in method** tab, enable the **Facebook** sign-in method and specify the **App ID** and **App Secret** you got from Facebook.
-4. Then, make sure your **OAuth redirect URI** (e.g. `my-app-12345.firebaseapp.com/__/auth/handler`) is listed as one of your **OAuth redirect URIs** in your Facebook app's settings page on the Facebook for Developers site in the **Product Settings > Facebook Login** config
-5. Add your key to the ChatSDK config object:
-
-   ```
-   config.facebookAppId = @"facebook-app-id";
-   ```
-   
-6. Open `URL types -> Item 0 -> URL Schemes` and then add your AppID with "fb" at the front (e.g. fb0123456789). 
-7. Add a new item to the plist called `LSApplicationQueriesSchemes` of type `Array`. Add a new entry `fbauth2`. 
-
-#### Twitter
-
-1. [Register your app](https://apps.twitter.com/) as a developer application on Twitter and get your app's **API Key** and **API Secret**.
-2. In the [Firebase console](https://console.firebase.google.com/), open the **Auth** section.
-3. On the **Sign in method** tab, enable the **Twitter** sign-in method and specify the **API Key** and **API Secret** you got from Twitter.
-4. Then, make sure your Firebase **OAuth redirect URI** (e.g. `my-app-12345.firebaseapp.com/__/auth/handler`) is set as your **Callback URL** in your app's settings page on your [Twitter app's config](https://apps.twitter.com/).
-5. Add your keys to the Chat SDK config object:
-
-   ```
-   config.twitterApiKey = @"twitter-api-key";
-   config.twitterSecret = @"twitter-secret";
-   ```
-   
-6. Open URL types and add a new item of type `Dictionary`
-7. Add two entries `Document Role`: `Editor` and `URL Schemes`: `Array`
-8. Add your Consumer Key prefixed with `twitterkit-` as an item in the new `URL Schemes` array. e.g. `twitterkit-0123456789`
-
-#### Google
-  
-1. In the [Firebase console](https://console.firebase.google.com/), open the **Auth** section.
-2. On the **Sign in method** tab, enable the **Google** sign-in method and click **Save**.
-3. Add your Client Key to the Chat SDK config object:
-
-   ```
-   config.googleClientKey = @"google-client-key";
-   ```
   
 ### Firebase UI
 
