@@ -100,7 +100,7 @@
 #define bInviteContact @"bInviteContact"
 #define bInviteBySMS @"bInviteBySMS"
 
-#define bTo @"bTo"
+//#define bTo @"bTo"
 #define bEnterNamesHere @"bEnterNamesHere"
 #define bSearchedContacts @"bSearchedContacts"
 #define bNearbyContacts @"bNearbyContacts"

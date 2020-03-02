@@ -277,7 +277,8 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSBundle t:bAudioLengthLimitReached]
                                                                    message:[NSBundle t:bSendOrDiscardRecording]
                                                             preferredStyle:UIAlertControllerStyleAlert];
-    
+    alert.popoverPresentationController.barButtonItem = Nil;
+
     UIAlertAction *submit = [UIAlertAction actionWithTitle:[NSBundle t:bSend] style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action) {
                                                        [self sendAudioMessage];

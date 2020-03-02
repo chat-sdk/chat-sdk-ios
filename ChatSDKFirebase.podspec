@@ -73,10 +73,10 @@ Pod::Spec.new do |s|
 	
 # 	fsl.dependency 'TwitterKit', '<3.3.0'
 # 	fsl.dependency 'TwitterCore', '<3.1.0'
- 	fsl.dependency 'TwitterKit' 
- 	fsl.dependency 'TwitterCore' 
-    fsl.dependency 'GoogleSignIn'
-    fsl.dependency 'FBSDKLoginKit'
+#  	fsl.dependency 'TwitterKit' 
+#  	fsl.dependency 'TwitterCore' 
+#     fsl.dependency 'GoogleSignIn'
+#     fsl.dependency 'FBSDKLoginKit', '5.10.1'
 
 	fsl.dependency 'ChatSDKFirebase/Adapter'
 	fsl.dependency 'ChatSDK'

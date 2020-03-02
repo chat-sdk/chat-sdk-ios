@@ -118,53 +118,6 @@
     // Depending on the login method we need to authenticate with Firebase
     switch (details.type)
     {
-        case bAccountTypeFacebook: {
-            if (BChatSDK.socialLogin) {
-                [BChatSDK.socialLogin loginWithFacebook].thenOnMain(^id(NSString * token) {
-                    FIRAuthCredential * credential = [FIRFacebookAuthProvider credentialWithAccessToken:token];
-                    //[promise resolveWithResult:credential];
-                    [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
-
-                    return Nil;
-                }, ^id (NSError * error) {
-                    handleResult(Nil, error);
-                    return Nil;
-                });
-            }
-        }
-            break;
-        case bAccountTypeTwitter:
-        {
-            if (BChatSDK.socialLogin) {
-                [BChatSDK.socialLogin loginWithTwitter].thenOnMain(^id(NSArray * array) {
-                    FIRAuthCredential * credential = [FIRTwitterAuthProvider credentialWithToken:array.firstObject
-                                                                                          secret:array.lastObject];
-                    [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
-                    return Nil;
-                    
-                }, ^id (NSError * error) {
-                    handleResult(Nil, error);
-                    return Nil;
-                });
-            }
-        }
-            break;
-        case bAccountTypeGoogle:
-        {
-            if (BChatSDK.socialLogin) {
-                [BChatSDK.socialLogin loginWithGoogle].thenOnMain(^id(NSArray * array) {
-                    FIRAuthCredential * credential = [FIRGoogleAuthProvider credentialWithIDToken:array.firstObject
-                                                                                      accessToken:array.lastObject];
-                    [[FIRAuth auth] signInWithCredential:credential completion:handleResult];
-                    return Nil;
-                    
-                }, ^id (NSError * error) {
-                    handleResult(Nil, error);
-                    return Nil;
-                });
-            }
-        }
-            break;
         case bAccountTypeUsername:
         {
             [[FIRAuth auth] signInWithEmail:details.username password:details.password completion:handleResult];

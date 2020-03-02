@@ -120,22 +120,6 @@ static BChatSDK * instance;
     return _configuration;
 }
 
-// During the Facebook login flow, your app passes control to the Facebook iOS app or Facebook in a mobile browser.
-// After authentication, your app will be called back with the session information.
-+(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    if (BChatSDK.socialLogin) {
-        return [BChatSDK.socialLogin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-    }
-    return NO;
-}
-
-+(BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    if (BChatSDK.socialLogin) {
-        return [BChatSDK.socialLogin application: app openURL: url options: options];
-    }
-    return NO;
-}
-
 +(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     if(BChatSDK.push) {
         [BChatSDK.push application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
@@ -153,9 +137,6 @@ static BChatSDK * instance;
     
     if(BChatSDK.push && BChatSDK.config.shouldAskForNotificationsPermission) {
         [BChatSDK.push registerForPushNotificationsWithApplication:application launchOptions:launchOptions];
-    }
-    if(BChatSDK.socialLogin) {
-        [BChatSDK.socialLogin application:application didFinishLaunchingWithOptions:launchOptions];
     }
     return YES;
 }
@@ -286,10 +267,6 @@ static BChatSDK * instance;
 
 +(id<PStickerMessageHandler>) stickerMessage {
     return self.a.stickerMessage;
-}
-
-+(id<PSocialLoginHandler>) socialLogin {
-    return self.a.socialLogin;
 }
 
 +(id<PUsersHandler>) users {

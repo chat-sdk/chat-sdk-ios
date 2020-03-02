@@ -56,27 +56,6 @@
     [self.termsAndConditionsButton setTitle:[NSBundle t:bTermsAndConditions] forState:UIControlStateNormal];
     
     UIButton * activeSocialButton = Nil;
-    
-    if (![BChatSDK.auth accountTypeEnabled:bAccountTypeFacebook]) {
-        [self hideView:self.facebookButton withViewToRight:self.googleButton];
-    }
-    else {
-        activeSocialButton = self.facebookButton;
-    }
-
-    if (![BChatSDK.auth accountTypeEnabled:bAccountTypeGoogle]) {
-        [self hideView:self.googleButton withViewToRight:self.twitterButton];
-    }
-    else {
-        activeSocialButton = self.googleButton;
-    }
-
-    if (![BChatSDK.auth accountTypeEnabled:bAccountTypeTwitter]) {
-        [self hideView:self.twitterButton withViewToRight:Nil];
-    }
-    else {
-        activeSocialButton = self.twitterButton;
-    }
 
     if (![BChatSDK.auth accountTypeEnabled:bAccountTypeAnonymous]) {
         [self hideView:self.anonymousButton withViewToRight:Nil];
@@ -140,18 +119,6 @@
     return [BChatSDK.auth authenticate:[BAccountDetails signUp:username password:password]];
 }
 
--(RXPromise *) facebook {
-    return [BChatSDK.auth authenticate:[BAccountDetails facebook]];
-}
-
--(RXPromise *) twitter {
-    return [BChatSDK.auth authenticate:[BAccountDetails twitter]];
-}
-
--(RXPromise *) googlePlus {
-    return [BChatSDK.auth authenticate:[BAccountDetails google]];
-}
-
 -(RXPromise *) anonymous {
     return [BChatSDK.auth authenticate:[BAccountDetails anonymous]];
 }
@@ -163,7 +130,5 @@
 -(NSString *) usernamePlaceholder {
     return BChatSDK.config.loginUsernamePlaceholder;
 }
-
-
 
 @end

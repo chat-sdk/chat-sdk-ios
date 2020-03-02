@@ -48,7 +48,7 @@
     config.googleClientKey = @"1088435112418-4cm46hg39okkf0skj2h5roj1q62anmec.apps.googleusercontent.com";
     
     [BChatSDK initialize:config app:application options:launchOptions];
-    
+      
     // TODO: Fix Firebase UI!!!!!!!
     UIViewController * rootViewController = BChatSDK.ui.splashScreenNavigationController;
    

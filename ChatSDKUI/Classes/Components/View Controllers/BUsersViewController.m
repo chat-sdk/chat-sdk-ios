@@ -248,6 +248,7 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:Nil
                                                                    message:Nil
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
+    alert.popoverPresentationController.barButtonItem = self.navigationItem.rightBarButtonItem;
     
     NSString * text = _thread.meta[bMute] ? bUnmute : bMute;
     

@@ -186,7 +186,10 @@
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
+    [self doViewWillDisappear:animated];
+}
+
+-(void) doViewWillDisappear: (BOOL) animated {
     // Remove the user from the thread
     if (_thread.type.intValue & bThreadFilterPublic && (!BChatSDK.config.publicChatAutoSubscriptionEnabled || [_thread.meta valueForKey:bMute]) && !_usersViewLoaded) {
         id<PUser> currentUser = BChatSDK.currentUser;

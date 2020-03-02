@@ -80,7 +80,6 @@
 #import <ChatSDK/PStickerMessageHandler.h>
 #import <ChatSDK/PFileMessageHandler.h>
 #import <ChatSDK/PStorageAdapter.h>
-#import <ChatSDK/PSocialLoginHandler.h>
 #import <ChatSDK/NSBundle+Core.h>
 #import <ChatSDK/BAccountDetails.h>
 #import <ChatSDK/BChatSDK.h>

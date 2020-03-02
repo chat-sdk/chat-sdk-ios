@@ -27,7 +27,6 @@
 @protocol PReadReceiptHandler;
 @protocol PStickerMessageHandler;
 @protocol PFileMessageHandler;
-@protocol PSocialLoginHandler;
 @protocol PHookHandler;
 @protocol PUsersHandler;
 @protocol PEncryptionHandler;
@@ -98,7 +97,6 @@
 -(id<PReadReceiptHandler>) readReceipt;
 -(id<PStickerMessageHandler>) stickerMessage;
 -(id<PFileMessageHandler>) fileMessage;
--(id<PSocialLoginHandler>) socialLogin;
 -(id<PHookHandler>) hook;
 -(id<PUsersHandler>) users;
 -(id<PInternetConnectivityHandler>) connectivity;
@@ -125,7 +123,6 @@
 -(void) setReadReceipt: (id<PReadReceiptHandler>) readReceipt;
 -(void) setStickerMessage: (id<PStickerMessageHandler>) stickerMessage;
 -(void) setFileMessage: (id<PFileMessageHandler>) fileMessage;
--(void) setSocialLogin: (id<PSocialLoginHandler>) socialLogin;
 -(void) setHandler: (id) handler withName: (NSString *) name;
 -(void) setHookHandler: (id<PHookHandler>) hook;
 -(void) setUsers: (id<PUsersHandler>) users;

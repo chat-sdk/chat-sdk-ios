@@ -264,7 +264,11 @@
     if(_selectedContacts.count < maximumSelectedUsers || maximumSelectedUsers <= 0) {
         [_selectedContacts addObject:user];
         
-        [self.names addObject:user.name];
+        if(user.name) {
+            [self.names addObject:user.name];
+        } else {
+            [self.names addObject: user.entityID];
+        }
         
         _filterByName = Nil;
         [_tokenField reloadData];
@@ -284,6 +288,9 @@
         if ([name caseInsensitiveCompare:user.name] == NSOrderedSame) {
             [_selectedContacts removeObject:user];
             break;
+        }
+        if([name isEqualToString:user.entityID]) {
+            [_selectedContacts removeObject:user];
         }
     }
     
