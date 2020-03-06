@@ -13,10 +13,10 @@
 
 #import <RXPromise/RXPromise.h>
 #import <RXPromise/RXPromise+RXExtension.h>
-#import <AFNetworking/AFNetworking.h>
 #import <DateTools/NSDate+DateTools.h>
 #import <ChatSDK/BGoogleUtils.h>
 #import <ChatSDK/PProvider.h>
+#import <AFNetworking/AFHTTPSessionManager.h>
 
 #import <ChatSDK/NSArray+KeyPair.h>
 #import <ChatSDK/NSObject+AssociatedObject.h>

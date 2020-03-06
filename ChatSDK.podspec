@@ -29,7 +29,8 @@ Pod::Spec.new do |s|
 	  }
 
 	  core.dependency 'RXPromise', '~> 1.0'
-	  core.dependency 'AFNetworking', '~>3.2.1'
+	  core.dependency 'AFNetworking/NSURLSession', '~>3.2.1'
+	  
 #       core.dependency 'AFNetworking', '~> 3.0', :subspecs => ['Reachability', 'Serialization', 'Security', 'NSURLSession']
 	  core.dependency 'DateTools', '~> 2.0'
       core.dependency 'SAMKeychain'
