@@ -747,7 +747,7 @@
     [UIView setAnimationDuration:duration.doubleValue];
     [UIView setAnimationCurve:curve.integerValue];
 
-    float contentOffsetY = tableView.contentOffset.y + keyboardBoundsConverted.size.height - self.safeAreaBottomInset;
+    CGFloat contentOffsetY = tableView.contentOffset.y + keyboardBoundsConverted.size.height - self.safeAreaBottomInset;
 
     [tableView setContentOffset:CGPointMake(0, contentOffsetY)];
 
@@ -792,7 +792,7 @@
     }
     [UIView setAnimationsEnabled:YES];
 
-    float contentOffsetY = tableView.contentOffset.y - keyboardBoundsConverted.size.height + self.safeAreaBottomInset;
+    CGFloat contentOffsetY = tableView.contentOffset.y - keyboardBoundsConverted.size.height + self.safeAreaBottomInset;
     [tableView setContentOffset:CGPointMake(0, contentOffsetY)];
 
     [self.view layoutIfNeeded];
