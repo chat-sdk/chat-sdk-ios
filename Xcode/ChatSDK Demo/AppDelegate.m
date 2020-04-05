@@ -32,6 +32,7 @@
     config.disablePresence = YES;
     config.disableProfileUpdateOnAuthentication = YES;
     config.developmentModeEnabled = NO;
+    config.disablePublicThreads = YES;
 
 //    config.showLocalNotificationsForPublicChats = YES;
 //    config.publicChatAutoSubscriptionEnabled = YES;

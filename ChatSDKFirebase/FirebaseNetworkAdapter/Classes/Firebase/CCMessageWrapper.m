@@ -167,7 +167,7 @@
             id<PUser> user = [BChatSDK.db fetchEntityWithID:userID withType:bUserEntity];
             if (!user) {
                 id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:userID withType:bUserEntity];
-                [promise resolveWithResult:[BChatSDK.core observeUser:user].thenOnMain(^id(id success) {
+                [promise resolveWithResult:[BChatSDK.core observeUser:user.entityID].thenOnMain(^id(id success) {
                     return onComplete(user);
                 }, Nil)];
             } else {

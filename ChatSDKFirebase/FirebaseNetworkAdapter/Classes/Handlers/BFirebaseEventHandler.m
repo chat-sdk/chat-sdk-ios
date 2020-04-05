@@ -19,7 +19,9 @@
     [BHookNotification notificationUserOn:user];
     
     [self threadsOn:user];
-    [self publicThreadsOn:user];
+    if (!BChatSDK.config.disablePublicThreads) {
+        [self publicThreadsOn:user];
+    }
     [self contactsOn:user];
     [self moderationOn: user];
     [self onlineOn];
@@ -148,7 +150,11 @@
 -(void) currentUserOff: (NSString *) entityID {
     id<PUser> user = [BChatSDK.db fetchEntityWithID:entityID withType:bUserEntity];
     [self threadsOff:user];
-    [self publicThreadsOff:user];
+    
+    if (!BChatSDK.config.disablePublicThreads) {
+        [self publicThreadsOff:user];
+    }
+
     [self contactsOff:user];
     [self moderationOff:user];
     [self onlineOff];

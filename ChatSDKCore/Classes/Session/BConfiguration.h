@@ -221,6 +221,7 @@ typedef enum {
 // In development mode the app will be more tolerant to remote database corruption. But it will use more bandwidth
 @property (nonatomic, readwrite) BOOL developmentModeEnabled;
 
+@property (nonatomic, readwrite) BOOL disablePublicThreads;
 
 // Firebase options
 
