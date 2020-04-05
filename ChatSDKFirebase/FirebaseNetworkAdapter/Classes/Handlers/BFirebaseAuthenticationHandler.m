@@ -153,6 +153,19 @@
         return [RXPromise resolveWithResult:Nil];
     }
     
+    // Get the user
+    id<PUser> cachedUser = [BChatSDK.db fetchEntityWithID:firebaseUser.uid withType:bUserEntity];
+    BOOL userExists = cachedUser != Nil;
+    
+    // What we do now depends on whether the user exists and whether we are in development mode
+    // If we are in development mode, we will always pull to check to see if the remote data
+    // has been cleared down. If we are in prod mode, if the local user exists we won't
+    // perform this check
+
+    if (cachedUser && !BChatSDK.config.developmentModeEnabled) {
+        return [self completeAuthentication:details withUser:cachedUser];
+    }
+    
     // Get the token
     RXPromise * tokenPromise = [RXPromise new];
     [firebaseUser getIDTokenWithCompletion:^(NSString * token, NSError * error) {
@@ -168,13 +181,6 @@
     return tokenPromise.thenOnMain(^id(NSString * token) {
         __typeof__(self) strongSelf = weakSelf;
 
-        NSString * uid = firebaseUser.uid;
-        
-        // Save the authentication ID for the current user
-        // Set the current user
-        [strongSelf setLoginInfo:@{bAuthenticationIDKey: uid,
-                             bTokenKey: [NSString safe: token]}];
-        
         CCUserWrapper * user = [CCUserWrapper userWithAuthUserData:firebaseUser];
         if (details.name && !user.model.name) {
             [user.model setName:details.name];
@@ -183,37 +189,16 @@
         if (!strongSelf->_isAuthenticatedThisSession) {
             strongSelf->_isAuthenticatedThisSession = YES;
             // Update the user from the remote server
-            return [user once].thenOnMain(^id(id<PUserWrapper> user_) {
+            return [user dataOnce: token].thenOnMain(^id(NSDictionary * data) {
+                
+                BOOL pushRequired = NO;
+                if (data) {
+                    [user deserialize:data];
+                } else if (!BChatSDK.config.disableProfileUpdateOnAuthentication) {
+                    [user push];
+                }
 
-                // If the user was authenticated automatically
-                if (!details) {
-                    [BHookNotification notificationDidAuthenticate:user.model type:bHook_AuthenticationTypeCached];
-                }
-                else if (details.type == bAccountTypeRegister) {
-                    [BHookNotification notificationDidAuthenticate:user.model type:bHook_AuthenticationTypeSignUp];
-                }
-                else {
-                    [BHookNotification notificationDidAuthenticate:user.model type:bHook_AuthenticationTypeLogin];
-                }
-                
-                [BChatSDK.core save];
-                
-//                NSLog(@"User On: %@", user.entityID);
-                
-                // Add listeners here
-                [BChatSDK.event currentUserOn:user.entityID];
-                
-                [BChatSDK.core setUserOnline];
-                
-                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
-                
-                strongSelf->_authenticatedThisSession = true;
-                
-                [user push];
-                
-                return [self retrieveRemoteConfig].thenOnMain(^id(id success) {
-                    return user.model;
-                }, Nil);
+                return [self completeAuthentication:details withUser:user.model];
                 
             }, Nil);
         }
@@ -224,6 +209,38 @@
         
     }, Nil);
     
+}
+
+-(RXPromise *) completeAuthentication: (BAccountDetails *) details withUser: (id<PUser>) user {
+    
+    // Save the authentication ID for the current user
+    [self setLoginInfo:@{bAuthenticationIDKey: user.entityID}];
+    
+    // If the user was authenticated automatically
+    if (!details) {
+        [BHookNotification notificationDidAuthenticate:user type:bHook_AuthenticationTypeCached];
+    }
+    else if (details.type == bAccountTypeRegister) {
+        [BHookNotification notificationDidAuthenticate:user type:bHook_AuthenticationTypeSignUp];
+    }
+    else {
+        [BHookNotification notificationDidAuthenticate:user type:bHook_AuthenticationTypeLogin];
+    }
+    
+    [BChatSDK.core save];
+        
+    // Add listeners here
+    [BChatSDK.event currentUserOn:user.entityID];
+    
+    [BChatSDK.core setUserOnline];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
+    
+    _authenticatedThisSession = true;
+        
+    return [self retrieveRemoteConfig].thenOnMain(^id(id success) {
+        return user;
+    }, Nil);
 }
 
 -(RXPromise *) resetPasswordWithCredential: (NSString *) credential {

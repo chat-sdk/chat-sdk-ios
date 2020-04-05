@@ -21,24 +21,27 @@
 }
 
 -(void) setUserOnline {
-    [super setUserOnline];
-    id<PUser> user = self.currentUserModel;
-    if(!user || !user.entityID) {
-        return;
+    if (!BChatSDK.config.disablePresence) {
+        [super setUserOnline];
+        id<PUser> user = self.currentUserModel;
+        if(!user || !user.entityID) {
+            return;
+        }
+        [[CCUserWrapper userWithModel:user] goOnline];
     }
-    [[CCUserWrapper userWithModel:user] goOnline];
 }
 
 -(void) setUserOffline {
-    [super setUserOffline];
-    id<PUser> user = self.currentUserModel;
-    if(!user || !user.entityID) {
-        return;
-    }
+    if (!BChatSDK.config.disablePresence) {
+        [super setUserOffline];
+        id<PUser> user = self.currentUserModel;
+        if(!user || !user.entityID) {
+            return;
+        }
 
-    [BHookNotification notificationUserWillDisconnect];
-    
-    [[CCUserWrapper userWithModel:user] goOffline];
+        [BHookNotification notificationUserWillDisconnect];
+        [[CCUserWrapper userWithModel:user] goOffline];
+    }
 }
 -(void) goOnline {
     [FIRDatabaseReference goOnline];
@@ -53,7 +56,9 @@
 
 -(RXPromise *)observeUser: (NSString *)entityID {
     id<PUser> userModel = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
-    [[CCUserWrapper userWithModel:userModel] onlineOn];
+    if (!BChatSDK.config.disablePresence) {
+        [[CCUserWrapper userWithModel:userModel] onlineOn];
+    }
     return [[CCUserWrapper userWithModel:userModel] metaOn];
 }
 

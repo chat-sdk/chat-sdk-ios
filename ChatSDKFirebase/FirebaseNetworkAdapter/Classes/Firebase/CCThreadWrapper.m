@@ -523,16 +523,22 @@
     
     NSString * creatorEntityID = value[bCreatorEntityID];
     if(creatorEntityID) {
-        _model.creator = [BChatSDK.db fetchEntityWithID:creatorEntityID withType:bUserEntity];
-        if(!_model.creator) {
-            id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:creatorEntityID withType:bUserEntity];
-            [[CCUserWrapper userWithModel:user] once].thenOnMain(^id(id success) {
-                _model.creator = user;
-                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated
-                                                                    object:Nil
-                                                                  userInfo:@{bNotificationMessageUpdatedKeyMessage: self.model}];
+        
+        void(^onComplete)(id<PUser> user) = ^void(id<PUser> user) {
+            _model.creator = user;
+            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadMetaUpdated
+                                                                object:Nil];
+        };
+            
+        id<PUser> user = [BChatSDK.db fetchEntityWithID:creatorEntityID withType:bUserEntity];
+        if (!user) {
+            user = [BChatSDK.db fetchOrCreateEntityWithID:creatorEntityID withType:bUserEntity];
+            [BChatSDK.core observeUser:user].thenOnMain(^id(id success) {
+                onComplete(user);
                 return success;
             }, Nil);
+        } else {
+            onComplete(user);
         }
     }
     

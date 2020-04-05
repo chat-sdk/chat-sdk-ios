@@ -155,14 +155,24 @@
     if (userID) {
         _model.userModel = [BChatSDK.db fetchEntityWithID:userID withType:bUserEntity];
         if(!_model.userModel) {
-            id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:userID withType:bUserEntity];
-            [promise resolveWithResult:[[CCUserWrapper userWithModel:user] once].thenOnMain(^id(id success) {
+            
+            id<PMessage>(^onComplete)(id<PUser> user) = ^id<PMessage>(id<PUser> user) {
                 _model.userModel = user;
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated
                                                                     object:Nil
                                                                   userInfo:@{bNotificationMessageUpdatedKeyMessage: self.model}];
-                return success;
-            }, Nil)];
+                return _model;
+            };
+            
+            id<PUser> user = [BChatSDK.db fetchEntityWithID:userID withType:bUserEntity];
+            if (!user) {
+                id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:userID withType:bUserEntity];
+                [promise resolveWithResult:[BChatSDK.core observeUser:user].thenOnMain(^id(id success) {
+                    return onComplete(user);
+                }, Nil)];
+            } else {
+                [promise resolveWithResult:onComplete(user)];
+            }
         }
         else {
             [promise resolveWithResult:Nil];

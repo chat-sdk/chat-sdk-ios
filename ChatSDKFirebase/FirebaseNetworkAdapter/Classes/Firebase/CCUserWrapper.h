@@ -24,7 +24,7 @@
 /**
  * @brief Update the user object from Firebase once
  */
--(RXPromise *) once;
+-(RXPromise *) once: (NSString *) token;
 
 /**
  * @brief Push the current object data to the server
@@ -84,5 +84,8 @@
  * @brief Remove a thread from the user on disconnect
  */
 -(void) removeThreadOnDisconnect: (NSString *) entityID;
+
+-(RXPromise *) dataOnce: (NSString *) token;
+-(void) deserialize: (NSDictionary *) value;
 
 @end

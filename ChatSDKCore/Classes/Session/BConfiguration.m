@@ -1,4 +1,4 @@
-//
+ //
 //  BConfiguration.m
 //  AFNetworking
 //
@@ -58,6 +58,9 @@
 @synthesize searchIndexes;
 @synthesize showProfileViewOnTap;
 @synthesize showLocalNotificationsForPublicChats;
+@synthesize disablePresence;
+@synthesize disableProfileUpdateOnAuthentication;
+@synthesize developmentModeEnabled;
 
 @synthesize vibrateOnNewMessage;
 

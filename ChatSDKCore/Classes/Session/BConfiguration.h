@@ -210,6 +210,18 @@ typedef enum {
 // If this databbase version changes, the database will be cleared and re-populated from Firebase
 @property (nonatomic, readwrite) BOOL clearDatabaseWhenDataVersionChanges;
 
+// Optimization
+
+// If this is set to true, no presence information will be sent or listened to
+@property (nonatomic, readwrite) BOOL disablePresence;
+
+// If this is set to true, then the local user profile will be neither pulled or pushed to Firbase on authentication
+@property (nonatomic, readwrite) BOOL disableProfileUpdateOnAuthentication;
+
+// In development mode the app will be more tolerant to remote database corruption. But it will use more bandwidth
+@property (nonatomic, readwrite) BOOL developmentModeEnabled;
+
+
 // Firebase options
 
 // Should the Chat SDK call [FIRApp configure];
