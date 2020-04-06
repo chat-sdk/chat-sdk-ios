@@ -240,34 +240,40 @@
     
     RXPromise * promise = [RXPromise new];
     
-    if (((NSManagedObject *)_model).onlineOn) {
+    if (!BChatSDK.config.disablePresence) {
+        if (((NSManagedObject *)_model).onlineOn) {
+            [promise resolveWithResult:Nil];
+            return promise;
+        }
+        ((NSManagedObject *)_model).onlineOn = YES;
+        
+        FIRDatabaseReference * ref = [FIRDatabaseReference userOnlineRef:self.entityID];
+        
+        [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+            if(![snapshot.value isEqual: [NSNull null]]) {
+                self.model.online = [snapshot.value isEqualToNumber:@1] ? @(YES) : @(NO);
+            }
+            else {
+                self.model.online = @NO;
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated
+                                                                object:Nil
+                                                              userInfo:@{bNotificationUserUpdated_PUser: self.model}];
+            [promise resolveWithResult:Nil];
+        }];
+    } else {
         [promise resolveWithResult:Nil];
-        return promise;
     }
-    ((NSManagedObject *)_model).onlineOn = YES;
-    
-    FIRDatabaseReference * ref = [FIRDatabaseReference userOnlineRef:self.entityID];
-    
-    [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
-        if(![snapshot.value isEqual: [NSNull null]]) {
-            self.model.online = [snapshot.value isEqualToNumber:@1] ? @(YES) : @(NO);
-        }
-        else {
-            self.model.online = @NO;
-        }
-        [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated
-                                                            object:Nil
-                                                          userInfo:@{bNotificationUserUpdated_PUser: self.model}];
-    }];
     
     return promise;
 }
 
 -(void) onlineOff {
-    
-    ((NSManagedObject *)_model).onlineOn = NO;
-    FIRDatabaseReference * userRef = [FIRDatabaseReference userOnlineRef:self.entityID];
-    [userRef removeAllObservers];
+    if (!BChatSDK.config.disablePresence) {
+        ((NSManagedObject *)_model).onlineOn = NO;
+        FIRDatabaseReference * userRef = [FIRDatabaseReference userOnlineRef:self.entityID];
+        [userRef removeAllObservers];
+    }
 }
 
 -(RXPromise *) push {

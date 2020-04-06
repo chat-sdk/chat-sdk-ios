@@ -30,8 +30,8 @@
     config.allowUsersToCreatePublicChats = YES;
     
     config.disablePresence = YES;
-    config.disableProfileUpdateOnAuthentication = YES;
-    config.developmentModeEnabled = NO;
+    config.disableProfileUpdateOnAuthentication = NO;
+    config.developmentModeEnabled = YES;
     config.disablePublicThreads = YES;
 
 //    config.showLocalNotificationsForPublicChats = YES;

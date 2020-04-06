@@ -155,14 +155,13 @@
     
     // Get the user
     id<PUser> cachedUser = [BChatSDK.db fetchEntityWithID:firebaseUser.uid withType:bUserEntity];
-    BOOL userExists = cachedUser != Nil;
     
     // What we do now depends on whether the user exists and whether we are in development mode
     // If we are in development mode, we will always pull to check to see if the remote data
     // has been cleared down. If we are in prod mode, if the local user exists we won't
     // perform this check
 
-    if (cachedUser && !BChatSDK.config.developmentModeEnabled) {
+    if (cachedUser && (!BChatSDK.config.developmentModeEnabled || _isAuthenticatedThisSession)) {
         return [self completeAuthentication:details withUser:cachedUser];
     }
     
@@ -186,32 +185,26 @@
             [user.model setName:details.name];
         }
         
-        if (!strongSelf->_isAuthenticatedThisSession) {
-            strongSelf->_isAuthenticatedThisSession = YES;
-            // Update the user from the remote server
-            return [user dataOnce: token].thenOnMain(^id(NSDictionary * data) {
-                
-                BOOL pushRequired = NO;
-                if (data) {
-                    [user deserialize:data];
-                } else if (!BChatSDK.config.disableProfileUpdateOnAuthentication) {
-                    [user push];
-                }
+        // Update the user from the remote server
+        return [user dataOnce: token].thenOnMain(^id(NSDictionary * data) {
+            
+            if (data) {
+                [user deserialize:data];
+            } else if (!BChatSDK.config.disableProfileUpdateOnAuthentication) {
+                [user push];
+            }
 
-                return [self completeAuthentication:details withUser:user.model];
-                
-            }, Nil);
-        }
-        else {
-            [BHookNotification notificationDidAuthenticate:user.model type:bHook_AuthenticationTypeCached];
-            return user.model;
-        }
+            return [self completeAuthentication:details withUser:user.model];
+            
+        }, Nil);
         
     }, Nil);
     
 }
 
 -(RXPromise *) completeAuthentication: (BAccountDetails *) details withUser: (id<PUser>) user {
+    
+    _isAuthenticatedThisSession = YES;
     
     // Save the authentication ID for the current user
     [self setLoginInfo:@{bAuthenticationIDKey: user.entityID}];
