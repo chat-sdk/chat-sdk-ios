@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B12BA5F243B84980030413C /* DemoLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B12BA5E243B84980030413C /* DemoLoginViewController.m */; };
 		AC7BD9A51E0874B400C785EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A31E0874B400C785EE /* Main.storyboard */; };
 		AC7BD9A71E0874B400C785EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A61E0874B400C785EE /* Assets.xcassets */; };
 		AC7BD9AA1E0874B400C785EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A81E0874B400C785EE /* LaunchScreen.storyboard */; };
@@ -18,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B12BA5D243B84980030413C /* DemoLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DemoLoginViewController.h; path = Customization/DemoLoginViewController.h; sourceTree = "<group>"; };
+		3B12BA5E243B84980030413C /* DemoLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DemoLoginViewController.m; path = Customization/DemoLoginViewController.m; sourceTree = "<group>"; };
 		5BC0BC298C4070D53330597B /* Pods_ChatSDK_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSDK_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8839CFFD78427EE9D5BBEE10 /* Pods-ChatSDK Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.debug.xcconfig"; path = "Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		AC7BD9971E0874B400C785EE /* ChatSDK Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChatSDK Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,13 +52,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B12BA5C243B84780030413C /* Customization */ = {
+			isa = PBXGroup;
+			children = (
+				3B12BA5D243B84980030413C /* DemoLoginViewController.h */,
+				3B12BA5E243B84980030413C /* DemoLoginViewController.m */,
+			);
+			name = Customization;
+			sourceTree = "<group>";
+		};
 		58C6C2B3BF703DC74DE818CE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				8839CFFD78427EE9D5BBEE10 /* Pods-ChatSDK Demo.debug.xcconfig */,
 				C3E34731040821B53579FDC9 /* Pods-ChatSDK Demo.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -88,6 +99,7 @@
 		AC7BD9991E0874B400C785EE /* ChatSDK Demo */ = {
 			isa = PBXGroup;
 			children = (
+				3B12BA5C243B84780030413C /* Customization */,
 				B5736DD220A1F25900D0947B /* ChatSDK Demo.entitlements */,
 				AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */,
 				AC7BD99D1E0874B400C785EE /* AppDelegate.h */,
@@ -315,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5081AC81F56C04B0015417B /* AppDelegate.m in Sources */,
+				3B12BA5F243B84980030413C /* DemoLoginViewController.m in Sources */,
 				B5081AC91F56C04B0015417B /* main.m in Sources */,
 				B53797E2223659230003F6F8 /* ApiExamples.m in Sources */,
 			);
