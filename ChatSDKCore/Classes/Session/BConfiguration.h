@@ -31,6 +31,10 @@ typedef enum {
 
 // Should we ask the user to allow notifications when the app initially loads up? 
 @property (nonatomic, readwrite) BOOL shouldAskForNotificationsPermission;
+
+/// Custom background color of BChatViewController's main view.
+@property (nonatomic, readwrite) NSString * chatBgColor;
+
     
 // Background color of messages: hex value like "FFFFFF"
 @property (nonatomic, readwrite) NSString * messageColorMe;

@@ -30,6 +30,11 @@
 -(void) viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [BCoreUtilities colorWithHexString:bDefaultChatBgColor];
+    if(BChatSDK.config.chatBgColor) {
+        self.view.backgroundColor = [BCoreUtilities colorWithHexString:BChatSDK.config.chatBgColor];
+    }
+    
     [_sendBarView setMaxLines:BChatSDK.config.textInputViewMaxLines];
     [_sendBarView setMaxCharacters:BChatSDK.config.textInputViewMaxCharacters];
 
