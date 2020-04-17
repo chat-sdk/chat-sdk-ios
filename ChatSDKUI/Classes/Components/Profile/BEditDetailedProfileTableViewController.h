@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CountryPicker/CountryPicker.h>
 #import <StaticDataTableViewController/StaticDataTableViewController.h>
 
 #ifdef __IPHONE_8_0
@@ -18,7 +17,7 @@
 
 @class BDetailedProfileTableViewController;
 
-@interface BDetailedEditProfileTableViewController : StaticDataTableViewController<CountryPickerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface BDetailedEditProfileTableViewController : StaticDataTableViewController<UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     UITapGestureRecognizer * _tapRecognizer;
     id _keyboardObserver;
     float _statusTextViewHeight;
@@ -41,8 +40,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *profilePictureButton;
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *availabilityCell;
-
-@property (weak, nonatomic) IBOutlet CountryPicker *countryPickerView;
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *nameCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *localityCell;

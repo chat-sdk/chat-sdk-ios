@@ -17,7 +17,6 @@
 #import <TOCropViewController/TOCropViewController.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/UIButton+WebCache.h>
-#import <CountryPicker/CountryPicker.h>
 #import <RXPromise/RXPromise.h>
 #import <Hakawai/Hakawai-umbrella.h>
 #import <KeepLayout/KeepLayout.h>
