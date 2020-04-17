@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.13.1"
+  s.version          = "4.13.2"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -69,7 +69,6 @@ Pod::Spec.new do |s|
 	  ui.dependency 'VENTokenField', '~> 2.0'
 	  ui.dependency 'SDWebImage', '~> 5.0'
 	  ui.dependency 'StaticDataTableViewController', '~> 2.0'
-	  ui.dependency 'CountryPicker', '~> 1.0'
 	  ui.dependency 'TOCropViewController', '~> 2.0'
 	  ui.dependency 'Hakawai', '~> 5.1.5'
 	  ui.dependency 'ChatSDKKeepLayout'

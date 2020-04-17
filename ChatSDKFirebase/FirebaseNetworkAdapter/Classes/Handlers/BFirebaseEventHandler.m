@@ -83,9 +83,11 @@
 
     // TODO: This may cause issues if the device's clock is wrong
     FIRDatabaseQuery * query = [publicThreadsRef queryOrderedByChild:bCreationDate];
-    double loadRoomsSince = ([[NSDate date] timeIntervalSince1970] - BChatSDK.config.publicChatRoomLifetimeMinutes * 60) * 1000;
-//    double loadRoomsSince = ([[NSDate date] timeIntervalSince1970]) * 1000;
-    query = [query queryStartingAtValue: @(loadRoomsSince)];
+    
+    if (BChatSDK.config.publicChatRoomLifetimeMinutes != 0) {
+            double loadRoomsSince = ([[NSDate date] timeIntervalSince1970] - BChatSDK.config.publicChatRoomLifetimeMinutes * 60) * 1000;
+            query = [query queryStartingAtValue: @(loadRoomsSince)];
+    }
 
     [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
         if (snapshot.value != [NSNull null]) {

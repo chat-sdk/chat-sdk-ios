@@ -13,6 +13,10 @@
 
 #import <FirebaseMessaging/FirebaseMessaging.h>
 
+@class FIRFunctions;
+
 @interface BFirebasePushHandler : BAbstractPushHandler<FIRMessagingDelegate>
+
+-(FIRFunctions *) functions;
 
 @end

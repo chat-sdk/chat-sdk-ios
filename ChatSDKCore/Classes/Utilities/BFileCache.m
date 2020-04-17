@@ -17,6 +17,10 @@
 
 + (RXPromise *)cacheFileFromURL:(NSURL *)url withFileName:(NSString *)fileName andCacheName:(NSString *)cacheName {
     RXPromise * promise = [RXPromise new];
+    if (!url) {
+        [promise rejectWithReason: @"URL must not be nil"];
+        return promise;
+    }
     __block NSURL * cacheURL = [[NSUserDefaults standardUserDefaults] URLForKey:cacheName];
     if (cacheURL) {
         [promise resolveWithResult:cacheURL];

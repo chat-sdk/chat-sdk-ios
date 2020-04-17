@@ -22,7 +22,6 @@
 @implementation BDetailedProfileTableViewController
 
 @synthesize profilePictureButton;
-@synthesize flagImageView;
 @synthesize nameLabel;
 @synthesize statusTextView;
 @synthesize localityLabel;
@@ -124,13 +123,6 @@
                                                                                  target:self
                                                                                  action:@selector(startChat)];
     }
-
-    //
-    // Flag
-    //
-    
-    UIImage * flag = [NSBundle imageNamed:userWrapper.country framework:@"CountryPicker" bundle:@"CountryPicker"];
-    [flagImageView setImage:flag];
     
     //
     // Name

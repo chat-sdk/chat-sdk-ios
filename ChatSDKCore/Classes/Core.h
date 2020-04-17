@@ -36,6 +36,7 @@
 
 #import <ChatSDK/BCoreUtilities.h>
 #import <ChatSDK/BFileCache.h>
+#import <ChatSDK/BAvailabilityState.h>
 
 #import <ChatSDK/PEntity.h>
 #import <ChatSDK/PEntityWrapper.h>

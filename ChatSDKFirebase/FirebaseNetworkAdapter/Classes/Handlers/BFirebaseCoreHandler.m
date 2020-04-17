@@ -208,5 +208,20 @@
     return @((double)date.timeIntervalSince1970 * 1000);
 }
 
++(FIRApp *) app {
+    if (BChatSDK.config.firebaseApp) {
+        return [FIRApp appNamed:BChatSDK.config.firebaseApp];
+    }
+    return [FIRApp defaultApp];
+}
+
++(FIRDatabase *) database {
+    return [FIRDatabase databaseForApp:self.app];
+}
+
++(FIRAuth *) auth {
+    return [FIRAuth authWithApp:self.app];
+}
+
 
 @end

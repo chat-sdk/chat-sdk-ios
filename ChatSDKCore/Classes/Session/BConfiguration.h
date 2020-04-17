@@ -85,16 +85,9 @@ typedef enum {
 @property (nonatomic, readwrite) float readReceiptMaxAgeInSeconds;
 
 // Enable or disable social login options
-@property (nonatomic, readwrite) BOOL googleLoginEnabled;
-@property (nonatomic, readwrite) BOOL facebookLoginEnabled;
-@property (nonatomic, readwrite) BOOL twitterLoginEnabled;
 @property (nonatomic, readwrite) BOOL anonymousLoginEnabled;
 @property (nonatomic, readwrite) BOOL forgotPasswordEnabled;
 @property (nonatomic, readwrite) BOOL termsAndConditionsEnabled;
-
-// Twitter login credentials
-@property (nonatomic, readwrite) NSString * twitterApiKey;
-@property (nonatomic, readwrite) NSString * twitterSecret;
 
 @property (nonatomic, readwrite) NSString * xmppDomain;
 @property (nonatomic, readwrite) NSString * xmppHostAddress;
@@ -108,11 +101,6 @@ typedef enum {
 @property (nonatomic, readwrite) int textInputViewMaxCharacters;
 
 @property(nonatomic, readwrite) BOOL publicChatAutoSubscriptionEnabled;
-
-// Google login credentials
-@property (nonatomic, readwrite) NSString * googleClientKey;
-
-@property (nonatomic, readwrite) NSString * facebookAppId;
 
 // The the image to be displayed on the login screen. Image should be
 // 120x120px
@@ -230,6 +218,11 @@ typedef enum {
 
 // The name of the custom Firebase Google-Services plist file
 @property (nonatomic, readwrite) NSString * firebaseGoogleServicesPlistName;
+
+@property (nonatomic, readwrite) NSString * firebaseDatabaseURL;
+@property (nonatomic, readwrite) NSString * firebaseApp;
+@property (nonatomic, readwrite) NSString * firebaseFunctionsRegion;
+@property (nonatomic, readwrite) NSString * firebaseStorageURL;
 
 // Chat SDK can auto-detect and install modules. Some modules need to a different setup
 // procedure depending on which server is being used - Firebase or XMPP. If only one

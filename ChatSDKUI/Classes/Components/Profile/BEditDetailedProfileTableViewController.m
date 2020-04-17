@@ -22,15 +22,12 @@
 
 @synthesize statusTextView;
 @synthesize nameTextField;
-@synthesize countryPickerView;
 @synthesize localityTextField;
 @synthesize phoneTextField;
 @synthesize emailTextField;
 @synthesize availabilityButton;
 @synthesize availabilityCell;
-@synthesize countryButton;
 @synthesize profilePictureButton;
-@synthesize countryPickerCell;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,12 +53,6 @@
     localityTextField.text = userWrapper.locality;
     phoneTextField.text = user.phoneNumber;
     emailTextField.text = user.email;
-    
-    // Country
-    NSString * countryCode = userWrapper.country ? userWrapper.country : [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
-    
-    [countryPickerView setSelectedCountryCode:countryCode animated:NO];
-    [countryButton setTitle:countryPickerView.selectedCountryName forState:UIControlStateNormal];
     
     // Availability
     _availabilityOptions = [BAvailabilityState options];
@@ -93,7 +84,6 @@
     
     // Hide the picker cells - they are displayed when their button is pressed
     [self cell:availabilityCell setHidden:YES];
-    [self cell:countryPickerCell setHidden:YES];
 
     [self reloadDataAnimated:NO];
     
@@ -154,10 +144,6 @@
 
 #pragma mark - Table view data source
 
-- (void)countryPicker:(CountryPicker *)picker didSelectCountryWithName:(NSString *)name code:(NSString *)code {
-    [countryButton setTitle:name forState:UIControlStateNormal];
-}
-
 // returns the number of 'columns' to display.
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
@@ -172,6 +158,10 @@
     return [_availabilityOptions[row] firstObject];
 }
 
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    [availabilityButton setTitle:[_availabilityOptions[row] firstObject] forState:UIControlStateNormal];
+}
+
 - (IBAction)availabilityButtonPressed:(UIButton *)sender {
     BOOL hidden = ![self cellIsHidden: availabilityCell];
     [self cell:availabilityCell setHidden:hidden];
@@ -179,16 +169,6 @@
     [self reloadDataAnimated:NO];
 }
 
-- (IBAction)countryButtonPressed:(UIButton *)sender {
-    BOOL hidden = ![self cellIsHidden: countryPickerCell];
-    [self cell:countryPickerCell setHidden:hidden];
-    [sender setTintColor:hidden ? self.defaultButtonTintColor : [UIColor redColor]];
-    [self reloadDataAnimated:NO];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    [availabilityButton setTitle:[_availabilityOptions[row] firstObject] forState:UIControlStateNormal];
-}
 
 -(UIColor *) defaultButtonTintColor {
     return [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
@@ -261,7 +241,6 @@
     [user setStatusText: statusTextView.text];
     [user setName:nameTextField.text];
     [userWrapper setLocality:localityTextField.text];
-    [userWrapper setCountry: countryPickerView.selectedCountryCode];
     [user setPhoneNumber:phoneTextField.text];
     [user setEmail:emailTextField.text];
     [user setAvailability:[_availabilityOptions[[_availabilityPicker selectedRowInComponent:0]] lastObject]];

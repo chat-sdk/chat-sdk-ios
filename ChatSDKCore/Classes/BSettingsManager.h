@@ -10,12 +10,6 @@
 
 @interface BSettingsManager : NSObject
 
-+(NSString *) twitterApiKey;
-+(NSString *) facebookAppId;
-+(NSString *) googleClientKey;
-
-+(NSString *) twitterSecret;
-
 +(NSString *) firebasePath;
 +(NSString *) firebaseRootPath;
 +(NSString *) firebaseStoragePath;

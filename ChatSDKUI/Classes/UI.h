@@ -91,7 +91,6 @@
 #import <ChatSDK/BDetailedUserWrapper.h>
 #import <ChatSDK/BDetailedProfileTableViewController.h>
 #import <ChatSDK/BEditDetailedProfileTableViewController.h>
-#import <ChatSDK/BAvailabilityState.h>
 #import <ChatSDK/BUserConnectionWrapper.h>
 #import <ChatSDK/BMessageSectionDateProvider.h>
 

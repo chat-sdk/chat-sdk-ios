@@ -19,9 +19,6 @@
 @synthesize defaultUserName = _defaultUserName;
 @synthesize showEmptyChats;
 @synthesize allowUsersToCreatePublicChats;
-@synthesize googleLoginEnabled;
-@synthesize twitterLoginEnabled;
-@synthesize facebookLoginEnabled;
 @synthesize anonymousLoginEnabled;
 @synthesize defaultServer;
 @synthesize shouldOpenChatWhenPushNotificationClicked;
@@ -97,6 +94,11 @@
 @synthesize remote;
 @synthesize remoteConfigEnabled;
 
+@synthesize firebaseApp;
+@synthesize firebaseStorageURL;
+@synthesize firebaseDatabaseURL;
+@synthesize firebaseFunctionsRegion;
+
 -(instancetype) init {
     if((self = [super init])) {
         
@@ -107,15 +109,14 @@
         messageColorReply = bDefaultMessageColorReply;
         rootPath = @"default";
         appBadgeEnabled = YES;
-        defaultUserNamePrefix = @"ChatSDK";
+        
+        [self setDefaultUserNamePrefix:@"ChatSDK"];
+
         showEmptyChats = YES;
         allowUsersToCreatePublicChats = NO;
+                
+        defaultAvatarURL = [NSString stringWithFormat:@"http://flathash.com/%@.png", self.defaultUserName];
         
-        defaultAvatarURL = [@"http://flathash.com/%@.png" stringByAppendingFormat: @"%@", self.defaultUserName];
-        
-        facebookLoginEnabled = YES;
-        twitterLoginEnabled = YES;
-        googleLoginEnabled = YES;
         clientPushEnabled = NO;
         
         remote = [NSMutableDictionary new];

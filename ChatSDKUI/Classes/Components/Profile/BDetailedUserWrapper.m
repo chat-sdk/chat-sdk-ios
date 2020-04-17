@@ -34,12 +34,5 @@
     [_user setMetaValue:locality forKey:bLocalityKey];
 }
 
--(NSString *) country {
-    return [_user.meta metaStringForKey:bCountryKey];
-}
-
--(void) setCountry: (NSString *) country {
-    [_user setMetaValue:country forKey:bCountryKey];
-}
 
 @end

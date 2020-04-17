@@ -96,8 +96,15 @@
         // Update the user
         [self.model setImage:UIImagePNGRepresentation(defaultImage)];
         
-        [self setPersonProfilePicture];
+        if(self.model.name) {
+            [self setPersonProfilePicture];
+        }
     }
+    
+    if(!self.model.availability) {
+        self.model.availability = bAvailabilityStateAvailable;
+    }
+    
 }
 
 - (RXPromise *)setProfilePictureWithImageURL: (NSString *)url {
@@ -116,8 +123,7 @@
                 if(BChatSDK.upload) {
                     return [BChatSDK.upload uploadImage:image].thenOnMain(^id(NSDictionary * urls) {
                         
-                        // Set the meta data
-                        [user updateMeta:@{bUserImageURLKey: urls[bImagePath]}];
+                        [user setImageURL:urls[bImagePath]];
 
                         return [BChatSDK.core pushUser];
                     }, Nil);
@@ -136,13 +142,13 @@
 
 - (void)setRobotProfilePicture {
     NSString * name = [self.model.name stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString * url = [@"https://robohash.org/" stringByAppendingFormat:@"%@.png", name];
+    NSString * url = [NSString stringWithFormat: @"https://robohash.org/%@.png", name];
     [self setProfilePictureWithImageURL:url];
 }
 
 -(void) setPersonProfilePicture {
     NSString * name = [self.model.name stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString * url = [@"http://flathash.com/%@.png" stringByAppendingFormat: @"%@", name];
+    NSString * url = [NSString stringWithFormat: @"http://flathash.com/%@.png", name];
     [self setProfilePictureWithImageURL:url];
 }
 
@@ -349,12 +355,15 @@
     NSString * newURL = newMeta[bUserImageURLKey];
     BOOL imageChanged = ![meta[bUserImageURLKey] isEqualToString:newURL];
     if (imageChanged && newURL && newURL.length) {
-        [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:newURL]].thenOnMain(^id(UIImage * image) {
-            if(image) {
-                [_model setImage:UIImagePNGRepresentation(image)];
-            }
-            return Nil;
-        }, Nil);
+        NSURL * url = [NSURL URLWithString:newURL];
+        if(url) {
+            [BCoreUtilities fetchImageFromURL:url].thenOnMain(^id(UIImage * image) {
+                if(image) {
+                    [_model setImage:UIImagePNGRepresentation(image)];
+                }
+                return Nil;
+            }, Nil);
+        }
     }
     
     for (NSString * key in [newMeta allKeys]) {

@@ -14,7 +14,8 @@
 @implementation BFirebaseUploadHandler
 
 -(RXPromise *) uploadFile:(NSData *)file withName: (NSString *) name mimeType: (NSString *) mimeType {
-    FIRStorage * storage = [FIRStorage storage];
+
+    FIRStorage * storage = [BFirebaseUploadHandler storage];
     FIRStorageReference * ref = [storage reference];
     FIRStorageReference * filesRef = [ref child:bStorageBucket];
     
@@ -48,6 +49,13 @@
 // in the meta data
 -(BOOL) shouldUploadAvatar {
     return YES;
+}
+
++(FIRStorage *) storage {
+    if (BChatSDK.config.firebaseStorageURL) {
+        return [FIRStorage storageForApp:[BFirebaseCoreHandler app] URL:BChatSDK.config.firebaseStorageURL];
+    }
+    return [FIRStorage storageForApp:[BFirebaseCoreHandler app]];
 }
 
 @end

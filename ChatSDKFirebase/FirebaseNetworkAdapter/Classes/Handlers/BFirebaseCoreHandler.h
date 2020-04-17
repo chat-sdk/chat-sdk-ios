@@ -8,6 +8,10 @@
 
 #import <ChatSDK/BAbstractCoreHandler.h>
 
+@class FIRApp;
+@class FIRDatabase;
+@class FIRAuth;
+
 @interface BFirebaseCoreHandler : BAbstractCoreHandler
 
 /**
@@ -20,7 +24,9 @@
  */
 +(NSDate *) timestampToDate: (NSNumber *) timestamp;
 
-
++(FIRApp *) app;
++(FIRDatabase *) database;
++(FIRAuth *) auth;
 
 
 @end

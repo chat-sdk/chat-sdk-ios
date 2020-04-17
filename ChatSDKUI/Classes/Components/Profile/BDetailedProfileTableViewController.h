@@ -30,7 +30,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *availabilityImageView;
 
 @property (weak, nonatomic) IBOutlet UIButton *profilePictureButton;
-@property (weak, nonatomic) IBOutlet UIImageView *flagImageView;
 @property (weak, nonatomic) IBOutlet UITextView *statusTextView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *localityLabel;

@@ -21,7 +21,7 @@
     // The network adapter handles network traffic
 
     BConfiguration * config = [BConfiguration configuration];
-    config.rootPath = @"pre_1";
+    config.rootPath = @"pre_2";
     config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = NO;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
@@ -42,22 +42,12 @@
     config.publicChatRoomLifetimeMinutes = 60 * 24;
 
     
-    // Twitter Setup
-    config.twitterApiKey = @"Kqprq5b6bVeEfcMAGoHzUmB3I";
-    config.twitterSecret = @"hPd9HCt3PLnifQFrGHJWi6pSZ5jF7kcHKXuoqB8GJpSDAlVcLq";
-    
-    // Facebook Setup
-    config.facebookAppId = @"648056098576150";
-    
-    // Google Setup
-    config.googleClientKey = @"1088435112418-4cm46hg39okkf0skj2h5roj1q62anmec.apps.googleusercontent.com";
-    
     [BChatSDK initialize:config app:application options:launchOptions];
     
     // TODO: Fix Firebase UI!!!!!!!
     UIViewController * rootViewController = BChatSDK.ui.splashScreenNavigationController;
    
-    [self.window setRootViewController:[rootViewController]];
+    [self.window setRootViewController:rootViewController];
     
     return YES;
 }

@@ -13,7 +13,7 @@
 @implementation FIRDatabaseReference (Paths)
 
 +(FIRDatabaseReference *) firebaseRef {
-    return [[[FIRDatabase database] reference] c: BChatSDK.config.rootPath];
+    return [[[BFirebaseCoreHandler database] reference] c: BChatSDK.config.rootPath];
 }
 
 -(FIRDatabaseReference *) c: (NSString *) component {

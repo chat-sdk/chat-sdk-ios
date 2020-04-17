@@ -34,4 +34,10 @@
     }];
 }
 
+-(id<PUser>) getUserForEntityID: (NSString *) entityID {
+    id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
+    [BChatSDK.core observeUser:user];
+    return user;
+}
+
 @end
