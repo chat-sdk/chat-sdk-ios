@@ -31,6 +31,9 @@ typedef enum {
 
 // Should we ask the user to allow notifications when the app initially loads up? 
 @property (nonatomic, readwrite) BOOL shouldAskForNotificationsPermission;
+
+/// Add a shadow to the message bubble using a default shadow configuration.
+@property (nonatomic, readwrite) BOOL addShadowOnMessageBubble;
     
 // Background color of messages: hex value like "FFFFFF"
 @property (nonatomic, readwrite) NSString * messageColorMe;
