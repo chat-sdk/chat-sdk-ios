@@ -38,6 +38,8 @@
     
     if (showLocalNotification) {
         completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert);
+    } else {
+        [BChatSDK application:[UIApplication sharedApplication] didReceiveRemoteNotification:userInfo];
     }
 }
 
