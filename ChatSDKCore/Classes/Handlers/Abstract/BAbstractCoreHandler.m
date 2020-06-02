@@ -144,18 +144,16 @@
 }
 
 -(RXPromise *) currentUserModelAsync {
-    RXPromise * promise = [RXPromise new];
     NSString * currentUserID = BChatSDK.auth.currentUserEntityID;
     if (!_currentUser || ![_currentUserEntityID isEqual:currentUserID]) {
         return [BChatSDK.db performOnMain:^id {
             _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
             _currentUserEntityID = currentUserID;
-            [promise resolveWithResult:_currentUser];
+            return _currentUser;
         }];
     } else {
         return [RXPromise resolveWithResult:_currentUser];
     }
-    return promise;
 }
 
 // TODO: Consider removing / refactoring this
