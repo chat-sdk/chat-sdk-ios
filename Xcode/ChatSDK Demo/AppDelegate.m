@@ -21,7 +21,7 @@
     // The network adapter handles network traffic
 
     BConfiguration * config = [BConfiguration configuration];
-    config.rootPath = @"pre_2";
+    config.rootPath = @"pre_1x";
     config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = NO;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
@@ -32,7 +32,7 @@
     config.disablePresence = YES;
     config.disableProfileUpdateOnAuthentication = NO;
     config.developmentModeEnabled = YES;
-    config.disablePublicThreads = YES;
+    config.disablePublicThreads = NO;
 
 //    config.showLocalNotificationsForPublicChats = YES;
 //    config.publicChatAutoSubscriptionEnabled = YES;
@@ -46,6 +46,8 @@
     
     // TODO: Fix Firebase UI!!!!!!!
     UIViewController * rootViewController = BChatSDK.ui.splashScreenNavigationController;
+    
+    
    
     [self.window setRootViewController:rootViewController];
     

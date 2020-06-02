@@ -362,4 +362,18 @@
     return [self.entityID isEqualToString:entity.entityID];
 }
 
+-(BOOL) isReadOnly {
+    id readOnly = self.meta[bReadOnly];
+    if (readOnly) {
+        if([readOnly isKindOfClass:NSNumber.class]) {
+            return [readOnly boolValue];
+        }
+        // Deprecated, only for backwards compatibility
+        if([readOnly isKindOfClass:NSString.class]) {
+            return true;
+        }
+    }
+    return false;
+}
+
 @end

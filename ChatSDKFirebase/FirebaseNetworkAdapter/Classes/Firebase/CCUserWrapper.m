@@ -75,7 +75,7 @@
         }
 
         NSString * profileURL = [provider.photoURL absoluteString];
-        if (profileURL && ![self.model.meta metaStringForKey:bUserImageURLKey]) {
+        if (profileURL && !_model.imageURL) {
             [self setProfilePictureWithImageURL:profileURL];
             profilePictureSet = YES;
         }
@@ -88,7 +88,7 @@
         _model.name = BChatSDK.shared.configuration.defaultUserName;
     }
     
-    if (!profilePictureSet && ![self.model.meta metaStringForKey:bUserImageURLKey]) {
+    if (!profilePictureSet && !_model.imageURL) {
         
         // If the user doesn't have a default profile picture then set it automatically
         UIImage * defaultImage = [self.model.defaultImage resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
@@ -108,29 +108,29 @@
 }
 
 - (RXPromise *)setProfilePictureWithImageURL: (NSString *)url {
-    
-    id<PUser> user = BChatSDK.currentUser;
-    
+        
     // Only set the user picture if they are logging on the first time
-    if (url && !user.image) {
+    [_model setImageURL:url];
+    
+    if (url && !_model.image) {
         
         return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:url]].thenOnMain(^id(UIImage * image) {
             
             if(image) {
                 
-                [user setImage:UIImagePNGRepresentation(image)];
+                [_model setImage:UIImagePNGRepresentation(image)];
                 
-                if(BChatSDK.upload) {
-                    return [BChatSDK.upload uploadImage:image].thenOnMain(^id(NSDictionary * urls) {
-                        
-                        [user setImageURL:urls[bImagePath]];
-
-                        return [BChatSDK.core pushUser];
-                    }, Nil);
-                }
-                else {
-                    return [BChatSDK.core pushUser];
-                }
+//                if(BChatSDK.upload) {
+//                    return [BChatSDK.upload uploadImage:image].thenOnMain(^id(NSDictionary * urls) {
+//
+//                        [user setImageURL:urls[bImagePath]];
+//
+//                        return [BChatSDK.core pushUser];
+//                    }, Nil);
+//                }
+//                else {
+//                    return [BChatSDK.core pushUser];
+//                }
                 
             }
             return image;
@@ -448,16 +448,16 @@
     [userOnlineRef setValue:@YES];
     [userOnlineRef onDisconnectSetValue:@NO];
 
-    FIRDatabaseReference * onlineRef = [FIRDatabaseReference onlineRef:self.entityID];
-    [onlineRef setValue:@{bTimeKey: [FIRServerValue timestamp],
-                          bUID: _model.entityID}];
-    
-    [onlineRef onDisconnectRemoveValue];
+//    FIRDatabaseReference * onlineRef = [FIRDatabaseReference onlineRef:self.entityID];
+//    [onlineRef setValue:@{bTimeKey: [FIRServerValue timestamp],
+//                          bUID: _model.entityID}];
+//
+//    [onlineRef onDisconnectRemoveValue];
 }
 
 -(void) goOffline {
     [[FIRDatabaseReference userOnlineRef:self.entityID] removeValue];
-    [[FIRDatabaseReference onlineRef:self.entityID] removeValue];
+//    [[FIRDatabaseReference onlineRef:self.entityID] removeValue];
 //    [userOnlineRef setValue:@NO];
 }
 

@@ -42,10 +42,6 @@
 "bErrorLoadingFriends" = "Je vrienden gaven niet thuis";
 "bInvalidSelection" = "Dit kun je niet kiezen";
 "bSelectAtLeastOneFriend" = "Kies tenminste één vriend";
-"bFacebook" = "Facebook";
-"bFriendsOnChatSDK" = "Facebook-vrienden";
-"bInviteFriendsFromFacebook" = "Nodig mensen uit";
-"bFriendsAdded_i" = "Aantal toegevoegde gebruikers: %i";
 "bErrorAddingUser_s" = "Ik krijg die %@ niet toegevoegd";
 "bSuccess" = "Succes";
 "bAdded" = "Toegevoegd";

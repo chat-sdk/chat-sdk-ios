@@ -46,9 +46,9 @@
     ((NSManagedObject *)_model).on = YES;
     
     // Get the thread data
-    FIRDatabaseReference * threadDetailsRef = [[FIRDatabaseReference threadRef:self.entityID] child:bDetailsPath];
+    FIRDatabaseReference * threadMetaRef = [[FIRDatabaseReference threadRef:self.entityID] child:bMetaPath];
     
-    [threadDetailsRef observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+    [threadMetaRef observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
         if (![snapshot.value isEqual: [NSNull null]]) {
             // Update the thread
             [self deserialize:snapshot.value];
@@ -76,7 +76,7 @@
     
     ((NSManagedObject *)_model).on = NO;
     
-    FIRDatabaseReference * threadDetailsRef = [[FIRDatabaseReference threadRef:self.entityID] child:bDetailsPath];
+    FIRDatabaseReference * threadDetailsRef = [[FIRDatabaseReference threadRef:self.entityID] child:bMetaPath];
     [threadDetailsRef removeAllObservers];
     
     [self messagesOff];
@@ -194,6 +194,9 @@
             }];
         });
                 
+        // For Android we fixed this issue by counting back the messages in the thread
+        // TODO: Fix this
+        
         query = [FIRDatabaseReference threadMessagesRef:strongSelf.model.entityID];
 //        [query queryOrderedByChild:bDate];
         
@@ -220,46 +223,6 @@
     ((NSManagedObject *)_model).messagesOn = NO;
     
     FIRDatabaseReference * ref = [FIRDatabaseReference threadMessagesRef:_model.entityID];
-    [ref removeAllObservers];
-}
-
--(RXPromise *) pushMeta {
-    RXPromise * promise = [RXPromise new];
-    FIRDatabaseReference * ref = [FIRDatabaseReference threadMetaRef:_model.entityID];
-    [ref updateChildValues: [_model meta] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
-        if(!error) {
-            [promise resolveWithResult:Nil];
-        }
-        else {
-            [promise resolveWithResult:error];
-        }
-    }];
-    return promise;
-}
-
--(void) metaOn {
-    if (((NSManagedObject *)_model).metaOn) {
-        return;
-    }
-    ((NSManagedObject *)_model).metaOn = YES;
-
-    FIRDatabaseReference * ref = [FIRDatabaseReference threadMetaRef:_model.entityID];
-    [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
-        if(snapshot.value != [NSNull null] && [snapshot.value isKindOfClass: [NSDictionary class]]) {
-            NSDictionary * dict = (NSDictionary *) snapshot.value;
-            for(NSString * key in dict.allKeys) {
-                [_model setMetaValue:snapshot.value[key] forKey:key];
-                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadMetaUpdated object:Nil];
-            }
-        }
-    }];
-}
-
--(void) metaOff {
-    
-    ((NSManagedObject *)_model).metaOn = NO;
-    
-    FIRDatabaseReference * ref = [FIRDatabaseReference threadMetaRef:_model.entityID];
     [ref removeAllObservers];
 }
 
@@ -490,17 +453,24 @@
     });
 }
 
--(NSDictionary *) serialize {
-    return @{bDetailsPath: self.serializeMeta};
-}
+//-(NSDictionary *) serialize {
+//    return @{bDetailsPath: self.serializeMeta};
+//}
 
--(NSDictionary *) serializeMeta {
-    return @{bCreationDate: [FIRServerValue timestamp],
-             bUserNameKey: [NSString safe:_model.name],
-             bTypeV4: _model.type,
-             bType: _model.type,
-             bImageURL: [NSString safe: [_model.meta valueForKey:bImageURL]],
-             bCreatorEntityID: _model.creator.entityID};
+-(NSDictionary *) serialize {
+    NSMutableDictionary * dict = [NSMutableDictionary new];
+    [dict addEntriesFromDictionary:@{bCreationDate: [FIRServerValue timestamp],
+                                     bNameKey: [NSString safe:_model.name],
+                                     bType: _model.type,
+                                     bImageURL: [NSString safe: [_model.meta valueForKey:bImageURL]],
+                                     bCreator: [NSString safe: _model.creator.entityID]}];
+
+    if (BChatSDK.config.enableCompatibilityWithV4) {
+        [dict setValue:_model.type forKey:bTypeV4];
+        [dict setValue:_model.creator.entityID forKey:bCreatorEntityID];
+    }
+    
+    return dict;
 }
 
 -(void) deserialize: (NSDictionary *) value {
@@ -510,18 +480,22 @@
         _model.creationDate = [BFirebaseCoreHandler timestampToDate:creationDate];
     }
     
-    NSNumber * typev4 = value[bTypeV4];
+    NSNumber * type = value[bType];
     
-    if(typev4) {
-        _model.type = typev4;
+    if(type) {
+        _model.type = type;
     }
     
     NSString * imageURL = value[bImageURL];
     if (imageURL) {
         [_model setMetaValue:imageURL forKey:bImageURL];
     }
+
+    NSString * creatorEntityID = value[bCreator];
+    if(creatorEntityID == Nil && BChatSDK.config.enableCompatibilityWithV4) {
+        creatorEntityID = value[bCreatorEntityID];
+    }
     
-    NSString * creatorEntityID = value[bCreatorEntityID];
     if(creatorEntityID) {
         
         void(^onComplete)(id<PUser> user) = ^void(id<PUser> user) {
@@ -547,6 +521,16 @@
         _model.name = name;
     }
     
+    // Meta data
+    NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:value];
+    NSDictionary * details = [self serialize];
+    
+    for (NSString * key in details.allKeys) {
+        [meta removeObjectForKey:key];
+    }
+    
+    [_model setMeta:meta];
+    
 }
 
 -(RXPromise *) push {
@@ -556,23 +540,24 @@
         _model.entityID = [[FIRDatabaseReference threadsRef] childByAutoId].key;
     }
     
-    FIRDatabaseReference * ref = [FIRDatabaseReference threadRef:_model.entityID];
     FIRDatabaseReference * metaRef = [FIRDatabaseReference threadMetaRef:_model.entityID];
-    
-    
-    [ref updateChildValues:self.serialize withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
-        if (!error) {
-            [BEntity pushThreadDetailsUpdated:self.model.entityID];
-            [promise resolveWithResult:self.model];
-        }
-        else {
-            [promise rejectWithReason:error];
-        }
-    }];
-    
+
     // Also update the meta ref - we do this for forwards compatibility
     // in the future we will move everything to the meta area
-    [metaRef updateChildValues:self.serializeMeta];
+    [metaRef updateChildValues:self.serialize withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+           if (!error) {
+               [BEntity pushThreadDetailsUpdated:self.model.entityID];
+               [promise resolveWithResult:self.model];
+           }
+           else {
+               [promise rejectWithReason:error];
+           }
+       }];
+
+    if (BChatSDK.config.enableCompatibilityWithV4) {
+        FIRDatabaseReference * ref = [[FIRDatabaseReference threadRef:_model.entityID] child:bDetailsPath];
+        [ref updateChildValues:self.serialize];
+    }
     
     return promise;
 }
@@ -580,21 +565,6 @@
 -(RXPromise *) addUserWithEntityID: (NSString *) entityID {
     
     FIRDatabaseReference * threadUsersRef = [[FIRDatabaseReference threadUsersRef:_model.entityID] child:entityID];
-//
-//    RXPromise * promise = [RXPromise new];
-//    // Add the user entities to the thread too
-//    // TODO: check this
-//    NSString * status = [self.model.creator.entityID isEqualToString:entityID] ? bStatusOwner : bStatusMember;
-//
-//    [threadUsersRef setValue:@{bStatus: status} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
-//        if (!error) {
-//            [BEntity pushThreadUsersUpdated:self.model.entityID];
-//            [promise resolveWithResult:self];
-//        }
-//        else {
-//            [promise rejectWithReason:error];
-//        }
-//    }];
     
     NSString * status = [self.model.creator.entityID isEqualToString:entityID] ? bStatusOwner : bStatusMember;
     RXPromise * promise = [self setThreadPropertyForUser:entityID key:bStatus value:status];

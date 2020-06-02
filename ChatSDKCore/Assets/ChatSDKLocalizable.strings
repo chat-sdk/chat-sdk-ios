@@ -44,10 +44,6 @@
 "bErrorLoadingFriends" = "Error loading friends";
 "bInvalidSelection" = "Invalid selection";
 "bSelectAtLeastOneFriend" = "Select at least one friend";
-"bFacebook" = "Facebook";
-"bFriendsOnChatSDK" = "Facebook friends";
-"bInviteFriendsFromFacebook" = "Invite more friends";
-"bFriendsAdded_i" = "Friends added %i";
 "bErrorAddingUser_s" = "Error adding %@ to thread";
 "bSuccess" = "Success";
 "bAdded" = "Added";

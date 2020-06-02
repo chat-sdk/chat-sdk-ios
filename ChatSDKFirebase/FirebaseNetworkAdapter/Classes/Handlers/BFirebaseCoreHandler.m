@@ -21,7 +21,7 @@
 }
 
 -(void) setUserOnline {
-    if (!BChatSDK.config.disablePresence) {
+    if (!BChatSDK.config.disablePresence && BChatSDK.auth.isAuthenticatedThisSession) {
         [super setUserOnline];
         id<PUser> user = self.currentUserModel;
         if(!user || !user.entityID) {

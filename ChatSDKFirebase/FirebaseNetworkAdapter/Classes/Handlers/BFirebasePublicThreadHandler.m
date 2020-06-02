@@ -55,9 +55,7 @@
     // Create the CC object
     CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
 
-    return [thread push].then(^id(id success) {
-        return [thread pushMeta];
-    }, Nil).thenOnMain(^id(id success) {
+    return [thread push].thenOnMain(^id(id success) {
         RXPromise * promise = [RXPromise new];
         if(!hidden) {
             

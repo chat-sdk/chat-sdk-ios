@@ -26,6 +26,7 @@
  * @brief Return the current user data
  */
 -(id<PUser>) currentUserModel;
+-(RXPromise *) currentUserModelAsync;
 
 // TODO: Consider removing / refactoring this
 /**

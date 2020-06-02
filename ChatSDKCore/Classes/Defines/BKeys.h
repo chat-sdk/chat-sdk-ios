@@ -22,9 +22,6 @@
 #define bDeletedKey @"deleted"
 #define bTokenKey @"token"
 
-// Underscore keys
-#define bJSONV2 @"json_v2"
-
 // Deprecated in favour of bType
 #define bTypeV4 @"type_v4"
 #define bType @"type"
@@ -32,6 +29,7 @@
 #define bUserFirebaseID @"user-firebase-id"
 #define bFrom @"from"
 #define bTo @"to"
+#define bReadOnly @"read-only"
 
 #define bMute @"mute"
 #define bUnmute @"unmute"
@@ -74,6 +72,7 @@
 #define bFlaggedKey @"flagged"
 #define bLocationPath @"location"
 #define bTimeKey @"time"
+#define bNameKey @"name"
 
 #define bLoginTypeKey @"login-type"
 #define bLoginEmailKey @"login-email"
@@ -83,7 +82,7 @@
 
 #define bUserAvailabilityKey @"availability"
 #define bUserStatusTextKey bStatus
-#define bUserNameKey @"name"
+#define bUserNameKey bNameKey
 #define bUserEmailKey @"email"
 #define bUserPublicKeysKey @"public-keys"
 #define bUserPhoneKey @"phone"

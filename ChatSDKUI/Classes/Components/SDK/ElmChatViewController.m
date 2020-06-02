@@ -67,7 +67,7 @@
 }
 
 // The text input view sits on top of the keyboard
--(void) setupTextInputView {
+-(void) setupTextInputView: (BOOL) forceSuper {
     _sendBarView = [BChatSDK.ui sendBarView];
     [_sendBarView setSendBarDelegate:self];
     
@@ -277,7 +277,7 @@
     [_refreshControl addTarget:self action:@selector(tableRefreshed) forControlEvents:UIControlEventValueChanged];
     [tableView addSubview:_refreshControl];
     
-    [self setupTextInputView];
+    [self setupTextInputView: NO];
 
     [self registerMessageCells];
 

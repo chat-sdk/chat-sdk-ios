@@ -103,6 +103,6 @@
 -(void) keyboardWillShow: (NSNotification *) notification;
 -(void) keyboardWillHide: (NSNotification *) notification;
 
--(void) setupTextInputView;
+-(void) setupTextInputView: (BOOL) forceSuper;
 
 @end

@@ -41,6 +41,4 @@
 +(FIRDatabaseReference *) flaggedMessagesRef;
 +(FIRDatabaseReference *) flaggedRefWithMessage: (NSString *) messageID;
 
-+(FIRDatabaseReference *) onlineRef: (NSString *) userID;
-
 @end

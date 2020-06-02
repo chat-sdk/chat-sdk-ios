@@ -137,12 +137,25 @@
 -(id<PUser>) currentUserModel {
     NSString * currentUserID = BChatSDK.auth.currentUserEntityID;
     if (!_currentUser || ![_currentUserEntityID isEqual:currentUserID]) {
-        _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID
-                                                                   withType:bUserEntity];
+        _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
         _currentUserEntityID = currentUserID;
-        [self save];
     }
     return _currentUser;
+}
+
+-(RXPromise *) currentUserModelAsync {
+    RXPromise * promise = [RXPromise new];
+    NSString * currentUserID = BChatSDK.auth.currentUserEntityID;
+    if (!_currentUser || ![_currentUserEntityID isEqual:currentUserID]) {
+        return [BChatSDK.db performOnMain:^id {
+            _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
+            _currentUserEntityID = currentUserID;
+            [promise resolveWithResult:_currentUser];
+        }];
+    } else {
+        return [RXPromise resolveWithResult:_currentUser];
+    }
+    return promise;
 }
 
 // TODO: Consider removing / refactoring this
@@ -150,8 +163,8 @@
  * @brief Mark the user as online
  */
 -(void) setUserOnline {
-    if (BChatSDK.currentUser) {
-        BChatSDK.currentUser.online = @YES;
+    if (self.currentUserModel) {
+        self.currentUserModel.online = @YES;
         if(BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
             [BChatSDK.lastOnline setLastOnlineForUser:self.currentUserModel];
         }

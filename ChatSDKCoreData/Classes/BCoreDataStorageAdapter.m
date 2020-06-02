@@ -36,6 +36,23 @@ static void * kMainQueueKey = (void *) "Key1";
     
     dispatch_queue_set_specific(dispatch_get_main_queue(), kMainQueueKey, kMainQueueKey, Nil);
     
+    _privateMoc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    _privateMoc.persistentStoreCoordinator = self.persistentStoreCoordinator;
+
+    _moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    _moc.parentContext = _privateMoc;
+
+    NSUndoManager *undoManager = [[NSUndoManager alloc] init];
+    [_moc setUndoManager:undoManager];
+    [_moc setAutomaticallyMergesChangesFromParent:YES];
+    
+//    _backgroundMoc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+//    _backgroundMoc.parentContext = _privateMoc;
+//
+//    NSUndoManager * undoManager2 = [[NSUndoManager alloc] init];
+//    [_backgroundMoc setUndoManager:undoManager2];
+//    [_backgroundMoc setAutomaticallyMergesChangesFromParent:YES];
+    
     return self;
 }
 
@@ -46,7 +63,9 @@ static void * kMainQueueKey = (void *) "Key1";
 }
 
 -(RXPromise *) saveWithPromise {
-    return [RXPromise all:@[[self save:_moc], [self save:_backgrondMoc]]];
+    return [RXPromise all:@[[self save:_moc],
+                            //[self save:_backgrondMoc]
+    ]];
 }
 
 -(RXPromise *) save: (NSManagedObjectContext *) context {
@@ -83,7 +102,9 @@ static void * kMainQueueKey = (void *) "Key1";
 -(id) executeFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate {
     [fetchRequest setIncludesPendingChanges:YES];
     
-    NSEntityDescription * entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.managedObjectContextForThread];
+    NSManagedObjectContext * context = self.managedObjectContextForThread;
+    
+    NSEntityDescription * entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
     if (!entity) {
         return Nil;
     }
@@ -94,7 +115,7 @@ static void * kMainQueueKey = (void *) "Key1";
     }
     
     NSError * error = Nil;
-    NSArray * entities = [self.managedObjectContextForThread executeFetchRequest:fetchRequest error:&error];
+    NSArray * entities = [context executeFetchRequest:fetchRequest error:&error];
     if (error) {
         NSLog(@"Fetch error: %@", error.localizedDescription);
     }
@@ -134,15 +155,23 @@ static void * kMainQueueKey = (void *) "Key1";
     return Nil;
 }
 
--(RXPromise *) performOnPrivate: (id (^)(void))block  {
-    return [self performOn:self.backgroundManagedObjectContext withBlock:block];
-}
+//-(RXPromise *) performOnPrivate:(id (^)(void))block  {
+//    return [self performOn:self.backgroundManagedObjectContext withBlock:block];
+//}
 
--(RXPromise *) performOnMain: (id(^)(void)) block  {
+-(RXPromise *) performOnMain:(id(^)(void)) block  {
     return [self performOn:self.managedObjectContext withBlock:block];
 }
 
--(RXPromise *) performOn: (NSManagedObjectContext *) context withBlock: (id(^)(void)) block {
+//-(RXPromise *) performOnPrivateAndSave:(id (^)(void))block  {
+//    return [self performOnAndSave:self.backgroundManagedObjectContext withBlock:block];
+//}
+
+-(RXPromise *) performOnMainAndSave:(id(^)(void)) block  {
+    return [self performOnAndSave:self.managedObjectContext withBlock:block];
+}
+
+-(RXPromise *) performOnAndSave: (NSManagedObjectContext *) context withBlock: (id(^)(void)) block {
     RXPromise * promise = [RXPromise new];
     [context performBlock:^{
         id result = block();
@@ -158,6 +187,14 @@ static void * kMainQueueKey = (void *) "Key1";
     return promise;
 }
 
+-(RXPromise *) performOn: (NSManagedObjectContext *) context withBlock: (id(^)(void)) block {
+    RXPromise * promise = [RXPromise new];
+    [context performBlock:^{
+        id result = block();
+        [promise resolveWithResult:result];
+    }];
+    return promise;
+}
 -(id) fetchOrCreateEntityWithID: (NSString *) entityID withType: (NSString *) type {
     id<PEntity> entity = [self fetchEntityWithID:entityID withType:type];
     if (!entity) {
@@ -195,9 +232,15 @@ static void * kMainQueueKey = (void *) "Key1";
 }
 
 -(NSManagedObjectContext *) managedObjectContextForThread {
+//    if([NSThread isMainThread]) {
+        return [self managedObjectContext];
+//    } else {
+//        return [self backgroundManagedObjectContext];
+//    }
+    
 //    assert(dispatch_get_specific(kMainQueueKey));
 //    if (dispatch_get_specific(kMainQueueKey)) {
-        return self.managedObjectContext;
+//        return self.managedObjectContext;
 //    }
 //    else {
 //        NSLog(@"managed object context: %@", [NSThread currentThread]);
@@ -206,38 +249,14 @@ static void * kMainQueueKey = (void *) "Key1";
 }
 
 - (NSManagedObjectContext *) privateManagedObjectContext {
-    
-    if (!_privateMoc) {
-        _privateMoc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        _privateMoc.persistentStoreCoordinator = self.persistentStoreCoordinator;
-    }
-    
     return _privateMoc;
 }
 
-- (NSManagedObjectContext *) backgroundManagedObjectContext {
-    
-    if (!_backgrondMoc) {
-        _backgrondMoc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        _backgrondMoc.parentContext = self.managedObjectContext;
-        
-        NSUndoManager *undoManager = [[NSUndoManager alloc] init];
-        [_backgrondMoc setUndoManager:undoManager];
-        [_backgrondMoc setAutomaticallyMergesChangesFromParent:YES];
-    }
-    
-    return _backgrondMoc;
-}
+//- (NSManagedObjectContext *) backgroundManagedObjectContext {
+//    return _backgroundMoc;
+//}
 
 - (NSManagedObjectContext *) managedObjectContext {
-    
-    if (!_moc) {
-        _moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        _moc.parentContext = self.privateManagedObjectContext;
-        NSUndoManager *undoManager = [[NSUndoManager alloc] init];
-        [_moc setUndoManager:undoManager];
-        //        [_moc setAutomaticallyMergesChangesFromParent:YES];
-    }
     return _moc;
 }
 
@@ -412,15 +431,15 @@ static void * kMainQueueKey = (void *) "Key1";
     NSManagedObjectContext * context = notification.object;
     
     NSManagedObjectContext * parent = self.privateManagedObjectContext;
-    NSManagedObjectContext * background = self.backgroundManagedObjectContext;
+//    NSManagedObjectContext * background = self.backgroundManagedObjectContext;
     NSManagedObjectContext * main = self.managedObjectContext;
 
     if([context isEqual:parent]) {
 //        NSLog(@"Parent");
     }
-    else if([context isEqual:background]) {
+//    else if([context isEqual:background]) {
 //        NSLog(@"Background");
-    }
+//    }
     else if([context isEqual:main]) {
 //        NSLog(@"Main");
     }

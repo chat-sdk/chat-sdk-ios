@@ -109,9 +109,9 @@
 -(void) lastMessageOn;
 -(void) lastMessageOff;
 
--(RXPromise *) pushMeta;
--(void) metaOn;
--(void) metaOff;
+//-(RXPromise *) pushMeta;
+//-(void) metaOn;
+//-(void) metaOff;
 -(RXPromise *) updateLastMessage;
 -(RXPromise *) setMuted: (BOOL) muted;
 

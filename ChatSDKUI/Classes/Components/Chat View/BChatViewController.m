@@ -175,6 +175,12 @@
     
 }
 
+-(void) setupTextInputView: (BOOL) forceSuper {
+    if (!_thread.isReadOnly || forceSuper) {
+        [super setupTextInputView: forceSuper];
+    }
+}
+
 -(void) addUserToPublicThreadIfNecessary {
     // For public threads we add the user when we view the thread
     // TODO: This is called multiple times... maybe move it to view did load

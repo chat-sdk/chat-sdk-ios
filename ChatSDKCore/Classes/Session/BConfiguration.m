@@ -98,6 +98,8 @@
 @synthesize firebaseStorageURL;
 @synthesize firebaseDatabaseURL;
 @synthesize firebaseFunctionsRegion;
+@synthesize enableWebCompatibility;
+@synthesize enableCompatibilityWithV4;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -215,6 +217,8 @@
         combineTimeWithNameLabel = NO;
         
         publicChatAutoSubscriptionEnabled = NO;
+        enableWebCompatibility = NO;
+        enableCompatibilityWithV4 = YES;
         
     }
     return self;
@@ -224,7 +228,8 @@
     return remote[key];
 }
 
--(void) updateRemoteConfig: (NSDictionary *) dict {
+-(void) setRemoteConfig: (NSDictionary *) dict {
+    [remote removeAllObjects];
     for (id key in dict.allKeys) {
         remote[key] = dict[key];
     }

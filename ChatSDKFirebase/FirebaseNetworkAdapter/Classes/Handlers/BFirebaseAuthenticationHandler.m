@@ -82,9 +82,9 @@
     RXPromise * promise = [RXPromise new];
     
     if (BChatSDK.config.remoteConfigEnabled) {
-        [[FIRDatabaseReference configRef] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+        [[FIRDatabaseReference configRef] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
             if (![snapshot.value isEqual: [NSNull null]]) {
-                [BChatSDK.config updateRemoteConfig:snapshot.value];
+                [BChatSDK.config setRemoteConfig:snapshot.value];
             }
             [promise resolveWithResult:Nil];
         }];
@@ -176,9 +176,7 @@
         }
     }];
     
-    __weak __typeof__(self) weakSelf = self;
     return tokenPromise.thenOnMain(^id(NSString * token) {
-        __typeof__(self) strongSelf = weakSelf;
 
         CCUserWrapper * user = [CCUserWrapper userWithAuthUserData:firebaseUser];
         if (details.name && !user.model.name) {

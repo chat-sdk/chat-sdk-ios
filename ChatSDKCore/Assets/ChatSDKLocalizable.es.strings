@@ -42,10 +42,6 @@
 "bErrorLoadingFriends" = "No puedo recoger a tus amigos";
 "bInvalidSelection" = "No puedes seleccionar esto";
 "bSelectAtLeastOneFriend" = "Elige al menos un amigo";
-"bFacebook" = "Facebook";
-"bFriendsOnChatSDK" = "Amigos de Facebook";
-"bInviteFriendsFromFacebook" = "Invitar a la gente";
-"bFriendsAdded_i" = "Número de usuarios agregados: %i";
 "bErrorAddingUser_s" = "No puedo añadir ese % @";
 "bSuccess" = "Buena suerte";
 "bAdded" = "Añadido";

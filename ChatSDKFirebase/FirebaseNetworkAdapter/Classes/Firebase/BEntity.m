@@ -33,21 +33,24 @@
 }
 
 +(RXPromise *) pushUpdated: (NSString *) path entityID: (NSString *) entityID key: (NSString *) key {
-    RXPromise * promise = [RXPromise new];
-    FIRDatabaseReference * ref = [[[[[FIRDatabaseReference firebaseRef] child:path]
-                                                                        child:entityID]
-                                                                        child:bUpdatedPath]
-                                                                        child:key];
-    
-    [ref setValue:[FIRServerValue timestamp] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
-        if(!error) {
-            [promise resolveWithResult:Nil];
-        }
-        else {
-            [promise rejectWithReason:error];
-        }
-    }];
-    return promise;
+    if (BChatSDK.config.enableWebCompatibility) {
+        RXPromise * promise = [RXPromise new];
+        FIRDatabaseReference * ref = [[[[[FIRDatabaseReference firebaseRef] child:path]
+                                                                            child:entityID]
+                                                                            child:bUpdatedPath]
+                                                                            child:key];
+        
+        [ref setValue:[FIRServerValue timestamp] withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+            if(!error) {
+                [promise resolveWithResult:Nil];
+            }
+            else {
+                [promise rejectWithReason:error];
+            }
+        }];
+        return promise;
+    }
+    return [RXPromise resolveWithResult:Nil];
 }
 
 @end

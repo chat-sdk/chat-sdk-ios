@@ -37,9 +37,6 @@
 #define bInvalidSelection @"bInvalidSelection"
 #define bSelectAtLeastOneFriend @"bSelectAtLeastOneFriend"
 
-#define bInviteFriendsFromFacebook @"bInviteFriendsFromFacebook"
-#define bFriendsAdded_i @"bFriendsAdded_i"
-
 #define bSuccess @"bSuccess"
 #define bAdded @"bAdded"
 

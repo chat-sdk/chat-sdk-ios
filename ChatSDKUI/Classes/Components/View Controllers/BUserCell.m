@@ -31,7 +31,7 @@
     
     //self.profileImageView.layer.borderWidth = 2;
     self.statusImageView.layer.cornerRadius = 6;
-    [self setAvailabilityLabelText:@""];
+//    [self setAvailabilityLabelText:@""];
     
     [self.profileImageView loadAvatar:user];
     
@@ -53,12 +53,14 @@
 -(void) setAvailabilityLabelText: (NSString *) availability {
     if(!availability || availability.length == 0) {
         [self.statusImageView keepVerticallyCentered];
+        self.stateLabel.text = @"";
     }
     else {
+        self.statusImageView.keepTopInset.equal = 5;
         self.statusImageView.keepBottomOffsetTo(self.stateLabel).equal = 5;
+        self.stateLabel.text = [NSBundle t:availability];
 //        self.statusImageView.keepVerticalAlignTo(self.statusImageView.superview).equal = -15;
     }
-    self.stateLabel.text = [NSBundle t:availability];
 }
 
 -(void) setAvailability: (NSString *) availability {

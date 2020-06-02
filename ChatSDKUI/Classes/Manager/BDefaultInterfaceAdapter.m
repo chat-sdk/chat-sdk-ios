@@ -169,6 +169,10 @@
                                                              self.contactsViewController,
                                                              [self profileViewControllerWithUser: Nil]]];
     
+    if (BChatSDK.config.disablePublicThreads) {
+        [dict removeObject:self.publicThreadsViewController];
+    }
+    
     if(BChatSDK.config.enableMessageModerationTab) {
         [dict addObject: self.flaggedMessagesViewController];
     }

@@ -59,7 +59,6 @@
             [thread messagesOn];
             [thread usersOn];
             [thread lastMessageOn];
-            [thread metaOn];
         }
     }];
     
@@ -71,7 +70,6 @@
             [thread off];
             [thread messagesOff]; // We need to turn the messages off incase we rejoin the thread
             [thread lastMessageOff];
-            [thread metaOff];
             
             [BChatSDK.core deleteThread:thread.model];
         }
@@ -107,7 +105,6 @@
             [thread messagesOn];
             [thread usersOn];
             [thread lastMessageOn];
-            [thread metaOn];
         }
     }];
 }

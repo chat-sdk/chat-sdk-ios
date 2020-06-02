@@ -211,6 +211,13 @@ typedef enum {
 
 @property (nonatomic, readwrite) BOOL disablePublicThreads;
 
+// If this is true, extra data will be added to support Chat SDK web
+@property (nonatomic, readwrite) BOOL enableWebCompatibility;
+
+// If this is true, extra data will be added to support Chat SDK v4
+@property (nonatomic, readwrite) BOOL enableCompatibilityWithV4;
+
+
 // Firebase options
 
 // Should the Chat SDK call [FIRApp configure];
@@ -276,7 +283,7 @@ typedef enum {
 -(NSValue *) messageBubblePaddingForType: (bMessageType) type;
 
 -(id) remoteConfigValueForKey: (NSString *) key;
--(void) updateRemoteConfig: (NSDictionary *) dict;
+-(void) setRemoteConfig: (NSDictionary *) dict;
 -(void) setRemoteConfigValue: (id) value forKey: (NSString *) key;
 
 @end

@@ -32,15 +32,21 @@
 
     [BHookNotification notificationContactWillBeAdded:contact];
 
-    id<PUserConnection> connection = [BChatSDK.db fetchOrCreateEntityWithID:contact.entityID withType:bUserConnectionEntity];
-    [connection setType:@(bUserConnectionTypeContact)];
-    [connection setEntityID:contact.entityID];
-    [BChatSDK.currentUser addConnection:connection];
-    
-    return [BChatSDK.db save].thenOnMain(^id(id success) {
+    return [BChatSDK.db performOnMainAndSave:^id() {
+        id<PUserConnection> connection = [BChatSDK.db fetchOrCreateEntityWithID:contact.entityID withType:bUserConnectionEntity];
+        [connection setType:@(bUserConnectionTypeContact)];
+        [connection setEntityID:contact.entityID];
+        
+        id<PUser> currentUser = [BChatSDK.db fetchOrCreateEntityWithID:BChatSDK.auth.currentUserEntityID withType:bUserEntity];
+        [currentUser addConnection:connection];
+        
+        return Nil;
+    }].thenOnMain(^id(id success) {
+
         [BChatSDK.core observeUser:contact.entityID];
         [BHookNotification notificationContactWasAdded:contact];
-        return Nil;
+
+        return success;
     }, Nil);
 }
 
@@ -55,18 +61,24 @@
     
     [BHookNotification notificationContactWillBeDeleted:user];
     
-    // Clear down the old blocking list
-    NSArray * connections = [BChatSDK.db fetchUserConnectionsWithType:type entityID:user ? user.entityID : Nil];
-    
-    for (id<PUserConnection> connection in connections) {
-        [BChatSDK.currentUser removeConnection:connection];
-    }
-    
-    [BChatSDK.db deleteEntities:connections];
-    
-    return [BChatSDK.db save].thenOnMain(^id(id success) {
-        [BHookNotification notificationContactWasDeleted:user];
+    return [BChatSDK.db performOnMainAndSave:^id() {
+
+        // Clear down the old blocking list
+        NSArray * connections = [BChatSDK.db fetchUserConnectionsWithType:type entityID:user ? user.entityID : Nil];
+        id<PUser> currentUser = [BChatSDK.db fetchOrCreateEntityWithID:BChatSDK.auth.currentUserEntityID withType:bUserEntity];
+
+        for (id<PUserConnection> connection in connections) {
+            [currentUser removeConnection:connection];
+        }
+        
+        [BChatSDK.db deleteEntities:connections];
+
         return Nil;
+    }].thenOnMain(^id(id success) {
+
+        [BHookNotification notificationContactWasDeleted:user];
+
+        return success;
     }, Nil);
 }
 
