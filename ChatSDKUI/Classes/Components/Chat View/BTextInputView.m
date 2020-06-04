@@ -36,6 +36,10 @@
 //        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
         self.backgroundColor = [UIColor whiteColor];
         
+        if(BChatSDK.config.chatTextViewFont) {
+            _placeholderLabel.font = BChatSDK.config.chatTextViewFont;
+        }
+        
         // Decide how many lines the message should have
         minLines = bMinLines;
         maxLines = bMaxLines;
@@ -125,6 +129,9 @@
         [_placeholderLabel setTextColor:_placeholderColor];
         
         [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+        if(BChatSDK.config.chatTextViewPlaceholder) {
+            [_placeholderLabel setText:BChatSDK.config.chatTextViewPlaceholder];
+        }
         
         [self setFont:[UIFont systemFontOfSize:bFontSize]];
         
@@ -270,6 +277,9 @@
     [[BAudioManager sharedManager] finishRecording];
     [_sendBarDelegate.view hideAllToasts];
     [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+    if(BChatSDK.config.chatTextViewPlaceholder) {
+        [_placeholderLabel setText:BChatSDK.config.chatTextViewPlaceholder];
+    }
     [self cancelRecordingToastTimer];
 }
 
@@ -306,6 +316,9 @@
 - (void)sendButtonCancelled {
     [_sendBarDelegate.view hideAllToasts];
     [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+    if(BChatSDK.config.chatTextViewPlaceholder) {
+        [_placeholderLabel setText:BChatSDK.config.chatTextViewPlaceholder];
+    }
     CSToastStyle * style = [[CSToastStyle alloc] initWithDefaultStyle];
     style.backgroundColor = [UIColor redColor];
     [_sendBarDelegate.view makeToast:[NSBundle t:bCancelled]
