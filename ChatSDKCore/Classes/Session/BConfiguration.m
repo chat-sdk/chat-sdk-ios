@@ -101,6 +101,8 @@
 @synthesize enableWebCompatibility;
 @synthesize enableCompatibilityWithV4;
 
+@synthesize messageDeletionEnabled;
+
 -(instancetype) init {
     if((self = [super init])) {
         
@@ -131,6 +133,7 @@
         
         shouldOpenChatWhenPushNotificationClicked = YES;
         onlySendPushToOfflineUsers = NO;
+        messageDeletionEnabled = YES;
                 
         loginUsernamePlaceholder = Nil;
         

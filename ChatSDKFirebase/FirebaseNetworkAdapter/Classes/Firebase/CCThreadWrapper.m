@@ -197,22 +197,25 @@
         // For Android we fixed this issue by counting back the messages in the thread
         // TODO: Fix this
         
-        query = [FIRDatabaseReference threadMessagesRef:strongSelf.model.entityID];
-//        [query queryOrderedByChild:bDate];
-        
-        // Only add deletion handlers to the last 100 messages
-//        query = [query queryLimitedToLast:BChatSDK.config.messageDeletionListenerLimit];
-        
-        [query observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
-            __typeof__(self) strongSelf = weakSelf;
-            NSLog(@"Message deleted: %@", snapshot.value);
-            CCMessageWrapper * wrapper = [CCMessageWrapper messageWithSnapshot:snapshot];
-            id<PMessage> message = wrapper.model;
-            [BHookNotification notificationMessageWillBeDeleted: message];
-            [strongSelf.model removeMessage: message];
-            [BHookNotification notificationMessageWasDeleted];
-        }];
-        
+        if (BChatSDK.config.messageDeletionEnabled) {
+            query = [FIRDatabaseReference threadMessagesRef:strongSelf.model.entityID];
+    //        [query queryOrderedByChild:bDate];
+            
+            // Only add deletion handlers to the last 100 messages
+    //        query = [query queryLimitedToLast:BChatSDK.config.messageDeletionListenerLimit];
+            
+            // This will potentially delete all the messages
+            [query observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
+                __typeof__(self) strongSelf = weakSelf;
+                NSLog(@"Message deleted: %@", snapshot.value);
+                CCMessageWrapper * wrapper = [CCMessageWrapper messageWithSnapshot:snapshot];
+                id<PMessage> message = wrapper.model;
+                [BHookNotification notificationMessageWillBeDeleted: message];
+                [strongSelf.model removeMessage: message];
+                [BHookNotification notificationMessageWasDeleted];
+            }];
+        }
+
         return promise;
         
     }, Nil);
