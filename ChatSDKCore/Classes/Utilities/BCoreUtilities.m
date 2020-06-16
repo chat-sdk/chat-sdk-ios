@@ -60,10 +60,6 @@
 }
 
 +(UIColor*)colorWithHexString:(NSString*)hex {
-    return [self colorWithHexString:hex withColorWeight:1.0];
-}
-
-+(UIColor*)colorWithHexString:(NSString*)hex withColorWeight: (float) weight {
     
     NSString *cString = [[hex stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
     
@@ -98,9 +94,9 @@
     [[NSScanner scannerWithString:gString] scanHexInt:&g];
     [[NSScanner scannerWithString:bString] scanHexInt:&b];
     
-    return [UIColor colorWithRed:((float) weight * r / 255.0f)
-                           green:((float) weight * g / 255.0f)
-                            blue:((float) weight * b / 255.0f)
+    return [UIColor colorWithRed:((float) r / 255.0f)
+                           green:((float) g / 255.0f)
+                            blue:((float) b / 255.0f)
                            alpha:1.0f];
 }
 

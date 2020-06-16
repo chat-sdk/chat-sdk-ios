@@ -29,7 +29,7 @@
     [super viewDidLoad];
 
     self.title = [NSBundle t: bProfilePictures];
-    self.collectionView.backgroundColor = UIColor.whiteColor;
+    self.collectionView.backgroundColor = UIColor.systemBackgroundColor;
 
     if (!_user) {
         [self.navigationController popViewControllerAnimated:YES];

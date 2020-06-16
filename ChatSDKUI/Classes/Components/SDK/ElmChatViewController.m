@@ -79,10 +79,7 @@
     
     // Constrain the table to the top of the toolbar
     tableView.keepBottomOffsetTo(_sendBarView).equal = 2;
-    
-//    tableView.layer.borderColor = [UIColor redColor].CGColor;
-//    tableView.layer.borderWidth = 2;
-    
+        
 }
 
 -(void) registerMessageCells {
@@ -129,7 +126,7 @@
 // or a collection view shown in the keyboard overlay
 -(void) setupKeyboardOverlay {
     _keyboardOverlay = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fh, self.view.fw, 0)];
-    _keyboardOverlay.backgroundColor = [UIColor whiteColor];
+    _keyboardOverlay.backgroundColor = [UIColor systemBackgroundColor];
     
     _optionsHandler = [BChatSDK.ui chatOptionsHandlerWithDelegate:self];
     
@@ -438,7 +435,7 @@
     //float colorWeight = ((float) indexPath.row / (float) self.messages.count) * 0.15 + 0.85;
     float colorWeight = 1;
 
-    [messageCell setMessage:message withColorWeight:colorWeight];
+    [messageCell setMessage:message];
     
     return messageCell;
 }
@@ -688,7 +685,7 @@
             [BChatSDK.moderation deleteMessage:message.entityID];
         }];
         
-        button.backgroundColor = [UIColor redColor];
+        button.backgroundColor = [UIColor systemRedColor];
         return @[button];
 
     }
@@ -705,7 +702,7 @@
             
         }];
         
-        button.backgroundColor = message.flagged.intValue ? [UIColor darkGrayColor] : [UIColor redColor];
+        button.backgroundColor = message.flagged.intValue ? [UIColor systemGrayColor] : [UIColor systemRedColor];
         
         return @[button];
     }

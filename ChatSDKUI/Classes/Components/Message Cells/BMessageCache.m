@@ -39,7 +39,7 @@ static BMessageCache * cache;
     return self;
 }
 
--(UIImage *) bubbleForMessage: (id<PElmMessage>) message withColorWeight: (float) weight {
+-(UIImage *) bubbleForMessage: (id<PElmMessage>) message{
     
     bMessagePos pos = [message messagePosition];
     BOOL isMine = [message senderIsMe];
@@ -69,7 +69,7 @@ static BMessageCache * cache;
         colorString = BChatSDK.shared.configuration.messageColorReply;
     }
 
-    NSString * imageIdentifier = [NSString stringWithFormat:@"%@%@%i%f", bubbleImageName, colorString, isMine, weight];
+    NSString * imageIdentifier = [NSString stringWithFormat:@"%@%@%i%f", bubbleImageName, colorString, isMine];
     
     if(_messageBubbleImages[imageIdentifier]) {
         return _messageBubbleImages[imageIdentifier];
@@ -90,7 +90,7 @@ static BMessageCache * cache;
             
         }
         
-        UIColor * color = [BCoreUtilities colorWithHexString:colorString withColorWeight:weight];
+        UIColor * color = [BCoreUtilities colorWithHexString:colorString];
         
         UIImage * image = [BMessageCell bubbleWithImage:bubbleImage withColor:color];
         

@@ -49,7 +49,9 @@
             _timeLabel.font = BChatSDK.config.messageTimeFont;
         }
 
-        _timeLabel.textColor = [UIColor lightGrayColor];
+        // DM lightGrayColor
+        _timeLabel.textColor = [UIColor systemGray2Color];
+
         _timeLabel.userInteractionEnabled = NO;
         
         [self.contentView addSubview:_timeLabel];
@@ -102,10 +104,6 @@
     }
 }
 
--(void) setMessage: (id<PElmMessage>) message {
-    [self setMessage:message withColorWeight:1.0];
-}
-
 -(void) showActivityIndicator {
     [self.contentView addSubview:_activityIndicator];
     [_activityIndicator keepCenter];
@@ -120,7 +118,7 @@
 }
 
 // Called to setup the current cell for the message
--(void) setMessage: (id<PElmMessage>) message withColorWeight: (float) colorWeight {
+-(void) setMessage: (id<PElmMessage>) message {
     
     // Set the message for later use
     _message = message;
@@ -137,7 +135,7 @@
     id<PElmMessage> nextMessage = message.nextMessage;
     
     // Set the bubble to be the correct color
-    bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message withColorWeight:colorWeight];
+    bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message];
 
     // Hide profile pictures for 1-to-1 threads
     _profilePicture.hidden = self.profilePictureHidden;
@@ -163,7 +161,8 @@
         else {
             // If the user doesn't have a profile picture set the default profile image
             _profilePicture.image = message.userModel.defaultImage;
-            _profilePicture.backgroundColor = [UIColor whiteColor];
+            // DM whiteColor
+            _profilePicture.backgroundColor = [UIColor systemBackgroundColor];
         }
     }
     else {

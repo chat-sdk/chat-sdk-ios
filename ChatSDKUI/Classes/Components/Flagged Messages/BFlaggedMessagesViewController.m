@@ -141,12 +141,14 @@
     UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Delete" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         [BChatSDK.moderation deleteMessage:self.flaggedMessages[indexPath.row].entityID];
     }];
-    delete.backgroundColor = [UIColor redColor];
+    delete.backgroundColor = [UIColor systemRedColor];
     
     UITableViewRowAction *more = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Unflag" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         [BChatSDK.moderation unflagMessage:self.flaggedMessages[indexPath.row].entityID];
     }];
-    more.backgroundColor = [UIColor colorWithRed:0.188 green:0.514 blue:0.984 alpha:1];
+    // DM
+    //    more.backgroundColor = [UIColor colorWithRed:0.188 green:0.514 blue:0.984 alpha:1];
+    more.backgroundColor = [UIColor systemGrayColor];
     
     return @[delete, more];
 }

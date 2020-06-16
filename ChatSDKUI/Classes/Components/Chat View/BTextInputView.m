@@ -34,7 +34,7 @@
     if (self) {
         
 //        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor systemBackgroundColor];
         
         // Decide how many lines the message should have
         minLines = bMinLines;
@@ -42,7 +42,8 @@
         maxCharacters = bMaxCharacters;
         
         // Set the text color
-        _placeholderColor = [UIColor darkGrayColor];
+        // DM darkGrayColor
+        _placeholderColor = [UIColor systemGrayColor];
         _textColor = [UIColor blackColor];
 
         // Create an options button which shows an action sheet
@@ -138,7 +139,9 @@
         [self updateInterfaceForReachabilityStateChange];
         
         UIView * topMarginView = [[UIView alloc] initWithFrame:CGRectZero];
-        topMarginView.backgroundColor = [UIColor lightGrayColor];
+        
+        // DM lightGrayColor
+        topMarginView.backgroundColor = [UIColor systemGray5Color];
         
         [self addSubview:topMarginView];
         
@@ -307,7 +310,9 @@
     [_sendBarDelegate.view hideAllToasts];
     [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
     CSToastStyle * style = [[CSToastStyle alloc] initWithDefaultStyle];
-    style.backgroundColor = [UIColor redColor];
+
+    style.backgroundColor = [UIColor systemRedColor];
+
     [_sendBarDelegate.view makeToast:[NSBundle t:bCancelled]
                             duration:1
                             position:[NSValue valueWithCGPoint: CGPointMake(_sendBarDelegate.view.frame.size.width / 2.0, self.frame.origin.y - self.frame.size.height - 20)] style:style];

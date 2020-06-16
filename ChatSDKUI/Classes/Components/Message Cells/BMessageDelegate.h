@@ -11,7 +11,6 @@
 @protocol BMessageDelegate <NSObject>
 
 -(void) setMessage: (id<PElmMessage>) message;
--(void) setMessage: (id<PElmMessage>) message withColorWeight: (float) colorWeight;
 
 -(void) willDisplayCell;
 
