@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_120_main.png" translatesAutoresizingMaskIntoConstraints="NO" id="cc3-2f-RH7">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_120_main" translatesAutoresizingMaskIntoConstraints="NO" id="cc3-2f-RH7">
                     <rect key="frame" x="112.5" y="143.5" width="150" height="150"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="150" id="8es-Bd-3Fj"/>
@@ -29,8 +29,10 @@
                 </imageView>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ajJ-TH-d3N">
                     <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </activityIndicatorView>
             </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="ajJ-TH-d3N" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="R4H-0f-Zjw"/>
                 <constraint firstItem="cc3-2f-RH7" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="WFk-36-Vvq"/>
@@ -42,6 +44,6 @@
         </view>
     </objects>
     <resources>
-        <image name="icn_120_main.png" width="120" height="120"/>
+        <image name="icn_120_main" width="120" height="120"/>
     </resources>
 </document>

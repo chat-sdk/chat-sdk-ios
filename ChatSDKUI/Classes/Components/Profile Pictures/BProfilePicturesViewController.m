@@ -9,6 +9,8 @@
 #import "BProfilePicturesViewController.h"
 
 #import <ChatSDK/UI.h>
+#import <ChatSDK/Core.h>
+
 #import "BProfilePicturesHelper.h"
 
 #define pictureCellIdentifier @"PictureCell"

@@ -8,6 +8,7 @@
 
 #import "BTextInputView.h"
 #import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 #define bMargin 8.0
 

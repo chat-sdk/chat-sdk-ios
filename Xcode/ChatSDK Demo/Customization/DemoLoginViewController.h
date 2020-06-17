@@ -6,7 +6,7 @@
 //  Copyright © 2020 deluge. All rights reserved.
 //
 
-#import <ChatSDK/UI.h>
+#import <ChatSDK/BLoginViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

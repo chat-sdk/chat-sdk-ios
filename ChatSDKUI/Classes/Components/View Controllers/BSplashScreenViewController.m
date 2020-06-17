@@ -7,6 +7,7 @@
 
 #import "BSplashScreenViewController.h"
 #import <ChatSDK/UI.h>
+#import <ChatSDK/Core.h>
 
 @interface BSplashScreenViewController ()
 

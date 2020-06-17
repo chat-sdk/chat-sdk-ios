@@ -34,7 +34,11 @@
     
     // Add the save button
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bSave] style:UIBarButtonItemStyleDone target:self action:@selector(save)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bCancel] style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if (version.majorVersion < 13) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bCancel] style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    }
     
     // The tap recognizer dismisses the keyboard when the list view is tapped
     _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];

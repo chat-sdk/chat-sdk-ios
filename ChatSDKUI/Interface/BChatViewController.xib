@@ -29,6 +29,7 @@
                     </connections>
                 </tableView>
             </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="rzd-ej-F3p" firstAttribute="leading" secondItem="Szt-lM-38i" secondAttribute="leading" id="D3M-Z4-hM5"/>
                 <constraint firstItem="rzd-ej-F3p" firstAttribute="top" secondItem="1" secondAttribute="top" priority="500" id="agG-UP-tff"/>

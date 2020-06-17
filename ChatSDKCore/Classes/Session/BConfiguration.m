@@ -11,8 +11,6 @@
 
 @implementation BConfiguration
 
-@synthesize messageColorMe;
-@synthesize messageColorReply;
 @synthesize rootPath;
 @synthesize appBadgeEnabled;
 @synthesize defaultUserNamePrefix;
@@ -24,7 +22,6 @@
 @synthesize shouldOpenChatWhenPushNotificationClicked;
 @synthesize loginUsernamePlaceholder;
 @synthesize defaultAvatarURL;
-@synthesize defaultBlankAvatar;
 @synthesize timeFormat;
 @synthesize chatMessagesToLoad;
 @synthesize messagesToLoadPerBatch;
@@ -45,7 +42,6 @@
 @synthesize forgotPasswordEnabled;
 @synthesize termsAndConditionsEnabled;
 @synthesize clientPushEnabled;
-@synthesize defaultGroupChatAvatar;
 @synthesize prefersLargeTitles;
 @synthesize shouldOpenChatWhenPushNotificationClickedOnlyIfTabBarVisible;
 @synthesize showPublicThreadsUnreadMessageBadge;
@@ -109,8 +105,6 @@
         _messageBubbleMargin = [NSMutableDictionary new];
         _messageBubblePadding = [NSMutableDictionary new];
         
-        messageColorMe = bDefaultMessageColorMe;
-        messageColorReply = bDefaultMessageColorReply;
         rootPath = @"default";
         appBadgeEnabled = YES;
         
@@ -164,10 +158,7 @@
         showLocalNotificationsForPublicChats = NO;
         
         shouldAskForNotificationsPermission = YES;
-        
-        defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bCoreBundleName];
-        defaultGroupChatAvatar = [NSBundle imageNamed:bDefaultPublicGroupImage bundle:bCoreBundleName];
-        
+                
         showProfileViewOnTap = YES;
         
         rootPath = [BSettingsManager firebaseRootPath];

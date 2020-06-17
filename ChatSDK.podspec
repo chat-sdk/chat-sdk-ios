@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => s.version.to_s }
   s.module_name      = 'ChatSDK'
 
-  s.platform     = :ios, '9.0'
+  s.platform     = :ios, '11.0'
   s.requires_arc = true
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
   
@@ -36,6 +36,16 @@ Pod::Spec.new do |s|
       core.dependency 'SAMKeychain'
 
       core.frameworks = 'SafariServices'
+      core.dependency 'ChatSDK/CoreSwift'
+  
+  end
+
+  s.subspec 'CoreSwift' do |r| 
+
+    r.source_files = ['ChatSDKCoreSwift/Classes/**/*']
+    r.resource_bundles = {
+    'ChatCoreSwift' => ['ChatSDKCoreSwift/Assets/**/*']
+    }
   
   end
 

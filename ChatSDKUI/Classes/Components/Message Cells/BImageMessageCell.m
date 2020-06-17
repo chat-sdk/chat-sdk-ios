@@ -11,7 +11,7 @@
 #import <ChatSDK/Core.h>
 #import <ChatSDK/PElmMessage.h>
 #import <ChatSDK/UI.h>
-
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @implementation BImageMessageCell
 
@@ -54,7 +54,7 @@
     
     UIImage * placeholder = [UIImage imageWithData:message.placeholder];
     if (!placeholder) {
-        placeholder = [NSBundle uiImageNamed:bDefaultPlaceholderImage];
+        placeholder = [BChatSDK.icons getWithName:Icons.defaultPlaceholder];
     }
         
     [imageView sd_setImageWithURL:message.imageURL

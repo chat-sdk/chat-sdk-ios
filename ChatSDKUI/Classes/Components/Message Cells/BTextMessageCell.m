@@ -11,6 +11,7 @@
 #import <ChatSDK/UI.h>
 #import <ChatSDK/Core.h>
 #import <ChatSDK/PElmMessage.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @implementation BTextMessageCell
 
@@ -55,16 +56,12 @@
     
     textView.text = message.text;
     
-    if(BChatSDK.config.messageTextColorMe && message.userModel.isMe) {
-        textView.textColor = [BCoreUtilities colorWithHexString:BChatSDK.config.messageTextColorMe];
+    if (message.userModel.isMe) {
+        textView.textColor = [BChatSDK.colors getWithName:Colors.outcomingDefaultTextColor];
+    } else {
+        textView.textColor = [BChatSDK.colors getWithName:Colors.incomingDefaultTextColor];
     }
-    else if(BChatSDK.config.messageTextColorReply && !message.userModel.isMe) {
-        textView.textColor = [BCoreUtilities colorWithHexString:BChatSDK.config.messageTextColorReply];
-    }
-    else
-    {
-        textView.textColor = [BCoreUtilities colorWithHexString:bDefaultTextColor];
-    }
+    
 }
 
 #pragma Cell sizing static methods

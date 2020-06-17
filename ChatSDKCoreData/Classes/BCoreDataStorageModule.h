@@ -6,7 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDK/Core.h>
+
+@protocol PModule;
 
 @interface BCoreDataStorageModule : NSObject<PModule>
 

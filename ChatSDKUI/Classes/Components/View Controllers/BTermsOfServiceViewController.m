@@ -9,6 +9,7 @@
 #import "BTermsOfServiceViewController.h"
 
 #import <ChatSDK/UI.h>
+#import <ChatSDK/Core.h>
 
 @implementation BTermsOfServiceViewController
 

@@ -8,11 +8,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDK/Core.h>
 
+@protocol PContactHandler;
 
 @interface BBaseContactHandler : NSObject<PContactHandler>
-
-
 
 @end

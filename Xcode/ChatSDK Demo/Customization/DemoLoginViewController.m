@@ -8,6 +8,7 @@
 
 
 #import "DemoLoginViewController.h"
+#import <ChatSDK/UI.h>
 
 @interface DemoLoginViewController ()
 

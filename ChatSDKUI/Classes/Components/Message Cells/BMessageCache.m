@@ -10,6 +10,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 
 #define bMessagePositionKey @"bMessagePositionKey"
@@ -39,7 +40,7 @@ static BMessageCache * cache;
     return self;
 }
 
--(UIImage *) bubbleForMessage: (id<PElmMessage>) message{
+-(UIImage *) bubbleForMessage: (id<PElmMessage>) message {
     
     bMessagePos pos = [message messagePosition];
     BOOL isMine = [message senderIsMe];
@@ -60,16 +61,14 @@ static BMessageCache * cache;
             break;
     }
     
-    // Color
-    NSString * colorString = Nil;
+    UIColor * color = Nil;
     if (isMine) {
-        colorString = BChatSDK.shared.configuration.messageColorMe;
+        color = [BChatSDK.colors getWithName:Colors.outcomingDefaultBubbleColor];
+    } else {
+        color = [BChatSDK.colors getWithName:Colors.incomingDefaultBubbleColor];
     }
-    else {
-        colorString = BChatSDK.shared.configuration.messageColorReply;
-    }
-
-    NSString * imageIdentifier = [NSString stringWithFormat:@"%@%@%i%f", bubbleImageName, colorString, isMine];
+    
+    NSString * imageIdentifier = [NSString stringWithFormat:@"%@%@", bubbleImageName, [BCoreUtilities colorToString:color]];
     
     if(_messageBubbleImages[imageIdentifier]) {
         return _messageBubbleImages[imageIdentifier];
@@ -89,9 +88,7 @@ static BMessageCache * cache;
             bubbleImage = [bubbleImage stretchableImageWithLeftCapWidth:bLeftCapRight topCapHeight:bTopCap];
             
         }
-        
-        UIColor * color = [BCoreUtilities colorWithHexString:colorString];
-        
+                        
         UIImage * image = [BMessageCell bubbleWithImage:bubbleImage withColor:color];
         
         _messageBubbleImages[imageIdentifier] = image;

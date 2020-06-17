@@ -20,13 +20,15 @@
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="0P9-Eh-gWx">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="sectionIndexBackgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="yFI-fB-aa0"/>
                         <outlet property="delegate" destination="-1" id="3ah-Gp-SeE"/>
                     </connections>
                 </tableView>
             </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="0P9-Eh-gWx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="5dH-gE-Bbc"/>
                 <constraint firstAttribute="trailing" secondItem="0P9-Eh-gWx" secondAttribute="trailing" id="Jui-it-b6d"/>

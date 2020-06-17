@@ -32,10 +32,6 @@ typedef enum {
 // Should we ask the user to allow notifications when the app initially loads up? 
 @property (nonatomic, readwrite) BOOL shouldAskForNotificationsPermission;
     
-// Background color of messages: hex value like "FFFFFF"
-@property (nonatomic, readwrite) NSString * messageColorMe;
-@property (nonatomic, readwrite) NSString * messageColorReply;
-
 // The Firebase root path. Data will be added to Firebase root/rootPath...
 // this allows you to run multiple chat instances on one Firebase database
 @property (nonatomic, readwrite) NSString * rootPath;
@@ -57,12 +53,6 @@ typedef enum {
 
 // User profile image
 @property (nonatomic, readwrite) NSString * defaultAvatarURL;
-
-// Which image should be used if no avatar is set
-@property (nonatomic, readwrite) UIImage * defaultBlankAvatar;
-
-// Which image should be used if no avatar is set
-@property (nonatomic, readwrite) UIImage * defaultGroupChatAvatar;
 
 @property (nonatomic, readwrite) NSString * timeFormat;
 
@@ -151,8 +141,6 @@ typedef enum {
 
 // Message fonts
 @property (nonatomic, readwrite) UIFont * messageTextFont;
-@property (nonatomic, readwrite) NSString * messageTextColorMe;
-@property (nonatomic, readwrite) NSString * messageTextColorReply;
 
 @property (nonatomic, readwrite) UIFont * messageTimeFont;
 @property (nonatomic, readwrite) UIFont * messageNameFont;

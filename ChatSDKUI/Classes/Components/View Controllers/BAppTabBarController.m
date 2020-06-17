@@ -205,7 +205,7 @@
     [[NSUserDefaults standardUserDefaults] setInteger:badge forKey:bMessagesBadgeValueKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    if ([BChatSDK.shared.configuration appBadgeEnabled]) {
+    if ([BChatSDK.config appBadgeEnabled]) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
     }
 }

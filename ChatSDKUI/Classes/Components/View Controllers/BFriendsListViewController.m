@@ -60,7 +60,11 @@
     groupNameTextField.placeholder = [NSBundle t:bGroupName];
     groupNameTextField.delegate = self;
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if (version.majorVersion < 13) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
+    }
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.getRightBarButtonActionTitle style:UIBarButtonItemStylePlain target:self action:@selector(composeMessage)];
     
     // Takes into account the status and navigation bar
@@ -72,11 +76,13 @@
     _tokenField.placeholderText = [NSBundle t:bEnterNamesHere];
     _tokenField.toLabelText = [NSBundle t:bTo];
     _tokenField.userInteractionEnabled = YES;
+    _tokenField.inputTextFieldTextColor = UIColor.labelColor;
     
     [_tokenField setColorScheme:[UIColor colorWithRed:61/255.0f green:149/255.0f blue:206/255.0f alpha:1.0f]];
     
-    _tokenView.layer.borderWidth = 0.5;
-    _tokenView.layer.borderColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0].CGColor;
+//    _tokenView.layer.borderWidth = 0.5;
+    
+//    _tokenView.layer.borderColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0].CGColor;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
@@ -86,7 +92,14 @@
     [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bUserCellIdentifier];
 
     [self setGroupNameHidden:YES duration:0];
+    
+    [self traitCollectionDidChange:Nil];
 }
+
+-(void) traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+//    _tokenView.layer.borderColor = UIColor.systemGray3Color.CGColor;
+}
+
 
 -(NSString *) getRightBarButtonActionTitle {
     if (self.rightBarButtonActionTitle) {

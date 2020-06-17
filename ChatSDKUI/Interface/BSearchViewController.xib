@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15508"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -23,8 +21,8 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RHx-Ni-2pY">
-                    <rect key="frame" x="0.0" y="8" width="375" height="659"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <rect key="frame" x="0.0" y="10" width="375" height="657"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="45h-db-2ml"/>
                         <outlet property="delegate" destination="-1" id="RD8-oc-OSN"/>
@@ -35,12 +33,13 @@
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No users found for this search" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HVG-QS-2ME">
                             <rect key="frame" x="8" y="8" width="359" height="643"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstItem="HVG-QS-2ME" firstAttribute="top" secondItem="JsS-ef-lBV" secondAttribute="top" constant="8" id="LIJ-wq-vSk"/>
                         <constraint firstAttribute="bottom" secondItem="HVG-QS-2ME" secondAttribute="bottom" constant="8" id="kEw-l0-Gm4"/>
@@ -51,9 +50,9 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="RHx-Ni-2pY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="0UO-ys-t0e"/>
                 <constraint firstAttribute="trailing" secondItem="RHx-Ni-2pY" secondAttribute="trailing" id="0bV-YC-sCY"/>
                 <constraint firstItem="JsS-ef-lBV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="1sa-GS-4vm"/>
-                <constraint firstItem="RHx-Ni-2pY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="Chu-AS-7GU"/>
                 <constraint firstItem="RHx-Ni-2pY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Ko0-uI-CSG"/>
                 <constraint firstItem="JsS-ef-lBV" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="M98-HU-0Lj"/>
                 <constraint firstAttribute="bottom" secondItem="JsS-ef-lBV" secondAttribute="bottom" id="Osd-Uh-uvN"/>
@@ -61,7 +60,7 @@
                 <constraint firstAttribute="bottom" secondItem="RHx-Ni-2pY" secondAttribute="bottom" priority="750" id="QcP-8Z-724"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <point key="canvasLocation" x="83" y="380"/>
+            <point key="canvasLocation" x="120.28985507246378" y="254.46428571428569"/>
         </view>
     </objects>
 </document>

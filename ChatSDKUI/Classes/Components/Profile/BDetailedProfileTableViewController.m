@@ -10,6 +10,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 #define bStatusSection 1
 #define bBlockCellTag 2
@@ -58,7 +59,7 @@
 {
     
     [super viewDidLoad];
-    _anonymousProfilePicture = [NSBundle uiImageNamed:bDefaultProfileImage];
+    _anonymousProfilePicture = [BChatSDK.icons getWithName:Icons.defaultProfile];
     profilePictureButton.layer.cornerRadius = 50;
     
     self.hideSectionsWithHiddenRows = YES;

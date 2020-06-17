@@ -47,6 +47,10 @@
     [self setMessages:messages scrollToBottom:NO animate:NO force: YES];
 }
 
+-(void) traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [self reloadData];
+}
+
 -(void) updateSubtitle {
     
     if (BChatSDK.config.userChatInfoEnabled) {
