@@ -316,12 +316,6 @@
         _nameLabel.textAlignment = NSTextAlignmentRight;
     }
     
-//        self.bubbleImageView.layer.borderColor = UIColor.redColor.CGColor;
-//        self.bubbleImageView.layer.borderWidth = 1;
-//        self.contentView.layer.borderColor = UIColor.blueColor.CGColor;
-//        self.contentView.layer.borderWidth = 1;
-//        self.cellContentView.layer.borderColor = UIColor.greenColor.CGColor;
-//        self.cellContentView.layer.borderWidth = 1;
 }
 
 

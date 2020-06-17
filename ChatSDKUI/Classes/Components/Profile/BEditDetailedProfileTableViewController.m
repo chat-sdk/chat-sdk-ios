@@ -169,7 +169,7 @@
 - (IBAction)availabilityButtonPressed:(UIButton *)sender {
     BOOL hidden = ![self cellIsHidden: availabilityCell];
     [self cell:availabilityCell setHidden:hidden];
-    [sender setTintColor:hidden ? self.defaultButtonTintColor : [UIColor redColor]];
+    [sender setTintColor:hidden ? self.defaultButtonTintColor : [UIColor systemRedColor]];
     [self reloadDataAnimated:NO];
 }
 

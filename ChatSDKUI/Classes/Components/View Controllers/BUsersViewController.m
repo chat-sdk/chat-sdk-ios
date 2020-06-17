@@ -46,10 +46,13 @@
     
     self.title = [NSBundle t:bDetails];
     
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if (version.majorVersion < 13) {
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack]
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                             action:@selector(backButtonPressed)];
+    }
 
     UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bSettings]
                                                                    style:UIBarButtonItemStylePlain
@@ -62,8 +65,10 @@
 //                                                                                               target:self
 //                                                                                               action:@selector(addUser)];
 //    }
+    
+    tableView.separatorColor = UIColor.systemGray2Color;
 
-    tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
+//    tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
     
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bUserCellIdentifier];
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bLeaveCellIdentifier];
@@ -115,7 +120,7 @@
     
     UITableViewCell * cell = [tableView_ dequeueReusableCellWithIdentifier:bCell];
     
-    cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.textColor = [UIColor labelColor];
     
     if (indexPath.section == bParticipantsSection) {
         
@@ -154,7 +159,7 @@
         // Reset the image view
         cell.imageView.image = nil;
         cell.textLabel.text = [NSBundle t:bLeaveConversation];
-        cell.textLabel.textColor = [UIColor redColor];
+        cell.textLabel.textColor = [UIColor systemRedColor];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
     }
     

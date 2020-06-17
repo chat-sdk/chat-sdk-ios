@@ -209,7 +209,7 @@
     
     if (self.isContact) {
         addContactLabel.text = [NSBundle t: bDelete];
-        addContactLabel.textColor = [UIColor redColor];
+        addContactLabel.textColor = [UIColor systemRedColor];
         addContactImageView.highlighted = YES;
     } else {
         addContactLabel.text = [NSBundle t: bAddContact];
