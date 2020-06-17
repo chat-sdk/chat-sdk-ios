@@ -13,6 +13,7 @@
 
 @synthesize messageColorMe;
 @synthesize messageColorReply;
+@synthesize messageTimeColor;
 @synthesize rootPath;
 @synthesize appBadgeEnabled;
 @synthesize defaultUserNamePrefix;
