@@ -46,6 +46,10 @@
         _tapRecognizer.enabled = NO;
         [self.view addGestureRecognizer:_tapRecognizer];
         
+        if (BChatSDK.config.chatBgColor) {
+            self.tableView.backgroundColor = [BCoreUtilities colorWithHexString:BChatSDK.config.chatBgColor];
+        }
+        
         // When a user taps the title bar we want to know to show the options screen
         if (BChatSDK.config.userChatInfoEnabled) {
             UITapGestureRecognizer * titleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navigationBarTapped)];
@@ -402,6 +406,14 @@
 
 -(id<PElmMessage>) messageForIndexPath: (NSIndexPath *) path {
     return [_messageManager messageForIndexPath:path];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if(BChatSDK.config.hideDayOfTheWeekSection) {
+        return 0.01;
+    }
+    
+    return UITableViewAutomaticDimension;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

@@ -28,12 +28,12 @@
         
         // Make sure the selected color is white
         self.selectedBackgroundView = [[UIView alloc] init];
-
+        
         // Bubble view
         bubbleImageView = [[UIImageView alloc] init];
         bubbleImageView.contentMode = UIViewContentModeScaleToFill;
         bubbleImageView.userInteractionEnabled = YES;
-
+        
         [self.contentView addSubview:bubbleImageView];
         
         _profilePicture = [[UIImageView alloc] init];
@@ -48,12 +48,16 @@
         if(BChatSDK.config.messageTimeFont) {
             _timeLabel.font = BChatSDK.config.messageTimeFont;
         }
-
-        _timeLabel.textColor = [UIColor lightGrayColor];
+        
+        _timeLabel.textColor = [BCoreUtilities colorWithHexString:bDefaultMessageColorTime];
+        if(BChatSDK.config.messageTimeColor) {
+            _timeLabel.textColor = [BCoreUtilities colorWithHexString:BChatSDK.config.messageTimeColor];
+        }
+        
         _timeLabel.userInteractionEnabled = NO;
         
         [self.contentView addSubview:_timeLabel];
-
+        
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         _nameLabel.userInteractionEnabled = NO;
         
@@ -62,24 +66,27 @@
             _nameLabel.font = BChatSDK.config.messageNameFont;
         }
         [self.contentView addSubview:_nameLabel];
-
+        
         _readMessageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(bTimeLabelPadding, 0, 0, 0)];
         [self setReadStatus:bMessageReadStatusNone];
         [self.contentView addSubview:_readMessageImageView];
         
-        UITapGestureRecognizer * profileTouched = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showProfileView)];
-        _profilePicture.userInteractionEnabled = YES;
-        [_profilePicture addGestureRecognizer:profileTouched];
+        // Value of profilePictureOnCellTapEnabled is enabled by default to follow previous implementation.
+        if (BChatSDK.config.profilePictureOnCellTapEnabled) {
+            UITapGestureRecognizer * profileTouched = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showProfileView)];
+            _profilePicture.userInteractionEnabled = YES;
+            [_profilePicture addGestureRecognizer:profileTouched];
+        }
         
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-
+        
     }
     return self;
 }
 
 -(void) setReadStatus: (bMessageReadStatus) status {
     NSString * imageName = Nil;
-
+    
     switch (status) {
         case bMessageReadStatusNone:
             imageName = @"icn_message_received.png";
@@ -138,14 +145,18 @@
     
     // Set the bubble to be the correct color
     bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message withColorWeight:colorWeight];
-
+    
     // Hide profile pictures for 1-to-1 threads
     _profilePicture.hidden = self.profilePictureHidden;
     
     NSLog(@"Position: %i", position);
     
     // We only want to show the user picture if it is the latest message from the user
-    if (position & BChatSDK.config.showMessageAvatarAtPosition) {
+    //
+    // 11/05/2019
+    // Or we can also show a profile picture beside each message cell by setting a value to
+    // BChatSDK.config.showProfilePictureOnEveryCell, depends on the project requirements.
+    if ((position & BChatSDK.config.showMessageAvatarAtPosition) || BChatSDK.config.showProfilePictureOnEveryCell) {
         if (message.userModel) {
             [_profilePicture loadAvatar:message.userModel];
             
@@ -173,7 +184,7 @@
     if (message.flagged.intValue) {
         _timeLabel.text = [NSBundle t:bFlagged];
     }
-
+    
     _timeLabel.text = _message.date.messageTimeAt;
     // We use 10 here because if the messages are less than 10 minutes apart, then we
     // can just compare the minute figures. If they were hours apart they could have
@@ -186,14 +197,22 @@
     
     _nameLabel.text = _message.userModel.name;
 
-//    
 //    // We only want to show the name label if the previous message was posted by someone else and if this is enabled in the thread
 //    // Or if the message is mine...
     
     _nameLabel.hidden = ![BMessageCell showUserNameLabelForMessage:message atPosition:@(position)];
     
-    // Hide the read receipt view if this is a public thread or if read receipts are disabled
-    _readMessageImageView.hidden = _message.thread.type.intValue & bThreadFilterPublic || !BChatSDK.readReceipt;
+    if(BChatSDK.config.hideNameLabel) {
+        _nameLabel.hidden = BChatSDK.config.hideNameLabel;
+    }
+    
+    if(BChatSDK.config.showReadStatus) {
+        // TODO: Find actual way to show the message status. This is temp solution only.
+        _readMessageImageView.hidden = NO;
+    } else {
+        // Hide the read receipt view if this is a public thread or if read receipts are disabled
+        _readMessageImageView.hidden = _message.thread.type.intValue & bThreadFilterPublic || !BChatSDK.readReceipt;
+    }
     
     _timeLabel.hidden = BChatSDK.config.combineTimeWithNameLabel;
     
@@ -227,7 +246,7 @@
     else {
         float ppDiameter = [BMessageCell profilePictureDiameter];
         float ppPadding = self.profilePicturePadding;
-
+        
         [_profilePicture setFrame:CGRectMake(ppPadding,
                                              (self.cellHeight - ppDiameter - self.nameHeight)/2.0,
                                              ppDiameter,
@@ -564,7 +583,7 @@
     }
     
     Class cellType = [BChatSDK.ui cellTypeForMessageType:message.type];
-
+    
     SEL selector = @selector(messageBubbleMargin:);
     if ([cellType respondsToSelector:selector]) {
         return [[cellType performSelector:selector withObject:message] UIEdgeInsetsValue];
@@ -585,12 +604,12 @@
     }
     
     Class cellType = [BChatSDK.ui cellTypeForMessageType:message.type];
-
+    
     SEL selector = @selector(messageBubblePadding:);
     if ([cellType respondsToSelector:selector]) {
         return [[cellType performSelector:selector withObject:message] UIEdgeInsetsValue];
     }
-
+    
     return [self messageBubblePadding:message].UIEdgeInsetsValue;
 }
 
@@ -640,7 +659,7 @@
 }
 
 +(NSNumber *) messageContentWidth: (id<PElmMessage>) message maxWidth: (float) maxWidth {
-    return @(bMaxMessageWidth);
+    return @(maxWidth);
 }
 
 +(NSValue *) messageBubblePadding: (id<PElmMessage>) message {

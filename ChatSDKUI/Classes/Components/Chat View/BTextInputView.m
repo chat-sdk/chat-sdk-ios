@@ -36,6 +36,10 @@
 //        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
         self.backgroundColor = [UIColor whiteColor];
         
+        if(BChatSDK.config.chatTextViewFont) {
+            _placeholderLabel.font = BChatSDK.config.chatTextViewFont;
+        }
+        
         // Decide how many lines the message should have
         minLines = bMinLines;
         maxLines = bMaxLines;
@@ -60,13 +64,25 @@
         _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self addSubview: _sendButton];
         
-        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
-        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_keyboard.png"] forState:UIControlStateSelected];
+        if(BChatSDK.config.optionsButtonIcon) {
+            [_optionsButton setImage:[NSBundle uiImageNamed:BChatSDK.config.optionsButtonIcon] forState:UIControlStateNormal];
+            [_optionsButton setImage:[NSBundle uiImageNamed:BChatSDK.config.optionsButtonIcon] forState:UIControlStateSelected];
+        } else {
+            [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
+            [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_keyboard.png"] forState:UIControlStateSelected];
+        }
         
         [_optionsButton addTarget:self action:@selector(optionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
-        NSString * sendButtonTitle = [NSBundle t:bSend];
-        [_sendButton setTitle:sendButtonTitle forState:UIControlStateNormal];
+        if(BChatSDK.config.sendButtonIcon) {
+            [_sendButton setTitle:Nil forState:UIControlStateNormal];
+            [_sendButton setImage:[UIImage imageNamed:BChatSDK.config.sendButtonIcon] forState:UIControlStateNormal];
+            [_sendButton setImage:[UIImage imageNamed:BChatSDK.config.sendButtonIcon] forState:UIControlStateSelected];
+        } else {
+            NSString * sendButtonTitle = [NSBundle t:bSend];
+            [_sendButton setImage:Nil forState:UIControlStateNormal];
+            [_sendButton setTitle:sendButtonTitle forState:UIControlStateNormal];
+        }
         
         [_sendButton addTarget:self action:@selector(sendButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [_sendButton addTarget:self action:@selector(sendButtonHeld) forControlEvents:UIControlEventTouchDown];
@@ -91,9 +107,15 @@
 
         // Constrain the elements
         _optionsButton.keepLeftInset.equal = bMargin +keepRequired;
-
-        _optionsButton.keepBottomInset.equal = 8.0;
-        _optionsButton.keepHeight.equal = 24;
+        
+        /// If a custom options button icon has been set, then center align it.
+        if(BChatSDK.config.optionsButtonIcon) {
+            _optionsButton.keepBottomInset.equal = bMargin;
+            _optionsButton.keepTopInset.equal = bMargin;
+        } else {
+            _optionsButton.keepBottomInset.equal = 8.0;
+            _optionsButton.keepHeight.equal = 24;
+        }
         
         // If the user has no chat options available then remove the chat option button width
         _optionsButton.keepWidth.equal = BChatSDK.ui.chatOptions.count ? 24 : 0;
@@ -125,6 +147,9 @@
         [_placeholderLabel setTextColor:_placeholderColor];
         
         [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+        if(BChatSDK.config.chatTextViewPlaceholder) {
+            [_placeholderLabel setText:BChatSDK.config.chatTextViewPlaceholder];
+        }
         
         [self setFont:[UIFont systemFontOfSize:bFontSize]];
         
@@ -176,8 +201,14 @@
                      forState:UIControlStateNormal];
     }
     else {
-        [_sendButton setTitle:[NSBundle t:bSend] forState:UIControlStateNormal];
-        [_sendButton setImage:Nil forState:UIControlStateNormal];
+        if(BChatSDK.config.sendButtonIcon) {
+            [_sendButton setTitle:Nil forState:UIControlStateNormal];
+            [_sendButton setImage:[UIImage imageNamed:BChatSDK.config.sendButtonIcon] forState:UIControlStateNormal];
+            [_sendButton setImage:[UIImage imageNamed:BChatSDK.config.sendButtonIcon] forState:UIControlStateSelected];
+        } else {
+            [_sendButton setTitle:[NSBundle t:bSend] forState:UIControlStateNormal];
+            [_sendButton setImage:Nil forState:UIControlStateNormal];
+        }
     }
 }
 
@@ -270,6 +301,9 @@
     [[BAudioManager sharedManager] finishRecording];
     [_sendBarDelegate.view hideAllToasts];
     [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+    if(BChatSDK.config.chatTextViewPlaceholder) {
+        [_placeholderLabel setText:BChatSDK.config.chatTextViewPlaceholder];
+    }
     [self cancelRecordingToastTimer];
 }
 
@@ -306,6 +340,9 @@
 - (void)sendButtonCancelled {
     [_sendBarDelegate.view hideAllToasts];
     [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+    if(BChatSDK.config.chatTextViewPlaceholder) {
+        [_placeholderLabel setText:BChatSDK.config.chatTextViewPlaceholder];
+    }
     CSToastStyle * style = [[CSToastStyle alloc] initWithDefaultStyle];
     style.backgroundColor = [UIColor redColor];
     [_sendBarDelegate.view makeToast:[NSBundle t:bCancelled]

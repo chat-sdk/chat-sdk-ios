@@ -30,6 +30,11 @@
 -(void) viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [BCoreUtilities colorWithHexString:bDefaultChatBgColor];
+    if(BChatSDK.config.chatBgColor) {
+        self.view.backgroundColor = [BCoreUtilities colorWithHexString:BChatSDK.config.chatBgColor];
+    }
+    
     [_sendBarView setMaxLines:BChatSDK.config.textInputViewMaxLines];
     [_sendBarView setMaxCharacters:BChatSDK.config.textInputViewMaxCharacters];
 
@@ -44,6 +49,12 @@
     // Add the initial batch of messages
     NSArray<PMessage> * messages = [BChatSDK.db loadMessagesForThread:_thread newest:BChatSDK.config.messagesToLoadPerBatch];
     messages = [messages sortedArrayUsingComparator:[BMessageSorter oldestFirst]];
+    
+    if(BChatSDK.config.dateFilter && BChatSDK.config.dateFilterFormat) {
+        NSPredicate *dateFilterPredicate = [NSPredicate predicateWithFormat:BChatSDK.config.dateFilterFormat, BChatSDK.config.dateFilter];
+        messages = (NSArray<PMessage> *)[messages filteredArrayUsingPredicate:dateFilterPredicate];
+    }
+    
     [self setMessages:messages scrollToBottom:NO animate:NO force: YES];
 }
 

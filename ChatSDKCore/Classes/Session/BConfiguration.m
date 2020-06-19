@@ -11,8 +11,17 @@
 
 @implementation BConfiguration
 
+@synthesize chatBgColor;
+@synthesize hideDayOfTheWeekSection;
+@synthesize addShadowOnMessageBubble;
+@synthesize showReadStatus;
+@synthesize dateFilterFormat;
+@synthesize dateFilter;
 @synthesize messageColorMe;
 @synthesize messageColorReply;
+@synthesize messageTimeColor;
+@synthesize chatTextViewPlaceholder;
+@synthesize chatTextViewFont;
 @synthesize rootPath;
 @synthesize appBadgeEnabled;
 @synthesize defaultUserNamePrefix;
@@ -23,6 +32,8 @@
 @synthesize defaultServer;
 @synthesize shouldOpenChatWhenPushNotificationClicked;
 @synthesize loginUsernamePlaceholder;
+@synthesize showProfilePictureOnEveryCell;
+@synthesize profilePictureOnCellTapEnabled;
 @synthesize defaultAvatarURL;
 @synthesize defaultBlankAvatar;
 @synthesize timeFormat;
@@ -66,6 +77,7 @@
 @synthesize messageBubbleMaskMiddle;
 @synthesize messageBubbleMaskLast;
 @synthesize messageBubbleMaskSingle;
+@synthesize hideNameLabel;
 @synthesize nameLabelPosition;
 @synthesize combineTimeWithNameLabel;
 
@@ -90,6 +102,8 @@
 @synthesize publicChatRoomLifetimeMinutes;
 @synthesize nearbyUsersMinimumLocationChangeToUpdateServer;
 
+@synthesize optionsButtonIcon;
+@synthesize sendButtonIcon;
 @synthesize publicChatAutoSubscriptionEnabled;
 @synthesize remote;
 @synthesize remoteConfigEnabled;
@@ -164,6 +178,8 @@
         showLocalNotificationsForPublicChats = NO;
         
         shouldAskForNotificationsPermission = YES;
+        
+        profilePictureOnCellTapEnabled = YES;
         
         defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bCoreBundleName];
         defaultGroupChatAvatar = [NSBundle imageNamed:bDefaultPublicGroupImage bundle:bCoreBundleName];

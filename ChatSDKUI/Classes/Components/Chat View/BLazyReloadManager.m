@@ -44,6 +44,11 @@
                 float height = scrollView.contentSize.height;
                 float offsetY = scrollView.contentOffset.y;
                 
+                if(BChatSDK.config.dateFilter && BChatSDK.config.dateFilterFormat) {
+                    NSPredicate *dateFilterPredicate = [NSPredicate predicateWithFormat:BChatSDK.config.dateFilterFormat, BChatSDK.config.dateFilter];
+                    messages = (NSArray<PMessage> *)[messages filteredArrayUsingPredicate:dateFilterPredicate];
+                }
+                
                 [self.messageManager addMessages: messages];
                 [self.tableView reloadData];
                 

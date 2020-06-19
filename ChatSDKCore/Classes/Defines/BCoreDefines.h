@@ -16,8 +16,11 @@
 #define bTypingTimeout 5.0
 #define bLocationDefaultArea 1000
 
+#define bDefaultChatBgColor @"ffffff"
+
 #define bDefaultMessageColorMe @"abcff4"
 #define bDefaultMessageColorReply @"d7d4d3"
+#define bDefaultMessageColorTime @"aaaaaa"
 
 #define bDefaultProfileImage @"icn_100_anonymous.png"
 #define bDefaultPublicGroupImage @"icn_100_anonymous_group.png"

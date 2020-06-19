@@ -31,6 +31,7 @@
 @property (nonatomic, readwrite) id<PInterfaceAdapter> interfaceAdapter;
 @property (nonatomic, readwrite) id<PStorageAdapter> storageAdapter;
 @property (nonatomic, readwrite) id<PNetworkAdapter> networkAdapter;
+@property (nonatomic, readwrite) BOOL keepAliveOnDidResignActive;
 
 +(BChatSDK *) shared;
 +(BConfiguration *) config;
