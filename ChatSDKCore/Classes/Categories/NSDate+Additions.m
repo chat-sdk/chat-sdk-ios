@@ -15,7 +15,7 @@
 -(NSString *) threadTimeAgo {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:self.timeFormat];
-    
+    [formatter setLocale:BChatSDK.config.locale];
     NSString * time = [formatter stringFromDate:self];
     
     NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:self];
@@ -45,6 +45,7 @@
 //    if (self.daysAgo < 1) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:self.timeFormat];
+        [formatter setLocale:BChatSDK.config.locale];
         return [formatter stringFromDate:self];
 //    }
 //    else {
@@ -60,6 +61,7 @@
 
     NSString * day = @"";
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setLocale:BChatSDK.config.locale];
 
     if (self.isToday) {
         day = [NSBundle t: bToday];
@@ -100,7 +102,7 @@
 -(NSString *) timeAgoWithFormatString: (NSString *) formatString {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:self.timeFormat];
-    
+    [formatter setLocale:BChatSDK.config.locale];
     NSString * time = [formatter stringFromDate:self];
     NSString * day = [self dateAgo];
     return [NSString stringWithFormat:[NSBundle t:formatString], day, time];
