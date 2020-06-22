@@ -29,14 +29,14 @@
 + (NSString *)bestLocalizationFileForLang:(NSString *)lang {
     NSString * exact = [self localizationFileForLang:lang];
     if (exact) return exact;
-    lang = [[lang componentsSeparatedByString:@"-"] firstObject];
+    lang = [[lang componentsSeparatedByString:@"_"] firstObject];
     NSString * general = [self localizationFileForLang:lang];
     if (general) return general;
     return bLocalizableFile;
 }
 
 + (NSString *)t:(NSString *)string {
-    NSString * lang = [[NSLocale preferredLanguages] objectAtIndex:0];
+    NSString * lang = [BChatSDK.config.locale localeIdentifier];
     NSString * localizableFile = [self bestLocalizationFileForLang:lang];
     if (!localizableFile) return string;
     

@@ -149,6 +149,9 @@ typedef enum {
 @property (nonatomic, readwrite) NSString * inviteByEmailBody;
 @property (nonatomic, readwrite) NSString * inviteBySMSBody;
 
+// Message locale
+@property (nonatomic, readwrite) NSLocale * locale;
+
 // Message fonts
 @property (nonatomic, readwrite) UIFont * messageTextFont;
 @property (nonatomic, readwrite) NSString * messageTextColorMe;

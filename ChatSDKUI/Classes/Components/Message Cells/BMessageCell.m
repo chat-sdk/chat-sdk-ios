@@ -218,7 +218,7 @@
     
     // #1 Because of the text view insets we want the cellContentView of the
     // text cell to extend to the right edge of the bubble
-    BOOL isMine = [_message.userModel isEqual:BChatSDK.currentUser];
+    BOOL isMine = [_message.userModel.entityID isEqual:BChatSDK.currentUser.entityID];
     
     // Layout the profile picture
     if (_profilePicture.isHidden) {
@@ -270,7 +270,7 @@
 -(void) layoutSubviews {
     [super layoutSubviews];
     
-    BOOL isMine = [_message.userModel isEqual:BChatSDK.currentUser];
+    BOOL isMine = [_message.userModel.entityID isEqual:BChatSDK.currentUser.entityID];
     
     // Extra x-margin if the profile picture isn't shown
     // TODO: Fix this

@@ -102,6 +102,7 @@
 @synthesize enableCompatibilityWithV4;
 
 @synthesize messageDeletionEnabled;
+@synthesize locale;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -115,6 +116,8 @@
         appBadgeEnabled = YES;
         
         [self setDefaultUserNamePrefix:@"ChatSDK"];
+
+        locale = NSLocale.currentLocale;
 
         showEmptyChats = YES;
         allowUsersToCreatePublicChats = NO;
