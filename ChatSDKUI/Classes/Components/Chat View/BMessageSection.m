@@ -97,7 +97,13 @@
         innerView.clipsToBounds = YES;
         // DM
 //        innerView.backgroundColor = [BCoreUtilities colorWithHexString:@"#EEEEEE"];
-        innerView.backgroundColor = [UIColor systemGray5Color];
+
+        if (@available(iOS 13.0, *)) {
+            innerView.backgroundColor = [UIColor systemGray5Color];
+        } else {
+            innerView.backgroundColor = [BCoreUtilities colorWithHexString:@"#EEEEEE"];
+        }
+        
         innerView.layer.cornerRadius = 5;
 
 

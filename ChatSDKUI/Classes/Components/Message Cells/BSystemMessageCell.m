@@ -43,8 +43,8 @@
     return self;
 }
 
--(void) setMessage: (id<PElmMessage>) message {
-    [super setMessage:message];
+-(void) setMessage: (id<PElmMessage>) message isSelected: (BOOL) selected {
+    [super setMessage:message isSelected:selected];
     
     NSDictionary * dict = message.meta;
     

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BMessageDelegate.h"
 #import "BMessageCell.h"
 
 @class BMessage;
@@ -19,7 +18,7 @@
 
 +(float) getText: (NSString *) text heightWithWidth: (float) width;
 +(float) getText: (NSString *) text heightWithFont: (UIFont *) font withWidth: (float) width;
-+(float) maxTextWidth: (id<PElmMessage>) message;
+//+(float) maxTextWidth: (id<PElmMessage>) message;
 +(float) textWidth: (NSString *) text maxWidth: (float) maxWidth;
 
 @end

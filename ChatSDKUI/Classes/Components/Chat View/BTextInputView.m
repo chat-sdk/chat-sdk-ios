@@ -35,8 +35,11 @@
     if (self) {
         
 //        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
-        self.backgroundColor = [UIColor systemBackgroundColor];
         
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor systemBackgroundColor];
+        } 
+
         // Decide how many lines the message should have
         minLines = bMinLines;
         maxLines = bMaxLines;
@@ -44,7 +47,13 @@
         
         // Set the text color
         // DM darkGrayColor
-        _placeholderColor = [UIColor systemGrayColor];
+        
+        if (@available(iOS 13.0, *)) {
+            _placeholderColor = [UIColor systemGrayColor];
+        } else {
+            _placeholderColor = [UIColor grayColor];
+        }
+
         _textColor = [UIColor blackColor];
 
         // Create an options button which shows an action sheet
@@ -142,7 +151,11 @@
         UIView * topMarginView = [[UIView alloc] initWithFrame:CGRectZero];
         
         // DM lightGrayColor
-        topMarginView.backgroundColor = [UIColor systemGray5Color];
+        if (@available(iOS 13.0, *)) {
+            topMarginView.backgroundColor = [UIColor systemGray5Color];
+        } else {
+            topMarginView.backgroundColor = [UIColor lightGrayColor];
+        }
         
         [self addSubview:topMarginView];
         
@@ -312,7 +325,11 @@
     [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
     CSToastStyle * style = [[CSToastStyle alloc] initWithDefaultStyle];
 
-    style.backgroundColor = [UIColor systemRedColor];
+    if (@available(iOS 13.0, *)) {
+        style.backgroundColor = [UIColor systemRedColor];
+    } else {
+        style.backgroundColor = [UIColor redColor];
+    }
 
     [_sendBarDelegate.view makeToast:[NSBundle t:bCancelled]
                             duration:1

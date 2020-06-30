@@ -209,12 +209,24 @@
     
     if (self.isContact) {
         addContactLabel.text = [NSBundle t: bDelete];
-        addContactLabel.textColor = [UIColor systemRedColor];
+        
+        if (@available(iOS 13.0, *)) {
+            addContactLabel.textColor = [UIColor systemRedColor];
+        } else {
+            addContactLabel.textColor = [UIColor redColor];
+        }
+        
         addContactImageView.highlighted = YES;
     } else {
         addContactLabel.text = [NSBundle t: bAddContact];
         addContactImageView.highlighted = NO;
-        addContactLabel.textColor = [UIColor darkGrayColor];
+        
+        if (@available(iOS 13.0, *)) {
+            addContactLabel.textColor = [UIColor systemGrayColor];
+        } else {
+            addContactLabel.textColor = [UIColor darkGrayColor];
+        }
+        
     }
     
     id<PUserConnection> userConnection = self.userConnection;

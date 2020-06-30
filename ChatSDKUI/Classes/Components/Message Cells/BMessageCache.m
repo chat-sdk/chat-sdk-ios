@@ -40,7 +40,7 @@ static BMessageCache * cache;
     return self;
 }
 
--(UIImage *) bubbleForMessage: (id<PElmMessage>) message {
+-(UIImage *) bubbleForMessage: (id<PElmMessage>) message isSelected: (BOOL) selected {
     
     bMessagePos pos = [message messagePosition];
     BOOL isMine = [message senderIsMe];
@@ -62,10 +62,18 @@ static BMessageCache * cache;
     }
     
     UIColor * color = Nil;
-    if (isMine) {
-        color = [BChatSDK.colors getWithName:Colors.outcomingDefaultBubbleColor];
+    if (!selected) {
+        if (isMine) {
+            color = [BChatSDK.colors getWithName:Colors.outcomingDefaultBubbleColor];
+        } else {
+            color = [BChatSDK.colors getWithName:Colors.incomingDefaultBubbleColor];
+        }
     } else {
-        color = [BChatSDK.colors getWithName:Colors.incomingDefaultBubbleColor];
+        if (isMine) {
+            color = [BChatSDK.colors getWithName:Colors.outcomingDefaultSelectedBubbleColor];
+        } else {
+            color = [BChatSDK.colors getWithName:Colors.incomingDefaultSelectedBubbleColor];
+        }
     }
     
     NSString * imageIdentifier = [NSString stringWithFormat:@"%@%@", bubbleImageName, [BCoreUtilities colorToString:color]];

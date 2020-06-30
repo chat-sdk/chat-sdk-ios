@@ -17,7 +17,7 @@
 
 +(BMessageCache *) sharedCache;
 
--(UIImage *) bubbleForMessage: (id<PElmMessage>) message;
+-(UIImage *) bubbleForMessage: (id<PElmMessage>) message isSelected: (BOOL) selected;
 
 
 @end

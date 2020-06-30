@@ -50,7 +50,12 @@
         }
 
         // DM lightGrayColor
-        _timeLabel.textColor = [UIColor systemGray2Color];
+
+        if (@available(iOS 13.0, *)) {
+            _timeLabel.textColor = [UIColor systemGray2Color];
+        } else {
+            _timeLabel.textColor = [UIColor lightGrayColor];
+        }
 
         _timeLabel.userInteractionEnabled = NO;
         
@@ -118,7 +123,7 @@
 }
 
 // Called to setup the current cell for the message
--(void) setMessage: (id<PElmMessage>) message {
+-(void) setMessage: (id<PElmMessage>) message isSelected: (BOOL) selected {
     
     // Set the message for later use
     _message = message;
@@ -135,7 +140,7 @@
     id<PElmMessage> nextMessage = message.nextMessage;
     
     // Set the bubble to be the correct color
-    bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message];
+    bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message isSelected:selected];
 
     // Hide profile pictures for 1-to-1 threads
     _profilePicture.hidden = self.profilePictureHidden;
@@ -162,7 +167,9 @@
             // If the user doesn't have a profile picture set the default profile image
             _profilePicture.image = message.userModel.defaultImage;
             // DM whiteColor
-            _profilePicture.backgroundColor = [UIColor systemBackgroundColor];
+            if (@available(iOS 13.0, *)) {
+                _profilePicture.backgroundColor = [UIColor systemBackgroundColor];
+            } 
         }
     }
     else {
@@ -269,7 +276,7 @@
 -(void) layoutSubviews {
     [super layoutSubviews];
     
-    BOOL isMine = [_message.userModel isEqual:BChatSDK.currentUser];
+    BOOL isMine = _message.userModel.isMe;
     
     // Extra x-margin if the profile picture isn't shown
     // TODO: Fix this

@@ -63,6 +63,8 @@
     BOOL _loadingMessages;
     
     BLazyReloadManager * _lazyReloadManager;
+    
+    NSMutableArray * _selectedIndexPaths;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView * tableView;

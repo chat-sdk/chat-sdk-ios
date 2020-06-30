@@ -66,7 +66,12 @@
 //                                                                                               action:@selector(addUser)];
 //    }
     
-    tableView.separatorColor = UIColor.systemGray2Color;
+    if (@available(iOS 13.0, *)) {
+        tableView.separatorColor = UIColor.systemGray2Color;
+    } else {
+        tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
+    }
+    
 
 //    tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
     
@@ -120,8 +125,12 @@
     
     UITableViewCell * cell = [tableView_ dequeueReusableCellWithIdentifier:bCell];
     
-    cell.textLabel.textColor = [UIColor labelColor];
-    
+    if (@available(iOS 13.0, *)) {
+        cell.textLabel.textColor = [UIColor labelColor];
+    } else {
+        cell.textLabel.textColor = [UIColor blackColor];
+    }
+        
     if (indexPath.section == bParticipantsSection) {
         
         if (_users.count) {
@@ -159,7 +168,13 @@
         // Reset the image view
         cell.imageView.image = nil;
         cell.textLabel.text = [NSBundle t:bLeaveConversation];
-        cell.textLabel.textColor = [UIColor systemRedColor];
+        
+        if (@available(iOS 13.0, *)) {
+            cell.textLabel.textColor = [UIColor systemRedColor];
+        } else {
+            cell.textLabel.textColor = [UIColor redColor];
+        }
+        
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
     }
     

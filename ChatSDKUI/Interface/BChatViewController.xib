@@ -37,7 +37,7 @@
                 <constraint firstItem="rzd-ej-F3p" firstAttribute="bottom" secondItem="Szt-lM-38i" secondAttribute="bottom" priority="750" id="vju-YI-uZf"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Szt-lM-38i"/>
-            <point key="canvasLocation" x="35" y="54"/>
+            <point key="canvasLocation" x="86" y="30"/>
         </view>
     </objects>
 </document>

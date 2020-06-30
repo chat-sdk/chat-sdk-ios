@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <ChatSDK/BMessageDelegate.h>
 #import <ChatSDK/PElmMessage.h>
 
 // Size of the speech bubble tail
@@ -30,7 +29,7 @@
 #define bProfilePictureDiameter 36
 #define bMessageMarginX 70 // So it doesn't overlap the time stamp
 
-@interface BMessageCell : UITableViewCell<BMessageDelegate> {
+@interface BMessageCell : UITableViewCell {
     UIImage * _meBubbleImage;
     UIImage * _replyBubbleImage;
     UIImageView * _profilePicture;
@@ -91,5 +90,8 @@
 +(NSValue *) messageBubblePadding: (id<PElmMessage>) message;
 +(NSValue *) messageBubbleMargin: (id<PElmMessage>) message;
 +(NSNumber *) messageProfilePicturePadding: (id<PElmMessage>) message;
+
+-(void) setMessage: (id<PElmMessage>) message isSelected: (BOOL) selected;
+-(void) willDisplayCell;
 
 @end

@@ -27,7 +27,7 @@
         textView.backgroundColor = [UIColor clearColor];
         textView.dataDetectorTypes = UIDataDetectorTypeAll;
         textView.editable = NO;
-        textView.userInteractionEnabled = YES;
+        textView.userInteractionEnabled = NO;
         textView.scrollEnabled = YES;
         // Get rid of padding and margin
         textView.textContainer.lineFragmentPadding = 0;
@@ -51,8 +51,8 @@
     return self;
 }
 
--(void) setMessage: (id<PElmMessage>) message {
-    [super setMessage:message];
+-(void) setMessage: (id<PElmMessage>) message isSelected: (BOOL) selected {
+    [super setMessage:message isSelected:selected];
     
     textView.text = message.text;
     

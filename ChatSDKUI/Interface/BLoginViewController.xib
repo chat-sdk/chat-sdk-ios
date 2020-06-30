@@ -167,13 +167,13 @@
     <resources>
         <image name="icn_120_main" width="120" height="120"/>
         <namedColor name="loginButton">
-            <color red="0.26261122441246404" green="0.64211505988136208" blue="0.95310476036269431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.2630000114440918" green="0.64200001955032349" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="mediumGray">
-            <color red="0.4070690180534256" green="0.42276792017977671" blue="0.43950896258762573" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.40700000524520874" green="0.42300000786781311" blue="0.43999999761581421" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="registerButton">
-            <color red="0.22628938299747722" green="0.7885969883419689" blue="0.43092005405758188" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.22599999606609344" green="0.78899997472763062" blue="0.4309999942779541" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

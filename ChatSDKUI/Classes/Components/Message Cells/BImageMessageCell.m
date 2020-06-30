@@ -33,8 +33,8 @@
     return self;
 }
 
--(void) setMessage: (id<PElmMessage>) message {
-    [super setMessage:message];
+-(void) setMessage: (id<PElmMessage>) message isSelected: (BOOL) selected {
+    [super setMessage:message isSelected:selected];
     
     // Get rid of the bubble for images
     self.bubbleImageView.image = Nil;
