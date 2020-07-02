@@ -54,7 +54,7 @@
     
     UIImage * placeholder = [UIImage imageWithData:message.placeholder];
     if (!placeholder) {
-        placeholder = [BChatSDK.icons getWithName:Icons.defaultPlaceholder];
+        placeholder = [Icons getWithName:Icons.defaultPlaceholder];
     }
         
     [imageView sd_setImageWithURL:message.imageURL

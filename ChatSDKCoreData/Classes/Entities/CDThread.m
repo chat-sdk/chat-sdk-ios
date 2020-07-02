@@ -294,10 +294,10 @@
         
         // Check how many users are in the conversation
         if (self.type.intValue & bThreadFilterPublic) {
-            return [BChatSDK.icons getWithName:Icons.defaultGroup];
+            return [Icons getWithName:Icons.defaultGroup];
         }
         else {
-            return [BChatSDK.icons getWithName:Icons.defaultProfile];
+            return [Icons getWithName:Icons.defaultProfile];
         }
     }
     else if (users.count == 1) {

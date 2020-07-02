@@ -322,34 +322,25 @@ static BChatSDK * instance;
     return self.a.connectivity;
 }
 
--(Colors *) colors {
-    if(!_colors) {
-        _colors = [[Colors alloc] init];
-    }
-    return _colors;
-}
-
-+(Colors *) colors {
-    return instance.colors;
-}
-
--(Icons *) icons {
-    if(!_icons) {
-        _icons = [[Icons alloc] init];
-    }
-    return _icons;
-}
-
-+(Icons *) icons {
-    return instance.icons;
-}
-
-
 -(NSBundle *) bundle {
     if(!_bundle) {
         _bundle = [NSBundle bundleWithName:@"Frameworks/ChatSDK.framework/ChatUI"];
     }
     return _bundle;
+}
+
+-(NSBundle *) colorsBundle {
+    if(!_colorsBundle) {
+        _colorsBundle = self.bundle;
+    }
+    return _colorsBundle;
+}
+
+-(NSBundle *) iconsBundle {
+    if(!_iconsBundle) {
+        _iconsBundle = self.bundle;
+    }
+    return _iconsBundle;
 }
 
 @end

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.13.9"
+  s.version          = "4.14.0"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -31,23 +31,23 @@ Pod::Spec.new do |s|
 	  core.dependency 'RXPromise', '~> 1.0'
 	  core.dependency 'AFNetworking/NSURLSession', '~>3.2.1'
 	  
-#       core.dependency 'AFNetworking', '~> 3.0', :subspecs => ['Reachability', 'Serialization', 'Security', 'NSURLSession']
 	  core.dependency 'DateTools', '~> 2.0'
       core.dependency 'SAMKeychain'
 
       core.frameworks = 'SafariServices'
-      core.dependency 'ChatSDK/CoreSwift'
   
   end
 
-  s.subspec 'CoreSwift' do |r| 
-
-    r.source_files = ['ChatSDKCoreSwift/Classes/**/*']
+#   s.subspec 'CoreSwift' do |r| 
+# 
+#     r.source_files = ['ChatSDKCoreSwift/Classes/**/*']
 #     r.resource_bundles = {
 #     'ChatCoreSwift' => ['ChatSDKCoreSwift/Assets/**/*']
 #     }
-  
-  end
+# 
+#     r.dependency 'ChatSDK/Core'
+#   
+#   end
 
   s.subspec 'Reachability' do |reach| 
 	  reach.source_files = ['ChatSDKExtras/Reachability/Classes/**/*']

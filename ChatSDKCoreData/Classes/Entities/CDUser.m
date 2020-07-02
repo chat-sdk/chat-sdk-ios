@@ -197,7 +197,7 @@
 
 // TODO: Remove UI dependency on CoreData
 -(UIImage *) defaultImage {
-    return [BChatSDK.icons getWithName:Icons.defaultProfile];
+    return [Icons getWithName:Icons.defaultProfile];
 }
 
 -(BOOL) isMe {

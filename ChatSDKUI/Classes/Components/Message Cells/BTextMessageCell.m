@@ -57,9 +57,9 @@
     textView.text = message.text;
     
     if (message.userModel.isMe) {
-        textView.textColor = [BChatSDK.colors getWithName:Colors.outcomingDefaultTextColor];
+        textView.textColor = [Colors getWithName:Colors.outcomingDefaultTextColor];
     } else {
-        textView.textColor = [BChatSDK.colors getWithName:Colors.incomingDefaultTextColor];
+        textView.textColor = [Colors getWithName:Colors.incomingDefaultTextColor];
     }
     
 }

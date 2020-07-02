@@ -59,7 +59,7 @@
 {
     
     [super viewDidLoad];
-    _anonymousProfilePicture = [BChatSDK.icons getWithName:Icons.defaultProfile];
+    _anonymousProfilePicture = [Icons getWithName:Icons.defaultProfile];
     profilePictureButton.layer.cornerRadius = 50;
     
     self.hideSectionsWithHiddenRows = YES;

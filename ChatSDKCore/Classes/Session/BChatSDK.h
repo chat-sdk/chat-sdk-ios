@@ -35,9 +35,9 @@
 @property (nonatomic, readwrite) id<PInterfaceAdapter> interfaceAdapter;
 @property (nonatomic, readwrite) id<PStorageAdapter> storageAdapter;
 @property (nonatomic, readwrite) id<PNetworkAdapter> networkAdapter;
-@property (nonatomic, readwrite) Colors * colors;
+@property (nonatomic, readwrite) NSBundle * colorsBundle;
 @property (nonatomic, readwrite) NSBundle * bundle;
-@property (nonatomic, readwrite) Icons * icons;
+@property (nonatomic, readwrite) NSBundle * iconsBundle;
 
 +(BChatSDK *) shared;
 
@@ -104,7 +104,5 @@
 +(id<PInternetConnectivityHandler>) connectivity;
 
 +(BConfiguration *) config;
-+(Colors *) colors;
-+(Icons *) icons;
 
 @end

@@ -11,6 +11,8 @@
 #import <ChatSDK/UI.h>
 #import <ChatSDK/Core.h>
 
+#import <ChatSDK/ChatSDK-Swift.h>
+
 @implementation BLocationCell
 
 @synthesize map;
@@ -42,8 +44,9 @@
     
     float longitude = [self.message.meta[bMessageLongitude] floatValue];
     float latitude = [self.message.meta[bMessageLatitude] floatValue];
+        
     
-    [mapImageView sd_setImageWithURL:[BGoogleUtils getMapImageURL:latitude longitude:longitude width:bMaxMessageWidth height:bMaxMessageWidth]
+    [mapImageView sd_setImageWithURL:[GoogleUtils getMapImageURLWithLatitude:latitude longitude:longitude width:bMaxMessageWidth height:bMaxMessageHeight]
                     placeholderImage:Nil
                              options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
     

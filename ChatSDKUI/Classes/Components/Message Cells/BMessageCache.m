@@ -64,15 +64,15 @@ static BMessageCache * cache;
     UIColor * color = Nil;
     if (!selected) {
         if (isMine) {
-            color = [BChatSDK.colors getWithName:Colors.outcomingDefaultBubbleColor];
+            color = [Colors getWithName:Colors.outcomingDefaultBubbleColor];
         } else {
-            color = [BChatSDK.colors getWithName:Colors.incomingDefaultBubbleColor];
+            color = [Colors getWithName:Colors.incomingDefaultBubbleColor];
         }
     } else {
         if (isMine) {
-            color = [BChatSDK.colors getWithName:Colors.outcomingDefaultSelectedBubbleColor];
+            color = [Colors getWithName:Colors.outcomingDefaultSelectedBubbleColor];
         } else {
-            color = [BChatSDK.colors getWithName:Colors.incomingDefaultSelectedBubbleColor];
+            color = [Colors getWithName:Colors.incomingDefaultSelectedBubbleColor];
         }
     }
     
