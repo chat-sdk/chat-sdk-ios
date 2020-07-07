@@ -71,7 +71,7 @@
             [thread messagesOff]; // We need to turn the messages off incase we rejoin the thread
             [thread lastMessageOff];
             
-            [BChatSDK.core deleteThread:thread.model];
+            [BChatSDK.thread deleteThread:thread.model];
         }
     }];
 }
@@ -174,7 +174,7 @@
 
 -(void) publicThreadsOff: (id<PUser>) user {
     FIRDatabaseReference * publicThreadsRef = [FIRDatabaseReference publicThreadsRef];
-    for (id<PThread> threadModel in [BChatSDK.core threadsWithType:bThreadTypePublicGroup]) {
+    for (id<PThread> threadModel in [BChatSDK.thread threadsWithType:bThreadTypePublicGroup]) {
         CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
         [thread off];
     }

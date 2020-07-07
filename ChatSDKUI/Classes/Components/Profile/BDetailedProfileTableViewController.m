@@ -328,7 +328,7 @@
 //}
 
 -(void) startChat {
-    [BChatSDK.core createThreadWithUsers:@[self.user] threadCreated:^(NSError * error, id<PThread> thread) {
+    [BChatSDK.thread createThreadWithUsers:@[self.user] threadCreated:^(NSError * error, id<PThread> thread) {
         BChatViewController * cvc = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:cvc animated:YES];
     }];

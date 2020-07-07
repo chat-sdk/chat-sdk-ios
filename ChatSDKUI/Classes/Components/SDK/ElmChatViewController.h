@@ -26,10 +26,12 @@
 @class BHook;
 @class BMessageManager;
 @class BLazyReloadManager;
+@class ChatToolbar;
 
 @interface ElmChatViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, PSendBarDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, BChatOptionDelegate, UIDocumentInteractionControllerDelegate> {
         
     UIView<PSendBar> * _sendBarView;
+    ChatToolbar * _chatToolbar;
     
     UIGestureRecognizer * _tapRecognizer;
     

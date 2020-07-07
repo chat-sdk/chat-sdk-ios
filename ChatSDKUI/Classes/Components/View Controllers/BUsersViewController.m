@@ -185,7 +185,7 @@
     // Use initWithThread here to make sure we don't show any users already in the thread
     // Show the friends view controller
     UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
-        [BChatSDK.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
+        [BChatSDK.thread addUsers:users toThread:_thread].thenOnMain(^id(id success){
             [UIView alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];
             
             [self reloadData];
@@ -213,8 +213,8 @@
     }
     if (indexPath.section == bLeaveConvoSection) {
         
-        [BChatSDK.core deleteThread:_thread];
-        [BChatSDK.core leaveThread:_thread];
+        [BChatSDK.thread deleteThread:_thread];
+        [BChatSDK.thread leaveThread:_thread];
         
         [self.navigationController dismissViewControllerAnimated:NO completion:^{
             if (self.parentNavigationController) {
@@ -300,9 +300,9 @@
 
 -(void) muteUnmuteThread {
     if (_thread.meta[bMute]) {
-        [BChatSDK.core unmuteThread:_thread];
+        [BChatSDK.thread unmuteThread:_thread];
     } else {
-        [BChatSDK.core muteThread:_thread];
+        [BChatSDK.thread muteThread:_thread];
     }
 }
 

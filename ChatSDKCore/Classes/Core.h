@@ -60,6 +60,7 @@
 #import <ChatSDK/BAudioItem.h>
 
 #import <ChatSDK/PCoreHandler.h>
+#import <ChatSDK/PThreadHandler.h>
 #import <ChatSDK/PVideoMessageHandler.h>
 #import <ChatSDK/PAudioMessageHandler.h>
 #import <ChatSDK/PPushHandler.h>

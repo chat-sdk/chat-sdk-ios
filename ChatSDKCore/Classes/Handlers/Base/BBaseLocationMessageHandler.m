@@ -39,7 +39,7 @@
                        bMessageLongitude: @(location.coordinate.longitude),
                        bMessageLatitude: @(location.coordinate.latitude)}];
     
-    return [BChatSDK.core sendMessage:message];
+    return [BChatSDK.thread sendMessage:message];
 
 }
 

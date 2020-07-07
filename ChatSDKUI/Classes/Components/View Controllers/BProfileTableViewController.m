@@ -143,7 +143,7 @@
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.label.text = [NSBundle t:bCreatingThread];
     
-    [BChatSDK.core createThreadWithUsers:@[_user] threadCreated:^(NSError * error, id<PThread> thread) {
+    [BChatSDK.thread createThreadWithUsers:@[_user] threadCreated:^(NSError * error, id<PThread> thread) {
         if (!error) {
             [self pushChatViewControllerWithThread:thread];
         }

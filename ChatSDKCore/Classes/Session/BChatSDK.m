@@ -318,6 +318,10 @@ static BChatSDK * instance;
     return self.a.event;
 }
 
++(id<PThreadHandler>) thread {
+    return self.a.thread;
+}
+
 +(id<PInternetConnectivityHandler>) connectivity {
     return self.a.connectivity;
 }

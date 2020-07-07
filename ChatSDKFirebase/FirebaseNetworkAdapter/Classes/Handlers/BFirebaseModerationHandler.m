@@ -25,10 +25,6 @@
     return [[CCMessageWrapper messageWithModel:message] unflag];
 }
 
-- (RXPromise *) deleteMessage: (NSString *)messageID {
-    id<PMessage> message = [BChatSDK.db fetchOrCreateEntityWithID:messageID withType:bMessageEntity];
-    return [[CCMessageWrapper messageWithModel:message] delete];
-}
 
 - (void) on {
     [self off];

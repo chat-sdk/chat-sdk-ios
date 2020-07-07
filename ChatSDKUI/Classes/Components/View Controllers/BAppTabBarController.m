@@ -177,7 +177,7 @@
 -(int) unreadMessagesCount: (bThreadType) type {
     // Get all the threads
     int i = 0;
-    NSArray * threads = [BChatSDK.core threadsWithType:type];
+    NSArray * threads = [BChatSDK.thread threadsWithType:type];
     for (id<PThread> thread in threads) {
         for (id<PMessage> message in thread.allMessages) {
             if (!message.isRead) {

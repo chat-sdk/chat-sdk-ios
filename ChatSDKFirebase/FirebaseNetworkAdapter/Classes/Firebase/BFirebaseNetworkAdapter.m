@@ -43,6 +43,7 @@
         self.users = [[BFirebaseUsersHandler alloc] init];
         self.contact = [[BFirebaseContactHandler alloc] init];
         self.event = [[BFirebaseEventHandler alloc] init];
+        self.thread = [[BFirebaseThreadHandler alloc] init];
 
     }
     return self;

@@ -57,7 +57,7 @@
                 taskIndentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
                     [[UIApplication sharedApplication] endBackgroundTask:taskIndentifier];
                 }];
-                [BChatSDK.core sendMessageWithText:text withThreadEntityID:threadEntityID].then(^id(id result) {
+                [BChatSDK.thread sendMessageWithText:text withThreadEntityID:threadEntityID].then(^id(id result) {
                     [[UIApplication sharedApplication] endBackgroundTask:taskIndentifier];
                     return Nil;
                 }, ^id(NSError * error) {

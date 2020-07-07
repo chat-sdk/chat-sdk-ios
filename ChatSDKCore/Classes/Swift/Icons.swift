@@ -14,12 +14,23 @@ import ChatSDK
     @objc public static let defaultGroup = "defaultGroup"
     @objc public static let defaultPlaceholder = "defaultPlaceholder"
 
+    @objc public static let icnCopy = "copy"
+    @objc public static let icnForward = "forward"
+
     @objc public static func get(name: String) -> UIImage? {
         return UIImage(named: name, in:  BChatSDK.shared()?.iconsBundle, compatibleWith: nil)
     }
         
     @objc public static func defaultUserImage() -> UIImage? {
         return get(name: defaultProfile)
+    }
+
+    @objc public static func getForward() -> UIImage? {
+        return get(name: icnForward)
+    }
+
+    @objc public static func getCopy() -> UIImage? {
+        return get(name: icnCopy)
     }
 
 }

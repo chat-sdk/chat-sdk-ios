@@ -10,43 +10,57 @@ import UIKit
 import ChatSDK
 
 @UIApplicationMain
-/* Two Factor Auth */
-//class AppDelegate: UIResponder, UIApplicationDelegate, BTwoFactorAuthDelegate {
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    /* Two Factor Auth */
-    //var verifyViewController:BVerifyViewController?;
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         let config = BConfiguration.init();
-        config.rootPath = "18_10"
-        config.allowUsersToCreatePublicChats = false
         config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
-        config.clearDatabaseWhenDataVersionChanges = true
-        config.clearDataWhenRootPathChanges = true;
-        config.databaseVersion = "2"
+        config.rootPath = "pre_1"
+        config.allowUsersToCreatePublicChats = false
+        config.showUserAvatarsOn1to1Threads = true
+        config.allowUsersToCreatePublicChats = true
         config.loginUsernamePlaceholder = "Email"
+        config.showEmptyChats = true
+        config.clearDataWhenRootPathChanges = true
+        config.messagesToLoadPerBatch = 100
+        config.messageHistoryDownloadLimit = 100
+        config.maxImageDimension = 4000
         
-        // Twitter Setup
-        config.twitterApiKey = "Kqprq5b6bVeEfcMAGoHzUmB3I"
-        config.twitterSecret = "hPd9HCt3PLnifQFrGHJWi6pSZ5jF7kcHKXuoqB8GJpSDAlVcLq"
+ 
+
+//        config.setRemoteConfigValue("MC4CAQAwBQYDK2VwBCIEIFrI4pSMCz8DOo/EXrB/HC4UAwS/PsqAjrKB7bdcMPz3", forKey: "private-key")
+        // Public key: MCowBQYDK2VwAyEAjBPW4rDT51sFF8nQRbYAZ7pD5xCCDL+kxfAQhVktWrk=
         
-        // Facebook Setup
-        config.facebookAppId = "648056098576150"
+//        config.clientPushEnabled = true;
         
-        // Google Setup
-        config.googleClientKey = "1088435112418-4cm46hg39okkf0skj2h5roj1q62anmec.apps.googleusercontent.com"
         
         BChatSDK.initialize(config, app: application, options: launchOptions)
-
-        NM.moderation().on()
+//        BDiagnosticModule().activate()
+        
+//      _ = BChatSDK.auth()?.authenticate()?.thenOnMain({ success in
+//          // Success
+//           return nil
+//       }, { error in
+//           // Error
+//           return nil
+//       })
+        
+                
+        /*
+         * Module Setup - http://chatsdk.co/modules-2
+         */
+        
+//        let auth = FUIAuth.init(uiWith: Auth.auth())
+//        BFirebaseUIModule.init().activate(withProviders: [FUIPhoneAuth.init(authUI: auth!)]);
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = BChatSDK.ui().appTabBarViewController();
+        self.window?.rootViewController = BChatSDK.ui()?.splashScreenNavigationController()
         self.window?.makeKeyAndVisible();
 
+        // Override point for customization after application launch.
         return true
     }
 
@@ -58,16 +72,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         BChatSDK.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
     }
-
+    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         BChatSDK.application(application, didReceiveRemoteNotification: userInfo)
     }
-
+    
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         return BChatSDK.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
-
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         return BChatSDK.application(app, open: url, options: options)
     }
 

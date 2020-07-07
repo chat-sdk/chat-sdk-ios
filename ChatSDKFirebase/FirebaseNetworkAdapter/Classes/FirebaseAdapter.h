@@ -27,6 +27,7 @@
 #import "BFirebaseNetworkAdapter.h"
 
 #import "BFirebaseCoreHandler.h"
+#import "BFirebaseThreadHandler.h"
 #import "BFirebaseAuthenticationHandler.h"
 #import "BFirebaseSearchHandler.h"
 #import "BFirebaseModerationHandler.h"

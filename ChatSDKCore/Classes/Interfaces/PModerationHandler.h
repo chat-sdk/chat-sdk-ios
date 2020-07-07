@@ -23,10 +23,6 @@
  */
 - (RXPromise *) unflagMessage: (NSString *)messageID;
 
-/**
- * @brief Delete a flagged message
- */
-- (RXPromise *) deleteMessage: (NSString *)messageID;
 
 - (void) on;
 

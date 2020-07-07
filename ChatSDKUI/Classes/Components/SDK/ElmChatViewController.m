@@ -14,6 +14,7 @@
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
 
+#import <ChatSDK/ChatSDK-Swift.h>
 
 // The distance to the bottom of the screen you need to be for the tableView to snap you to the bottom
 #define bTableViewRefreshHeight 300
@@ -80,7 +81,70 @@
     
     // Constrain the table to the top of the toolbar
     tableView.keepBottomOffsetTo(_sendBarView).equal = 2;
+    
+
+}
+
+-(void) setupChatToolbar: (UIView *) sendbar {
+    _chatToolbar = [[ChatToolbar alloc] init];
+    [self.view addSubview:_chatToolbar];
+    
+    _chatToolbar.keepTopAlignTo(sendbar).equal = 0;
+    _chatToolbar.keepRightAlignTo(sendbar).equal = 0;
+    _chatToolbar.keepBottomAlignTo(sendbar).equal = 0;
+    _chatToolbar.keepLeftAlignTo(sendbar).equal = 0;
+    _chatToolbar.alpha = 0;
+    
+    _chatToolbar.copyListener = ^{
         
+    };
+
+    _chatToolbar.replyListener = ^{
+        
+    };
+
+    _chatToolbar.forwardListener = ^{
+        
+    };
+
+    _chatToolbar.deleteListener = ^{
+        for (NSIndexPath * index in _selectedIndexPaths) {
+            id<PMessage> message = [self messageForIndexPath:index];
+            [BChatSDK.thread deleteMessage:message.entityID];
+        }
+        [_selectedIndexPaths removeAllObjects];
+        [self hideChatToolbar];
+    };
+
+}
+
+-(void) showChatToolbar {
+    
+    // Setup which items are active
+    _chatToolbar.replyButton.enabled = _selectedIndexPaths.count == 1;
+    
+    BOOL canDelete = YES;
+    
+    for (NSIndexPath * path in _selectedIndexPaths) {
+        id<PMessage> message = [self messageForIndexPath:path];
+        if (![BChatSDK.thread canDeleteMessage:message]) {
+            canDelete = NO;
+            break;
+        }
+    }
+    
+    _chatToolbar.deleteButton.enabled = canDelete;
+    
+    [self resignFirstResponder];
+    [UIView animateWithDuration:0.5 animations:^{
+        _chatToolbar.alpha = 1;
+    }];
+}
+
+-(void) hideChatToolbar {
+    [UIView animateWithDuration:0.5 animations:^{
+        _chatToolbar.alpha = 0;
+    }];
 }
 
 -(void) registerMessageCells {
@@ -279,6 +343,7 @@
     [tableView addSubview:_refreshControl];
     
     [self setupTextInputView: NO];
+    [self setupChatToolbar:_sendBarView];
 
     [self registerMessageCells];
 
@@ -287,6 +352,7 @@
     [self updateInterfaceForReachabilityStateChange];
 
     [self setupKeyboardOverlay];
+    
     
     UIGestureRecognizer * recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onLongPress:)];
     [tableView addGestureRecognizer:recognizer];
@@ -455,6 +521,13 @@
     messageCell.navigationController = self.navigationController;
     
     [messageCell setMessage:message isSelected:[_selectedIndexPaths containsObject:indexPath]];
+    
+    if (self.selectionModeEnabled) {
+        [self showChatToolbar];
+    } else {
+        [self hideChatToolbar];
+    }
+    
     
     return messageCell;
 }
@@ -711,7 +784,7 @@
         UITableViewRowAction * button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault
                                                                            title:[NSBundle t:bDelete]
                                                                          handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            [BChatSDK.moderation deleteMessage:message.entityID];
+            [BChatSDK.thread deleteMessage:message.entityID];
         }];
         
         if (@available(iOS 13.0, *)) {

@@ -90,7 +90,7 @@
 -(void) reloadData {
     [_threads removeAllObjects];
     
-    NSArray * threads = [BChatSDK.core threadsWithType:bThreadTypePublicGroup];
+    NSArray * threads = [BChatSDK.thread threadsWithType:bThreadTypePublicGroup];
     [_threads addObjectsFromArray:threads];
     
     [super reloadData];

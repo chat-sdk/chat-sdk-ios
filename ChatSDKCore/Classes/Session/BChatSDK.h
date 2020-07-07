@@ -101,6 +101,7 @@
 +(id<PFileMessageHandler>) fileMessage;
 +(id<PEncryptionHandler>) encryption;
 +(id<PEventHandler>) event;
++(id<PThreadHandler>) thread;
 +(id<PInternetConnectivityHandler>) connectivity;
 
 +(BConfiguration *) config;

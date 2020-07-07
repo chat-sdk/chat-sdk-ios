@@ -218,7 +218,7 @@
         
         if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(threadEntityID)]) {
             NSString * newMessage = [_textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            [BChatSDK.core sendMessageWithText:newMessage withThreadEntityID:_sendBarDelegate.threadEntityID];
+            [BChatSDK.thread sendMessageWithText:newMessage withThreadEntityID:_sendBarDelegate.threadEntityID];
         }
         
         _textView.text = @"";
