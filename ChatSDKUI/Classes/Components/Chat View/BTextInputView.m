@@ -71,8 +71,8 @@
         _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self addSubview: _sendButton];
         
-        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
-        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_keyboard.png"] forState:UIControlStateSelected];
+        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options"] forState:UIControlStateNormal];
+        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_keyboard"] forState:UIControlStateSelected];
         
         [_optionsButton addTarget:self action:@selector(optionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
@@ -189,7 +189,7 @@
     _sendButton.enabled = sendButtonEnabled || enabled;
     if (enabled) {
         [_sendButton setTitle:Nil forState:UIControlStateNormal];
-        [_sendButton setImage:[NSBundle uiImageNamed: @"icn_24_mic.png"]
+        [_sendButton setImage:[NSBundle uiImageNamed: @"icn_24_mic"]
                      forState:UIControlStateNormal];
     }
     else {
@@ -323,8 +323,8 @@
 - (void)sendButtonCancelled {
     [_sendBarDelegate.view hideAllToasts];
     [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
-    CSToastStyle * style = [[CSToastStyle alloc] initWithDefaultStyle];
 
+    CSToastStyle * style = [[CSToastStyle alloc] initWithDefaultStyle];
     if (@available(iOS 13.0, *)) {
         style.backgroundColor = [UIColor systemRedColor];
     } else {

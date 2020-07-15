@@ -40,7 +40,7 @@
         // Just load up the Chat SDK
         [self pushMainViewController];
         
-    } else if (BChatSDK.auth.isAuthenticated) {
+    } else if (BChatSDK.auth.isAuthenticated || BChatSDK.auth.cachedCredentialAvailable) {
         [self startActivityIndicator];
         
         _impl_shouldPushViewControllerOnAuth = NO;

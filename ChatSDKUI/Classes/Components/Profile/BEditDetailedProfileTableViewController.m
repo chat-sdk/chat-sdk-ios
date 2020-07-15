@@ -258,6 +258,8 @@
         [user setImage:UIImageJPEGRepresentation(_profileImage, 0.5)];
     }
 
+    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: user}];
+
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

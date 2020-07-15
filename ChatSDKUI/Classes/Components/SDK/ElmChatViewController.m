@@ -79,20 +79,18 @@
     _sendBarView.keepLeftInset.equal = 0;
     _sendBarView.keepRightInset.equal = 0;
     
-    // Constrain the table to the top of the toolbar
-    tableView.keepBottomOffsetTo(_sendBarView).equal = 2;
     
 
 }
 
--(void) setupChatToolbar: (UIView *) sendbar {
+-(void) setupChatToolbar {
     _chatToolbar = [[ChatToolbar alloc] init];
     [self.view addSubview:_chatToolbar];
     
-    _chatToolbar.keepTopAlignTo(sendbar).equal = 0;
-    _chatToolbar.keepRightAlignTo(sendbar).equal = 0;
-    _chatToolbar.keepBottomAlignTo(sendbar).equal = 0;
-    _chatToolbar.keepLeftAlignTo(sendbar).equal = 0;
+    _chatToolbar.keepTopAlignTo(_sendBarView).equal = 0;
+    _chatToolbar.keepRightAlignTo(_sendBarView).equal = 0;
+    _chatToolbar.keepBottomAlignTo(_sendBarView).equal = 0;
+    _chatToolbar.keepLeftAlignTo(_sendBarView).equal = 0;
     _chatToolbar.alpha = 0;
     
     _chatToolbar.copyListener = ^{
@@ -100,7 +98,10 @@
     };
 
     _chatToolbar.replyListener = ^{
-        
+        [self hideChatToolbar];
+        [_replyView showWithDuration:0.5];
+        [_chatToolbar hideWithDuration:0.5];
+        [self scrollToBottomOfTable:YES];
     };
 
     _chatToolbar.forwardListener = ^{
@@ -116,6 +117,17 @@
         [self hideChatToolbar];
     };
 
+}
+
+-(void) setupReplyView {
+    _replyView = [[ReplyView alloc] init];
+    [self.view addSubview:_replyView];
+    
+    _replyView.keepRightInset.equal = 0;
+    _replyView.keepLeftInset.equal = 0;
+    _replyView.keepBottomOffsetTo(_sendBarView).equal = 0;
+    
+    [_replyView hideWithDuration:0];
 }
 
 -(void) showChatToolbar {
@@ -136,15 +148,12 @@
     _chatToolbar.deleteButton.enabled = canDelete;
     
     [self resignFirstResponder];
-    [UIView animateWithDuration:0.5 animations:^{
-        _chatToolbar.alpha = 1;
-    }];
+    [_chatToolbar showWithDuration:0.5];
 }
 
 -(void) hideChatToolbar {
-    [UIView animateWithDuration:0.5 animations:^{
-        _chatToolbar.alpha = 0;
-    }];
+    [_chatToolbar hideWithDuration:0.5];
+    [_replyView hideWithDuration:0.5];
 }
 
 -(void) registerMessageCells {
@@ -343,7 +352,11 @@
     [tableView addSubview:_refreshControl];
     
     [self setupTextInputView: NO];
-    [self setupChatToolbar:_sendBarView];
+    [self setupChatToolbar];
+    [self setupReplyView];
+    
+    // Constrain the table to the top of the toolbar
+    tableView.keepBottomOffsetTo(_replyView).equal = 2;
 
     [self registerMessageCells];
 
@@ -361,13 +374,15 @@
 }
 
 -(void) onLongPress: (UILongPressGestureRecognizer *) recognizer {
-    CGPoint point = [recognizer locationInView:tableView];
-    NSIndexPath * path = [tableView indexPathForRowAtPoint:point];
-    if (path) {
-        if (![_selectedIndexPaths containsObject:path]) {
-            [_selectedIndexPaths addObject:path];
+    if (BChatSDK.config.messageSelectionEnabled) {
+        CGPoint point = [recognizer locationInView:tableView];
+        NSIndexPath * path = [tableView indexPathForRowAtPoint:point];
+        if (path) {
+            if (![_selectedIndexPaths containsObject:path]) {
+                [_selectedIndexPaths addObject:path];
+            }
+            [tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
         }
-        [tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
@@ -522,9 +537,9 @@
     
     [messageCell setMessage:message isSelected:[_selectedIndexPaths containsObject:indexPath]];
     
-    if (self.selectionModeEnabled) {
+    if (self.selectionModeEnabled && !_chatToolbar.isVisible) {
         [self showChatToolbar];
-    } else {
+    } else if (!self.selectionModeEnabled && _chatToolbar.isVisible) {
         [self hideChatToolbar];
     }
     
@@ -667,6 +682,9 @@
              error: nil];
             
             AVPlayer * player = [[AVPlayer alloc] initWithURL:url];
+            [player.currentItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+            [player addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+
             AVPlayerViewController * playerController = [[AVPlayerViewController alloc] init];
             playerController.player = player;
             [self presentViewController:playerController animated:YES completion:Nil];
@@ -698,6 +716,20 @@
             [cell hideActivityIndicator];
             return nil;
         });
+    }
+}
+
+// This observer looks at whether the audio is ready to play then returns the loading promise
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    NSError * error;
+    if ([object isKindOfClass:[AVPlayer class]]) {
+        error = [((AVPlayer *) object) error];
+    }
+    if ([object isKindOfClass:[AVPlayerItem class]]) {
+        error = [((AVPlayerItem *) object) error];
+    }
+    if (error) {
+        NSLog(@"%@", error.localizedDescription);
     }
 }
 

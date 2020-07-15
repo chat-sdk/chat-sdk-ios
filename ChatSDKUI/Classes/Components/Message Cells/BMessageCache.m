@@ -76,7 +76,7 @@ static BMessageCache * cache;
         }
     }
     
-    NSString * imageIdentifier = [NSString stringWithFormat:@"%@%@", bubbleImageName, [BCoreUtilities colorToString:color]];
+    NSString * imageIdentifier = [NSString stringWithFormat:@"%@%@%@", bubbleImageName, [BCoreUtilities colorToString:color], isMine ? @"Y" : @"N"];
     
     if(_messageBubbleImages[imageIdentifier]) {
         return _messageBubbleImages[imageIdentifier];

@@ -126,4 +126,8 @@
     assert(NO);
 }
 
+-(BOOL) cachedCredentialAvailable {
+    return NO;
+}
+
 @end

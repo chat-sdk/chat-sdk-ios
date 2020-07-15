@@ -36,6 +36,12 @@
 -(void) setMessage: (id<PElmMessage>) message isSelected: (BOOL) selected {
     [super setMessage:message isSelected:selected];
     
+    if (selected) {
+        [self showCheck];
+    } else {
+        [self hideCheck];
+    }
+    
     // Get rid of the bubble for images
     self.bubbleImageView.image = Nil;
     

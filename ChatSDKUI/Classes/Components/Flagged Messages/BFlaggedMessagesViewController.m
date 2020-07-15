@@ -25,7 +25,7 @@
     self = [super init];
     if (self) {
         self.title = [NSBundle t:bFlagged];
-        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_info.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_info"];
     }
     return self;
 }

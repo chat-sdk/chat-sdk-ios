@@ -43,6 +43,9 @@
 -(void) setProfilePicturesViewController: (UIViewController * (^)(id<PUser> user)) provider;
 -(UIViewController *) profilePicturesViewControllerWithUser: (id<PUser>) user;
 
+-(void) setProfileOptionsViewController: (UIViewController *) controller;
+-(UIViewController *) profileOptionsViewController;
+
 /**
  * @deprecated Use mainViewController method instead
  */

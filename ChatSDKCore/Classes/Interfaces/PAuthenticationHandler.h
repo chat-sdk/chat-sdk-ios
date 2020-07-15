@@ -35,6 +35,7 @@
 
 -(BOOL) isAuthenticated;
 -(BOOL) isAuthenticatedThisSession;
+-(BOOL) cachedCredentialAvailable;
 
 /**
  * @brief Logout the user from the current account

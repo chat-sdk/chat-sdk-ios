@@ -31,7 +31,7 @@
     
     if (self) {
         self.title = [NSBundle t:bContacts];
-        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_contact.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_contact"];
         _contacts = [NSMutableArray new];
         _notificationList = [BNotificationObserverList new];
     }

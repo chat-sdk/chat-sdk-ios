@@ -36,7 +36,8 @@
     UILabel * _timeLabel;
     
     UIImageView * _readMessageImageView;
-    
+    UIImageView * _checkImageView;
+
     UILabel * _nameLabel;
     UIActivityIndicatorView * _activityIndicator;
     
@@ -90,6 +91,9 @@
 +(NSValue *) messageBubblePadding: (id<PElmMessage>) message;
 +(NSValue *) messageBubbleMargin: (id<PElmMessage>) message;
 +(NSNumber *) messageProfilePicturePadding: (id<PElmMessage>) message;
+
+-(void) showCheck;
+-(void) hideCheck;
 
 -(void) setMessage: (id<PElmMessage>) message isSelected: (BOOL) selected;
 -(void) willDisplayCell;

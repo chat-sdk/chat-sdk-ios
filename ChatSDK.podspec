@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.14.0"
+  s.version          = "4.14.1"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -10,7 +10,8 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '11.0'
   s.requires_arc = true
-  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
+  s.swift_version = "5.0"
+#   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
   
   s.default_subspec = 'Complete'
   
@@ -83,6 +84,7 @@ Pod::Spec.new do |s|
 	  ui.dependency 'Hakawai', '~> 5.1.5'
 	  ui.dependency 'ChatSDKKeepLayout'
 	  ui.dependency 'Toast', '~>4.0.0'
+	  ui.dependency 'EFQRCode', '~> 5.1.6'
 
 	  ui.dependency 'ChatSDK/CoreData'
 	  

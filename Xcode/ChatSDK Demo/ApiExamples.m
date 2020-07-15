@@ -29,7 +29,7 @@
 }
 
 -(void) createThreadWithUsers: (NSArray *) users {
-    [BChatSDK.core createThreadWithUsers:users name:@"Name" threadCreated:^(NSError * error, id<PThread> thread) {
+    [BChatSDK.thread createThreadWithUsers:users name:@"Name" threadCreated:^(NSError * error, id<PThread> thread) {
         
     }];
 }

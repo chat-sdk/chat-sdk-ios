@@ -16,6 +16,7 @@ import ChatSDK
 
     @objc public static let icnCopy = "copy"
     @objc public static let icnForward = "forward"
+    @objc public static let icnCheck = "check"
 
     @objc public static func get(name: String) -> UIImage? {
         return UIImage(named: name, in:  BChatSDK.shared()?.iconsBundle, compatibleWith: nil)
@@ -31,6 +32,10 @@ import ChatSDK
 
     @objc public static func getCopy() -> UIImage? {
         return get(name: icnCopy)
+    }
+
+    @objc public static func getCheck() -> UIImage? {
+        return get(name: icnCheck)
     }
 
 }

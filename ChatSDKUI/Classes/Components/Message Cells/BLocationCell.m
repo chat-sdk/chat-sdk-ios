@@ -40,6 +40,12 @@
 -(void) setMessage: (id<PElmMessage>) message isSelected: (BOOL) selected {
     [super setMessage:message isSelected:selected];
     
+    if (selected) {
+        [self showCheck];
+    } else {
+        [self hideCheck];
+    }
+    
     self.bubbleImageView.image = Nil;
     
     float longitude = [self.message.meta[bMessageLongitude] floatValue];

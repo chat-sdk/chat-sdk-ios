@@ -54,6 +54,7 @@
 @synthesize disablePresence;
 @synthesize disableProfileUpdateOnAuthentication;
 @synthesize developmentModeEnabled;
+@synthesize messageSelectionEnabled;
 
 @synthesize vibrateOnNewMessage;
 
@@ -76,6 +77,7 @@
 @synthesize xmppResource;
 @synthesize xmppHostAddress;
 @synthesize xmppMucMessageHistory;
+@synthesize xmppAdvancedConfigurationEnabled;
 
 @synthesize textInputViewMaxLines;
 @synthesize textInputViewMaxCharacters;
@@ -158,6 +160,7 @@
         showLocalNotificationsForPublicChats = NO;
         
         shouldAskForNotificationsPermission = YES;
+        messageSelectionEnabled = YES;
                 
         showProfileViewOnTap = YES;
         
@@ -179,6 +182,7 @@
         [self configureXMPPFromPlist];
         
         xmppMucMessageHistory = 20;
+        xmppAdvancedConfigurationEnabled = YES;
         
         messageDeletionListenerLimit = 30;
         messageHistoryDownloadLimit = 30;
@@ -202,10 +206,10 @@
         
         showMessageAvatarAtPosition = bMessagePosLast;
         
-        messageBubbleMaskFirst = @"chat_bubble_right_0S.png";
-        messageBubbleMaskMiddle = @"chat_bubble_right_SS.png";
-        messageBubbleMaskLast = @"chat_bubble_right_ST.png";
-        messageBubbleMaskSingle = @"chat_bubble_right_0T.png";
+        messageBubbleMaskFirst = @"chat_bubble_right_0S";
+        messageBubbleMaskMiddle = @"chat_bubble_right_SS";
+        messageBubbleMaskLast = @"chat_bubble_right_ST";
+        messageBubbleMaskSingle = @"chat_bubble_right_0T";
         
         nameLabelPosition = bNameLabelPositionBottom;
         combineTimeWithNameLabel = NO;

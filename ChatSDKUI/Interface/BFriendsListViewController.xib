@@ -69,7 +69,7 @@
                     </connections>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="Ok8-lm-Uad" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="-1" id="283-gg-XOG"/>
                 <constraint firstItem="281-dx-DD4" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Msp-Dy-Ks6"/>

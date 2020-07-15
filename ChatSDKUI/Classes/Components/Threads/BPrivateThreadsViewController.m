@@ -22,7 +22,7 @@
     self = [super initWithNibName:Nil bundle:[NSBundle uiBundle]];
     if (self) {
         self.title = [NSBundle t:bConversations];
-        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_chat.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_chat"];
 
     }
     return self;

@@ -66,6 +66,8 @@ typedef enum {
 // How many historic messages should be downloaded for an empty thread
 @property (nonatomic, readwrite) int messageHistoryDownloadLimit;
 
+@property (nonatomic, readwrite) BOOL messageSelectionEnabled;
+
 // How many message deletion listeners should we add? A value of 10 would mean
 // that if any of the last 10 messages are deleted, the app would be updated
 @property (nonatomic, readwrite) int messageDeletionListenerLimit;
@@ -85,6 +87,9 @@ typedef enum {
 @property (nonatomic, readwrite) NSString * xmppResource;
 @property (nonatomic, readwrite) int xmppMucMessageHistory;
 @property (nonatomic, readwrite) NSString * termsOfServiceURL;
+@property (nonatomic, readwrite) BOOL xmppCustomCertEvaluation;
+
+@property (nonatomic, readwrite) BOOL xmppAdvancedConfigurationEnabled;
 
 @property (nonatomic, readwrite) BOOL messageDeletionEnabled;
 

@@ -40,6 +40,7 @@
                                                     </connections>
                                                 </button>
                                             </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="centerX" secondItem="OfV-Y5-yv1" secondAttribute="centerX" id="sJ8-Aq-ftj"/>
                                                 <constraint firstAttribute="centerY" secondItem="OfV-Y5-yv1" secondAttribute="centerY" id="xKX-gH-OpV"/>
@@ -63,6 +64,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             <constraints>
                                                 <constraint firstItem="nRS-Tr-XlM" firstAttribute="centerX" secondItem="REv-Ik-4FJ" secondAttribute="centerX" id="OAb-yo-qlV"/>
                                                 <constraint firstItem="nRS-Tr-XlM" firstAttribute="top" secondItem="REv-Ik-4FJ" secondAttribute="topMargin" constant="-5" id="pad-ZQ-x8u"/>
@@ -108,7 +110,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_state.png" translatesAutoresizingMaskIntoConstraints="NO" id="aDw-9e-aKN">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_state" translatesAutoresizingMaskIntoConstraints="NO" id="aDw-9e-aKN">
                                                     <rect key="frame" x="10" y="7" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="36" id="95X-J6-iCZ"/>
@@ -147,7 +149,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_presence_from.png" translatesAutoresizingMaskIntoConstraints="NO" id="hfm-ky-dpN">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_presence_from" translatesAutoresizingMaskIntoConstraints="NO" id="hfm-ky-dpN">
                                                     <rect key="frame" x="10" y="7" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="7tF-n8-4Hx"/>
@@ -172,7 +174,7 @@
                                                         <constraint firstAttribute="width" constant="36" id="VlA-KB-D3w"/>
                                                         <constraint firstAttribute="height" constant="36" id="dYQ-lz-fnP"/>
                                                     </constraints>
-                                                    <state key="normal" image="icn_36_tick.png"/>
+                                                    <state key="normal" image="icn_36_tick"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -192,7 +194,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_presence_to.png" translatesAutoresizingMaskIntoConstraints="NO" id="xD6-Ft-HFm">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_presence_to" translatesAutoresizingMaskIntoConstraints="NO" id="xD6-Ft-HFm">
                                                     <rect key="frame" x="10" y="7" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="36" id="9Or-1P-C0D"/>
@@ -219,7 +221,7 @@
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="UPa-iq-byV"/>
                                                         <constraint firstAttribute="height" constant="36" id="frW-11-BbO"/>
                                                     </constraints>
-                                                    <state key="normal" image="icn_36_clock.png"/>
+                                                    <state key="normal" image="icn_36_clock"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -243,7 +245,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_location.png" translatesAutoresizingMaskIntoConstraints="NO" id="Bne-SS-uop">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_location" translatesAutoresizingMaskIntoConstraints="NO" id="Bne-SS-uop">
                                                     <rect key="frame" x="10" y="7" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="36" id="4Ow-v9-M8J"/>
@@ -361,7 +363,7 @@
                                                     <color key="textColor" name="mediumGray"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_hand.png" highlightedImage="icn_36_blocked.png" translatesAutoresizingMaskIntoConstraints="NO" id="5aM-RC-ryz">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_hand" highlightedImage="icn_36_blocked" translatesAutoresizingMaskIntoConstraints="NO" id="5aM-RC-ryz">
                                                     <rect key="frame" x="10" y="4" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="36" id="cqm-i2-6p1"/>
@@ -409,7 +411,7 @@
                                                     <color key="textColor" name="mediumGray"/>
                                                     <color key="highlightedColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_add_friend.png" highlightedImage="icn_36_blocked.png" translatesAutoresizingMaskIntoConstraints="NO" id="gO3-20-Cop">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_add_friend" highlightedImage="icn_36_blocked" translatesAutoresizingMaskIntoConstraints="NO" id="gO3-20-Cop">
                                                     <rect key="frame" x="10" y="4" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="6G7-Ct-KTT"/>
@@ -425,6 +427,45 @@
                                                 <constraint firstItem="ZaT-Kl-L0x" firstAttribute="leading" secondItem="gO3-20-Cop" secondAttribute="trailing" constant="8" id="KXr-gc-wpy"/>
                                                 <constraint firstItem="ZaT-Kl-L0x" firstAttribute="centerY" secondItem="IcR-On-Ril" secondAttribute="centerY" id="LAj-Nt-5BI"/>
                                                 <constraint firstItem="gO3-20-Cop" firstAttribute="centerY" secondItem="IcR-On-Ril" secondAttribute="centerY" id="QSi-79-izS"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="FRr-HC-fZK">
+                                <cells>
+                                    <tableViewCell tag="4" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="bf2-fZ-IJe" userLabel="More Cell">
+                                        <rect key="frame" x="0.0" y="845" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bf2-fZ-IJe" id="beQ-cB-XnL">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gNp-fH-7YK" userLabel="AddContact">
+                                                    <rect key="frame" x="54" y="11.5" width="250" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="xse-mg-j5C"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" name="mediumGray"/>
+                                                    <color key="highlightedColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_more" highlightedImage="icn_36_more" translatesAutoresizingMaskIntoConstraints="NO" id="EcL-EE-JPD">
+                                                    <rect key="frame" x="10" y="4" width="36" height="36"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="2uJ-Ez-Xss"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="LQB-M1-M1I"/>
+                                                        <constraint firstAttribute="height" constant="36" id="Lxf-1l-dZk"/>
+                                                        <constraint firstAttribute="width" constant="36" id="Pfh-h7-ZWe"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="EcL-EE-JPD" firstAttribute="centerY" secondItem="beQ-cB-XnL" secondAttribute="centerY" id="85q-2G-lm0"/>
+                                                <constraint firstItem="gNp-fH-7YK" firstAttribute="trailing" secondItem="beQ-cB-XnL" secondAttribute="trailingMargin" id="ALU-6L-P6X"/>
+                                                <constraint firstItem="gNp-fH-7YK" firstAttribute="leading" secondItem="EcL-EE-JPD" secondAttribute="trailing" constant="8" id="Fhs-CM-iOz"/>
+                                                <constraint firstItem="EcL-EE-JPD" firstAttribute="leading" secondItem="beQ-cB-XnL" secondAttribute="leadingMargin" constant="-6" id="LUG-ET-VqB"/>
+                                                <constraint firstItem="gNp-fH-7YK" firstAttribute="centerY" secondItem="beQ-cB-XnL" secondAttribute="centerY" id="wTB-BF-eBw"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -466,6 +507,7 @@
                         <outlet property="localityCell" destination="Ocs-l1-iI1" id="ZRS-lQ-IEO"/>
                         <outlet property="localityImageView" destination="Bne-SS-uop" id="EX4-OZ-rJl"/>
                         <outlet property="localityLabel" destination="Z2f-pJ-sUy" id="12x-SO-S8G"/>
+                        <outlet property="moreCell" destination="bf2-fZ-IJe" id="SWi-G7-upq"/>
                         <outlet property="nameLabel" destination="nRS-Tr-XlM" id="qMa-oG-0Nj"/>
                         <outlet property="phoneNumberCell" destination="cR4-sm-hFm" id="xjL-4h-c46"/>
                         <outlet property="phoneNumberLabel" destination="bDC-QP-3Sh" id="Dpd-n2-bjh"/>
@@ -510,6 +552,7 @@
                                                     </connections>
                                                 </button>
                                             </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="centerY" secondItem="teH-qH-8qz" secondAttribute="centerY" id="D8L-Ll-2Wv"/>
                                                 <constraint firstAttribute="centerX" secondItem="teH-qH-8qz" secondAttribute="centerX" id="rgo-UK-Ouj"/>
@@ -651,7 +694,7 @@
                                                         <outlet property="delegate" destination="zlp-U3-DQa" id="L5I-cM-JuF"/>
                                                     </connections>
                                                 </textField>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_location.png" translatesAutoresizingMaskIntoConstraints="NO" id="H0e-jF-w1h">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_location" translatesAutoresizingMaskIntoConstraints="NO" id="H0e-jF-w1h">
                                                     <rect key="frame" x="16" y="11" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="8vC-UJ-O9K"/>
@@ -841,18 +884,19 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icn_36_add_friend.png" width="36" height="36"/>
-        <image name="icn_36_blocked.png" width="36" height="36"/>
-        <image name="icn_36_clock.png" width="36" height="36"/>
+        <image name="icn_36_add_friend" width="36" height="36"/>
+        <image name="icn_36_blocked" width="36" height="36"/>
+        <image name="icn_36_clock" width="36" height="36"/>
         <image name="icn_36_email.png" width="36" height="36"/>
-        <image name="icn_36_hand.png" width="36" height="36"/>
-        <image name="icn_36_location.png" width="36" height="36"/>
+        <image name="icn_36_hand" width="36" height="36"/>
+        <image name="icn_36_location" width="36" height="36"/>
+        <image name="icn_36_more" width="36" height="36"/>
         <image name="icn_36_name.png" width="36" height="36"/>
         <image name="icn_36_phone.png" width="36" height="36"/>
-        <image name="icn_36_presence_from.png" width="36" height="36"/>
-        <image name="icn_36_presence_to.png" width="36" height="36"/>
-        <image name="icn_36_state.png" width="36" height="36"/>
-        <image name="icn_36_tick.png" width="36" height="36"/>
+        <image name="icn_36_presence_from" width="36" height="36"/>
+        <image name="icn_36_presence_to" width="36" height="36"/>
+        <image name="icn_36_state" width="36" height="36"/>
+        <image name="icn_36_tick" width="36" height="36"/>
         <namedColor name="mediumGray">
             <color red="0.40700000524520874" green="0.42300000786781311" blue="0.43999999761581421" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -12,6 +12,7 @@
 #import <ChatSDK/UI.h>
 #import <ChatSDK/BChatViewController.h>
 #import <ChatSDK/BChatOptionDelegate.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 #define bControllerKey @"bControllerKey"
 #define bControllerNameKey @"bControllerNameKey"
@@ -88,6 +89,13 @@
         _flaggedMessagesViewController = [[BFlaggedMessagesViewController alloc] init];
     }
     return _flaggedMessagesViewController;
+}
+
+-(UIViewController *) profileOptionsViewController {
+    if (!_profileOptionsViewController) {
+        _profileOptionsViewController = [[ProfileOptionsViewController alloc] init];
+    }
+    return _profileOptionsViewController;
 }
 
 -(UIViewController *) contactsViewController {

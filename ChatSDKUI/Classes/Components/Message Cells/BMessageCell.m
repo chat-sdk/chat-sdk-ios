@@ -11,6 +11,7 @@
 #import <ChatSDK/UI.h>
 #import <ChatSDK/Core.h>
 #import <ChatSDK/PElmMessage.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @implementation BMessageCell
 
@@ -89,13 +90,13 @@
 
     switch (status) {
         case bMessageReadStatusNone:
-            imageName = @"icn_message_received.png";
+            imageName = @"icn_message_received";
             break;
         case bMessageReadStatusDelivered:
-            imageName = @"icn_message_delivered.png";
+            imageName = @"icn_message_delivered";
             break;
         case bMessageReadStatusRead:
-            imageName = @"icn_message_read.png";
+            imageName = @"icn_message_read";
             break;
         default:
             break;
@@ -106,6 +107,26 @@
     }
     else {
         _readMessageImageView.image = Nil;
+    }
+}
+
+-(void) showCheck {
+    if (!_checkImageView) {
+        _checkImageView = [[UIImageView alloc] initWithImage:[Icons getCheck]];
+        [bubbleImageView addSubview:_checkImageView];
+
+        _checkImageView.keepBottomInset.equal = 10;
+        _checkImageView.keepRightInset.equal = 10;
+        _checkImageView.keepHeight.equal = 20;
+        _checkImageView.keepWidth.equal = 20;
+    }
+    [bubbleImageView bringSubviewToFront:_checkImageView];
+    _checkImageView.hidden = NO;
+}
+
+-(void) hideCheck {
+    if(_checkImageView) {
+        _checkImageView.hidden = YES;
     }
 }
 

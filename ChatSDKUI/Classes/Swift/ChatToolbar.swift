@@ -75,5 +75,20 @@ import Foundation
             listener()
         }
     }
+    
+    @objc public func isVisible() -> Bool {
+        return self.alpha != 0
+    }
 
+    @objc public func show(duration: Double) -> Void {
+        superview?.keepAnimated(withDuration: duration, layout: {
+            self.alpha = 1
+        })
+    }
+
+    @objc public func hide(duration: Double) -> Void {
+        superview?.keepAnimated(withDuration: duration, layout: {
+            self.alpha = 0
+        })
+    }
 }

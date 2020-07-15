@@ -57,6 +57,7 @@
 @property (nonatomic, readwrite) UIViewController * (^usersViewController)(id<PThread> thread, UINavigationController * parent);
 @property (nonatomic, readwrite) UIViewController<PSplashScreenViewController> * splashScreenViewController;
 @property (nonatomic, readwrite) UIViewController * loginViewController;
+@property (nonatomic, readwrite) UIViewController * profileOptionsViewController;
 @property (nonatomic, readwrite) BOOL(^showLocalNotification)(id<PThread> thread);
 
 @end
