@@ -40,7 +40,7 @@
         <relationship name="linkedAccounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDUserAccount" inverseName="user" inverseEntity="CDUserAccount" syncable="YES"/>
         <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="user" inverseEntity="CDMessage" syncable="YES"/>
         <relationship name="threads" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDThread" inverseName="users" inverseEntity="CDThread" syncable="YES"/>
-        <relationship name="threadsCreated" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDThread" inverseName="creator" inverseEntity="CDThread" syncable="YES"/>
+        <relationship name="threadsCreated" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDThread" inverseName="creator" inverseEntity="CDThread" syncable="YES"/>
         <relationship name="userConnections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDUserConnection" inverseName="owner" inverseEntity="CDUserConnection" syncable="YES"/>
     </entity>
     <entity name="CDUserAccount" representedClassName="CDUserAccount" syncable="YES">
