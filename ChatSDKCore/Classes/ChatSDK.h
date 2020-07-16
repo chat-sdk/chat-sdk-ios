@@ -9,7 +9,5 @@
 #define ChatSDK_h
 
 #import "Core.h"
-#import "UI.h"
-#import "CoreData.h"
 
 #endif /* ChatSDK_h */
