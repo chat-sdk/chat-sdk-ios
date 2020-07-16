@@ -13,15 +13,17 @@ import UIKit
     
     let name: String
     let icon: String?
-    let executor: ((UIViewController) -> Void)
-    
+    let executor: ((UIViewController, PUser) -> Void)
+    let showFor: ((PUser?) -> Bool)?
+
 //    public convenience init(name: String, icon: String?, executor: @escaping ((UIViewController) -> Void)) {
 //        self.init(name: name, icon: icon, executor: executor)
 //    }
 
-    public init(name: String, icon: String?, executor: @escaping ((UIViewController) -> Void)) {
+    public init(name: String, icon: String?, showFor: ((PUser?) -> Bool)?, executor: @escaping ((UIViewController, PUser) -> Void)) {
         self.name = name
         self.icon = icon
+        self.showFor = showFor
         self.executor = executor
     }
     
@@ -33,8 +35,15 @@ import UIKit
         return icon
     }
     
-    @objc public func execute(viewController: UIViewController) -> Void {
-        executor(viewController)
+    @objc public func execute(viewController: UIViewController, user: PUser) -> Void {
+        executor(viewController, user)
+    }
+
+    @objc public func showFor(user: PUser?) -> Bool {
+        if let showFor = self.showFor {
+            return showFor(user)
+        }
+        return true
     }
 
 }

@@ -100,6 +100,9 @@ This repository contains a fully functional version of the Chat SDK which is con
 4. Compile and run
 
 ## Swift Version
+
+We are currently updating the Chat SDK to use Swift, this will happen gradually. In the meantime, the Chat SDK API is fully compatible with Swift projects. 
+
 The Chat SDK is fully compatible with Swift projects and contains a Swift demo project. 
 
 1. Clone Chat SDK  
@@ -120,6 +123,11 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   pod "ChatSDKFirebase/Adapter"
   pod "ChatSDKFirebase/FileStorage"
   pod "ChatSDKFirebase/Push"
+  ```
+  _Optional_
+
+  ```
+  pod "ChatSDK/ModAddContactWithQRCode"
   ```
   
 2. Run `pod update` to get the latest version of the code.
@@ -142,6 +150,9 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   // Configure other options here...
   
   [BChatSDK initialize:config app:application options:launchOptions];
+
+  // Optional
+  [[[AddContactWithQRCodeModule alloc] init] activate];
 
   // Set the root view controller
   [self.window setRootViewController:BChatSDK.ui.splashScreenNavigationController];
@@ -184,7 +195,10 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   
   config.allowUsersToCreatePublicChats = true
   BChatSDK.initialize(config, app: application, options: launchOptions)
-        
+  
+  // Optional
+  AddContactWithQRCodeModule().activate()
+      
   self.window = UIWindow.init(frame: UIScreen.main.bounds)
   self.window?.rootViewController = BChatSDK.ui()?.splashScreenNavigationController()
   self.window?.makeKeyAndVisible();

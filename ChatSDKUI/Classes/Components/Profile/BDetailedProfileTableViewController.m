@@ -274,51 +274,6 @@
     [self reloadDataAnimated:animated];
 }
 
-// Some of this is static...
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return [super numberOfSectionsInTableView:tableView];
-//}
-
-//-(NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    int staticSections = [super numberOfSectionsInTableView:tableView];
-//    if (section < staticSections) {
-//        return [super tableView: tableView titleForHeaderInSection:section];
-//    } else {
-//        return ChatSDKUI.shared.getProfileSections[section - staticSections].getName;
-//    }
-//}
-
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    int staticSections = [super numberOfSectionsInTableView:tableView];
-//    if (section < staticSections) {
-//        return [super tableView: tableView numberOfRowsInSection:section];
-//    } else {
-//        return ChatSDKUI.shared.getProfileSections[section - staticSections].getItems.count;
-//    }
-//}
-
-//-(UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-//    int staticSections = [super numberOfSectionsInTableView:tableView];
-//    if (indexPath.section < staticSections) {
-//        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
-//    } else {
-//        ProfileItem * item = ChatSDKUI.shared.getProfileSections[indexPath.section - staticSections].getItems[indexPath.row];
-//        UITableViewCell * cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
-//        cell.textLabel.text = [item getName];
-//        return cell;
-//    }
-//}
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    int staticSections = [super numberOfSectionsInTableView:tableView];
-//    if (section < staticSections) {
-//        return [super tableView: tableView numberOfRowsInSection:section];
-//    } else {
-//        return 50;
-//    }
-//}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
     if (cell.tag == bBlockCellTag) {
@@ -334,9 +289,6 @@
         } else {
             [self addContact];
         }
-    }
-    if (cell.tag == bMoreCellTag) {
-        [self presentViewController:BChatSDK.ui.profileOptionsViewController animated:YES completion:Nil];
     }
 }
 
@@ -463,6 +415,10 @@
 
 -(BOOL) userIsCurrent {
     return [user isMe];
+}
+
+- (IBAction)moreButtonPressed:(id)sender {
+    [self presentViewController:[BChatSDK.ui profileOptionsViewControllerWithUser:user] animated:YES completion:Nil];
 }
 
 

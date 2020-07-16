@@ -39,6 +39,8 @@
         
         // Setup default providers
         [self setProvider:[BMessageSectionDateProvider new] forName:bMessageSectionDateProvider];
+        
+
     }
     return self;
 }
@@ -91,11 +93,11 @@
     return _flaggedMessagesViewController;
 }
 
--(UIViewController *) profileOptionsViewController {
-    if (!_profileOptionsViewController) {
-        _profileOptionsViewController = [[ProfileOptionsViewController alloc] init];
+-(UIViewController *) profileOptionsViewControllerWithUser: (id<PUser>) user {
+    if (_profileOptionsViewController) {
+        return _profileOptionsViewController(user);
     }
-    return _profileOptionsViewController;
+    return [[ProfileOptionsViewController alloc] initWithUser:user];
 }
 
 -(UIViewController *) contactsViewController {

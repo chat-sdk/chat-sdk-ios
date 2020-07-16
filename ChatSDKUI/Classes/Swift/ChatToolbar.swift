@@ -29,7 +29,7 @@ import Foundation
     }
     
     @objc public convenience required init?(coder: NSCoder) {
-        self.init()
+        fatalError("init(coder:) has not been implemented")
     }
 
     @objc public func setup() {

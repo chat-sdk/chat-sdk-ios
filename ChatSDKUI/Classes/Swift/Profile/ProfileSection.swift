@@ -31,7 +31,13 @@ import UIKit
         return true
     }
     
-    @objc public func getItems() -> [ProfileItem] {
+    @objc public func getItems(user: PUser?) -> [ProfileItem] {
+        var items = [ProfileItem]()
+        for item in self.items {
+            if item.showFor(user: user) {
+                items.append(item)
+            }
+        }
         return items
     }
     

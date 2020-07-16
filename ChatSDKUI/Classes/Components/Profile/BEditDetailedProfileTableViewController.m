@@ -308,13 +308,6 @@
     [self logout];
 }
 
-- (IBAction)clearLocalData:(id)sender {
-    [self logout].thenOnMain(^id(id success) {
-        [BChatSDK.db deleteAllData];
-        return Nil;
-    }, Nil);
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

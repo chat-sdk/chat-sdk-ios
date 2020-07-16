@@ -17,13 +17,13 @@ import Foundation
     var userProfileSections = [ProfileSection]()
 
     @objc public func addUserProfileSection(section: ProfileSection) {
-        userProfileSections.append(section)
+        userProfileSections.append( section)
     }
-    
+     
     @objc public func getProfileSections(user: PUser?) -> [ProfileSection] {
         var sections = [ProfileSection]()
         for section in userProfileSections {
-            if section.showFor(user: user) {
+            if section.showFor(user: user) && !section.getItems(user: user).isEmpty {
                 sections.append(section)
             }
         }

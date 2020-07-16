@@ -187,6 +187,13 @@
 #define bExtendedAway @"bExtendedAway"
 #define bBusy @"bBusy"
 
+#define bQRCode @"bQRCode"
+#define bContact @"bContact"
+#define bImportFailed @"bImportFailed"
+#define bImportKeys @"bImportKeys"
+#define bExportKeys @"bExportKeys"
+#define bEncryption @"bEncryption"
+
 @protocol PMessage;
 
 @interface NSBundle(ChatCore)

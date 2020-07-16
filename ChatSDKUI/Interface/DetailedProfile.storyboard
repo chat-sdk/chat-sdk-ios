@@ -280,7 +280,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_phone.png" translatesAutoresizingMaskIntoConstraints="NO" id="bLh-CP-tZI">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_phone" translatesAutoresizingMaskIntoConstraints="NO" id="bLh-CP-tZI">
                                                     <rect key="frame" x="10" y="7" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="3b5-3t-hwW"/>
@@ -315,7 +315,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_email.png" translatesAutoresizingMaskIntoConstraints="NO" id="Aqk-qp-x2A">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_email" translatesAutoresizingMaskIntoConstraints="NO" id="Aqk-qp-x2A">
                                                     <rect key="frame" x="10" y="7" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="36" id="43W-D9-qUG"/>
@@ -441,15 +441,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gNp-fH-7YK" userLabel="AddContact">
-                                                    <rect key="frame" x="54" y="11.5" width="250" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="xse-mg-j5C"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" name="mediumGray"/>
-                                                    <color key="highlightedColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_more" highlightedImage="icn_36_more" translatesAutoresizingMaskIntoConstraints="NO" id="EcL-EE-JPD">
                                                     <rect key="frame" x="10" y="4" width="36" height="36"/>
                                                     <constraints>
@@ -459,13 +450,23 @@
                                                         <constraint firstAttribute="width" constant="36" id="Pfh-h7-ZWe"/>
                                                     </constraints>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZzW-1B-hji">
+                                                    <rect key="frame" x="54" y="0.0" width="266" height="44"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="tintColor" name="mediumGray"/>
+                                                    <state key="normal" title="More"/>
+                                                    <connections>
+                                                        <action selector="moreButtonPressed:" destination="S0e-Qh-Mjd" eventType="touchUpInside" id="MRM-Au-kB0"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="ZzW-1B-hji" secondAttribute="bottom" id="5gB-WI-eGG"/>
                                                 <constraint firstItem="EcL-EE-JPD" firstAttribute="centerY" secondItem="beQ-cB-XnL" secondAttribute="centerY" id="85q-2G-lm0"/>
-                                                <constraint firstItem="gNp-fH-7YK" firstAttribute="trailing" secondItem="beQ-cB-XnL" secondAttribute="trailingMargin" id="ALU-6L-P6X"/>
-                                                <constraint firstItem="gNp-fH-7YK" firstAttribute="leading" secondItem="EcL-EE-JPD" secondAttribute="trailing" constant="8" id="Fhs-CM-iOz"/>
+                                                <constraint firstItem="ZzW-1B-hji" firstAttribute="top" secondItem="beQ-cB-XnL" secondAttribute="top" id="GEE-Fc-ImK"/>
+                                                <constraint firstAttribute="trailing" secondItem="ZzW-1B-hji" secondAttribute="trailing" id="IYI-Dk-ejy"/>
                                                 <constraint firstItem="EcL-EE-JPD" firstAttribute="leading" secondItem="beQ-cB-XnL" secondAttribute="leadingMargin" constant="-6" id="LUG-ET-VqB"/>
-                                                <constraint firstItem="gNp-fH-7YK" firstAttribute="centerY" secondItem="beQ-cB-XnL" secondAttribute="centerY" id="wTB-BF-eBw"/>
+                                                <constraint firstItem="ZzW-1B-hji" firstAttribute="leading" secondItem="EcL-EE-JPD" secondAttribute="trailing" constant="8" id="uIr-W5-feP"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -657,7 +658,7 @@
                                                         <outlet property="delegate" destination="zlp-U3-DQa" id="432-CL-jLR"/>
                                                     </connections>
                                                 </textField>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_name.png" translatesAutoresizingMaskIntoConstraints="NO" id="o5V-13-LnZ">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_name" translatesAutoresizingMaskIntoConstraints="NO" id="o5V-13-LnZ">
                                                     <rect key="frame" x="16" y="11" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="7Gi-wD-PCr"/>
@@ -720,7 +721,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_phone.png" translatesAutoresizingMaskIntoConstraints="NO" id="mH6-W0-quu">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_phone" translatesAutoresizingMaskIntoConstraints="NO" id="mH6-W0-quu">
                                                     <rect key="frame" x="16" y="11" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="Asm-Nk-5nn"/>
@@ -757,7 +758,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_email.png" translatesAutoresizingMaskIntoConstraints="NO" id="E8b-Nd-w5H">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_36_email" translatesAutoresizingMaskIntoConstraints="NO" id="E8b-Nd-w5H">
                                                     <rect key="frame" x="16" y="11" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="Cwq-Wn-9rs"/>
@@ -789,41 +790,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Utilities" id="aCY-Qv-BK4">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="aFN-FD-H9c">
-                                        <rect key="frame" x="0.0" y="844" width="320" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aFN-FD-H9c" id="P14-ou-VZx">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H8k-ri-qdq">
-                                                    <rect key="frame" x="16" y="10" width="288" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="gof-ft-ion"/>
-                                                    </constraints>
-                                                    <state key="normal" title="Clear local data">
-                                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="clearLocalData:" destination="zlp-U3-DQa" eventType="touchUpInside" id="7Wo-9R-Bj2"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="H8k-ri-qdq" firstAttribute="trailing" secondItem="P14-ou-VZx" secondAttribute="trailingMargin" id="ViL-bx-byb"/>
-                                                <constraint firstItem="H8k-ri-qdq" firstAttribute="centerY" secondItem="P14-ou-VZx" secondAttribute="centerY" id="iFw-gv-6ug"/>
-                                                <constraint firstItem="H8k-ri-qdq" firstAttribute="leading" secondItem="P14-ou-VZx" secondAttribute="leadingMargin" id="u8I-2v-mmV"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                             <tableViewSection headerTitle="Account" id="lM0-tf-Q0u">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="KMd-oQ-foA">
-                                        <rect key="frame" x="0.0" y="942" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="844" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KMd-oQ-foA" id="vDf-Pf-UT1">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -865,7 +835,6 @@
                         <outlet property="availabilityButton" destination="fYA-th-jb8" id="qpp-3R-4OT"/>
                         <outlet property="availabilityCell" destination="Ano-KY-Wa1" id="wAU-3R-PQh"/>
                         <outlet property="availabilityPicker" destination="Nek-IJ-3mt" id="U7d-BT-1Pr"/>
-                        <outlet property="clearLocalDataCell" destination="aFN-FD-H9c" id="I9K-me-VMN"/>
                         <outlet property="emailCell" destination="Edi-Lu-N04" id="8Gz-r1-1xb"/>
                         <outlet property="emailTextField" destination="rMg-tG-wJW" id="omS-Dq-62Y"/>
                         <outlet property="localityCell" destination="m1Y-4B-Rgp" id="3bG-dX-2Z8"/>
@@ -887,12 +856,12 @@
         <image name="icn_36_add_friend" width="36" height="36"/>
         <image name="icn_36_blocked" width="36" height="36"/>
         <image name="icn_36_clock" width="36" height="36"/>
-        <image name="icn_36_email.png" width="36" height="36"/>
+        <image name="icn_36_email" width="36" height="36"/>
         <image name="icn_36_hand" width="36" height="36"/>
         <image name="icn_36_location" width="36" height="36"/>
         <image name="icn_36_more" width="36" height="36"/>
-        <image name="icn_36_name.png" width="36" height="36"/>
-        <image name="icn_36_phone.png" width="36" height="36"/>
+        <image name="icn_36_name" width="36" height="36"/>
+        <image name="icn_36_phone" width="36" height="36"/>
         <image name="icn_36_presence_from" width="36" height="36"/>
         <image name="icn_36_presence_to" width="36" height="36"/>
         <image name="icn_36_state" width="36" height="36"/>
