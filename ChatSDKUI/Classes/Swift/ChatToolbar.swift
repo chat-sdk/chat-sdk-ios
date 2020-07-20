@@ -80,15 +80,32 @@ import Foundation
         return self.alpha != 0
     }
 
-    @objc public func show(duration: Double) -> Void {
-        superview?.keepAnimated(withDuration: duration, layout: {
-            self.alpha = 1
-        })
+    @objc public func show() -> Void {
+        show(duration: 0.5)
+    }
+    
+    @objc public func hide() -> Void {
+        hide(duration: 0.5)
+    }
+    
+    @objc public func show(duration: Double) {
+        if !isVisible() {
+            superview?.keepAnimated(withDuration: duration, layout: {
+                self.alpha = 1
+            })
+        }
     }
 
-    @objc public func hide(duration: Double) -> Void {
-        superview?.keepAnimated(withDuration: duration, layout: {
-            self.alpha = 0
-        })
+    @objc public func hide(duration: Double) {
+        if isVisible() {
+            superview?.keepAnimated(withDuration: duration, layout: {
+                self.alpha = 0
+            })
+        }
+    }
+    
+    @objc public func copyToClipboard(text: String, view: UIView) {
+        UIPasteboard.general.string = text
+        view.makeToast(Bundle.t(bCopiedToClipboard))
     }
 }

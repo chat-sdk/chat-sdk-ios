@@ -16,6 +16,8 @@ import KeepLayout
     let titleTextView = UITextView()
     let textView = UITextView()
     let closeButton = UIButton()
+    
+    var didClose: (() -> Void)?
    
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,6 +33,8 @@ import KeepLayout
     }
 
     @objc public func setup() {
+        
+        clipsToBounds = true
         
         addSubview(divider)
         addSubview(imageView)
@@ -56,6 +60,8 @@ import KeepLayout
         textView.textContainer.maximumNumberOfLines = 2
         textView.textContainerInset = UIEdgeInsets.zero
         
+        closeButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
+        
 //        closeButton.setPre
 
         divider.keepLeftOffsetTo(imageView)?.equal = 0
@@ -64,7 +70,7 @@ import KeepLayout
         divider.keepBottomInset.equal = 0
         divider.keepWidth.equal = 5
         
-        titleTextView.keepTopOffsetTo(topBorder)?.equal = 0;
+        titleTextView.keepTopOffsetTo(topBorder)?.equal = 5;
         titleTextView.keepLeftOffsetTo(divider)?.equal = 0
         titleTextView.keepRightOffsetTo(closeButton)?.equal = 0
         titleTextView.keepHeight.equal = 20
@@ -88,31 +94,56 @@ import KeepLayout
 
         closeButton.setImage(Icons.get(name: "icn_36_cross"), for: .normal)
         
-        imageView.image = Icons.defaultUserImage()
-        titleTextView.text = "Ben"
-        textView.text = "This is some test text, This is some test text, This is some test text, This is some test text"
-        textView.backgroundColor = .green
+//        imageView.image = Icons.defaultUserImage()
+//        titleTextView.text = "Ben"
+//        textView.text = "This is some test text, This is some test text, This is some test text, This is some test text"
+//        textView.backgroundColor = .green
 
-//        imageView.keepLeftIn
         
     }
     
-    @objc public func show(duration: Double) -> Void {
+    @objc public func show(title: String, message: String?, imageURL: URL?) -> Void {
+        show(title: title, message: message, imageURL: imageURL, duration: 0.5)
+    }
+    
+    @objc public func dismiss() {
+        didClose?()
+        hide()
+    }
+    
+    @objc public func hide() {
+        hide(duration: 0.5)
+    }
+    
+    @objc public func show(title: String, message: String?, imageURL: URL?, duration: Double) -> Void {
+        
+        titleTextView.text = title
+        textView.text = message ?? ""
+        
+        if let url = imageURL {
+            imageView.sd_setImage(with: url, completed: nil)
+            imageView.keepWidth.equal = 50
+        } else {
+            imageView.keepWidth.equal = 0
+        }
+        
         superview?.keepAnimated(withDuration: duration, layout: {
             self.keepHeight.equal = 51
-            self.closeButton.alpha = 1
         })
     }
 
     @objc public func hide(duration: Double) -> Void {
         superview?.keepAnimated(withDuration: duration, layout: {
             self.keepHeight.equal = 0
-            self.closeButton.alpha = 0
         })
     }
     
     @objc public func isVisible() -> Bool {
         return self.keepHeight.equal.value != 0
     }
-
+    
+    @objc public func setDidCloseListener(listener: @escaping (()->Void)) {
+        didClose = listener
+    }
+    
 }

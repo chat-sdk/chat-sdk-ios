@@ -169,6 +169,11 @@
     [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
         return NO;
     }];
+    
+    if (!self.sendBarView.text.length) {
+        self.sendBarView.text = [_thread draft];
+    }
+
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -198,6 +203,9 @@
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self doViewWillDisappear:animated];
+    
+    _thread.draft = self.sendBarView.text;
+    
 }
 
 -(void) doViewWillDisappear: (BOOL) animated {

@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSSet<CDMessage *> *messages;
 @property (nullable, nonatomic, retain) NSSet<CDThread *> *threads;
 @property (nullable, nonatomic, retain) NSSet<CDUserConnection *> *userConnections;
+@property (nullable, nonatomic, retain) NSSet<CDThread *> *threadsCreated;
 
 @end
 
@@ -49,6 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeUserConnectionsObject:(CDUserConnection *)value;
 - (void)addUserConnections:(NSSet<CDUserConnection *> *)values;
 - (void)removeUserConnections:(NSSet<CDUserConnection *> *)values;
+
+- (void)addThreadsCreatedObject:(CDThread *)value;
+- (void)removeThreadsCreatedObject:(CDThread *)value;
+- (void)addThreadsCreated:(NSSet<CDThread *> *)values;
+- (void)removeThreadsCreated:(NSSet<CDThread *> *)values;
 
 @end
 

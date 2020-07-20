@@ -202,3 +202,4 @@
 "bImportKeys" = "Import Keys";
 "bExportKeys" = "Export Keys";
 "bEncryption" = "Encryption";
+"bCopiedToClipboard" = "Copied to clipboard!";

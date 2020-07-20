@@ -29,6 +29,7 @@
 @synthesize optionsButton = _optionsButton;
 @synthesize sendButton = _sendButton;
 @synthesize placeholderLabel = _placeholderLabel;
+@synthesize sendListener;
 
 -(instancetype) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -201,7 +202,6 @@
 #pragma Button Delegates
 
 -(void) sendButtonPressed {
-    
     if (_audioMaxLengthReached) {
         _audioMaxLengthReached = NO;
         return;
@@ -215,12 +215,11 @@
         if ([[_textView.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""]) {
             return;
         }
-        
-        if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(threadEntityID)]) {
-            NSString * newMessage = [_textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            [BChatSDK.thread sendMessageWithText:newMessage withThreadEntityID:_sendBarDelegate.threadEntityID];
+
+        if (sendListener) {
+            sendListener();
         }
-        
+
         _textView.text = @"";
         [self textViewDidChange:_textView];
     }
@@ -428,6 +427,15 @@
 
     // If the text area is empty show the placeholder
     _placeholderLabel.hidden = ![textView.text isEqualToString:@""];
+}
+
+-(void) setText: (NSString *) text {
+    _textView.text = text;
+    [self textViewDidChange:_textView];
+}
+
+-(NSString *) text {
+    return _textView.text;
 }
 
 -(void) resizeToolbar {

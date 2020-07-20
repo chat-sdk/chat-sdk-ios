@@ -108,5 +108,8 @@ typedef enum {
 
 -(BOOL) isReadOnly;
 
+-(void) setDraft: (NSString *) draft;
+-(NSString *) draft;
+ 
 @end
 

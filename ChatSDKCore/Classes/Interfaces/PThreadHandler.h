@@ -105,6 +105,9 @@
 
 -(BOOL) canDeleteMessage: (id<PMessage>) message;
 
+-(RXPromise *) replyToMessage: (id<PMessage>) message withThreadID: (NSString *) threadEntityID reply: (NSString *) reply;
+-(RXPromise *) forwardMessage: (id<PMessage>) message toThreadWithID: (NSString *) threadEntityID;
+
 @optional
 
 -(RXPromise *) muteThread: (id<PThread>) thread;

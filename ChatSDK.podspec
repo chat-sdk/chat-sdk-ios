@@ -17,9 +17,9 @@ Pod::Spec.new do |s|
   
 #   s.static_framework = true
   
-  s.subspec 'Complete' do |core| 
-    core.dependency 'ChatSDK/UI'
-    core.dependency 'ChatSDK/Reachability'
+  s.subspec 'Complete' do |s| 
+    s.dependency 'ChatSDK/UI'
+    s.dependency 'ChatSDK/Reachability'
   end
   
   s.subspec 'Core' do |s| 

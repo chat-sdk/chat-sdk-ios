@@ -25,6 +25,7 @@
 // Deprecated in favour of bType
 #define bTypeV4 @"type_v4"
 #define bType @"type"
+#define bId @"id"
 #define bDate @"date"
 #define bUserFirebaseID @"user-firebase-id"
 #define bFrom @"from"
@@ -89,6 +90,8 @@
 #define bUserPrefixKey @"user"
 #define bUserImageURLKey @"pictureURL"
 #define bUserPictures @"pictures"
+
+#define bReplyKey @"reply"
 
 #define bUserPrivilegeKey @"privilege"
 #define bUserNameLowercase @"name-lowercase"

@@ -48,7 +48,7 @@ public class QRCodeViewController: UIViewController {
     
     @IBAction func copyButtonPressed(_ sender: Any) {
         UIPasteboard.general.string = textView.text
-        view.makeToast("Copied to clipboard!")
+        view.makeToast(Bundle.t(bCopiedToClipboard))
     }
     
     @objc public func hideCopyButton() {

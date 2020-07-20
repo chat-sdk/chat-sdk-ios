@@ -36,7 +36,8 @@
     ReplyView * _replyView;
     
     UIGestureRecognizer * _tapRecognizer;
-    
+    UIGestureRecognizer * _longPressRecognizer;
+
     UINavigationController * _imageViewNavigationController;
 
     UINavigationController * _locationViewNavigationController;

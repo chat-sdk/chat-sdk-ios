@@ -42,11 +42,14 @@
         _selectedIndexPaths = [NSMutableArray new];
         
         // Add a tap recognizer so when we tap the table we dismiss the keyboard
-        _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
+        _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+        [self.view addGestureRecognizer:_tapRecognizer];
+
+        _longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onLongPress:)];
+        [tableView addGestureRecognizer: _longPressRecognizer];
         
         // It should only be enabled when the keyboard is being displayed
-        _tapRecognizer.enabled = NO;
-        [self.view addGestureRecognizer:_tapRecognizer];
+//        _tapRecognizer.enabled = NO;
         
         // When a user taps the title bar we want to know to show the options screen
         if (BChatSDK.config.userChatInfoEnabled) {
@@ -72,17 +75,43 @@
 -(void) setupTextInputView: (BOOL) forceSuper {
     _sendBarView = [BChatSDK.ui sendBarView];
     [_sendBarView setSendBarDelegate:self];
+
+    [_sendBarView setSendListener: ^{
+        NSString * newMessage = [_sendBarView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if (_replyView.isVisible) {
+            id<PMessage> message = [self messageForIndexPath:_selectedIndexPaths.firstObject];
+            [BChatSDK.thread replyToMessage:message withThreadID:self.threadEntityID reply:newMessage];
+            [_replyView dismiss];
+        } else {
+            [BChatSDK.thread sendMessageWithText:newMessage withThreadEntityID:self.threadEntityID];
+        }
+    }];
     
     [self.view addSubview:_sendBarView];
     
     _sendBarView.keepBottomInset.equal = self.safeAreaBottomInset;
     _sendBarView.keepLeftInset.equal = 0;
     _sendBarView.keepRightInset.equal = 0;
-    
-    
 
 }
 
+-(void) clearSelection {
+    [_selectedIndexPaths removeAllObjects];
+    [self reloadData];
+    [self hideChatToolbar];
+}
+
+-(void) copySelectedMessagesToClipboard {
+    NSMutableString * copyText = [NSMutableString new];
+    for (NSIndexPath * index in _selectedIndexPaths) {
+        id<PMessage> message = [self messageForIndexPath:index];
+        NSDateFormatter * formatter = [NSDateFormatter new];
+        [formatter setDateFormat:@"dd/MM/yy hh:mm:ss"];
+        [copyText appendFormat:@"%@ - %@ %@", [formatter stringFromDate:message.date], message.userModel.name, message.text];
+    }
+    UIPasteboard.generalPasteboard.string = copyText;
+    [self.view makeToast:[NSBundle t: bCopiedToClipboard]];
+}
 -(void) setupChatToolbar {
     _chatToolbar = [[ChatToolbar alloc] init];
     [self.view addSubview:_chatToolbar];
@@ -94,13 +123,16 @@
     _chatToolbar.alpha = 0;
     
     _chatToolbar.copyListener = ^{
-        
+        [self copySelectedMessagesToClipboard];
+        [self clearSelection];
     };
 
     _chatToolbar.replyListener = ^{
-        [self hideChatToolbar];
-        [_replyView showWithDuration:0.5];
-        [_chatToolbar hideWithDuration:0.5];
+        id<PMessage> message = [self messageForIndexPath:_selectedIndexPaths.firstObject];
+        
+        [_replyView showWithTitle:message.user.name message:message.text imageURL:message.imageURL];
+        
+        [_chatToolbar hide];
         [self scrollToBottomOfTable:YES];
     };
 
@@ -113,12 +145,10 @@
             id<PMessage> message = [self messageForIndexPath:index];
             [BChatSDK.thread deleteMessage:message.entityID];
         }
-        [_selectedIndexPaths removeAllObjects];
-        [self hideChatToolbar];
+        [self clearSelection];
     };
 
 }
-
 -(void) setupReplyView {
     _replyView = [[ReplyView alloc] init];
     [self.view addSubview:_replyView];
@@ -127,33 +157,11 @@
     _replyView.keepLeftInset.equal = 0;
     _replyView.keepBottomOffsetTo(_sendBarView).equal = 0;
     
+    [_replyView setDidCloseListenerWithListener:^{
+        [self clearSelection];
+    }];
+    
     [_replyView hideWithDuration:0];
-}
-
--(void) showChatToolbar {
-    
-    // Setup which items are active
-    _chatToolbar.replyButton.enabled = _selectedIndexPaths.count == 1;
-    
-    BOOL canDelete = YES;
-    
-    for (NSIndexPath * path in _selectedIndexPaths) {
-        id<PMessage> message = [self messageForIndexPath:path];
-        if (![BChatSDK.thread canDeleteMessage:message]) {
-            canDelete = NO;
-            break;
-        }
-    }
-    
-    _chatToolbar.deleteButton.enabled = canDelete;
-    
-    [self resignFirstResponder];
-    [_chatToolbar showWithDuration:0.5];
-}
-
--(void) hideChatToolbar {
-    [_chatToolbar hideWithDuration:0.5];
-    [_replyView hideWithDuration:0.5];
 }
 
 -(void) registerMessageCells {
@@ -228,28 +236,6 @@
 -(void) addMessage: (id<PMessage>) message {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.messageManager addMessage: message];
-//        NSIndexPath * indexPath = [self.messageManager addMessage: message];
-//        NSIndexPath * indexPathOfPreviousMessage;
-        
-//        [self.tableView beginUpdates];
-        
-//        if (indexPath) {
-//            // Also refresh the previous cell
-//            indexPathOfPreviousMessage = [self.messageManager indexPathForPreviousMessageInSection:message];
-//        }
-//
-//        if (indexPath) {
-//            // We are adding a new section
-//            if (indexPath.section == self.tableView.numberOfSections) {
-//                [self.tableView insertSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
-//            } else {
-//                [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            }
-//            if (indexPathOfPreviousMessage) {
-//                [self.tableView reloadRowsAtIndexPaths:@[indexPathOfPreviousMessage] withRowAnimation:UITableViewRowAnimationFade];
-//            }
-//        }
-//        [self.tableView endUpdates];
         [self reloadData:YES animate:YES force:message.senderIsMe];
     });
 }
@@ -273,28 +259,8 @@
 
 -(void) addMessages: (NSArray<id<PMessage>> *) messages {
     dispatch_async(dispatch_get_main_queue(), ^{
-        id<PMessage> oldestMessage = self.messageManager.oldestMessage;
-        NSMutableArray<NSIndexPath *> * indexPaths = [NSMutableArray arrayWithArray:[self.messageManager addMessages: messages]];
-
-//        [self.tableView beginUpdates];
         NSLog(@"Reload %@", NSStringFromSelector(_cmd));
         [self.tableView reloadData];
-        
-//        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-//
-//        // Also refrest the oldest message because we have loaded a message before that
-//        NSIndexPath * oldestMessagePath = [self.messageManager indexPathForMessage:oldestMessage];
-//        if (oldestMessagePath) {
-//            [indexPaths addObject:oldestMessagePath];
-//        }
-//        [self.tableView endUpdates];
-////        [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-//
-//        // Move the top of the list to the old first message
-//        NSIndexPath * oldestMessagePath = [self.messageManager indexPathForMessage:oldestMessage];
-//        if (oldestMessagePath) {
-//            [self.tableView scrollToRowAtIndexPath:oldestMessagePath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-//        }
     });
 }
 
@@ -303,11 +269,6 @@
         [self.messageManager removeMessage: message];
     });
 }
-
-//-(void) removeMessages: (NSArray<id<PMessage>> *) messages {
-//    NSArray<NSIndexPath *> * indexPaths = [_messageManager removeMessages: messages];
-//    [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-//}
 
 -(void) setMessages: (NSArray<PMessage> *) messages {
     [self setMessages:messages scrollToBottom:YES animate:YES force: NO];
@@ -367,14 +328,13 @@
     [self setupKeyboardOverlay];
     
     
-    UIGestureRecognizer * recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onLongPress:)];
-    [tableView addGestureRecognizer:recognizer];
-    
 
 }
 
+// Cell Selection
+
 -(void) onLongPress: (UILongPressGestureRecognizer *) recognizer {
-    if (BChatSDK.config.messageSelectionEnabled) {
+    if (BChatSDK.config.messageSelectionEnabled && !self.selectionModeEnabled) {
         CGPoint point = [recognizer locationInView:tableView];
         NSIndexPath * path = [tableView indexPathForRowAtPoint:point];
         if (path) {
@@ -383,11 +343,65 @@
             }
             [tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
         }
+        [self updateChatToolbar];
+    }
+}
+
+-(void) onTap: (UITapGestureRecognizer *) recognizer {
+    if (BChatSDK.config.messageSelectionEnabled && self.selectionModeEnabled) {
+        CGPoint point = [recognizer locationInView:tableView];
+        NSIndexPath * path = [tableView indexPathForRowAtPoint:point];
+        if (path) {
+            if ([_selectedIndexPaths containsObject:path]) {
+                [_selectedIndexPaths removeObject:path];
+            } else {
+                [_selectedIndexPaths addObject:path];
+            }
+            [tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
+        }
+        [self updateChatToolbar];
+    } else {
+        [self hideKeyboard];
+    }
+}
+
+-(void) updateChatToolbar {
+    if (!self.selectionModeEnabled) {
+        [_chatToolbar hide];
+    } else {
+        [self showOrUpdateChatToolbar];
     }
 }
 
 -(BOOL) selectionModeEnabled {
     return _selectedIndexPaths.count > 0;
+}
+
+-(void) showOrUpdateChatToolbar {
+    
+    // Setup which items are active
+    _chatToolbar.replyButton.enabled = _selectedIndexPaths.count == 1;
+    
+    BOOL canDelete = YES;
+    
+    for (NSIndexPath * path in _selectedIndexPaths) {
+        id<PMessage> message = [self messageForIndexPath:path];
+        if (![BChatSDK.thread canDeleteMessage:message]) {
+            canDelete = NO;
+            break;
+        }
+    }
+    
+    _chatToolbar.deleteButton.enabled = canDelete;
+    
+    [self resignFirstResponder];
+    
+    [_chatToolbar show];
+}
+
+-(void) hideChatToolbar {
+    [_chatToolbar hide];
+    [_replyView hide];
 }
 
 -(void) tableRefreshed {
@@ -454,7 +468,7 @@
     [self scrollToBottomOfTable:NO force:YES];
     
     [self setChatState:bChatStateActive];
-    
+        
 //    [self reloadData];
 }
 
@@ -484,11 +498,6 @@
     // Typing Indicator
     // When the user leaves then automatically set them not to be typing in the thread
     [self userFinishedTypingWithState: bChatStateInactive];
-}
-
-// When the view is tapped - dismiss the keyboard
--(void) viewTapped {
-    [self hideKeyboard];
 }
 
 #pragma TableView delegates
@@ -536,13 +545,6 @@
     messageCell.navigationController = self.navigationController;
     
     [messageCell setMessage:message isSelected:[_selectedIndexPaths containsObject:indexPath]];
-    
-    if (self.selectionModeEnabled && !_chatToolbar.isVisible) {
-        [self showChatToolbar];
-    } else if (!self.selectionModeEnabled && _chatToolbar.isVisible) {
-        [self hideChatToolbar];
-    }
-    
     
     return messageCell;
 }
@@ -608,17 +610,7 @@
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     BMessageCell * cell = (BMessageCell *) [tableView_ cellForRowAtIndexPath:indexPath];
-    
-    if (self.selectionModeEnabled) {
-        if ([_selectedIndexPaths containsObject:indexPath]) {
-            [_selectedIndexPaths removeObject:indexPath];
-        } else {
-            [_selectedIndexPaths addObject:indexPath];
-        }
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        return;
-    }
-    
+        
     NSURL * url = Nil;
     if ([cell isKindOfClass:[BImageMessageCell class]]) {
         
@@ -892,9 +884,18 @@
     [tableView setContentOffset:CGPointMake(0, contentOffsetY)];
 
     [UIView setAnimationsEnabled:NO];
+    
+//    for(NSIndexPath * indexPath in tableView.indexPathsForVisibleRows) {
+//        [[tableView cellForRowAtIndexPath:indexPath] layoutIfNeeded];
+//        [[tableView headerViewForSection:indexPath.section] layoutIfNeeded];
+//    }
+//
+//    [tableView layoutIfNeeded];
+    
     for(UITableViewCell * cell in tableView.visibleCells) {
         [cell layoutIfNeeded];
     }
+
     [UIView setAnimationsEnabled:YES];
 
 
@@ -930,6 +931,7 @@
         [cell setNeedsLayout];
         [cell layoutIfNeeded];
     }
+
     [UIView setAnimationsEnabled:YES];
 
     CGFloat contentOffsetY = tableView.contentOffset.y - keyboardBoundsConverted.size.height + self.safeAreaBottomInset;
@@ -940,7 +942,7 @@
     [UIView commitAnimations];
     
     // Disable the gesture recognizer so cell taps are recognized
-    _tapRecognizer.enabled = NO;
+//    _tapRecognizer.enabled = NO;
     
 }
 
@@ -949,9 +951,9 @@
     // Get the keyboard size
     CGRect keyboardBounds = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect keyboardBoundsConverted = [self.view convertRect:keyboardBounds toView:Nil];
-    
+        
     // Enable the tap gesture recognizer to hide the keyboard
-    _tapRecognizer.enabled = YES;
+//    _tapRecognizer.enabled = YES;
 }
 
 

@@ -27,7 +27,7 @@
 @class BLocalNotificationHandler;
 
 typedef UIViewController * (^UserProvider) (id<PUser> user);
-typedef BChatViewController * (^ChatProvider) (id<PThread> thread);
+typedef UIViewController * (^ChatProvider) (id<PThread> thread);
 
 @protocol PInterfaceAdapter <NSObject>
 

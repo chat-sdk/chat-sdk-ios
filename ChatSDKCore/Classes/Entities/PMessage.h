@@ -50,15 +50,7 @@ typedef enum {
 
 #define bMessageSystemType @"system-type"
 
-
-// Is the message the first, last or a middle message
-//#define bMessagePosition @"position"
-
-
 #define bMessageOriginalThreadEntityID @"original-thread-entity-id"
-//#define bMessageSenderIsMe @"sender-is-me"
-
-#define bMessageSticker @"sticker"
 
 typedef enum {
     bSystemMessageTypeInfo = 1,
@@ -73,10 +65,7 @@ typedef enum {
 -(void) setText: (NSString *) text;
 -(NSString *) text;
 
-// Use Meta instead
--(NSDictionary *) json;
--(void) setJson: (NSDictionary *) json;
--(NSDictionary *) compatibilityMeta;
+-(NSURL*) imageURL;
 
 /**
  * @brief Message type - Text, image, location
@@ -98,7 +87,7 @@ typedef enum {
  */
 -(void) setUserModel:(id<PUser>)user;
 -(id<PUser>) userModel;
-
+-(id<PUser>) user;
 /**
  * @brief Has the user seen this message
  */
@@ -134,6 +123,10 @@ typedef enum {
 -(bMessagePos) messagePosition;
 -(BOOL) senderIsMe;
 -(void) updatePosition;
+
+-(BOOL) isReply;
+-(NSString *) reply;
+-(bMessageType) replyType;
 
 - (BOOL)showUserNameLabelForPosition: (bMessagePos) position;
 

@@ -22,5 +22,6 @@
 @dynamic creator;
 @dynamic messages;
 @dynamic users;
+@dynamic draft;
 
 @end

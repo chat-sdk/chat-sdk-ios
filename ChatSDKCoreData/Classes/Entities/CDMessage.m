@@ -36,7 +36,7 @@
 
 #pragma Image information
 
-- (NSURL *)imageURL {
+-(NSURL*) imageURL {
     NSString * url = self.meta[bMessageImageURL];
     return [NSURL URLWithString:url];
 }
@@ -94,13 +94,6 @@
     }
     
     return CGSizeMake(width, height);
-}
-
--(NSDictionary *) compatibilityMeta {
-    if (self.meta) {
-        return self.meta;
-    }
-    return @{};
 }
 
 -(id<PMessage>) model {
@@ -239,5 +232,16 @@
     return [self readStatusForUserID:BChatSDK.currentUserID] >= bMessageReadStatusDelivered || self.read || self.delivered;
 }
 
+-(BOOL) isReply {
+    return self.reply;
+}
+
+-(NSString *) reply {
+    return self.meta[bReplyKey];
+}
+
+-(bMessageType) replyType {
+    return [self.meta[bType] intValue];
+}
 
 @end

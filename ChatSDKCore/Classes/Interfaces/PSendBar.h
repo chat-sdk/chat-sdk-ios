@@ -10,6 +10,8 @@
 
 @protocol PSendBarDelegate;
 
+typedef void(^Send)();
+
 @protocol PSendBar <NSObject>
 
 -(void) setAudioEnabled:(BOOL)enabled;
@@ -18,6 +20,10 @@
 -(void) becomeTextViewFirstResponder;
 -(void) setMaxLines: (NSInteger) maxLines;
 -(void) setMaxCharacters: (NSInteger) maxCharacters;
+-(void) setText: (NSString *) text;
+-(NSString *) text;
+
+-(void) setSendListener: (Send) listener;
 
 @end
 

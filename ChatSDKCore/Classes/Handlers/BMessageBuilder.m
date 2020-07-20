@@ -25,6 +25,10 @@
     return [[[self alloc] init] textMessage:text];
 }
 
++(instancetype) withType: (bMessageType) type {
+    return [[[self alloc] init] withType:type];
+}
+
 +(instancetype) systemMessage: (NSString *) text type: (bSystemMessageType) systemMessageType {
     return [[[self alloc] init] systemMessage:text type:systemMessageType];
 }
@@ -39,6 +43,11 @@
 
 -(BMessageBuilder *) textMessage: (NSString *) text {
     [_message setText:text];
+    [self type:bMessageTypeText];
+    return self;
+}
+
+-(BMessageBuilder *) withType: (bMessageType) type {
     [self type:bMessageTypeText];
     return self;
 }

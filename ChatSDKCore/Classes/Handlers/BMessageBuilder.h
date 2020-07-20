@@ -14,6 +14,7 @@
 }
 
 +(instancetype) message;
++(instancetype) withType: (bMessageType) type;
 +(instancetype) textMessage: (NSString *) text;
 +(instancetype) imageMessage: (UIImage *) image;
 +(instancetype) systemMessage: (NSString *) text type: (bSystemMessageType) systemMessageType;

@@ -283,5 +283,26 @@
     return [RXPromise resolveWithResult:Nil];
 }
 
+-(RXPromise *) replyToMessage: (id<PMessage>) message withThreadID: (NSString *) threadEntityID reply: (NSString *) reply {
+    
+    BMessageBuilder * builder = [[BMessageBuilder textMessage: message.isReply ? message.reply : @""] thread:threadEntityID];
+    
+    if (!message.isReply) {
+        NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:message.meta];
+        meta[bId] = message.entityID;
+        meta[bType] = message.type;
+        [builder meta: meta];
+    }
+    
+    id<PMessage> newMessage = [builder build];
+    [newMessage setMetaValue:reply forKey:bReplyKey];
+    
+    return [self sendMessage:newMessage];
+}
+
+-(RXPromise *) forwardMessage: (id<PMessage>) message toThreadWithID: (NSString *) threadEntityID {
+    id<PMessage> newMessage = [[[[BMessageBuilder withType:message.type.intValue] meta:message.meta] thread:threadEntityID] build];
+    return [self sendMessage:newMessage];
+}
 
 @end

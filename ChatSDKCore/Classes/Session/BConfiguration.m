@@ -7,7 +7,6 @@
 
 #import "BConfiguration.h"
 #import <ChatSDK/Core.h>
-#import <ChatSDK/BSettingsManager.h>
 
 @implementation BConfiguration
 
@@ -164,23 +163,20 @@
                 
         showProfileViewOnTap = YES;
         
-        rootPath = [BSettingsManager firebaseRootPath];
+        rootPath = @"pre_1";
                 
-        anonymousLoginEnabled = [BSettingsManager anonymousLoginEnabled];
+        anonymousLoginEnabled = NO;
         
         userChatInfoEnabled = YES;
         
         maxImageDimension = 600;
         
-        inviteByEmailTitle = [BSettingsManager property: bEmailTitle forModule: @"contact_book"];
-        inviteByEmailBody = [BSettingsManager property: bEmailBody forModule: @"contact_book"];
-        inviteBySMSBody = [BSettingsManager property: bSMSBody forModule: @"contact_book"];
+        inviteByEmailTitle = @"Join me using Chat SDK";
+        inviteByEmailBody = @"Get Chat SDK at http://sdk.chat";
+        inviteBySMSBody = @"Get Chat SDK at http://sdk.chat";
         
         shouldOpenChatWhenPushNotificationClickedOnlyIfTabBarVisible = NO;
-        
-        // Try to pre-configure XMPP from plist for backwards compatibility
-        [self configureXMPPFromPlist];
-        
+                
         xmppMucMessageHistory = 20;
         xmppAdvancedConfigurationEnabled = YES;
         
@@ -258,14 +254,6 @@
     xmppHostAddress = hostAddress;
     xmppPort = port;
     xmppResource = resource;
-}
-
--(void) configureXMPPFromPlist {
-    xmppHostAddress = [BSettingsManager string_s:@[bXMPPKey, bXMPPHostAddressKey]];
-    NSNumber * port = [BSettingsManager number_s:@[bXMPPKey, bXMPPPortKey]];
-    xmppPort = port.intValue;
-    xmppDomain = [BSettingsManager string_s:@[bXMPPKey, bXMPPDomainKey]];
-    xmppResource = [BSettingsManager string_s:@[bXMPPKey, bXMPPResourceKey]];
 }
 
 +(BConfiguration *) configuration {

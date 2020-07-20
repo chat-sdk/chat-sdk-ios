@@ -22,5 +22,6 @@
 @dynamic messages;
 @dynamic threads;
 @dynamic userConnections;
+@dynamic threadsCreated;
 
 @end

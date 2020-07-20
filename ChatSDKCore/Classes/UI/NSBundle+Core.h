@@ -193,6 +193,7 @@
 #define bImportKeys @"bImportKeys"
 #define bExportKeys @"bExportKeys"
 #define bEncryption @"bEncryption"
+#define bCopiedToClipboard @"bCopiedToClipboard"
 
 @protocol PMessage;
 

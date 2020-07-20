@@ -42,6 +42,8 @@
 @property (nonatomic, readwrite) UIButton * sendButton;
 @property (nonatomic, readonly) UILabel * placeholderLabel;
 
+@property (nonatomic, readwrite) Send sendListener;
+
 -(void) setAudioEnabled: (BOOL) audioEnabled;
 -(BOOL) resignTextViewFirstResponder;
 -(void) becomeTextViewFirstResponder;
