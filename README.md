@@ -67,6 +67,12 @@ Learn about the history of Chat SDK and our future plans in [this post](https://
 
 People always ask about how much Chat SDK costs to run. And will it scale to millions of users? So I wrote an article talking about [just that](https://hackmd.io/@dyR2Vn0UTFaO8tZjyiJyHw/r1LJ26d0L). 
 
+## Looking for Freelance Developers
+
+If you're a freelance developer looking for work, join our Discord server. We often have customers 
+
+
+
 ## Community
 
 + **Discord:** If you need support, join our [Server](https://discord.gg/abT5BM4)

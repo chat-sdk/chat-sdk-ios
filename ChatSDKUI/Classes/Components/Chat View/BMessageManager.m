@@ -202,6 +202,9 @@
     }
 }
 
+-(void) clear {
+    [_messageSections removeAllObjects];
+}
 
 
 @end

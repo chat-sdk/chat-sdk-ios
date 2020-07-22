@@ -252,7 +252,8 @@
     if (indexPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@"Reload %@", NSStringFromSelector(_cmd));
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            [self.tableView reloadData];
+//            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         });
     }
 }

@@ -12,22 +12,26 @@ import Foundation
     let _thread: Thread
     let _messageTimeFormatter = DateFormatter()
     
-    var _messages = [CKMessage]()
+    var _messages = [Message]()
     
     var _messageCellRegistrations = [String: MessageCellRegistration]()
     
     @objc public init(thread: Thread) {
         _thread = thread
-        _messageTimeFormatter.setLocalizedDateFormatFromTemplate("hh:mm")
+        _messageTimeFormatter.setLocalizedDateFormatFromTemplate("HH:mm")
+
+        for message in _thread.threadMessages() {
+            _messages.append(message)
+        }
     }
     
-    @objc public func itemCount() -> Int {
-        return _thread.threadMessages().count
-    }
+//    @objc public func itemCount() -> Int {
+//        return _thread.threadMessages().count
+//    }
     
-    @objc public func message(indexPath: IndexPath) -> Message {
-        return _thread.threadMessages()[indexPath.row]
-    }
+//    @objc public func message(indexPath: IndexPath) -> Message {
+//        return _thread.threadMessages()[indexPath.row]
+//    }
     
     @objc public func messageTimeFormatter() -> DateFormatter {
         return _messageTimeFormatter
@@ -41,24 +45,17 @@ import Foundation
         // Get the message
         let message = _messages[indexPath.row]
         
-        var cell: UITableViewCell?
+        var cell: MessageCell?
         
         // Get the registration so we know which cell identifier to use
         if let registration = _messageCellRegistrations[message.messageType()] {
-            cell = tableView.dequeueReusableCell(withIdentifier: registration.identifier)
-            if let cell = cell as? MessageCell {
-                
-            } else {
-                
-            }
+            let identifier = registration.identifier(direction: message.messageDirection())
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? MessageCell
+            cell?.setContent(content: registration.content(direction: message.messageDirection()))
+            cell?.bind(message: message, model: self)
         }
-
-//        if cell == nil {
-//        }
-//        if let cell = cell as? OutcomingTextMessageCell {
-//
-//            cell.setMessage(message: messages[indexPath.row], model: self)
-//        }
+        
         return cell!
     }
     
@@ -78,6 +75,38 @@ import Foundation
     
     @objc public func estimatedRowHeight() -> CGFloat {
         return 44
+    }
+
+    @objc public func avatarSize() -> CGFloat {
+        return 34
+    }
+    
+    @objc public func incomingBubbleColor() -> UIColor {
+        if let color = UIColor(named: "incoming_bubble", in: bundle(), compatibleWith: nil) {
+            return color
+        } else if #available(iOS 13.0, *) {
+            return .systemGray3
+        } else {
+            return .lightGray
+        }
+    }
+
+    @objc public func outgoingBubbleColor() -> UIColor {
+        if let color = UIColor(named: "outgoing_bubble", in: bundle(), compatibleWith: nil) {
+            return color
+        } else if #available(iOS 13.0, *) {
+            return .systemTeal
+        } else {
+            return .cyan
+        }
+    }
+    
+    @objc public func showAvatar() -> Bool {
+        return _thread.threadType() != .private1to1
+    }
+    
+    @objc public func bundle() -> Bundle {
+        return Bundle(for: MessagesViewModel.self)
     }
 
 }

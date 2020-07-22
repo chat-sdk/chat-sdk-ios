@@ -35,10 +35,11 @@ import LoremIpsum
         tableView.keepInsets.equal = 0
 
         tableView.delegate = self
-        tableView.dataSource = model
 
         tableView.rowHeight = UITableView.automaticDimension
-
+        
+        // Hide the dividers between cells
+        tableView.separatorColor = .clear
                 
     }
     
@@ -47,15 +48,15 @@ import LoremIpsum
         assert(self.model == nil, "The model can't be set more than once")
         
         self.model = model
-        
+
+        tableView.dataSource = model
         tableView.estimatedRowHeight = model.estimatedRowHeight()
 
         for registration in model.messageCellRegistrations() {
-            tableView.register(registration.nib(), forCellReuseIdentifier: registration.identifier)
+            tableView.register(registration.nib(direction: .incoming), forCellReuseIdentifier: registration.identifier(direction: .incoming))
+            tableView.register(registration.nib(direction: .outgoing), forCellReuseIdentifier: registration.identifier(direction: .outgoing))
         }
 
     }
-
-
     
 }

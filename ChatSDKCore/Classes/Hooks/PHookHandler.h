@@ -36,6 +36,7 @@
 
 #define bHookMessageWillBeDeleted @"bHookMessageWillBeDeleted"
 #define bHookMessageWasDeleted @"bHookMessageWasDeleted"
+#define bHookAllMessagesDeleted @"bHookAllMessagesDeleted"
 
 #define bHookThreadAdded @"bHookThreadAdded"
 #define bHookThreadRemoved @"bHookThreadRemoved"

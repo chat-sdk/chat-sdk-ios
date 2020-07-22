@@ -51,7 +51,7 @@
     
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [weakSelf updateBadge];
-    }] withNames:@[bHookMessageRecieved, bHookMessageWasDeleted]];
+    }] withNames:@[bHookMessageRecieved, bHookMessageWasDeleted, bHookAllMessagesDeleted]];
 
     // When a message is recieved we increase the messages tab number
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationBadgeUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {

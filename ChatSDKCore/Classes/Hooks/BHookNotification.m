@@ -38,6 +38,10 @@
     [BChatSDK.hook executeHookWithName:bHookMessageWasDeleted data:@{}];
 }
 
++(void) notificationAllMessagesDeleted {
+    [BChatSDK.hook executeHookWithName:bHookAllMessagesDeleted data:@{}];
+}
+
 +(void) notificationMessageReceived: (id<PMessage>) message {
     [BChatSDK.hook executeHookWithName:bHookMessageRecieved data:@{bHook_PMessage: message}];
 }

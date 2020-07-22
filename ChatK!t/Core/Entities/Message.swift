@@ -16,5 +16,7 @@ import Foundation
     @objc func messageSender() -> User
     @objc func messageImageUrl() -> URL?
     @objc func messageMeta() -> [AnyHashable: Any]?
+    @objc func messageDirection() -> MessageDirection
+    @objc func messageReadStatus() -> MessageReadStatus
 
 }

@@ -33,6 +33,7 @@
     config.disableProfileUpdateOnAuthentication = NO;
     config.developmentModeEnabled = YES;
     config.disablePublicThreads = NO;
+    config.messageSelectionEnabled = NO;
     
 //    config.showLocalNotificationsForPublicChats = YES;
 //    config.publicChatAutoSubscriptionEnabled = YES;
@@ -43,11 +44,11 @@
 
     [BChatSDK initialize:config app:application options:launchOptions];
     
+    
+    
     // TODO: Fix Firebase UI!!!!!!!
     UIViewController * rootViewController = BChatSDK.ui.splashScreenNavigationController;
-    
-    BChatSDK.shared.interfaceAdapter = Nil;
-   
+       
     [self.window setRootViewController:rootViewController];
     
     return YES;

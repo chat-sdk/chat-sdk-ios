@@ -14,5 +14,6 @@ import Foundation
     @objc func threadImageUrl() -> URL?
     @objc func threadUsers() -> [User]
     @objc func threadMessages() -> [Message]
+    @objc func threadType() -> ThreadType
 
 }

@@ -22,5 +22,9 @@ import Foundation
     @objc public func messagesViewModel() -> MessagesViewModel {
         return _messagesViewModel
     }
+    
+    @objc public func title() -> String {
+        return thread.threadName()
+    }
 
 }

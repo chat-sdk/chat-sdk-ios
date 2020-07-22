@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(BMessageSection *) messageSectionForIndex: (NSInteger) index;
 -(void) debug;
 
+-(void) clear;
+
 @end
 
 NS_ASSUME_NONNULL_END

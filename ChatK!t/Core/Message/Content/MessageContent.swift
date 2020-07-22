@@ -9,8 +9,10 @@ import Foundation
 
 @objc public protocol MessageContent {
  
-    @objc required init()
     @objc func view() -> UIView
     @objc func bind(message: Message)
+    @objc func showBubble() -> Bool
+    @objc func bubbleCornerRadius() -> CGFloat
 
 }
+

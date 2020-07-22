@@ -10,27 +10,40 @@ import ChatSDK
 
 @objc public class CKThread: NSObject, Thread {
     
-    let thread: PThread
+    let _thread: PThread
+    
+    lazy var _threadType: ThreadType = {
+        if let type = _thread.type() {
+            if type.int32Value == bThreadTypePublicGroup.rawValue {
+                return .publicGroup
+            } else if type.int32Value == bThreadTypePrivateGroup.rawValue {
+                return .privateGroup
+            } else if type.int32Value == bThreadType1to1.rawValue {
+                return .private1to1
+            }
+        }
+        return .none
+    }()
     
     @objc public init(thread: PThread) {
-        self.thread = thread
+        _thread = thread
     }
 
-    public func threadId() -> String {
-        return thread.entityID()
+    @objc public func threadId() -> String {
+        return _thread.entityID()
     }
     
-    public func threadName() -> String {
-        return thread.name()
+    @objc public func threadName() -> String {
+        return _thread.name()
     }
     
-    public func threadImageUrl() -> URL? {
+    @objc public func threadImageUrl() -> URL? {
         return nil
     }
     
-    public func threadUsers() -> [User] {
+    @objc public func threadUsers() -> [User] {
         var users = [User]()
-        for user in thread.users() {
+        for user in _thread.users() {
             if let user = user as? PUser {
                 users.append(CKUser(user: user))
             }
@@ -38,9 +51,9 @@ import ChatSDK
         return users
     }
     
-    public func threadMessages() -> [Message] {
+    @objc public func threadMessages() -> [Message] {
         var messages = [Message]()
-        for message in thread.messagesOrderedByDateOldestFirst() {
+        for message in _thread.messagesOrderedByDateOldestFirst() {
             if let message = message as? PMessage {
                 messages.append(CKMessage(message: message))
             }
@@ -48,4 +61,7 @@ import ChatSDK
         return messages
     }
     
+    @objc public func threadType() -> ThreadType {
+        return _threadType
+    }
 }

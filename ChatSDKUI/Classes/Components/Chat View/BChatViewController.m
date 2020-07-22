@@ -116,6 +116,11 @@
         [self reloadData];
     }] withNames:@[bHookMessageWasDeleted]]];
 
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+        [_messageManager clear];
+        [self reloadData];
+    }] withNames:@[bHookAllMessagesDeleted]]];
+
     
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
                                                                       object:Nil
@@ -170,7 +175,7 @@
         return NO;
     }];
     
-    if (!self.sendBarView.text.length) {
+    if (!self.sendBarView.text.length && [_thread respondsToSelector:@selector(draft)]) {
         self.sendBarView.text = [_thread draft];
     }
 
@@ -204,7 +209,9 @@
     [super viewWillDisappear:animated];
     [self doViewWillDisappear:animated];
     
-    _thread.draft = self.sendBarView.text;
+    if ([_thread respondsToSelector:@selector(draft)]) {
+        _thread.draft = self.sendBarView.text;
+    }
     
 }
 
@@ -244,9 +251,10 @@
     if(BChatSDK.readReceipt) {
         [BChatSDK.readReceipt markRead:_thread];
     }
-    else {
-        [_thread markRead];
-    }
+//    else {
+//        [_thread markRead];
+//    }
+    [_thread markRead];
 }
 
 -(bThreadType) threadType {

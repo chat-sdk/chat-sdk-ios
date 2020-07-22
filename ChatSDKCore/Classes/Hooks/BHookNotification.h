@@ -34,6 +34,7 @@
 +(void) notificationUserOn: (id<PUser>) user;
 +(void) notificationInternetConnectivityDidChange;
 +(void) notificationUserWillDisconnect;
++(void) notificationAllMessagesDeleted;
 
 +(void) notificationThreadAdded: (id<PThread>) thread;
 +(void) notificationThreadRemoved: (id<PThread>) thread;

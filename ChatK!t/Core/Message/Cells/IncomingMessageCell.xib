@@ -16,31 +16,45 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aqo-0b-Oiv">
-                        <rect key="frame" x="60" y="8" width="297" height="44"/>
+                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Aqo-0b-Oiv">
+                        <rect key="frame" x="60" y="8" width="301" height="44"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tIx-Cw-rrm" userLabel="BubbleMask">
+                                <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" priority="250" constant="15" id="34H-RP-HDL"/>
+                                    <constraint firstAttribute="height" priority="250" constant="15" id="LRp-UW-juc"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBrownColor" red="0.63529411759999999" green="0.51764705879999995" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="tIx-Cw-rrm" firstAttribute="leading" secondItem="Aqo-0b-Oiv" secondAttribute="leading" priority="250" id="AyE-7n-kfv"/>
+                            <constraint firstItem="tIx-Cw-rrm" firstAttribute="top" secondItem="Aqo-0b-Oiv" secondAttribute="top" priority="250" id="KCG-Mj-sXk"/>
+                        </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozE-hM-nbb">
-                        <rect key="frame" x="364" y="8" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozE-hM-nbb">
+                        <rect key="frame" x="369" y="8" width="37" height="18"/>
+                        <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                        <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AEl-Nk-yAV">
-                        <rect key="frame" x="8" y="8" width="44" height="44"/>
+                        <rect key="frame" x="8" y="18" width="34" height="34"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="44" id="l6y-Bo-lxt"/>
-                            <constraint firstAttribute="height" constant="44" id="rHQ-aU-do9"/>
+                            <constraint firstAttribute="width" constant="34" id="l6y-Bo-lxt"/>
+                            <constraint firstAttribute="height" constant="34" id="rHQ-aU-do9"/>
                         </constraints>
                     </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="AEl-Nk-yAV" firstAttribute="leading" secondItem="pow-mP-MFv" secondAttribute="leading" constant="8" id="35R-ap-rwM"/>
-                    <constraint firstItem="Aqo-0b-Oiv" firstAttribute="top" secondItem="pow-mP-MFv" secondAttribute="top" constant="8" id="4ra-4T-015"/>
-                    <constraint firstItem="ozE-hM-nbb" firstAttribute="leading" secondItem="Aqo-0b-Oiv" secondAttribute="trailing" constant="7" id="9Bl-Do-vta"/>
+                    <constraint firstItem="ozE-hM-nbb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Aqo-0b-Oiv" secondAttribute="trailing" constant="8" id="9Bl-Do-vta"/>
                     <constraint firstItem="ozE-hM-nbb" firstAttribute="top" secondItem="pow-mP-MFv" secondAttribute="top" constant="8" id="Ir6-yk-TeN"/>
                     <constraint firstAttribute="bottom" secondItem="Aqo-0b-Oiv" secondAttribute="bottom" constant="8" id="KPu-og-tTV"/>
-                    <constraint firstItem="Aqo-0b-Oiv" firstAttribute="top" secondItem="pow-mP-MFv" secondAttribute="top" constant="8" id="Tlg-YF-8gl"/>
+                    <constraint firstItem="Aqo-0b-Oiv" firstAttribute="top" relation="greaterThanOrEqual" secondItem="pow-mP-MFv" secondAttribute="top" constant="8" id="Tlg-YF-8gl"/>
+                    <constraint firstItem="AEl-Nk-yAV" firstAttribute="top" relation="greaterThanOrEqual" secondItem="pow-mP-MFv" secondAttribute="top" constant="8" id="YZe-Ix-1cb"/>
                     <constraint firstAttribute="trailing" secondItem="ozE-hM-nbb" secondAttribute="trailing" constant="8" id="fOm-6Y-J0e"/>
                     <constraint firstItem="Aqo-0b-Oiv" firstAttribute="leading" secondItem="AEl-Nk-yAV" secondAttribute="trailing" constant="8" id="ilG-PC-pvL"/>
                     <constraint firstAttribute="bottom" secondItem="AEl-Nk-yAV" secondAttribute="bottom" constant="8" id="x94-p5-Hnz"/>
@@ -48,6 +62,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="avatarImageView" destination="AEl-Nk-yAV" id="NZG-pg-33B"/>
+                <outlet property="bubbleMask" destination="tIx-Cw-rrm" id="gSx-lJ-OT4"/>
                 <outlet property="contentContainerView" destination="Aqo-0b-Oiv" id="Y5T-c5-fPm"/>
                 <outlet property="timeLabel" destination="ozE-hM-nbb" id="w8e-nO-xc4"/>
             </connections>

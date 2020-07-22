@@ -20,7 +20,8 @@ import ChatSDK
     lazy var type = message.type()?.stringValue
     lazy var meta = message.meta()
     lazy var imageUrl = message.imageURL()
-    
+    lazy var direction: MessageDirection = message.senderIsMe() ? .outgoing : .incoming
+
     @objc public init(message: PMessage) {
         self.message = message
     }
@@ -52,6 +53,26 @@ import ChatSDK
     public func messageMeta() -> [AnyHashable: Any]? {
         return meta!
     }
+    
+    @objc public func messageDirection() -> MessageDirection {
+        return direction
+    }
 
+    @objc public func messageReadStatus() -> MessageReadStatus {
+        if BChatSDK.readReceipt() != nil && messageDirection() == .outgoing {
+            if let status = message.messageReadStatus?() {
+                if status == bMessageReadStatusRead {
+                    return .read
+                }
+                else if status == bMessageReadStatusDelivered {
+                    return .delivered
+                }
+                else {
+                    return .sent
+                }
+            }
+        }
+        return .none
+    }
 
 }
