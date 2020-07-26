@@ -61,19 +61,19 @@ import KeepLayout
     @objc public func keyboardWillShow(notification: Notification) {
         
         
-        guard let boundsValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {}
-        
-        
-        if let boundsValue: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-            let durationValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-            let curveValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        {
-            let bounds = self.view.convert(boundsValue.cgRectValue, to: nil)
-            
-            let keyboardRectangle = boundsValue.cgRectValue
-            let keyboardHeight = boundsValue.height
-            
-        }
+//        guard let boundsValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {}
+//
+//
+//        if let boundsValue: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+//            let durationValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+//            let curveValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+//        {
+//            let bounds = self.view.convert(boundsValue.cgRectValue, to: nil)
+//
+//            let keyboardRectangle = boundsValue.cgRectValue
+//            let keyboardHeight = boundsValue.height
+//
+//        }
     }
 
     @objc public func keyboardDidShow(notification: Notification) {

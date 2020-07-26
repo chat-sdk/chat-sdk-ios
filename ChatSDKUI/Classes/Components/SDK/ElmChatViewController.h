@@ -111,5 +111,9 @@
 -(void) keyboardWillHide: (NSNotification *) notification;
 
 -(void) setupTextInputView: (BOOL) forceSuper;
+-(void) clearSelection;
+-(void) setupChatToolbar;
+-(void) setupReplyView;
+
 
 @end

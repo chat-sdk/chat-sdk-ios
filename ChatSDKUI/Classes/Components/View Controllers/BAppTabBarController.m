@@ -95,7 +95,6 @@
         NSArray * vcs = [BChatSDK.ui tabBarViewControllers];
         NSInteger index = [vcs indexOfObject:BChatSDK.ui.privateThreadsViewController];
         
-        
         if(index != NSNotFound) {
             [self setSelectedIndex:index];
             UIViewController * chatViewController = [BChatSDK.ui chatViewControllerWithThread:thread];

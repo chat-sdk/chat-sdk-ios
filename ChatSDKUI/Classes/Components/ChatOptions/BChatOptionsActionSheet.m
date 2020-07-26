@@ -25,30 +25,39 @@
 
 -(BOOL) show {
     [_delegate hideKeyboard];
-    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:[NSBundle t:bOptions]
-                                                              delegate:self
-                                                     cancelButtonTitle:[NSBundle t:bOk]
-                                                destructiveButtonTitle:Nil
-                                                     otherButtonTitles:Nil];
     
+    // We want to create an action sheet which will allow users to choose how they add their contacts
+    UIAlertController * view = [UIAlertController alertControllerWithTitle:[NSBundle t:bOptions] message:Nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    view.popoverPresentationController.sourceView = _delegate.currentViewController.view;
+        
     if (_options.count) {
         for (BChatOption * option in _options) {
-            [actionSheet addButtonWithTitle:option.title];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:option.title
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction * action) {
+                [option execute:_delegate.currentViewController threadEntityID:_delegate.threadEntityID];
+            }];
+            [view addAction:action];
         }
-        [actionSheet showInView:_delegate.currentViewController.view];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:[NSBundle t:bCancel]
+                                                              style:UIAlertActionStyleCancel
+                                                            handler:^(UIAlertAction * action) {
+            [self dismissView];
+        }];
+        [view addAction:action];
+
+        [_delegate.currentViewController presentViewController:view animated:YES completion:nil];
     }
-    else {
-        // TODO: hide the option button
-    }
+
     return NO;
+    
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(buttonIndex) {
-        BChatOption * option = _options[buttonIndex - 1];
-        [option execute:_delegate.currentViewController threadEntityID:_delegate.threadEntityID];
-    }
+-(void) dismissView {
+    [_delegate.currentViewController dismissViewControllerAnimated:YES completion:Nil];
 }
+
 
 -(UIView *) keyboardView {
     return Nil;
@@ -62,9 +71,6 @@
     
 }
 
--(void) dismissView {
-    
-}
 
 
 @end

@@ -20,7 +20,7 @@
 
 }
 
-@property (nonatomic, readonly) id<PThread> thread;
+@property (nonatomic, readwrite) id<PThread> thread;
 @property (nonatomic, readwrite) BOOL usersViewLoaded;
 
 -(instancetype) initWithThread: (id<PThread>) thread;

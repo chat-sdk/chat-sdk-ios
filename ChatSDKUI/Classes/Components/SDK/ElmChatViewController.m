@@ -112,6 +112,7 @@
     UIPasteboard.generalPasteboard.string = copyText;
     [self.view makeToast:[NSBundle t: bCopiedToClipboard]];
 }
+
 -(void) setupChatToolbar {
     _chatToolbar = [[ChatToolbar alloc] init];
     [self.view addSubview:_chatToolbar];
@@ -149,6 +150,7 @@
     };
 
 }
+
 -(void) setupReplyView {
     _replyView = [[ReplyView alloc] init];
     [self.view addSubview:_replyView];

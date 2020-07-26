@@ -38,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        config.messageBubbleMaskFirst = "chat_bubble_right_SS.png"
 //        config.messageBubbleMaskSingle = "chat_bubble_right_S0.png"
         
+        
         BChatSDK.initialize(config, app: application, options: launchOptions)
         
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
