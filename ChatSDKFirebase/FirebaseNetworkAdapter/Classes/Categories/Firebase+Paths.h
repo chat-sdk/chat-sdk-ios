@@ -14,6 +14,8 @@
 
 
 +(FIRDatabaseReference *) firebaseRef;
++(FIRDatabaseReference *) configRef;
+
 // Users
 +(FIRDatabaseReference *) usersRef;
 +(FIRDatabaseReference *) userRef: (NSString *) firebaseID;
@@ -38,7 +40,5 @@
 // Flagged
 +(FIRDatabaseReference *) flaggedMessagesRef;
 +(FIRDatabaseReference *) flaggedRefWithMessage: (NSString *) messageID;
-
-+(FIRDatabaseReference *) onlineRef: (NSString *) userID;
 
 @end

@@ -145,12 +145,18 @@
         if (nav.viewControllers.count) {
             // Should we enable or disable local notifications? We want to show them on every tab that isn't the thread view
             BOOL showNotification = ![nav.viewControllers.firstObject isEqual:BChatSDK.ui.privateThreadsViewController] && ![nav.viewControllers.firstObject isEqual:BChatSDK.ui.publicThreadsViewController];
-            [BChatSDK.ui setShowLocalNotifications:showNotification];
+            
+            [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
+                return showNotification;
+            }];
+
             return;
         }
     }
-    [BChatSDK.ui setShowLocalNotifications:NO];
     
+    [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
+        return NO;
+    }];
 }
 
 -(void) updateBadge {
@@ -171,7 +177,7 @@
 -(int) unreadMessagesCount: (bThreadType) type {
     // Get all the threads
     int i = 0;
-    NSArray * threads = [BChatSDK.core threadsWithType:type];
+    NSArray * threads = [BChatSDK.thread threadsWithType:type];
     for (id<PThread> thread in threads) {
         for (id<PMessage> message in thread.allMessages) {
             if (!message.isRead) {
@@ -199,7 +205,7 @@
     [[NSUserDefaults standardUserDefaults] setInteger:badge forKey:bMessagesBadgeValueKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    if ([BChatSDK.shared.configuration appBadgeEnabled]) {
+    if ([BChatSDK.config appBadgeEnabled]) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
     }
 }

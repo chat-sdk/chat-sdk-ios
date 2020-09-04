@@ -1,7 +1,7 @@
 # Chat SDK
 ### Open Source Messaging framework for iOS
 
-<img target="_blank" src="http://img.chatcatapp.com/chat-sdk-hand.jpg" />
+<img target="_blank" src="https://raw.githubusercontent.com/chat-sdk/dev/master/img/hand.png" />
 
 Chat SDK is a fully featured open source instant messaging framework for iOS. Chat SDK is fully featured, scalable and flexible and follows the following key principles:
 
@@ -12,7 +12,7 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 
 <!--A demo of the project is available on the App Store.  
 
-<a target="_blank" href="https://itunes.apple.com/us/app/chatcat/id962537653?mt=8"><img src="http://www.binpress.com/uploads/store33364/itunes-app-store-logo.png" width="290" height="100" alt="App Store" /></a>
+<a target="_blank" href="https://itunes.apple.com/us/app/chatcat/id962537653?mt=8"><img src="https://raw.githubusercontent.com/chat-sdk/dev/master/img/app-store.jpg" width="290" height="100" alt="App Store" /></a>
 -->
 ## Features
 
@@ -31,7 +31,7 @@ Chat SDK is a fully featured open source instant messaging framework for iOS. Ch
 - [Native Web Version](https://github.com/chat-sdk/chat-sdk-web)
 - [Powerful flexible API](https://github.com/chat-sdk/docs)
 
-<img src="http://img.chatcatapp.com/chat-sdk-3.jpg" />
+<img src="https://raw.githubusercontent.com/chat-sdk/dev/master/img/features.png" />
 
 Full breakdown is available on the [features page](http://chatsdk.co/features/).
 
@@ -41,29 +41,6 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 - [API Documentation](https://github.com/chat-sdk/docs)
 - [Code Examples](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Xcode/ChatSDK%20Demo/ApiExamples.m)
 - [Wiki](https://github.com/chat-sdk/chat-sdk-ios/wiki)
-
-## Demo
-
-You can test the XMPP Chat SDK on the [App Store](https://itunes.apple.com/us/app/xmpp-messenger/id1218669006?ls=1&mt=8)
-
-## Performance and Scalability
-
-These are the average Firebase hosting costs calculated using the Firebase Database Profiling tool. Firebase charge 1 USD per GB of data downloaded (excluding images or files). We've tabulated a few common operations and how many of them can be performed per 1 USD of monthly hosting cost:
-
-- Messages Received (1kb) = 1,000,000
-- Logins (10kb) = 100,000
-- Profile Update (0.2kb) = 5,000,000
-- User search (2kb) = 500,000 
-
-What's possible on the Firebase free plan (10GB / month):
-
-**500k logins, 5 million messages.** 
-
-What's possible on the Flame plan (20GB / month / 20 USD):
-
-**1 million logins, 10 million messages.**
-
-The real-time database will support up to **100k concurrent users**. From our experience, 1 concurrent connection is enough to support 10 users per minute. That means that at peak capacity, the Chat SDK could support **1 million users per minute** and well over **20 million monthly users**. 
 
 ## Modules
 - [End-To-End Encryption](https://chatsdk.co/end-to-end-encryption/)
@@ -78,95 +55,44 @@ The real-time database will support up to **100k concurrent users**. From our ex
 - [Contact book integration](https://chatsdk.co/contact-book-integration/)
 - [User Blocking](http://chatsdk.co/user-blocking/)
 - [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
-- [Social Login (free)](https://github.com/chat-sdk/chat-sdk-ios#social-login)
 - [Push Notifications (free)](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
 - [File Storage (free)](https://github.com/chat-sdk/chat-sdk-ios#file-storage)
 - [Firebase UI (free)](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)
 
-## Firebase Firestore
+## About Us
 
-If you are interested in a version of the Chat SDK that supports Firebase's new database please vote on [this issue](https://github.com/chat-sdk/chat-sdk-android/issues/148) and help us meet our target on [Patreon](https://www.patreon.com/chatsdk).
+Learn about the history of Chat SDK and our future plans in [this post](https://hackmd.io/@dyR2Vn0UTFaO8tZjyiJyHw/BkBKhRO0I).
 
-## Support the project
+## Scalability and Cost
 
-We would love to work full time developing the open source. At the moment we have to spend a substantial amount of time doing other consulting work to cover our costs. If you like what we're doing and would like to support us to focus more of our time on the open source project we would be very grateful. 
+People always ask about how much Chat SDK costs to run. And will it scale to millions of users? So I wrote an article talking about [just that](https://hackmd.io/@dyR2Vn0UTFaO8tZjyiJyHw/r1LJ26d0L). 
 
-+ Support us directly on [Patreon](https://www.patreon.com/chatsdk) 🙏
-+ Giving us a Github star ⭐
-+ Upvoting our page on [Product Hunt](https://www.producthunt.com/posts/chat-sdk)
-+ Tweet about the project using [@chat_sdk](https://mobile.twitter.com/chat_sdk)
+## Community
 
-## Get involved!
++ **Discord:** If you need support, join our [Server](https://discord.gg/abT5BM4)
++ **Support the project:** [Patreon](https://www.patreon.com/chatsdk) or [Github Sponsors](https://github.com/sponsors/chat-sdk) 🙏 and get access to premium modules
++ **Upvote:** our advert on [StackOverflow](https://meta.stackoverflow.com/questions/394409/open-source-advertising-1h-2020/396154#396154)
++ **Contribute by writing code:** Email the [Contributing
+Document](https://github.com/chat-sdk/chat-sdk-ios/blob/master/CONTRIBUTING.md) to [**team@sdk.chat**](mailto:team@sdk.chat)
++ **Give us a star** on Github ⭐
++ **Upvoting us:** [Product Hunt](https://www.producthunt.com/posts/chat-sdk)
++ **Tweet:** about your Chat SDK project using [@chat_sdk](https://mobile.twitter.com/chat_sdk) 
++ **Live Stream** Join us every **Saturday 18:00 CEST for a live stream** where I answer questions about Chat SDK. For more details please join the Discord Server 
 
-We're very excited about the project and we're looking for other people to get involved. Over time we would like to make the best messaging framework for mobile. Helping us could involve any of the following:
+You can also help us by:
 
 + Providing feedback and feature requests
 + Reporting bugs
 + Fixing bugs
 + Writing documentation
-+ Improving the user interface
-+ Help us update the library to use Swift
-+ Helping to write adapters for other services such as Layer, Pusher, Pubnub etc... 
-+ Write a tutorial - **we pay $100** for quality tutorials
 
-If you're interested please review the [Contributing
-Document](https://github.com/chat-sdk/chat-sdk-ios/blob/master/CONTRIBUTING.md) for details of our development flow and the CLA then email me at [**team@sdk.chat**](mailto:team@sdk.chat).
+Email us at: [team@sdk.chat](mailto:team@sdk.chat)
 
-## Apps that use Chat SDK
-
-Here are the apps we know about that are using Chat SDK. If you've relased an app that uses the framework let us know and we'll add it to the list:
-
-+ [Parlor](http://parlor.me/)
-+ [Runbuddy](https://itunes.apple.com/us/app/run-buddy/id1050833009?mt=8)
-+ [INDX01](https://itunes.apple.com/us/app/keynote/id1265222713?mt=8)
-
-## Setup Service and consulting
-
-##### Setup Service
-
-We provide extensive documentation on Github but if you’re a non-technical user or want to save yourself some work you can take advantage of our [setup and integration service](http://chatsdk.co/downloads/chat-sdk-setup-service/).
-
-##### Consulting services
-
-We are specialists in real-time application development including: Firebase, Firestore, XMPP and WebRTC for iOS and Android. If you need help integrating the Chat SDK with your app or another app development project email us at [team@sdk.chat](mailto: team@sdk.chat). 
-
-
-
-## Updating from 4.10.x to 4.11.x
-
-The latest update brings a range of improvements and new features including:
-
-- Detailed profile screen:
-	- User status
-	- User availability
-	- Country
-- Update to message view
-	- Vastly improved lazy loading
-	- Efficiency improvements
-- Contacts
-	- Add / remove contact from contact screen 
-
-There are also a range of bug fixes and overall improvments. If we aren't able to document all the changes but if you have any issues updating your project, you can post on this [issue](https://github.com/chat-sdk/chat-sdk-ios/issues/360) and we will answer your questions. 
-
-The [security rules](firebase-rules.json) have also been updated so make sure to bring your project up to date. 	
-
-**Update the CoreData model**
-
-Make sure that the CoreData model is the latest version. This model lives in `ChatSDK/CoreData/Resources/ChatSDK.xcdatamodelId`
-	
-Several schema have also been deprecated and will be removed at some point in the future. These include:
-
-- `message/to` field added
-- `message/meta` will replace `json_v2`
-- `message/from` will replace `user-firebase-id`
-- `thread/meta` will replace `details`
-- `thread/meta/creator` will replace `creator-entity-id`
-- `thread/meta/type` will replace `type_v4`
-
-At the moment these fields are not being used and are only included for future compatibility. However, in a future version of the client, the old fields will be removed and any old versions of the client will stop working.
+We also offer development services we are a team of full stack developers who are Firebase experts.
+For more information check out our [consulting site](https://chat-sdk.github.io/hire-us/). 
 
 ## Running the demo project
-This repository contains a fully functional version of the Chat SDK which is configured using our Firebase account and social media logins. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
+This repository contains a fully functional version of the Chat SDK which is configured using our Firebase account. This is great way to test the features of the Chat SDK before you start itegrating it with your app. 
 
 1. Clone Chat SDK  
 2. Run `pod install` in the **Xcode** directory  
@@ -174,6 +100,9 @@ This repository contains a fully functional version of the Chat SDK which is con
 4. Compile and run
 
 ## Swift Version
+
+We are currently updating the Chat SDK to use Swift, this will happen gradually. In the meantime, the Chat SDK API is fully compatible with Swift projects. 
+
 The Chat SDK is fully compatible with Swift projects and contains a Swift demo project. 
 
 1. Clone Chat SDK  
@@ -194,10 +123,11 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   pod "ChatSDKFirebase/Adapter"
   pod "ChatSDKFirebase/FileStorage"
   pod "ChatSDKFirebase/Push"
-  
-  // Optional - for social login (see setup guide below)
-  
-  pod "ChatSDKFirebase/SocialLogin"
+  ```
+  _Optional_
+
+  ```
+  pod "ChatSDK/ModAddContactWithQRCode"
   ```
   
 2. Run `pod update` to get the latest version of the code.
@@ -220,6 +150,9 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   // Configure other options here...
   
   [BChatSDK initialize:config app:application options:launchOptions];
+
+  // Optional
+  [[[AddContactWithQRCodeModule alloc] init] activate];
 
   // Set the root view controller
   [self.window setRootViewController:BChatSDK.ui.splashScreenNavigationController];
@@ -262,7 +195,10 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   
   config.allowUsersToCreatePublicChats = true
   BChatSDK.initialize(config, app: application, options: launchOptions)
-        
+  
+  // Optional
+  AddContactWithQRCodeModule().activate()
+      
   self.window = UIWindow.init(frame: UIScreen.main.bounds)
   self.window?.rootViewController = BChatSDK.ui()?.splashScreenNavigationController()
   self.window?.makeKeyAndVisible();
@@ -314,9 +250,8 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
 10. Copy the following rows from the demo ChatSDK **Info.plist** file to your project's **Info.plist**  
   1. `App Transport Security Settings`
   2. `URL types`
-  3. `FacebookAppID` (If you want Facebook login)
-  4. Make sure that the URL types are all set correctly. The URL type for your app should be set to your bundle `id`
-  5. All the privacy rows. These will allow the app to access the camera, location and address book
+  3. Make sure that the URL types are all set correctly. The URL type for your app should be set to your bundle `id`
+  4. All the privacy rows. These will allow the app to access the camera, location and address book
 
 11. In the Firebase dashboard click **Authentication -> Sign-in method** and enable all the appropriate methods 
 12. Add the [security rules](https://github.com/chat-sdk/chat-sdk-ios#security-rules). The rules also enable optimized user search so this step is very important!
@@ -473,7 +408,6 @@ There are a number of free and premium extensions that can be added to the Chat 
 
 For the following modules:
 
-- [Firebase Social Login](https://github.com/chat-sdk/chat-sdk-ios#social-login) (free)
 - [Firebase UI](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui) (free)
 - [User Blocking](https://chatsdk.co/downloads/user-blocking-for-ios/)
 - [Typing indicator](http://chatsdk.co/downloads/typing-indicator/)
@@ -490,52 +424,6 @@ To install a module you should use the following steps:
 1. Copy the module code into your Xcode source code folder and add the files to your project from inside Xcode. If you are using a symlink you can use the symlink script (mentioned above) and then just add a link to the **ChatSDKFirebase** folder to Xcode.
 2. Add any necessary dependencies to your Podfile
 3. As soon as you add the module code, it will be **detected and installed automatically** by the Chat SDK.
-
-### Social Login
-
-Make sure you add the Social login pod to your `Podfile` then follow the following setup guides to enable each login type.
-
-#### Facebook
-
-1. On the [Facebook developer](https://developers.facebook.com/) site get the **App ID** and **App Secret**
-2. Go to the [Firebase Console](https://console.firebase.google.com/) and open the **Auth** section
-3. On the **Sign in method** tab, enable the **Facebook** sign-in method and specify the **App ID** and **App Secret** you got from Facebook.
-4. Then, make sure your **OAuth redirect URI** (e.g. `my-app-12345.firebaseapp.com/__/auth/handler`) is listed as one of your **OAuth redirect URIs** in your Facebook app's settings page on the Facebook for Developers site in the **Product Settings > Facebook Login** config
-5. Add your key to the ChatSDK config object:
-
-   ```
-   config.facebookAppId = @"facebook-app-id";
-   ```
-   
-6. Open `URL types -> Item 0 -> URL Schemes` and then add your AppID with "fb" at the front (e.g. fb0123456789). 
-7. Add a new item to the plist called `LSApplicationQueriesSchemes` of type `Array`. Add a new entry `fbauth2`. 
-
-#### Twitter
-
-1. [Register your app](https://apps.twitter.com/) as a developer application on Twitter and get your app's **API Key** and **API Secret**.
-2. In the [Firebase console](https://console.firebase.google.com/), open the **Auth** section.
-3. On the **Sign in method** tab, enable the **Twitter** sign-in method and specify the **API Key** and **API Secret** you got from Twitter.
-4. Then, make sure your Firebase **OAuth redirect URI** (e.g. `my-app-12345.firebaseapp.com/__/auth/handler`) is set as your **Callback URL** in your app's settings page on your [Twitter app's config](https://apps.twitter.com/).
-5. Add your keys to the Chat SDK config object:
-
-   ```
-   config.twitterApiKey = @"twitter-api-key";
-   config.twitterSecret = @"twitter-secret";
-   ```
-   
-6. Open URL types and add a new item of type `Dictionary`
-7. Add two entries `Document Role`: `Editor` and `URL Schemes`: `Array`
-8. Add your Consumer Key prefixed with `twitterkit-` as an item in the new `URL Schemes` array. e.g. `twitterkit-0123456789`
-
-#### Google
-  
-1. In the [Firebase console](https://console.firebase.google.com/), open the **Auth** section.
-2. On the **Sign in method** tab, enable the **Google** sign-in method and click **Save**.
-3. Add your Client Key to the Chat SDK config object:
-
-   ```
-   config.googleClientKey = @"google-client-key";
-   ```
   
 ### Firebase UI
 

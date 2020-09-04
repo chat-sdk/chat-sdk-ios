@@ -29,9 +29,15 @@
 }
 
 -(void) createThreadWithUsers: (NSArray *) users {
-    [BChatSDK.core createThreadWithUsers:users name:@"Name" threadCreated:^(NSError * error, id<PThread> thread) {
+    [BChatSDK.thread createThreadWithUsers:users name:@"Name" threadCreated:^(NSError * error, id<PThread> thread) {
         
     }];
+}
+
+-(id<PUser>) getUserForEntityID: (NSString *) entityID {
+    id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
+    [BChatSDK.core observeUser:user];
+    return user;
 }
 
 @end

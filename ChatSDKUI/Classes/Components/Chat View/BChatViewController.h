@@ -26,5 +26,6 @@
 -(instancetype) initWithThread: (id<PThread>) thread;
 - (void) updateSubtitle;
 -(void) updateTitle;
+-(void) doViewWillDisappear: (BOOL) animated;
 
 @end

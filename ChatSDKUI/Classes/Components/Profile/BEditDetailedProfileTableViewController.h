@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CountryPicker/CountryPicker.h>
 #import <StaticDataTableViewController/StaticDataTableViewController.h>
 
 #ifdef __IPHONE_8_0
@@ -18,7 +17,7 @@
 
 @class BDetailedProfileTableViewController;
 
-@interface BDetailedEditProfileTableViewController : StaticDataTableViewController<CountryPickerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface BDetailedEditProfileTableViewController : StaticDataTableViewController<UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     UITapGestureRecognizer * _tapRecognizer;
     id _keyboardObserver;
     float _statusTextViewHeight;
@@ -37,22 +36,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (weak, nonatomic) IBOutlet UIButton *availabilityButton;
-@property (weak, nonatomic) IBOutlet UIButton *countryButton;
 @property (weak, nonatomic) IBOutlet UIButton *profilePictureButton;
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *availabilityCell;
-
-@property (weak, nonatomic) IBOutlet CountryPicker *countryPickerView;
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *nameCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *localityCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *phoneCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;
-
-@property (weak, nonatomic) IBOutlet UITableViewCell *countryButtonCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *countryPickerCell;
-
-@property (weak, nonatomic) IBOutlet UITableViewCell *clearLocalDataCell;
-
 
 @end

@@ -8,6 +8,10 @@
 
 #import <ChatSDK/BAbstractUploadHandler.h>
 
+@class FIRStorage;
+
 @interface BFirebaseUploadHandler : BAbstractUploadHandler
+
++(FIRStorage *) storage;
 
 @end

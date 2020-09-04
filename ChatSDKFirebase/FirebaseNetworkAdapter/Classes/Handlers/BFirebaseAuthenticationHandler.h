@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import <ChatSDK/BAbstractAuthenticationHandler.h>
 
+@class RXPromise;
 @class FIRUser;
 
 @interface BFirebaseAuthenticationHandler : BAbstractAuthenticationHandler {

@@ -32,10 +32,6 @@ typedef enum {
 // Should we ask the user to allow notifications when the app initially loads up? 
 @property (nonatomic, readwrite) BOOL shouldAskForNotificationsPermission;
     
-// Background color of messages: hex value like "FFFFFF"
-@property (nonatomic, readwrite) NSString * messageColorMe;
-@property (nonatomic, readwrite) NSString * messageColorReply;
-
 // The Firebase root path. Data will be added to Firebase root/rootPath...
 // this allows you to run multiple chat instances on one Firebase database
 @property (nonatomic, readwrite) NSString * rootPath;
@@ -58,12 +54,6 @@ typedef enum {
 // User profile image
 @property (nonatomic, readwrite) NSString * defaultAvatarURL;
 
-// Which image should be used if no avatar is set
-@property (nonatomic, readwrite) UIImage * defaultBlankAvatar;
-
-// Which image should be used if no avatar is set
-@property (nonatomic, readwrite) UIImage * defaultGroupChatAvatar;
-
 @property (nonatomic, readwrite) NSString * timeFormat;
 
 // The maximum dimension for an image message
@@ -76,6 +66,8 @@ typedef enum {
 // How many historic messages should be downloaded for an empty thread
 @property (nonatomic, readwrite) int messageHistoryDownloadLimit;
 
+@property (nonatomic, readwrite) BOOL messageSelectionEnabled;
+
 // How many message deletion listeners should we add? A value of 10 would mean
 // that if any of the last 10 messages are deleted, the app would be updated
 @property (nonatomic, readwrite) int messageDeletionListenerLimit;
@@ -85,16 +77,9 @@ typedef enum {
 @property (nonatomic, readwrite) float readReceiptMaxAgeInSeconds;
 
 // Enable or disable social login options
-@property (nonatomic, readwrite) BOOL googleLoginEnabled;
-@property (nonatomic, readwrite) BOOL facebookLoginEnabled;
-@property (nonatomic, readwrite) BOOL twitterLoginEnabled;
 @property (nonatomic, readwrite) BOOL anonymousLoginEnabled;
 @property (nonatomic, readwrite) BOOL forgotPasswordEnabled;
 @property (nonatomic, readwrite) BOOL termsAndConditionsEnabled;
-
-// Twitter login credentials
-@property (nonatomic, readwrite) NSString * twitterApiKey;
-@property (nonatomic, readwrite) NSString * twitterSecret;
 
 @property (nonatomic, readwrite) NSString * xmppDomain;
 @property (nonatomic, readwrite) NSString * xmppHostAddress;
@@ -102,15 +87,17 @@ typedef enum {
 @property (nonatomic, readwrite) NSString * xmppResource;
 @property (nonatomic, readwrite) int xmppMucMessageHistory;
 @property (nonatomic, readwrite) NSString * termsOfServiceURL;
+@property (nonatomic, readwrite) BOOL xmppCustomCertEvaluation;
+
+@property (nonatomic, readwrite) BOOL xmppAdvancedConfigurationEnabled;
+
+@property (nonatomic, readwrite) BOOL messageDeletionEnabled;
 
 // The message view text input box, max lines and characters
 @property (nonatomic, readwrite) int textInputViewMaxLines;
 @property (nonatomic, readwrite) int textInputViewMaxCharacters;
 
-// Google login credentials
-@property (nonatomic, readwrite) NSString * googleClientKey;
-
-@property (nonatomic, readwrite) NSString * facebookAppId;
+@property(nonatomic, readwrite) BOOL publicChatAutoSubscriptionEnabled;
 
 // The the image to be displayed on the login screen. Image should be
 // 120x120px
@@ -161,8 +148,6 @@ typedef enum {
 
 // Message fonts
 @property (nonatomic, readwrite) UIFont * messageTextFont;
-@property (nonatomic, readwrite) NSString * messageTextColorMe;
-@property (nonatomic, readwrite) NSString * messageTextColorReply;
 
 @property (nonatomic, readwrite) UIFont * messageTimeFont;
 @property (nonatomic, readwrite) UIFont * messageNameFont;
@@ -177,6 +162,9 @@ typedef enum {
 @property (nonatomic, readwrite) int audioMessageMaxLengthSeconds;
 
 @property (nonatomic, readwrite) BOOL prefersLargeTitles;
+
+@property (nonatomic, readwrite) NSMutableDictionary * remote;
+@property (nonatomic, readwrite) BOOL remoteConfigEnabled;
 
 // The default search indexes - i.e. which user/meta values are we searching for? If you add
 // custom values remember to add the relevant indexOn values to the Firebase security rules
@@ -207,6 +195,26 @@ typedef enum {
 // If this databbase version changes, the database will be cleared and re-populated from Firebase
 @property (nonatomic, readwrite) BOOL clearDatabaseWhenDataVersionChanges;
 
+// Optimization
+
+// If this is set to true, no presence information will be sent or listened to
+@property (nonatomic, readwrite) BOOL disablePresence;
+
+// If this is set to true, then the local user profile will be neither pulled or pushed to Firbase on authentication
+@property (nonatomic, readwrite) BOOL disableProfileUpdateOnAuthentication;
+
+// In development mode the app will be more tolerant to remote database corruption. But it will use more bandwidth
+@property (nonatomic, readwrite) BOOL developmentModeEnabled;
+
+@property (nonatomic, readwrite) BOOL disablePublicThreads;
+
+// If this is true, extra data will be added to support Chat SDK web
+@property (nonatomic, readwrite) BOOL enableWebCompatibility;
+
+// If this is true, extra data will be added to support Chat SDK v4
+@property (nonatomic, readwrite) BOOL enableCompatibilityWithV4;
+
+
 // Firebase options
 
 // Should the Chat SDK call [FIRApp configure];
@@ -214,6 +222,11 @@ typedef enum {
 
 // The name of the custom Firebase Google-Services plist file
 @property (nonatomic, readwrite) NSString * firebaseGoogleServicesPlistName;
+
+@property (nonatomic, readwrite) NSString * firebaseDatabaseURL;
+@property (nonatomic, readwrite) NSString * firebaseApp;
+@property (nonatomic, readwrite) NSString * firebaseFunctionsRegion;
+@property (nonatomic, readwrite) NSString * firebaseStorageURL;
 
 // Chat SDK can auto-detect and install modules. Some modules need to a different setup
 // procedure depending on which server is being used - Firebase or XMPP. If only one
@@ -230,10 +243,12 @@ typedef enum {
 
 // Show local notifications when a message is received
 @property (nonatomic, readwrite) BOOL showLocalNotifications;
+@property (nonatomic, readwrite) BOOL showLocalNotificationsForPublicChats;
 
 // Profile Pictures
 @property (nonatomic, readwrite) BOOL profilePicturesEnabled;
-
+// Show Profil view when tap on profil Icon
+@property (nonatomic, readwrite) BOOL showProfileViewOnTap;
 // Nearby Users Module Settings
 
 // Distance bands in meters
@@ -263,5 +278,9 @@ typedef enum {
 
 -(NSValue *) messageBubbleMarginForType: (bMessageType) type;
 -(NSValue *) messageBubblePaddingForType: (bMessageType) type;
+
+-(id) remoteConfigValueForKey: (NSString *) key;
+-(void) setRemoteConfig: (NSDictionary *) dict;
+-(void) setRemoteConfigValue: (id) value forKey: (NSString *) key;
 
 @end

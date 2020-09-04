@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDK/Core.h>
-#import <ChatSDK/PAuthenticationHandler.h>
+
+@protocol PAuthenticationHandler;
 
 @interface BAbstractAuthenticationHandler : NSObject<PAuthenticationHandler> {
     BOOL _authenticatedThisSession;

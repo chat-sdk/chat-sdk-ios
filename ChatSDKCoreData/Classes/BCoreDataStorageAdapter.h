@@ -13,7 +13,7 @@
 @interface BCoreDataStorageAdapter : NSObject<PStorageAdapter> {
     NSManagedObjectContext * _moc;
     NSManagedObjectContext * _privateMoc;
-    NSManagedObjectContext * _backgrondMoc;
+//    NSManagedObjectContext * _backgroundMoc;
     NSManagedObjectModel * _model;
     NSPersistentStoreCoordinator * _store;
 }

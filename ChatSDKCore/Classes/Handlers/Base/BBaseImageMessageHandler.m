@@ -34,7 +34,7 @@
         
         [BHookNotification notificationMessageDidUpload: message];
 
-        return [BChatSDK.core sendMessage:message];
+        return [BChatSDK.thread sendMessage:message];
     }, Nil);
 
 }

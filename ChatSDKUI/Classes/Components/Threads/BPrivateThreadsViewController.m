@@ -22,7 +22,7 @@
     self = [super initWithNibName:Nil bundle:[NSBundle uiBundle]];
     if (self) {
         self.title = [NSBundle t:bConversations];
-        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_chat.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_chat"];
 
     }
     return self;
@@ -64,7 +64,7 @@
         hud.label.text = [NSBundle t:bCreatingThread];
         
         // Create group with group name
-        [BChatSDK.core createThreadWithUsers:users name:groupName threadCreated:^(NSError *error, id<PThread> thread) {
+        [BChatSDK.thread createThreadWithUsers:users name:groupName threadCreated:^(NSError *error, id<PThread> thread) {
             if (!error) {
                 [strongSelf pushChatViewControllerWithThread:thread];
             }
@@ -94,7 +94,7 @@
 
 -(void) reloadData {
     [_threads removeAllObjects];
-    [_threads addObjectsFromArray:[BChatSDK.core threadsWithType:bThreadFilterPrivateThread includeDeleted:NO]];
+    [_threads addObjectsFromArray:[BChatSDK.thread threadsWithType:bThreadFilterPrivateThread includeDeleted:NO]];
     [super reloadData];
 }
 

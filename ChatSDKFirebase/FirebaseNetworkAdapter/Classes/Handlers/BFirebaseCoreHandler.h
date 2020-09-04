@@ -8,6 +8,10 @@
 
 #import <ChatSDK/BAbstractCoreHandler.h>
 
+@class FIRApp;
+@class FIRDatabase;
+@class FIRAuth;
+
 @interface BFirebaseCoreHandler : BAbstractCoreHandler
 
 /**
@@ -19,6 +23,10 @@
  * @brief Convert a Firebase timestamp to a date object
  */
 +(NSDate *) timestampToDate: (NSNumber *) timestamp;
+
++(FIRApp *) app;
++(FIRDatabase *) database;
++(FIRAuth *) auth;
 
 
 @end

@@ -6,9 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ChatSDK/Core.h>
 
 @protocol PMessage;
+@protocol PProvider;
 
 NS_ASSUME_NONNULL_BEGIN
 

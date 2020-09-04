@@ -17,7 +17,6 @@
 #import <TOCropViewController/TOCropViewController.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/UIButton+WebCache.h>
-#import <CountryPicker/CountryPicker.h>
 #import <RXPromise/RXPromise.h>
 #import <Hakawai/Hakawai-umbrella.h>
 #import <KeepLayout/KeepLayout.h>
@@ -38,13 +37,11 @@
 
 #import <ChatSDK/BThreadCell.h>
 
-#import <ChatSDK/BProfileTableViewController.h>
 #import <ChatSDK/BChatViewController.h>
 #import <ChatSDK/BFriendsListViewController.h>
 #import <ChatSDK/BSearchIndexViewController.h>
 #import <ChatSDK/BSearchViewController.h>
 #import <ChatSDK/BLoginViewController.h>
-#import <ChatSDK/BProfileTableViewController.h>
 #import <ChatSDK/BProfilePicturesViewController.h>
 #import <ChatSDK/BPrivateThreadsViewController.h>
 #import <ChatSDK/BPublicThreadsViewController.h>
@@ -91,7 +88,6 @@
 #import <ChatSDK/BDetailedUserWrapper.h>
 #import <ChatSDK/BDetailedProfileTableViewController.h>
 #import <ChatSDK/BEditDetailedProfileTableViewController.h>
-#import <ChatSDK/BAvailabilityState.h>
 #import <ChatSDK/BUserConnectionWrapper.h>
 #import <ChatSDK/BMessageSectionDateProvider.h>
 

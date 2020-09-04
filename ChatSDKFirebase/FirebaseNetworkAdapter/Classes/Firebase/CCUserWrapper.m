@@ -75,75 +75,46 @@
         }
 
         NSString * profileURL = [provider.photoURL absoluteString];
-        if (profileURL && ![self.model.meta metaStringForKey:bUserImageURLKey]) {
-            
-            // Only do this for Twitter login
-            if ([provider.providerID isEqualToString:@"twitter.com"]) {
-                
-                // Making a call with the provider URL for Twitter returns a picture which is too small
-                // pbs.twimg.com/profile_images/429221067630972928/ABKBUS9o_normal.jpeg returns the image too small
-                // We need to return a larger picture to ensure the image is big enough - remove the _normal to return a larger image with the same url
-                // pbs.twimg.com/profile_images/429221067630972918/ABLBUS9o.jpeg returns the right sized image
-                profileURL = [profileURL stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
-            }
-            
+        if (profileURL && !_model.imageURL) {
             [self setProfilePictureWithImageURL:profileURL];
             profilePictureSet = YES;
         }
         
-        
-//        id<PUserAccount> account = [_model accountWithType:bAccountTypeFacebook];
-//        if (!account) {
-//            account = [BChatSDK.db createEntity:bUserAccountEntity];
-//            account.type = @(bAccountTypeFacebook);
-//            [_model addLinkedAccountsObject:account];
-//        }
     }
     
     // Must set name before robot image to ensure they are different
     // Must be set outside of the provider loop as anonymous logins don't user data prodivers
     if (!_model.name) {
-        _model.name = BChatSDK.shared.configuration.defaultUserName;
+        _model.name = BChatSDK.config.defaultUserName;
     }
     
-    if (!profilePictureSet && ![self.model.meta metaStringForKey:bUserImageURLKey]) {
+    if (!profilePictureSet && !_model.imageURL) {
         
         // If the user doesn't have a default profile picture then set it automatically
         UIImage * defaultImage = [self.model.defaultImage resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
         
         // Update the user
         [self.model setImage:UIImagePNGRepresentation(defaultImage)];
+        [self setIdenticon];
         
-        [self setPersonProfilePicture];
     }
+    
+    if(!self.model.availability) {
+        self.model.availability = bAvailabilityStateAvailable;
+    }
+    
 }
 
 - (RXPromise *)setProfilePictureWithImageURL: (NSString *)url {
-    
-    id<PUser> user = BChatSDK.currentUser;
-    
+        
     // Only set the user picture if they are logging on the first time
-    if (url && !user.image) {
+    [_model setImageURL:url];
+    
+    if (url && !_model.image) {
         
         return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:url]].thenOnMain(^id(UIImage * image) {
-            
             if(image) {
-                
-                [user setImage:UIImagePNGRepresentation(image)];
-                
-                if(BChatSDK.upload) {
-                    return [BChatSDK.upload uploadImage:image].thenOnMain(^id(NSDictionary * urls) {
-                        
-                        // Set the meta data
-                        [user updateMeta:@{bUserImageURLKey: urls[bImagePath]}];
-
-                        return [BChatSDK.core pushUser];
-                    }, Nil);
-                }
-                else {
-                    return [BChatSDK.core pushUser];
-                }
-                
+                [_model setImage:UIImagePNGRepresentation(image)];
             }
             return image;
         }, Nil);
@@ -152,15 +123,9 @@
     return nil;
 }
 
-- (void)setRobotProfilePicture {
-    NSString * name = [self.model.name stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString * url = [@"https://robohash.org/" stringByAppendingFormat:@"%@.png", name];
-    [self setProfilePictureWithImageURL:url];
-}
-
--(void) setPersonProfilePicture {
-    NSString * name = [self.model.name stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString * url = [@"http://flathash.com/%@.png" stringByAppendingFormat: @"%@", name];
+- (void) setIdenticon {
+    NSString * name = [self.model.entityID stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString * url = [NSString stringWithFormat: @"http://identicon.sdk.chat/%@.png", self.model.entityID];
     [self setProfilePictureWithImageURL:url];
 }
 
@@ -172,9 +137,8 @@
 }
 
 
--(RXPromise *) once {
+-(RXPromise *) once: (NSString *) token {
     
-    NSString * token = BChatSDK.auth.loginInfo[bTokenKey];
     FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
 
     return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {
@@ -182,6 +146,16 @@
         return self;
     }, Nil);
 }
+
+-(RXPromise *) dataOnce: (NSString *) token {
+    
+    FIRDatabaseReference * ref = [FIRDatabaseReference userRef:self.entityID];
+
+    return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {
+        return response;
+    }, Nil);
+}
+
 
 -(RXPromise *) on {
     
@@ -249,34 +223,40 @@
     
     RXPromise * promise = [RXPromise new];
     
-    if (((NSManagedObject *)_model).onlineOn) {
+    if (!BChatSDK.config.disablePresence) {
+        if (((NSManagedObject *)_model).onlineOn) {
+            [promise resolveWithResult:Nil];
+            return promise;
+        }
+        ((NSManagedObject *)_model).onlineOn = YES;
+        
+        FIRDatabaseReference * ref = [FIRDatabaseReference userOnlineRef:self.entityID];
+        
+        [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+            if(![snapshot.value isEqual: [NSNull null]]) {
+                self.model.online = [snapshot.value isEqualToNumber:@1] ? @(YES) : @(NO);
+            }
+            else {
+                self.model.online = @NO;
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated
+                                                                object:Nil
+                                                              userInfo:@{bNotificationUserUpdated_PUser: self.model}];
+            [promise resolveWithResult:Nil];
+        }];
+    } else {
         [promise resolveWithResult:Nil];
-        return promise;
     }
-    ((NSManagedObject *)_model).onlineOn = YES;
-    
-    FIRDatabaseReference * ref = [FIRDatabaseReference userOnlineRef:self.entityID];
-    
-    [ref observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
-        if(![snapshot.value isEqual: [NSNull null]]) {
-            self.model.online = [snapshot.value isEqualToNumber:@1] ? @(YES) : @(NO);
-        }
-        else {
-            self.model.online = @NO;
-        }
-        [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated
-                                                            object:Nil
-                                                          userInfo:@{bNotificationUserUpdated_PUser: self.model}];
-    }];
     
     return promise;
 }
 
 -(void) onlineOff {
-    
-    ((NSManagedObject *)_model).onlineOn = NO;
-    FIRDatabaseReference * userRef = [FIRDatabaseReference userOnlineRef:self.entityID];
-    [userRef removeAllObservers];
+    if (!BChatSDK.config.disablePresence) {
+        ((NSManagedObject *)_model).onlineOn = NO;
+        FIRDatabaseReference * userRef = [FIRDatabaseReference userOnlineRef:self.entityID];
+        [userRef removeAllObservers];
+    }
 }
 
 -(RXPromise *) push {
@@ -352,12 +332,15 @@
     NSString * newURL = newMeta[bUserImageURLKey];
     BOOL imageChanged = ![meta[bUserImageURLKey] isEqualToString:newURL];
     if (imageChanged && newURL && newURL.length) {
-        [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:newURL]].thenOnMain(^id(UIImage * image) {
-            if(image) {
-                [_model setImage:UIImagePNGRepresentation(image)];
-            }
-            return Nil;
-        }, Nil);
+        NSURL * url = [NSURL URLWithString:newURL];
+        if(url) {
+            [BCoreUtilities fetchImageFromURL:url].thenOnMain(^id(UIImage * image) {
+                if(image) {
+                    [_model setImage:UIImagePNGRepresentation(image)];
+                }
+                return Nil;
+            }, Nil);
+        }
     }
     
     for (NSString * key in [newMeta allKeys]) {
@@ -442,16 +425,16 @@
     [userOnlineRef setValue:@YES];
     [userOnlineRef onDisconnectSetValue:@NO];
 
-    FIRDatabaseReference * onlineRef = [FIRDatabaseReference onlineRef:self.entityID];
-    [onlineRef setValue:@{bTimeKey: [FIRServerValue timestamp],
-                          bUID: _model.entityID}];
-    
-    [onlineRef onDisconnectRemoveValue];
+//    FIRDatabaseReference * onlineRef = [FIRDatabaseReference onlineRef:self.entityID];
+//    [onlineRef setValue:@{bTimeKey: [FIRServerValue timestamp],
+//                          bUID: _model.entityID}];
+//
+//    [onlineRef onDisconnectRemoveValue];
 }
 
 -(void) goOffline {
     [[FIRDatabaseReference userOnlineRef:self.entityID] removeValue];
-    [[FIRDatabaseReference onlineRef:self.entityID] removeValue];
+//    [[FIRDatabaseReference onlineRef:self.entityID] removeValue];
 //    [userOnlineRef setValue:@NO];
 }
 

@@ -42,10 +42,6 @@
 "bErrorLoadingFriends" = "Error loading friends";
 "bInvalidSelection" = "Invalid selection";
 "bSelectAtLeastOneFriend" = "Select at least one friend";
-"bFacebook" = "Facebook";
-"bFriendsOnChatSDK" = "Facebook friends";
-"bInviteFriendsFromFacebook" = "Invite more friends";
-"bFriendsAdded_i" = "Friends added %i";
 "bErrorAddingUser_s" = "Error adding %@ to thread";
 "bSuccess" = "Success";
 "bAdded" = "Added";
@@ -197,4 +193,12 @@
 "bBusy" = "Busy";
 "bAddContact" = "Add Contact";
 
-"" = "";
+"mute" = "Mute Notifications";
+"unmute" = "Unmute Notifications";
+
+"bQRCode" = "QR Code";
+"bContact" = "Contact";
+"bImportFailed" = "Import Failed";
+"bImportKeys" = "Import Keys";
+"bExportKeys" = "Export Keys";
+"bEncryption" = "Encryption";

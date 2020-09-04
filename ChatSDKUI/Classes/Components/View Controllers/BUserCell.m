@@ -31,7 +31,7 @@
     
     //self.profileImageView.layer.borderWidth = 2;
     self.statusImageView.layer.cornerRadius = 6;
-    [self setAvailabilityLabelText:@""];
+//    [self setAvailabilityLabelText:@""];
     
     [self.profileImageView loadAvatar:user];
     
@@ -53,12 +53,14 @@
 -(void) setAvailabilityLabelText: (NSString *) availability {
     if(!availability || availability.length == 0) {
         [self.statusImageView keepVerticallyCentered];
+        self.stateLabel.text = @"";
     }
     else {
+        self.statusImageView.keepTopInset.equal = 5;
         self.statusImageView.keepBottomOffsetTo(self.stateLabel).equal = 5;
+        self.stateLabel.text = [NSBundle t:availability];
 //        self.statusImageView.keepVerticalAlignTo(self.statusImageView.superview).equal = -15;
     }
-    self.stateLabel.text = [NSBundle t:availability];
 }
 
 -(void) setAvailability: (NSString *) availability {
@@ -66,21 +68,21 @@
     if ([availability isEqualToString:bAvailabilityStateChat] || [availability isEqualToString:bAvailabilityStateAvailable]) {
         availability = bOnline;
     }
-    self.statusImageView.image = [NSBundle uiImageNamed: [NSString stringWithFormat:@"icn_16_status_%@.png", availability]];
+    self.statusImageView.image = [NSBundle uiImageNamed: [NSString stringWithFormat:@"icn_16_status_%@", availability]];
 
     [self setAvailabilityLabelText:availability];
 }
 
 -(void) setOnline {
-    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_online.png"];
+    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_online"];
 }
 
 -(void) setAway {
-    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_away.png"];
+    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_away"];
 }
 
 -(void) setOffline {
-    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_offline.png"];
+    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_offline"];
 }
 
 

@@ -22,22 +22,23 @@
 
 @synthesize statusTextView;
 @synthesize nameTextField;
-@synthesize countryPickerView;
 @synthesize localityTextField;
 @synthesize phoneTextField;
 @synthesize emailTextField;
 @synthesize availabilityButton;
 @synthesize availabilityCell;
-@synthesize countryButton;
 @synthesize profilePictureButton;
-@synthesize countryPickerCell;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     // Add the save button
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bSave] style:UIBarButtonItemStyleDone target:self action:@selector(save)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bCancel] style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if (version.majorVersion < 13) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bCancel] style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    }
     
     // The tap recognizer dismisses the keyboard when the list view is tapped
     _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
@@ -56,12 +57,6 @@
     localityTextField.text = userWrapper.locality;
     phoneTextField.text = user.phoneNumber;
     emailTextField.text = user.email;
-    
-    // Country
-    NSString * countryCode = userWrapper.country ? userWrapper.country : [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
-    
-    [countryPickerView setSelectedCountryCode:countryCode animated:NO];
-    [countryButton setTitle:countryPickerView.selectedCountryName forState:UIControlStateNormal];
     
     // Availability
     _availabilityOptions = [BAvailabilityState options];
@@ -93,7 +88,6 @@
     
     // Hide the picker cells - they are displayed when their button is pressed
     [self cell:availabilityCell setHidden:YES];
-    [self cell:countryPickerCell setHidden:YES];
 
     [self reloadDataAnimated:NO];
     
@@ -154,10 +148,6 @@
 
 #pragma mark - Table view data source
 
-- (void)countryPicker:(CountryPicker *)picker didSelectCountryWithName:(NSString *)name code:(NSString *)code {
-    [countryButton setTitle:name forState:UIControlStateNormal];
-}
-
 // returns the number of 'columns' to display.
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
@@ -172,51 +162,49 @@
     return [_availabilityOptions[row] firstObject];
 }
 
-- (IBAction)availabilityButtonPressed:(UIButton *)sender {
-    BOOL hidden = ![self cellIsHidden: availabilityCell];
-    [self cell:availabilityCell setHidden:hidden];
-    [sender setTintColor:hidden ? self.defaultButtonTintColor : [UIColor redColor]];
-    [self reloadDataAnimated:NO];
-}
-
-- (IBAction)countryButtonPressed:(UIButton *)sender {
-    BOOL hidden = ![self cellIsHidden: countryPickerCell];
-    [self cell:countryPickerCell setHidden:hidden];
-    [sender setTintColor:hidden ? self.defaultButtonTintColor : [UIColor redColor]];
-    [self reloadDataAnimated:NO];
-}
-
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     [availabilityButton setTitle:[_availabilityOptions[row] firstObject] forState:UIControlStateNormal];
 }
+
+- (IBAction)availabilityButtonPressed:(UIButton *)sender {
+    BOOL hidden = ![self cellIsHidden: availabilityCell];
+    [self cell:availabilityCell setHidden:hidden];
+    
+    if (@available(iOS 13.0, *)) {
+        [sender setTintColor:hidden ? self.defaultButtonTintColor : [UIColor systemRedColor]];
+    } else {
+        [sender setTintColor:hidden ? self.defaultButtonTintColor : [UIColor redColor]];
+    }
+    
+    [self reloadDataAnimated:NO];
+}
+
 
 -(UIColor *) defaultButtonTintColor {
     return [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
 }
 
--(void) logout {
+-(RXPromise *) logout {
 
-    //self.profileViewController.didLogout = YES;
-
+    RXPromise * promise = [RXPromise new];
     
     // Clear fields
     nameTextField.text = @"";
     localityTextField.text = @"";
     phoneTextField.text = @"";
     emailTextField.text = @"";
-
     
     [self dismissViewControllerAnimated:NO completion:^{
         // This will prevent a strange error caused because the view is still present
         // on the stack when we try to put the login screen
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            [BChatSDK.auth logout];
+            [promise resolveWithResult:[BChatSDK.auth logout]];
         });
         
     }];
     
-    //[self.navigationController popViewControllerAnimated:NO];
-    
+    return promise;
+
 }
 
 -(void) viewTapped {
@@ -263,13 +251,14 @@
     [user setStatusText: statusTextView.text];
     [user setName:nameTextField.text];
     [userWrapper setLocality:localityTextField.text];
-    [userWrapper setCountry: countryPickerView.selectedCountryCode];
     [user setPhoneNumber:phoneTextField.text];
     [user setEmail:emailTextField.text];
     [user setAvailability:[_availabilityOptions[[_availabilityPicker selectedRowInComponent:0]] lastObject]];
     if (_profileImage) {
         [user setImage:UIImageJPEGRepresentation(_profileImage, 0.5)];
     }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: user}];
 
 }
 
@@ -317,11 +306,6 @@
 
 - (IBAction)logoutButtonPressed:(id)sender {
     [self logout];
-}
-
-- (IBAction)clearLocalData:(id)sender {
-    [self logout];
-    [BChatSDK.db deleteAllData];
 }
 
 - (void)didReceiveMemoryWarning {

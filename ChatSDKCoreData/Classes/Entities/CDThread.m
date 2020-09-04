@@ -10,6 +10,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/CoreData.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @implementation CDThread
 
@@ -248,6 +249,12 @@
     [self updateMeta:@{key: [NSString safe: value]}];
 }
 
+-(void) removeMetaValueForKey: (NSString *) key {
+    NSMutableDictionary * newMeta = [NSMutableDictionary dictionaryWithDictionary:self.meta];
+    [newMeta removeObjectForKey:key];
+    self.meta = newMeta;
+}
+
 // TODO: Move this to UI module
 -(RXPromise *) imageForThread {
 
@@ -287,10 +294,10 @@
         
         // Check how many users are in the conversation
         if (self.type.intValue & bThreadFilterPublic) {
-            return BChatSDK.config.defaultGroupChatAvatar;
+            return [Icons getWithName:Icons.defaultGroup];
         }
         else {
-            return BChatSDK.config.defaultBlankAvatar;
+            return [Icons getWithName:Icons.defaultProfile];
         }
     }
     else if (users.count == 1) {
@@ -354,6 +361,20 @@
 
 -(BOOL) isEqualToEntity: (id<PEntity>) entity {
     return [self.entityID isEqualToString:entity.entityID];
+}
+
+-(BOOL) isReadOnly {
+    id readOnly = self.meta[bReadOnly];
+    if (readOnly) {
+        if([readOnly isKindOfClass:NSNumber.class]) {
+            return [readOnly boolValue];
+        }
+        // Deprecated, only for backwards compatibility
+        if([readOnly isKindOfClass:NSString.class]) {
+            return true;
+        }
+    }
+    return false;
 }
 
 @end

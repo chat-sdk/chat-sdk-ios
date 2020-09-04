@@ -1,4 +1,4 @@
-//
+ //
 //  BConfiguration.m
 //  AFNetworking
 //
@@ -11,23 +11,17 @@
 
 @implementation BConfiguration
 
-@synthesize messageColorMe;
-@synthesize messageColorReply;
 @synthesize rootPath;
 @synthesize appBadgeEnabled;
 @synthesize defaultUserNamePrefix;
 @synthesize defaultUserName = _defaultUserName;
 @synthesize showEmptyChats;
 @synthesize allowUsersToCreatePublicChats;
-@synthesize googleLoginEnabled;
-@synthesize twitterLoginEnabled;
-@synthesize facebookLoginEnabled;
 @synthesize anonymousLoginEnabled;
 @synthesize defaultServer;
 @synthesize shouldOpenChatWhenPushNotificationClicked;
 @synthesize loginUsernamePlaceholder;
 @synthesize defaultAvatarURL;
-@synthesize defaultBlankAvatar;
 @synthesize timeFormat;
 @synthesize chatMessagesToLoad;
 @synthesize messagesToLoadPerBatch;
@@ -44,15 +38,10 @@
 @synthesize enableMessageModerationTab;
 @synthesize showLocalNotifications;
 @synthesize onlySendPushToOfflineUsers;
-@synthesize twitterApiKey;
-@synthesize twitterSecret;
-@synthesize googleClientKey;
-@synthesize facebookAppId;
 @synthesize userChatInfoEnabled;
 @synthesize forgotPasswordEnabled;
 @synthesize termsAndConditionsEnabled;
 @synthesize clientPushEnabled;
-@synthesize defaultGroupChatAvatar;
 @synthesize prefersLargeTitles;
 @synthesize shouldOpenChatWhenPushNotificationClickedOnlyIfTabBarVisible;
 @synthesize showPublicThreadsUnreadMessageBadge;
@@ -60,6 +49,12 @@
 @synthesize messageDeletionListenerLimit;
 @synthesize readReceiptMaxAgeInSeconds;
 @synthesize searchIndexes;
+@synthesize showProfileViewOnTap;
+@synthesize showLocalNotificationsForPublicChats;
+@synthesize disablePresence;
+@synthesize disableProfileUpdateOnAuthentication;
+@synthesize developmentModeEnabled;
+@synthesize messageSelectionEnabled;
 
 @synthesize vibrateOnNewMessage;
 
@@ -83,6 +78,7 @@
 @synthesize xmppResource;
 @synthesize xmppHostAddress;
 @synthesize xmppMucMessageHistory;
+@synthesize xmppAdvancedConfigurationEnabled;
 
 @synthesize textInputViewMaxLines;
 @synthesize textInputViewMaxCharacters;
@@ -93,26 +89,39 @@
 @synthesize publicChatRoomLifetimeMinutes;
 @synthesize nearbyUsersMinimumLocationChangeToUpdateServer;
 
+@synthesize publicChatAutoSubscriptionEnabled;
+@synthesize remote;
+@synthesize remoteConfigEnabled;
+
+@synthesize firebaseApp;
+@synthesize firebaseStorageURL;
+@synthesize firebaseDatabaseURL;
+@synthesize firebaseFunctionsRegion;
+@synthesize enableWebCompatibility;
+@synthesize enableCompatibilityWithV4;
+
+@synthesize messageDeletionEnabled;
+
 -(instancetype) init {
     if((self = [super init])) {
         
         _messageBubbleMargin = [NSMutableDictionary new];
         _messageBubblePadding = [NSMutableDictionary new];
         
-        messageColorMe = bDefaultMessageColorMe;
-        messageColorReply = bDefaultMessageColorReply;
         rootPath = @"default";
         appBadgeEnabled = YES;
-        defaultUserNamePrefix = @"ChatSDK";
+        
+        [self setDefaultUserNamePrefix:@"ChatSDK"];
+
         showEmptyChats = YES;
         allowUsersToCreatePublicChats = NO;
+                
+        defaultAvatarURL = [NSString stringWithFormat:@"http://flathash.com/%@.png", self.defaultUserName];
         
-        defaultAvatarURL = [@"http://flathash.com/%@.png" stringByAppendingFormat: @"%@", self.defaultUserName];
-        
-        facebookLoginEnabled = YES;
-        twitterLoginEnabled = YES;
-        googleLoginEnabled = YES;
         clientPushEnabled = NO;
+        
+        remote = [NSMutableDictionary new];
+        remoteConfigEnabled = NO;
         
         timeFormat = @"HH:mm";
         
@@ -121,6 +130,7 @@
         
         shouldOpenChatWhenPushNotificationClicked = YES;
         onlySendPushToOfflineUsers = NO;
+        messageDeletionEnabled = YES;
                 
         loginUsernamePlaceholder = Nil;
         
@@ -148,21 +158,15 @@
         showUserAvatarsOn1to1Threads = YES;
         
         showLocalNotifications = YES;
+        showLocalNotificationsForPublicChats = NO;
         
         shouldAskForNotificationsPermission = YES;
-        
-        defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bCoreBundleName];
-        defaultGroupChatAvatar = [NSBundle imageNamed:bDefaultPublicGroupImage bundle:bCoreBundleName];
+        messageSelectionEnabled = YES;
+                
+        showProfileViewOnTap = YES;
         
         rootPath = [BSettingsManager firebaseRootPath];
-        
-        twitterApiKey = [BSettingsManager twitterApiKey];
-        twitterSecret = [BSettingsManager twitterSecret];
-        
-        facebookAppId = [BSettingsManager facebookAppId];
-        
-        googleClientKey = [BSettingsManager googleClientKey];
-        
+                
         anonymousLoginEnabled = [BSettingsManager anonymousLoginEnabled];
         
         userChatInfoEnabled = YES;
@@ -179,6 +183,7 @@
         [self configureXMPPFromPlist];
         
         xmppMucMessageHistory = 20;
+        xmppAdvancedConfigurationEnabled = YES;
         
         messageDeletionListenerLimit = 30;
         messageHistoryDownloadLimit = 30;
@@ -202,16 +207,35 @@
         
         showMessageAvatarAtPosition = bMessagePosLast;
         
-        messageBubbleMaskFirst = @"chat_bubble_right_0S.png";
-        messageBubbleMaskMiddle = @"chat_bubble_right_SS.png";
-        messageBubbleMaskLast = @"chat_bubble_right_ST.png";
-        messageBubbleMaskSingle = @"chat_bubble_right_0T.png";
+        messageBubbleMaskFirst = @"chat_bubble_right_0S";
+        messageBubbleMaskMiddle = @"chat_bubble_right_SS";
+        messageBubbleMaskLast = @"chat_bubble_right_ST";
+        messageBubbleMaskSingle = @"chat_bubble_right_0T";
         
         nameLabelPosition = bNameLabelPositionBottom;
         combineTimeWithNameLabel = NO;
         
+        publicChatAutoSubscriptionEnabled = NO;
+        enableWebCompatibility = NO;
+        enableCompatibilityWithV4 = YES;
+        
     }
     return self;
+}
+
+-(id) remoteConfigValueForKey: (NSString *) key {
+    return remote[key];
+}
+
+-(void) setRemoteConfig: (NSDictionary *) dict {
+    [remote removeAllObjects];
+    for (id key in dict.allKeys) {
+        remote[key] = dict[key];
+    }
+}
+
+-(void) setRemoteConfigValue: (id) value forKey: (NSString *) key {
+    remote[key] = value;
 }
 
 -(void) setDefaultUserNamePrefix:(NSString *)defaultUserNamePrefix {

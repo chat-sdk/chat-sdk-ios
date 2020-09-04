@@ -81,15 +81,19 @@
 
 -(NSMutableDictionary *) serialize {
     NSDictionary * dict = @{bType: _model.type,
-                             bJSONV2: _model.meta, // Deprecated in favour of bMeta
                              bDate: [FIRServerValue timestamp],
-                             bUserFirebaseID: _model.userModel.entityID, // Deprecated in favour of bTo
                              bReadPath: self.initialReadReceipts,
                              bMetaPath: _model.meta,
                              bFrom: _model.userModel.entityID,
                              bTo: self.getTo};
+    
+    NSMutableDictionary * mut = [NSMutableDictionary dictionaryWithDictionary:dict];
+    
+    if (BChatSDK.config.enableCompatibilityWithV4) {
+        [mut setValue:_model.userModel.entityID forKey:bUserFirebaseID];
+    }
 
-    return [NSMutableDictionary dictionaryWithDictionary:dict];
+    return mut;
 }
 
 -(NSArray<NSString *> *) getTo {
@@ -119,15 +123,7 @@
 -(RXPromise *) deserialize: (NSDictionary *) value {
     
     RXPromise * promise = [RXPromise new];
-    
-    NSDictionary * json2 = value[bJSONV2];
-    if(json2) {
-        [_model setMeta:json2];
-    }
-    else {
-        [_model setText:@""];
-    }
-    
+        
     NSNumber * messageType = value[bType];
     if (messageType) {
         _model.type = messageType;
@@ -151,21 +147,28 @@
     }
     
     // Assign this message to a user
-    NSString * userID = value[bUserFirebaseID];
+    NSString * userID = value[bFrom];
+    if(!userID && BChatSDK.config.enableCompatibilityWithV4) {
+        userID = value[bUserFirebaseID];
+    }
+
     if (userID) {
-        _model.userModel = [BChatSDK.db fetchEntityWithID:userID withType:bUserEntity];
-        if(!_model.userModel) {
+        id<PMessage>(^onComplete)(id<PUser> user) = ^id<PMessage>(id<PUser> user) {
+            _model.userModel = user;
+            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated
+                                                                object:Nil
+                                                              userInfo:@{bNotificationMessageUpdatedKeyMessage: self.model}];
+            return _model;
+        };
+        
+        id<PUser> user = [BChatSDK.db fetchEntityWithID:userID withType:bUserEntity];
+        if (!user) {
             id<PUser> user = [BChatSDK.db fetchOrCreateEntityWithID:userID withType:bUserEntity];
-            [promise resolveWithResult:[[CCUserWrapper userWithModel:user] once].thenOnMain(^id(id success) {
-                _model.userModel = user;
-                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated
-                                                                    object:Nil
-                                                                  userInfo:@{bNotificationMessageUpdatedKeyMessage: self.model}];
-                return success;
+            [promise resolveWithResult:[BChatSDK.core observeUser:user.entityID].thenOnMain(^id(id success) {
+                return onComplete(user);
             }, Nil)];
-        }
-        else {
-            [promise resolveWithResult:Nil];
+        } else {
+            [promise resolveWithResult:onComplete(user)];
         }
     }
     else {

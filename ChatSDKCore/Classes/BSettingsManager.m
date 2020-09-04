@@ -12,11 +12,8 @@
 #define bMainKey @"chat_sdk"
 
 #define bAnonymousKey @"anonymous"
-#define bFacebookKey @"facebook"
 #define bFirebaseKey @"firebase"
 #define bSettingsKey @"settings"
-#define bTwitterKey @"twitter"
-#define bGoogleKey @"google"
 #define bModules @"modules"
 
 #define bEnabledKey @"enabled"
@@ -71,24 +68,8 @@
     }
 }
 
-+(NSString *) twitterApiKey {
-    return [self string_s:@[bTwitterKey, bApiKey]];
-}
-
-+(NSString *) twitterSecret {
-    return [self string_s:@[bTwitterKey, bSecretKey]];
-}
-
-+(NSString *) googleClientKey {
-    return [self string_s:@[bGoogleKey, bClientKey]];
-}
-
 +(BOOL) anonymousLoginEnabled {
     return [[self number_s:@[bAnonymousKey, bEnabledKey]] boolValue];
-}
-
-+(NSString *) facebookAppId {
-    return [self string_s:@[bFacebookKey, bAppIDKey]];
 }
 
 +(NSString *) firebasePath {

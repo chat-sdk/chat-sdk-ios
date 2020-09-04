@@ -19,7 +19,4 @@
 -(NSString *) locality;
 -(void) setLocality: (NSString *) locality;
 
--(NSString *) country;
--(void) setCountry: (NSString *) country;
-
 @end

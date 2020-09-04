@@ -46,7 +46,7 @@
 
 -(void) sendPushNotification: (NSDictionary *) data {
     if(data) {
-        [[[FIRFunctions functions] HTTPSCallableWithName:@"pushToChannels"] callWithObject:data completion:^(FIRHTTPSCallableResult * result, NSError * error) {
+        [[[self functions] HTTPSCallableWithName:@"pushToChannels"] callWithObject:data completion:^(FIRHTTPSCallableResult * result, NSError * error) {
             if (error) {
                 if (error.domain == FIRFunctionsErrorDomain) {
                     FIRFunctionsErrorCode code = error.code;
@@ -60,6 +60,10 @@
             }
         }];
     }
+}
+
+-(FIRFunctions *) functions {
+    return [FIRFunctions functionsForApp:[BFirebaseCoreHandler app]];
 }
 
 

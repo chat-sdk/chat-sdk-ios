@@ -42,10 +42,6 @@
 "bErrorLoadingFriends" = "Errore nel caricamento degli amici";
 "bInvalidSelection" = "Selezione non valida";
 "bSelectAtLeastOneFriend" = "Seleziona almeno un amico";
-"bFacebook" = "Facebook";
-"bFriendsOnChatSDK" = "Amici di Facebook";
-"bInviteFriendsFromFacebook" = "Invita altri amici";
-"bFriendsAdded_i" = "%i amici aggiunti";
 "bErrorAddingUser_s" = "Errore nell'aggiunta di %@ alla chat";
 "bSuccess" = "Completato";
 "bAdded" = "Aggiunto";

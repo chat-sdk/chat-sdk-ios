@@ -42,10 +42,6 @@
 "bErrorLoadingFriends" = "أنا لا أجد أصدقائك";
 "bInvalidSelection" = "لا يمكنك اختيار هذا";
 "bSelectAtLeastOneFriend" = "اختر صديق واحد على الأقل";
-"bFacebook" = "الفيسبوك";
-"bFriendsOnChatSDK" = "أصدقاء الفيسبوك";
-"bInviteFriendsFromFacebook" = "دعوة الناس";
-"bFriendsAdded_i" = "%i :عدد المستخدمين المضافة";
 "bErrorAddingUser_s" = "أحصل على أن٪ @ لا تتم إضافة";
 "bSuccess" = " نجاح";
 "bAdded" = "الاضافة";

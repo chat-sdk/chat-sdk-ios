@@ -42,10 +42,6 @@
 "bErrorLoadingFriends" = "加载好友列表错误";
 "bInvalidSelection" = "无效的选择";
 "bSelectAtLeastOneFriend" = "你给我至少选一个好友啊";
-"bFacebook" = "脸书";
-"bFriendsOnChatSDK" = "脸书好友";
-"bInviteFriendsFromFacebook" = "邀请你的小伙伴们一起来玩啊";
-"bFriendsAdded_i" = "好友已添加";
 "bErrorAddingUser_s" = "无法添加 %@ 至会话";
 "bSuccess" = "成功";
 "bAdded" = "已添加";

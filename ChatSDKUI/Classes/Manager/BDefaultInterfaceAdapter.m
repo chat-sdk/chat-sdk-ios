@@ -12,6 +12,7 @@
 #import <ChatSDK/UI.h>
 #import <ChatSDK/BChatViewController.h>
 #import <ChatSDK/BChatOptionDelegate.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 #define bControllerKey @"bControllerKey"
 #define bControllerNameKey @"bControllerNameKey"
@@ -21,6 +22,7 @@
 
 @synthesize privateThreadsViewController = _privateThreadsViewController;
 @synthesize publicThreadsViewController = _publicThreadsViewController;
+@synthesize showLocalNotification;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -37,6 +39,8 @@
         
         // Setup default providers
         [self setProvider:[BMessageSectionDateProvider new] forName:bMessageSectionDateProvider];
+        
+
     }
     return self;
 }
@@ -87,6 +91,13 @@
         _flaggedMessagesViewController = [[BFlaggedMessagesViewController alloc] init];
     }
     return _flaggedMessagesViewController;
+}
+
+-(UIViewController *) profileOptionsViewControllerWithUser: (id<PUser>) user {
+    if (_profileOptionsViewController) {
+        return _profileOptionsViewController(user);
+    }
+    return [[ProfileOptionsViewController alloc] initWithUser:user];
 }
 
 -(UIViewController *) contactsViewController {
@@ -167,6 +178,10 @@
                                                              self.publicThreadsViewController,
                                                              self.contactsViewController,
                                                              [self profileViewControllerWithUser: Nil]]];
+    
+    if (BChatSDK.config.disablePublicThreads) {
+        [dict removeObject:self.publicThreadsViewController];
+    }
     
     if(BChatSDK.config.enableMessageModerationTab) {
         [dict addObject: self.flaggedMessagesViewController];
@@ -350,12 +365,13 @@
     return [[BTextInputView alloc] initWithFrame:CGRectZero];
 }
 
--(BOOL) showLocalNotification: (id) notification {
-    return _showLocalNotifications && BChatSDK.config.showLocalNotifications;
-}
-
--(void) setShowLocalNotifications: (BOOL) show {
-    _showLocalNotifications = show;
+-(BOOL) showLocalNotification: (id<PThread>) thread {
+    if (BChatSDK.config.showLocalNotifications) {
+        if (showLocalNotification) {
+            return showLocalNotification(thread);
+        }
+    }
+    return NO;
 }
 
 -(UIViewController *) searchIndexViewControllerWithIndexes: (NSArray *) indexes withCallback: (void(^)(NSArray * index)) callback {
@@ -400,6 +416,10 @@
         _loginViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
     }
     return _loginViewController;
+}
+
+-(void) setLocalNotificationHandler:(BOOL(^)(id<PThread>)) handler {
+    showLocalNotification = handler;
 }
 
 @end

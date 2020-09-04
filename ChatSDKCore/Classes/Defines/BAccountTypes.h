@@ -11,11 +11,7 @@
 
 typedef enum {
     bAccountTypeUsername = 1,
-    bAccountTypeFacebook = 2,
-    bAccountTypeTwitter = 3,
-    //    bAccountTypeGithub = -1,
     bAccountTypeAnonymous = 4,
-    bAccountTypeGoogle = 5,
     bAccountTypeCustom = 6,
     bAccountTypeRegister = 99,
 } bAccountType;

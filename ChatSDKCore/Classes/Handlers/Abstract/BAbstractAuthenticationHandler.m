@@ -15,15 +15,6 @@
     NSString * key = @"";
     
     switch (accountType) {
-        case bAccountTypeFacebook:
-            key = BChatSDK.config.facebookAppId;
-            return key.length && BChatSDK.socialLogin && BChatSDK.shared.configuration.facebookLoginEnabled;
-        case bAccountTypeTwitter:
-            key = BChatSDK.config.twitterApiKey;
-            return key.length && BChatSDK.socialLogin && BChatSDK.shared.configuration.twitterLoginEnabled;
-        case bAccountTypeGoogle:
-            key = BChatSDK.config.googleClientKey;
-            return key.length && BChatSDK.shared.configuration.googleLoginEnabled && BChatSDK.socialLogin;
         case bAccountTypeAnonymous:
             return BChatSDK.config.anonymousLoginEnabled;
         default:
@@ -43,15 +34,6 @@
 -(RXPromise *) authenticateWithDictionary:(NSDictionary *)details {
     BAccountDetails * accountDetails;
     switch ([details[bLoginTypeKey] intValue]) {
-        case bAccountTypeFacebook:
-            accountDetails = [BAccountDetails facebook];
-            break;
-        case bAccountTypeTwitter:
-            accountDetails = [BAccountDetails twitter];
-            break;
-        case bAccountTypeGoogle:
-            accountDetails = [BAccountDetails google];
-            break;
         case bAccountTypeUsername:
             accountDetails = [BAccountDetails username: details[bLoginEmailKey] password:details[bLoginPasswordKey]];
             break;
@@ -142,6 +124,10 @@
 
 - (RXPromise *)resetPasswordWithCredential:(NSString *)credential {
     assert(NO);
+}
+
+-(BOOL) cachedCredentialAvailable {
+    return NO;
 }
 
 @end

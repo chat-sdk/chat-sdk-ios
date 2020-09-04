@@ -9,6 +9,8 @@
 #import "BProfilePicturesViewController.h"
 
 #import <ChatSDK/UI.h>
+#import <ChatSDK/Core.h>
+
 #import "BProfilePicturesHelper.h"
 
 #define pictureCellIdentifier @"PictureCell"
@@ -29,8 +31,11 @@
     [super viewDidLoad];
 
     self.title = [NSBundle t: bProfilePictures];
-    self.collectionView.backgroundColor = UIColor.whiteColor;
-
+    
+    if (@available(iOS 13.0, *)) {
+        self.collectionView.backgroundColor = [UIColor systemBackgroundColor];
+    } 
+    
     if (!_user) {
         [self.navigationController popViewControllerAnimated:YES];
         return;
@@ -189,6 +194,8 @@
     if (indexPath == nil) return;
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    alert.popoverPresentationController.sourceView = self.view;
+    alert.popoverPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2, self.view.bounds.size.width / 2, 0, 0);
 
     [alert addAction:[UIAlertAction actionWithTitle:[NSBundle t:bCancel] style:UIAlertActionStyleCancel handler:nil]];
     

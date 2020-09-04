@@ -8,10 +8,6 @@
 
 @class RXPromise;
 
-// TODO: Make these triangular brackets
-//#import "BChatState.h"
-//#import "BSubscriptionType.h"
-
 @protocol PCoreHandler;
 @protocol PPushHandler;
 @protocol PUploadHandler;
@@ -31,12 +27,12 @@
 @protocol PReadReceiptHandler;
 @protocol PStickerMessageHandler;
 @protocol PFileMessageHandler;
-@protocol PSocialLoginHandler;
 @protocol PHookHandler;
 @protocol PUsersHandler;
 @protocol PEncryptionHandler;
 @protocol PInternetConnectivityHandler;
 @protocol PEventHandler;
+@protocol PThreadHandler;
 
 // Depricated: Use bHookDidLogout (and hook system) instead
 #define bNotificationLogout @"bNLogout"
@@ -102,12 +98,12 @@
 -(id<PReadReceiptHandler>) readReceipt;
 -(id<PStickerMessageHandler>) stickerMessage;
 -(id<PFileMessageHandler>) fileMessage;
--(id<PSocialLoginHandler>) socialLogin;
 -(id<PHookHandler>) hook;
 -(id<PUsersHandler>) users;
 -(id<PInternetConnectivityHandler>) connectivity;
 -(id<PEncryptionHandler>) encryption;
 -(id<PEventHandler>) event;
+-(id<PThreadHandler>) thread;
 -(id) handlerWithName: (NSString *) name;
 
 -(void) setCore: (id<PCoreHandler>) core;
@@ -129,12 +125,12 @@
 -(void) setReadReceipt: (id<PReadReceiptHandler>) readReceipt;
 -(void) setStickerMessage: (id<PStickerMessageHandler>) stickerMessage;
 -(void) setFileMessage: (id<PFileMessageHandler>) fileMessage;
--(void) setSocialLogin: (id<PSocialLoginHandler>) socialLogin;
 -(void) setHandler: (id) handler withName: (NSString *) name;
 -(void) setHookHandler: (id<PHookHandler>) hook;
 -(void) setUsers: (id<PUsersHandler>) users;
 -(void) setEncryption: (id<PEncryptionHandler>) encryption;
 -(void) setEvent: (id<PEventHandler>) event;
+-(void) setThread: (id<PThreadHandler>) thread;
 -(void) setConnectivity: (id<PInternetConnectivityHandler>) connectivity;
 
 @end

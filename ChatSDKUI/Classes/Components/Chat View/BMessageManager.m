@@ -41,6 +41,7 @@
     } else {
         return Nil;
     }
+    
 }
 
 -(NSIndexPath *) indexPathForMessage: (id<PMessage>) message {

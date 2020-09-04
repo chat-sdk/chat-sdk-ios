@@ -11,7 +11,7 @@
 
 @class BMapViewWrapper;
 
-@interface BLocationCell : BMessageCell<BMessageDelegate>
+@interface BLocationCell : BMessageCell
 
 @property (nonatomic, readwrite) BMapViewWrapper * map;
 @property (nonatomic, readwrite) UIImageView * mapImageView;

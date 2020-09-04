@@ -104,6 +104,9 @@ typedef enum {
 -(void) setMeta: (NSDictionary *) meta;
 -(NSDictionary *) meta;
 -(void) setMetaValue: (id) value forKey: (NSString *) key;
+-(void) removeMetaValueForKey: (NSString *) key;
+
+-(BOOL) isReadOnly;
 
 @end
 

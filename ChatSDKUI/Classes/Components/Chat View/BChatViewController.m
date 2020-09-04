@@ -47,6 +47,10 @@
     [self setMessages:messages scrollToBottom:NO animate:NO force: YES];
 }
 
+-(void) traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [self reloadData];
+}
+
 -(void) updateSubtitle {
     
     if (BChatSDK.config.userChatInfoEnabled) {
@@ -71,6 +75,7 @@
 
 -(void) addObservers {
     [super addObservers];
+    
     
     id<PUser> currentUserModel = BChatSDK.currentUser;
     
@@ -160,7 +165,10 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [BChatSDK.ui setShowLocalNotifications:NO];
+    
+    [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
+        return NO;
+    }];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -172,22 +180,31 @@
     
 }
 
+-(void) setupTextInputView: (BOOL) forceSuper {
+    if (!_thread.isReadOnly || forceSuper) {
+        [super setupTextInputView: forceSuper];
+    }
+}
+
 -(void) addUserToPublicThreadIfNecessary {
     // For public threads we add the user when we view the thread
     // TODO: This is called multiple times... maybe move it to view did load
     if (_thread.type.intValue & bThreadFilterPublic) {
         id<PUser> user = BChatSDK.currentUser;
-        [BChatSDK.core addUsers:@[user] toThread:_thread];
+        [BChatSDK.thread addUsers:@[user] toThread:_thread];
     }
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
+    [self doViewWillDisappear:animated];
+}
+
+-(void) doViewWillDisappear: (BOOL) animated {
     // Remove the user from the thread
-    if (_thread.type.intValue & bThreadFilterPublic && !_usersViewLoaded) {
+    if (_thread.type.intValue & bThreadFilterPublic && (!BChatSDK.config.publicChatAutoSubscriptionEnabled || [_thread.meta valueForKey:bMute]) && !_usersViewLoaded) {
         id<PUser> currentUser = BChatSDK.currentUser;
-        [BChatSDK.core removeUsers:@[currentUser] fromThread:_thread];
+        [BChatSDK.thread removeUsers:@[currentUser] fromThread:_thread];
     }
 }
 
@@ -212,7 +229,7 @@
 // You can pull more messages from the server and add them to the thread object
 -(RXPromise *) loadMoreMessages {
     id<PMessage> oldestMessage = _messageManager.oldestMessage;
-    return [BChatSDK.core loadMoreMessagesFromDate:oldestMessage ? oldestMessage.date : Nil forThread:_thread];
+    return [BChatSDK.thread loadMoreMessagesFromDate:oldestMessage ? oldestMessage.date : Nil forThread:_thread];
 }
 
 -(void) markRead {

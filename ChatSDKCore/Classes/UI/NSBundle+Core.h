@@ -37,9 +37,6 @@
 #define bInvalidSelection @"bInvalidSelection"
 #define bSelectAtLeastOneFriend @"bSelectAtLeastOneFriend"
 
-#define bInviteFriendsFromFacebook @"bInviteFriendsFromFacebook"
-#define bFriendsAdded_i @"bFriendsAdded_i"
-
 #define bSuccess @"bSuccess"
 #define bAdded @"bAdded"
 
@@ -100,7 +97,7 @@
 #define bInviteContact @"bInviteContact"
 #define bInviteBySMS @"bInviteBySMS"
 
-#define bTo @"bTo"
+//#define bTo @"bTo"
 #define bEnterNamesHere @"bEnterNamesHere"
 #define bSearchedContacts @"bSearchedContacts"
 #define bNearbyContacts @"bNearbyContacts"
@@ -189,6 +186,13 @@
 #define bAway @"bAway"
 #define bExtendedAway @"bExtendedAway"
 #define bBusy @"bBusy"
+
+#define bQRCode @"bQRCode"
+#define bContact @"bContact"
+#define bImportFailed @"bImportFailed"
+#define bImportKeys @"bImportKeys"
+#define bExportKeys @"bExportKeys"
+#define bEncryption @"bEncryption"
 
 @protocol PMessage;
 

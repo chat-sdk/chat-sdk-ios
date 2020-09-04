@@ -24,6 +24,10 @@
 @class BFriendsListViewController;
 @class BChatOption;
 @class BTextInputView;
+@class BLocalNotificationHandler;
+
+typedef UIViewController * (^UserProvider) (id<PUser> user);
+typedef BChatViewController * (^ChatProvider) (id<PThread> thread);
 
 @protocol PInterfaceAdapter <NSObject>
 
@@ -36,11 +40,14 @@
 -(void) setContactsViewController: (UIViewController *) controller;
 -(UIViewController *) contactsViewController;
 
--(void) setProfileViewController: (UIViewController * (^)(id<PUser> user)) provider;
+-(void) setProfileViewController: (UserProvider) provider;
 -(UIViewController *) profileViewControllerWithUser: (id<PUser>) user;
 
--(void) setProfilePicturesViewController: (UIViewController * (^)(id<PUser> user)) provider;
+-(void) setProfilePicturesViewController: (UserProvider) provider;
 -(UIViewController *) profilePicturesViewControllerWithUser: (id<PUser>) user;
+
+-(void) setProfileOptionsViewController: (UserProvider) provider;
+-(UIViewController *) profileOptionsViewControllerWithUser: (id<PUser>) user;
 
 /**
  * @deprecated Use mainViewController method instead
@@ -64,7 +71,7 @@
 -(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action;
 -(UINavigationController *) friendsNavigationControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action;
 
--(void) setChatViewController: (BChatViewController * (^)(id<PThread> thread)) provider;
+-(void) setChatViewController: (ChatProvider) provider;
 -(UIViewController *) chatViewControllerWithThread: (id<PThread>) thread;
 
 -(NSArray *) defaultTabBarViewControllers;
@@ -100,8 +107,8 @@
 
 -(UIColor *) colorForName: (NSString *) name;
 
--(BOOL) showLocalNotification: (id) notification;
--(void) setShowLocalNotifications: (BOOL) shouldShow;
+-(BOOL) showLocalNotification: (id<PThread>) thread;
+-(void) setLocalNotificationHandler:(BOOL(^)(id<PThread>)) handler;
 
 -(void) setImageViewController: (UIViewController *) controller;
 -(UIViewController<PImageViewController> *) imageViewController;

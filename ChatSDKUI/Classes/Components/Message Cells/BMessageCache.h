@@ -17,7 +17,7 @@
 
 +(BMessageCache *) sharedCache;
 
--(UIImage *) bubbleForMessage: (id<PElmMessage>) message withColorWeight: (float) weight ;
+-(UIImage *) bubbleForMessage: (id<PElmMessage>) message isSelected: (BOOL) selected;
 
 
 @end

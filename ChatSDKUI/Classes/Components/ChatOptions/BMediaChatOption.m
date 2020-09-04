@@ -25,16 +25,16 @@
     NSString * image;
     switch (_type) {
         case bPictureTypeAlbumImage:
-            image = @"icn_60_gallery.png";
+            image = @"icn_60_gallery";
             break;
         case bPictureTypeAlbumVideo:
-            image = @"icn_60_video_clip.png";
+            image = @"icn_60_video_clip";
             break;
         case bPictureTypeCameraImage:
-            image = @"icn_60_camera.png";
+            image = @"icn_60_camera";
             break;
         case bPictureTypeCameraVideo:
-            image = @"icn_60_camera.png";
+            image = @"icn_60_camera";
             break;
     }
 

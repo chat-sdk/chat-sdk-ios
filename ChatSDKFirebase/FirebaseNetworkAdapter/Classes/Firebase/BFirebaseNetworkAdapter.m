@@ -21,16 +21,19 @@
                 plist = [plist stringByReplacingOccurrencesOfString:@".plist" withString:@""];
                 NSString * path = [[NSBundle mainBundle] pathForResource:plist ofType:@"plist"];
                 FIROptions * options = [[FIROptions alloc] initWithContentsOfFile:path];
-                [FIRApp configureWithOptions:options];
-                [FIRDatabase database].persistenceEnabled = YES;
+                                
+                if (BChatSDK.config.firebaseApp) {
+                    [FIRApp configureWithName:BChatSDK.config.firebaseApp options:options];
+                } else {
+                    [FIRApp configureWithOptions:options];
+                }
             }
             else {
                 [FIRApp configure];
             }
-            
-        
         }
-        
+        [FIRDatabase database].persistenceEnabled = YES;
+
         self.core = [[BFirebaseCoreHandler alloc] init];
         self.auth = [[BFirebaseAuthenticationHandler alloc] init];
         self.search = [[BFirebaseSearchHandler alloc] init];
@@ -40,6 +43,7 @@
         self.users = [[BFirebaseUsersHandler alloc] init];
         self.contact = [[BFirebaseContactHandler alloc] init];
         self.event = [[BFirebaseEventHandler alloc] init];
+        self.thread = [[BFirebaseThreadHandler alloc] init];
 
     }
     return self;

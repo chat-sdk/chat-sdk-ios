@@ -32,24 +32,6 @@
     return details;
 }
 
-+(instancetype) facebook {
-    BAccountDetails * details = [self new];
-    details.type = bAccountTypeFacebook;
-    return details;
-}
-
-+(instancetype) twitter {
-    BAccountDetails * details = [self new];
-    details.type = bAccountTypeTwitter;
-    return details;
-}
-
-+(instancetype) google {
-    BAccountDetails * details = [self new];
-    details.type = bAccountTypeGoogle;
-    return details;
-}
-
 +(instancetype) anonymous {
     BAccountDetails * details = [self new];
     details.type = bAccountTypeAnonymous;

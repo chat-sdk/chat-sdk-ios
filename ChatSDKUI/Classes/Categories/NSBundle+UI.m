@@ -8,15 +8,18 @@
 
 #import "NSBundle+UI.h"
 #import <ChatSDK/UI.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @implementation NSBundle (ChatUI)
 
 +(NSBundle *) uiBundle {
-    return [NSBundle bundleWithName:bUIBundleName];
+    return BChatSDK.shared.bundle;
+//    return [NSBundle bundleWithName:bUIBundleName];
 }
 
 +(UIImage *) uiImageNamed: (NSString *) name {
-    return [NSBundle imageNamed:name bundle:bUIBundleName];
+    return [Icons getWithName:name];
+//    return [NSBundle imageNamed:name bundle:bUIBundleName];
 }
 
 @end
