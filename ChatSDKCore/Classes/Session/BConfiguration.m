@@ -63,6 +63,7 @@
 @synthesize messageBubbleMaskMiddle;
 @synthesize messageBubbleMaskLast;
 @synthesize messageBubbleMaskSingle;
+@synthesize hideNameLabel;
 @synthesize nameLabelPosition;
 @synthesize combineTimeWithNameLabel;
 
