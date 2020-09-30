@@ -37,7 +37,7 @@
             return bServerXMPP;
         }
     }
-    return BChatSDK.shared.configuration.defaultServer;
+    return BChatSDK.config.defaultServer;
 }
 
 -(void) activateModulesForFirebase {
@@ -60,7 +60,7 @@
     [self activateModuleForName:@"BFileMessageModule"];
     [self activateModuleForName:@"BDiagnosticModule"];
     [self activateModuleForName:@"BContactBookModule"];
-    [self activateModuleForName:@"ChatSDKModulesSwift.EncryptionModule"];
+//    [self activateModuleForName:@"EncryptionModule"];
     [self activateModuleForName:@"BKeyboardOverlayOptionsModule"];
 }
 
@@ -74,6 +74,7 @@
     }
     if([server isEqualToString:bServerXMPP]) {
         [self activateModuleForName:@"BXMPPModule"];
+//        [self activateModuleForName:@"BXMPPModule"];
     }
     
     [self activateModuleForName:@"BCoreDataStorageModule"];

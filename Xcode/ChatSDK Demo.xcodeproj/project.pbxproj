@@ -134,7 +134,6 @@
 				AC7BD9931E0874B400C785EE /* Sources */,
 				AC7BD9941E0874B400C785EE /* Frameworks */,
 				AC7BD9951E0874B400C785EE /* Resources */,
-				B5030DB2202883D0001BF175 /* ShellScript */,
 				5DDC8470F37634FAB4DF4E8D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -216,6 +215,7 @@
 				"${BUILT_PRODUCTS_DIR}/ChatSDK/ChatSDK.framework",
 				"${BUILT_PRODUCTS_DIR}/ChatSDKKeepLayout/KeepLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
+				"${BUILT_PRODUCTS_DIR}/EFQRCode/EFQRCode.framework",
 				"${BUILT_PRODUCTS_DIR}/FrameAccessor/FrameAccessor.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -240,6 +240,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChatSDK.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeepLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EFQRCode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FrameAccessor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
@@ -262,19 +263,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		B5030DB2202883D0001BF175 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
 		};
 		BF734018FE2792AD2DEED5DA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -452,7 +440,7 @@
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "ChatSDK Demo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -469,7 +457,7 @@
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "ChatSDK Demo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

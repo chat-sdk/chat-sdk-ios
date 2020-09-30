@@ -10,13 +10,13 @@
 
 #import <ChatSDK/UI.h>
 #import <ChatSDK/Core.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @interface BLoginViewController ()
 
 @end
 
 @implementation BLoginViewController
-
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
@@ -37,20 +37,21 @@
 -(void) viewDidLoad {
     [super viewDidLoad];
     
-    // First check to see if the user is already authenticated
-//    [self showHUD: [NSBundle t:bAuthenticating]];
-//    [BChatSDK.auth authenticate].thenOnMain(^id(id success) {
-//        [self authenticationFinished];
-//        return Nil;
-//    }, ^id(NSError * error) {
-//        [self hideHUD];
-//        return Nil;
-//    });
-    
     // Localization
     self.emailField.placeholder = [NSBundle t:bEmail];
     self.passwordField.placeholder = [NSBundle t:bPassword];
+    
+    self.emailField.backgroundColor = [Colors getWithName: Colors.loginTextFieldBackgroundColor];
+    self.passwordField.backgroundColor = [Colors getWithName: Colors.loginTextFieldBackgroundColor];
+    
     [self.loginButton setTitle:[NSBundle t:bLogin] forState:UIControlStateNormal];
+
+    self.loginButton.backgroundColor = [Colors getWithName: Colors.loginButton];
+    self.registerButton.backgroundColor = [Colors getWithName: Colors.registerButton];
+    
+    self.loginButton.layer.cornerRadius = 5;
+    self.registerButton.layer.cornerRadius = 5;
+
     [self.registerButton setTitle:[NSBundle t:bRegister] forState:UIControlStateNormal];
     [self.forgotPasswordButton setTitle:[NSBundle t:bForgotPassword] forState:UIControlStateNormal];
     [self.termsAndConditionsButton setTitle:[NSBundle t:bTermsAndConditions] forState:UIControlStateNormal];

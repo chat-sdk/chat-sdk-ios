@@ -14,6 +14,7 @@
 // Providers
 #define bMessageSectionDateProvider @"BMessageSectionDateProvider"
 
+
 @class BPrivateThreadsViewController;
 @class BPublicThreadsViewController;
 @class BFlaggedMessagesViewController;
@@ -47,10 +48,12 @@
 @property (nonatomic, readwrite) UIViewController * (^searchViewController)(NSArray * usersToExclude, void(^usersAdded)(NSArray * users));
 @property (nonatomic, readwrite) UIViewController * (^searchIndexViewController)(NSArray * indexes, void(^callback)(NSArray *));
 @property (nonatomic, readwrite) BFriendsListViewController * (^friendsListViewController)(NSArray * usersToExclude, void(^onComplete)(NSArray * users, NSString * groupName));
-@property (nonatomic, readwrite) UIViewController * (^profileViewController)(id<PUser> user);
-@property (nonatomic, readwrite) UIViewController * (^profilePicturesViewController)(id<PUser> user);
+@property (nonatomic, readwrite) UserProvider profileViewController;
+@property (nonatomic, readwrite) UserProvider profileOptionsViewController;
+
+@property (nonatomic, readwrite) UserProvider profilePicturesViewController;
 @property (nonatomic, readwrite) UIViewController * termsOfServiceViewController;
-@property (nonatomic, readwrite) BChatViewController * (^chatViewController)(id<PThread> thread);
+@property (nonatomic, readwrite) ChatProvider chatViewController;
 @property (nonatomic, readwrite) UIViewController * imageViewController;
 @property (nonatomic, readwrite) UIViewController * locationViewController;
 @property (nonatomic, readwrite) UIViewController * settingsViewController;

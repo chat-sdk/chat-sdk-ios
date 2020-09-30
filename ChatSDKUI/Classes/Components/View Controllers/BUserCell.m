@@ -68,21 +68,21 @@
     if ([availability isEqualToString:bAvailabilityStateChat] || [availability isEqualToString:bAvailabilityStateAvailable]) {
         availability = bOnline;
     }
-    self.statusImageView.image = [NSBundle uiImageNamed: [NSString stringWithFormat:@"icn_16_status_%@.png", availability]];
+    self.statusImageView.image = [NSBundle uiImageNamed: [NSString stringWithFormat:@"icn_16_status_%@", availability]];
 
     [self setAvailabilityLabelText:availability];
 }
 
 -(void) setOnline {
-    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_online.png"];
+    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_online"];
 }
 
 -(void) setAway {
-    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_away.png"];
+    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_away"];
 }
 
 -(void) setOffline {
-    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_offline.png"];
+    self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_offline"];
 }
 
 

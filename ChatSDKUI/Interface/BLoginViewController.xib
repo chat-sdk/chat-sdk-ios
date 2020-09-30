@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15508"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -28,7 +29,6 @@
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Yy7-xO-WLG">
                     <rect key="frame" x="77.5" y="309.5" width="220" height="30"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="JSY-ta-Y2X"/>
                         <constraint firstAttribute="width" constant="220" id="Qkh-ZL-kCi"/>
@@ -41,7 +41,6 @@
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="pTU-Xn-wwY">
                     <rect key="frame" x="77.5" y="359.5" width="220" height="30"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="R5B-Ec-OIU"/>
                         <constraint firstAttribute="width" constant="220" id="c6x-Wq-XUm"/>
@@ -52,7 +51,7 @@
                         <outlet property="delegate" destination="-1" id="W8Z-1U-A3Q"/>
                     </connections>
                 </textField>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_120_main.png" translatesAutoresizingMaskIntoConstraints="NO" id="iqu-5d-jZf">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_120_main" translatesAutoresizingMaskIntoConstraints="NO" id="iqu-5d-jZf">
                     <rect key="frame" x="127.5" y="123.5" width="120" height="120"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="120" id="VB6-Oe-cdg"/>
@@ -65,12 +64,12 @@
                         <constraint firstAttribute="height" constant="38" id="1yU-Cm-SqJ"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="italicSystem" pointSize="20"/>
-                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="textColor" name="mediumGray"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WlM-w5-GCE">
                     <rect key="frame" x="75.5" y="407.5" width="105" height="40"/>
-                    <color key="backgroundColor" red="0.11164315789937973" green="0.57593858242034912" blue="0.85774248838424683" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" name="loginButton"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="900" constant="105" id="Wgg-mu-ZRW"/>
                         <constraint firstAttribute="height" constant="40" id="mIa-aH-mLd"/>
@@ -96,7 +95,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HeC-qI-71z">
                     <rect key="frame" x="192.5" y="407.5" width="105" height="40"/>
-                    <color key="backgroundColor" red="0.47124177217483521" green="0.7163616418838501" blue="0.21390841901302338" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" name="registerButton"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="1s0-Mc-lqV"/>
                         <constraint firstAttribute="width" priority="900" constant="105" id="qLo-Lr-SsZ"/>
@@ -116,7 +115,7 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="Forgot password">
-                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="titleColor" name="mediumGray"/>
                     </state>
                     <connections>
                         <action selector="forgotPasswordPressed:" destination="-1" eventType="touchUpInside" id="M9b-bc-6hp"/>
@@ -124,7 +123,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hre-W7-hiD">
                     <rect key="frame" x="77.5" y="462.5" width="220" height="30"/>
-                    <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="900" constant="30" id="7ka-UT-5mt"/>
                     </constraints>
@@ -137,7 +136,7 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="Yy7-xO-WLG" firstAttribute="top" secondItem="KCJ-rr-kr4" secondAttribute="bottom" priority="900" constant="20" id="1If-mk-ds0"/>
                 <constraint firstAttribute="centerX" secondItem="Yy7-xO-WLG" secondAttribute="centerX" id="DSr-aG-cOx"/>
@@ -166,6 +165,15 @@
         </view>
     </objects>
     <resources>
-        <image name="icn_120_main.png" width="120" height="120"/>
+        <image name="icn_120_main" width="120" height="120"/>
+        <namedColor name="loginButton">
+            <color red="0.2630000114440918" green="0.64200001955032349" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="mediumGray">
+            <color red="0.40700000524520874" green="0.42300000786781311" blue="0.43999999761581421" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="registerButton">
+            <color red="0.22599999606609344" green="0.78899997472763062" blue="0.4309999942779541" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

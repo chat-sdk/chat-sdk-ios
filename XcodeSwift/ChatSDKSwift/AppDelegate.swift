@@ -21,13 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let config = BConfiguration.init();
-        config.rootPath = "live_19_09"
+        config.rootPath = "pre_3"
         config.allowUsersToCreatePublicChats = false
         config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
         config.clearDatabaseWhenDataVersionChanges = true
         config.clearDataWhenRootPathChanges = true;
         config.databaseVersion = "2"
         config.loginUsernamePlaceholder = "Email"
+        config.messageSelectionEnabled = false
 
         // Uncomment this if you want the user avatar and name before the messages
 //        config.nameLabelPosition = bNameLabelPositionTop
@@ -36,16 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        config.messageBubbleMaskLast = "chat_bubble_right_S0.png"
 //        config.messageBubbleMaskFirst = "chat_bubble_right_SS.png"
 //        config.messageBubbleMaskSingle = "chat_bubble_right_S0.png"
-
-        // Twitter Setup
-        config.twitterApiKey = "Kqprq5b6bVeEfcMAGoHzUmB3I"
-        config.twitterSecret = "hPd9HCt3PLnifQFrGHJWi6pSZ5jF7kcHKXuoqB8GJpSDAlVcLq"
-        
-        // Facebook Setup
-        config.facebookAppId = "648056098576150"
-        
-        // Google Setup
-        config.googleClientKey = "1088435112418-4cm46hg39okkf0skj2h5roj1q62anmec.apps.googleusercontent.com"
         
         BChatSDK.initialize(config, app: application, options: launchOptions)
         

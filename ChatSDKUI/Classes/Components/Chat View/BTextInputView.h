@@ -10,9 +10,9 @@
 #import <ChatSDK/PSendBarDelegate.h>
 #import <ChatSDK/PSendBar.h>
 #import <ChatSDK/bChatState.h>
-#import <ChatSDK/UI.h>
 
 @class BHook;
+@class HKWTextView;
 
 @interface BTextInputView : UIView<UITextViewDelegate, PSendBar> {
     UIButton * _optionsButton;

@@ -85,7 +85,7 @@
     // Must set name before robot image to ensure they are different
     // Must be set outside of the provider loop as anonymous logins don't user data prodivers
     if (!_model.name) {
-        _model.name = BChatSDK.shared.configuration.defaultUserName;
+        _model.name = BChatSDK.config.defaultUserName;
     }
     
     if (!profilePictureSet && !_model.imageURL) {
@@ -95,10 +95,8 @@
         
         // Update the user
         [self.model setImage:UIImagePNGRepresentation(defaultImage)];
+        [self setIdenticon];
         
-        if(self.model.name) {
-            [self setPersonProfilePicture];
-        }
     }
     
     if(!self.model.availability) {
@@ -115,23 +113,8 @@
     if (url && !_model.image) {
         
         return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:url]].thenOnMain(^id(UIImage * image) {
-            
             if(image) {
-                
                 [_model setImage:UIImagePNGRepresentation(image)];
-                
-//                if(BChatSDK.upload) {
-//                    return [BChatSDK.upload uploadImage:image].thenOnMain(^id(NSDictionary * urls) {
-//
-//                        [user setImageURL:urls[bImagePath]];
-//
-//                        return [BChatSDK.core pushUser];
-//                    }, Nil);
-//                }
-//                else {
-//                    return [BChatSDK.core pushUser];
-//                }
-                
             }
             return image;
         }, Nil);
@@ -140,15 +123,9 @@
     return nil;
 }
 
-- (void)setRobotProfilePicture {
-    NSString * name = [self.model.name stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString * url = [NSString stringWithFormat: @"https://robohash.org/%@.png", name];
-    [self setProfilePictureWithImageURL:url];
-}
-
--(void) setPersonProfilePicture {
-    NSString * name = [self.model.name stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString * url = [NSString stringWithFormat: @"http://flathash.com/%@.png", name];
+- (void) setIdenticon {
+    NSString * name = [self.model.entityID stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString * url = [NSString stringWithFormat: @"http://identicon.sdk.chat/%@.png", self.model.entityID];
     [self setProfilePictureWithImageURL:url];
 }
 

@@ -46,10 +46,13 @@
     
     self.title = [NSBundle t:bDetails];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack]
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(backButtonPressed)];
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if (version.majorVersion < 13) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack]
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
+                                                                                action:@selector(backButtonPressed)];
+    }
 
     UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bSettings]
                                                                    style:UIBarButtonItemStylePlain
@@ -62,8 +65,15 @@
 //                                                                                               target:self
 //                                                                                               action:@selector(addUser)];
 //    }
+    
+    if (@available(iOS 13.0, *)) {
+        tableView.separatorColor = UIColor.systemGray2Color;
+    } else {
+        tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
+    }
+    
 
-    tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
+//    tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
     
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bUserCellIdentifier];
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bLeaveCellIdentifier];
@@ -115,8 +125,12 @@
     
     UITableViewCell * cell = [tableView_ dequeueReusableCellWithIdentifier:bCell];
     
-    cell.textLabel.textColor = [UIColor blackColor];
-    
+    if (@available(iOS 13.0, *)) {
+        cell.textLabel.textColor = [UIColor labelColor];
+    } else {
+        cell.textLabel.textColor = [UIColor blackColor];
+    }
+        
     if (indexPath.section == bParticipantsSection) {
         
         if (_users.count) {
@@ -154,7 +168,13 @@
         // Reset the image view
         cell.imageView.image = nil;
         cell.textLabel.text = [NSBundle t:bLeaveConversation];
-        cell.textLabel.textColor = [UIColor redColor];
+        
+        if (@available(iOS 13.0, *)) {
+            cell.textLabel.textColor = [UIColor systemRedColor];
+        } else {
+            cell.textLabel.textColor = [UIColor redColor];
+        }
+        
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
     }
     
@@ -165,7 +185,7 @@
     // Use initWithThread here to make sure we don't show any users already in the thread
     // Show the friends view controller
     UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
-        [BChatSDK.core addUsers:users toThread:_thread].thenOnMain(^id(id success){
+        [BChatSDK.thread addUsers:users toThread:_thread].thenOnMain(^id(id success){
             [UIView alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];
             
             [self reloadData];
@@ -193,8 +213,8 @@
     }
     if (indexPath.section == bLeaveConvoSection) {
         
-        [BChatSDK.core deleteThread:_thread];
-        [BChatSDK.core leaveThread:_thread];
+        [BChatSDK.thread deleteThread:_thread];
+        [BChatSDK.thread leaveThread:_thread];
         
         [self.navigationController dismissViewControllerAnimated:NO completion:^{
             if (self.parentNavigationController) {
@@ -280,9 +300,9 @@
 
 -(void) muteUnmuteThread {
     if (_thread.meta[bMute]) {
-        [BChatSDK.core unmuteThread:_thread];
+        [BChatSDK.thread unmuteThread:_thread];
     } else {
-        [BChatSDK.core muteThread:_thread];
+        [BChatSDK.thread muteThread:_thread];
     }
 }
 

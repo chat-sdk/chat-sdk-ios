@@ -9,6 +9,8 @@
 #import "BProfilePicturesViewController.h"
 
 #import <ChatSDK/UI.h>
+#import <ChatSDK/Core.h>
+
 #import "BProfilePicturesHelper.h"
 
 #define pictureCellIdentifier @"PictureCell"
@@ -29,8 +31,11 @@
     [super viewDidLoad];
 
     self.title = [NSBundle t: bProfilePictures];
-    self.collectionView.backgroundColor = UIColor.whiteColor;
-
+    
+    if (@available(iOS 13.0, *)) {
+        self.collectionView.backgroundColor = [UIColor systemBackgroundColor];
+    } 
+    
     if (!_user) {
         [self.navigationController popViewControllerAnimated:YES];
         return;

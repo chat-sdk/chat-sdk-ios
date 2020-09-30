@@ -11,6 +11,8 @@
 #import <ChatSDK/UI.h>
 #import <ChatSDK/Core.h>
 
+#import <ChatSDK/ChatSDK-Swift.h>
+
 @implementation BLocationCell
 
 @synthesize map;
@@ -35,15 +37,22 @@
     return self;
 }
 
--(void) setMessage: (id<PElmMessage>) message withColorWeight:(float)colorWeight {
-    [super setMessage:message withColorWeight:colorWeight];
+-(void) setMessage: (id<PElmMessage>) message isSelected: (BOOL) selected {
+    [super setMessage:message isSelected:selected];
+    
+    if (selected) {
+        [self showCheck];
+    } else {
+        [self hideCheck];
+    }
     
     self.bubbleImageView.image = Nil;
     
     float longitude = [self.message.meta[bMessageLongitude] floatValue];
     float latitude = [self.message.meta[bMessageLatitude] floatValue];
+        
     
-    [mapImageView sd_setImageWithURL:[BGoogleUtils getMapImageURL:latitude longitude:longitude width:bMaxMessageWidth height:bMaxMessageWidth]
+    [mapImageView sd_setImageWithURL:[GoogleUtils getMapImageURLWithLatitude:latitude longitude:longitude width:bMaxMessageWidth height:bMaxMessageHeight]
                     placeholderImage:Nil
                              options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
     

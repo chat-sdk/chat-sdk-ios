@@ -13,7 +13,7 @@
 @implementation BLocationChatOption
 
 -(UIImage *) icon {
-    return [NSBundle uiImageNamed:@"icn_60_location.png"];
+    return [NSBundle uiImageNamed:@"icn_60_location"];
 }
 
 -(NSString *) title {

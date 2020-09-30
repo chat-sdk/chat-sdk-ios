@@ -10,6 +10,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 
 #define bMessagePositionKey @"bMessagePositionKey"
@@ -39,7 +40,7 @@ static BMessageCache * cache;
     return self;
 }
 
--(UIImage *) bubbleForMessage: (id<PElmMessage>) message withColorWeight: (float) weight {
+-(UIImage *) bubbleForMessage: (id<PElmMessage>) message isSelected: (BOOL) selected {
     
     bMessagePos pos = [message messagePosition];
     BOOL isMine = [message senderIsMe];
@@ -60,16 +61,22 @@ static BMessageCache * cache;
             break;
     }
     
-    // Color
-    NSString * colorString = Nil;
-    if (isMine) {
-        colorString = BChatSDK.shared.configuration.messageColorMe;
+    UIColor * color = Nil;
+    if (!selected) {
+        if (isMine) {
+            color = [Colors getWithName:Colors.outcomingDefaultBubbleColor];
+        } else {
+            color = [Colors getWithName:Colors.incomingDefaultBubbleColor];
+        }
+    } else {
+        if (isMine) {
+            color = [Colors getWithName:Colors.outcomingDefaultSelectedBubbleColor];
+        } else {
+            color = [Colors getWithName:Colors.incomingDefaultSelectedBubbleColor];
+        }
     }
-    else {
-        colorString = BChatSDK.shared.configuration.messageColorReply;
-    }
-
-    NSString * imageIdentifier = [NSString stringWithFormat:@"%@%@%i%f", bubbleImageName, colorString, isMine, weight];
+    
+    NSString * imageIdentifier = [NSString stringWithFormat:@"%@%@%@", bubbleImageName, [BCoreUtilities colorToString:color], isMine ? @"Y" : @"N"];
     
     if(_messageBubbleImages[imageIdentifier]) {
         return _messageBubbleImages[imageIdentifier];
@@ -89,9 +96,7 @@ static BMessageCache * cache;
             bubbleImage = [bubbleImage stretchableImageWithLeftCapWidth:bLeftCapRight topCapHeight:bTopCap];
             
         }
-        
-        UIColor * color = [BCoreUtilities colorWithHexString:colorString withColorWeight:weight];
-        
+                        
         UIImage * image = [BMessageCell bubbleWithImage:bubbleImage withColor:color];
         
         _messageBubbleImages[imageIdentifier] = image;

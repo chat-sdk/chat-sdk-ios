@@ -28,8 +28,7 @@
 
 //+(NSString *) timeAgo: (NSDate *) date;
 
-+(UIColor*)colorWithHexString:(NSString*)hex;
-+(UIColor*)colorWithHexString:(NSString*)hex withColorWeight: (float) weight;
++(UIColor*)colorWithHexString:(NSString*) hex;
 +(NSString *) colorToString: (UIColor *) color;
 +(UIColor *) stringToColor: (NSString *) color;
 

@@ -8,6 +8,5 @@ target 'ChatSDKSwift' do
   pod "ChatSDKFirebase/Adapter"
   pod "ChatSDKFirebase/FileStorage"
   pod "ChatSDKFirebase/Push"
-  pod "ChatSDKFirebase/SocialLogin"
   
 end

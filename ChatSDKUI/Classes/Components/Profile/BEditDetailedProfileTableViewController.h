@@ -36,7 +36,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (weak, nonatomic) IBOutlet UIButton *availabilityButton;
-@property (weak, nonatomic) IBOutlet UIButton *countryButton;
 @property (weak, nonatomic) IBOutlet UIButton *profilePictureButton;
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *availabilityCell;
@@ -45,11 +44,5 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell *localityCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *phoneCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;
-
-@property (weak, nonatomic) IBOutlet UITableViewCell *countryButtonCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *countryPickerCell;
-
-@property (weak, nonatomic) IBOutlet UITableViewCell *clearLocalDataCell;
-
 
 @end

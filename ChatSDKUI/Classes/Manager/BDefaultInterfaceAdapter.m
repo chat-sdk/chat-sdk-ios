@@ -12,6 +12,7 @@
 #import <ChatSDK/UI.h>
 #import <ChatSDK/BChatViewController.h>
 #import <ChatSDK/BChatOptionDelegate.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 #define bControllerKey @"bControllerKey"
 #define bControllerNameKey @"bControllerNameKey"
@@ -38,6 +39,8 @@
         
         // Setup default providers
         [self setProvider:[BMessageSectionDateProvider new] forName:bMessageSectionDateProvider];
+        
+
     }
     return self;
 }
@@ -88,6 +91,13 @@
         _flaggedMessagesViewController = [[BFlaggedMessagesViewController alloc] init];
     }
     return _flaggedMessagesViewController;
+}
+
+-(UIViewController *) profileOptionsViewControllerWithUser: (id<PUser>) user {
+    if (_profileOptionsViewController) {
+        return _profileOptionsViewController(user);
+    }
+    return [[ProfileOptionsViewController alloc] initWithUser:user];
 }
 
 -(UIViewController *) contactsViewController {

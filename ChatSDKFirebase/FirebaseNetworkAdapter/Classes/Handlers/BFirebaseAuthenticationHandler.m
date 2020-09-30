@@ -43,6 +43,8 @@
     // Return if there is a current user authenticated
     return [FIRAuth auth].currentUser != Nil;
     //  return ref.authData != Nil && self.currentUserModel != Nil;
+    
+    
 }
 
 

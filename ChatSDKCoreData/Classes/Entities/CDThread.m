@@ -10,6 +10,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/CoreData.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @implementation CDThread
 
@@ -293,10 +294,10 @@
         
         // Check how many users are in the conversation
         if (self.type.intValue & bThreadFilterPublic) {
-            return BChatSDK.config.defaultGroupChatAvatar;
+            return [Icons getWithName:Icons.defaultGroup];
         }
         else {
-            return BChatSDK.config.defaultBlankAvatar;
+            return [Icons getWithName:Icons.defaultProfile];
         }
     }
     else if (users.count == 1) {

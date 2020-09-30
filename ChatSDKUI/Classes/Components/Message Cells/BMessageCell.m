@@ -11,6 +11,7 @@
 #import <ChatSDK/UI.h>
 #import <ChatSDK/Core.h>
 #import <ChatSDK/PElmMessage.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @implementation BMessageCell
 
@@ -49,7 +50,14 @@
             _timeLabel.font = BChatSDK.config.messageTimeFont;
         }
 
-        _timeLabel.textColor = [UIColor lightGrayColor];
+        // DM lightGrayColor
+
+        if (@available(iOS 13.0, *)) {
+            _timeLabel.textColor = [UIColor systemGray2Color];
+        } else {
+            _timeLabel.textColor = [UIColor lightGrayColor];
+        }
+
         _timeLabel.userInteractionEnabled = NO;
         
         [self.contentView addSubview:_timeLabel];
@@ -82,13 +90,13 @@
 
     switch (status) {
         case bMessageReadStatusNone:
-            imageName = @"icn_message_received.png";
+            imageName = @"icn_message_received";
             break;
         case bMessageReadStatusDelivered:
-            imageName = @"icn_message_delivered.png";
+            imageName = @"icn_message_delivered";
             break;
         case bMessageReadStatusRead:
-            imageName = @"icn_message_read.png";
+            imageName = @"icn_message_read";
             break;
         default:
             break;
@@ -102,8 +110,24 @@
     }
 }
 
--(void) setMessage: (id<PElmMessage>) message {
-    [self setMessage:message withColorWeight:1.0];
+-(void) showCheck {
+    if (!_checkImageView) {
+        _checkImageView = [[UIImageView alloc] initWithImage:[Icons getCheck]];
+        [bubbleImageView addSubview:_checkImageView];
+
+        _checkImageView.keepBottomInset.equal = 10;
+        _checkImageView.keepRightInset.equal = 10;
+        _checkImageView.keepHeight.equal = 20;
+        _checkImageView.keepWidth.equal = 20;
+    }
+    [bubbleImageView bringSubviewToFront:_checkImageView];
+    _checkImageView.hidden = NO;
+}
+
+-(void) hideCheck {
+    if(_checkImageView) {
+        _checkImageView.hidden = YES;
+    }
 }
 
 -(void) showActivityIndicator {
@@ -120,7 +144,7 @@
 }
 
 // Called to setup the current cell for the message
--(void) setMessage: (id<PElmMessage>) message withColorWeight: (float) colorWeight {
+-(void) setMessage: (id<PElmMessage>) message isSelected: (BOOL) selected {
     
     // Set the message for later use
     _message = message;
@@ -137,7 +161,7 @@
     id<PElmMessage> nextMessage = message.nextMessage;
     
     // Set the bubble to be the correct color
-    bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message withColorWeight:colorWeight];
+    bubbleImageView.image = [[BMessageCache sharedCache] bubbleForMessage:message isSelected:selected];
 
     // Hide profile pictures for 1-to-1 threads
     _profilePicture.hidden = self.profilePictureHidden;
@@ -163,7 +187,10 @@
         else {
             // If the user doesn't have a profile picture set the default profile image
             _profilePicture.image = message.userModel.defaultImage;
-            _profilePicture.backgroundColor = [UIColor whiteColor];
+            // DM whiteColor
+            if (@available(iOS 13.0, *)) {
+                _profilePicture.backgroundColor = [UIColor systemBackgroundColor];
+            } 
         }
     }
     else {
@@ -218,7 +245,7 @@
     
     // #1 Because of the text view insets we want the cellContentView of the
     // text cell to extend to the right edge of the bubble
-    BOOL isMine = [_message.userModel.entityID isEqual:BChatSDK.currentUser.entityID];
+    BOOL isMine = [_message.userModel isEqual:BChatSDK.currentUser];
     
     // Layout the profile picture
     if (_profilePicture.isHidden) {
@@ -270,7 +297,7 @@
 -(void) layoutSubviews {
     [super layoutSubviews];
     
-    BOOL isMine = [_message.userModel.entityID isEqual:BChatSDK.currentUser.entityID];
+    BOOL isMine = _message.userModel.isMe;
     
     // Extra x-margin if the profile picture isn't shown
     // TODO: Fix this
@@ -317,12 +344,6 @@
         _nameLabel.textAlignment = NSTextAlignmentRight;
     }
     
-//        self.bubbleImageView.layer.borderColor = UIColor.redColor.CGColor;
-//        self.bubbleImageView.layer.borderWidth = 1;
-//        self.contentView.layer.borderColor = UIColor.blueColor.CGColor;
-//        self.contentView.layer.borderWidth = 1;
-//        self.cellContentView.layer.borderColor = UIColor.greenColor.CGColor;
-//        self.cellContentView.layer.borderWidth = 1;
 }
 
 

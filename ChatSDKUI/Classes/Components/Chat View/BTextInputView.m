@@ -8,6 +8,7 @@
 
 #import "BTextInputView.h"
 #import <ChatSDK/Core.h>
+#import <ChatSDK/UI.h>
 
 #define bMargin 8.0
 
@@ -34,15 +35,25 @@
     if (self) {
         
 //        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
-        self.backgroundColor = [UIColor whiteColor];
         
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor systemBackgroundColor];
+        } 
+
         // Decide how many lines the message should have
         minLines = bMinLines;
         maxLines = bMaxLines;
         maxCharacters = bMaxCharacters;
         
         // Set the text color
-        _placeholderColor = [UIColor darkGrayColor];
+        // DM darkGrayColor
+        
+        if (@available(iOS 13.0, *)) {
+            _placeholderColor = [UIColor systemGrayColor];
+        } else {
+            _placeholderColor = [UIColor grayColor];
+        }
+
         _textColor = [UIColor blackColor];
 
         // Create an options button which shows an action sheet
@@ -60,8 +71,8 @@
         _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self addSubview: _sendButton];
         
-        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options.png"] forState:UIControlStateNormal];
-        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_keyboard.png"] forState:UIControlStateSelected];
+        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_options"] forState:UIControlStateNormal];
+        [_optionsButton setImage:[NSBundle uiImageNamed:@"icn_24_keyboard"] forState:UIControlStateSelected];
         
         [_optionsButton addTarget:self action:@selector(optionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
@@ -138,7 +149,13 @@
         [self updateInterfaceForReachabilityStateChange];
         
         UIView * topMarginView = [[UIView alloc] initWithFrame:CGRectZero];
-        topMarginView.backgroundColor = [UIColor lightGrayColor];
+        
+        // DM lightGrayColor
+        if (@available(iOS 13.0, *)) {
+            topMarginView.backgroundColor = [UIColor systemGray5Color];
+        } else {
+            topMarginView.backgroundColor = [UIColor lightGrayColor];
+        }
         
         [self addSubview:topMarginView];
         
@@ -172,7 +189,7 @@
     _sendButton.enabled = sendButtonEnabled || enabled;
     if (enabled) {
         [_sendButton setTitle:Nil forState:UIControlStateNormal];
-        [_sendButton setImage:[NSBundle uiImageNamed: @"icn_24_mic.png"]
+        [_sendButton setImage:[NSBundle uiImageNamed: @"icn_24_mic"]
                      forState:UIControlStateNormal];
     }
     else {
@@ -201,7 +218,7 @@
         
         if (_sendBarDelegate && [_sendBarDelegate respondsToSelector:@selector(threadEntityID)]) {
             NSString * newMessage = [_textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            [BChatSDK.core sendMessageWithText:newMessage withThreadEntityID:_sendBarDelegate.threadEntityID];
+            [BChatSDK.thread sendMessageWithText:newMessage withThreadEntityID:_sendBarDelegate.threadEntityID];
         }
         
         _textView.text = @"";
@@ -306,8 +323,14 @@
 - (void)sendButtonCancelled {
     [_sendBarDelegate.view hideAllToasts];
     [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
+
     CSToastStyle * style = [[CSToastStyle alloc] initWithDefaultStyle];
-    style.backgroundColor = [UIColor redColor];
+    if (@available(iOS 13.0, *)) {
+        style.backgroundColor = [UIColor systemRedColor];
+    } else {
+        style.backgroundColor = [UIColor redColor];
+    }
+
     [_sendBarDelegate.view makeToast:[NSBundle t:bCancelled]
                             duration:1
                             position:[NSValue valueWithCGPoint: CGPointMake(_sendBarDelegate.view.frame.size.width / 2.0, self.frame.origin.y - self.frame.size.height - 20)] style:style];

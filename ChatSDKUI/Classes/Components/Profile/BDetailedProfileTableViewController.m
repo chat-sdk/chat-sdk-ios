@@ -10,10 +10,12 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 #define bStatusSection 1
 #define bBlockCellTag 2
 #define bAddContactCellTag 3
+#define bMoreCellTag 4
 
 @interface BDetailedProfileTableViewController ()
 
@@ -49,7 +51,7 @@
 -(id) initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         self.title = [NSBundle t:bProfile];
-        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_profile.png"];
+        self.tabBarItem.image = [NSBundle uiImageNamed: @"icn_30_profile"];
     }
     return self;
 }
@@ -58,7 +60,10 @@
 {
     
     [super viewDidLoad];
-    _anonymousProfilePicture = [NSBundle uiImageNamed:bDefaultProfileImage];
+    
+    _notificationList = [BNotificationObserverList new];
+    
+    _anonymousProfilePicture = [Icons getWithName:Icons.defaultProfile];
     profilePictureButton.layer.cornerRadius = 50;
     
     self.hideSectionsWithHiddenRows = YES;
@@ -84,6 +89,17 @@
 //        backButtonTitle = [[backButtonTitle substringToIndex:9] stringByAppendingString:@"..."];
 //    }
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStylePlain target:Nil action:Nil];
+
+    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
+                                                                      object:Nil
+                                                                       queue:Nil
+                                                                  usingBlock:^(NSNotification * notification) {
+                                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                                          [self refreshInterfaceAnimated:NO];
+                                                                      });
+    }]];
+    
+    
 
 }
 
@@ -118,7 +134,7 @@
     self.profilePictureButton.userInteractionEnabled = NO;
     if (!self.user.isMe) {
         self.title = user.name;
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_22_chat.png"]
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_22_chat"]
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
                                                                                  action:@selector(startChat)];
@@ -208,12 +224,24 @@
     
     if (self.isContact) {
         addContactLabel.text = [NSBundle t: bDelete];
-        addContactLabel.textColor = [UIColor redColor];
+        
+        if (@available(iOS 13.0, *)) {
+            addContactLabel.textColor = [UIColor systemRedColor];
+        } else {
+            addContactLabel.textColor = [UIColor redColor];
+        }
+        
         addContactImageView.highlighted = YES;
     } else {
         addContactLabel.text = [NSBundle t: bAddContact];
         addContactImageView.highlighted = NO;
-        addContactLabel.textColor = [UIColor darkGrayColor];
+        
+        if (@available(iOS 13.0, *)) {
+            addContactLabel.textColor = [UIColor systemGrayColor];
+        } else {
+            addContactLabel.textColor = [UIColor darkGrayColor];
+        }
+        
     }
     
     id<PUserConnection> userConnection = self.userConnection;
@@ -224,9 +252,9 @@
     [self cell:_followsCell setHidden:hideFollow];
     [self cell:_followedCell setHidden:hideFollow];
     
-    UIImage * tick = [NSBundle uiImageNamed:@"icn_36_tick.png"];
-    UIImage * cross = [NSBundle uiImageNamed:@"icn_36_cross.png"];
-    UIImage * clock = [NSBundle uiImageNamed:@"icn_36_clock.png"];
+    UIImage * tick = [NSBundle uiImageNamed:@"icn_36_tick"];
+    UIImage * cross = [NSBundle uiImageNamed:@"icn_36_cross"];
+    UIImage * clock = [NSBundle uiImageNamed:@"icn_36_clock"];
     
     // Choose the icons based on the presence status
     bSubscriptionType subscription = userConnection.subscriptionType;
@@ -241,7 +269,48 @@
     }
     [_followedButton setImage:subscription & bSubscriptionTypeTo ? tick : cross forState:UIControlStateNormal];
     
+    [self cell:_moreCell setHidden: ![ChatSDKUI.shared getProfileSectionsWithUser:user].count];
+    
     [self reloadDataAnimated:animated];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (cell.tag == bBlockCellTag) {
+        [self setIsBlocked:!self.isBlocked setRemote:YES];
+    }
+    if (cell.tag == bAddContactCellTag) {
+        if (self.isContact) {
+            [[[UIAlertView alloc] initWithTitle:[NSBundle t:bDeleteContact]
+                                        message:[NSBundle t:bDeleteContactMessage]
+                                       delegate:self
+                              cancelButtonTitle:[NSBundle t:bCancel]
+                              otherButtonTitles:[NSBundle t:bOk], nil] show];
+        } else {
+            [self addContact];
+        }
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    int staticSections = [super numberOfSectionsInTableView:tableView];
+//    if (indexPath.section < staticSections) {
+        if (indexPath.section == bStatusSection) {
+            return [statusTextView heightToFitText] + 18;
+        }
+        return [super tableView: tableView heightForRowAtIndexPath:indexPath];
+//    } else {
+//        return 44;
+//    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    int staticSections = [super numberOfSectionsInTableView:tableView];
+    if (section < staticSections) {
+        return [super tableView: tableView heightForFooterInSection:section];
+    } else {
+        return 0;
+    }
 }
 
 -(id<PUserConnection>) userConnection {
@@ -315,29 +384,12 @@
 //}
 
 -(void) startChat {
-    [BChatSDK.core createThreadWithUsers:@[self.user] threadCreated:^(NSError * error, id<PThread> thread) {
+    [BChatSDK.thread createThreadWithUsers:@[self.user] threadCreated:^(NSError * error, id<PThread> thread) {
         BChatViewController * cvc = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:cvc animated:YES];
     }];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell.tag == bBlockCellTag) {
-        [self setIsBlocked:!self.isBlocked setRemote:YES];
-    }
-    if (cell.tag == bAddContactCellTag) {
-        if (self.isContact) {
-            [[[UIAlertView alloc] initWithTitle:[NSBundle t:bDeleteContact]
-                                        message:[NSBundle t:bDeleteContactMessage]
-                                       delegate:self
-                              cancelButtonTitle:[NSBundle t:bCancel]
-                              otherButtonTitles:[NSBundle t:bOk], nil] show];
-        } else {
-            [self addContact];
-        }
-    }
-}
 
 -(BOOL) isContact {
     id<PUserConnection> userConnection = self.userConnection;
@@ -351,17 +403,9 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == bStatusSection) {
-        return [statusTextView heightToFitText] + 18;
-    }
-    return [super tableView: tableView heightForRowAtIndexPath:indexPath];
-}
-
 - (IBAction)editButtonPressed:(id)sender {
     
     //[[BNetworkManager sharedManager].authenticationAdapter logout];
-
     
     BDetailedEditProfileTableViewController * vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"EditProfile"];
     vc.profileViewController = self;
@@ -371,6 +415,10 @@
 
 -(BOOL) userIsCurrent {
     return [user isMe];
+}
+
+- (IBAction)moreButtonPressed:(id)sender {
+    [self presentViewController:[BChatSDK.ui profileOptionsViewControllerWithUser:user] animated:YES completion:Nil];
 }
 
 

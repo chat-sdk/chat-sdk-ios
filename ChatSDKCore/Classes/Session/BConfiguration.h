@@ -32,10 +32,6 @@ typedef enum {
 // Should we ask the user to allow notifications when the app initially loads up? 
 @property (nonatomic, readwrite) BOOL shouldAskForNotificationsPermission;
     
-// Background color of messages: hex value like "FFFFFF"
-@property (nonatomic, readwrite) NSString * messageColorMe;
-@property (nonatomic, readwrite) NSString * messageColorReply;
-
 // The Firebase root path. Data will be added to Firebase root/rootPath...
 // this allows you to run multiple chat instances on one Firebase database
 @property (nonatomic, readwrite) NSString * rootPath;
@@ -58,12 +54,6 @@ typedef enum {
 // User profile image
 @property (nonatomic, readwrite) NSString * defaultAvatarURL;
 
-// Which image should be used if no avatar is set
-@property (nonatomic, readwrite) UIImage * defaultBlankAvatar;
-
-// Which image should be used if no avatar is set
-@property (nonatomic, readwrite) UIImage * defaultGroupChatAvatar;
-
 @property (nonatomic, readwrite) NSString * timeFormat;
 
 // The maximum dimension for an image message
@@ -75,6 +65,8 @@ typedef enum {
 
 // How many historic messages should be downloaded for an empty thread
 @property (nonatomic, readwrite) int messageHistoryDownloadLimit;
+
+@property (nonatomic, readwrite) BOOL messageSelectionEnabled;
 
 // How many message deletion listeners should we add? A value of 10 would mean
 // that if any of the last 10 messages are deleted, the app would be updated
@@ -95,6 +87,9 @@ typedef enum {
 @property (nonatomic, readwrite) NSString * xmppResource;
 @property (nonatomic, readwrite) int xmppMucMessageHistory;
 @property (nonatomic, readwrite) NSString * termsOfServiceURL;
+@property (nonatomic, readwrite) BOOL xmppCustomCertEvaluation;
+
+@property (nonatomic, readwrite) BOOL xmppAdvancedConfigurationEnabled;
 
 @property (nonatomic, readwrite) BOOL messageDeletionEnabled;
 
@@ -154,8 +149,6 @@ typedef enum {
 
 // Message fonts
 @property (nonatomic, readwrite) UIFont * messageTextFont;
-@property (nonatomic, readwrite) NSString * messageTextColorMe;
-@property (nonatomic, readwrite) NSString * messageTextColorReply;
 
 @property (nonatomic, readwrite) UIFont * messageTimeFont;
 @property (nonatomic, readwrite) UIFont * messageNameFont;

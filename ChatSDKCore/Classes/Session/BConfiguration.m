@@ -11,8 +11,6 @@
 
 @implementation BConfiguration
 
-@synthesize messageColorMe;
-@synthesize messageColorReply;
 @synthesize rootPath;
 @synthesize appBadgeEnabled;
 @synthesize defaultUserNamePrefix;
@@ -24,7 +22,6 @@
 @synthesize shouldOpenChatWhenPushNotificationClicked;
 @synthesize loginUsernamePlaceholder;
 @synthesize defaultAvatarURL;
-@synthesize defaultBlankAvatar;
 @synthesize timeFormat;
 @synthesize chatMessagesToLoad;
 @synthesize messagesToLoadPerBatch;
@@ -45,7 +42,6 @@
 @synthesize forgotPasswordEnabled;
 @synthesize termsAndConditionsEnabled;
 @synthesize clientPushEnabled;
-@synthesize defaultGroupChatAvatar;
 @synthesize prefersLargeTitles;
 @synthesize shouldOpenChatWhenPushNotificationClickedOnlyIfTabBarVisible;
 @synthesize showPublicThreadsUnreadMessageBadge;
@@ -58,6 +54,7 @@
 @synthesize disablePresence;
 @synthesize disableProfileUpdateOnAuthentication;
 @synthesize developmentModeEnabled;
+@synthesize messageSelectionEnabled;
 
 @synthesize vibrateOnNewMessage;
 
@@ -80,6 +77,7 @@
 @synthesize xmppResource;
 @synthesize xmppHostAddress;
 @synthesize xmppMucMessageHistory;
+@synthesize xmppAdvancedConfigurationEnabled;
 
 @synthesize textInputViewMaxLines;
 @synthesize textInputViewMaxCharacters;
@@ -110,8 +108,6 @@
         _messageBubbleMargin = [NSMutableDictionary new];
         _messageBubblePadding = [NSMutableDictionary new];
         
-        messageColorMe = bDefaultMessageColorMe;
-        messageColorReply = bDefaultMessageColorReply;
         rootPath = @"default";
         appBadgeEnabled = YES;
         
@@ -167,10 +163,8 @@
         showLocalNotificationsForPublicChats = NO;
         
         shouldAskForNotificationsPermission = YES;
-        
-        defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bCoreBundleName];
-        defaultGroupChatAvatar = [NSBundle imageNamed:bDefaultPublicGroupImage bundle:bCoreBundleName];
-        
+        messageSelectionEnabled = YES;
+                
         showProfileViewOnTap = YES;
         
         rootPath = [BSettingsManager firebaseRootPath];
@@ -191,6 +185,7 @@
         [self configureXMPPFromPlist];
         
         xmppMucMessageHistory = 20;
+        xmppAdvancedConfigurationEnabled = YES;
         
         messageDeletionListenerLimit = 30;
         messageHistoryDownloadLimit = 30;
@@ -214,10 +209,10 @@
         
         showMessageAvatarAtPosition = bMessagePosLast;
         
-        messageBubbleMaskFirst = @"chat_bubble_right_0S.png";
-        messageBubbleMaskMiddle = @"chat_bubble_right_SS.png";
-        messageBubbleMaskLast = @"chat_bubble_right_ST.png";
-        messageBubbleMaskSingle = @"chat_bubble_right_0T.png";
+        messageBubbleMaskFirst = @"chat_bubble_right_0S";
+        messageBubbleMaskMiddle = @"chat_bubble_right_SS";
+        messageBubbleMaskLast = @"chat_bubble_right_ST";
+        messageBubbleMaskSingle = @"chat_bubble_right_0T";
         
         nameLabelPosition = bNameLabelPositionBottom;
         combineTimeWithNameLabel = NO;

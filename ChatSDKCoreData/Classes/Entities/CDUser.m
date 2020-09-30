@@ -8,6 +8,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/CoreData.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 #define bKeyKey @"key"
 #define bValueKey @"value"
@@ -196,7 +197,7 @@
 
 // TODO: Remove UI dependency on CoreData
 -(UIImage *) defaultImage {
-    return BChatSDK.config.defaultBlankAvatar;
+    return [Icons getWithName:Icons.defaultProfile];
 }
 
 -(BOOL) isMe {

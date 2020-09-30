@@ -10,6 +10,7 @@
 #import <StaticDataTableViewController/StaticDataTableViewController.h>
 
 @protocol PUser;
+@class BNotificationObserverList;
 
 @interface BDetailedProfileTableViewController : StaticDataTableViewController {
     
@@ -22,6 +23,7 @@
     BOOL _emailIndexed;
     
     id _userObserver;
+    BNotificationObserverList * _notificationList;
 }
 
 @property (nonatomic, readwrite) id<PUser> user;
@@ -48,7 +50,6 @@
 // Cell Outlets
 @property (weak, nonatomic) IBOutlet UITableViewCell *statusCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *localityCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *ageCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *blockUserCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *phoneNumberCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;
@@ -58,7 +59,10 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell *addContactCell;
 @property (weak, nonatomic) IBOutlet UIImageView *addContactImageView;
 @property (weak, nonatomic) IBOutlet UILabel *addContactLabel;
+@property (weak, nonatomic) IBOutlet UITableViewCell *moreCell;
+
 
 -(void) refreshInterfaceAnimated: (BOOL) animated;
+-(void) startChat;
 
 @end

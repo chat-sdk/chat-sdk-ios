@@ -13,13 +13,6 @@
 
 -(void) activate {
     BChatSDK.shared.interfaceAdapter = [[BDefaultInterfaceAdapter alloc] init];
-    // Set the login screen
-    // TODO:
-//    BChatSDK.auth.challengeViewController = [[BLoginViewController alloc] initWithNibName:Nil bundle:Nil];
-    if(!BChatSDK.config.defaultBlankAvatar) {
-        BChatSDK.config.defaultBlankAvatar = [NSBundle imageNamed:bDefaultProfileImage bundle:bUIBundleName];
-    }
-    
 }
 
 @end

@@ -8,11 +8,15 @@
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PNetworkAdapter.h>
 
+
 @class BConfiguration;
 @class RXPromise;
 @class BBackgroundPushNotificationQueue;
 @class BInternetConnectivity;
 @class BModuleHelper;
+
+@class Colors;
+@class Icons;
 
 @protocol PInterfaceAdapter;
 @protocol PUser;
@@ -31,9 +35,11 @@
 @property (nonatomic, readwrite) id<PInterfaceAdapter> interfaceAdapter;
 @property (nonatomic, readwrite) id<PStorageAdapter> storageAdapter;
 @property (nonatomic, readwrite) id<PNetworkAdapter> networkAdapter;
+@property (nonatomic, readwrite) NSBundle * colorsBundle;
+@property (nonatomic, readwrite) NSBundle * bundle;
+@property (nonatomic, readwrite) NSBundle * iconsBundle;
 
 +(BChatSDK *) shared;
-+(BConfiguration *) config;
 
 // Application lifecycle methods - should be called from App Delegate
 +(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions;
@@ -95,6 +101,9 @@
 +(id<PFileMessageHandler>) fileMessage;
 +(id<PEncryptionHandler>) encryption;
 +(id<PEventHandler>) event;
++(id<PThreadHandler>) thread;
 +(id<PInternetConnectivityHandler>) connectivity;
+
++(BConfiguration *) config;
 
 @end

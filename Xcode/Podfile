@@ -28,6 +28,6 @@ target 'ChatSDK Demo' do
   # Crashlytics see: https://firebase.google.com/docs/crashlytics/get-started?authuser=0
 
   # pod 'Fabric', '~> 1.7.6'
-  pod 'Crashlytics', '~> 3.10.1'
+  # pod 'Crashlytics', '~> 3.10.1'
 
 end

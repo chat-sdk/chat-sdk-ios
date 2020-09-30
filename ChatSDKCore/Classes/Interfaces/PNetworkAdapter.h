@@ -32,6 +32,7 @@
 @protocol PEncryptionHandler;
 @protocol PInternetConnectivityHandler;
 @protocol PEventHandler;
+@protocol PThreadHandler;
 
 // Depricated: Use bHookDidLogout (and hook system) instead
 #define bNotificationLogout @"bNLogout"
@@ -102,6 +103,7 @@
 -(id<PInternetConnectivityHandler>) connectivity;
 -(id<PEncryptionHandler>) encryption;
 -(id<PEventHandler>) event;
+-(id<PThreadHandler>) thread;
 -(id) handlerWithName: (NSString *) name;
 
 -(void) setCore: (id<PCoreHandler>) core;
@@ -128,6 +130,7 @@
 -(void) setUsers: (id<PUsersHandler>) users;
 -(void) setEncryption: (id<PEncryptionHandler>) encryption;
 -(void) setEvent: (id<PEventHandler>) event;
+-(void) setThread: (id<PThreadHandler>) thread;
 -(void) setConnectivity: (id<PInternetConnectivityHandler>) connectivity;
 
 @end

@@ -286,7 +286,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete )
     {
         id<PThread> thread = _threads[indexPath.row];
-        [BChatSDK.core deleteThread:thread];
+        [BChatSDK.thread deleteThread:thread];
         [self reloadData];
     }
 }

@@ -465,7 +465,7 @@
     [dict addEntriesFromDictionary:@{bCreationDate: [FIRServerValue timestamp],
                                      bNameKey: [NSString safe:_model.name],
                                      bType: _model.type,
-                                     bImageURL: [NSString safe: [_model.meta valueForKey:bImageURL]],
+//                                     bImageURL: [NSString safe: [_model.meta valueForKey:bImageURL]],
                                      bCreator: [NSString safe: _model.creator.entityID]}];
 
     if (BChatSDK.config.enableCompatibilityWithV4) {
@@ -489,10 +489,10 @@
         _model.type = type;
     }
     
-    NSString * imageURL = value[bImageURL];
-    if (imageURL) {
-        [_model setMetaValue:imageURL forKey:bImageURL];
-    }
+//    NSString * imageURL = value[bImageURL];
+//    if (imageURL) {
+//        [_model setMetaValue:imageURL forKey:bImageURL];
+//    }
 
     NSString * creatorEntityID = value[bCreator];
     if(creatorEntityID == Nil && BChatSDK.config.enableCompatibilityWithV4) {

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BMessageDelegate.h"
 #import "BMessageCell.h"
 
 @class BMessage;

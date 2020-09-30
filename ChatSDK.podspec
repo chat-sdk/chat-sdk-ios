@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.13.6"
+  s.version          = "4.14.5"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -8,9 +8,10 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => s.version.to_s }
   s.module_name      = 'ChatSDK'
 
-  s.platform     = :ios, '9.0'
+  s.platform     = :ios, '11.0'
   s.requires_arc = true
-  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
+  s.swift_version = "5.0"
+#   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
   
   s.default_subspec = 'Complete'
   
@@ -21,125 +22,86 @@ Pod::Spec.new do |s|
     core.dependency 'ChatSDK/Reachability'
   end
   
-  s.subspec 'Core' do |core| 
+  s.subspec 'Core' do |s| 
 
-	  core.source_files = ['ChatSDKCore/Classes/**/*']
-	  core.resource_bundles = {
+	  s.source_files = ['ChatSDKCore/Classes/**/*']
+	  s.resource_bundles = {
 		'ChatCore' => ['ChatSDKCore/Assets/**/*']
 	  }
 
-	  core.dependency 'RXPromise', '~> 1.0'
-	  core.dependency 'AFNetworking/NSURLSession', '~>3.2.1'
+	  s.dependency 'RXPromise', '~> 1.0'
+	  s.dependency 'AFNetworking/NSURLSession', '~>3.2.1'
 	  
-#       core.dependency 'AFNetworking', '~> 3.0', :subspecs => ['Reachability', 'Serialization', 'Security', 'NSURLSession']
-	  core.dependency 'DateTools', '~> 2.0'
-      core.dependency 'SAMKeychain'
+	  s.dependency 'DateTools', '~> 2.0'
+      s.dependency 'SAMKeychain'
 
-      core.frameworks = 'SafariServices'
+      s.frameworks = 'SafariServices'
   
   end
 
-  s.subspec 'Reachability' do |reach| 
-	  reach.source_files = ['ChatSDKExtras/Reachability/Classes/**/*']
-	  reach.dependency 'Reachability'
-      reach.dependency 'ChatSDK/Core'
+  s.subspec 'Reachability' do |s| 
+	  s.source_files = ['ChatSDKExtras/Reachability/Classes/**/*']
+	  s.dependency 'Reachability'
+      s.dependency 'ChatSDK/Core'
   end
 
-
-  s.subspec 'CoreData' do |cd|
+  s.subspec 'CoreData' do |s|
   
-    cd.source_files = ['ChatSDKCoreData/Classes/**/*']    
-    cd.resource_bundles = {
+    s.source_files = ['ChatSDKCoreData/Classes/**/*']    
+    s.resource_bundles = {
       'ChatCoreData' => ['ChatSDKCoreData/Assets/**/*']
     }    
       
-    cd.frameworks = 'UIKit', 'CoreData'
-    cd.dependency 'ChatSDK/Core'
+    s.frameworks = 'UIKit', 'CoreData'
+    s.dependency 'ChatSDK/Core'
   
   end
 
-  s.subspec 'UI' do |ui|
+  s.subspec 'UI' do |s|
 
-	  ui.source_files = ['ChatSDKUI/Classes/**/*']
-	  ui.resource_bundles = {
+	  s.source_files = ['ChatSDKUI/Classes/**/*']
+	  s.resource_bundles = {
 		'ChatUI' => ['ChatSDKUI/Assets/**/*', 'ChatSDKUI/Interface/**/*']
 	  }
 			
-	  ui.dependency 'MBProgressHUD', '~> 1.0'
-	  ui.dependency 'VENTokenField', '~> 2.0'
-	  ui.dependency 'SDWebImage', '~> 5.0'
-	  ui.dependency 'StaticDataTableViewController', '~> 2.0'
-	  ui.dependency 'TOCropViewController', '~> 2.0'
-	  ui.dependency 'Hakawai', '~> 5.1.5'
-	  ui.dependency 'ChatSDKKeepLayout'
-	  ui.dependency 'Toast', '~>4.0.0'
+	  s.dependency 'MBProgressHUD', '~> 1.0'
+	  s.dependency 'VENTokenField', '~> 2.0'
+	  s.dependency 'SDWebImage', '~> 5.0'
+	  s.dependency 'StaticDataTableViewController', '~> 2.0'
+	  s.dependency 'TOCropViewController', '~> 2.0'
+	  s.dependency 'Hakawai', '~> 5.1.5'
+	  s.dependency 'ChatSDKKeepLayout'
+	  s.dependency 'Toast', '~>4.0.0'
+	  s.dependency 'EFQRCode', '~> 5.1.6'
 
-	  ui.dependency 'ChatSDK/CoreData'
+	  s.dependency 'ChatSDK/CoreData'
 	  
-	  ui.frameworks = 'CoreLocation'
+	  s.frameworks = 'CoreLocation'
   
   end
+
+    s.subspec 'ModAddContactWithQRCode' do |s|
+
+	  s.source_files = ['ChatSDKExtras/AddContactWithQRCode/**/*.{swift,h,m}']
+# 	  s.resource_bundles = {
+# 		'ChatExtras' => ['ChatSDKExtras/AddContactWithQRCode/**/*.{xib,storyboard}']
+# 	  }
+      s.dependency 'ChatSDK/UI'
   
-#     s.subspec 'Extras' do |ex|
+  end
+
+  
+#     s.subspec 'Extras' do |s|
 # 
-# 	  ex.source_files = ['ChatSDKExtras/Classes/**/*']
-# 	  ex.resource_bundles = {
+# 	  s.source_files = ['ChatSDKExtras/Classes/**/*']
+# 	  s.resource_bundles = {
 # 		'ChatExtras' => ['ChatSDKExtras/Assets/**/*', 'ChatSDKExtras/Interface/**/*']
 # 	  }
 # 			
-# 	  ex.dependency 'SideMenu'
+# 	  s.dependency 'SideMenu'
 # 
-# 	  ex.dependency 'ChatSDK/UI'
+# 	  s.dependency 'ChatSDK/UI'
 #   
-#   end
-
-#  s.subspec 'FirebaseAdapter' do |fb|
-# 
-# 	fb.source_files = ['ChatSDKFirebase/FirebaseNetworkAdapter/Classes/**/*']
-# 	
-#     fb.dependency 'Firebase/Auth'
-#     fb.dependency 'Firebase/Database'
-#  
-# 	fb.dependency 'ChatSDK/Core'
-#   
-#   end
-# 
-#  s.subspec 'FirebaseFileStorage' do |ffs|
-# 
-# 	ffs.source_files = ['ChatSDKFirebase/FirebaseFileStorage/Classes/**/*']
-# 
-#     ffs.dependency 'Firebase/Storage'
-# 	ffs.dependency 'ChatSDK/FirebaseAdapter'
-#   
-#   end
-# 
-#  s.subspec 'FirebasePush' do |fp|
-# 
-# 	fp.source_files = ['ChatSDKFirebase/FirebasePush/Classes/**/*']
-# 
-#     fp.dependency 'Firebase/Messaging'
-#     fp.dependency 'Firebase/Functions'
-# 	fp.dependency 'ChatSDK/FirebaseAdapter'
-# 
-#   end
-#   
-#  s.subspec 'FirebaseSocialLogin' do |fsl|
-# 
-# 	fsl.source_files = ['ChatSDKFirebase/FirebaseSocialLogin/Classes/**/*']
-# 	fsl.resource_bundles = {
-# 	  'ChatFirebaseSocialLogin' => ['ChatSDKFirebase/FirebaseSocialLogin/Assets/**/*']
-# 	}
-# 	
-# # 	fsl.dependency 'TwitterKit', '<3.3.0'
-# # 	fsl.dependency 'TwitterCore', '<3.1.0'
-#  	fsl.dependency 'TwitterKit' 
-#  	fsl.dependency 'TwitterCore' 
-#     fsl.dependency 'GoogleSignIn'
-#     fsl.dependency 'FBSDKLoginKit'
-# 
-# 	fsl.dependency 'ChatSDK/FirebaseAdapter'
-# 	fsl.dependency 'ChatSDK/UI'
-# 
 #   end
       
 end

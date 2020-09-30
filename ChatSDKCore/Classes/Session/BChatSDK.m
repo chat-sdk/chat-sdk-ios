@@ -8,6 +8,7 @@
 #import "BChatSDK.h"
 #import "BConfiguration.h"
 #import <ChatSDK/Core.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 #define bRootPathKey @"chat_sdk_root_path"
 #define bDatabaseVersionKey @"chat_sdk_database_version"
@@ -113,11 +114,15 @@ static BChatSDK * instance;
 }
 
 // If the configuration isn't set, return a default value
--(BConfiguration *) configuration {
+-(BConfiguration *) config {
     if(!_configuration) {
         _configuration = [BConfiguration configuration];
     }
     return _configuration;
+}
+
++(BConfiguration *) config {
+    return instance.config;
 }
 
 +(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -159,10 +164,6 @@ static BChatSDK * instance;
 // Logout
 +(RXPromise *) logout {
     return [BIntegrationHelper logout];
-}
-
-+(BConfiguration *) config {
-    return self.shared.configuration;
 }
 
 -(void) clearDataIfNecessary {
@@ -317,8 +318,33 @@ static BChatSDK * instance;
     return self.a.event;
 }
 
++(id<PThreadHandler>) thread {
+    return self.a.thread;
+}
+
 +(id<PInternetConnectivityHandler>) connectivity {
     return self.a.connectivity;
+}
+
+-(NSBundle *) bundle {
+    if(!_bundle) {
+        _bundle = [NSBundle bundleWithName:@"Frameworks/ChatSDK.framework/ChatUI"];
+    }
+    return _bundle;
+}
+
+-(NSBundle *) colorsBundle {
+    if(!_colorsBundle) {
+        _colorsBundle = self.bundle;
+    }
+    return _colorsBundle;
+}
+
+-(NSBundle *) iconsBundle {
+    if(!_iconsBundle) {
+        _iconsBundle = self.bundle;
+    }
+    return _iconsBundle;
 }
 
 @end

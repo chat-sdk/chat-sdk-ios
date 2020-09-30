@@ -177,7 +177,7 @@
 -(int) unreadMessagesCount: (bThreadType) type {
     // Get all the threads
     int i = 0;
-    NSArray * threads = [BChatSDK.core threadsWithType:type];
+    NSArray * threads = [BChatSDK.thread threadsWithType:type];
     for (id<PThread> thread in threads) {
         for (id<PMessage> message in thread.allMessages) {
             if (!message.isRead) {
@@ -205,7 +205,7 @@
     [[NSUserDefaults standardUserDefaults] setInteger:badge forKey:bMessagesBadgeValueKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    if ([BChatSDK.shared.configuration appBadgeEnabled]) {
+    if ([BChatSDK.config appBadgeEnabled]) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
     }
 }

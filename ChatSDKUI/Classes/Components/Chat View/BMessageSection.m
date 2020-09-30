@@ -79,7 +79,10 @@
         UILabel * label = [[UILabel alloc] initWithFrame:rect];
         label.text = self.title;
         label.font = [UIFont systemFontOfSize:11];
-        label.textColor = [UIColor darkGrayColor];
+
+        // DM darkGrayColor
+        label.textColor = [UIColor systemGrayColor];
+
         label.textAlignment = NSTextAlignmentCenter;
 
         [_view addSubview:innerView];
@@ -92,7 +95,15 @@
         innerView.keepWidth.equal = label.attributedText.size.width + 10;
         
         innerView.clipsToBounds = YES;
-        innerView.backgroundColor = [BCoreUtilities colorWithHexString:@"#EEEEEE"];
+        // DM
+//        innerView.backgroundColor = [BCoreUtilities colorWithHexString:@"#EEEEEE"];
+
+        if (@available(iOS 13.0, *)) {
+            innerView.backgroundColor = [UIColor systemGray5Color];
+        } else {
+            innerView.backgroundColor = [BCoreUtilities colorWithHexString:@"#EEEEEE"];
+        }
+        
         innerView.layer.cornerRadius = 5;
 
 

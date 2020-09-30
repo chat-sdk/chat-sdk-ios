@@ -34,7 +34,11 @@
     
     // Add the save button
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bSave] style:UIBarButtonItemStyleDone target:self action:@selector(save)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bCancel] style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if (version.majorVersion < 13) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bCancel] style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    }
     
     // The tap recognizer dismisses the keyboard when the list view is tapped
     _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
@@ -165,7 +169,13 @@
 - (IBAction)availabilityButtonPressed:(UIButton *)sender {
     BOOL hidden = ![self cellIsHidden: availabilityCell];
     [self cell:availabilityCell setHidden:hidden];
-    [sender setTintColor:hidden ? self.defaultButtonTintColor : [UIColor redColor]];
+    
+    if (@available(iOS 13.0, *)) {
+        [sender setTintColor:hidden ? self.defaultButtonTintColor : [UIColor systemRedColor]];
+    } else {
+        [sender setTintColor:hidden ? self.defaultButtonTintColor : [UIColor redColor]];
+    }
+    
     [self reloadDataAnimated:NO];
 }
 
@@ -248,6 +258,8 @@
         [user setImage:UIImageJPEGRepresentation(_profileImage, 0.5)];
     }
 
+    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: user}];
+
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -294,13 +306,6 @@
 
 - (IBAction)logoutButtonPressed:(id)sender {
     [self logout];
-}
-
-- (IBAction)clearLocalData:(id)sender {
-    [self logout].thenOnMain(^id(id success) {
-        [BChatSDK.db deleteAllData];
-        return Nil;
-    }, Nil);
 }
 
 - (void)didReceiveMemoryWarning {

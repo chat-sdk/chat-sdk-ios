@@ -7,6 +7,7 @@
 
 #import "BMessageSectionDateProvider.h"
 #import <ChatSDK/UI.h>
+#import <ChatSDK/Core.h>
 
 @implementation BMessageSectionDateProvider
 

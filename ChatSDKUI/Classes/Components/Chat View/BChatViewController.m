@@ -47,6 +47,10 @@
     [self setMessages:messages scrollToBottom:NO animate:NO force: YES];
 }
 
+-(void) traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [self reloadData];
+}
+
 -(void) updateSubtitle {
     
     if (BChatSDK.config.userChatInfoEnabled) {
@@ -71,6 +75,7 @@
 
 -(void) addObservers {
     [super addObservers];
+    
     
     id<PUser> currentUserModel = BChatSDK.currentUser;
     
@@ -186,7 +191,7 @@
     // TODO: This is called multiple times... maybe move it to view did load
     if (_thread.type.intValue & bThreadFilterPublic) {
         id<PUser> user = BChatSDK.currentUser;
-        [BChatSDK.core addUsers:@[user] toThread:_thread];
+        [BChatSDK.thread addUsers:@[user] toThread:_thread];
     }
 }
 
@@ -199,7 +204,7 @@
     // Remove the user from the thread
     if (_thread.type.intValue & bThreadFilterPublic && (!BChatSDK.config.publicChatAutoSubscriptionEnabled || [_thread.meta valueForKey:bMute]) && !_usersViewLoaded) {
         id<PUser> currentUser = BChatSDK.currentUser;
-        [BChatSDK.core removeUsers:@[currentUser] fromThread:_thread];
+        [BChatSDK.thread removeUsers:@[currentUser] fromThread:_thread];
     }
 }
 
@@ -224,7 +229,7 @@
 // You can pull more messages from the server and add them to the thread object
 -(RXPromise *) loadMoreMessages {
     id<PMessage> oldestMessage = _messageManager.oldestMessage;
-    return [BChatSDK.core loadMoreMessagesFromDate:oldestMessage ? oldestMessage.date : Nil forThread:_thread];
+    return [BChatSDK.thread loadMoreMessagesFromDate:oldestMessage ? oldestMessage.date : Nil forThread:_thread];
 }
 
 -(void) markRead {

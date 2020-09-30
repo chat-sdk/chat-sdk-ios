@@ -15,9 +15,4 @@
     NSString * _currentUserEntityID;
 }
 
--(id<PThread>) createThreadWithUsers: (NSArray *) users name: (NSString *) name;
--(id<PThread>) createThreadWithUsers: (NSArray *) users name: (NSString *) name type: (bThreadType) type;
-
--(RXPromise *) prepareSendMessage: (id<PMessage>) messageModel;
-
 @end

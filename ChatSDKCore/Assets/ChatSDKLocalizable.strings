@@ -32,8 +32,6 @@
 "bEnterCredentialToResetPassword" = "Enter email to reset password";
 "bPasswordResetSuccess" = "Your password reset has been successful";
 
-
-
 "bBack" = "Back";
 "bOpenInMaps" = "Open in maps";
 "bImageSaved" = "Image saved to library";
@@ -198,4 +196,9 @@
 "mute" = "Mute Notifications";
 "unmute" = "Unmute Notifications";
 
-"" = "";
+"bQRCode" = "QR Code";
+"bContact" = "Contact";
+"bImportFailed" = "Import Failed";
+"bImportKeys" = "Import Keys";
+"bExportKeys" = "Export Keys";
+"bEncryption" = "Encryption";

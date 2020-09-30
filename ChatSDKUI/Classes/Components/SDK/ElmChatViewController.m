@@ -14,6 +14,7 @@
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
 
+#import <ChatSDK/ChatSDK-Swift.h>
 
 // The distance to the bottom of the screen you need to be for the tableView to snap you to the bottom
 #define bTableViewRefreshHeight 300
@@ -38,6 +39,7 @@
     if (self) {
         
         _messageManager = [BMessageManager new];
+        _selectedIndexPaths = [NSMutableArray new];
         
         // Add a tap recognizer so when we tap the table we dismiss the keyboard
         _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
@@ -77,12 +79,81 @@
     _sendBarView.keepLeftInset.equal = 0;
     _sendBarView.keepRightInset.equal = 0;
     
-    // Constrain the table to the top of the toolbar
-    tableView.keepBottomOffsetTo(_sendBarView).equal = 2;
     
-//    tableView.layer.borderColor = [UIColor redColor].CGColor;
-//    tableView.layer.borderWidth = 2;
+
+}
+
+-(void) setupChatToolbar {
+    _chatToolbar = [[ChatToolbar alloc] init];
+    [self.view addSubview:_chatToolbar];
     
+    _chatToolbar.keepTopAlignTo(_sendBarView).equal = 0;
+    _chatToolbar.keepRightAlignTo(_sendBarView).equal = 0;
+    _chatToolbar.keepBottomAlignTo(_sendBarView).equal = 0;
+    _chatToolbar.keepLeftAlignTo(_sendBarView).equal = 0;
+    _chatToolbar.alpha = 0;
+    
+    _chatToolbar.copyListener = ^{
+        
+    };
+
+    _chatToolbar.replyListener = ^{
+        [self hideChatToolbar];
+        [_replyView showWithDuration:0.5];
+        [_chatToolbar hideWithDuration:0.5];
+        [self scrollToBottomOfTable:YES];
+    };
+
+    _chatToolbar.forwardListener = ^{
+        
+    };
+
+    _chatToolbar.deleteListener = ^{
+        for (NSIndexPath * index in _selectedIndexPaths) {
+            id<PMessage> message = [self messageForIndexPath:index];
+            [BChatSDK.thread deleteMessage:message.entityID];
+        }
+        [_selectedIndexPaths removeAllObjects];
+        [self hideChatToolbar];
+    };
+
+}
+
+-(void) setupReplyView {
+    _replyView = [[ReplyView alloc] init];
+    [self.view addSubview:_replyView];
+    
+    _replyView.keepRightInset.equal = 0;
+    _replyView.keepLeftInset.equal = 0;
+    _replyView.keepBottomOffsetTo(_sendBarView).equal = 0;
+    
+    [_replyView hideWithDuration:0];
+}
+
+-(void) showChatToolbar {
+    
+    // Setup which items are active
+    _chatToolbar.replyButton.enabled = _selectedIndexPaths.count == 1;
+    
+    BOOL canDelete = YES;
+    
+    for (NSIndexPath * path in _selectedIndexPaths) {
+        id<PMessage> message = [self messageForIndexPath:path];
+        if (![BChatSDK.thread canDeleteMessage:message]) {
+            canDelete = NO;
+            break;
+        }
+    }
+    
+    _chatToolbar.deleteButton.enabled = canDelete;
+    
+    [self resignFirstResponder];
+    [_chatToolbar showWithDuration:0.5];
+}
+
+-(void) hideChatToolbar {
+    [_chatToolbar hideWithDuration:0.5];
+    [_replyView hideWithDuration:0.5];
 }
 
 -(void) registerMessageCells {
@@ -129,8 +200,11 @@
 // or a collection view shown in the keyboard overlay
 -(void) setupKeyboardOverlay {
     _keyboardOverlay = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fh, self.view.fw, 0)];
-    _keyboardOverlay.backgroundColor = [UIColor whiteColor];
     
+    if (@available(iOS 13.0, *)) {
+        _keyboardOverlay.backgroundColor = [UIColor systemBackgroundColor];
+    } 
+
     _optionsHandler = [BChatSDK.ui chatOptionsHandlerWithDelegate:self];
     
     if(_optionsHandler.keyboardView) {
@@ -278,6 +352,11 @@
     [tableView addSubview:_refreshControl];
     
     [self setupTextInputView: NO];
+    [self setupChatToolbar];
+    [self setupReplyView];
+    
+    // Constrain the table to the top of the toolbar
+    tableView.keepBottomOffsetTo(_replyView).equal = 2;
 
     [self registerMessageCells];
 
@@ -286,7 +365,29 @@
     [self updateInterfaceForReachabilityStateChange];
 
     [self setupKeyboardOverlay];
+    
+    
+    UIGestureRecognizer * recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onLongPress:)];
+    [tableView addGestureRecognizer:recognizer];
+    
 
+}
+
+-(void) onLongPress: (UILongPressGestureRecognizer *) recognizer {
+    if (BChatSDK.config.messageSelectionEnabled) {
+        CGPoint point = [recognizer locationInView:tableView];
+        NSIndexPath * path = [tableView indexPathForRowAtPoint:point];
+        if (path) {
+            if (![_selectedIndexPaths containsObject:path]) {
+                [_selectedIndexPaths addObject:path];
+            }
+            [tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
+        }
+    }
+}
+
+-(BOOL) selectionModeEnabled {
+    return _selectedIndexPaths.count > 0;
 }
 
 -(void) tableRefreshed {
@@ -416,7 +517,7 @@
         [BChatSDK.encryption decryptMessage:message];
     }
     
-    BMessageCell<BMessageDelegate> * messageCell;
+    BMessageCell * messageCell;
     
     // We want to check if the message is a premium type but without the libraries added
     // Without this check the app crashes if the user doesn't have premium cell types
@@ -433,12 +534,15 @@
     }
 
     messageCell.navigationController = self.navigationController;
-
-    // Add a gradient to the cells
-    //float colorWeight = ((float) indexPath.row / (float) self.messages.count) * 0.15 + 0.85;
-    float colorWeight = 1;
-
-    [messageCell setMessage:message withColorWeight:colorWeight];
+    
+    [messageCell setMessage:message isSelected:[_selectedIndexPaths containsObject:indexPath]];
+    
+    if (self.selectionModeEnabled && !_chatToolbar.isVisible) {
+        [self showChatToolbar];
+    } else if (!self.selectionModeEnabled && _chatToolbar.isVisible) {
+        [self hideChatToolbar];
+    }
+    
     
     return messageCell;
 }
@@ -505,6 +609,16 @@
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     BMessageCell * cell = (BMessageCell *) [tableView_ cellForRowAtIndexPath:indexPath];
     
+    if (self.selectionModeEnabled) {
+        if ([_selectedIndexPaths containsObject:indexPath]) {
+            [_selectedIndexPaths removeObject:indexPath];
+        } else {
+            [_selectedIndexPaths addObject:indexPath];
+        }
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        return;
+    }
+    
     NSURL * url = Nil;
     if ([cell isKindOfClass:[BImageMessageCell class]]) {
         
@@ -568,6 +682,9 @@
              error: nil];
             
             AVPlayer * player = [[AVPlayer alloc] initWithURL:url];
+            [player.currentItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+            [player addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+
             AVPlayerViewController * playerController = [[AVPlayerViewController alloc] init];
             playerController.player = player;
             [self presentViewController:playerController animated:YES completion:Nil];
@@ -588,7 +705,7 @@
         [BFileCache cacheFileFromURL:url withFileName:meta[bMessageText] andCacheName:cell.message.entityID]
         .thenOnMain(^id(NSURL * cacheUrl) {
             NSLog(@"Cache URL: %@", [cacheUrl absoluteString]);
-            [cell setMessage:cell.message];
+            [cell setMessage:cell.message isSelected:[_selectedIndexPaths containsObject:indexPath]];
             
             [cell hideActivityIndicator];
             
@@ -599,6 +716,20 @@
             [cell hideActivityIndicator];
             return nil;
         });
+    }
+}
+
+// This observer looks at whether the audio is ready to play then returns the loading promise
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    NSError * error;
+    if ([object isKindOfClass:[AVPlayer class]]) {
+        error = [((AVPlayer *) object) error];
+    }
+    if ([object isKindOfClass:[AVPlayerItem class]]) {
+        error = [((AVPlayerItem *) object) error];
+    }
+    if (error) {
+        NSLog(@"%@", error.localizedDescription);
     }
 }
 
@@ -685,10 +816,15 @@
         UITableViewRowAction * button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault
                                                                            title:[NSBundle t:bDelete]
                                                                          handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            [BChatSDK.moderation deleteMessage:message.entityID];
+            [BChatSDK.thread deleteMessage:message.entityID];
         }];
         
-        button.backgroundColor = [UIColor redColor];
+        if (@available(iOS 13.0, *)) {
+            button.backgroundColor = [UIColor systemRedColor];
+        } else {
+            button.backgroundColor = [UIColor redColor];
+        }
+
         return @[button];
 
     }
@@ -705,7 +841,11 @@
             
         }];
         
-        button.backgroundColor = message.flagged.intValue ? [UIColor darkGrayColor] : [UIColor redColor];
+        if (@available(iOS 13.0, *)) {
+            button.backgroundColor = message.flagged.intValue ? [UIColor systemGrayColor] : [UIColor systemRedColor];
+        } else {
+            button.backgroundColor = message.flagged.intValue ? [UIColor grayColor] : [UIColor redColor];
+        }
         
         return @[button];
     }

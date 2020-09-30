@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15508"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -36,7 +34,6 @@
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textField>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="Lfx-uF-C6f" secondAttribute="bottom" constant="8" id="2eB-mZ-Spc"/>
                         <constraint firstItem="Lfx-uF-C6f" firstAttribute="leading" secondItem="281-dx-DD4" secondAttribute="leading" constant="8" id="4S2-Mp-z2Y"/>
@@ -55,7 +52,7 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="0.96546226739883423" green="0.96543341875076294" blue="0.96544981002807617" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstItem="UkR-FR-EHR" firstAttribute="top" secondItem="Ok8-lm-Uad" secondAttribute="top" id="2hD-tE-qDY"/>
                         <constraint firstItem="UkR-FR-EHR" firstAttribute="leading" secondItem="Ok8-lm-Uad" secondAttribute="leading" id="PQZ-qY-97C"/>
@@ -72,7 +69,7 @@
                     </connections>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="Ok8-lm-Uad" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="-1" id="283-gg-XOG"/>
                 <constraint firstItem="281-dx-DD4" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Msp-Dy-Ks6"/>
@@ -85,7 +82,7 @@
                 <constraint firstItem="3eB-zr-9l2" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="qS1-Yx-AL2"/>
                 <constraint firstAttribute="bottom" secondItem="3eB-zr-9l2" secondAttribute="bottom" id="zAS-aa-dRu"/>
             </constraints>
-            <point key="canvasLocation" x="-100.5" y="-91.5"/>
+            <point key="canvasLocation" x="-145.6521739130435" y="-61.272321428571423"/>
         </view>
     </objects>
 </document>

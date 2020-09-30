@@ -10,7 +10,8 @@
 
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 
-@import UserNotifications;
+//@import UserNotifications;
+#import <UserNotifications/UserNotifications.h>
 
 @interface BLocalNotificationDelegate : NSObject<UNUserNotificationCenterDelegate>
 

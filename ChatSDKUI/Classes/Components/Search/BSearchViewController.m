@@ -142,7 +142,11 @@
     // Add a tap recognizer to dismiss the keyboard
     _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if (version.majorVersion < 13) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+    }
+
 
     _addButton = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bAdd] style:UIBarButtonItemStylePlain target:self action:@selector(addButtonPressed)];
     self.navigationItem.rightBarButtonItem = _addButton;

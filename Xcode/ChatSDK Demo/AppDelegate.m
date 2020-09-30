@@ -21,7 +21,7 @@
     // The network adapter handles network traffic
 
     BConfiguration * config = [BConfiguration configuration];
-    config.rootPath = @"pre_1x";
+    config.rootPath = @"pre_5";
     config.allowUsersToCreatePublicChats = NO;
     config.showEmptyChats = NO;
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
@@ -33,7 +33,7 @@
     config.disableProfileUpdateOnAuthentication = NO;
     config.developmentModeEnabled = YES;
     config.disablePublicThreads = NO;
-
+    
 //    config.showLocalNotificationsForPublicChats = YES;
 //    config.publicChatAutoSubscriptionEnabled = YES;
 //    config.showEmptyChats = YES;
@@ -41,13 +41,12 @@
     // For the demo version of the client exire rooms after 24 hours
     config.publicChatRoomLifetimeMinutes = 60 * 24;
 
-    
     [BChatSDK initialize:config app:application options:launchOptions];
     
     // TODO: Fix Firebase UI!!!!!!!
     UIViewController * rootViewController = BChatSDK.ui.splashScreenNavigationController;
     
-    
+    BChatSDK.shared.interfaceAdapter = Nil;
    
     [self.window setRootViewController:rootViewController];
     
