@@ -96,6 +96,11 @@
     [super reloadData];
 }
 
-
+-(void) updateLocalNotificationHandler {
+    [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
+        BOOL result = !(thread.type.intValue & bThreadFilterPublic);
+        return result;
+    }];
+}
 
 @end

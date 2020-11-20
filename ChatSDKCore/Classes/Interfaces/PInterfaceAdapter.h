@@ -25,6 +25,7 @@
 @class BChatOption;
 @class BTextInputView;
 @class BLocalNotificationHandler;
+@class SettingsSection;
 
 typedef UIViewController * (^UserProvider) (id<PUser> user);
 typedef UIViewController * (^ChatProvider) (id<PThread> thread);
@@ -49,10 +50,6 @@ typedef UIViewController * (^ChatProvider) (id<PThread> thread);
 -(void) setProfileOptionsViewController: (UserProvider) provider;
 -(UIViewController *) profileOptionsViewControllerWithUser: (id<PUser>) user;
 
-/**
- * @deprecated Use mainViewController method instead
- */
--(UIViewController *) appTabBarViewController __deprecated;
 
 -(void) setMainViewController: (UIViewController *) controller;
 -(UIViewController *) mainViewController;
@@ -98,6 +95,10 @@ typedef UIViewController * (^ChatProvider) (id<PThread> thread);
 
 -(void) addChatOption: (BChatOption *) option;
 -(void) removeChatOption: (BChatOption *) option;
+-(void) removeChatOptionWithTitle: (NSString *) title;
+
+-(void) addSettingsSection: (SettingsSection *) section;
+-(NSArray *) settingsSections;
 
 -(void) addTabBarViewController: (UIViewController *) controller atIndex: (int) index;
 -(void) removeTabBarViewControllerAtIndex: (int) index;

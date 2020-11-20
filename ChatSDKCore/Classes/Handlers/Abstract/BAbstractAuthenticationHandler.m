@@ -11,6 +11,18 @@
 
 @implementation BAbstractAuthenticationHandler
 
+-(instancetype) init {
+    if((self = [super init])) {
+        __weak __typeof__(self) weakSelf = self;
+        [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+            // Resets the view which the tab bar loads on
+            __typeof__(self) strongSelf = weakSelf;
+            strongSelf->_currentUserID = Nil;
+        }] withName:bHookDidLogout];
+    }
+    return self;
+}
+
 -(BOOL) accountTypeEnabled: (bAccountType) accountType {
     NSString * key = @"";
     
@@ -59,8 +71,20 @@
     }
 }
 
--(NSString *) currentUserEntityID {
-    return [[NSUserDefaults standardUserDefaults] dictionaryForKey:bCurrentUserLoginInfo][bAuthenticationIDKey];
+/**
+ * @brief Get the current user's ID
+ * @deprecated Use currentUserID
+ */
+
+-(NSString *) currentUserEntityID __deprecated {
+    return self.currentUserID;
+}
+
+-(NSString *) currentUserID {
+    if (!_currentUserID) {
+        _currentUserID = [[NSUserDefaults standardUserDefaults] dictionaryForKey:bCurrentUserLoginInfo][bAuthenticationIDKey];
+    }
+    return _currentUserID;
 }
 
 -(void) saveAccountDetails: (BAccountDetails *) details {

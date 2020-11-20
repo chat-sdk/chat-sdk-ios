@@ -31,6 +31,7 @@
         _additionalSearchViewControllers = [NSMutableDictionary new];
         _messageCellTypes = [NSMutableDictionary new];
         _providers = [NSMutableDictionary new];
+        _settingsSections = [NSMutableArray new];
         
         [self registerMessageWithCellClass:BTextMessageCell.class messageType:@(bMessageTypeText)];
         [self registerMessageWithCellClass:BImageMessageCell.class messageType:@(bMessageTypeImage)];
@@ -116,9 +117,6 @@
 
 -(UINavigationController *) friendsNavigationControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action {
     return [self navigationControllerWithRootViewController:[self friendsViewControllerWithUsersToExclude:usersToExclude onComplete:action]];
-}
--(UIViewController *) appTabBarViewController __deprecated {
-    return [self splashScreenNavigationController];
 }
 
 -(UIViewController *) mainViewController {
@@ -356,6 +354,18 @@
     }
 }
 
+-(void) removeChatOptionWithTitle: (NSString *) title {
+    BChatOption * toRemove;
+    for(BChatOption * option in _additionalChatOptions) {
+        if ([option.title isEqualToString:title]) {
+            toRemove = option;
+            break;
+        }
+    }
+    [self removeChatOption:toRemove];
+}
+
+
 -(UIViewController *) settingsViewController {
     return _settingsViewController;
 }
@@ -423,6 +433,14 @@
 
 -(void) setLocalNotificationHandler:(BOOL(^)(id<PThread>)) handler {
     showLocalNotification = handler;
+}
+
+-(void) addSettingsSection: (SettingsSection *) section {
+    [_settingsSections addObject:section];
+}
+
+-(NSArray *) settingsSections {
+    return _settingsSections;
 }
 
 @end

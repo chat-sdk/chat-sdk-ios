@@ -13,7 +13,6 @@
 @class RXPromise;
 @protocol PUserConnection;
 @protocol PThread;
-@protocol PUserAccount;
 @protocol PEntity;
 @protocol PElmUser;
 
@@ -63,10 +62,6 @@
 //-(void) addContact: (id<PUser>) user;
 -(NSArray *) getContacts;
 
-//-(RXPromise *) loadProfileImage: (BOOL) force;
-
--(void) addLinkedAccountsObject: (id<PUserAccount>) account;
-
 -(void) setEmail: (NSString *) email;
 -(NSString *) email;
 
@@ -78,8 +73,6 @@
 -(int) unreadMessageCount;
 
 -(NSString *) pushChannel;
-
--(id<PUserAccount>) accountWithType: (bAccountType) type;
 
 -(id<PUser>) model;
 

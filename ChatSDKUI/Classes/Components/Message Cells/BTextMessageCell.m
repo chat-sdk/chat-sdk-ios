@@ -32,7 +32,7 @@
         // Get rid of padding and margin
         textView.textContainer.lineFragmentPadding = 0;
         textView.textContainerInset = UIEdgeInsetsZero;
-
+        
         textView.font = [UIFont systemFontOfSize:bDefaultFontSize];
         if(BChatSDK.config.messageTextFont) {
             textView.font = BChatSDK.config.messageTextFont;

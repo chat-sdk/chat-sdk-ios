@@ -67,7 +67,9 @@
 /**
  * @brief Get the current user's authentication id
  */
--(NSString *) currentUserEntityID;
+-(NSString *) currentUserEntityID __deprecated;
+-(NSString *) currentUserID;
+
 
 -(RXPromise *) resetPasswordWithCredential: (NSString *) credential;
 

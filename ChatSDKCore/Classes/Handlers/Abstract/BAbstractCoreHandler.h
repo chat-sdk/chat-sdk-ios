@@ -12,7 +12,6 @@
 
 @interface BAbstractCoreHandler : NSObject<PCoreHandler> {
     id<PUser> _currentUser;
-    NSString * _currentUserEntityID;
 }
 
 @end

@@ -115,11 +115,11 @@
                 
                 switch ([exportSession status]) {
                     case AVAssetExportSessionStatusFailed:
-                        NSLog(@"Export failed: %@", [[exportSession error] localizedDescription]);
+                        [BChatSDK.shared.logger log: @"Export failed: %@", [[exportSession error] localizedDescription]];
                         [_promise rejectWithReason:exportSession.error];
                         break;
                     case AVAssetExportSessionStatusCancelled:
-                        NSLog(@"Export canceled");
+                        [BChatSDK.shared.logger log: @"Export canceled"];
                         [_promise rejectWithReason:exportSession.error];
                         break;
                     default:

@@ -54,6 +54,9 @@ typedef enum {
 // User profile image
 @property (nonatomic, readwrite) NSString * defaultAvatarURL;
 
+// User profile image
+@property (nonatomic, readwrite) UIImage * xmppDefaultAvatar;
+
 @property (nonatomic, readwrite) NSString * timeFormat;
 
 // The maximum dimension for an image message
@@ -98,8 +101,6 @@ typedef enum {
 @property (nonatomic, readwrite) BOOL xmppAdvancedConfigurationEnabled;
 
 @property (nonatomic, readwrite) BOOL messageDeletionEnabled;
-@property (nonatomic, readwrite) BOOL xmppOutgoingMessageQueueEnabled;
-@property (nonatomic, readwrite) BOOL disableSendButtonWhenDisconnected;
 
 // The message view text input box, max lines and characters
 @property (nonatomic, readwrite) int textInputViewMaxLines;
@@ -134,6 +135,10 @@ typedef enum {
 @property(nonatomic, readwrite) NSString * messageBubbleMaskMiddle;
 @property(nonatomic, readwrite) NSString * messageBubbleMaskLast;
 @property(nonatomic, readwrite) NSString * messageBubbleMaskSingle;
+
+@property(nonatomic, readwrite) BOOL disableSendButtonWhenDisconnected;
+@property (nonatomic, readwrite) BOOL xmppOutgoingMessageQueueEnabled;
+@property (nonatomic, readwrite) BOOL xmppSendPushOnAck;
 
 @property(nonatomic, readwrite) bNameLabelPosition nameLabelPosition;
 @property(nonatomic, readwrite) BOOL combineTimeWithNameLabel;
@@ -222,6 +227,7 @@ typedef enum {
 
 // If this is true, extra data will be added to support Chat SDK v4
 @property (nonatomic, readwrite) BOOL enableCompatibilityWithV4;
+
 
 // Firebase options
 

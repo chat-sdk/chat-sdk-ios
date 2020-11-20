@@ -245,7 +245,7 @@
             CCUserWrapper * user = [CCUserWrapper userWithSnapshot:snapshot];
             [_model addUser:user.model];
             [user metaOn];
-            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadUsersUpdated object:Nil];
+            [BHookNotification notificationThreadUsersUpdated:self.model];
         }
     }];
     
@@ -257,7 +257,7 @@
                     CCUserWrapper * user = [CCUserWrapper userWithEntityID:userEntityID];
                     if (_model.type.intValue ^ bThreadType1to1) {
                         [_model removeUser:user.model];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadUsersUpdated object:Nil];
+                        [BHookNotification notificationThreadUsersUpdated:self.model];
                     }
                 }
                 if ([userEntityID isEqualToString:BChatSDK.currentUserID]) {
@@ -276,7 +276,7 @@
             // Update the thread
             CCUserWrapper * user = [CCUserWrapper userWithSnapshot:snapshot];
             [_model removeUser:user.model];
-            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadUsersUpdated object:Nil];
+            [BHookNotification notificationThreadUsersUpdated:self.model];
         }
     }];
 }
@@ -503,8 +503,7 @@
         
         void(^onComplete)(id<PUser> user) = ^void(id<PUser> user) {
             _model.creator = user;
-            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadMetaUpdated
-                                                                object:Nil];
+            [BHookNotification notificationThreadUpdated:self.model];
         };
             
         id<PUser> user = [BChatSDK.db fetchEntityWithID:creatorEntityID withType:bUserEntity];

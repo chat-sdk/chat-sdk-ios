@@ -199,9 +199,9 @@
 
 +(void) checkOnMain {
     if ([[NSThread currentThread] isEqual:[NSThread mainThread]]) {
-        NSLog(@"On Main Thread");
+        [BChatSDK.shared.logger log: @"On Main Thread"];
     } else {
-        NSLog(@"On Background Thread");
+        [BChatSDK.shared.logger log: @"On Background Thread"];
     }
 }
 
@@ -213,7 +213,7 @@
                 id<PThread> t1 = (id<PThread>) o1;
                 id<PThread> t2 = (id<PThread>) o2;
                 if ([t1.entityID isEqual:t2.entityID]) {
-                    NSLog(@"Duplicate thread");
+                    [BChatSDK.shared.logger log: @"Duplicate thread"];
                 }
             }
         }

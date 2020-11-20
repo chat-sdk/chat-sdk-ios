@@ -40,12 +40,33 @@
 
 #define bHookThreadAdded @"bHookThreadAdded"
 #define bHookThreadRemoved @"bHookThreadRemoved"
+#define bHookThreadUpdated @"bHookThreadUpdated"
+#define bHookThreadUsersUpdated @"bHookThreadUsersUpdated"
+
+#define bHookWillPushUser @"bHookWillPushUser"
 
 #define bHookServerPingFailed @"bHookServerPingFailed"
+
+#define bHookServerConnectionStatusUpdated @"bHookServerConnectionStatusUpdated"
+
+//#define bHookWillResignActive @"bHookWillResignActive"
+//#define bHookDidBecomeActive @"bHookDidBecomeActive"
+
+#define bHookGlobalAlertMessage @"bHookGlobalAlertMessage"
+#define bHookSettingsUpdated @"bHookSettingsUpdated"
 
 #define bHook_PMessage @"bHook_PMessage"
 #define bHook_PUser @"bHook_PUser"
 #define bHook_PThread @"bHook_PThread"
+#define bHook_PThreads @"bHook_PThreads"
+#define bHook_UIApplication @"bHook_UIApplication"
+
+#define bHook_TitleString @"bHook_TitleString"
+#define bHook_MessageString @"bHook_MessageString"
+
+#define bHook_StringId @"bHook_StringId"
+#define bHook_ObjectValue @"bHook_ObjectValue"
+
 
 #define bHookInternetConnectivityDidChange @"bHookInternetConnectivityDidChange"
 #define bHookUserWillDisconnect @"bHookUserWillDisconnect"

@@ -33,6 +33,7 @@
         self.imageView.image = BChatSDK.config.logoImage;
     }
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    self.navigationController.toolbarHidden = YES;
     
     [self stopActivityIndicator];
     

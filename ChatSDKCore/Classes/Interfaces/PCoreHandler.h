@@ -11,6 +11,12 @@
 
 #import <ChatSDK/PUser.h>
 
+typedef enum {
+    bConnectionStatusConnected,
+    bConnectionStatusConnecting,
+    bConnectionStatusDisconnected,
+} bConnectionStatus;
+
 @class RXPromise;
 
 @protocol PCoreHandler <NSObject>
@@ -61,10 +67,14 @@
  * changes are lost. Calling save forces Core Data to persist the data to perminant storage
  */
 -(void) save;
+-(NSDate *) now;
 
+@optional
+
+-(bConnectionStatus) connectionStatus;
+-(void) reconnect;
 // Save the data to perminent storage
 //-(void) saveToStore;
-
 
 @end
 

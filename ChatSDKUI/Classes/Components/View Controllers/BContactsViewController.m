@@ -13,6 +13,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 #define bCellIdentifier @"bCellIdentifier"
 
@@ -69,6 +70,9 @@
     tableView.tableFooterView = footer;
     
     [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bCellIdentifier];
+    
+    self.navigationItem.titleView = [ReconnectingView new];
+
 }
 
 -(void) viewWillAppear:(BOOL)animated {

@@ -114,7 +114,7 @@
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+//    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 -(void) viewTapped {
@@ -259,7 +259,12 @@
     // Sometimes there are operations that take a very small amount of time
     // to complete - this messes up the animation. Really we only want to show the
     // HUD if the user is waiting over a certain amount of time
-    _timer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(showHudNow) userInfo:Nil repeats:NO];
+    
+    __weak __typeof(self) weakSelf = self;
+    _timer = [NSTimer scheduledTimerWithTimeInterval:0.3 repeats:NO block:^(NSTimer * timer) {
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf showHudNow];
+    }];
 }
 
 -(void) showHudNow {

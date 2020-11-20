@@ -81,6 +81,10 @@
 "bChooseExistingPhoto" = "Choose existing photo";
 "bTakePhoto" = "Take photo";
 "bTakeVideo" = "Take video";
+
+"bPhotoLibrary" = "Photo Library";
+"bPhotoAlbum" = "Saved Photo Album";
+
 "bTakePhotoOrVideo" = "Take photo or video";
 "bChooseExistingPhoto" = "Choose existing photo";
 "bChooseExistingVideo" = "Choose existing video";
@@ -111,6 +115,8 @@
 "bYesterday" = "Yesterday";
 
 "bSearchTerm" = "Search Term";
+"bWaitingForNetwork" = "Waiting for Network";
+"bConnecting" = "Connecting";
 
 "bTo" = "To";
 "bEnterNamesHere" = "Enter names here";

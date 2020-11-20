@@ -21,20 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSDate *lastOnline;
 @property (nullable, nonatomic, retain) id meta;
 @property (nullable, nonatomic, retain) NSNumber *online;
-@property (nullable, nonatomic, retain) NSSet<CDUserAccount *> *linkedAccounts;
 @property (nullable, nonatomic, retain) NSSet<CDMessage *> *messages;
 @property (nullable, nonatomic, retain) NSSet<CDThread *> *threads;
 @property (nullable, nonatomic, retain) NSSet<CDUserConnection *> *userConnections;
 @property (nullable, nonatomic, retain) NSSet<CDThread *> *threadsCreated;
+@property (nullable, nonatomic, retain) NSString *userAccountID;
 
 @end
 
 @interface CDUser (CoreDataGeneratedAccessors)
-
-- (void)addLinkedAccountsObject:(CDUserAccount *)value;
-- (void)removeLinkedAccountsObject:(CDUserAccount *)value;
-- (void)addLinkedAccounts:(NSSet<CDUserAccount *> *)values;
-- (void)removeLinkedAccounts:(NSSet<CDUserAccount *> *)values;
 
 - (void)addMessagesObject:(CDMessage *)value;
 - (void)removeMessagesObject:(CDMessage *)value;

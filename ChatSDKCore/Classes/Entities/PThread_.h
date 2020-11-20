@@ -110,6 +110,7 @@ typedef enum {
 
 -(void) setDraft: (NSString *) draft;
 -(NSString *) draft;
+-(BOOL) typeIs: (bThreadType) type;
  
 @end
 

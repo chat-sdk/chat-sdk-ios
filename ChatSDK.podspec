@@ -35,6 +35,9 @@ Pod::Spec.new do |s|
 	  s.dependency 'DateTools', '~> 2.0'
       s.dependency 'SAMKeychain'
 
+      s.dependency 'RxSwift', '6.0.0-rc.1'
+      s.dependency 'RxCocoa', '6.0.0-rc.1'
+
       s.frameworks = 'SafariServices'
   
   end
@@ -75,7 +78,7 @@ Pod::Spec.new do |s|
 	  s.dependency 'EFQRCode', '~> 5.1.6'
 
 	  s.dependency 'ChatSDK/CoreData'
-	  
+      s.dependency 'QuickTableViewController'	  
 	  s.frameworks = 'CoreLocation'
   
   end

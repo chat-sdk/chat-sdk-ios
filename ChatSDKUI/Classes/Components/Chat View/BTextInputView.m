@@ -146,6 +146,12 @@
             [strongSelf updateInterfaceForReachabilityStateChange];
         }];
         [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
+
+        _connectionStatusHook = [BHook hook:^(NSDictionary * data) {
+            __typeof__(self) strongSelf = weakSelf;
+            [strongSelf updateInterfaceForReachabilityStateChange];
+        }];
+        [BChatSDK.hook addHook:_connectionStatusHook withName:bHookServerConnectionStatusUpdated];
         
         [self updateInterfaceForReachabilityStateChange];
         
@@ -174,6 +180,13 @@
     BOOL connected = BChatSDK.connectivity.isConnected;
     _sendButton.enabled = connected;
     _optionsButton.enabled = connected;
+    
+    if (BChatSDK.config.disableSendButtonWhenDisconnected) {
+        connected = BChatSDK.core.connectionStatus == bConnectionStatusConnected;
+        _sendButton.enabled = connected;
+        _optionsButton.enabled = connected;
+    }
+    
 }
 
 -(void) setAudioEnabled: (BOOL) audioEnabled {
@@ -232,11 +245,13 @@
 - (void)sendButtonHeld {
     if (_micButtonEnabled) {
         [[BAudioManager shared] startRecording];
-        _recordingToastTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
-                                                                target:self
-                                                              selector:@selector(showRecordingToast)
-                                                              userInfo:Nil
-                                                               repeats:YES];
+        
+        __weak __typeof(self) weakSelf = self;
+        _recordingToastTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 repeats:YES block:^(NSTimer * timer) {
+            __typeof(self) strongSelf = weakSelf;
+            [strongSelf showRecordingToast];
+        }];
+
         _recordingStart = [NSDate new];
         [_placeholderLabel setText:[NSBundle t: bSlideToCancel]];
     }

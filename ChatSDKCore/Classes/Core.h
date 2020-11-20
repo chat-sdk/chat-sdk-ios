@@ -25,6 +25,7 @@
 #import <ChatSDK/NSDate+Additions.h>
 #import <ChatSDK/NSDictionary+Meta.h>
 #import <ChatSDK/NSString+Safe.h>
+#import <ChatSDK/NSObject+ThreadCheck.h>
 
 #import <ChatSDK/PStorageAdapter.h>
 #import <ChatSDK/PNetworkAdapter.h>
@@ -36,6 +37,7 @@
 #import <ChatSDK/BCoreUtilities.h>
 #import <ChatSDK/BFileCache.h>
 #import <ChatSDK/BAvailabilityState.h>
+#import <ChatSDK/BLogger.h>
 
 #import <ChatSDK/PEntity.h>
 #import <ChatSDK/PEntityWrapper.h>
@@ -45,7 +47,6 @@
 #import <ChatSDK/PThread_.h>
 #import <ChatSDK/PThreadWrapper.h>
 #import <ChatSDK/PUser.h>
-#import <ChatSDK/PUserAccount.h>
 #import <ChatSDK/PUserWrapper.h>
 #import <ChatSDK/PGroup.h>
 #import <ChatSDK/PModule.h>

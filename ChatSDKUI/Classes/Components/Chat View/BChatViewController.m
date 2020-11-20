@@ -83,17 +83,17 @@
         });
     }]];
    
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         id<PMessage> message = data[bHook_PMessage];
 
         if (![message.thread isEqualToEntity:_thread]) {
             // If we are in chat and receive a message in another chat then vibrate the phone
-            if (!message.userModel.isMe && BChatSDK.config.vibrateOnNewMessage) {
+            if (!message.userModel.isMe && BChatSDK.config.vibrateOnNewMessage && !message.isRead && (message.date.timeIntervalSinceNow < 20) && !message.meta[bMessageIsHistoric]) {
                 AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
             }
         } else {
             if (BChatSDK.readReceipt) {
-                [BChatSDK.readReceipt markRead:_thread.model];
+                [BChatSDK.readReceipt markRead:_thread];
             }
             [message setDelivered:@YES];
             [weakSelf addMessage:message];
@@ -101,22 +101,38 @@
         
     }] withNames:@[bHookMessageWillSend, bHookMessageRecieved, bHookMessageWillUpload]]];
 
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         id<PMessage> message = data[bHook_PMessage];
         if (message && [message.thread isEqualToEntity:_thread]) {
-            [self removeMessage:message];
+            [weakSelf removeMessage:message];
         }
     }] withNames:@[bHookMessageWillBeDeleted]]];
 
     [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        [self reloadData];
+        [weakSelf reloadData];
+
+        // Black Chat
+//        [_messageManager clear];
+//        [self loadMoreMessages];
+//        [self reloadData:false animate:false force:true];
+//        [self reloadData];
+
     }] withNames:@[bHookMessageWasDeleted]]];
 
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        [_messageManager clear];
-        [self reloadData];
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
+        NSArray * threads = data[bHook_PThreads];
+        if ([threads containsObject:_thread]) {
+            [weakSelf.messageManager clear];
+            [weakSelf reloadData];
+        }
     }] withNames:@[bHookAllMessagesDeleted]]];
-
+    
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
+        id<PThread> thread = dict[bHook_PThread];
+        if (thread && [thread.entityID isEqualToString:weakSelf.thread.entityID]) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }
+    }] withNames: @[bHookThreadRemoved]]];
     
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
                                                                       object:Nil
@@ -130,7 +146,7 @@
                                                                           }
                                                                       });
     }]];
-    
+        
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationTypingStateChanged
                                                                         object:nil
                                                                          queue:Nil
@@ -143,17 +159,11 @@
                                                                         });
     }]];
     
-    
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadUsersUpdated
-                                                                             object:Nil
-                                                                              queue:Nil
-                                                                         usingBlock:^(NSNotification * notification) {
-                                                                             dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                 [weakSelf updateSubtitle];
-                                                                                 [weakSelf updateTitle];
-                                                                            });
-    }]];
-    
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
+        [weakSelf updateSubtitle];
+        [weakSelf updateTitle];
+    }] withName:bHookThreadUsersUpdated]];
+
 }
 
 -(void) updateMessages {
@@ -192,8 +202,6 @@
 
     // Testing
     [BChatSDK.db fetchEntityWithID:_thread.entityID withType:bThreadEntity];
-    
-    
     
     // End
     
@@ -289,7 +297,7 @@
 
 -(void) navigationBarTapped {
     _usersViewLoaded = YES;
-    NSMutableArray * users = [NSMutableArray arrayWithArray: _thread.model.users.allObjects];
+    NSMutableArray * users = [NSMutableArray arrayWithArray: _thread.users.allObjects];
     [users removeObject:BChatSDK.currentUser];
     
     UINavigationController * nvc = [BChatSDK.ui usersViewNavigationControllerWithThread:_thread
@@ -301,9 +309,6 @@
 
 -(NSString *) threadEntityID {
     return _thread.entityID;
-}
-
--(void) dealloc {
 }
 
 

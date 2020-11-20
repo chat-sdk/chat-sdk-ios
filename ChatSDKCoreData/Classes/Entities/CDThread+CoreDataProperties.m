@@ -23,5 +23,6 @@
 @dynamic messages;
 @dynamic users;
 @dynamic draft;
+@dynamic userAccountID;
 
 @end

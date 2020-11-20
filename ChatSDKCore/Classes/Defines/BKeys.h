@@ -21,6 +21,7 @@
 
 #define bDeletedKey @"deleted"
 #define bTokenKey @"token"
+#define bPushSent @"push-sent"
 
 // Deprecated in favour of bType
 #define bTypeV4 @"type_v4"

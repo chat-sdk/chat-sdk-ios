@@ -27,7 +27,8 @@
     bool xmppAdapter = NSClassFromString(@"BXMPPNetworkAdapter") != Nil;
     
     if(firebaseAdapter && xmppAdapter) {
-        NSLog(@"You should only have one network adapter active in the project. The project will be setup to use the server type defined in configuration.defaultServer");
+        
+        [BChatSDK.shared.logger log:@"You should only have one network adapter active in the project. The project will be setup to use the server type defined in configuration.defaultServer"];
     }
     else {
         if(firebaseAdapter) {
@@ -101,12 +102,12 @@
         else {
             [instance activate];
         }
-        NSLog(@"%@ activated successfully", name);
+        [BChatSDK.shared.logger log:@"%@ activated successfully", name];
         [_activated addObject:name];
         return YES;
     }
     else {
-        NSLog(@"%@ wasn't available", name);
+        [BChatSDK.shared.logger log:@"%@ wasn't available", name];
         return NO;
     }
 }

@@ -27,6 +27,7 @@
 }
 
 @property (nonatomic, readwrite) BDetailedProfileTableViewController * profileViewController;
+@property (nonatomic, readwrite) UIImagePickerController * imagePickerController;
 
 @property (weak, nonatomic) IBOutlet UITextView *statusTextView;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;

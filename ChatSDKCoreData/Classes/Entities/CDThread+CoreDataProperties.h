@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSSet<CDMessage *> *messages;
 @property (nullable, nonatomic, retain) NSSet<CDUser *> *users;
 @property (nullable, nonatomic, retain) NSString *draft;
+@property (nullable, nonatomic, retain) NSString *userAccountID;
 
 @end
 

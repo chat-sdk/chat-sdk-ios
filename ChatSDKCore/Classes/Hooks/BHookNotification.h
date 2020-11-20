@@ -34,9 +34,20 @@
 +(void) notificationUserOn: (id<PUser>) user;
 +(void) notificationInternetConnectivityDidChange;
 +(void) notificationUserWillDisconnect;
-+(void) notificationAllMessagesDeleted;
++(void) notificationAllMessagesDeletedForThreads: (NSArray *) threads;
 
 +(void) notificationThreadAdded: (id<PThread>) thread;
 +(void) notificationThreadRemoved: (id<PThread>) thread;
++(void) notificationThreadUpdated: (id<PThread>) thread;
++(void) notificationThreadUsersUpdated: (id<PThread>) thread;
+
++(void) notificationSettingsUpdated: (NSString *) itemId newValue: (id) value;
+
++(void) notificationWillPushUser: (id<PUser>) user;
+
+//+(void) notificationWillResignActive: (UIApplication *) app;
+//+(void) notificationDidBecomeActive: (UIApplication *) app;
+
++(void) notificationGlobalAlertMessage: (NSString *) title message: (NSString *) message;
 
 @end

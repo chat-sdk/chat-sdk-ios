@@ -44,6 +44,9 @@
     NSArray * vcs = [BChatSDK.ui tabBarNavigationViewControllers];
     self.viewControllers = vcs;
     [self.tabBar setTranslucent:NO];
+    
+    [self.navigationController setNavigationBarHidden:YES];
+    self.navigationController.toolbarHidden = YES;
 
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [self setSelectedIndex:0];
@@ -52,7 +55,7 @@
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [weakSelf updateBadge];
     }] withNames:@[bHookMessageRecieved, bHookMessageWasDeleted, bHookAllMessagesDeleted]];
-
+    
     // When a message is recieved we increase the messages tab number
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationBadgeUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -86,6 +89,16 @@
     
     NSInteger badge = [[NSUserDefaults standardUserDefaults] integerForKey:bMessagesBadgeValueKey];
     [self setPrivateThreadsBadge:badge];
+    
+    [BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
+        NSString * title = dict[bHook_TitleString];
+        NSString * message = dict[bHook_MessageString];
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:[NSBundle t:bOk] style:UIAlertActionStyleCancel handler:nil]];
+        [self.selectedViewController presentViewController:alert animated:YES completion:nil];
+        
+    }] withName:bHookGlobalAlertMessage];
     
 }
 
@@ -144,12 +157,13 @@
     if ([viewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController * nav = (UINavigationController *) viewController;
         if (nav.viewControllers.count) {
-            // Should we enable or disable local notifications? We want to show them on every tab that isn't the thread view
-            BOOL showNotification = ![nav.viewControllers.firstObject isEqual:BChatSDK.ui.privateThreadsViewController] && ![nav.viewControllers.firstObject isEqual:BChatSDK.ui.publicThreadsViewController];
-            
-            [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
-                return showNotification;
-            }];
+            if ([nav.viewControllers.firstObject respondsToSelector:@selector(updateLocalNotificationHandler)]) {
+                [nav.viewControllers.firstObject performSelector:@selector(updateLocalNotificationHandler)];
+            } else {
+                [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
+                    return YES;
+                }];
+            }
         }
     }
 }
@@ -158,28 +172,47 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     [BChatSDK.core save];
     [self updateShowLocalNotifications:viewController];
-    [BChatSDK.core save];
+//    [BChatSDK.core save];
+    [self updateBadge];
 }
 
 -(void) updateBadge {
     
+    [BChatSDK.db privateThreadUnreadMessageCount].thenOnMain(^id(NSNumber * result) {
+        [self setPrivateThreadsBadge:result.intValue];
+        return nil;
+    }, nil);
+
     // The message view open with this thread?
     // Get the number of unread messages
-    int privateThreadsMessageCount = [self unreadMessagesCount:bThreadFilterPrivate];
-    [self setPrivateThreadsBadge:privateThreadsMessageCount];
+//    int privateThreadsMessageCount = [self unreadMessagesCount:bThreadFilterPrivate];
+//    [self setPrivateThreadsBadge:privateThreadsMessageCount];
 
     if(BChatSDK.config.showPublicThreadsUnreadMessageBadge) {
-        int publicThreadsMessageCount = [self unreadMessagesCount:bThreadFilterPublic];
-        [self setBadge:publicThreadsMessageCount forViewController:BChatSDK.ui.publicThreadsViewController];
+        [BChatSDK.db publicThreadUnreadMessageCount].thenOnMain(^id(NSNumber * result) {
+            [self setBadge:result.intValue forViewController:BChatSDK.ui.publicThreadsViewController];
+            return nil;
+        }, nil);
+
+//        int publicThreadsMessageCount = [self unreadMessagesCount:bThreadFilterPublic];
+//        [self setBadge:publicThreadsMessageCount forViewController:BChatSDK.ui.publicThreadsViewController];
     }
     
 }
 
+// Very expensive in terms of CPU
 -(int) unreadMessagesCount: (bThreadType) type {
+    
     // Get all the threads
     int i = 0;
     NSArray * threads = [BChatSDK.thread threadsWithType:type];
     for (id<PThread> thread in threads) {
+
+        [BChatSDK.db unreadMessagesCount:thread.entityID].thenOnMain(^id(id result) {
+            NSLog(@"Result %@", result);
+            return nil;
+        }, nil);
+        
         i += thread.unreadMessageCount;
     }
     return i;

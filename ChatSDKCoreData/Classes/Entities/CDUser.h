@@ -16,7 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CDUser : NSManagedObject<PUser, PUserWrapper>
+@interface CDUser : NSManagedObject<PUser>
 
 // Insert code here to declare functionality of your managed object subclass
 

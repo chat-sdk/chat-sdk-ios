@@ -225,11 +225,11 @@
 }
 
 -(BOOL) isRead {
-    return [self readStatusForUserID:BChatSDK.currentUserID] == bMessageReadStatusRead || self.read;
+    return self.read || [self readStatusForUserID:BChatSDK.currentUserID] == bMessageReadStatusRead;
 }
 
 -(BOOL) isDelivered {
-    return [self readStatusForUserID:BChatSDK.currentUserID] >= bMessageReadStatusDelivered || self.read || self.delivered;
+    return  self.read || self.delivered || [self readStatusForUserID:BChatSDK.currentUserID] >= bMessageReadStatusDelivered;
 }
 
 -(BOOL) isReply {

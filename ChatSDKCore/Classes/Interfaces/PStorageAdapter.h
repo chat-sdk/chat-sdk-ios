@@ -42,12 +42,19 @@ typedef enum {
 -(id<PThread>) fetchThreadWithUsers: (NSArray *) users;
 -(id) executeFetchRequest: (NSFetchRequest *) fetchRequest entityName: (NSString *) entityName predicate: (NSPredicate *) predicate;
 
+-(RXPromise *) unreadMessagesCount: (NSString *) threadEntityID;
+-(RXPromise *) threadsWithType: (bThreadType) type;
+-(RXPromise *) privateThreadUnreadMessageCount;
+-(RXPromise *) publicThreadUnreadMessageCount;
+-(RXPromise *) unreadMessages: (NSString *) threadEntityID;
+
 -(id<PMessage>) createMessageEntity;
 -(id<PThread>) createThreadEntity;
 
 -(RXPromise *) save;
 -(RXPromise *) saveToStore;
--(void) saveToStoreOnMain;
+-(RXPromise *) saveBackground;
+//-(void) saveToStoreOnMain;
 
 -(id) createEntity: (NSString *) entityName;
 
@@ -75,6 +82,7 @@ typedef enum {
 
 //-(RXPromise *) performOnPrivate: (id (^)(void)) block;
 -(RXPromise *) performOnMain: (id (^)(void)) block;
+-(void) performOnMainAndWait:(void(^)(void)) block;
 
 //-(RXPromise *) performOnPrivateAndSave:(id (^)(void))block;
 -(RXPromise *) performOnMainAndSave:(id (^)(void))block;

@@ -14,6 +14,7 @@
 @class BBackgroundPushNotificationQueue;
 @class BInternetConnectivity;
 @class BModuleHelper;
+@class Settings;
 
 @class Colors;
 @class Icons;
@@ -21,6 +22,7 @@
 @protocol PInterfaceAdapter;
 @protocol PUser;
 @protocol PStorageAdapter;
+@protocol PLogger;
 
 @interface BChatSDK : NSObject {
     BConfiguration * _configuration;
@@ -29,6 +31,8 @@
     id<PNetworkAdapter> _networkAdapter;
     BBackgroundPushNotificationQueue * _pushQueue;
     BModuleHelper * _moduleHelper;
+    id<PLogger> _logger;
+    Settings * _settings;
 }
 
 @property (nonatomic, readonly) BConfiguration * configuration;
@@ -38,6 +42,9 @@
 @property (nonatomic, readwrite) NSBundle * colorsBundle;
 @property (nonatomic, readwrite) NSBundle * bundle;
 @property (nonatomic, readwrite) NSBundle * iconsBundle;
+@property (nonatomic, readwrite) id<PLogger> logger;
+@property (nonatomic, readwrite) Settings * settings;
+
 
 +(BChatSDK *) shared;
 

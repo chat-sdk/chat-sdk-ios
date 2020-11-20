@@ -11,43 +11,53 @@
 @implementation BHookNotification
 
 +(void) notificationMessageWillSend: (id<PMessage>) message {
-    [BChatSDK.hook executeHookWithName:bHookMessageWillSend data:@{bHook_PMessage: message}];
+    if (message)
+        [BChatSDK.hook executeHookWithName:bHookMessageWillSend data:@{bHook_PMessage: message}];
 }
 
 +(void) notificationMessageSending: (id<PMessage>) message {
-    [BChatSDK.hook executeHookWithName:bHookMessageSending data:@{bHook_PMessage: message}];
+    if (message)
+        [BChatSDK.hook executeHookWithName:bHookMessageSending data:@{bHook_PMessage: message}];
 }
 
 +(void) notificationMessageDidSend: (id<PMessage>) message {
-    [BChatSDK.hook executeHookWithName:bHookMessageDidSend data:@{bHook_PMessage: message}];
+    if (message)
+        [BChatSDK.hook executeHookWithName:bHookMessageDidSend data:@{bHook_PMessage: message}];
 }
 
 +(void) notificationMessageWillUpload: (id<PMessage>) message {
-    [BChatSDK.hook executeHookWithName:bHookMessageWillUpload data:@{bHook_PMessage: message}];
+    if (message)
+        [BChatSDK.hook executeHookWithName:bHookMessageWillUpload data:@{bHook_PMessage: message}];
 }
 
 +(void) notificationMessageDidUpload: (id<PMessage>) message {
-    [BChatSDK.hook executeHookWithName:bHookMessageDidUpload data:@{bHook_PMessage: message}];
+    if (message)
+        [BChatSDK.hook executeHookWithName:bHookMessageDidUpload data:@{bHook_PMessage: message}];
 }
 
 +(void) notificationMessageWillBeDeleted: (id<PMessage>) message {
-    [BChatSDK.hook executeHookWithName:bHookMessageWillBeDeleted data:@{bHook_PMessage: message}];
+    if (message)
+        [BChatSDK.hook executeHookWithName:bHookMessageWillBeDeleted data:@{bHook_PMessage: message}];
 }
 
 +(void) notificationMessageWasDeleted {
     [BChatSDK.hook executeHookWithName:bHookMessageWasDeleted data:@{}];
 }
 
-+(void) notificationAllMessagesDeleted {
-    [BChatSDK.hook executeHookWithName:bHookAllMessagesDeleted data:@{}];
++(void) notificationAllMessagesDeletedForThreads: (NSArray *) threads {
+    [BChatSDK.hook executeHookWithName:bHookAllMessagesDeleted data:@{bHook_PThreads: threads}];
 }
 
 +(void) notificationMessageReceived: (id<PMessage>) message {
-    [BChatSDK.hook executeHookWithName:bHookMessageRecieved data:@{bHook_PMessage: message}];
+    if (message) {
+        [BChatSDK.hook executeHookWithName:bHookMessageRecieved data:@{bHook_PMessage: message}];
+    }
 }
 
 +(void) notificationDidAuthenticate: (id<PUser>) user {
-    [BChatSDK.hook executeHookWithName:bHookDidAuthenticate data:@{bHook_PUser: user}];
+    if (user) {
+        [BChatSDK.hook executeHookWithName:bHookDidAuthenticate data:@{bHook_PUser: user}];
+    }
 }
 
 +(void) notificationDidAuthenticate: (id<PUser>) user type: (NSString *) type {
@@ -57,32 +67,50 @@
     [BChatSDK.hook executeHookWithName:bHookDidAuthenticate data:@{bHook_PUser: user, bHook_AuthenticationType: type}];
 }
 
++(void) notificationWillPushUser: (id<PUser>) user {
+    [BChatSDK.hook executeHookWithName:bHookWillPushUser data:@{bHook_PUser: user}];
+}
+
 +(void) notificationWillLogout: (id<PUser>) user {
-    [BChatSDK.hook executeHookWithName:bHookWillLogout data:@{bHook_PUser:user}];
+    if (user) {
+        [BChatSDK.hook executeHookWithName:bHookWillLogout data:@{bHook_PUser:user}];
+    }
 }
 
 +(void) notificationDidLogout: (id<PUser>) user {
-    [BChatSDK.hook executeHookWithName:bHookDidLogout data:@{bHook_PUser:user}];
+    if (user) {
+        [BChatSDK.hook executeHookWithName:bHookDidLogout data:@{bHook_PUser:user}];
+    }
 }
 
 +(void) notificationUserOn: (id<PUser>) user {
-    [BChatSDK.hook executeHookWithName:bHookUserOn data:@{bHook_PUser:user}];
+    if (user) {
+        [BChatSDK.hook executeHookWithName:bHookUserOn data:@{bHook_PUser:user}];
+    }
 }
 
 +(void) notificationContactWillBeAdded: (id<PUser>) user {
-    [BChatSDK.hook executeHookWithName:bHookContactWillBeAdded data:@{bHook_PUser:user}];
+    if (user) {
+        [BChatSDK.hook executeHookWithName:bHookContactWillBeAdded data:@{bHook_PUser:user}];
+    }
 }
 
 +(void) notificationContactWasAdded: (id<PUser>) user {
-    [BChatSDK.hook executeHookWithName:bHookContactWasAdded data:@{bHook_PUser:user}];
+    if (user) {
+        [BChatSDK.hook executeHookWithName:bHookContactWasAdded data:@{bHook_PUser:user}];
+    }
 }
 
 +(void) notificationContactWillBeDeleted: (id<PUser>) user {
-    [BChatSDK.hook executeHookWithName:bHookContactWillBeDeleted data:@{bHook_PUser:user}];
+    if (user) {
+        [BChatSDK.hook executeHookWithName:bHookContactWillBeDeleted data:@{bHook_PUser:user}];
+    }
 }
 
 +(void) notificationContactWasDeleted: (id<PUser>) user {
-    [BChatSDK.hook executeHookWithName:bHookContactWasDeleted data:@{bHook_PUser:user}];
+    if (user) {
+        [BChatSDK.hook executeHookWithName:bHookContactWasDeleted data:@{bHook_PUser:user}];
+    }
 }
 
 +(void) notificationInternetConnectivityDidChange {
@@ -94,13 +122,48 @@
 }
 
 +(void) notificationThreadAdded: (id<PThread>) thread {
-    [BChatSDK.hook executeHookWithName:bHookThreadAdded data:@{bHook_PThread:thread}];
+    if(thread) {
+        [BChatSDK.hook executeHookWithName:bHookThreadAdded data:@{bHook_PThread:thread}];
+    }
 }
 
 +(void) notificationThreadRemoved: (id<PThread>) thread {
-    [BChatSDK.hook executeHookWithName:bHookThreadRemoved data:@{bHook_PThread:thread}];
+    if(thread) {
+        [BChatSDK.hook executeHookWithName:bHookThreadRemoved data:@{bHook_PThread:thread}];
+    }
 }
 
++(void) notificationThreadUpdated: (id<PThread>) thread {
+    if(thread) {
+        [BChatSDK.hook executeHookWithName:bHookThreadUpdated data:@{bHook_PThread:thread}];
+    }
+}
 
++(void) notificationThreadUsersUpdated: (id<PThread>) thread {
+    if(thread) {
+        [BChatSDK.hook executeHookWithName:bHookThreadUpdated data:@{bHook_PThread:thread}];
+    }
+}
+
+//+(void) notificationWillResignActive: (UIApplication *) app {
+//    [BChatSDK.hook executeHookWithName:bHookWillResignActive data:@{bHook_UIApplication: app}];
+//}
+//
+//+(void) notificationDidBecomeActive: (UIApplication *) app {
+//    [BChatSDK.hook executeHookWithName:bHookDidBecomeActive data:@{bHook_UIApplication: app}];
+//}
+//bHookGlobalAlertMessage
+
++(void) notificationGlobalAlertMessage: (NSString *) title message: (NSString *) message {
+    if (title && message) {
+        [BChatSDK.hook executeHookWithName:bHookGlobalAlertMessage data:@{bHook_TitleString: title, bHook_MessageString: message}];
+    }
+}
+
++(void) notificationSettingsUpdated: (NSString *) itemId newValue: (id) value {
+    if (itemId && value != nil) {
+        [BChatSDK.hook executeHookWithName:bHookSettingsUpdated data:@{bHook_StringId: itemId, bHook_ObjectValue: value}];
+    }
+}
 
 @end

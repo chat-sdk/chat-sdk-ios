@@ -17,6 +17,9 @@
 
     NSManagedObjectModel * _model;
     NSPersistentStoreCoordinator * _store;
+    NSTimer * _saveTimer;
 }
+
+
 
 @end

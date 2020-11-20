@@ -10,6 +10,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 #define bStatusSection 1
 #define bDateFormat @"dd/MM/yyyy"
@@ -28,6 +29,7 @@
 @synthesize availabilityButton;
 @synthesize availabilityCell;
 @synthesize profilePictureButton;
+@synthesize imagePickerController = _imagePicker;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -105,15 +107,21 @@
 
 - (IBAction)profilePictureButtonPressed:(UIButton *)sender {
     
+    __weak __typeof(self) weakSelf = self;
+    
+    PhotoSourceActionSheet * sheet = [PhotoSourceActionSheet new];
+    
     if (!_imagePicker) {
         _imagePicker = [[UIImagePickerController alloc] init];
         _imagePicker.delegate = self;
         _imagePicker.allowsEditing = YES;
     }
+        
+    [self presentViewController:[sheet getOnPick:^(UIImagePickerControllerSourceType type) {
+        weakSelf.imagePickerController.sourceType = type;
+        [weakSelf presentViewController:weakSelf.imagePickerController animated:YES completion:Nil];
+    } sourceView:sender] animated:YES completion:nil];
     
-    _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
-    [self presentViewController:_imagePicker animated:YES completion:Nil];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {

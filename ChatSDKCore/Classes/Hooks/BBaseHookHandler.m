@@ -28,7 +28,7 @@
 }
 
 -(BHook *) addHook: (BHook *) hook withName: (NSString *) name {
-    NSMutableArray * existingHooks = _hooks[name];
+    NSMutableArray * existingHooks = [NSMutableArray arrayWithArray:_hooks[name]];
     if(!existingHooks) {
         existingHooks = [NSMutableArray new];
     }
@@ -41,17 +41,21 @@
 
 -(void) removeHook: (BHook *) hook {
     for (NSString * name in _hooks.allKeys) {
-        [_hooks[name] removeObject:hook];
+        NSMutableArray * hooks = [NSMutableArray arrayWithArray:_hooks[name]];
+        [hooks removeObject:hook];
+        _hooks[name] = hooks;
     }
 }
 
 -(void) executeHookWithName: (NSString *) name data: (NSDictionary *) data {
-    NSArray * existingHooks = _hooks[name];
-    if(existingHooks) {
+    NSArray * existingHooks = [[NSArray arrayWithArray: _hooks[name]] sortedArrayUsingComparator:^NSComparisonResult(BHook * h1, BHook * h2) {
+        return h1.weight - h2.weight;
+    }];
+    if(existingHooks.count) {
         for(BHook * hook in existingHooks) {
+//            NSLog(@"Weight: %i", hook.weight);
             [hook execute:data];
         }
     }
 }
-
 @end

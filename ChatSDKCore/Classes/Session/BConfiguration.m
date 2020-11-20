@@ -71,6 +71,7 @@
 @synthesize inviteBySMSBody;
 @synthesize audioMessageMaxLengthSeconds;
 @synthesize maxImageDimension;
+@synthesize disableSendButtonWhenDisconnected;
 
 @synthesize xmppPort;
 @synthesize xmppDomain;
@@ -98,11 +99,13 @@
 @synthesize firebaseFunctionsRegion;
 @synthesize enableWebCompatibility;
 @synthesize enableCompatibilityWithV4;
+@synthesize xmppSendPushOnAck;
 
 @synthesize messageDeletionEnabled;
 @synthesize autoSaveOnTerminate;
 @synthesize xmppPingTimeout;
 @synthesize xmppPingInterval;
+@synthesize xmppOutgoingMessageQueueEnabled;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -124,6 +127,8 @@
         
         remote = [NSMutableDictionary new];
         remoteConfigEnabled = NO;
+        
+        disableSendButtonWhenDisconnected = YES;
         
         timeFormat = @"HH:mm";
         
@@ -223,6 +228,8 @@
         publicChatAutoSubscriptionEnabled = NO;
         enableWebCompatibility = NO;
         enableCompatibilityWithV4 = YES;
+        xmppOutgoingMessageQueueEnabled = NO;
+        xmppSendPushOnAck = NO;
         
     }
     return self;

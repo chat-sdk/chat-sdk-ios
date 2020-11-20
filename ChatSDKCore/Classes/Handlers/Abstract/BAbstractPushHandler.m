@@ -41,7 +41,7 @@
         
         void (^handler)(BOOL, NSError *) = ^(BOOL granted, NSError * error) {
             if(granted) {
-                NSLog(@"Local notifications granted");
+                [BChatSDK.shared.logger log:@"Local notifications granted"];
                 
                 UNTextInputNotificationAction * replyAction = [UNTextInputNotificationAction actionWithIdentifier:bChatSDKReplyAction
                                                                                                             title:[NSBundle t: bReply]

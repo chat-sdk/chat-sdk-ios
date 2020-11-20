@@ -36,7 +36,7 @@
     NSMutableArray * _additionalTabBarViewControllers;
     NSMutableDictionary * _additionalSearchViewControllers;
     NSMutableDictionary * _providers;
-
+    NSMutableArray * _settingsSections;
     NSMutableDictionary * _messageCellTypes;
 }
 

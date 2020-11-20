@@ -35,6 +35,7 @@ typedef enum {
     bMessageActionRemoveUser = 1
 } bMessageAction;
 
+
 #define bMessageText @"text"
 
 // We need the key here so it doesn't clash with the enum
@@ -56,6 +57,8 @@ typedef enum {
 #define bMessageSystemType @"system-type"
 
 #define bMessageOriginalThreadEntityID @"original-thread-entity-id"
+
+#define bMessageIsHistoric @"historic"
 
 typedef enum {
     bSystemMessageTypeInfo = 1,

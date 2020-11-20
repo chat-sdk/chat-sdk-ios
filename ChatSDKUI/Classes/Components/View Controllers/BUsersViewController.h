@@ -22,7 +22,7 @@
     
     BHook * _internetConnectionHook;
 
-    id _threadUsersObserver;
+    BHook * _threadUsersHook;
 }
 
 @property (nonatomic, readwrite) UINavigationController * parentNavigationController;

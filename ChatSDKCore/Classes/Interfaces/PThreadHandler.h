@@ -10,6 +10,7 @@
 
 #import <ChatSDK/PThread_.h>
 #import <ChatSDK/PMessage.h>
+#import <RXSwift/RXSwift-Swift.h>
 
 
 @protocol PThreadHandler <NSObject>
@@ -108,10 +109,16 @@
 -(RXPromise *) replyToMessage: (id<PMessage>) message withThreadID: (NSString *) threadEntityID reply: (NSString *) reply;
 -(RXPromise *) forwardMessage: (id<PMessage>) message toThreadWithID: (NSString *) threadEntityID;
 
+// Permissions
+-(BOOL) rolesEnabled: (NSString *) threadEntityID;
+-(RXPromise *) role: (NSString *) threadEntityID forUser: (NSString *) userEntityID;
+-(RXPromise *) canDelete: (NSString *) threadEntityID;
+
 @optional
 
 -(RXPromise *) muteThread: (id<PThread>) thread;
 -(RXPromise *) unmuteThread: (id<PThread>) thread;
+-(RXPromise *) destroyThread: (id<PThread>) thread;
 
 @end
 

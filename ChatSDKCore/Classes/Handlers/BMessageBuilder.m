@@ -100,7 +100,8 @@
     _message = [BChatSDK.db createMessageEntity];
     _message.entityID = BCoreUtilities.getUUID;
     
-    _message.date = [NSDate date];
+    _message.date = BChatSDK.core.now;
+    
     _message.userModel = BChatSDK.currentUser;
     [_message setDelivered: @NO];
     [_message setRead: @YES];

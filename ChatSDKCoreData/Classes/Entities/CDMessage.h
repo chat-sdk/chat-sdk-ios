@@ -15,7 +15,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CDMessage : NSManagedObject<PMessage, PMessageWrapper> {
+@interface CDMessage : NSManagedObject<PMessage> {
     NSNumber * _senderIsMe;
     NSNumber * _position;
 }

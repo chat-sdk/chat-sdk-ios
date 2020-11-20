@@ -28,6 +28,7 @@
     BOOL _audioMaxLengthReached;
     
     BHook * _internetConnectionHook;
+    BHook * _connectionStatusHook;
 }
 
 @property (weak, nonatomic, readwrite) id<PSendBarDelegate> sendBarDelegate;

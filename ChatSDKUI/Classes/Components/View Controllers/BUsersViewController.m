@@ -91,18 +91,24 @@
     }];
     [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
     
-    _threadUsersObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadUsersUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self reloadData];
-        });
+//    _threadUsersObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadUsersUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self reloadData];
+//        });
+//    }];
+    
+    _threadUsersHook = [BHook hook:^(NSDictionary * data) {
+        [self reloadData];
     }];
+    
+    [BChatSDK.hook addHook:_threadUsersHook withName:bHookThreadUsersUpdated];
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [BChatSDK.hook removeHook:_internetConnectionHook];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:_threadUsersObserver];
+    [BChatSDK.hook removeHook:_threadUsersHook];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

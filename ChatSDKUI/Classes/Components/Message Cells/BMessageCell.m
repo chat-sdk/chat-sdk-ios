@@ -386,7 +386,7 @@
     // Show the label on the correct message
     bMessagePos textPosition = BChatSDK.config.nameLabelPosition == bNameLabelPositionTop ? bMessagePosFirst : bMessagePosLast;
     
-    if ((message.thread.type.intValue & bThreadFilterPublic || message.thread.users.count > 2) && position.intValue & textPosition) {
+    if ((message.thread.type.intValue & bThreadFilterGroup) && position.intValue & textPosition) {
         return YES;
     }
     

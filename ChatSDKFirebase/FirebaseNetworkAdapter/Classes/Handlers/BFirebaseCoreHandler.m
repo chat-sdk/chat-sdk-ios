@@ -14,8 +14,6 @@
 
 -(RXPromise *) pushUser {
     [self save];
-    [BHookNotification notificationWillPushUser: BChatSDK.currentUser];
-
     if(self.currentUser && self.currentUser.entityID) {
         return [self.currentUser push];
     }

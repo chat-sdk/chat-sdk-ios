@@ -29,8 +29,9 @@
 @synthesize tableView;
 @synthesize delegate;
 @synthesize sendBarView = _sendBarView;
-@synthesize titleLabel = _titleLabel;
+//@synthesize titleLabel = _titleLabel;
 @synthesize messageManager = _messageManager;
+@synthesize headerView = _headerView;
 
 -(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate_
 {
@@ -176,31 +177,20 @@
 // 3 - Show's who's typing
 -(void) setupNavigationBar {
     
-    UIView * containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 220, 40)];
+    _headerView = [ChatHeaderView new];
     
-    _titleLabel = [[UILabel alloc] init];
+    BHook * hook = [BHook hook:^(NSDictionary * info) {
+        if ([BChatSDK.core respondsToSelector:@selector(connectionStatus)] && BChatSDK.core.connectionStatus != bConnectionStatusConnected) {
+            self.navigationItem.titleView = [ReconnectingView new];
+        } else {
+            self.navigationItem.titleView = _headerView;
+        }
+    }];
     
-    _titleLabel.text = [NSBundle t: bThread];
-    _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.font = [UIFont boldSystemFontOfSize:_titleLabel.font.pointSize];
+    [BChatSDK.hook addHook:hook withName:bHookServerConnectionStatusUpdated];
     
-    [containerView addSubview:_titleLabel];
-    _titleLabel.keepInsets.equal = 0;
-    _titleLabel.keepBottomInset.equal = 15;
+    [hook execute:nil];
     
-    _subtitleLabel = [[UILabel alloc] init];
-    _subtitleLabel.textAlignment = NSTextAlignmentCenter;
-    _subtitleLabel.font = [UIFont italicSystemFontOfSize:12.0];
-    _subtitleLabel.textColor = [UIColor lightGrayColor];
-    
-    [containerView addSubview:_subtitleLabel];
-    
-    _subtitleLabel.keepHeight.equal = 15;
-    _subtitleLabel.keepWidth.equal = 200;
-    _subtitleLabel.keepBottomInset.equal = 0;
-    _subtitleLabel.keepHorizontalCenter.equal = 0.5;
-    
-    [self.navigationItem setTitleView:containerView];
 }
 
 // The options handler is responsible for displaying options to the user
@@ -225,17 +215,25 @@
 }
 
 -(void) setTitle: (NSString *) title {
-    _titleLabel.text = title;
+    _headerView.titleLabel.text = title;
 }
 
 -(void) setSubtitle: (NSString *) subtitle {
     _subtitleText = subtitle;
-    _subtitleLabel.text = subtitle;
+    _headerView.subtitleLabel.text = subtitle;
 }
 
 -(void) addMessage: (id<PMessage>) message {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.messageManager addMessage: message];
+        NSIndexPath * indexPath = [self.messageManager addMessage: message];
+//        NSIndexPath * previous = [self.messageManager indexPathForPreviousMessage:message];
+//        [tableView beginUpdates];
+//        [tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//        if (previous) {
+//            [tableView reloadRowsAtIndexPaths:@[previous] withRowAnimation:UITableViewRowAnimationFade];
+//        }
+//        [tableView endUpdates];
+//        [self scrollToBottomOfTable:YES force:message.senderIsMe];
         [self reloadData:YES animate:YES force:message.senderIsMe];
     });
 }
@@ -251,7 +249,7 @@
 -(void) reloadDataForIndexPath: (NSIndexPath *) indexPath {
     if (indexPath) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"Reload %@", NSStringFromSelector(_cmd));
+            [BChatSDK.shared.logger log: @"Reload %@", NSStringFromSelector(_cmd)];
             [self.tableView reloadData];
 //            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         });
@@ -260,15 +258,19 @@
 
 -(void) addMessages: (NSArray<id<PMessage>> *) messages {
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"Reload %@", NSStringFromSelector(_cmd));
+        [BChatSDK.shared.logger log: @"Reload %@", NSStringFromSelector(_cmd)];
         [self.tableView reloadData];
     });
 }
 
 -(void) removeMessage: (id<PMessage>) message {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    if ([NSThread.currentThread isEqual:NSThread.mainThread]) {
         [self.messageManager removeMessage: message];
-    });
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messageManager removeMessage: message];
+        });
+    }
 }
 
 -(void) setMessages: (NSArray<PMessage> *) messages {
@@ -426,7 +428,13 @@
 
 -(void) startTypingWithMessage: (NSString *) message {
     if(message && message.length) {
-        _subtitleLabel.text = message;
+        _headerView.subtitleLabel.text = message;
+        __weak __typeof__(self) weakSelf = self;
+        [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * timer) {
+            __typeof(self) strongSelf = weakSelf;
+            [timer invalidate];
+            [strongSelf stopTyping];
+        }];
     }
     else {
         [self stopTyping];
@@ -434,7 +442,7 @@
 }
 
 -(void) stopTyping {
-    _subtitleLabel.text = _subtitleText;
+    _headerView.subtitleLabel.text = _subtitleText;
 }
 
 -(void) setTextInputDisabled: (BOOL) disabled {
@@ -450,11 +458,13 @@
     [self setChatState:bChatStateComposing];
     // Each time the user types we reset the timer
     [_typingTimer invalidate];
-    _typingTimer = [NSTimer scheduledTimerWithTimeInterval:bTypingTimeout
-                                                    target:self
-                                                  selector:@selector(userFinishedTyping)
-                                                  userInfo:nil
-                                                   repeats:NO];
+    
+    __weak __typeof(self) weakSelf = self;
+    _typingTimer = [NSTimer scheduledTimerWithTimeInterval:bTypingTimeout repeats:NO block:^(NSTimer * timer) {
+        [timer invalidate];
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf userFinishedTyping];
+    }];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -704,7 +714,7 @@
         NSURL * url = [NSURL URLWithString:meta[bMessageFileURL]];
         [BFileCache cacheFileFromURL:url withFileName:meta[bMessageText] andCacheName:cell.message.entityID]
         .thenOnMain(^id(NSURL * cacheUrl) {
-            NSLog(@"Cache URL: %@", [cacheUrl absoluteString]);
+            [BChatSDK.shared.logger log: @"Cache URL: %@", [cacheUrl absoluteString]];
             [cell setMessage:cell.message isSelected:[_selectedIndexPaths containsObject:indexPath]];
             
             [cell hideActivityIndicator];
@@ -712,10 +722,16 @@
             [self presentDocumentInteractionViewControllerWithURL:cacheUrl andName:nil];
             return nil;
         }, ^id(NSError *error) {
-            NSLog(@"Error: %@", error.localizedDescription);
+            [BChatSDK.shared.logger log: @"Error: %@", error.localizedDescription];
             [cell hideActivityIndicator];
             return nil;
         });
+    }
+    
+    if ([cell isKindOfClass:[BTextMessageCell class]]) {
+        NSString * string = cell.message.text;
+        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+        pasteboard.string = string;
     }
 }
 
@@ -729,7 +745,7 @@
         error = [((AVPlayerItem *) object) error];
     }
     if (error) {
-        NSLog(@"%@", error.localizedDescription);
+        [BChatSDK.shared.logger log: @"%@", error.localizedDescription];
     }
 }
 
@@ -1012,10 +1028,10 @@
 -(void) reloadData: (BOOL) scroll animate: (BOOL) animate force: (BOOL) force {
     dispatch_async(dispatch_get_main_queue(), ^{
         [UIView transitionWithView: self.tableView
-                          duration: animate ? 0.2f : 0
+                          duration: 0//animate ? 0.2f : 0
                            options: UIViewAnimationOptionTransitionCrossDissolve
                         animations: ^(void) {
-                            NSLog(@"Reload %@", NSStringFromSelector(_cmd));
+//                            NSLog(@"Reload %@", NSStringFromSelector(_cmd));
                             [self.tableView reloadData];
                         }
                         completion: ^(BOOL finished) {
@@ -1074,7 +1090,6 @@
     [_sendBarView setSendBarDelegate:Nil];
     self.tableView.delegate = Nil;
     self.tableView.dataSource = Nil;
-    [_typingTimer invalidate];
     _typingTimer = Nil;
 }
 

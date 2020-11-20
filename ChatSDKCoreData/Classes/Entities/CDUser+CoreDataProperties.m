@@ -18,10 +18,10 @@
 @dynamic lastOnline;
 @dynamic meta;
 @dynamic online;
-@dynamic linkedAccounts;
 @dynamic messages;
 @dynamic threads;
 @dynamic userConnections;
 @dynamic threadsCreated;
+@dynamic userAccountID;
 
 @end

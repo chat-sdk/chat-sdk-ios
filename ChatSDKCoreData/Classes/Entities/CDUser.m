@@ -20,12 +20,16 @@
 }
 
 -(NSString *) name {
-    NSString * nick = [self.meta metaStringForKey:bNickname];
-    if (nick && nick.length) {
-        return nick;
+    NSString * name = [self.meta metaStringForKey:bNickname];
+    if (!name || !name.length) {
+        name = [self.meta metaStringForKey:bUserNameKey];
     }
-    return [self.meta metaStringForKey:bUserNameKey];
+    return name;
 }
+
+//-(NSString *) displayName {
+//    return self.name && self.name.length : self.name ? @"???";
+//}
 
 -(void) setEmail:(NSString *)email {
     [self setMetaValue:email forKey:bUserEmailKey];
@@ -52,15 +56,6 @@
     channel = [channel stringByReplacingOccurrencesOfString:@":" withString:@"3"];
     channel = [channel stringByReplacingOccurrencesOfString:@"%3A" withString:@"3"];
     return channel;
-}
-
--(CDUserAccount *) accountWithType: (bAccountType) type {
-    for (CDUserAccount * account in self.linkedAccounts) {
-        if (account.type.intValue == type) {
-            return account;
-        }
-    }
-    return Nil;
 }
 
 -(void) updateMeta: (NSDictionary *) dict {
@@ -222,7 +217,7 @@
 }
 
 -(BOOL) addPublicKey: (NSString *) key identifier: (NSString *) identifier {
-    NSLog(@"Public Key - Add - %@, %@, %@", BChatSDK.currentUserID, identifier, key);
+    [BChatSDK.shared.logger log: @"Public Key - Add - %@, %@, %@", BChatSDK.currentUserID, identifier, key];
     if (!key || !key.length) {
         return false;
     }

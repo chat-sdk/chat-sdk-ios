@@ -28,6 +28,7 @@
 @class BLazyReloadManager;
 @class ChatToolbar;
 @class ReplyView;
+@class ChatHeaderView;
 
 @interface ElmChatViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, PSendBarDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, BChatOptionDelegate, UIDocumentInteractionControllerDelegate> {
         
@@ -49,8 +50,6 @@
     // Typing Indicator
     NSTimer * _typingTimer;
 
-    UILabel * _titleLabel;
-    UILabel * _subtitleLabel;
     NSString * _subtitleText;
 
     bChatState _chatState;
@@ -70,13 +69,17 @@
     BLazyReloadManager * _lazyReloadManager;
     
     NSMutableArray * _selectedIndexPaths;
+    
+    ChatHeaderView * _headerView;
+    
 }
 
 @property (weak, nonatomic) IBOutlet UITableView * tableView;
 @property (nonatomic, readwrite, weak) id<ElmChatViewDelegate> delegate;
 @property (nonatomic, readonly) UIView<PSendBar> * sendBarView;
-@property (nonatomic, readonly) UILabel * titleLabel;
+//@property (nonatomic, readonly) UILabel * titleLabel;
 @property (nonatomic, readonly) BMessageManager * messageManager;
+@property (nonatomic, readwrite) ChatHeaderView * headerView;
 
 -(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate;
 
@@ -111,5 +114,7 @@
 -(void) keyboardWillHide: (NSNotification *) notification;
 
 -(void) setupTextInputView: (BOOL) forceSuper;
+
+-(void) reloadData: (BOOL) scroll animate: (BOOL) animate force: (BOOL) force;
 
 @end

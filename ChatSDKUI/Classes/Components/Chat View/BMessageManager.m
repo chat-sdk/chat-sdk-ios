@@ -64,17 +64,17 @@
 }
 
 -(NSIndexPath *) indexPathForPreviousMessage: (id<PMessage>) message {
-    NSIndexPath * indexPath = [self indexPathForPreviousMessage:message];
-    if (indexPath) {
-        return indexPath;
-    } else {
-        BMessageSection * section = [self sectionForDate:message.date];
-        NSInteger indexOfSection = [_messageSections indexOfObject:section];
-        if (indexOfSection > 0) {
-            NSInteger indexOfPreviousSection = indexOfSection - 1;
-            BMessageSection * previousSection = _messageSections[indexOfPreviousSection];
-            return [NSIndexPath indexPathForItem: previousSection.rowCount inSection:indexOfPreviousSection];
-        }
+
+    BMessageSection * section = [self sectionForDate:message.date];
+    NSInteger indexOfSection = [_messageSections indexOfObject:section];
+    NSInteger indexOfMessage = [section rowForMessage:message];
+    
+    if (indexOfMessage > 0) {
+        return [NSIndexPath indexPathForRow:indexOfMessage - 1 inSection:indexOfSection];
+    } else if (indexOfSection > 0) {
+        // Previous section
+        BMessageSection * previousSection = _messageSections[indexOfSection - 1];
+        return [NSIndexPath indexPathForRow:previousSection.rowCount inSection:indexOfSection - 1];
     }
     return Nil;
 }

@@ -24,7 +24,7 @@
     
     id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadID withType:bThreadEntity];
 
-    message.date = [NSDate date];
+    message.date = BChatSDK.core.now;
     message.userModel = BChatSDK.currentUser;
     [message setDelivered:@NO];
     [message setRead:@YES];

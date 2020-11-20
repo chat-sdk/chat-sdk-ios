@@ -25,10 +25,6 @@
     return self;
 }
 
-
-
-
-
 -(void) save {
     [BChatSDK.db save];
 }
@@ -54,20 +50,18 @@
  * @brief Return the current user data
  */
 -(id<PUser>) currentUserModel {
-    NSString * currentUserID = BChatSDK.auth.currentUserEntityID;
-    if (!_currentUser || ![_currentUserEntityID isEqual:currentUserID]) {
+    NSString * currentUserID = BChatSDK.auth.currentUserID;
+    if (currentUserID && !_currentUser) {
         _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
-        _currentUserEntityID = currentUserID;
     }
     return _currentUser;
 }
 
 -(RXPromise *) currentUserModelAsync {
-    NSString * currentUserID = BChatSDK.auth.currentUserEntityID;
-    if (!_currentUser || ![_currentUserEntityID isEqual:currentUserID]) {
+    NSString * currentUserID = BChatSDK.auth.currentUserID;
+    if (currentUserID.length && !_currentUser) {
         return [BChatSDK.db performOnMain:^id {
             _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
-            _currentUserEntityID = currentUserID;
             return _currentUser;
         }];
     } else {
@@ -117,5 +111,10 @@
         BChatSDK.currentUser.online = @NO;
     }
 }
+
+-(NSDate *) now {
+    return [NSDate date];
+}
+
 
 @end

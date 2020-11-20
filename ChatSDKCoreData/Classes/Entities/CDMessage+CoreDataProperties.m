@@ -26,5 +26,6 @@
 @dynamic readStatus;
 @dynamic previousMessage;
 @dynamic nextMessage;
+@dynamic userAccountID;
 
 @end

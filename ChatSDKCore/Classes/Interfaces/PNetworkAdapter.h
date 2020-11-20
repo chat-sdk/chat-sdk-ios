@@ -55,8 +55,8 @@
 #define bNotificationPresentChatView @"bNPresentChatView"
 #define bNotificationPresentChatView_PThread @"bNPresentChatView_PThread"
 
-#define bNotificationThreadUsersUpdated @"bNThreadUsersUpdated"
-#define bNotificationThreadMetaUpdated @"bNThreadMetaUpdated"
+//#define bNotificationThreadUsersUpdated @"bNThreadUsersUpdated"
+//#define bNotificationThreadMetaUpdated @"bNThreadMetaUpdated"
 
 #define bNotificationThreadLastMessageUpdated @"bNThreadLastMessageUpdated"
 #define bNotificationThreadLastMessageUpdated_Text @"bNThreadLastMessageUpdated_Text"

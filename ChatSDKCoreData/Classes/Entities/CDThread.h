@@ -17,7 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CDThread : NSManagedObject<PThread, PThreadWrapper> {
+@interface CDThread : NSManagedObject<PThread> {
 }
 
 @end

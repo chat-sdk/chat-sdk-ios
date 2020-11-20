@@ -20,6 +20,8 @@
 #define bChatRooms @"bChatRooms"
 #define bThreadCreationError @"bThreadCreationError"
 #define bSearchTerm @"bSearchTerm"
+#define bWaitingForNetwork @"bWaitingForNetwork"
+#define bConnecting @"bConnecting"
 
 #define bPickFriends @"bPickFriends"
 
@@ -68,6 +70,10 @@
 #define bChat @"bChat"
 #define bOptions @"bOptions"
 #define bTakePhoto @"bTakePhoto"
+
+#define bPhotoLibrary @"bPhotoLibrary"
+#define bPhotoAlbum @"bPhotoAlbum"
+
 #define bTakeVideo @"bTakeVideo"
 #define bTakePhotoOrVideo @"bTakePhotoOrVideo"
 #define bChooseExistingPhoto @"bChooseExistingPhoto"

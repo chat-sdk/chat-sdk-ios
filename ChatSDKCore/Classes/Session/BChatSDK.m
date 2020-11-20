@@ -19,6 +19,8 @@
 @synthesize interfaceAdapter = _interfaceAdapter;
 @synthesize storageAdapter = _storageAdapter;
 @synthesize networkAdapter = _networkAdapter;
+@synthesize logger = _logger;
+@synthesize settings = _settings;
 
 static BChatSDK * instance;
 
@@ -38,12 +40,12 @@ static BChatSDK * instance;
 -(instancetype) init {
     if((self = [super init])) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(appWillResignActive)
+                                                 selector:@selector(appWillResignActive:)
                                                      name:UIApplicationWillResignActiveNotification
                                                    object:Nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(appDidBecomeActive)
+                                                 selector:@selector(appDidBecomeActive:)
                                                      name:UIApplicationDidBecomeActiveNotification
                                                    object:Nil];
         
@@ -52,6 +54,7 @@ static BChatSDK * instance;
                                                      name:UIApplicationWillTerminateNotification
                                                    object:Nil];
         _moduleHelper = [BModuleHelper new];
+        _logger = [BLogger new];
     }
     return self;
 }
@@ -70,6 +73,8 @@ static BChatSDK * instance;
     }
     [_moduleHelper activateModules];
     
+    _settings = [Settings new];
+    
     [self clearDataIfNecessary];
 }
 
@@ -77,13 +82,13 @@ static BChatSDK * instance;
     [self initialize:config app:application options:launchOptions interfaceAdapter:Nil];
 }
 
--(void) appWillResignActive {
+-(void) appWillResignActive: (NSNotification *) notification {
     if(self.networkAdapter) {
-        [self.networkAdapter.core save];
+//        [BHookNotification notificationWillResignActive: notification.object];
+        
         if (BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
             [BChatSDK.lastOnline setLastOnlineForUser:BChatSDK.currentUser].thenOnMain(^id(id success) {
                 [self.networkAdapter.core goOffline];
-                return nil;
             }, nil);
         } else {
             [self.networkAdapter.core goOffline];
@@ -91,8 +96,10 @@ static BChatSDK * instance;
     }
 }
 
--(void) appDidBecomeActive {
+-(void) appDidBecomeActive: (NSNotification *) notification {
     if(self.networkAdapter) {
+//        [BHookNotification notificationDidBecomeActive: notification.object];
+
         // TODO: Check this
         [self.networkAdapter.core goOnline];
     }
@@ -286,7 +293,7 @@ static BChatSDK * instance;
 }
 
 +(NSString *) currentUserID {
-    return self.currentUser.entityID;
+    return self.auth.currentUserID;
 }
 
 +(BOOL) isMe: (id<PUser>) user {

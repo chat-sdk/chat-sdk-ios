@@ -42,7 +42,7 @@
 }
 
 - (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentAtURL:(NSURL *)url {
-    NSLog(@"DocumentPicker picked document at url: %@", url);
+    [BChatSDK.shared.logger log: @"DocumentPicker picked document at url: %@", url];
     NSURLRequest * request = [[NSURLRequest alloc] initWithURL:url];
     NSError * error = nil;
     NSURLResponse * response = nil;
@@ -63,7 +63,7 @@
 }
 
 - (void)documentPickerWasCancelled:(UIDocumentPickerViewController *)controller {
-    NSLog(@"DocumentPicker cancelled");
+    [BChatSDK.shared.logger log: @"DocumentPicker cancelled"];
     [_promise rejectWithReason:nil];
 }
 

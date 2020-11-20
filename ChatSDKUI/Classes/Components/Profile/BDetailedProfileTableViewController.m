@@ -99,7 +99,8 @@
                                                                       });
     }]];
     
-    
+    self.navigationItem.titleView = [ReconnectingView new];
+
 
 }
 
@@ -385,7 +386,7 @@
 
 -(void) startChat {
     [BChatSDK.thread createThreadWithUsers:@[self.user] threadCreated:^(NSError * error, id<PThread> thread) {
-        BChatViewController * cvc = [[BInterfaceManager shared].a chatViewControllerWithThread:thread];
+        BChatViewController * cvc = [BChatSDK.ui chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:cvc animated:YES];
     }];
 }

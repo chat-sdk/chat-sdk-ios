@@ -21,6 +21,8 @@
 }
 
 - (void)reverse: (NSMutableArray *) array {
+    [self checkOnMain];
+    
     if ([array count] <= 1)
         return;
     NSUInteger i = 0;
@@ -35,10 +37,12 @@
 }
 
 -(NSArray *) allMessages {
+    [self checkOnMain];
     return self.messages.allObjects;
 }
 
 -(BOOL) hasMessages {
+    [self checkOnMain];
     return self.newestMessage != Nil;
 }
 
@@ -47,6 +51,7 @@
 }
 
 -(void) addMessage: (id<PMessage>) theMessage toStart: (BOOL) toStart {
+    [self checkOnMain];
     CDMessage * message = (CDMessage *) theMessage;
     
     // Check if the message has already been added
@@ -87,6 +92,7 @@
 }
 
 -(id<PMessage>) newestMessage {
+    [self checkOnMain];
     NSArray * messages = [BChatSDK.db loadMessagesForThread:self newest:1];
     if (messages.count) {
         return messages.firstObject;
@@ -95,6 +101,7 @@
 }
 
 -(id<PMessage>) oldestMessage {
+    [self checkOnMain];
     NSArray * messages = [BChatSDK.db loadMessagesForThread:self oldest:1];
     if (messages.count) {
         return messages.firstObject;
@@ -102,6 +109,7 @@
     return Nil;
 }
 -(void) removeMessage: (id<PMessage>) theMessage {
+    [self checkOnMain];
     CDMessage * message = (CDMessage *) theMessage;
     
     CDMessage * previousMessage = message.previousMessage;
@@ -121,6 +129,7 @@
 }
 
 -(NSArray *) orderMessagesByDateAsc: (NSArray *) messages {
+    [self checkOnMain];
     return [messages sortedArrayUsingComparator:^(id<PMessage> m1, id<PMessage> m2) {
         return [m1.date compare:m2.date];
     }];
@@ -143,12 +152,14 @@
 }
 
 -(NSArray *) orderMessagesByDateDesc: (NSArray *) messages {
+    [self checkOnMain];
     return [messages sortedArrayUsingComparator:^(id<PMessage> m1, id<PMessage> m2) {
         return [m2.date compare:m1.date];
     }];
 }
 
 -(NSString *) displayName {
+    [self checkOnMain];
     if (self.type.intValue & bThreadFilterPrivate) {
         
         if (self.name && self.name.length) {
@@ -164,6 +175,7 @@
 }
 
 -(NSString *) memberListString {
+    [self checkOnMain];
     NSString * name = @"";
     
     for (id<PUser> user in self.users) {
@@ -181,9 +193,9 @@
 }
 
 -(void) markRead {
-    
+    [self checkOnMain];
+
     BOOL didMarkRead = NO;
-    
     
     NSArray<PMessage> * messages = [BChatSDK.db loadAllMessagesForThread:self newestFirst:YES];
     for(id<PMessage> message in messages) {
@@ -202,7 +214,9 @@
 //    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadRead object:Nil];
 }
 
--(int) unreadMessageCount {
+-(int) unreadMessageCount __deprecated {
+    [self checkOnMain];
+
     int i = 0;
     NSArray<PMessage> * messages = [BChatSDK.db loadAllMessagesForThread:self newestFirst:YES];
     for (id<PMessage> message in messages) {
@@ -218,6 +232,7 @@
 }
 
 -(void) addUser: (id<PUser>) user {
+    [self checkOnMain];
     if ([user isKindOfClass:[CDUser class]]) {
         if (![self containsUser:user]) {
             [self addUsersObject:(CDUser *)user];
@@ -226,6 +241,7 @@
 }
 
 - (void)removeUser:(id<PUser>) user {
+    [self checkOnMain];
     if ([user isKindOfClass:[CDUser class]]) {
         if ([self containsUser: user]) {
             [self removeUsersObject:(CDUser *) user];
@@ -234,6 +250,7 @@
 }
 
 -(BOOL) containsUser: (id<PUser>) user {
+    [self checkOnMain];
     for (id<PUser> u in self.users) {
         if ([u.entityID isEqualToString:user.entityID]) {
             return true;
@@ -243,6 +260,7 @@
 }
 
 -(BOOL) containsMessage: (id<PMessage>) message {
+    [self checkOnMain];
     for (id<PMessage> m in self.messages) {
         if ([m.entityID isEqualToString:message.entityID]) {
             return true;
@@ -251,6 +269,7 @@
     return false;
 }
 -(id<PUser>) otherUser {
+    [self checkOnMain];
     id<PUser> currentUser = BChatSDK.currentUser;
     if (self.type.intValue == bThreadType1to1 || self.users.count == 2) {
         for (id<PUser> user in self.users) {
@@ -263,6 +282,7 @@
 }
 
 -(void) updateMeta: (NSDictionary *) dict {
+    [self checkOnMain];
     if (!self.meta) {
         self.meta = @{};
     }
@@ -274,6 +294,7 @@
 }
 
 -(void) removeMetaValueForKey: (NSString *) key {
+    [self checkOnMain];
     NSMutableDictionary * newMeta = [NSMutableDictionary dictionaryWithDictionary:self.meta];
     [newMeta removeObjectForKey:key];
     self.meta = newMeta;
@@ -281,6 +302,7 @@
 
 // TODO: Move this to UI module
 -(RXPromise *) imageForThread {
+    [self checkOnMain];
 
     NSMutableArray * userPromises = [NSMutableArray new];
     NSMutableArray * users = [NSMutableArray arrayWithArray:self.users.allObjects];
@@ -296,6 +318,8 @@
 }
 
 - (UIImage *) buildImageForThread {
+    [self checkOnMain];
+
     NSMutableArray * users = [NSMutableArray arrayWithArray:self.users.allObjects];
     
     // Remove the current user from the array
@@ -374,6 +398,8 @@
     }}
 
 -(NSDate *) orderDate {
+    [self checkOnMain];
+
     id<PMessage> message = self.newestMessage;
     if (message) {
         return message.date;
@@ -384,10 +410,12 @@
 }
 
 -(BOOL) isEqualToEntity: (id<PEntity>) entity {
+    [self checkOnMain];
     return [self.entityID isEqualToString:entity.entityID];
 }
 
 -(BOOL) isReadOnly {
+    [self checkOnMain];
     id readOnly = self.meta[bReadOnly];
     if (readOnly) {
         if([readOnly isKindOfClass:NSNumber.class]) {
@@ -399,6 +427,10 @@
         }
     }
     return false;
+}
+
+-(BOOL) typeIs: (bThreadType) type {
+    return self.type.intValue & type;
 }
 
 @end

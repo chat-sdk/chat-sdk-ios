@@ -305,4 +305,20 @@
     return [self sendMessage:newMessage];
 }
 
+-(void) reconnect {
+    
+}
+
+-(BOOL) rolesEnabled: (NSString *) threadEntityID {
+    return false;
+}
+
+-(NSString *) role: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return nil;
+}
+
+-(BOOL) canDelete: (NSString *) threadEntityID {
+    return false;
+}
+
 @end

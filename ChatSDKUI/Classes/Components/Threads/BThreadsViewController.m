@@ -12,6 +12,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 #define bCellIdentifier @"bCellIdentifier"
 
@@ -58,7 +59,11 @@
     
     [tableView registerNib:[UINib nibWithNibName:@"BThreadCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bCellIdentifier];
     
+    self.navigationItem.titleView = [ReconnectingView new];
+    
 }
+
+
 
 -(void) addObservers {
     [self removeObservers];
@@ -66,7 +71,7 @@
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
         id<PMessage> messageModel = dict[bHook_PMessage];
         [messageModel setDelivered:@YES];
         
@@ -83,7 +88,7 @@
         [weakSelf reloadData];
     }] withNames: @[bHookMessageWillSend, bHookMessageRecieved]]];
 
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
         [self reloadData];
     }] withNames: @[bHookMessageWasDeleted, bHookAllMessagesDeleted]]];
     
@@ -111,9 +116,9 @@
                                            });
                                        }]];
     
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
-        [self reloadData];
-    }] withNames: @[bHookThreadAdded, bHookThreadRemoved]]];
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
+        [weakSelf reloadData];
+    }] withNames: @[bHookThreadAdded, bHookThreadRemoved, bHookThreadUpdated]]];
 
 }
 
@@ -138,8 +143,13 @@
     [_threadTypingMessages removeAllObjects];
     
     [self reloadData];
+    
+    [self updateLocalNotificationHandler];
 }
 
+-(void) updateLocalNotificationHandler {
+    // Should  be overridden
+}
 
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -233,7 +243,6 @@
 }
 
 -(void) tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     id<PThread> thread = _threads[indexPath.row];
     [self pushChatViewControllerWithThread:thread];
     [tableView_ deselectRowAtIndexPath:indexPath animated:YES];
