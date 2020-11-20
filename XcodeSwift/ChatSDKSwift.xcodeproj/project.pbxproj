@@ -179,12 +179,14 @@
 				"${PODS_ROOT}/Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseEmailAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseOAuthUI.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseEmailAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseOAuthUI.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -423,7 +425,7 @@
 				CODE_SIGN_ENTITLEMENTS = ChatSDKSwift/ChatSDKSwift.entitlements;
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				INFOPLIST_FILE = ChatSDKSwift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -441,7 +443,7 @@
 				CODE_SIGN_ENTITLEMENTS = ChatSDKSwift/ChatSDKSwift.entitlements;
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				INFOPLIST_FILE = ChatSDKSwift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -53,6 +53,9 @@ Pod::Spec.new do |s|
 
 	s.dependency 'ChatSDKFirebase/Adapter'
 	s.dependency 'FirebaseUI/Auth'
+	s.dependency 'FirebaseUI/Email'
+  	s.dependency 'FirebaseUI/Phone'
+  	s.dependency 'FirebaseUI/OAuth'
 	
   end
       

@@ -11,8 +11,6 @@ target 'ChatSDKSwift' do
 #   pod "ChatSDKFirebase/SocialLogin", :path => "../"
   pod "ChatSDKFirebase/FirebaseUI", :path => "../"
 
-  pod 'FirebaseUI/Email'
-  pod 'FirebaseUI/Phone'
 
   #pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
   #pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"

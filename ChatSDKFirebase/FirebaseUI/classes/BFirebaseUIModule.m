@@ -31,7 +31,9 @@
     BChatSDK.ui.loginViewController = [self viewControllerForProviders:providers];
 }
 
-- (void)authUI:(FUIAuth *)authUI didSignInWithAuthDataResult:(FIRAuthDataResult *)authDataResult error:(NSError *)error {
+- (void)authUI:(FUIAuth *)authUI
+    didSignInWithAuthDataResult:(nullable FIRAuthDataResult *)authDataResult
+         error:(nullable NSError *)error {
     if (!error) {
         
         [BChatSDK.auth authenticate].thenOnMain(^id(id<PUser> user) {

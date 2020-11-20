@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     /* Two Factor Auth */
     //var verifyViewController:BVerifyViewController?;
+    var firebaseUIModule: BFirebaseUIModule?
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
@@ -44,9 +45,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         BChatSDK.initialize(config, app: application, options: launchOptions)
         
-//        let authUI = FUIAuth.defaultAuthUI()
-//        let providers = [FUIPhone()]
-//        BFirebaseUIModule().activate(withProviders: providers)
+        // If you want to use Firebase UI
+        let useFirebaseUI = false
+        if useFirebaseUI {
+            let authUI = FUIAuth.defaultAuthUI()
+            let providers = [FUIEmailAuth(), FUIOAuth.appleAuthProvider(), FUIPhoneAuth.init(authUI: authUI!)]
+            
+            firebaseUIModule = BFirebaseUIModule()
+            firebaseUIModule?.activate(withProviders: providers)
+        }
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();
