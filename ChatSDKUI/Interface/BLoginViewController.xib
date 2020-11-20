@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -51,14 +52,14 @@
                         <outlet property="delegate" destination="-1" id="W8Z-1U-A3Q"/>
                     </connections>
                 </textField>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_trans" translatesAutoresizingMaskIntoConstraints="NO" id="iqu-5d-jZf">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon" translatesAutoresizingMaskIntoConstraints="NO" id="iqu-5d-jZf">
                     <rect key="frame" x="127.5" y="123.5" width="120" height="120"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="120" id="VB6-Oe-cdg"/>
                         <constraint firstAttribute="height" constant="120" id="h0p-62-JdG"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E.E.S. BlackChat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCJ-rr-kr4">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat SDK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCJ-rr-kr4">
                     <rect key="frame" x="8" y="251.5" width="359" height="38"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="38" id="1yU-Cm-SqJ"/>
@@ -67,7 +68,7 @@
                     <color key="textColor" name="mediumGray"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WlM-w5-GCE">
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WlM-w5-GCE">
                     <rect key="frame" x="75.5" y="407.5" width="105" height="40"/>
                     <color key="backgroundColor" name="loginButton"/>
                     <constraints>
@@ -83,7 +84,7 @@
                         <action selector="loginButtonPressed:" destination="-1" eventType="touchUpInside" id="nQQ-Ch-WrP"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMk-xT-irR">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMk-xT-irR">
                     <rect key="frame" x="121.5" y="637" width="132" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="ADO-9i-GFR"/>
@@ -94,7 +95,7 @@
                         <action selector="termsAndConditionsButtonPressed:" destination="-1" eventType="touchUpInside" id="i2W-jf-AcR"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HeC-qI-71z">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HeC-qI-71z">
                     <rect key="frame" x="192.5" y="407.5" width="105" height="40"/>
                     <color key="backgroundColor" name="registerButton"/>
                     <constraints>
@@ -109,7 +110,7 @@
                         <action selector="registerButtonPressed:" destination="-1" eventType="touchUpInside" id="iIh-Cf-sI9"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y5g-BS-zPe">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y5g-BS-zPe">
                     <rect key="frame" x="136.5" y="500.5" width="102" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="WYH-gp-pcq"/>
@@ -122,9 +123,9 @@
                         <action selector="forgotPasswordPressed:" destination="-1" eventType="touchUpInside" id="M9b-bc-6hp"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hre-W7-hiD">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hre-W7-hiD">
                     <rect key="frame" x="77.5" y="462.5" width="220" height="30"/>
-                    <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" systemColor="systemGrayColor"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="900" constant="30" id="7ka-UT-5mt"/>
                     </constraints>
@@ -137,7 +138,7 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="Yy7-xO-WLG" firstAttribute="top" secondItem="KCJ-rr-kr4" secondAttribute="bottom" priority="900" constant="20" id="1If-mk-ds0"/>
                 <constraint firstAttribute="centerX" secondItem="Yy7-xO-WLG" secondAttribute="centerX" id="DSr-aG-cOx"/>
@@ -166,7 +167,7 @@
         </view>
     </objects>
     <resources>
-        <image name="logo_trans" width="167" height="166.66667175292969"/>
+        <image name="AppIcon" width="128" height="128"/>
         <namedColor name="loginButton">
             <color red="0.2630000114440918" green="0.64200001955032349" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -176,5 +177,11 @@
         <namedColor name="registerButton">
             <color red="0.22599999606609344" green="0.78899997472763062" blue="0.4309999942779541" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

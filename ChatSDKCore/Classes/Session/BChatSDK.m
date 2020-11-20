@@ -89,6 +89,7 @@ static BChatSDK * instance;
         if (BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
             [BChatSDK.lastOnline setLastOnlineForUser:BChatSDK.currentUser].thenOnMain(^id(id success) {
                 [self.networkAdapter.core goOffline];
+                return success;
             }, nil);
         } else {
             [self.networkAdapter.core goOffline];

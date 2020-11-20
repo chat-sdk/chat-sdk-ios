@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.databaseVersion = "2"
         config.loginUsernamePlaceholder = "Email"
         config.messageSelectionEnabled = false
+        config.logoImage = UIImage(named: "logo")
 
         // Uncomment this if you want the user avatar and name before the messages
 //        config.nameLabelPosition = bNameLabelPositionTop
@@ -43,9 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         BChatSDK.initialize(config, app: application, options: launchOptions)
         
-        let authUI = FUIAuth.defaultAuthUI()
-        let providers = [FUIPhone()]
-        BFirebaseUIModule().activate(withProviders: providers)
+//        let authUI = FUIAuth.defaultAuthUI()
+//        let providers = [FUIPhone()]
+//        BFirebaseUIModule().activate(withProviders: providers)
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();

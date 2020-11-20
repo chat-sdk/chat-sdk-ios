@@ -161,7 +161,7 @@ static void * kMainQueueKey = (void *) "Key1";
     return _mainMoc;
 }
 
--(RXPromise *) saveToStore {
+//-(RXPromise *) saveToStore {
     
 //    [self checkOnMain];
 //
@@ -185,7 +185,8 @@ static void * kMainQueueKey = (void *) "Key1";
 //        return [self save:_privateMoc];
 //    }, Nil);
 //    [self saveWithPromise];
-}
+//    return
+//}
 
 //-(void) saveToStoreOnMain {
 //    NSError *error = nil;
@@ -201,7 +202,7 @@ static void * kMainQueueKey = (void *) "Key1";
 }
 
 -(RXPromise *) saveBackground {
-    [self save: _backgroundMoc];
+    return [self save: _backgroundMoc];
 }
 
 -(RXPromise *) save: (NSManagedObjectContext *) context {

@@ -15,6 +15,7 @@
 -(RXPromise *) pushUser {
     [self save];
     if(self.currentUser && self.currentUser.entityID) {
+        [BHookNotification notificationWillPushUser:self.currentUser];
         return [self.currentUser push];
     }
     else return [RXPromise rejectWithReason:Nil];
