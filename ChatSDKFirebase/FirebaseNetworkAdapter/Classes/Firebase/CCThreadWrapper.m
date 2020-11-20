@@ -9,6 +9,7 @@
 #import "CCThreadWrapper.h"
 
 #import <ChatSDKFirebase/FirebaseAdapter.h>
+#import <ChatSDK/Core.h>
 
 @implementation CCThreadWrapper
 
