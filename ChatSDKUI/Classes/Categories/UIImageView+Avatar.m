@@ -13,12 +13,12 @@
 @implementation UIImageView(Avatar)
 
 -(void) loadAvatar: (id<PUser>) user {
-    if (user.image) {
-        [self setImage:user.imageAsImage];
-    } else {
+    if (user.imageURL && user.imageURL.length) {
         [self sd_setImageWithURL:[NSURL URLWithString:user.imageURL]
                 placeholderImage:user.defaultImage
                          options: SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
+    } else {
+        [self setImage:user.imageAsImage];
     }
 }
 

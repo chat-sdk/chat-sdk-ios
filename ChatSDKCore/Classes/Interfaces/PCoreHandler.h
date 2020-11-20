@@ -12,6 +12,7 @@
 #import <ChatSDK/PUser.h>
 
 typedef enum {
+    bConnectionStatusNone,
     bConnectionStatusConnected,
     bConnectionStatusConnecting,
     bConnectionStatusDisconnected,
@@ -75,6 +76,7 @@ typedef enum {
 -(void) reconnect;
 // Save the data to perminent storage
 //-(void) saveToStore;
+-(void) activate;
 
 @end
 

@@ -16,6 +16,10 @@
 }
 
 + (RXPromise *)cacheFileFromURL:(NSURL *)url withFileName:(NSString *)fileName andCacheName:(NSString *)cacheName {
+    if (!fileName || !fileName.length) {
+        fileName = BCoreUtilities.getUUID;
+    }
+    
     RXPromise * promise = [RXPromise new];
     if (!url) {
         [promise rejectWithReason: @"URL must not be nil"];
@@ -27,7 +31,9 @@
     } else {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [self createDirectoryWthName:cacheName].then(^id(NSURL * dirURL) {
+                
                 cacheURL = [dirURL URLByAppendingPathComponent:fileName];
+                
                 NSData * data = [NSData dataWithContentsOfURL:url];
                 NSError * error = nil;
                 BOOL success = [data writeToURL:cacheURL options:NSDataWritingFileProtectionComplete error:&error];

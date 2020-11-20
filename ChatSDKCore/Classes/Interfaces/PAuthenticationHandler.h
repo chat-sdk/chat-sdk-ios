@@ -73,6 +73,10 @@
 
 -(RXPromise *) resetPasswordWithCredential: (NSString *) credential;
 
+@optional
+
+-(void) activate;
+
 @end
 
 #endif /* PAuthenticationHandler_h */

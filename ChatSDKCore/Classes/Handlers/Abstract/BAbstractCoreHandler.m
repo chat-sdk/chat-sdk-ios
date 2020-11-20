@@ -15,14 +15,17 @@
 
 -(instancetype) init {
     if ((self = [super init])) {
-        __weak __typeof__(self) weakSelf = self;
-        [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-            // Resets the view which the tab bar loads on
-            __typeof__(self) strongSelf = weakSelf;
-            strongSelf->_currentUser = Nil;
-        }] withName:bHookDidLogout];
     }
     return self;
+}
+
+-(void) activate {
+    __weak __typeof__(self) weakSelf = self;
+    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+        // Resets the view which the tab bar loads on
+        __typeof__(self) strongSelf = weakSelf;
+        strongSelf->_currentUser = Nil;
+    }] withName:bHookDidLogout];
 }
 
 -(void) save {
@@ -110,6 +113,10 @@
     if (BChatSDK.currentUser) {
         BChatSDK.currentUser.online = @NO;
     }
+}
+
+-(bConnectionStatus) connectionStatus {
+    return bConnectionStatusConnected;
 }
 
 -(NSDate *) now {

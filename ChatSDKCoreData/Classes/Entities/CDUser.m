@@ -120,10 +120,11 @@
 }
 
 -(RXPromise *) updateAvatarFromURL {
+
     // If there's no image set on temporarily
-    if(!self.image) {
-        [self setImage: UIImagePNGRepresentation(self.defaultImage)];
-    }
+//    if(!self.image) {
+//        [self setImage: UIImagePNGRepresentation(self.defaultImage)];
+//    }
 
     // Then try to load the image from the URL
     NSString * imageURL = self.imageURL;
@@ -188,7 +189,7 @@
             return image;
         }
     }
-    return Nil;
+    return self.defaultImage;
 }
 
 -(NSString *) imageURL {

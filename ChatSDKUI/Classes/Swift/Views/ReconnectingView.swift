@@ -87,18 +87,20 @@ import KeepLayout
             if let connStatus = BChatSDK.core()?.connectionStatus?() {
 //                self.isHidden = status == bConnectionStatusConnected
                 
+                self?.label?.isHidden = connStatus == bConnectionStatusNone
+
                 if connStatus == bConnectionStatusConnecting {
 //                    self.label?.text = Bundle.t(bConnecting)
                     self?.label?.text = Bundle.t(bConnecting)
                     self?.startBlink()
                     self?.imageView?.image = Bundle.uiImageNamed("icn_20_connecting")
                 }
-                if connStatus == bConnectionStatusDisconnected {
+                else if connStatus == bConnectionStatusDisconnected {
                     self?.label?.text = Bundle.t(bOffline)
                     self?.stopBlink()
                     self?.imageView?.image = Bundle.uiImageNamed("icn_20_offline")
                 }
-                if connStatus == bConnectionStatusConnected {
+                else if connStatus == bConnectionStatusConnected {
                     self?.label?.text = Bundle.t(bOnline)
                     self?.stopBlink()
                     self?.imageView?.image = Bundle.uiImageNamed("icn_20_connected")

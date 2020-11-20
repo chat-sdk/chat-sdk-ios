@@ -133,5 +133,9 @@
 -(void) setThread: (id<PThreadHandler>) thread;
 -(void) setConnectivity: (id<PInternetConnectivityHandler>) connectivity;
 
+@optional
+
+-(void) activate;
+
 @end
 

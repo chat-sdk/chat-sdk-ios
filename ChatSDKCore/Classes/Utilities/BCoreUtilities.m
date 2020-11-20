@@ -14,6 +14,7 @@
 
 + (NSURL *)getDocumentsURL {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] firstObject];
+//    return [NSURL URLWithString:[NSHomeDirectory() stringByAppendingString:@"/Documents/"]];
 }
 
 +(RXPromise *) fetchImageFromURL:(NSURL *)url {

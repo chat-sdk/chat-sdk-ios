@@ -14,7 +14,6 @@
 @class FIRUser;
 
 @interface BFirebaseAuthenticationHandler : BAbstractAuthenticationHandler {
-    BOOL _isAuthenticatedThisSession;
 }
 
 -(RXPromise *) loginWithFirebaseUser: (FIRUser *) firebaseUser;

@@ -13,6 +13,9 @@
 
 -(void) activate {
     BChatSDK.shared.networkAdapter = [[BFirebaseNetworkAdapter alloc] init];
+    if ([BChatSDK.shared.networkAdapter respondsToSelector:@selector(activate)]) {
+        [BChatSDK.shared.networkAdapter activate];
+    }
 }
 
 @end

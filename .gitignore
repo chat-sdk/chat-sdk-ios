@@ -54,6 +54,7 @@ Archived/
 XcodeModules/
 XcodeXMPPModules/
 versions/
+Xcode/
 
 # Ignore these in subfolders, but track in root of repo
 ChatSDKFirebase/

@@ -49,4 +49,15 @@
     return self;
 }
 
+-(void) activate {
+    [self activate:self.core];
+    [self activate:self.auth];
+}
+
+-(void) activate: (id) handler {
+    if([handler respondsToSelector:@selector(activate)]) {
+        [handler activate];
+    }
+}
+
 @end

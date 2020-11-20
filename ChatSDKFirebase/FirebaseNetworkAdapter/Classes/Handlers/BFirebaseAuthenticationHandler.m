@@ -224,13 +224,11 @@
         
     // Add listeners here
     [BChatSDK.event currentUserOn:user.entityID];
-    
-    [BChatSDK.core setUserOnline];
-    
+        
     [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
     
-    _authenticatedThisSession = true;
-        
+    [BChatSDK.core setUserOnline];
+
     return [self retrieveRemoteConfig].thenOnMain(^id(id success) {
         return user;
     }, Nil);

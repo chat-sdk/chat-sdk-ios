@@ -11,7 +11,7 @@
 @protocol PAuthenticationHandler;
 
 @interface BAbstractAuthenticationHandler : NSObject<PAuthenticationHandler> {
-    BOOL _authenticatedThisSession;
+    BOOL _isAuthenticatedThisSession;
     NSString * _currentUserID;
 }
 

@@ -13,14 +13,17 @@
 
 -(instancetype) init {
     if((self = [super init])) {
-        __weak __typeof__(self) weakSelf = self;
-        [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-            // Resets the view which the tab bar loads on
-            __typeof__(self) strongSelf = weakSelf;
-            strongSelf->_currentUserID = Nil;
-        }] withName:bHookDidLogout];
     }
     return self;
+}
+
+-(void) activate {
+    __weak __typeof__(self) weakSelf = self;
+    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+        // Resets the view which the tab bar loads on
+        __typeof__(self) strongSelf = weakSelf;
+        strongSelf->_currentUserID = Nil;
+    }] withName:bHookDidLogout];
 }
 
 -(BOOL) accountTypeEnabled: (bAccountType) accountType {
@@ -36,7 +39,7 @@
 }
 
 -(BOOL) isAuthenticatedThisSession {
-    return _authenticatedThisSession && self.userAuthenticated;
+    return _isAuthenticatedThisSession && self.userAuthenticated;
 }
 
 -(BOOL) userAuthenticatedThisSession __deprecated {
