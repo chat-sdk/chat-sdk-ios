@@ -13,13 +13,14 @@
 @implementation UIButton(Avatar)
 
 -(void) loadAvatarForUser: (id<PUser>) user forControlState: (UIControlState) state {
-    if (user.image) {
-        [self setImage:user.imageAsImage forState:state];
-    } else {
+    if (user.imageURL && user.imageURL.length) {
         [self sd_setImageWithURL:[NSURL URLWithString:user.imageURL]
                           forState:UIControlStateNormal
                   placeholderImage:user.defaultImage
                            options: SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
+    }
+    else {
+        [self setImage:user.imageAsImage forState:state];
     }
 }
 

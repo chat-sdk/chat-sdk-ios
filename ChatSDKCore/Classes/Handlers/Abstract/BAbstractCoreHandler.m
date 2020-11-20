@@ -116,7 +116,7 @@
 }
 
 -(bConnectionStatus) connectionStatus {
-    return bConnectionStatusConnected;
+    return bConnectionStatusNone;
 }
 
 -(NSDate *) now {

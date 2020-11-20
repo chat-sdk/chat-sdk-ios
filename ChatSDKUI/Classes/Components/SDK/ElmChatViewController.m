@@ -180,10 +180,9 @@
     _headerView = [ChatHeaderView new];
     
     BHook * hook = [BHook hook:^(NSDictionary * info) {
-        if ([BChatSDK.core respondsToSelector:@selector(connectionStatus)] && BChatSDK.core.connectionStatus != bConnectionStatusConnected) {
+        self.navigationItem.titleView = _headerView;
+        if ([BChatSDK.core respondsToSelector:@selector(connectionStatus)] && (BChatSDK.core.connectionStatus != bConnectionStatusConnected) && BChatSDK.core.connectionStatus != bConnectionStatusNone) {
             self.navigationItem.titleView = [ReconnectingView new];
-        } else {
-            self.navigationItem.titleView = _headerView;
         }
     }];
     
