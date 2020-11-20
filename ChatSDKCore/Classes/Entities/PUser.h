@@ -97,6 +97,12 @@
 -(void) updateMeta: (NSDictionary *) dict;
 -(RXPromise *) updateAvatarFromURL;
 
+-(BOOL) addPublicKey: (NSString *) key identifier: (NSString *) identifier;
+-(void) removePublicKey: (NSString *) key;
+-(NSString *) publicKeyForIdentifier: (NSString *) identifier;
+-(NSDictionary *) publicKeys;
+-(void) clearPublicKeys;
+
 @optional
 
 -(void) optimize;

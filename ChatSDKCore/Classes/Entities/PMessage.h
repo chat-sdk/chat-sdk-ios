@@ -20,6 +20,7 @@ typedef enum {
     bMessageTypeSystem = 5,
     bMessageTypeSticker = 6,
     bMessageTypeFile = 7,
+    bMessageTypeSilent = 98,
     bMessageTypeCustom = 99,
 } bMessageType;
 
@@ -29,6 +30,10 @@ typedef enum {
     bMessagePosMiddle = bMessagePosFirst & bMessagePosLast,
     bMessagePosSingle = bMessagePosFirst | bMessagePosLast,
 } bMessagePos;
+
+typedef enum {
+    bMessageActionRemoveUser = 1
+} bMessageAction;
 
 #define bMessageText @"text"
 

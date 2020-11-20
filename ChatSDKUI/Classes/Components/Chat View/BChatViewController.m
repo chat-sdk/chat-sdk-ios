@@ -41,10 +41,6 @@
     
     [super setAudioEnabled: BChatSDK.audioMessage != Nil];
     
-    // Add the initial batch of messages
-    NSArray<PMessage> * messages = [BChatSDK.db loadMessagesForThread:_thread newest:BChatSDK.config.messagesToLoadPerBatch];
-    messages = [messages sortedArrayUsingComparator:[BMessageSorter oldestFirst]];
-    [self setMessages:messages scrollToBottom:NO animate:NO force: YES];
 }
 
 -(void) traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
@@ -171,14 +167,39 @@
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+//    [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
+//        return ![_thread isEqualToEntity:thread];
+//    }];
+
+    __weak __typeof__(self) weakSelf = self;
     [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
-        return NO;
+        __typeof__(self) strongSelf = weakSelf;
+        BOOL enable = ![strongSelf.thread isEqualToEntity:thread];
+        enable = enable && BChatSDK.config.showLocalNotificationInChat && (!BChatSDK.encryption || BChatSDK.config.showLocalNotificationForEncryptedChats);
+        return enable;
     }];
     
     if (!self.sendBarView.text.length && [_thread respondsToSelector:@selector(draft)]) {
         self.sendBarView.text = [_thread draft];
     }
+    
+    // Add the initial batch of messages
+    
+    [_messageManager clear];
+    
+    [BCoreUtilities checkDuplicateThread];
+    [BCoreUtilities checkOnMain];
 
+    // Testing
+    [BChatSDK.db fetchEntityWithID:_thread.entityID withType:bThreadEntity];
+    
+    
+    
+    // End
+    
+    NSArray<PMessage> * messages = [BChatSDK.db loadMessagesForThread:_thread newest:BChatSDK.config.messagesToLoadPerBatch];
+    messages = [messages sortedArrayUsingComparator:[BMessageSorter oldestFirst]];
+    [self setMessages:messages scrollToBottom:NO animate:NO force: YES];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -233,7 +254,12 @@
 }
 
 -(RXPromise *) setChatState: (bChatState) state {
-    return [BChatSDK.typingIndicator setChatState: state forThread: _thread];
+    if (_chatState != state) {
+        _chatState = state;
+        return [BChatSDK.typingIndicator setChatState: state forThread: _thread];
+    } else {
+        return [RXPromise resolveWithResult:nil];
+    }
 }
 
 // Do you want to enable the audio mic?

@@ -14,6 +14,9 @@ import LoremIpsum
     
     var tableView = UITableView()
     var model: MessagesViewModel?
+        
+    // Message selection
+    var selectionModeIsEnabled = false
     
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,6 +60,10 @@ import LoremIpsum
             tableView.register(registration.nib(direction: .outgoing), forCellReuseIdentifier: registration.identifier(direction: .outgoing))
         }
 
+    }
+    
+    @objc public func selectionModeEnabled() -> Bool {
+        return selectionModeIsEnabled;
     }
     
 }

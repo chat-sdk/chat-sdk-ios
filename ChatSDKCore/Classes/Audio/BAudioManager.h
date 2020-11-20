@@ -31,7 +31,7 @@
 
 @property (nonatomic, readwrite) AVAudioRecorder * recorder;
 
-+(BAudioManager *) sharedManager;
++(BAudioManager *) shared;
 
 - (void)playAudio;
 - (void)pauseAudio;

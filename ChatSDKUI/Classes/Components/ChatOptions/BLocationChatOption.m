@@ -20,7 +20,7 @@
     return [NSBundle t:bLocation];
 }
 
-- (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID {
+- (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID handler:(id<PChatOptionsHandler>)handler {
     if(_action == Nil) {
         _action = [[BSelectLocationAction alloc] init];
     }

@@ -13,7 +13,7 @@
     NSMutableArray * _mapPool;
 }
 
-+(BMapViewManager *) sharedManager;
++(BMapViewManager *) shared;
 -(BMapViewWrapper *) mapFromPool;
 -(void) returnToPool: (BMapViewWrapper *) map;
 

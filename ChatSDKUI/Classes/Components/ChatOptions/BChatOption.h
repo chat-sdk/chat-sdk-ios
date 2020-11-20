@@ -12,4 +12,6 @@
 
 @interface BChatOption : NSObject<PChatOption>
 
+
+
 @end

@@ -29,14 +29,19 @@
     // We want to create an action sheet which will allow users to choose how they add their contacts
     UIAlertController * view = [UIAlertController alertControllerWithTitle:[NSBundle t:bOptions] message:Nil preferredStyle:UIAlertControllerStyleActionSheet];
     
+    UIView * parentView = _delegate.currentViewController.view;
+    
+    view.modalPresentationStyle = UIModalPresentationPopover;
+    view.popoverPresentationController.sourceRect = CGRectMake(50, parentView.bounds.size.height - 80, 200, 200);
+//    view.popoverPresentationController.permittedArrowDirections = @[];
     view.popoverPresentationController.sourceView = _delegate.currentViewController.view;
-        
+    
     if (_options.count) {
         for (BChatOption * option in _options) {
             UIAlertAction * action = [UIAlertAction actionWithTitle:option.title
                                                                   style:UIAlertActionStyleDefault
                                                                 handler:^(UIAlertAction * action) {
-                [option execute:_delegate.currentViewController threadEntityID:_delegate.threadEntityID];
+                [option execute:_delegate.currentViewController threadEntityID:_delegate.threadEntityID handler:nil];
             }];
             [view addAction:action];
         }
@@ -51,13 +56,7 @@
     }
 
     return NO;
-    
 }
-
--(void) dismissView {
-    [_delegate.currentViewController dismissViewControllerAnimated:YES completion:Nil];
-}
-
 
 -(UIView *) keyboardView {
     return Nil;
@@ -71,6 +70,9 @@
     
 }
 
+-(void) dismissView {
+    [_delegate.currentViewController dismissViewControllerAnimated:YES completion:Nil];
+}
 
 
 @end

@@ -76,6 +76,9 @@ typedef enum {
 // won't add the read receipt listener
 @property (nonatomic, readwrite) float readReceiptMaxAgeInSeconds;
 
+// Are group chats encrypted? Only relevant if encryption module is enabled
+@property (nonatomic, readwrite) BOOL encryptGroupThreads;
+
 // Enable or disable social login options
 @property (nonatomic, readwrite) BOOL anonymousLoginEnabled;
 @property (nonatomic, readwrite) BOOL forgotPasswordEnabled;
@@ -89,9 +92,14 @@ typedef enum {
 @property (nonatomic, readwrite) NSString * termsOfServiceURL;
 @property (nonatomic, readwrite) BOOL xmppCustomCertEvaluation;
 
+@property (nonatomic, readwrite) NSTimeInterval xmppPingInterval;
+@property (nonatomic, readwrite) NSTimeInterval xmppPingTimeout;
+
 @property (nonatomic, readwrite) BOOL xmppAdvancedConfigurationEnabled;
 
 @property (nonatomic, readwrite) BOOL messageDeletionEnabled;
+@property (nonatomic, readwrite) BOOL xmppOutgoingMessageQueueEnabled;
+@property (nonatomic, readwrite) BOOL disableSendButtonWhenDisconnected;
 
 // The message view text input box, max lines and characters
 @property (nonatomic, readwrite) int textInputViewMaxLines;
@@ -157,6 +165,8 @@ typedef enum {
 @property (nonatomic, readwrite) BOOL locationMessagesEnabled;
 @property (nonatomic, readwrite) BOOL imageMessagesEnabled;
 
+@property (nonatomic, readwrite) BOOL autoSaveOnTerminate;
+
 @property (nonatomic, readwrite) int audioMessageMaxLengthSeconds;
 
 @property (nonatomic, readwrite) BOOL prefersLargeTitles;
@@ -181,6 +191,7 @@ typedef enum {
 
 // If this is true, then we will only send a push notification if the recipient is offline
 @property (nonatomic, readwrite) BOOL onlySendPushToOfflineUsers;
+
 
 @property (nonatomic, readwrite) NSString * googleMapsApiKey;
 
@@ -212,7 +223,6 @@ typedef enum {
 // If this is true, extra data will be added to support Chat SDK v4
 @property (nonatomic, readwrite) BOOL enableCompatibilityWithV4;
 
-
 // Firebase options
 
 // Should the Chat SDK call [FIRApp configure];
@@ -242,6 +252,8 @@ typedef enum {
 // Show local notifications when a message is received
 @property (nonatomic, readwrite) BOOL showLocalNotifications;
 @property (nonatomic, readwrite) BOOL showLocalNotificationsForPublicChats;
+@property (nonatomic, readwrite) BOOL showLocalNotificationInChat;
+@property (nonatomic, readwrite) BOOL showLocalNotificationForEncryptedChats;
 
 // Profile Pictures
 @property (nonatomic, readwrite) BOOL profilePicturesEnabled;
@@ -258,6 +270,7 @@ typedef enum {
 // XMPP Auth type used which can be:
 // default, scramsha1, digestmd5, plain
 @property (nonatomic, readwrite) NSString * xmppAuthType;
+@property (nonatomic, readwrite) BOOL xmppUseHTTP;
 
 // How long should a public chat room live until expires and is removed from the list
 @property (nonatomic, readwrite) int publicChatRoomLifetimeMinutes;

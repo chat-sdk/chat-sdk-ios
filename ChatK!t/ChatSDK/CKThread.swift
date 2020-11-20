@@ -34,11 +34,11 @@ import ChatSDK
     }
     
     @objc public func threadName() -> String {
-        return _thread.name()
+        return _thread.displayName()
     }
     
     @objc public func threadImageUrl() -> URL? {
-        return nil
+        return URL(string: _thread.imageURL())
     }
     
     @objc public func threadUsers() -> [User] {

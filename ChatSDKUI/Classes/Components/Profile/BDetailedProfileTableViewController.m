@@ -385,7 +385,7 @@
 
 -(void) startChat {
     [BChatSDK.thread createThreadWithUsers:@[self.user] threadCreated:^(NSError * error, id<PThread> thread) {
-        BChatViewController * cvc = [[BInterfaceManager sharedManager].a chatViewControllerWithThread:thread];
+        BChatViewController * cvc = [[BInterfaceManager shared].a chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:cvc animated:YES];
     }];
 }
@@ -404,9 +404,7 @@
 }
 
 - (IBAction)editButtonPressed:(id)sender {
-    
-    //[[BNetworkManager sharedManager].authenticationAdapter logout];
-    
+        
     BDetailedEditProfileTableViewController * vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"EditProfile"];
     vc.profileViewController = self;
     UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:vc];

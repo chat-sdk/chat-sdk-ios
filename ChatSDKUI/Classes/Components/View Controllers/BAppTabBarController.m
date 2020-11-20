@@ -95,6 +95,7 @@
         NSArray * vcs = [BChatSDK.ui tabBarViewControllers];
         NSInteger index = [vcs indexOfObject:BChatSDK.ui.privateThreadsViewController];
         
+        
         if(index != NSNotFound) {
             [self setSelectedIndex:index];
             UIViewController * chatViewController = [BChatSDK.ui chatViewControllerWithThread:thread];
@@ -132,13 +133,14 @@
     }
     
     [self updateBadge];
+    
+    [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
+        return NO;
+    }];
+    [self updateShowLocalNotifications:self.selectedViewController];
 }
 
-// If the user changes tab they must be online
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    [BChatSDK.core setUserOnline];
-    [BChatSDK.core save];
-    
+-(void) updateShowLocalNotifications: (UIViewController *) viewController {
     if ([viewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController * nav = (UINavigationController *) viewController;
         if (nav.viewControllers.count) {
@@ -148,14 +150,15 @@
             [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
                 return showNotification;
             }];
-
-            return;
         }
     }
-    
-    [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
-        return NO;
-    }];
+}
+
+// If the user changes tab they must be online
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    [BChatSDK.core save];
+    [self updateShowLocalNotifications:viewController];
+    [BChatSDK.core save];
 }
 
 -(void) updateBadge {
@@ -170,7 +173,6 @@
         [self setBadge:publicThreadsMessageCount forViewController:BChatSDK.ui.publicThreadsViewController];
     }
     
-    [BChatSDK.core save];
 }
 
 -(int) unreadMessagesCount: (bThreadType) type {
@@ -178,11 +180,7 @@
     int i = 0;
     NSArray * threads = [BChatSDK.thread threadsWithType:type];
     for (id<PThread> thread in threads) {
-        for (id<PMessage> message in thread.allMessages) {
-            if (!message.isRead) {
-                i++;
-            }
-        }
+        i += thread.unreadMessageCount;
     }
     return i;
 }

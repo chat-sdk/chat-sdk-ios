@@ -33,9 +33,9 @@
     [BChatSDK.db save];
 }
 
--(void) saveToStore {
-    [BChatSDK.db saveToStore];
-}
+//-(void) saveToStore {
+//    [BChatSDK.db saveToStore];
+//}
 
 
 -(id<PUser>) userForEntityID: (NSString *) entityID {

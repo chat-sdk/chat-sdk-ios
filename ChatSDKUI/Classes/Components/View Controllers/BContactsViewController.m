@@ -63,6 +63,11 @@
     
     self.extendedLayoutIncludesOpaqueBars = YES;
     
+    //this prevent the tabbar to cover the tableview space
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 60)];
+    footer.backgroundColor = [UIColor clearColor];
+    tableView.tableFooterView = footer;
+    
     [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bCellIdentifier];
 }
 

@@ -19,6 +19,7 @@ Pod::Spec.new do |s|
 
   s.dependency 'ChatSDKKeepLayout'
   s.dependency 'LoremIpsum'
+  s.dependency 'GrowingTextView', '0.7.2'
   
     s.subspec 'ChatSDK' do |s| 
 	  s.source_files = ['ChatK!t/ChatSDK/**/*']

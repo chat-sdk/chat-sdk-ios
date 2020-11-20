@@ -11,9 +11,10 @@
 #import <ChatSDK/PStorageAdapter.h>
 
 @interface BCoreDataStorageAdapter : NSObject<PStorageAdapter> {
-    NSManagedObjectContext * _moc;
-    NSManagedObjectContext * _privateMoc;
-//    NSManagedObjectContext * _backgroundMoc;
+    NSManagedObjectContext * _parentMoc;
+    NSManagedObjectContext * _mainMoc;
+    NSManagedObjectContext * _backgroundMoc;
+
     NSManagedObjectModel * _model;
     NSPersistentStoreCoordinator * _store;
 }

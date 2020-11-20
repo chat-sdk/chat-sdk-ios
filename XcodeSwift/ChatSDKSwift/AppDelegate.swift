@@ -8,8 +8,10 @@
 
 import UIKit
 import ChatSDK
+import ChatSDKFirebase
+import FirebaseUI
 
-@UIApplicationMain
+@UIApplicationMain 
 /* Two Factor Auth */
 //class AppDelegate: UIResponder, UIApplicationDelegate, BTwoFactorAuthDelegate {
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let config = BConfiguration.init();
-        config.rootPath = "pre_3"
+        config.rootPath = "pre_1"
         config.allowUsersToCreatePublicChats = false
         config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
         config.clearDatabaseWhenDataVersionChanges = true
@@ -38,9 +40,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        config.messageBubbleMaskFirst = "chat_bubble_right_SS.png"
 //        config.messageBubbleMaskSingle = "chat_bubble_right_S0.png"
         
-        
+
         BChatSDK.initialize(config, app: application, options: launchOptions)
         
+        let authUI = FUIAuth.defaultAuthUI()
+        let providers = [FUIPhone()]
+        BFirebaseUIModule().activate(withProviders: providers)
+
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();
         self.window?.makeKeyAndVisible();

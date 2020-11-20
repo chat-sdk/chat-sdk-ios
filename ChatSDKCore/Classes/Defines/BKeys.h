@@ -43,6 +43,7 @@
 #define bUserName @"userName"
 #define bReadPath @"read"
 #define bImageURL @"image-url"
+#define bNickname @"nick"
 
 #define bCreationDate @"creation-date"
 #define bMessage @"message"
@@ -65,7 +66,9 @@
 #define bPublicThreadsPath @"public-threads"
 #define bMetaPath @"meta"
 #define bOnlinePath @"online"
-#define bLastOnlinePath @"last-online"
+
+#define bLastOnlineKey @"last-online"
+#define bLastOnlinePath bLastOnlineKey
 
 #define bAudioPath @"audio"
 #define bVideoPath @"video"
@@ -96,5 +99,7 @@
 #define bUserPrivilegeKey @"privilege"
 #define bUserNameLowercase @"name-lowercase"
 #define bUID @"uid"
+
+#define bLocalNotification = @"local-notification"
 
 #endif /* BKeys_h */

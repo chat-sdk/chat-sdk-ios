@@ -24,7 +24,10 @@
 }
 
 -(id<PUser>) user {
-    return [BChatSDK.db fetchEntityWithID:self.entityID withType:bUserEntity];
+    if (!_user || ![_user.entityID isEqualToString:self.entityID]) {
+        _user = [BChatSDK.db fetchEntityWithID:self.entityID withType:bUserEntity];
+    }
+    return _user;
 }
 
 -(void) setSubscriptionType:(NSString *)subscriptionType {

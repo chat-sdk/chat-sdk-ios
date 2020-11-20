@@ -38,7 +38,7 @@ static BChatSDK * instance;
 -(instancetype) init {
     if((self = [super init])) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(appDidResignActive)
+                                                 selector:@selector(appWillResignActive)
                                                      name:UIApplicationWillResignActiveNotification
                                                    object:Nil];
         
@@ -77,10 +77,17 @@ static BChatSDK * instance;
     [self initialize:config app:application options:launchOptions interfaceAdapter:Nil];
 }
 
--(void) appDidResignActive {
+-(void) appWillResignActive {
     if(self.networkAdapter) {
         [self.networkAdapter.core save];
-        [self.networkAdapter.core goOffline];
+        if (BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
+            [BChatSDK.lastOnline setLastOnlineForUser:BChatSDK.currentUser].thenOnMain(^id(id success) {
+                [self.networkAdapter.core goOffline];
+                return nil;
+            }, nil);
+        } else {
+            [self.networkAdapter.core goOffline];
+        }
     }
 }
 
@@ -175,11 +182,11 @@ static BChatSDK * instance;
     
     if (BChatSDK.config.clearDataWhenRootPathChanges && rootPath && newRootPath && ![rootPath isEqualToString:newRootPath]) {
         [BChatSDK.db deleteAllData];
-        [BChatSDK.db saveToStore];
+//        [BChatSDK.db saveToStore];
     }
     else if (BChatSDK.config.clearDatabaseWhenDataVersionChanges && ![databaseVersion isEqual:newDatabaseVersion]) {
         [BChatSDK.db deleteAllData];
-        [BChatSDK.db saveToStore];
+//        [BChatSDK.db saveToStore];
     }
 
     if (newRootPath) {

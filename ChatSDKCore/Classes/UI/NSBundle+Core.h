@@ -181,6 +181,7 @@
 #define bVideoMessage @"bVideoMessage"
 #define bStickerMessage @"bStickerMessage"
 #define bFileMessage @"bFileMessage"
+#define bEncryptedMessage @"bEncryptedMessage"
 
 #define bAvailable @"bAvailable"
 #define bAway @"bAway"

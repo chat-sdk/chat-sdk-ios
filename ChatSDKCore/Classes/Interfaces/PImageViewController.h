@@ -11,6 +11,7 @@
 @protocol PImageViewController
 
 -(void) setImage: (UIImage *) image;
+-(void) setHideSaveButton: (BOOL) hide;
 
 @end
 

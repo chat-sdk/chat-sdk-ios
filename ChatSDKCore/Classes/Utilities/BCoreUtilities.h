@@ -34,4 +34,7 @@
 
 +(RXPromise *) getWithPath: (NSString *) path parameters: (NSDictionary *) params;
 
++(void) checkOnMain;
++(void) checkDuplicateThread;
+
 @end

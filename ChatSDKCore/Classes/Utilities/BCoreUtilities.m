@@ -197,6 +197,28 @@
     return manager;
 }
 
++(void) checkOnMain {
+    if ([[NSThread currentThread] isEqual:[NSThread mainThread]]) {
+        NSLog(@"On Main Thread");
+    } else {
+        NSLog(@"On Background Thread");
+    }
+}
+
++(void) checkDuplicateThread {
+    NSArray * threads = [BChatSDK.db fetchEntitiesWithName:bThreadEntity];
+    for(id o1 in threads) {
+        for(id o2 in threads) {
+            if (![o1 isEqual:o2]) {
+                id<PThread> t1 = (id<PThread>) o1;
+                id<PThread> t2 = (id<PThread>) o2;
+                if ([t1.entityID isEqual:t2.entityID]) {
+                    NSLog(@"Duplicate thread");
+                }
+            }
+        }
+    }
+}
 
 
 @end

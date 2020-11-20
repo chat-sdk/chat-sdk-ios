@@ -12,7 +12,7 @@
 
 static BMapViewManager * manager;
 
-+(BMapViewManager *) sharedManager {
++(BMapViewManager *) shared {
     
     @synchronized(self) {
         

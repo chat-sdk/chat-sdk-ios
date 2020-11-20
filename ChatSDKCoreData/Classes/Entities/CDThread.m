@@ -50,7 +50,7 @@
     CDMessage * message = (CDMessage *) theMessage;
     
     // Check if the message has already been added
-    if ([self.messages containsObject:message]) {
+    if ([self containsMessage:message]) {
         return;
     }
 
@@ -80,6 +80,10 @@
         [message.previousMessage updatePosition];
     }
     [message updatePosition];
+    
+    [BCoreUtilities checkDuplicateThread];
+    [BCoreUtilities checkOnMain];
+
 }
 
 -(id<PMessage>) newestMessage {
@@ -180,7 +184,9 @@
     
     BOOL didMarkRead = NO;
     
-    for(id<PMessage> message in self.messages) {
+    
+    NSArray<PMessage> * messages = [BChatSDK.db loadAllMessagesForThread:self newestFirst:YES];
+    for(id<PMessage> message in messages) {
         if (!message.isRead && !message.senderIsMe) {
             [message setRead: @YES];
             
@@ -193,6 +199,7 @@
     if (didMarkRead) {
         [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadRead object:Nil];
     }
+//    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadRead object:Nil];
 }
 
 -(int) unreadMessageCount {
@@ -212,7 +219,7 @@
 
 -(void) addUser: (id<PUser>) user {
     if ([user isKindOfClass:[CDUser class]]) {
-        if (![self.users containsObject:(CDUser *)user]) {
+        if (![self containsUser:user]) {
             [self addUsersObject:(CDUser *)user];
         }
     }
@@ -220,12 +227,29 @@
 
 - (void)removeUser:(id<PUser>) user {
     if ([user isKindOfClass:[CDUser class]]) {
-        if ([self.users containsObject:(CDUser *)user]) {
+        if ([self containsUser: user]) {
             [self removeUsersObject:(CDUser *) user];
         }
     }
 }
 
+-(BOOL) containsUser: (id<PUser>) user {
+    for (id<PUser> u in self.users) {
+        if ([u.entityID isEqualToString:user.entityID]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+-(BOOL) containsMessage: (id<PMessage>) message {
+    for (id<PMessage> m in self.messages) {
+        if ([m.entityID isEqualToString:message.entityID]) {
+            return true;
+        }
+    }
+    return false;
+}
 -(id<PUser>) otherUser {
     id<PUser> currentUser = BChatSDK.currentUser;
     if (self.type.intValue == bThreadType1to1 || self.users.count == 2) {

@@ -46,7 +46,8 @@ typedef enum {
 -(id<PThread>) createThreadEntity;
 
 -(RXPromise *) save;
--(void) saveToStore;
+-(RXPromise *) saveToStore;
+-(void) saveToStoreOnMain;
 
 -(id) createEntity: (NSString *) entityName;
 
@@ -78,7 +79,7 @@ typedef enum {
 //-(RXPromise *) performOnPrivateAndSave:(id (^)(void))block;
 -(RXPromise *) performOnMainAndSave:(id (^)(void))block;
 
--(bQueueType) queueType;
+//-(bQueueType) queueType;
 
 
 @end

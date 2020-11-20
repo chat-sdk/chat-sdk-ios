@@ -13,7 +13,7 @@
 @implementation UIImageView(Avatar)
 
 -(void) loadAvatar: (id<PUser>) user {
-    if (user.imageAsImage) {
+    if (user.image) {
         [self setImage:user.imageAsImage];
     } else {
         [self sd_setImageWithURL:[NSURL URLWithString:user.imageURL]

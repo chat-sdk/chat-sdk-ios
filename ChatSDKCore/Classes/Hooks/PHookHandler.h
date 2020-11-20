@@ -41,6 +41,8 @@
 #define bHookThreadAdded @"bHookThreadAdded"
 #define bHookThreadRemoved @"bHookThreadRemoved"
 
+#define bHookServerPingFailed @"bHookServerPingFailed"
+
 #define bHook_PMessage @"bHook_PMessage"
 #define bHook_PUser @"bHook_PUser"
 #define bHook_PThread @"bHook_PThread"

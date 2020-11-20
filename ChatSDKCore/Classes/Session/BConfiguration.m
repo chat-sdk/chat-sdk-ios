@@ -54,6 +54,7 @@
 @synthesize disableProfileUpdateOnAuthentication;
 @synthesize developmentModeEnabled;
 @synthesize messageSelectionEnabled;
+@synthesize encryptGroupThreads;
 
 @synthesize vibrateOnNewMessage;
 
@@ -99,6 +100,9 @@
 @synthesize enableCompatibilityWithV4;
 
 @synthesize messageDeletionEnabled;
+@synthesize autoSaveOnTerminate;
+@synthesize xmppPingTimeout;
+@synthesize xmppPingInterval;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -146,6 +150,9 @@
         termsAndConditionsEnabled = YES;
         
         showPublicThreadsUnreadMessageBadge = YES;
+        autoSaveOnTerminate = YES;
+        
+        encryptGroupThreads = YES;
         
         prefersLargeTitles = YES;
         
@@ -179,6 +186,9 @@
                 
         xmppMucMessageHistory = 20;
         xmppAdvancedConfigurationEnabled = YES;
+        
+        xmppPingInterval = 15;
+        xmppPingTimeout = 15;
         
         messageDeletionListenerLimit = 30;
         messageHistoryDownloadLimit = 30;

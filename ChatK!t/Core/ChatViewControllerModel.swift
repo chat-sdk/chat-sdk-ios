@@ -26,5 +26,9 @@ import Foundation
     @objc public func title() -> String {
         return thread.threadName()
     }
+    
+    @objc public func send(text: String) {
+        
+    }
 
 }

@@ -13,7 +13,7 @@
 
 static BInterfaceManager * manager;
 
-+(BInterfaceManager *) sharedManager {
++(BInterfaceManager *) shared {
     return [[self alloc] init];
 }
 

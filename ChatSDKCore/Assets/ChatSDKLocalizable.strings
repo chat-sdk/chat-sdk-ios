@@ -176,6 +176,7 @@
 "bInviteByEmail" = "Email";
 "bInviteBySMS" = "SMS";
 
+"bEncryptedMessage" = "Encrypted Message";
 "bImageMessage" = "Image Message";
 "bLocationMessage" = "Location Message";
 "bAudioMessage" = "Audio Message";

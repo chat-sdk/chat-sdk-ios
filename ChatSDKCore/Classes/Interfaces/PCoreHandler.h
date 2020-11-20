@@ -63,7 +63,7 @@
 -(void) save;
 
 // Save the data to perminent storage
--(void) saveToStore;
+//-(void) saveToStore;
 
 
 @end

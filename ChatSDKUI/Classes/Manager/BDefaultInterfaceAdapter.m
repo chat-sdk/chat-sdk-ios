@@ -267,7 +267,10 @@
 }
 
 -(UIViewController<PImageViewController> *) imageViewController {
-    return [[BImageViewController alloc] initWithNibName:nil bundle:Nil];
+    if (!_imageViewController) {
+        _imageViewController = [[BImageViewController alloc] initWithNibName:nil bundle:Nil];
+    }
+    return _imageViewController;
 }
 
 -(UINavigationController *) imageViewNavigationController {

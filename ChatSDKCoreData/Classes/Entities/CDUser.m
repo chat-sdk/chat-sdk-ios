@@ -20,6 +20,10 @@
 }
 
 -(NSString *) name {
+    NSString * nick = [self.meta metaStringForKey:bNickname];
+    if (nick && nick.length) {
+        return nick;
+    }
     return [self.meta metaStringForKey:bUserNameKey];
 }
 
@@ -182,7 +186,12 @@
 
 -(UIImage *) imageAsImage {
     if (self.image) {
-        return [[UIImage imageWithData:self.image] resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
+        UIImage * image = [UIImage imageWithData:self.image];
+        if (image.size.height > bProfilePictureSize.height && image.size.width > bProfilePictureSize.width) {
+            return [[UIImage imageWithData:self.image] resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
+        } else {
+            return image;
+        }
     }
     return Nil;
 }
@@ -207,5 +216,47 @@
 -(BOOL) isEqualToEntity: (id<PEntity>) entity {
     return [self.entityID isEqualToString:entity.entityID];
 }
+
+-(void) clearPublicKeys {
+    [self setMetaValue:@{} forKey:bUserPublicKeysKey];
+}
+
+-(BOOL) addPublicKey: (NSString *) key identifier: (NSString *) identifier {
+    NSLog(@"Public Key - Add - %@, %@, %@", BChatSDK.currentUserID, identifier, key);
+    if (!key || !key.length) {
+        return false;
+    }
+    NSMutableDictionary * keys = [NSMutableDictionary dictionaryWithDictionary:self.meta[bUserPublicKeysKey]];
+    for (NSString * existing in keys.allValues) {
+        if ([existing isEqual:key]) {
+            return false;
+        }
+    }
+    [keys setObject:key forKey:identifier];
+    [self setMetaValue:keys forKey:bUserPublicKeysKey];
+    return true;
+}
+
+-(void) removePublicKey: (NSString *) key {
+    NSMutableDictionary * keys = [NSMutableDictionary dictionaryWithDictionary:self.meta[bUserPublicKeysKey]];
+    NSString * identifier;
+    for (NSString * existing in keys.allKeys) {
+        if ([keys[existing] isEqual:key]) {
+            identifier = existing;
+            break;
+        }
+    }
+    [keys removeObjectForKey:identifier];
+    [self setMetaValue:keys forKey:bUserPublicKeysKey];
+}
+
+-(NSString *) publicKeyForIdentifier: (NSString *) identifier {
+    return self.publicKeys[identifier];
+}
+
+-(NSDictionary *) publicKeys {
+    return self.meta[bUserPublicKeysKey];
+}
+
 
 @end

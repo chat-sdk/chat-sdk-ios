@@ -231,7 +231,7 @@
 // When the button is held we start recording
 - (void)sendButtonHeld {
     if (_micButtonEnabled) {
-        [[BAudioManager sharedManager] startRecording];
+        [[BAudioManager shared] startRecording];
         _recordingToastTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
                                                                 target:self
                                                               selector:@selector(showRecordingToast)
@@ -247,9 +247,9 @@
     if (_sendBarDelegate) {
         
         // Return the recording url and duration in an array
-        NSURL * audioURL = [BAudioManager sharedManager].recorder.url;
+        NSURL * audioURL = [BAudioManager shared].recorder.url;
         NSData * audioData = [NSData dataWithContentsOfURL:audioURL];
-        double duration = [BAudioManager sharedManager].recordingLength;
+        double duration = [BAudioManager shared].recordingLength;
         
         if (duration > 1) {
             [BChatSDK.audioMessage sendMessageWithAudio:audioData duration:duration withThreadEntityID:_sendBarDelegate.threadEntityID];
@@ -283,7 +283,7 @@
 }
 
 -(void) stopRecording {
-    [[BAudioManager sharedManager] finishRecording];
+    [[BAudioManager shared] finishRecording];
     [_sendBarDelegate.view hideAllToasts];
     [_placeholderLabel setText:[NSBundle t:bWriteSomething]];
     [self cancelRecordingToastTimer];
@@ -334,7 +334,7 @@
                             duration:1
                             position:[NSValue valueWithCGPoint: CGPointMake(_sendBarDelegate.view.frame.size.width / 2.0, self.frame.origin.y - self.frame.size.height - 20)] style:style];
     [self cancelRecordingToastTimer];
-    [[BAudioManager sharedManager] finishRecording];
+    [[BAudioManager shared] finishRecording];
 }
 
 -(void) optionsButtonPressed {

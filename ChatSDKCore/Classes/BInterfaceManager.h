@@ -12,7 +12,7 @@
 
 @interface BInterfaceManager : NSObject
 
-+(BInterfaceManager *) sharedManager;
++(BInterfaceManager *) shared;
 -(id<PInterfaceAdapter>) a;
 
 @end

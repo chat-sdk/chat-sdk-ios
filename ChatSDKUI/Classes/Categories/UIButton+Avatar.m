@@ -13,7 +13,7 @@
 @implementation UIButton(Avatar)
 
 -(void) loadAvatarForUser: (id<PUser>) user forControlState: (UIControlState) state {
-    if (user.imageAsImage) {
+    if (user.image) {
         [self setImage:user.imageAsImage forState:state];
     } else {
         [self sd_setImageWithURL:[NSURL URLWithString:user.imageURL]

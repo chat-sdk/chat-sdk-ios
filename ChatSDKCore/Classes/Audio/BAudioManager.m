@@ -19,7 +19,7 @@ static BAudioManager * manager;
 @synthesize recorder = _recorder;
 @synthesize player = _player;
 
-+(BAudioManager *) sharedManager {
++(BAudioManager *) shared {
     
     @synchronized(self) {
         

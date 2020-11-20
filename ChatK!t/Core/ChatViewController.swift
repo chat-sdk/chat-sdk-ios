@@ -11,10 +11,20 @@ import KeepLayout
 
 @objc public class ChatViewController: UIViewController {
     
-    var messagesView = MessagesView()
-    var keyboardOverlayView = UIView()
-
-    let model: ChatViewControllerModel
+    // View that contains the message list
+    public var messagesView = MessagesView()
+    public var keyboardOverlayView = UIView()
+        
+    // Text input bar
+    public var textInputView = TextInputView()
+    public var textInputViewBottomConstraint: NSLayoutConstraint?
+    
+    // Gesture recognizers
+    var tapRecognizer: UITapGestureRecognizer?
+    
+    // Data model
+    public let model: ChatViewControllerModel
+    
     
     @objc public init(model: ChatViewControllerModel) {
         self.model = model
@@ -31,6 +41,12 @@ import KeepLayout
     override public func viewDidLoad() {
         super.viewDidLoad()
         
+        if #available(iOS 13, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            view.backgroundColor = .white
+        }
+        
         title = model.title()
         
         messagesView.setModel(model: model.messagesViewModel())
@@ -40,52 +56,80 @@ import KeepLayout
         
 //        keyboardOverlayView.isHidden = yes
         
-        messagesView.keepInsets.equal = 0
+        view.addSubview(textInputView)
         
+//        messagesView.keepInsets.equal = 0
+
+        messagesView.keepTopInset.equal = 0
+        messagesView.keepRightInset.equal = 0
+        messagesView.keepLeftInset.equal = 0
+        messagesView.keepBottomOffsetTo(textInputView)?.equal = 0
+        
+        messagesView.backgroundColor = .green
+        messagesView.layer.borderColor = UIColor.red.cgColor
+        messagesView.layer.borderWidth = 1
+        
+        textInputView.keepLeftInset.equal = 0
+        textInputView.keepRightInset.equal = 0
+        
+        textInputView.addSendButton {
+            
+        }
+        textInputView.addPlusButton {
+            
+        }
+        
+        textInputView.textView?.placeholder = "Write something..."
+
+        textInputViewBottomConstraint = textInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        
+        NSLayoutConstraint.activate([textInputViewBottomConstraint!])
+        
+        tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTap))
+        // Add the gesture recognizer
+        messagesView.addGestureRecognizer(tapRecognizer!)
+
+    }
+    
+    @objc public func onTap(recognizer: UITapGestureRecognizer) {
+        if messagesView.selectionModeEnabled() {
+            
+        } else {
+            textInputView.textView?.resignFirstResponder()
+        }
+    }
+    
+    override public func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        addObservers()
+    }
+    
+    override public func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeObservers()
     }
     
     @objc public func addObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(notification:)), name: UIResponder.keyboardDidShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardDidHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
     @objc public func removeObservers() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
-    
-    @objc public func keyboardWillShow(notification: Notification) {
         
-        
-//        guard let boundsValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {}
-//
-//
-//        if let boundsValue: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-//            let durationValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-//            let curveValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-//        {
-//            let bounds = self.view.convert(boundsValue.cgRectValue, to: nil)
-//
-//            let keyboardRectangle = boundsValue.cgRectValue
-//            let keyboardHeight = boundsValue.height
-//
-//        }
-    }
-
-    @objc public func keyboardDidShow(notification: Notification) {
-        
-    }
-
-    @objc public func keyboardWillHide(notification: Notification) {
-        
-    }
-
-    @objc public func keyboardDidHide(notification: Notification) {
-        
+    @objc private func keyboardWillChangeFrame(_ notification: Notification) {
+        if let bottomConstraint = textInputViewBottomConstraint {
+            if let endFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                var keyboardHeight = UIScreen.main.bounds.height - endFrame.origin.y
+                if #available(iOS 11, *) {
+                    if keyboardHeight > 0 {
+                        keyboardHeight = keyboardHeight - view.safeAreaInsets.bottom
+                    }
+                }
+                bottomConstraint.constant = -keyboardHeight
+                view.superview?.layoutIfNeeded()
+            }
+        }
     }
 
 }

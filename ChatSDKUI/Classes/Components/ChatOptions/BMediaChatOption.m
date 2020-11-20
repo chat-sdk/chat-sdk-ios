@@ -61,7 +61,7 @@
     return title;
 }
 
-- (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID {
+- (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID handler:(id<PChatOptionsHandler>)handler {
     BSelectMediaAction * action =  [[BSelectMediaAction alloc] initWithType:_type viewController:viewController];
     return [action execute].thenOnMain(^id(id success) {
         if(action.videoData && action.coverImage && BChatSDK.videoMessage) {

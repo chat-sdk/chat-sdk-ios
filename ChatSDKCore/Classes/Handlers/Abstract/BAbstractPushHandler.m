@@ -35,10 +35,6 @@
 
 -(void) registerForPushNotificationsWithApplication: (UIApplication *) app launchOptions: (NSDictionary *) options {
     
-    #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-    
-    if (@available(iOS 10, *)) {
-    
         UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
         notificationDelegate = [[BLocalNotificationDelegate alloc] init];
         center.delegate = notificationDelegate;
@@ -80,44 +76,6 @@
         [center requestAuthorizationWithOptions:UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert
                               completionHandler:handler];
         
-    }
-    
-    #else
-    
-    UIUserNotificationType allNotificationTypes =
-    (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-    
-    UIMutableUserNotificationAction * replyAction = [[UIMutableUserNotificationAction alloc] init];
-    replyAction.identifier = bChatSDKReplyAction;
-    replyAction.title = @"Reply";
-    replyAction.activationMode = UIUserNotificationActivationModeBackground;
-    replyAction.authenticationRequired = NO;
-    replyAction.destructive = NO;
-    replyAction.behavior = UIUserNotificationActionBehaviorTextInput;
-    
-    UIMutableUserNotificationAction * openAction = [[UIMutableUserNotificationAction alloc] init];
-    openAction.identifier = bChatSDKOpenAppAction;
-    openAction.title = @"Open App";
-    openAction.activationMode = UIUserNotificationActivationModeBackground;
-    openAction.authenticationRequired = NO;
-    openAction.destructive = NO;
-    openAction.behavior = UIUserNotificationActionBehaviorDefault;
-    
-    UIMutableUserNotificationCategory *notificationCategory = [[UIMutableUserNotificationCategory alloc] init];
-    [notificationCategory setIdentifier:BChatSDK.config.pushNotificationAction ? BChatSDK.config.pushNotificationAction : bChatSDKNotificationCategory];
-    
-    [notificationCategory setActions:@[replyAction, openAction] forContext:UIUserNotificationActionContextDefault];
-    [notificationCategory setActions:@[replyAction, openAction] forContext:UIUserNotificationActionContextMinimal];
-    
-    NSSet * categories = [NSSet setWithArray:@[notificationCategory]];
-    
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:categories];
-    
-    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-    [[UIApplication sharedApplication] registerForRemoteNotifications];
-        
-    #endif
-    
 }
 
 - (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -127,11 +85,11 @@
 - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSString * threadEntityID = userInfo[bPushThreadEntityID];
     if(threadEntityID) {
-        id<PThread> thread = [BChatSDK.db fetchOrCreateEntityWithID:threadEntityID withType:bThreadEntity];
+        id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadEntityID withType:bThreadEntity];
         
         // TODO: Check this
         // If the thread is muted, don't show the push
-        if (thread.meta[bMute]) {
+        if (!thread || thread.meta[bMute]) {
             return;
         }
         
@@ -179,10 +137,15 @@
     NSMutableDictionary * data = [NSMutableDictionary dictionaryWithDictionary: @{@"userIds" : users,
                                                                                   @"body": message.text,
                                                                                   @"type": message.type,
+                                                                                  @"senderName": BChatSDK.currentUser.name,
                                                                                   @"senderId": message.userModel.entityID,
                                                                                   @"threadId": message.thread.entityID,
                                                                                   @"action": BChatSDK.config.pushNotificationAction ? BChatSDK.config.pushNotificationAction : bChatSDKNotificationCategory,
                                                                                   }];
+    
+    if (BChatSDK.encryption) {
+        data[@"encrypted-message"] = message.meta[@"encrypted-message"];
+    }
     
     if(BChatSDK.config.pushNotificationSound) {
         data[@"sound"] = BChatSDK.config.pushNotificationSound;

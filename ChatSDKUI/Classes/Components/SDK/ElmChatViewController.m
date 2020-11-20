@@ -49,7 +49,7 @@
         [tableView addGestureRecognizer: _longPressRecognizer];
         
         // It should only be enabled when the keyboard is being displayed
-//        _tapRecognizer.enabled = NO;
+        _tapRecognizer.enabled = NO;
         
         // When a user taps the title bar we want to know to show the options screen
         if (BChatSDK.config.userChatInfoEnabled) {
@@ -112,7 +112,6 @@
     UIPasteboard.generalPasteboard.string = copyText;
     [self.view makeToast:[NSBundle t: bCopiedToClipboard]];
 }
-
 -(void) setupChatToolbar {
     _chatToolbar = [[ChatToolbar alloc] init];
     [self.view addSubview:_chatToolbar];
@@ -150,7 +149,6 @@
     };
 
 }
-
 -(void) setupReplyView {
     _replyView = [[ReplyView alloc] init];
     [self.view addSubview:_replyView];
@@ -350,6 +348,13 @@
     }
 }
 
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceivePress:(UIPress *)press {
+//    if ([gestureRecognizer isEqual:_tapRecognizer]) {
+//        return BChatSDK.config.messageSelectionEnabled || _sendBarView.isFirstResponder;
+//    }
+//    return YES;
+//}
+
 -(void) onTap: (UITapGestureRecognizer *) recognizer {
     if (BChatSDK.config.messageSelectionEnabled && self.selectionModeEnabled) {
         CGPoint point = [recognizer locationInView:tableView];
@@ -472,7 +477,7 @@
     
     [self setChatState:bChatStateActive];
         
-//    [self reloadData];
+    [self reloadData];
 }
 
 -(void) viewDidLayoutSubviews {
@@ -799,7 +804,7 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+    return BChatSDK.config.messageDeletionEnabled || BChatSDK.moderation;
 }
 
 // This only works for iOS8
@@ -945,7 +950,7 @@
     [UIView commitAnimations];
     
     // Disable the gesture recognizer so cell taps are recognized
-//    _tapRecognizer.enabled = NO;
+    _tapRecognizer.enabled = NO;
     
 }
 
@@ -956,7 +961,7 @@
     CGRect keyboardBoundsConverted = [self.view convertRect:keyboardBounds toView:Nil];
         
     // Enable the tap gesture recognizer to hide the keyboard
-//    _tapRecognizer.enabled = YES;
+    _tapRecognizer.enabled = YES;
 }
 
 
