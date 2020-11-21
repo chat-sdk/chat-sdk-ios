@@ -33,7 +33,6 @@
 
 - (BOOL)showUserNameLabelForPosition: (bMessagePos) position;
 -(bMessagePos) messagePosition;
--(id<PElmMessage>) nextMessage;
 
 -(id<PElmThread>) thread;
 -(id<PElmUser>) userModel;

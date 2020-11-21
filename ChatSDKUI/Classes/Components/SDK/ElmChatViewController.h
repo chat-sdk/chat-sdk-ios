@@ -90,7 +90,6 @@
 -(void) stopTyping;
 
 -(void) addMessages: (NSArray<PMessage> *) messages;
--(void) addMessages: (NSArray<PMessage> *) messages;
 -(void) addMessage: (id<PMessage>) message;
 
 -(void) setMessages: (NSArray<PMessage> *) messages;

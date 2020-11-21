@@ -96,6 +96,5 @@
 -(void) hideCheck;
 
 -(void) setMessage: (id<PElmMessage>) message isSelected: (BOOL) selected;
--(void) willDisplayCell;
 
 @end

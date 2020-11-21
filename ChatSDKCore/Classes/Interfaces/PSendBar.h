@@ -10,7 +10,7 @@
 
 @protocol PSendBarDelegate;
 
-typedef void(^Send)();
+typedef void(^Send)(void);
 
 @protocol PSendBar <NSObject>
 
