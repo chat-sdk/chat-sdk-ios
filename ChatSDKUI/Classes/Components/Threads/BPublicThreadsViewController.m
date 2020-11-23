@@ -73,13 +73,13 @@
 
             NSString * name = [alertView textFieldAtIndex:0].text;
             [BChatSDK.publicThread createPublicThreadWithName:name].thenOnMain(^id(id<PThread> thread) {
-                __typeof__(self) strongSelf = self;
+                __typeof__(self) strongSelf = weakSelf;
                 [strongSelf pushChatViewControllerWithThread:thread];
                 [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
                 return Nil;
             }, ^id(NSError * error) {
                 __typeof__(self) strongSelf = self;
-                [UIView alertWithTitle:[NSBundle t:bUnableToCreateThread] withError:error];
+                [strongSelf alertWithTitle:[NSBundle t:bUnableToCreateThread] withError:error];
                 [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
                 return error;
             });

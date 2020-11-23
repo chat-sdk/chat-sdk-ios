@@ -166,7 +166,7 @@
 -(void) composeMessage {
     
     if (!_selectedContacts.count) {
-        [UIView alertWithTitle:[NSBundle t:bInvalidSelection]
+        [self alertWithTitle:[NSBundle t:bInvalidSelection]
                    withMessage:[NSBundle t:bSelectAtLeastOneFriend]];
         return;
     }

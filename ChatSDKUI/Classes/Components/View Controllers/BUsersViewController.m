@@ -192,7 +192,7 @@
     // Show the friends view controller
     UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
         [BChatSDK.thread addUsers:users toThread:_thread].thenOnMain(^id(id success){
-            [UIView alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];
+            [self alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];
             
             [self reloadData];
             return Nil;

@@ -34,6 +34,7 @@
 #import <ChatSDK/UITextView+Resize.h>
 #import <ChatSDK/UIButton+Avatar.h>
 #import <ChatSDK/UIImageView+Avatar.h>
+#import <ChatSDK/UIViewController+Additions.h>
 
 #import <ChatSDK/BThreadCell.h>
 
