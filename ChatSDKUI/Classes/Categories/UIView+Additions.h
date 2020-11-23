@@ -50,8 +50,6 @@
 
 -(void) makeRound;
 
-+(void) alertWithTitle: (NSString *) title withError: (NSError *) error;
-+(void) alertWithTitle: (NSString *) title withMessage: (NSString *) message;
 
 +(CGSize) screenSizeForOrientation;
 

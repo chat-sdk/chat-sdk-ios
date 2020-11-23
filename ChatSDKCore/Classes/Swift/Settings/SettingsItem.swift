@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import ChatSDK
 
 public enum SettingsItemType {
     case bool

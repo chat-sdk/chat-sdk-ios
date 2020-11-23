@@ -360,7 +360,7 @@
         [self refreshInterfaceAnimated:NO];
         return Nil;
     }, ^id(NSError * error) {
-        [UIView alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+        [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
         return Nil;
     });
 }
@@ -370,7 +370,7 @@
         [self refreshInterfaceAnimated:NO];
         return Nil;
     }, ^id(NSError * error) {
-        [UIView alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+        [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
         return Nil;
     });
 }

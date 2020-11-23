@@ -303,7 +303,7 @@
 // TODO: Move this to UI module
 -(RXPromise *) imageForThread {
     [self checkOnMain];
-
+    
     NSMutableArray * userPromises = [NSMutableArray new];
     NSMutableArray * users = [NSMutableArray arrayWithArray:self.users.allObjects];
     for (id<PUser> user in users) {
@@ -431,6 +431,14 @@
 
 -(BOOL) typeIs: (bThreadType) type {
     return self.type.intValue & type;
+}
+
+-(NSString *) imageURL {
+    NSString * url = [self.meta metaValueForKey:bImageURL];
+    if ((!url || !url.length) && ([self typeIs:bThreadType1to1] || self.users.count == 2)) {
+        return self.otherUser.imageURL;
+    }
+    return url;
 }
 
 @end

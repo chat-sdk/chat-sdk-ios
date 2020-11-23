@@ -212,14 +212,15 @@
     
     cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
     
-    NSString * threadImagePath = [thread.meta metaValueForKey:bImageURL];
+    NSString * threadImagePath = thread.imageURL;
     NSURL * threadURL = threadImagePath && threadImagePath.length ? [NSURL URLWithString:threadImagePath] : Nil;
     
     if (threadURL) {
         [cell.profileImageView sd_setImageWithURL:threadURL];
     } else {
         [thread imageForThread].thenOnMain(^id(UIImage * image) {
-            [cell.profileImageView sd_setImageWithURL:threadURL placeholderImage:image];
+            cell.profileImageView.image = image;
+//            [cell.profileImageView sd_setImageWithURL:threadURL placeholderImage:image];
             return Nil;
         }, Nil);
     }

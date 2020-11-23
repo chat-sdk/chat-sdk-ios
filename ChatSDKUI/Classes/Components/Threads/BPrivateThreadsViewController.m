@@ -60,7 +60,7 @@
     UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:@[] onComplete:^(NSArray * users, NSString * groupName){
         __typeof__(self) strongSelf = weakSelf;
         
-        MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
+        MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:strongSelf.view animated:YES];
         hud.label.text = [NSBundle t:bCreatingThread];
         
         // Create group with group name
@@ -69,7 +69,7 @@
                 [strongSelf pushChatViewControllerWithThread:thread];
             }
             else {
-                [UIView alertWithTitle:[NSBundle t:bErrorTitle] withMessage:[NSBundle t:bThreadCreationError]];
+                [strongSelf alertWithTitle:[NSBundle t:bErrorTitle] withMessage:[NSBundle t:bThreadCreationError]];
             }
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
         }];
