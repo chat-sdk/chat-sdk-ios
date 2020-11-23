@@ -46,9 +46,8 @@ import RXPromise
     }
     
     @objc public func updateHUD(message: String) {
-        weak var weakSelf = self
-        DispatchQueue.main.async {
-            if let weakSelf = weakSelf, let hud = weakSelf.progressHUD {
+        DispatchQueue.main.async { [weak self] in
+            if let hud = self?.progressHUD {
                 hud.label.text = message
             }
         }
@@ -65,23 +64,21 @@ import RXPromise
                 showError(message: "The retyped password must match your new password")
             } else {
                 
-                weak var weakSelf = self
-                
                 progressHUD = MBProgressHUD.showAdded(to: view, animated: true)
                 
-                update(old, new).thenOnMain({ success in
-                    if let weakSelf = weakSelf {
-                        MBProgressHUD.hide(for: weakSelf.view, animated: true)
-                        weakSelf.progressHUD = nil
-                        weakSelf.dismiss(animated: true, completion: nil)
+                _ = update(old, new).thenOnMain({ [weak self] success in
+                    if let view = self?.view {
+                        MBProgressHUD.hide(for: view, animated: true)
+                        self?.progressHUD = nil
+                        self?.dismiss(animated: true, completion: nil)
                     }
                     return nil
-                }, { error in
-                    if let weakSelf = weakSelf {
-                        MBProgressHUD.hide(for: weakSelf.view, animated: true)
-                        weakSelf.progressHUD = nil
+                }, { [weak self] error in
+                    if let view = self?.view {
+                        MBProgressHUD.hide(for: view, animated: true)
+                        self?.progressHUD = nil
                         if let error = error {
-                            weakSelf.showError(error: error)
+                            self?.showError(error: error)
                         }
                     }
                     return nil

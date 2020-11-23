@@ -236,10 +236,10 @@
     NSString * errorMessage = error.localizedDescription;
     if ([errorMessage rangeOfString:@"Error Code:"].length != 0) {
         NSArray * errorArray = [error.localizedDescription componentsSeparatedByString:@")"];
-        [UIView alertWithTitle:title withMessage:errorArray.lastObject];
+        [self alertWithTitle:title withMessage:errorArray.lastObject];
     }
     else {
-        [UIView alertWithTitle:title withError: error];
+        [self alertWithTitle:title withError: error];
     }
 }
 

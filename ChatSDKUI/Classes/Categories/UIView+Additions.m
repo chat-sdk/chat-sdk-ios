@@ -158,14 +158,6 @@
     self.layer.cornerRadius = self.frame.size.width / 2.0;
 }
 
-+(void) alertWithTitle: (NSString *) title withError: (NSError *) error {
-    [self alertWithTitle:title withMessage:error.localizedDescription];
-}
-
-+(void) alertWithTitle: (NSString *) title withMessage: (NSString *) message {
-    [[[UIAlertView alloc] initWithTitle:title message:message delegate:Nil cancelButtonTitle:[NSBundle t:bOk] otherButtonTitles: nil] show];
-}
-
 +(CGSize) screenSizeForOrientation
 {
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;

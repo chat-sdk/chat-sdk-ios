@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import ChatSDK
 
 @objc public class Icons: NSObject {
     

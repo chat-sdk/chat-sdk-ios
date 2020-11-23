@@ -72,19 +72,18 @@
 -(void) addObservers {
     [super addObservers];
     
-    
-    id<PUser> currentUserModel = BChatSDK.currentUser;
-    
     __weak __typeof__(self) weakSelf = self;
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationReadReceiptUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            __typeof(self) strongSelf = weakSelf;
             id<PMessage> message = notification.userInfo[bNotificationReadReceiptUpdatedKeyMessage];
-            [weakSelf reloadDataForMessage:message];
+            [strongSelf reloadDataForMessage:message];
         });
     }]];
    
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         id<PMessage> message = data[bHook_PMessage];
+        __typeof(self) strongSelf = weakSelf;
 
         if (![message.thread isEqualToEntity:_thread]) {
             // If we are in chat and receive a message in another chat then vibrate the phone
@@ -96,20 +95,22 @@
                 [BChatSDK.readReceipt markRead:_thread];
             }
             [message setDelivered:@YES];
-            [weakSelf addMessage:message];
+            [strongSelf addMessage:message];
         }
         
     }] withNames:@[bHookMessageWillSend, bHookMessageRecieved, bHookMessageWillUpload]]];
 
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         id<PMessage> message = data[bHook_PMessage];
+        __typeof(self) strongSelf = weakSelf;
         if (message && [message.thread isEqualToEntity:_thread]) {
-            [weakSelf removeMessage:message];
+            [strongSelf removeMessage:message];
         }
     }] withNames:@[bHookMessageWillBeDeleted]]];
 
     [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        [weakSelf reloadData];
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf reloadData];
 
         // Black Chat
 //        [_messageManager clear];
@@ -120,17 +121,19 @@
     }] withNames:@[bHookMessageWasDeleted]]];
 
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
+        __typeof(self) strongSelf = weakSelf;
         NSArray * threads = data[bHook_PThreads];
         if ([threads containsObject:_thread]) {
-            [weakSelf.messageManager clear];
-            [weakSelf reloadData];
+            [strongSelf.messageManager clear];
+            [strongSelf reloadData];
         }
     }] withNames:@[bHookAllMessagesDeleted]]];
     
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
+        __typeof(self) strongSelf = weakSelf;
         id<PThread> thread = dict[bHook_PThread];
-        if (thread && [thread.entityID isEqualToString:weakSelf.thread.entityID]) {
-            [weakSelf.navigationController popViewControllerAnimated:YES];
+        if (thread && [thread.entityID isEqualToString:strongSelf.thread.entityID]) {
+            [strongSelf.navigationController popViewControllerAnimated:YES];
         }
     }] withNames: @[bHookThreadRemoved]]];
     
@@ -139,10 +142,11 @@
                                                                        queue:Nil
                                                                   usingBlock:^(NSNotification * notification) {
                                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                                          __typeof(self) strongSelf = weakSelf;
                                                                           id<PUser> user = notification.userInfo[bNotificationUserUpdated_PUser];
-                                                                          if (user && [weakSelf.thread.users containsObject:user]) {
-                                                                              [weakSelf updateMessages];
-                                                                              [weakSelf updateSubtitle];
+                                                                          if (user && [strongSelf.thread.users containsObject:user]) {
+                                                                              [strongSelf updateMessages];
+                                                                              [strongSelf updateSubtitle];
                                                                           }
                                                                       });
     }]];
@@ -152,16 +156,18 @@
                                                                          queue:Nil
                                                                     usingBlock:^(NSNotification * notification) {
                                                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                                                            __typeof(self) strongSelf = weakSelf;
                                                                             id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
-                                                                            if ([thread isEqualToEntity: weakSelf.thread]) {
-                                                                                [weakSelf startTypingWithMessage:notification.userInfo[bNotificationTypingStateChangedKeyMessage]];
+                                                                            if ([thread isEqualToEntity: strongSelf.thread]) {
+                                                                                [strongSelf startTypingWithMessage:notification.userInfo[bNotificationTypingStateChangedKeyMessage]];
                                                                             }
                                                                         });
     }]];
     
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
-        [weakSelf updateSubtitle];
-        [weakSelf updateTitle];
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf updateSubtitle];
+        [strongSelf updateTitle];
     }] withName:bHookThreadUsersUpdated]];
 
 }

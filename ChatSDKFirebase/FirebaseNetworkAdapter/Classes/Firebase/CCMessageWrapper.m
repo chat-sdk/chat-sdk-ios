@@ -62,8 +62,9 @@
     
     __weak __typeof(self) weakSelf = self;
     [ref setValue:[self serialize] andPriority: FIRServerValue.timestamp withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+        __typeof(self) strongSelf = weakSelf;
         if (!error) {
-            [promise resolveWithResult:weakSelf];
+            [promise resolveWithResult:strongSelf];
         }
         else {
             _model.entityID = Nil;
@@ -157,11 +158,16 @@
     if (userID) {
         __weak __typeof(self) weakSelf = self;
         id<PMessage>(^onComplete)(id<PUser> user) = ^id<PMessage>(id<PUser> user) {
-            weakSelf.model.userModel = user;
-            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated
-                                                                object:Nil
-                                                              userInfo:@{bNotificationMessageUpdatedKeyMessage: weakSelf.model}];
-            return weakSelf.model;
+            __typeof(self) strongSelf = weakSelf;
+            strongSelf.model.userModel = user;
+            
+            if (strongSelf.model) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated
+                                                                    object:Nil
+                                                                  userInfo:@{bNotificationMessageUpdatedKeyMessage: strongSelf.model}];
+            }
+            
+            return strongSelf.model;
         };
         
         id<PUser> user = [BChatSDK.db fetchEntityWithID:userID withType:bUserEntity];
@@ -189,8 +195,9 @@
         __weak __typeof(self) weakSelf = self;
         return [self push].thenOnMain(^id(id success) {
             [[CCThreadWrapper threadWithModel:_model.thread] pushLastMessage:lastMessageData].thenOnMain(^id(id success) {
-                weakSelf.model.delivered = @YES;
-                return [BEntity pushThreadMessagesUpdated:weakSelf.model.thread.entityID];
+                __typeof(self) strongSelf = weakSelf;
+                [strongSelf.model setDelivered:@YES];
+                return [BEntity pushThreadMessagesUpdated:strongSelf.model.thread.entityID];
             },Nil);
             return success;
         }, Nil);
@@ -231,8 +238,9 @@
     __weak __typeof(self) weakSelf = self;
 
     [ref removeValueWithCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+        __typeof(self) strongSelf = weakSelf;
         if (!error) {
-            weakSelf.model.flagged = @NO;
+            strongSelf.model.flagged = @NO;
             [promise resolveWithResult:Nil];
         }
         else {

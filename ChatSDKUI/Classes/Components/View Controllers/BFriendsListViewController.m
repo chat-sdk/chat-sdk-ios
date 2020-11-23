@@ -30,6 +30,7 @@
 @synthesize groupNameView;
 @synthesize groupNameTextField;
 @synthesize maximumSelectedUsers;
+@synthesize selectedContacts = _selectedContacts;
 
 // If we create it with a thread then we look at who is in the thread and make sure they don't come up on the lists
 // If we are creating a new thread then we don't mind
@@ -130,7 +131,7 @@
     _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
         __typeof__(self) strongSelf = weakSelf;
         if (!BChatSDK.connectivity.isConnected) {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [strongSelf dismissViewControllerAnimated:YES completion:nil];
         }
     }];
     [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
@@ -149,9 +150,11 @@
 }
 
 -(void) setGroupNameHidden: (BOOL) hidden duration: (float) duration {
+    __weak __typeof(self) weakSelf = self;
     [self.view keepAnimatedWithDuration: duration layout:^{
-        groupNameView.keepTopInset.equal = hidden ? -46 : 0;
-        groupNameView.alpha = hidden ? 0 : 1;
+        __typeof(self) strongSelf = weakSelf;
+        strongSelf.groupNameView.keepTopInset.equal = hidden ? -46 : 0;
+        strongSelf.groupNameView.alpha = hidden ? 0 : 1;
     }];
     if (!hidden) {
         self.navigationItem.rightBarButtonItem.enabled = groupNameTextField.text.length;
@@ -166,14 +169,16 @@
 -(void) composeMessage {
     
     if (!_selectedContacts.count) {
-        [UIView alertWithTitle:[NSBundle t:bInvalidSelection]
+        [self alertWithTitle:[NSBundle t:bInvalidSelection]
                    withMessage:[NSBundle t:bSelectAtLeastOneFriend]];
         return;
     }
     else {
+        __weak __typeof(self) weakSelf = self;
         [self dismissViewControllerAnimated:YES completion:^{
-            if (self.usersToInvite != Nil) {
-                self.usersToInvite(_selectedContacts, groupNameTextField.text);
+            __typeof(self) strongSelf = weakSelf;
+            if (strongSelf.usersToInvite != Nil) {
+                strongSelf.usersToInvite(strongSelf.selectedContacts, strongSelf.groupNameTextField.text);
             }
         }];
     }

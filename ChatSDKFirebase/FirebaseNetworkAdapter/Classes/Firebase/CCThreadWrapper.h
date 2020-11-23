@@ -115,4 +115,6 @@
 -(RXPromise *) updateLastMessage;
 -(RXPromise *) setMuted: (BOOL) muted;
 
+-(id<PThread>) model;
+
 @end

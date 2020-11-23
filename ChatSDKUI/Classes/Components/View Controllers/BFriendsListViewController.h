@@ -43,6 +43,7 @@
 @property (weak, nonatomic) IBOutlet UIView * _tokenView;
 @property (weak, nonatomic) IBOutlet UITextField * groupNameTextField;
 @property (weak, nonatomic) IBOutlet UIView * groupNameView;
+@property (nonatomic, readwrite) NSMutableArray * selectedContacts;
 
 @property (nonatomic, readwrite) int maximumSelectedUsers;
 

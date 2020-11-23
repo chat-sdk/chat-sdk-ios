@@ -69,7 +69,7 @@
                 [strongSelf pushChatViewControllerWithThread:thread];
             }
             else {
-                [UIView alertWithTitle:[NSBundle t:bErrorTitle] withMessage:[NSBundle t:bThreadCreationError]];
+                [strongSelf alertWithTitle:[NSBundle t:bErrorTitle] withMessage:[NSBundle t:bThreadCreationError]];
             }
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
         }];

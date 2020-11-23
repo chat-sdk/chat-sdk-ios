@@ -63,7 +63,9 @@
 -(RXPromise *) currentUserModelAsync {
     NSString * currentUserID = BChatSDK.auth.currentUserID;
     if (currentUserID.length && !_currentUser) {
+        __weak __typeof(self) weakSelf = self;
         return [BChatSDK.db performOnMain:^id {
+            __typeof(self) strongSelf = weakSelf;
             _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
             return _currentUser;
         }];

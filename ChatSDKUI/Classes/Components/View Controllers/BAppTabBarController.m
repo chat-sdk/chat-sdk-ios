@@ -53,25 +53,29 @@
     }] withName:bHookDidLogout];
     
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        [weakSelf updateBadge];
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf updateBadge];
     }] withNames:@[bHookMessageRecieved, bHookMessageWasDeleted, bHookAllMessagesDeleted]];
     
     // When a message is recieved we increase the messages tab number
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationBadgeUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf updateBadge];
+            __typeof(self) strongSelf = weakSelf;
+            [strongSelf updateBadge];
         });
     }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadRead object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf updateBadge];
+            __typeof(self) strongSelf = weakSelf;
+            [strongSelf updateBadge];
         });
     }];
     
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf updateBadge];
+            __typeof(self) strongSelf = weakSelf;
+            [strongSelf updateBadge];
         });
     }] withNames: @[bHookThreadAdded, bHookThreadRemoved]];
     

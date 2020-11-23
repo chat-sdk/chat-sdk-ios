@@ -356,21 +356,27 @@
 }
 
 -(void) deleteUser {
+    __weak __typeof(self) weakSelf = self;
     [BChatSDK.contact deleteContact:self.user withType:bUserConnectionTypeContact].thenOnMain(^id(id success) {
-        [self refreshInterfaceAnimated:NO];
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf refreshInterfaceAnimated:NO];
         return Nil;
     }, ^id(NSError * error) {
-        [UIView alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
         return Nil;
     });
 }
 
 -(void) addContact {
+    __weak __typeof(self) weakSelf = self;
     [BChatSDK.contact addContact:self.user withType:bUserConnectionTypeContact].thenOnMain(^id(id success) {
-        [self refreshInterfaceAnimated:NO];
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf refreshInterfaceAnimated:NO];
         return Nil;
     }, ^id(NSError * error) {
-        [UIView alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
         return Nil;
     });
 }

@@ -47,5 +47,6 @@
 -(FIRDatabaseReference *) ref;
 -(RXPromise *) markAsReceived;
 -(RXPromise *) setReadStatus: (bMessageReadStatus) status;
+-(id<PMessage>) model;
 
 @end

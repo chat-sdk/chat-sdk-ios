@@ -13,7 +13,7 @@
 
 @implementation BSyncDataFetcher
 
-@synthesize pathsFOrItemTypes = _pathsForItemTypes;
+@synthesize pathsForItemTypes = _pathsForItemTypes;
 @synthesize listeners = _listeners;
 
 -(id) initWithUser: (id<PUser>) user {
@@ -30,25 +30,27 @@
     __weak __typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [[self ref: path] observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
+            __typeof(self) strongSelf = weakSelf;
             if(snapshot.value) {
                 // Get the item type for the path
                 NSString * path = snapshot.ref.parent.key;
-                if(weakSelf.pathsForItemTypes[path]) {
-                    Class class = weakSelf.pathsForItemTypes[path];
+                if(strongSelf.pathsForItemTypes[path]) {
+                    Class class = strongSelf.pathsForItemTypes[path];
                     BSyncItem * item = [[class alloc] initWithEntityID: snapshot.key];
-                    [weakSelf addItem: item forPath: path];
+                    [strongSelf addItem: item forPath: path];
                 }
             }
         }];
     });
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [[self ref: path] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
+            __typeof(self) strongSelf = weakSelf;
             if(snapshot.value) {
                 NSString * path = snapshot.ref.parent.key;
-                if(weakSelf.pathsForItemTypes[path]) {
-                    Class class = weakSelf.pathsForItemTypes[path];
+                if(strongSelf.pathsForItemTypes[path]) {
+                    Class class = strongSelf.pathsForItemTypes[path];
                     BSyncItem * item = [[class alloc] initWithEntityID: snapshot.key];
-                    [weakSelf removeItem: item forPath: path];
+                    [strongSelf removeItem: item forPath: path];
                 }
             }
         }];
@@ -70,8 +72,9 @@
 
         __weak __typeof(self) weakSelf = self;
         [item on].then(^id(id success) {
+            __typeof(self) strongSelf = weakSelf;
             [items addObject:item];
-            for(id<BSyncDataListener> listener in self.listeners) {
+            for(id<BSyncDataListener> listener in strongSelf.listeners) {
                 if([listener respondsToSelector: @selector(itemAdded:)]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [listener itemAdded: item];

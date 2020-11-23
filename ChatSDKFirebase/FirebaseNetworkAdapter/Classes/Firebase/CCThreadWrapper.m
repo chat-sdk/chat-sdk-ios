@@ -51,10 +51,11 @@
     
     __weak __typeof(self) weakSelf = self;
     [threadMetaRef observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+        __typeof(self) strongSelf = weakSelf;
         if (![snapshot.value isEqual: [NSNull null]]) {
             // Update the thread
-            [weakSelf deserialize:snapshot.value];
-            [promise resolveWithResult:weakSelf];
+            [strongSelf deserialize:snapshot.value];
+            [promise resolveWithResult:strongSelf];
             
             // TODO: Move this to inside the read receipt module
 //            if(BChatSDK.readReceipt) {
@@ -125,7 +126,7 @@
         // If thread is deleted
         if (deletedDate) {
             startDate = deletedDate;
-            _model.deletedDate = deletedDate;
+            strongSelf.model.deletedDate = deletedDate;
         }
         
         // Listen for new messages
@@ -185,10 +186,10 @@
                     [message markAsReceived];
                     
                     if(BChatSDK.readReceipt) {
-                        [BChatSDK.readReceipt updateReadReceiptsForThread:weakSelf.model];
+                        [BChatSDK.readReceipt updateReadReceiptsForThread:strongSelf.model];
                     }
                     
-                    [promise resolveWithResult:weakSelf];
+                    [promise resolveWithResult:strongSelf];
                 }
                 else {
                     [promise rejectWithReason:Nil];
@@ -243,31 +244,33 @@
     
     __weak __typeof(self) weakSelf = self;
     [threadUsersRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
+        __typeof(self) strongSelf = weakSelf;
         if (![snapshot.value isEqual: [NSNull null]]) {
             // Update the thread
             CCUserWrapper * user = [CCUserWrapper userWithSnapshot:snapshot];
-            [weakSelf.model addUser:user.model];
+            [strongSelf.model addUser:user.model];
             [user metaOn];
-            [BHookNotification notificationThreadUsersUpdated:weakSelf.model];
+            [BHookNotification notificationThreadUsersUpdated:strongSelf.model];
         }
     }];
     
     [threadUsersRef observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+        __typeof(self) strongSelf = weakSelf;
         if (![snapshot.value isEqual: [NSNull null]]) {
             for(NSString * userEntityID in [snapshot.value allKeys]) {
                 if(snapshot.value[userEntityID][bDeletedKey]) {
                     // Update the thread
                     CCUserWrapper * user = [CCUserWrapper userWithEntityID:userEntityID];
-                    if (weakSelf.model.type.intValue ^ bThreadType1to1) {
-                        [weakSelf.model removeUser:user.model];
-                        [BHookNotification notificationThreadUsersUpdated:weakSelf.model];
+                    if (strongSelf.model.type.intValue ^ bThreadType1to1) {
+                        [strongSelf.model removeUser:user.model];
+                        [BHookNotification notificationThreadUsersUpdated:strongSelf.model];
                     }
                 }
                 if ([userEntityID isEqualToString:BChatSDK.currentUserID]) {
                     if ([snapshot.value[userEntityID][bMute] boolValue]) {
-                        [weakSelf.model setMetaValue:@"" forKey:bMute];
+                        [strongSelf.model setMetaValue:@"" forKey:bMute];
                     } else {
-                        [weakSelf.model removeMetaValueForKey:bMute];
+                        [strongSelf.model removeMetaValueForKey:bMute];
                     }
                 }
             }
@@ -275,11 +278,12 @@
     }];
     
     [threadUsersRef observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
+        __typeof(self) strongSelf = weakSelf;
         if (![snapshot.value isEqual: [NSNull null]]) {
             // Update the thread
             CCUserWrapper * user = [CCUserWrapper userWithSnapshot:snapshot];
-            [weakSelf.model removeUser:user.model];
-            [BHookNotification notificationThreadUsersUpdated:weakSelf.model];
+            [strongSelf.model removeUser:user.model];
+            [BHookNotification notificationThreadUsersUpdated:strongSelf.model];
         }
     }];
 }
@@ -355,12 +359,13 @@
                 }];
         
         return promise.thenOnMain(^id(id success) {
-              [BChatSDK.db save];
+            __typeof(self) strongSelf = weakSelf;
+            [BChatSDK.db save];
               // We can keep listening to the thread. That way, if a new message comes in,
               // it get's regenerated
               //[self off];
               //[self messagesOff];
-                [BHookNotification notificationThreadRemoved:weakSelf.model];
+                [BHookNotification notificationThreadRemoved:strongSelf.model];
             
                   return Nil;
             
@@ -385,8 +390,8 @@
 
     __weak __typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        FIRDatabaseReference * messagesRef = [FIRDatabaseReference threadMessagesRef:weakSelf.entityID];
+        __typeof(self) strongSelf = weakSelf;
+        FIRDatabaseReference * messagesRef = [FIRDatabaseReference threadMessagesRef:strongSelf.entityID];
         
         // Convert the end date to a Firebase timestamp
         FIRDatabaseQuery * query = [messagesRef queryOrderedByChild:bDate];
@@ -418,7 +423,7 @@
 
                 // Add the messages to the thread
                 for (id<PMessage> message in messages) {
-                    [weakSelf.model addMessage:message toStart:YES];
+                    [strongSelf.model addMessage:message toStart:YES];
                 }
 
                 [promise resolveWithResult:messages];
@@ -439,9 +444,10 @@
     
     __weak __typeof(self) weakSelf = self;
     FIRDatabaseHandle handle = [queryByDate observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot *snapshot) {
+        __typeof(self) strongSelf = weakSelf;
         if (![snapshot.value isEqual: [NSNull null]] && [BChatSDK.db fetchEntityWithID:snapshot.key withType:bMessageEntity]) {
             NSDictionary *messageData = [[CCMessageWrapper messageWithID:snapshot.key] lastMessageData];
-            [weakSelf pushLastMessage:messageData].thenOnMain(^id(id result) {
+            [strongSelf pushLastMessage:messageData].thenOnMain(^id(id result) {
                 [promise resolveWithResult:Nil];
                 return Nil;
             }, ^id(NSError *error) {
@@ -510,8 +516,9 @@
         
         __weak __typeof(self) weakSelf = self;
         void(^onComplete)(id<PUser> user) = ^void(id<PUser> user) {
-            _model.creator = user;
-            [BHookNotification notificationThreadUpdated:weakSelf.model];
+            __typeof(self) strongSelf = weakSelf;
+            strongSelf.model.creator = user;
+            [BHookNotification notificationThreadUpdated:strongSelf.model];
         };
             
         id<PUser> user = [BChatSDK.db fetchEntityWithID:creatorEntityID withType:bUserEntity];
@@ -556,9 +563,10 @@
     // in the future we will move everything to the meta area
     __weak __typeof(self) weakSelf = self;
     [metaRef updateChildValues:self.serialize withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
-           if (!error) {
-               [BEntity pushThreadDetailsUpdated:weakSelf.model.entityID];
-               [promise resolveWithResult:weakSelf.model];
+        __typeof(self) strongSelf = weakSelf;
+        if (!error) {
+               [BEntity pushThreadDetailsUpdated:strongSelf.model.entityID];
+               [promise resolveWithResult:strongSelf.model];
            }
            else {
                [promise rejectWithReason:error];
@@ -595,9 +603,10 @@
         
         __weak __typeof(self) weakSelf = self;
         [threadUsersRef updateChildValues:@{key: value} withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+            __typeof(self) strongSelf = weakSelf;
             if (!error) {
-                [BEntity pushThreadUsersUpdated:weakSelf.model.entityID];
-                [promise resolveWithResult:weakSelf];
+                [BEntity pushThreadUsersUpdated:strongSelf.model.entityID];
+                [promise resolveWithResult:strongSelf];
             }
             else {
                 [promise rejectWithReason:error];
@@ -649,9 +658,10 @@
     // Add the user entities to the thread too
     __weak __typeof(self) weakSelf = self;
     [threadUsersRef removeValueWithCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+        __typeof(self) strongSelf = weakSelf;
         if (!error) {
-            [BEntity pushThreadUsersUpdated:weakSelf.model.entityID];
-            [promise resolveWithResult:weakSelf];
+            [BEntity pushThreadUsersUpdated:strongSelf.model.entityID];
+            [promise resolveWithResult:strongSelf];
         }
         else {
             [promise rejectWithReason:error];
@@ -667,11 +677,11 @@
 
 -(RXPromise *) removeUser: (CCUserWrapper *) user {
     __weak __typeof(self) weakSelf = self;
-    return [self removeUserWithEntityID:user.entityID].thenOnMain(^id(id success)
-    {
+    return [self removeUserWithEntityID:user.entityID].thenOnMain(^id(id success) {
+        __typeof(self) strongSelf = weakSelf;
         // We only add the thread to the user if it's a private thread
-        if (_model.type.intValue & bThreadFilterPrivate) {
-            return [user removeThreadWithEntityID:weakSelf.entityID];
+        if (strongSelf.model.type.intValue & bThreadFilterPrivate) {
+            return [user removeThreadWithEntityID:strongSelf.entityID];
         }
         else {
             return success;
@@ -682,11 +692,11 @@
 
 -(RXPromise *) addUser: (CCUserWrapper *) user {
     __weak __typeof(self) weakSelf = self;
-    return [self addUserWithEntityID:user.entityID].thenOnMain(^id(id success)
-    {
+    return [self addUserWithEntityID:user.entityID].thenOnMain(^id(id success) {
+        __typeof(self) strongSelf = weakSelf;
         // We only add the thread to the user if it's a private thread
-        if (_model.type.intValue & bThreadFilterPrivate) {
-            return [user addThreadWithEntityID:weakSelf.entityID];
+        if (strongSelf.model.type.intValue & bThreadFilterPrivate) {
+            return [user addThreadWithEntityID:strongSelf.entityID];
         }
         else {
             return success;
@@ -715,10 +725,9 @@
     FIRDatabaseReference * ref = [FIRDatabaseReference threadRef:self.entityID];
     __weak __typeof(self) weakSelf = self;
     return [BCoreUtilities getWithPath:[ref.description stringByAppendingString:@".json"] parameters:@{@"auth": token}].thenOnMain(^id(NSDictionary * response) {
-        
-        [weakSelf deserialize:response];
-        
-        return weakSelf;
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf deserialize:response];
+        return strongSelf;
     }, Nil);
 }
 

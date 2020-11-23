@@ -88,4 +88,6 @@
 -(RXPromise *) dataOnce: (NSString *) token;
 -(void) deserialize: (NSDictionary *) value;
 
+-(id<PUser>) model;
+
 @end

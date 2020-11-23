@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import ChatSDK
 import EFQRCode
 
 public class QRCodeViewController: UIViewController {

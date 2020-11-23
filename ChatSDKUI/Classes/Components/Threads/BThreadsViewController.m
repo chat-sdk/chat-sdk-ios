@@ -72,6 +72,7 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
+        __typeof(self) strongSelf = weakSelf;
         id<PMessage> messageModel = dict[bHook_PMessage];
         [messageModel setDelivered:@YES];
         
@@ -85,11 +86,12 @@
         }
         
         // Move thread to top
-        [weakSelf reloadData];
+        [strongSelf reloadData];
     }] withNames: @[bHookMessageWillSend, bHookMessageRecieved]]];
 
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
-        [self reloadData];
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf reloadData];
     }] withNames: @[bHookMessageWasDeleted, bHookAllMessagesDeleted]]];
     
     [_notificationList add:[nc addObserverForName:bNotificationUserUpdated
@@ -97,7 +99,8 @@
                                             queue:Nil
                                        usingBlock:^(NSNotification * notification) {
                                            dispatch_async(dispatch_get_main_queue(), ^{
-                                               [weakSelf reloadData];
+                                               __typeof(self) strongSelf = weakSelf;
+                                               [strongSelf reloadData];
                                            });
                                        }]];
     
@@ -110,14 +113,16 @@
                                             queue:Nil
                                        usingBlock:^(NSNotification * notification) {
                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                               __typeof(self) strongSelf = weakSelf;
                                                id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
                                                _threadTypingMessages[thread.entityID] = notification.userInfo[bNotificationTypingStateChangedKeyMessage];
-                                               [weakSelf reloadData];
+                                               [strongSelf reloadData];
                                            });
                                        }]];
     
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
-        [weakSelf reloadData];
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf reloadData];
     }] withNames: @[bHookThreadAdded, bHookThreadRemoved, bHookThreadUpdated]]];
 
 }

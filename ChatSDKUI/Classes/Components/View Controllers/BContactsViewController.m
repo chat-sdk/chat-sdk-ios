@@ -144,7 +144,8 @@
     UIAlertAction * nameSearch = [UIAlertAction actionWithTitle:[NSBundle t:bSearchWithName]
                                                           style:UIAlertActionStyleDefault
                                                         handler:^(UIAlertAction * action) {
-        [weakSelf openSearchViewWithType:bSearchTypeNameSearch];
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf openSearchViewWithType:bSearchTypeNameSearch];
     }];
     
     // Add additional options
@@ -152,7 +153,8 @@
         UIAlertAction * action = [UIAlertAction actionWithTitle:searchControllerNamesForType[key]
                                                              style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction * action){
-                                                               [weakSelf openSearchViewWithType:key];
+                                                                __typeof(self) strongSelf = weakSelf;
+                                                               [strongSelf openSearchViewWithType:key];
                                                            }];
         [view addAction:action];
     }
@@ -181,8 +183,9 @@
     UIViewController * vc = [BChatSDK.ui searchViewControllerWithType:type
                                                                                excludingUsers:excludedUsers
                                                                                    usersAdded:^(NSArray * users) {
-                                                                                   [weakSelf addUsers:users];
-                                                                                   [weakSelf dismissViewControllerAnimated:YES completion:Nil];
+        __typeof(self) strongSelf = weakSelf;
+                                                                                   [strongSelf addUsers:users];
+                                                                                   [strongSelf dismissViewControllerAnimated:YES completion:Nil];
                                                                                }];
     if(vc) {
         [self presentViewController:vc animated:YES completion:Nil];

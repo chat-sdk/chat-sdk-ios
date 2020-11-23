@@ -28,12 +28,13 @@
         __weak __typeof(self) weakSelf = self;
 
         return [thread push].thenOnMain(^id(id<PThread> thread) {
-                        
+            __typeof(self) strongSelf = weakSelf;
+
             // Add the users to the thread
             if (threadCreated != Nil) {
                 threadCreated(Nil, thread);
             }
-            return [weakSelf addUsers:threadModel.users.allObjects toThread:threadModel];
+            return [strongSelf addUsers:threadModel.users.allObjects toThread:threadModel];
             
         },^id(NSError * error) {
             //[BChatSDK.db undo];

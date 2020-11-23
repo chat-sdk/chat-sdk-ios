@@ -118,8 +118,9 @@
     }
         
     [self presentViewController:[sheet getOnPick:^(UIImagePickerControllerSourceType type) {
-        weakSelf.imagePickerController.sourceType = type;
-        [weakSelf presentViewController:weakSelf.imagePickerController animated:YES completion:Nil];
+        __typeof(self) strongSelf = weakSelf;
+        strongSelf.imagePickerController.sourceType = type;
+        [strongSelf presentViewController:strongSelf.imagePickerController animated:YES completion:Nil];
     } sourceView:sender] animated:YES completion:nil];
     
 }
