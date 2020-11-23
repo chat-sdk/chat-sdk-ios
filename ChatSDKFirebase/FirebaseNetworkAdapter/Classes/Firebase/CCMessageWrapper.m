@@ -189,7 +189,7 @@
         __weak __typeof(self) weakSelf = self;
         return [self push].thenOnMain(^id(id success) {
             [[CCThreadWrapper threadWithModel:_model.thread] pushLastMessage:lastMessageData].thenOnMain(^id(id success) {
-                weakSelf.model.delivered = @YES;
+                [weakSelf.model setDelivered:@YES];
                 return [BEntity pushThreadMessagesUpdated:weakSelf.model.thread.entityID];
             },Nil);
             return success;

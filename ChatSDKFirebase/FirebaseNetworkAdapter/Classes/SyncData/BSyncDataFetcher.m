@@ -13,7 +13,7 @@
 
 @implementation BSyncDataFetcher
 
-@synthesize pathsFOrItemTypes = _pathsForItemTypes;
+@synthesize pathsForItemTypes = _pathsForItemTypes;
 @synthesize listeners = _listeners;
 
 -(id) initWithUser: (id<PUser>) user {

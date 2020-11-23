@@ -166,7 +166,7 @@
                                                                                                    return Nil;
                                                                                                }, ^id(NSError * error) {
                                                                                                    __typeof__(self) strongSelf = weakSelf;
-                                                                                                   [strongSelf alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+                                                                                                   [strongSelf showAlertWithTitle:[NSBundle t:bErrorTitle] withError:error];
                                                                                                    return Nil;
                                                                                                });
     }
@@ -195,7 +195,7 @@
                     return Nil;
                 }, ^id(NSError * error) {
                     __typeof__(self) strongSelf = weakSelf;
-                    [strongSelf alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+                    [strongSelf showAlertWithTitle:[NSBundle t:bErrorTitle] withError:error];
                     [strongSelf hideHUD];
                     return Nil;
                 });
@@ -227,7 +227,7 @@
     [self presentViewController:nvc animated:YES completion:Nil];
 }
 
--(void) alertWithTitle: (NSString *) title withError: (NSError *) error {
+-(void) showAlertWithTitle: (NSString *) title withError: (NSError *) error {
 
     // Hide the HUD if login fails
     [self hideHUD];
