@@ -13,8 +13,8 @@
 
 @interface BFirebaseEventHandler : NSObject<PEventHandler>
 
--(void) userOn: (NSString *) entityID;
--(void) userOff: (NSString *) entityID;
+-(void) currentUserOn: (NSString *) entityID;
+-(void) currentUserOff: (NSString *) entityID;
 
 -(void) threadsOn: (id<PUser>) user;
 -(void) publicThreadsOn: (id<PUser>) user;

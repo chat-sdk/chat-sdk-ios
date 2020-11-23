@@ -13,6 +13,9 @@
 
 @implementation BSyncDataFetcher
 
+@synthesize pathsFOrItemTypes = _pathsForItemTypes;
+@synthesize listeners = _listeners;
+
 -(id) initWithUser: (id<PUser>) user {
     if((self = [self init])) {
         _data = [NSMutableDictionary new];
@@ -24,15 +27,16 @@
 }
 
 -(void) pathOn: (NSString *) path {
+    __weak __typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [[self ref: path] observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
             if(snapshot.value) {
                 // Get the item type for the path
                 NSString * path = snapshot.ref.parent.key;
-                if(_pathsForItemTypes[path]) {
-                    Class class = _pathsForItemTypes[path];
+                if(weakSelf.pathsForItemTypes[path]) {
+                    Class class = weakSelf.pathsForItemTypes[path];
                     BSyncItem * item = [[class alloc] initWithEntityID: snapshot.key];
-                    [self addItem: item forPath: path];
+                    [weakSelf addItem: item forPath: path];
                 }
             }
         }];
@@ -41,10 +45,10 @@
         [[self ref: path] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
             if(snapshot.value) {
                 NSString * path = snapshot.ref.parent.key;
-                if(_pathsForItemTypes[path]) {
-                    Class class = _pathsForItemTypes[path];
+                if(weakSelf.pathsForItemTypes[path]) {
+                    Class class = weakSelf.pathsForItemTypes[path];
                     BSyncItem * item = [[class alloc] initWithEntityID: snapshot.key];
-                    [self removeItem: item forPath: path];
+                    [weakSelf removeItem: item forPath: path];
                 }
             }
         }];
@@ -62,10 +66,12 @@
 
 -(void) addItem: (BSyncItem *) item forPath: (NSString *) path {
     if(![self item:item existsForPath:path]) {
-        NSMutableArray * items = [self itemsForPath:path];
+        __block NSMutableArray * items = [self itemsForPath:path];
+
+        __weak __typeof(self) weakSelf = self;
         [item on].then(^id(id success) {
             [items addObject:item];
-            for(id<BSyncDataListener> listener in _listeners) {
+            for(id<BSyncDataListener> listener in self.listeners) {
                 if([listener respondsToSelector: @selector(itemAdded:)]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [listener itemAdded: item];

@@ -30,11 +30,13 @@
     [self off];
     flaggedMessages = [[NSMutableArray alloc] init];
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+
+    __weak __typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [self.flaggedRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
             if (![snapshot.value isEqual: [NSNull null]]) {
                 CCMessageWrapper *message = [CCMessageWrapper messageWithID:snapshot.key];
-                [flaggedMessages addObject:message.model];
+                [weakSelf.flaggedMessages addObject:message.model];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSDictionary *userInfo = @{bNotificationFlaggedMessageAdded_PMessage: message.model};
                     [nc postNotificationName:bNotificationFlaggedMessageAdded object:Nil userInfo:userInfo];
@@ -45,7 +47,7 @@
             if (![snapshot.value isEqual: [NSNull null]]) {
                 NSString * entityID = snapshot.key;
                 id<PMessage> msg2remove;
-                for (id<PMessage> msg in flaggedMessages) {
+                for (id<PMessage> msg in weakSelf.flaggedMessages) {
                     if (msg.entityID == entityID) {
                         msg2remove = msg;
                         break;
@@ -53,7 +55,7 @@
                 }
                 NSDictionary * userInfo = Nil;
                 if (msg2remove) {
-                    [flaggedMessages removeObject:msg2remove];
+                    [weakSelf.  flaggedMessages removeObject:msg2remove];
                     userInfo = @{bNotificationFlaggedMessageRemoved_PMessage: msg2remove};
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{

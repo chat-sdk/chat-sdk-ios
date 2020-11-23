@@ -24,10 +24,11 @@
 -(void) allUsersOn {
     if(!_allUsersOn) {
         _allUsersOn = YES;
+        __weak __typeof(self) weakSelf = self;
         [[FIRDatabaseReference usersRef] observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
             id<PUser> user = [CCUserWrapper userWithSnapshot:snapshot].model;
-            if(user && ![allUsers containsObject:user]) {
-                [allUsers addObject:user];
+            if(user && ![weakSelf.allUsers containsObject:user]) {
+                [weakSelf.allUsers addObject:user];
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: user}];
             }
         }];
@@ -36,8 +37,8 @@
         }];
         [[FIRDatabaseReference usersRef] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
             id<PUser> user = [CCUserWrapper userWithSnapshot:snapshot].model;
-            if(user && [allUsers containsObject:user]) {
-                [allUsers removeObject:user];
+            if(user && [weakSelf.allUsers containsObject:user]) {
+                [weakSelf.allUsers removeObject:user];
                 [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: user}];
             }
         }];

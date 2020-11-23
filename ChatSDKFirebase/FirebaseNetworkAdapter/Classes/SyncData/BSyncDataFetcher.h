@@ -19,6 +19,9 @@
     NSMutableDictionary * _pathsForItemTypes;
 }
 
+@property (nonatomic, readonly) NSMutableArray * pathsFOrItemTypes;
+@property (nonatomic, readonly) NSMutableArray * listeners;
+
 -(id) initWithUser: (id<PUser>) user;
 -(void) pathOn: (NSString *) path;
 -(void) pathOff: (NSString *) path;

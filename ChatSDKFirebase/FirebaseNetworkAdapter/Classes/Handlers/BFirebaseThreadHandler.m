@@ -25,13 +25,15 @@
         threadModel = [self createThreadWithUsers:users name:name type: type];
         CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
         
+        __weak __typeof(self) weakSelf = self;
+
         return [thread push].thenOnMain(^id(id<PThread> thread) {
                         
             // Add the users to the thread
             if (threadCreated != Nil) {
                 threadCreated(Nil, thread);
             }
-            return [self addUsers:threadModel.users.allObjects toThread:threadModel];
+            return [weakSelf addUsers:threadModel.users.allObjects toThread:threadModel];
             
         },^id(NSError * error) {
             //[BChatSDK.db undo];
@@ -77,7 +79,7 @@
     return [super loadMoreMessagesFromDate:date forThread:threadModel fromServer:fromServer].then(^id(NSArray * messages) {
         
         int messagesToLoad = BChatSDK.config.messagesToLoadPerBatch;
-        int localMessageCount = messages.count;
+        NSUInteger localMessageCount = messages.count;
         
         if (localMessageCount < messagesToLoad && fromServer) {
             NSDate * finalFromDate = localMessageCount > 0 ? ((id<PMessage>)messages.lastObject).date : date;
