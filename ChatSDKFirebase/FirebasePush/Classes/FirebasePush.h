@@ -8,6 +8,8 @@
 #ifndef FirebasePush_h
 #define FirebasePush_h
 
+@import FirebaseFunctions;
+
 #import <ChatSDKFirebase/BFirebasePushHandler.h>
 #import <ChatSDKFirebase/BFirebasePushModule.h>
 #import <ChatSDKFirebase/FirebaseAdapter.h>

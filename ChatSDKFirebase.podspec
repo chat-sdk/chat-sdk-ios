@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDKFirebase"
-  s.version          = "4.15.7"
+  s.version          = "4.15.8"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
  s.subspec 'Adapter' do |s|
 
-	s.source_files = ['ChatSDKFirebase/FirebaseNetworkAdapter/Classes/**/*']
+	s.source_files = ['ChatSDKFirebase/FirebaseNetworkAdapter/Classes/**/*.{h,m,swift}']
 	
     s.dependency 'Firebase/Auth'
     s.dependency 'Firebase/Database'
@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
 
  s.subspec 'FileStorage' do |s|
 
-	s.source_files = ['ChatSDKFirebase/FirebaseFileStorage/Classes/**/*']
+	s.source_files = ['ChatSDKFirebase/FirebaseFileStorage/Classes/**/*.{h,m,swift}']
 
     s.dependency 'Firebase/Storage'
 	s.dependency 'ChatSDKFirebase/Adapter'
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
 
  s.subspec 'Push' do |s|
 
-	s.source_files = ['ChatSDKFirebase/FirebasePush/Classes/**/*']
+	s.source_files = ['ChatSDKFirebase/FirebasePush/Classes/**/*.{h,m,swift}']
 
     s.dependency 'Firebase/Messaging'
     s.dependency 'Firebase/Functions'
@@ -47,16 +47,16 @@ Pod::Spec.new do |s|
 
   end
 
-#  s.subspec 'FirebaseUI' do |s|
-# 
-# 	s.source_files = ['ChatSDKFirebase/FirebaseUI/Classes/**/*']
-# 
-# 	s.dependency 'ChatSDKFirebase/Adapter'
-# 	s.dependency 'FirebaseUI/Auth'
-# 	s.dependency 'FirebaseUI/Email'
-#   	s.dependency 'FirebaseUI/Phone'
-#   	s.dependency 'FirebaseUI/OAuth'
-# 	
-#   end
+ s.subspec 'FirebaseUI' do |s|
+
+	s.source_files = ['ChatSDKFirebase/FirebaseUI/Classes/**/*.{h,m,swift}']
+
+	s.dependency 'ChatSDKFirebase/Adapter'
+	s.dependency 'FirebaseUI/Auth'
+	s.dependency 'FirebaseUI/Email'
+  	s.dependency 'FirebaseUI/Phone'
+  	s.dependency 'FirebaseUI/OAuth'
+	
+  end
       
 end

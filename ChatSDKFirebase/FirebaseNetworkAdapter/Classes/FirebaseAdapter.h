@@ -12,7 +12,6 @@
 @import FirebaseCore;
 @import FirebaseDatabase;
 @import FirebaseAuth;
-@import FirebaseFunctions;
 
 #import <ChatSDK/Core.h>
 

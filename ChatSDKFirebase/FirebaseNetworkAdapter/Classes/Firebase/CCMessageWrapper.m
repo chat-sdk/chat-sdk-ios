@@ -278,7 +278,7 @@
 }
 
 -(void) setDelivered: (NSNumber *) delivered {
-    _model.delivered = delivered;
+    [_model setDelivered:delivered];
 }
 
 -(id<PMessage>) model {
