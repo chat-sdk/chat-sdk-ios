@@ -60,10 +60,9 @@
     FIRDatabaseReference * ref = [self ref];
     _model.entityID = ref.key;
     
-    __weak __typeof(self) weakSelf = self;
     [ref setValue:[self serialize] andPriority: FIRServerValue.timestamp withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
-            [promise resolveWithResult:weakSelf];
+            [promise resolveWithResult:self];
         }
         else {
             _model.entityID = Nil;
@@ -155,13 +154,12 @@
     }
 
     if (userID) {
-        __weak __typeof(self) weakSelf = self;
         id<PMessage>(^onComplete)(id<PUser> user) = ^id<PMessage>(id<PUser> user) {
-            weakSelf.model.userModel = user;
+            self.model.userModel = user;
             [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated
                                                                 object:Nil
-                                                              userInfo:@{bNotificationMessageUpdatedKeyMessage: weakSelf.model}];
-            return weakSelf.model;
+                                                              userInfo:@{bNotificationMessageUpdatedKeyMessage: self.model}];
+            return self.model;
         };
         
         id<PUser> user = [BChatSDK.db fetchEntityWithID:userID withType:bUserEntity];
@@ -186,11 +184,10 @@
 
         // Get this first so it's not decrypted then pushed
         NSDictionary * lastMessageData = [self lastMessageData];
-        __weak __typeof(self) weakSelf = self;
         return [self push].thenOnMain(^id(id success) {
             [[CCThreadWrapper threadWithModel:_model.thread] pushLastMessage:lastMessageData].thenOnMain(^id(id success) {
-                [weakSelf.model setDelivered:@YES];
-                return [BEntity pushThreadMessagesUpdated:weakSelf.model.thread.entityID];
+                [self.model setDelivered:@YES];
+                return [BEntity pushThreadMessagesUpdated:self.model.thread.entityID];
             },Nil);
             return success;
         }, Nil);
@@ -228,11 +225,10 @@
 -(RXPromise *) unflag {
     RXPromise * promise = [RXPromise new];
     FIRDatabaseReference * ref = [FIRDatabaseReference flaggedRefWithMessage:_model.entityID];
-    __weak __typeof(self) weakSelf = self;
 
     [ref removeValueWithCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
         if (!error) {
-            weakSelf.model.flagged = @NO;
+            self.model.flagged = @NO;
             [promise resolveWithResult:Nil];
         }
         else {
