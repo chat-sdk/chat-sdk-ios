@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         BChatSDK.initialize(config, app: application, options: launchOptions)
         
         // If you want to use Firebase UI
-        let useFirebaseUI = false
+        let useFirebaseUI = true
         if useFirebaseUI {
             let authUI = FUIAuth.defaultAuthUI()
             let providers = [FUIEmailAuth(), FUIOAuth.appleAuthProvider(), FUIPhoneAuth.init(authUI: authUI!)]

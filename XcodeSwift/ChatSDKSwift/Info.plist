@@ -27,6 +27,8 @@
 			</array>
 		</dict>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string></string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
@@ -48,6 +50,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>twitterkit-Kqprq5b6bVeEfcMAGoHzUmB3I</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string></string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1088435112418-11bedtu385j8r22bm2t92crdk7c2pc1j</string>
 			</array>
 		</dict>
 	</array>
