@@ -11,7 +11,9 @@
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
 
-@interface BPublicThreadsViewController ()
+@interface BPublicThreadsViewController () {
+    UIAlertAction * _okAction;
+}
 
 @end
 
@@ -49,42 +51,63 @@
 }
 
 -(void) createPublicThread {
-    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:[NSBundle t:bCreatePublicThread] message:[NSBundle t:bThreadName] delegate:self cancelButtonTitle:[NSBundle t:bCancel] otherButtonTitles:[NSBundle t:bOk], nil];
-    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alertView textFieldAtIndex:0].autocapitalizationType = UITextAutocapitalizationTypeWords;
-    [alertView show];
-}
-
-- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView {
-    return [[alertView textFieldAtIndex:0].text stringByReplacingOccurrencesOfString:@" " withString:@""].length != 0;
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
-    // Don't create a thread unless connected to the internet
-    if (BChatSDK.connectivity.isConnected) {
-        
-        if (buttonIndex) {
-            
-            MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.label.text = [NSBundle t:bCreatingThread];
-            
-            __weak __typeof__(self) weakSelf = self;
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSBundle t:bCreatePublicThread]
+                                                                   message:[NSBundle t:bThreadName]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    __weak __typeof__(self) weakSelf = self;
+    _okAction = [UIAlertAction actionWithTitle:[NSBundle t:bOk] style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                       __typeof__(self) strongSelf = weakSelf;
+                                                       if (alert.textFields.count > 0) {
+                                                           UITextField *textField = [alert.textFields firstObject];
+                                                           
+                                                           // Don't create a thread unless connected to the internet
+                                                           if (BChatSDK.connectivity.isConnected) {
+                                                               
+                                                               MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:strongSelf.view animated:YES];
+                                                               hud.label.text = [NSBundle t:bCreatingThread];
 
-            NSString * name = [alertView textFieldAtIndex:0].text;
-            [BChatSDK.publicThread createPublicThreadWithName:name].thenOnMain(^id(id<PThread> thread) {
-                __typeof__(self) strongSelf = weakSelf;
-                [strongSelf pushChatViewControllerWithThread:thread];
-                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
-                return Nil;
-            }, ^id(NSError * error) {
-                __typeof__(self) strongSelf = self;
-                [strongSelf alertWithTitle:[NSBundle t:bUnableToCreateThread] withError:error];
-                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
-                return error;
-            });
-        }
-    }
+                                                               NSString * name = textField.text;
+                                                               [BChatSDK.publicThread createPublicThreadWithName:name].thenOnMain(^id(id<PThread> thread) {
+                                                                   __typeof__(self) strongSelf = weakSelf;
+                                                                   [strongSelf pushChatViewControllerWithThread:thread];
+                                                                   [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+                                                                   return Nil;
+                                                               }, ^id(NSError * error) {
+                                                                   __typeof__(self) strongSelf = weakSelf;
+                                                                   [strongSelf alertWithTitle:[NSBundle t:bUnableToCreateThread] withError:error];
+                                                                   [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+                                                                   return error;
+                                                               });
+                                                           }
+                                                       }
+                                                   }];
+    _okAction.enabled = NO;
+    
+    UIAlertAction * cancel = [UIAlertAction actionWithTitle:[NSBundle t:bCancel] style:UIAlertActionStyleCancel handler:^(UIAlertAction * action){
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [alert addAction:_okAction];
+    [alert addAction:cancel];
+
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        __typeof__(self) strongSelf = weakSelf;
+        textField.delegate = strongSelf;
+        textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    }];
+
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    [self alertWithTitle:[NSBundle t:bCreatePublicThread] withMessage:[NSBundle t:bThreadName] actions:@[]];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSString *finalString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    _okAction.enabled = [finalString stringByReplacingOccurrencesOfString:@" " withString:@""].length > 0;
+    return YES;
 }
 
 -(void) reloadData {

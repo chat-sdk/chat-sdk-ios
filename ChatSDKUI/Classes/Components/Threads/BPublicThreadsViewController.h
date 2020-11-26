@@ -12,7 +12,7 @@
 
 @class BChatViewController;
 
-@interface BPublicThreadsViewController : BThreadsViewController {
+@interface BPublicThreadsViewController : BThreadsViewController<UITextFieldDelegate> {
 }
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;

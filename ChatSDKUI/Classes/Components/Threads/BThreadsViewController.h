@@ -12,7 +12,7 @@
 @class BNotificationObserverList;
 @class BHook;
 
-@interface BThreadsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UITabBarDelegate, UIAlertViewDelegate> {
+@interface BThreadsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UITabBarDelegate> {
     UIBarButtonItem * _editButton;
     
     NSMutableArray * _threads;

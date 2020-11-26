@@ -89,7 +89,7 @@
     }] withNames: @[bHookMessageWillSend, bHookMessageRecieved]]];
 
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
-        [self reloadData];
+        [weakSelf reloadData];
     }] withNames: @[bHookMessageWasDeleted, bHookAllMessagesDeleted]]];
     
     [_notificationList add:[nc addObserverForName:bNotificationUserUpdated

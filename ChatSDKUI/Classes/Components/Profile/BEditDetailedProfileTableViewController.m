@@ -136,12 +136,13 @@
     
     // Upload the image
     if(BChatSDK.upload.shouldUploadAvatar) {
+        __weak __typeof(self) weakSelf = self;
         [BChatSDK.upload uploadImage:_profileImage].thenOnMain(^id(NSDictionary * urls) {
 
             // Set the meta data
             [BChatSDK.currentUser updateMeta:@{bUserImageURLKey: urls[bImagePath]}];
             
-            [MBProgressHUD hideHUDForView:self.view animated: YES];
+            [MBProgressHUD hideHUDForView:weakSelf.view animated: YES];
             
             return urls;
         }, Nil);

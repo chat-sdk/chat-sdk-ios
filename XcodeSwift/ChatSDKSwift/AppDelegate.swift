@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let config = BConfiguration.init();
         config.rootPath = "pre_1"
-        config.allowUsersToCreatePublicChats = false
+        config.allowUsersToCreatePublicChats = true
         config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
         config.clearDatabaseWhenDataVersionChanges = true
         config.clearDataWhenRootPathChanges = true;

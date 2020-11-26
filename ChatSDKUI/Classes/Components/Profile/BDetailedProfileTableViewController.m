@@ -70,17 +70,17 @@
     
     [self refreshInterfaceAnimated:NO];
 
+    __weak __typeof(self) weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
                                                       object:Nil
                                                        queue:Nil
                                                   usingBlock:^(NSNotification * notification) {
                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                          [self reloadDataAnimated:NO];
+                                                          [weakSelf reloadDataAnimated:NO];
                                                       });
 
     }];
     
-    __weak __typeof(self) weakSelf = self;
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         weakSelf.user = Nil;
     }] withName:bHookDidLogout];
@@ -333,15 +333,16 @@
     blockUserActivityIndicator.hidden = NO;
     [blockUserActivityIndicator startAnimating];
     
+    __weak __typeof(self) weakSelf = self;
     promise_completionHandler_t success = ^id(id success) {
-        self.blockImageView.highlighted = isBlocked;
-        self.blockTextView.text = isBlocked ? [NSBundle t:bUnblock] : [NSBundle t:bBlock];
-        self.blockUserActivityIndicator.hidden = YES;
+        weakSelf.blockImageView.highlighted = isBlocked;
+        weakSelf.blockTextView.text = isBlocked ? [NSBundle t:bUnblock] : [NSBundle t:bBlock];
+        weakSelf.blockUserActivityIndicator.hidden = YES;
         return Nil;
     };
     
     promise_errorHandler_t error = ^id(NSError * error) {
-        self.blockUserActivityIndicator.hidden = YES;
+        weakSelf.blockUserActivityIndicator.hidden = YES;
         return Nil;
     };
     
@@ -359,21 +360,23 @@
 }
 
 -(void) deleteUser {
+    __weak __typeof(self) weakSelf = self;
     [BChatSDK.contact deleteContact:self.user withType:bUserConnectionTypeContact].thenOnMain(^id(id success) {
-        [self refreshInterfaceAnimated:NO];
+        [weakSelf refreshInterfaceAnimated:NO];
         return Nil;
     }, ^id(NSError * error) {
-        [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+        [weakSelf alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
         return Nil;
     });
 }
 
 -(void) addContact {
+    __weak __typeof(self) weakSelf = self;
     [BChatSDK.contact addContact:self.user withType:bUserConnectionTypeContact].thenOnMain(^id(id success) {
-        [self refreshInterfaceAnimated:NO];
+        [weakSelf refreshInterfaceAnimated:NO];
         return Nil;
     }, ^id(NSError * error) {
-        [self alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
+        [weakSelf alertWithTitle:[NSBundle t:bErrorTitle] withError:error];
         return Nil;
     });
 }
@@ -389,7 +392,7 @@
 
 -(void) startChat {
     [BChatSDK.thread createThreadWithUsers:@[self.user] threadCreated:^(NSError * error, id<PThread> thread) {
-        BChatViewController * cvc = [BChatSDK.ui chatViewControllerWithThread:thread];
+        UIViewController * cvc = [BChatSDK.ui chatViewControllerWithThread:thread];
         [self.navigationController pushViewController:cvc animated:YES];
     }];
 }

@@ -71,10 +71,7 @@
 
 -(void) addObservers {
     [super addObservers];
-    
-    
-    id<PUser> currentUserModel = BChatSDK.currentUser;
-    
+        
     __weak __typeof__(self) weakSelf = self;
     [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationReadReceiptUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -86,14 +83,14 @@
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         id<PMessage> message = data[bHook_PMessage];
 
-        if (![message.thread isEqualToEntity:_thread]) {
+        if (![message.thread isEqualToEntity:weakSelf.thread]) {
             // If we are in chat and receive a message in another chat then vibrate the phone
             if (!message.userModel.isMe && BChatSDK.config.vibrateOnNewMessage && !message.isRead && (message.date.timeIntervalSinceNow < 20) && !message.meta[bMessageIsHistoric]) {
                 AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
             }
         } else {
             if (BChatSDK.readReceipt) {
-                [BChatSDK.readReceipt markRead:_thread];
+                [BChatSDK.readReceipt markRead:weakSelf.thread];
             }
             [message setDelivered:@YES];
             [weakSelf addMessage:message];
@@ -103,7 +100,7 @@
 
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         id<PMessage> message = data[bHook_PMessage];
-        if (message && [message.thread isEqualToEntity:_thread]) {
+        if (message && [message.thread isEqualToEntity:weakSelf.thread]) {
             [weakSelf removeMessage:message];
         }
     }] withNames:@[bHookMessageWillBeDeleted]]];
@@ -121,7 +118,7 @@
 
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         NSArray * threads = data[bHook_PThreads];
-        if ([threads containsObject:_thread]) {
+        if ([threads containsObject:weakSelf.thread]) {
             [weakSelf.messageManager clear];
             [weakSelf reloadData];
         }
