@@ -9,6 +9,7 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @implementation UIButton(Avatar)
 
@@ -16,12 +17,16 @@
     if (user.imageURL && user.imageURL.length) {
         [self sd_setImageWithURL:[NSURL URLWithString:user.imageURL]
                           forState:UIControlStateNormal
-                  placeholderImage:user.defaultImage
+                  placeholderImage:self.userDefaultImage
                            options: SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
     }
     else {
         [self setImage:user.imageAsImage forState:state];
     }
+}
+
+-(UIImage *) userDefaultImage {
+    return [Icons getWithName:Icons.defaultProfile];
 }
 
 

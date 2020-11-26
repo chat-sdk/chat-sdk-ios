@@ -31,4 +31,25 @@
     [self presentViewController:alert animated:YES completion:Nil];
 }
 
+-(void) alertWithTitle: (NSString *) title withMessage: (NSString *) message actions: (NSArray<UIAlertAction *> *) actions {
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    __weak __typeof(self) weakSelf = self;
+    for(UIAlertAction * action in actions) {
+        [alert addAction:action];
+    }
+
+    UIAlertAction * cancel = [UIAlertAction actionWithTitle:[NSBundle t:bCancel] style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        __typeof(self) strongSelf = weakSelf;
+        [strongSelf dismissViewControllerAnimated:YES completion:nil];
+    }];
+
+    [alert addAction:cancel];
+
+    [self presentViewController:alert animated:YES completion:Nil];
+}
+
 @end

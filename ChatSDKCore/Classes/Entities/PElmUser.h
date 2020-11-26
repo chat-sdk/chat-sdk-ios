@@ -16,7 +16,7 @@
 -(NSString *) entityID;
 -(NSString *) name;
 
--(UIImage *) defaultImage;
+//-(UIImage *) defaultImage;
 -(NSString *) imageURL;
 -(UIImage *) imageAsImage;
 -(BOOL) isMe;

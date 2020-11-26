@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIButton(Avatar)
 
 -(void) loadAvatarForUser: (id<PUser>) user forControlState: (UIControlState) state;
+-(UIImage *) userDefaultImage;
 
 @end
 

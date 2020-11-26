@@ -76,7 +76,7 @@
 
         NSString * profileURL = [provider.photoURL absoluteString];
         if (profileURL && !_model.imageURL) {
-            [self setProfilePictureWithImageURL:profileURL];
+            [self.model setImageURL:profileURL];
             profilePictureSet = YES;
         }
         
@@ -89,14 +89,8 @@
     }
     
     if (!profilePictureSet && !_model.imageURL) {
-        
-        // If the user doesn't have a default profile picture then set it automatically
-        UIImage * defaultImage = [self.model.defaultImage resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
-        
         // Update the user
-        [self.model setImage:UIImagePNGRepresentation(defaultImage)];
         [self setIdenticon];
-        
     }
     
     if(!self.model.availability) {
@@ -105,28 +99,9 @@
     
 }
 
-- (RXPromise *)setProfilePictureWithImageURL: (NSString *)url {
-        
-    // Only set the user picture if they are logging on the first time
-    [_model setImageURL:url];
-    
-    if (url && !_model.image) {
-        
-        return [BCoreUtilities fetchImageFromURL:[NSURL URLWithString:url]].thenOnMain(^id(UIImage * image) {
-            if(image) {
-                [_model setImage:UIImagePNGRepresentation(image)];
-            }
-            return image;
-        }, Nil);
-    }
-    
-    return nil;
-}
-
 - (void) setIdenticon {
-    NSString * name = [self.model.entityID stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSString * url = [NSString stringWithFormat: @"http://identicon.sdk.chat/%@.png", self.model.entityID];
-    [self setProfilePictureWithImageURL:url];
+    [self.model setImageURL:url];
 }
 
 -(id) initWithEntityID: (NSString *) entityID {

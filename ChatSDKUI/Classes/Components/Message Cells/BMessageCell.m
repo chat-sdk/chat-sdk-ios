@@ -172,29 +172,17 @@
     if (position & BChatSDK.config.showMessageAvatarAtPosition) {
         if (message.userModel) {
             [_profilePicture loadAvatar:message.userModel];
-            
-//            if(message.userModel.imageURL) {
-//                [_profilePicture sd_setImageWithURL:[NSURL URLWithString: message.userModel.imageURL]
-//                                   placeholderImage:message.userModel.defaultImage options:SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
-//            }
-//            else if (message.userModel.imageAsImage) {
-//                [_profilePicture setImage:message.userModel.imageAsImage];
-//            }
-//            else {
-//                [_profilePicture setImage:message.userModel.defaultImage];
-//            }
         }
-        else {
-            // If the user doesn't have a profile picture set the default profile image
-            _profilePicture.image = message.userModel.defaultImage;
-            // DM whiteColor
-            if (@available(iOS 13.0, *)) {
-                _profilePicture.backgroundColor = [UIColor systemBackgroundColor];
-            } 
+        if (!_profilePicture.image) {
+            [_profilePicture setDefaultUserImage];
         }
     }
     else {
         _profilePicture.image = nil;
+    }
+
+    if (@available(iOS 13.0, *)) {
+        _profilePicture.backgroundColor = [UIColor systemBackgroundColor];
     }
     
     if (message.flagged.intValue) {

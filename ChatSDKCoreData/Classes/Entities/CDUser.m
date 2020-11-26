@@ -158,10 +158,6 @@
     return self;
 }
 
-+(NSString *) firebaseUIDFromFacebookID: (NSString *) fid {
-    return [@"facebook:" stringByAppendingString:fid];
-}
-
 -(void) setAvailability: (NSString *) availability {
     [self setMetaValue:availability forKey:bUserAvailabilityKey];
 }
@@ -172,12 +168,10 @@
 
 -(void) setStatusText: (NSString *) statusText {
     [self setMetaValue:statusText forKey:bUserStatusTextKey];
-//    [self setStatusValue:statusText forKey:bUserStatusTextKey];
 }
 
 -(NSString *) statusText {
     return [self.meta valueForKey:bUserStatusTextKey];
-//    return self.getStatusDictionary[bUserStatusTextKey];
 }
 
 -(UIImage *) imageAsImage {
@@ -189,7 +183,7 @@
             return image;
         }
     }
-    return self.defaultImage;
+    return nil;
 }
 
 -(NSString *) imageURL {
@@ -201,9 +195,9 @@
 }
 
 // TODO: Remove UI dependency on CoreData
--(UIImage *) defaultImage {
-    return [Icons getWithName:Icons.defaultProfile];
-}
+//-(UIImage *) defaultImage {
+//    return [Icons getWithName:Icons.defaultProfile];
+//}
 
 -(BOOL) isMe {
     return [self isEqualToEntity:BChatSDK.currentUser];

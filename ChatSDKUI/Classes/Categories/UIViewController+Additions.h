@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void) alertWithTitle: (NSString *) title withError: (NSError *) error;
 -(void) alertWithTitle: (NSString *) title withMessage: (NSString *) message;
+-(void) alertWithTitle: (NSString *) title withMessage: (NSString *) message actions: (NSArray<UIAlertAction *> *) actions;
 
 @end
 

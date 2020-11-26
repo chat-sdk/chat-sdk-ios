@@ -80,8 +80,9 @@
 
     }];
     
+    __weak __typeof(self) weakSelf = self;
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        user = Nil;
+        weakSelf.user = Nil;
     }] withName:bHookDidLogout];
     
 //    NSString * backButtonTitle = self.title;
@@ -95,7 +96,7 @@
                                                                        queue:Nil
                                                                   usingBlock:^(NSNotification * notification) {
                                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                                          [self refreshInterfaceAnimated:NO];
+                                                                          [weakSelf refreshInterfaceAnimated:NO];
                                                                       });
     }]];
     
@@ -282,11 +283,13 @@
     }
     if (cell.tag == bAddContactCellTag) {
         if (self.isContact) {
-            [[[UIAlertView alloc] initWithTitle:[NSBundle t:bDeleteContact]
-                                        message:[NSBundle t:bDeleteContactMessage]
-                                       delegate:self
-                              cancelButtonTitle:[NSBundle t:bCancel]
-                              otherButtonTitles:[NSBundle t:bOk], nil] show];
+            __weak __typeof(self) weakSelf = self;
+            UIAlertAction * okAction = [UIAlertAction actionWithTitle:[NSBundle t:bOk] style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                __typeof(self) strongSelf = weakSelf;
+                [strongSelf deleteUser];
+                [strongSelf dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [self alertWithTitle:[NSBundle t:bDeleteContact] withMessage:[NSBundle t:bDeleteContactMessage] actions: @[okAction]];
         } else {
             [self addContact];
         }
@@ -306,7 +309,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    int staticSections = [super numberOfSectionsInTableView:tableView];
+    NSInteger staticSections = [super numberOfSectionsInTableView:tableView];
     if (section < staticSections) {
         return [super tableView: tableView heightForFooterInSection:section];
     } else {
@@ -398,11 +401,6 @@
     return userConnection && userConnection.type.intValue == bUserConnectionTypeContact;
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex) {
-        [self deleteUser];
-    }
-}
 
 - (IBAction)editButtonPressed:(id)sender {
         

@@ -30,6 +30,7 @@
  */
 -(NSNumber *) online;
 
+
 /**
  * @brief User's large image - only ever seen by user
  * @para NSData Image in binary format
@@ -43,7 +44,6 @@
 -(NSData *) image;
 -(UIImage *) imageAsImage;
 
--(UIImage *) defaultImage;
 -(NSString *) imageURL;
 -(void) setImageURL: (NSString *) url;
 

@@ -263,7 +263,7 @@
     [user setEmail:emailTextField.text];
     [user setAvailability:[_availabilityOptions[[_availabilityPicker selectedRowInComponent:0]] lastObject]];
     if (_profileImage) {
-        [user setImage:UIImageJPEGRepresentation(_profileImage, 0.5)];
+        [user setImage:UIImagePNGRepresentation(_profileImage)];
     }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: user}];
