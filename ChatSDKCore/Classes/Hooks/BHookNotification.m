@@ -68,7 +68,9 @@
 }
 
 +(void) notificationWillPushUser: (id<PUser>) user {
-    [BChatSDK.hook executeHookWithName:bHookWillPushUser data:@{bHook_PUser: user}];
+    if (user) {
+        [BChatSDK.hook executeHookWithName:bHookWillPushUser data:@{bHook_PUser: user}];
+    }
 }
 
 +(void) notificationWillLogout: (id<PUser>) user {

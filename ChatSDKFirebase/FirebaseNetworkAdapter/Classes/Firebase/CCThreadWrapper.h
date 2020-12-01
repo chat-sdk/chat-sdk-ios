@@ -98,11 +98,6 @@
 -(void) markRead;
 
 /**
- * @brief Update the class object from Firebase once
- */
--(RXPromise *) once;
-
-/**
  * @brief Set the last message on the thread (used by the web client)
  */
 -(RXPromise *) pushLastMessage: (NSDictionary *) messageData;

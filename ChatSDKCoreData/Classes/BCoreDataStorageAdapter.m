@@ -272,13 +272,14 @@ static void * kMainQueueKey = (void *) "Key1";
 
 -(NSArray *) fetchUserConnectionsWithType: (bUserConnectionType) type entityID: (nullable NSString *) entityID {
     id<PUser> currentUser = BChatSDK.currentUser;
+    NSString * currentUserID = currentUser.entityID;
 
     NSPredicate * predicate;
     if (entityID) {
-        predicate = [NSPredicate predicateWithFormat:@"type = %@ AND owner = %@ AND entityID = %@", @(type), currentUser, entityID];
+        predicate = [NSPredicate predicateWithFormat:@"type = %@ AND owner = %@ AND entityID = %@ AND owner.userAccountID = %@", @(type), currentUser, entityID, currentUserID];
     }
     else {
-        predicate = [NSPredicate predicateWithFormat:@"type = %@ AND owner = %@", @(type), currentUser];
+        predicate = [NSPredicate predicateWithFormat:@"type = %@ AND owner = %@ AND owner.userAccountID = %@", @(type), currentUser, currentUserID];
     }
 
     return [BChatSDK.db fetchEntitiesWithName:bUserConnectionEntity withPredicate:predicate];
@@ -289,7 +290,7 @@ static void * kMainQueueKey = (void *) "Key1";
 }
 
 -(id) fetchEntityWithID: (NSString *) entityID withType: (NSString *) type {
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"entityID = %@", entityID];
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"entityID = %@ AND userAccountID = %@", entityID, BChatSDK.currentUserID];
     // Copy it to stop a mutation error
     NSArray * results = [NSArray arrayWithArray:[self fetchEntitiesWithName:type withPredicate:predicate]];
     
@@ -571,10 +572,12 @@ static void * kMainQueueKey = (void *) "Key1";
     }
     
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:!newestFirst]];
+    
+    NSString * currentUserID = BChatSDK.currentUserID;
 
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread = %@", thread];
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread = %@ AND userAccountID = %@", thread, currentUserID];
     if (date) {
-        predicate = [NSPredicate predicateWithFormat:@"thread = %@ AND date < %@", thread, date];
+        predicate = [NSPredicate predicateWithFormat:@"thread = %@ AND date < %@ AND userAccountID = %@", thread, date, currentUserID];
     }
     
     NSArray * messages = [BChatSDK.db executeFetchRequest:request
@@ -593,11 +596,12 @@ static void * kMainQueueKey = (void *) "Key1";
         request.includesPendingChanges = YES;
         request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:false]];
         
+        NSString * currentUserID = BChatSDK.currentUserID;
         NSPredicate * predicate;
         if (type & bThreadFilterPublic) {
-            predicate = [NSPredicate predicateWithFormat:@"type = %@", @(type)];
+            predicate = [NSPredicate predicateWithFormat:@"type = %@ AND userAccountID = %@", @(type), currentUserID];
         } else {
-            predicate = [NSPredicate predicateWithFormat:@"type = %@ AND (ANY users.entityID = %@)", @(type), BChatSDK.currentUserID];
+            predicate = [NSPredicate predicateWithFormat:@"type = %@ AND (ANY users.entityID = %@) AND userAccountID = %@", @(type), currentUserID, currentUserID];
         }
         
         NSArray * threads = [self executeFetchRequest:request

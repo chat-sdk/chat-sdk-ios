@@ -26,6 +26,7 @@ typedef enum {
  * @brief Update the user on the server
  */
 -(RXPromise *) pushUser;
+-(RXPromise *) pushUser: (BOOL) uploadAvatar;
 
 /**
  * @brief Return the current user data
@@ -77,6 +78,7 @@ typedef enum {
 // Save the data to perminent storage
 //-(void) saveToStore;
 -(void) activate;
+
 
 @end
 

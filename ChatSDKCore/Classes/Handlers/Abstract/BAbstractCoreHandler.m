@@ -46,8 +46,13 @@
  * @brief Update the user on the server
  */
 -(RXPromise *) pushUser {
+    return [self pushUser:NO];
+}
+
+-(RXPromise *) pushUser: (BOOL) uploadAvatar {
     assert(NO);
 }
+
 
 /**
  * @brief Return the current user data

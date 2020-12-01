@@ -65,7 +65,8 @@
     
     _anonymousProfilePicture = [Icons getWithName:Icons.defaultProfile];
     profilePictureButton.layer.cornerRadius = 50;
-    
+    profilePictureButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+
     self.hideSectionsWithHiddenRows = YES;
     
     [self refreshInterfaceAnimated:NO];
@@ -188,7 +189,7 @@
     //
 
     [profilePictureButton loadAvatarForUser:user forControlState:UIControlStateNormal];
-    
+
     //
     // State
     //

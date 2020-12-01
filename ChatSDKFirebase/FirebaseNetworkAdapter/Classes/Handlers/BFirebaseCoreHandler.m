@@ -12,11 +12,27 @@
 
 @implementation BFirebaseCoreHandler
 
--(RXPromise *) pushUser {
+-(RXPromise *) pushUser: (BOOL) uploadAvatar {
     [self save];
-    if(self.currentUser && self.currentUser.entityID) {
-        [BHookNotification notificationWillPushUser:self.currentUserModel];
-        return [self.currentUser push];
+    id<PUser> currentUser = self.currentUserModel;
+    
+    if(currentUser && currentUser.entityID) {
+        [BHookNotification notificationWillPushUser:currentUser];
+        
+        RXPromise * promise = [RXPromise resolveWithResult:nil];
+        if (uploadAvatar && BChatSDK.upload) {
+            promise = [BChatSDK.upload uploadImage:currentUser.imageAsImage].thenOnMain(^id(NSDictionary * urls) {
+                NSString * url = urls[bImagePath];
+                if (url) {
+                    [BChatSDK.currentUser setImageURL:url];
+                }
+                return urls;
+            }, Nil);
+        }
+        
+        return promise.then(^id(id result) {
+            return [self.currentUser push];
+        }, nil);
     }
     else return [RXPromise rejectWithReason:Nil];
 }

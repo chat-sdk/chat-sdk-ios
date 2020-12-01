@@ -283,6 +283,10 @@
     return [RXPromise resolveWithResult:Nil];
 }
 
+-(BOOL) canMuteThreads {
+    return false;
+}
+
 -(RXPromise *) replyToMessage: (id<PMessage>) message withThreadID: (NSString *) threadEntityID reply: (NSString *) reply {
     
     BMessageBuilder * builder = [[BMessageBuilder textMessage: message.isReply ? message.reply : @""] thread:threadEntityID];

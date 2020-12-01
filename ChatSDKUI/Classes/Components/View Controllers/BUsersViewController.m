@@ -58,7 +58,10 @@
                                                                    style:UIBarButtonItemStylePlain
                                                                   target:self
                                                                   action:@selector(settingsButtonPressed)];
-    self.navigationItem.rightBarButtonItem = rightItem;
+
+    if (self.settingsActions.count) {
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
 
 //    if(_thread.creator.isMe) {
 //        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
@@ -275,33 +278,40 @@
                                                                    message:Nil
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
     alert.popoverPresentationController.barButtonItem = self.navigationItem.rightBarButtonItem;
+
+    for (UIAlertAction * action in self.settingsActions) {
+        [alert addAction:action];
+    }
     
-    NSString * text = _thread.meta[bMute] ? bUnmute : bMute;
-    
-    UIAlertAction *mute = [UIAlertAction actionWithTitle:[NSBundle t:text] style:UIAlertActionStyleDefault
-                                                 handler:^(UIAlertAction * action) {
-        [self muteUnmuteThread];
+    UIAlertAction * cancel = [UIAlertAction actionWithTitle:[NSBundle t:bCancel] style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
     }];
+    
+    [alert addAction:cancel];
+    
+    [self presentViewController:alert animated:YES completion:Nil];
+}
+
+-(NSArray<UIAlertAction *> *) settingsActions {
+    NSMutableArray * items = [NSMutableArray new];
+    
+    if (BChatSDK.thread.canMuteThreads) {
+        NSString * text = _thread.meta[bMute] ? bUnmute : bMute;
+        UIAlertAction *mute = [UIAlertAction actionWithTitle:[NSBundle t:text] style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * action) {
+            [self muteUnmuteThread];
+        }];
+        [items addObject:mute];
+    }
     
     if(_thread.creator.isMe) {
         UIAlertAction *addUser = [UIAlertAction actionWithTitle:[NSBundle t:bAddUsers] style:UIAlertActionStyleDefault
                                                         handler:^(UIAlertAction * action) {
             [self addUser];
         }];
-
-    //        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-    //                                                                                               target:self
-    //                                                                                               action:@selector(addUser)];
+        [items addObject:addUser];
     }
 
-    
-    UIAlertAction * cancel = [UIAlertAction actionWithTitle:[NSBundle t:bCancel] style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
-    }];
-    
-    [alert addAction:mute];
-    [alert addAction:cancel];
-    
-    [self presentViewController:alert animated:YES completion:Nil];
+    return items;
 }
 
 -(void) muteUnmuteThread {

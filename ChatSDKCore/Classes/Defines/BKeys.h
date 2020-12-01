@@ -15,12 +15,10 @@
 
 #define bImagePath @"image"
 
-#define bCurrentUserLoginInfo @"current-user-login-info"
 #define bAuthenticationIDKey @"authentication-id"
 
 
 #define bDeletedKey @"deleted"
-#define bTokenKey @"token"
 #define bPushSent @"push-sent"
 
 // Deprecated in favour of bType

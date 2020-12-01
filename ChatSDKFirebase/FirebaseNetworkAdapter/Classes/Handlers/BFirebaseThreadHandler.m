@@ -129,6 +129,10 @@
     return [[CCThreadWrapper threadWithModel:thread] setMuted:NO];
 }
 
+-(BOOL) canMuteThreads {
+    return YES;
+}
+
 // TODO: Implement these
 -(RXPromise *) setChatState: (bChatState) state forThread: (id<PThread>) thread {
     return Nil;

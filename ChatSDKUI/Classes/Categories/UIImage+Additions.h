@@ -12,5 +12,6 @@
 +(UIImage *) getImageFromFile: (NSString *) name withFolder: (NSString *) folder;
 +(NSString *) getPathForFile: (NSString *) name withFolder: (NSString *) folder;
 +(UIImage *) getImageForPath: (NSString *) path;
++(UIImage *)imageByCroppingImage:(UIImage *)image toSize:(CGSize)size;
 
 @end

@@ -18,7 +18,6 @@
 /**
  * @brief Check to see if the user is already authenticated
  */
--(RXPromise *) authenticateWithCachedToken __deprecated;
 -(RXPromise *) authenticate;
 
 /**
@@ -26,12 +25,6 @@
  */
 -(RXPromise *) authenticateWithDictionary: (NSDictionary *) details;
 -(RXPromise *) authenticate: (BAccountDetails *) details;
-
-/**
- * @brief Checks whether the user has been authenticated this session
- */
--(BOOL) userAuthenticated __deprecated;
--(BOOL) userAuthenticatedThisSession __deprecated;
 
 -(BOOL) isAuthenticated;
 -(BOOL) isAuthenticatedThisSession;
@@ -50,26 +43,11 @@
 -(BOOL) accountTypeEnabled: (bAccountType) type;
 
 /**
- * @brief Get the user's stored login credentials
- */
--(NSDictionary *) loginInfo;
-
-/**
- * @brief Set the user's stored login credentials
- */
--(void) setLoginInfo: (NSDictionary *) info;
-
-/**
- * @brief Save the user's login credentials
- */
--(void) saveAccountDetails: (BAccountDetails *) details;
--(BAccountDetails *) getSavedAccountDetails;
-/**
  * @brief Get the current user's authentication id
  */
--(NSString *) currentUserEntityID __deprecated;
 -(NSString *) currentUserID;
-
+-(void) setCurrentUserID: (NSString *) currentUserID;
+-(void) clearCurrentUserID;
 
 -(RXPromise *) resetPasswordWithCredential: (NSString *) credential;
 

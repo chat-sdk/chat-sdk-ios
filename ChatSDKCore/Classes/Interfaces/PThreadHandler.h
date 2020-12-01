@@ -114,10 +114,12 @@
 -(RXPromise *) role: (NSString *) threadEntityID forUser: (NSString *) userEntityID;
 -(RXPromise *) canDelete: (NSString *) threadEntityID;
 
-@optional
-
+-(BOOL) canMuteThreads;
 -(RXPromise *) muteThread: (id<PThread>) thread;
 -(RXPromise *) unmuteThread: (id<PThread>) thread;
+
+@optional
+
 -(RXPromise *) destroyThread: (id<PThread>) thread;
 
 @end

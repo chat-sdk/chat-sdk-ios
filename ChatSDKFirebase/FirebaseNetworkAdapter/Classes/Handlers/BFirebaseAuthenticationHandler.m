@@ -62,11 +62,11 @@
     NSError * error = Nil;
     if([[FIRAuth auth] signOut:&error]) {
 
-        _isAuthenticatedThisSession = NO;
-        [self setLoginInfo:Nil];
         [BChatSDK.core goOffline];
         
         [[NSNotificationCenter  defaultCenter] postNotificationName:bNotificationBadgeUpdated object:Nil];
+        
+        [super logout];
         
         if (user) {
             [BHookNotification notificationDidLogout:user];
@@ -207,7 +207,7 @@
     _isAuthenticatedThisSession = YES;
     
     // Save the authentication ID for the current user
-    [self setLoginInfo:@{bAuthenticationIDKey: user.entityID}];
+    [self setCurrentUserID:user.entityID];
     
     // If the user was authenticated automatically
     if (!details) {

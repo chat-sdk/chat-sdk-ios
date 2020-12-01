@@ -37,7 +37,7 @@
         [connection setType:@(bUserConnectionTypeContact)];
         [connection setEntityID:contact.entityID];
         
-        id<PUser> currentUser = [BChatSDK.db fetchOrCreateEntityWithID:BChatSDK.auth.currentUserEntityID withType:bUserEntity];
+        id<PUser> currentUser = [BChatSDK.db fetchOrCreateEntityWithID:BChatSDK.auth.currentUserID withType:bUserEntity];
         [currentUser addConnection:connection];
         
         return Nil;
@@ -65,7 +65,7 @@
 
         // Clear down the old blocking list
         NSArray * connections = [BChatSDK.db fetchUserConnectionsWithType:type entityID:user ? user.entityID : Nil];
-        id<PUser> currentUser = [BChatSDK.db fetchOrCreateEntityWithID:BChatSDK.auth.currentUserEntityID withType:bUserEntity];
+        id<PUser> currentUser = [BChatSDK.db fetchOrCreateEntityWithID:BChatSDK.auth.currentUserID withType:bUserEntity];
 
         for (id<PUserConnection> connection in connections) {
             [currentUser removeConnection:connection];

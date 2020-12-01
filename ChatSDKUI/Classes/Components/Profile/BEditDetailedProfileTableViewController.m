@@ -15,7 +15,9 @@
 #define bStatusSection 1
 #define bDateFormat @"dd/MM/yyyy"
 
-@interface BDetailedEditProfileTableViewController ()
+@interface BDetailedEditProfileTableViewController () {
+    BOOL uploadAvatar;
+}
 
 @end
 
@@ -87,6 +89,7 @@
     
     [profilePictureButton loadAvatarForUser:user forControlState:UIControlStateNormal];
     profilePictureButton.layer.cornerRadius = 50;
+    profilePictureButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
     
     // Hide the picker cells - they are displayed when their button is pressed
     [self cell:availabilityCell setHidden:YES];
@@ -127,26 +130,27 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     _profileImage = [info objectForKey:UIImagePickerControllerEditedImage];
     
-    // Now reduce the image to 200x200 for the profile picture
-    _profileImage = [_profileImage resizedImage:bProfilePictureSize interpolationQuality:kCGInterpolationHigh];
+    // Get the aspect ratio
+    CGSize size = _profileImage.size;
+    float minDimension = MIN(size.width, size.height);
+    
+    // Crop to a square
+    _profileImage = [UIImage imageByCroppingImage:_profileImage toSize:CGSizeMake(minDimension, minDimension)];
+    _profileImage = [_profileImage resizeImageToSize:bProfilePictureSize];
+    
+//    float ar = size.width / size.height;
+//    if (ar > 0) {
+//        size.width = bProfilePictureSize.width;
+//        size.height = bProfilePictureSize.width / ar;
+//    } else {
+//        size.width = bProfilePictureSize.height * ar;
+//        size.height = bProfilePictureSize.height;
+//    }
+//
+//    // Now reduce the image to 200x200 for the profile picture
+//    _profileImage = [_profileImage resizeImageToSize:size];
     
     [profilePictureButton setImage:_profileImage forState:UIControlStateNormal];
-    
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    // Upload the image
-    if(BChatSDK.upload.shouldUploadAvatar) {
-        __weak __typeof(self) weakSelf = self;
-        [BChatSDK.upload uploadImage:_profileImage].thenOnMain(^id(NSDictionary * urls) {
-
-            // Set the meta data
-            [BChatSDK.currentUser updateMeta:@{bUserImageURLKey: urls[bImagePath]}];
-            
-            [MBProgressHUD hideHUDForView:weakSelf.view animated: YES];
-            
-            return urls;
-        }, Nil);
-    }
     
     [picker dismissViewControllerAnimated:YES completion:Nil];
 }
@@ -236,7 +240,7 @@
 //    hud.labelText = [NSBundle t: bSaving];
 //    self.view.userInteractionEnabled = NO;
     
-    [BChatSDK.core pushUser].thenOnMain(^id(id success) {
+    [BChatSDK.core pushUser: _profileImage != nil].thenOnMain(^id(id success) {
 //        [MBProgressHUD hideHUDForView: self.view animated:YES];
 //        [self dismissViewControllerAnimated:YES completion:Nil];
 //        self.view.userInteractionEnabled = YES;

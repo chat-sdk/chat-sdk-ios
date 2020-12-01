@@ -21,7 +21,12 @@
                            options: SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
     }
     else {
-        [self setImage:user.imageAsImage forState:state];
+        UIImage * image = user.imageAsImage;
+        if (image) {
+            [self setImage:user.imageAsImage forState:state];
+        } else {
+            [self setImage:self.userDefaultImage forState:state];
+        }
     }
 }
 
