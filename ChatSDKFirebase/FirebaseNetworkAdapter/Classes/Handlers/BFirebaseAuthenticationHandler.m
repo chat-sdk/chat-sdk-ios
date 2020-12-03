@@ -151,9 +151,12 @@
 -(RXPromise *) loginWithFirebaseUser: (FIRUser *) firebaseUser accountDetails: (BAccountDetails *) details {
     
     // If the user isn't authenticated they'll need to login
-    if (!firebaseUser) {
+    if (!firebaseUser || !firebaseUser.uid) {
         return [RXPromise resolveWithResult:Nil];
     }
+    
+    // Save the authentication ID for the current user
+    [self setCurrentUserID:firebaseUser.uid];
     
     // Get the user
     id<PUser> cachedUser = [BChatSDK.db fetchEntityWithID:firebaseUser.uid withType:bUserEntity];
@@ -205,10 +208,7 @@
 -(RXPromise *) completeAuthentication: (BAccountDetails *) details withUser: (id<PUser>) user {
     
     _isAuthenticatedThisSession = YES;
-    
-    // Save the authentication ID for the current user
-    [self setCurrentUserID:user.entityID];
-    
+        
     // If the user was authenticated automatically
     if (!details) {
         [BHookNotification notificationDidAuthenticate:user type:bHook_AuthenticationTypeCached];

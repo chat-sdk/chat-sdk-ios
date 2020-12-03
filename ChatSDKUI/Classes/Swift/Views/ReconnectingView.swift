@@ -88,6 +88,7 @@ import KeepLayout
 //                self.isHidden = status == bConnectionStatusConnected
                 
                 self?.label?.isHidden = connStatus == bConnectionStatusNone
+                self?.imageView?.isHidden = connStatus == bConnectionStatusNone
 
                 if connStatus == bConnectionStatusConnecting {
 //                    self.label?.text = Bundle.t(bConnecting)
@@ -104,7 +105,10 @@ import KeepLayout
                     self?.label?.text = Bundle.t(bOnline)
                     self?.stopBlink()
                     self?.imageView?.image = Bundle.uiImageNamed("icn_20_connected")
+                } else {
+                    self?.stopBlink()
                 }
+                
                 self?.label?.keepWidth.equal = self?.label?.intrinsicContentSize.width ?? 130
             } else {
                 self?.isHidden = true

@@ -59,7 +59,7 @@
  */
 -(id<PUser>) currentUserModel {
     NSString * currentUserID = BChatSDK.auth.currentUserID;
-    if (currentUserID && !_currentUser) {
+    if (currentUserID && (!_currentUser || !_currentUser.entityID)) {
         _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
     }
     return _currentUser;
@@ -68,10 +68,14 @@
 -(RXPromise *) currentUserModelAsync {
     NSString * currentUserID = BChatSDK.auth.currentUserID;
     if (currentUserID.length && !_currentUser) {
-        return [BChatSDK.db performOnMain:^id {
+        RXPromise * promise = [RXPromise new];
+        
+        [BChatSDK.db performOnMain:^{
             _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
-            return _currentUser;
+            [promise resolveWithResult:_currentUser];
         }];
+        
+        return promise;
     } else {
         return [RXPromise resolveWithResult:_currentUser];
     }

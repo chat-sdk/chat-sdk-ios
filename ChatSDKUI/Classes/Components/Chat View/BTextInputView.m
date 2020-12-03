@@ -182,7 +182,8 @@
     _optionsButton.enabled = connected;
     
     if (BChatSDK.config.disableSendButtonWhenDisconnected) {
-        connected = BChatSDK.core.connectionStatus == bConnectionStatusConnected;
+        bConnectionStatus status = BChatSDK.core.connectionStatus;
+        connected = status == bConnectionStatusConnected || status == bConnectionStatusNone;
         _sendButton.enabled = connected;
         _optionsButton.enabled = connected;
     }

@@ -81,7 +81,7 @@ typedef enum {
 -(NSArray<PMessage> *) loadMessagesForThread: (id<PThread>) thread oldest: (int) count;
 
 //-(RXPromise *) performOnPrivate: (id (^)(void)) block;
--(RXPromise *) performOnMain: (id (^)(void)) block;
+-(void) performOnMain: (void(^)(void)) block;
 -(void) performOnMainAndWait:(void(^)(void)) block;
 
 //-(RXPromise *) performOnPrivateAndSave:(id (^)(void))block;

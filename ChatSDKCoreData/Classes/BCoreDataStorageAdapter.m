@@ -309,9 +309,17 @@ static void * kMainQueueKey = (void *) "Key1";
 //    return [self performOn:self.backgroundManagedObjectContext withBlock:block];
 //}
 
--(RXPromise *) performOnMain:(id(^)(void)) block  {
-    return [self performOn:_mainMoc withBlock:block];
+-(void) performOnMain: (void(^)(void)) block {
+    [_mainMoc performBlock:^{
+        if (block != nil) {
+            block();
+        }
+    }];
 }
+
+//-(RXPromise *) performOnMain:(id(^)(void)) block  {
+//    return [self performOn:_mainMoc withBlock:block];
+//}
 
 -(void) performOnMainAndWait:(void(^)(void)) block {
     [_mainMoc performBlockAndWait:^{
@@ -343,14 +351,14 @@ static void * kMainQueueKey = (void *) "Key1";
     return promise;
 }
 
--(RXPromise *) performOn: (NSManagedObjectContext *) context withBlock: (id(^)(void)) block {
-    RXPromise * promise = [RXPromise new];
-    [context performBlock:^{
-        id result = block();
-        [promise resolveWithResult:result];
-    }];
-    return promise;
-}
+//-(RXPromise *) performOn: (NSManagedObjectContext *) context withBlock: (void(^)(void)) block {
+//    RXPromise * promise = [RXPromise new];
+//    [context performBlock:^{
+//        block();
+//        [promise resolveWithResult:result];
+//    }];
+//    return promise;
+//}
 
 -(id) fetchOrCreateEntityWithID: (NSString *) entityID withType: (NSString *) type {
     

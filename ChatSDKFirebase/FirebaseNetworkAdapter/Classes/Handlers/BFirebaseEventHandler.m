@@ -13,8 +13,12 @@
 @implementation BFirebaseEventHandler
 
 -(void) currentUserOn: (NSString *) entityID {
-    
+        
     id<PUser> user = [BChatSDK.db fetchEntityWithID:entityID withType:bUserEntity];
+    
+    if (!user.entityID) {
+        NSLog(@"");
+    }
 
     [BHookNotification notificationUserOn:user];
     
