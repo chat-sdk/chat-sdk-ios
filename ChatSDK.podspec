@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.15.8"
+  s.version          = "4.15.9"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }

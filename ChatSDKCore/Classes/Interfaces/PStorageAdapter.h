@@ -18,7 +18,6 @@
 #define bUserAccountEntity @"CDUserAccount"
 #define bMetaDataEntity @"CDMetaData"
 #define bUserConnectionEntity @"CDUserConnection"
-#define bGroupEntity @"CDGroup"
 
 #define bMessageOrderNewestFirst = 1;
 #define bMessageOrderOldestFirst = 2;

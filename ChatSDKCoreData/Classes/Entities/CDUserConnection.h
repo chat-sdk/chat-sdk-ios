@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import <ChatSDK/PUserConnection.h>
 
-@class CDGroup, CDUser;
+@class CDUser;
 
 NS_ASSUME_NONNULL_BEGIN
 

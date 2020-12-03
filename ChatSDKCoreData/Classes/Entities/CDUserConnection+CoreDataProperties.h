@@ -18,17 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *entityID;
 @property (nullable, nonatomic, retain) id meta;
 @property (nullable, nonatomic, retain) NSNumber *type;
-@property (nullable, nonatomic, retain) NSSet<CDGroup *> *groups;
 @property (nullable, nonatomic, retain) CDUser *owner;
+@property (nullable, nonatomic, retain) NSString *userAccountID;
 
 @end
 
 @interface CDUserConnection (CoreDataGeneratedAccessors)
-
-- (void)addGroupsObject:(CDGroup *)value;
-- (void)removeGroupsObject:(CDGroup *)value;
-- (void)addGroups:(NSSet<CDGroup *> *)values;
-- (void)removeGroups:(NSSet<CDGroup *> *)values;
 
 @end
 
