@@ -809,9 +809,10 @@
     
     id<PElmMessage> message = [self messageForIndexPath:indexPath];
     
+    __weak __typeof(self) weakSelf = self;
     [delegate setMessageFlagged:message isFlagged:message.flagged.intValue].thenOnMain(^id(id success) {
         // Reload the tableView and not [self reloadData] so we don't go to the bottom of the tableView
-        [self reloadDataForMessage:message];
+        [weakSelf reloadDataForMessage:message];
         return Nil;
     }, Nil);
     
@@ -843,7 +844,7 @@
         return @[button];
 
     }
-    else {
+    else if(BChatSDK.moderation.canFlagMessage) {
         NSString * flagTitle = message.flagged.intValue ? [NSBundle t:bUnflag] : [NSBundle t:bFlag];
         
         UITableViewRowAction * button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:flagTitle handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
@@ -865,12 +866,17 @@
         return @[button];
     }
     
+    return @[];
 }
 
 #pragma Handle keyboard
 
 // Move the toolbar up
 -(void) keyboardWillShow: (NSNotification *) notification {
+    
+    if (_keyboardVisible) {
+        return;
+    }
     
     _keyboardVisible = YES;
     
@@ -930,6 +936,10 @@
 
 -(void) keyboardWillHide: (NSNotification *) notification {
     
+    if (!_keyboardVisible) {
+        return;
+    }
+    
     NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     
@@ -971,6 +981,10 @@
 
 -(void) keyboardDidShow: (NSNotification *) notification {
     
+    if (!_keyboardVisible) {
+        return;
+    }
+
     // Get the keyboard size
     CGRect keyboardBounds = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect keyboardBoundsConverted = [self.view convertRect:keyboardBounds toView:Nil];
@@ -989,6 +1003,11 @@
 }
 
 -(void) keyboardDidHide: (NSNotification *) notification {
+    
+    if (!_keyboardVisible) {
+        return;
+    }
+    
     [_keyboardOverlay removeFromSuperview];
     _keyboardVisible = NO;
 }

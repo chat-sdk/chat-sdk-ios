@@ -138,6 +138,8 @@
 
 -(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSMutableArray * actions = [NSMutableArray new];
+    
     UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Delete" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         [BChatSDK.thread deleteMessage:self.flaggedMessages[indexPath.row].entityID];
     }];
@@ -148,19 +150,22 @@
         delete.backgroundColor = [UIColor redColor];
     }
     
-    UITableViewRowAction *more = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Unflag" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        [BChatSDK.moderation unflagMessage:self.flaggedMessages[indexPath.row].entityID];
-    }];
-    // DM
-    //    more.backgroundColor = [UIColor colorWithRed:0.188 green:0.514 blue:0.984 alpha:1];
-    
-    if (@available(iOS 13.0, *)) {
-        more.backgroundColor = [UIColor systemGrayColor];
-    } else {
-        more.backgroundColor = [UIColor colorWithRed:0.188 green:0.514 blue:0.984 alpha:1];
+    [actions addObject:delete];
+
+    if(BChatSDK.moderation.canFlagMessage) {
+        UITableViewRowAction *more = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Unflag" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            [BChatSDK.moderation unflagMessage:self.flaggedMessages[indexPath.row].entityID];
+        }];
+        
+        if (@available(iOS 13.0, *)) {
+            more.backgroundColor = [UIColor systemGrayColor];
+        } else {
+            more.backgroundColor = [UIColor colorWithRed:0.188 green:0.514 blue:0.984 alpha:1];
+        }
+        [actions addObject:more];
     }
     
-    return @[delete, more];
+    return actions;
 }
 
 @end

@@ -27,7 +27,7 @@
         [self publicThreadsOn:user];
     }
     [self contactsOn:user];
-    [self moderationOn: user];
+//    [self moderationOn: user];
     [self onlineOn];
 
 }
@@ -144,11 +144,11 @@
     }];
 }
 
--(void) moderationOn: (id<PUser>) user {
-    if (BChatSDK.config.enableMessageModerationTab) {
-        [BChatSDK.moderation on];
-    }
-}
+//-(void) moderationOn: (id<PUser>) user {
+//    if (BChatSDK.config.enableMessageModerationTab) {
+//        [BChatSDK.moderation on];
+//    }
+//}
 
 -(void) currentUserOff: (NSString *) entityID {
     id<PUser> user = [BChatSDK.db fetchEntityWithID:entityID withType:bUserEntity];
@@ -159,7 +159,7 @@
     }
 
     [self contactsOff:user];
-    [self moderationOff:user];
+//    [self moderationOff:user];
     [self onlineOff];
 }
 
@@ -194,11 +194,11 @@
     }
 }
 
--(void) moderationOff: (id<PUser>) user {
-    if (BChatSDK.config.enableMessageModerationTab) {
-        [BChatSDK.moderation off];
-    }
-}
+//-(void) moderationOff: (id<PUser>) user {
+//    if (BChatSDK.config.enableMessageModerationTab) {
+//        [BChatSDK.moderation off];
+//    }
+//}
 
 
 @end

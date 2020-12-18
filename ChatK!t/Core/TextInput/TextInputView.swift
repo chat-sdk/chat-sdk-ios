@@ -185,9 +185,10 @@ public class TextInputView: UIView, UITextViewDelegate {
             button.isEnabled = sendButtonEnabled || enabled
             if enabled {
                 button.setTitle(nil, for: .normal)
-                button.setImage(<#T##image: UIImage?##UIImage?#>, for: <#T##UIControl.State#>)
+                // TODO: 
+//                button.setImage(<#T##image: UIImage?##UIImage?#>, for: <#T##UIControl.State#>)
             } else {
-                button
+//                button
             }
         }
     }

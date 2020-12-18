@@ -137,6 +137,8 @@ typedef enum {
 @property(nonatomic, readwrite) NSString * messageBubbleMaskSingle;
 
 @property(nonatomic, readwrite) BOOL disableSendButtonWhenDisconnected;
+@property(nonatomic, readwrite) BOOL disableSendButtonWhenNotReachable;
+
 @property (nonatomic, readwrite) BOOL xmppOutgoingMessageQueueEnabled;
 @property (nonatomic, readwrite) BOOL xmppSendPushOnAck;
 

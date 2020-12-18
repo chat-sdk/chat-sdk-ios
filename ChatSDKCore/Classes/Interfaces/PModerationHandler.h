@@ -13,6 +13,10 @@
 
 @protocol PModerationHandler <NSObject>
 
+-(BOOL) canFlagMessage;
+
+@optional
+
 /**
  * @brief Flag a message for moderation
  */
@@ -22,12 +26,6 @@
  * @brief Unflag a message for moderation
  */
 - (RXPromise *) unflagMessage: (NSString *)messageID;
-
-
-- (void) on;
-
-- (void) off;
-
 - (NSArray *) flaggedMessages;
 
 @end

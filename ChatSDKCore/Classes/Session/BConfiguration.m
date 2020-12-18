@@ -106,6 +106,7 @@
 @synthesize xmppPingTimeout;
 @synthesize xmppPingInterval;
 @synthesize xmppOutgoingMessageQueueEnabled;
+@synthesize disableSendButtonWhenNotReachable;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -129,7 +130,8 @@
         remoteConfigEnabled = NO;
         
         disableSendButtonWhenDisconnected = YES;
-        
+        disableSendButtonWhenNotReachable = YES;
+
         timeFormat = @"HH:mm";
         
         anonymousLoginEnabled = YES;
@@ -171,7 +173,7 @@
         showLocalNotificationsForPublicChats = NO;
         
         shouldAskForNotificationsPermission = YES;
-        messageSelectionEnabled = YES;
+        messageSelectionEnabled = NO;
                 
         showProfileViewOnTap = YES;
         

@@ -14,6 +14,15 @@
 
 @synthesize flaggedMessages;
 
+-(void) activate {
+    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
+        [self on];
+    }] withName:bHookDidAuthenticate];
+    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
+        [self off];
+    }] withName:bHookDidLogout];
+}
+
 // TODO: Should we move these out of the message wrapper?
 - (RXPromise *) flagMessage: (NSString *)messageID {
     id<PMessage> message = [BChatSDK.db fetchOrCreateEntityWithID:messageID withType:bMessageEntity];
@@ -24,7 +33,6 @@
     id<PMessage> message = [BChatSDK.db fetchOrCreateEntityWithID:messageID withType:bMessageEntity];
     return [[CCMessageWrapper messageWithModel:message] unflag];
 }
-
 
 - (void) on {
     [self off];
@@ -76,6 +84,10 @@
 
 - (FIRDatabaseReference *) flaggedRef {
     return [FIRDatabaseReference flaggedMessagesRef];
+}
+
+-(BOOL) canFlagMessage {
+    return YES;
 }
 
 @end

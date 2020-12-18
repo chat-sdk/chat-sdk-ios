@@ -52,6 +52,7 @@
 -(void) activate {
     [self activate:self.core];
     [self activate:self.auth];
+    [self activate:self.moderation];
 }
 
 -(void) activate: (id) handler {

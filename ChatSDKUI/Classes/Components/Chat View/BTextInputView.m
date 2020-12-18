@@ -177,17 +177,19 @@
 }
 
 -(void) updateInterfaceForReachabilityStateChange {
-    BOOL connected = BChatSDK.connectivity.isConnected;
-    _sendButton.enabled = connected;
-    _optionsButton.enabled = connected;
-    
-    if (BChatSDK.config.disableSendButtonWhenDisconnected) {
-        bConnectionStatus status = BChatSDK.core.connectionStatus;
-        connected = status == bConnectionStatusConnected || status == bConnectionStatusNone;
-        _sendButton.enabled = connected;
-        _optionsButton.enabled = connected;
+    _sendButton.enabled = self.isConnected;
+    _optionsButton.enabled = self.isConnected;;
+}
+
+-(BOOL) isConnected {
+    BOOL connected = YES;
+    if (BChatSDK.config.disableSendButtonWhenNotReachable) {
+        connected = connected && BChatSDK.connectivity.isConnected;
     }
-    
+    if (BChatSDK.config.disableSendButtonWhenDisconnected) {
+        connected = connected && (BChatSDK.core.connectionStatus == bConnectionStatusConnected || BChatSDK.core.connectionStatus == bConnectionStatusNone);
+    }
+    return connected;
 }
 
 -(void) setAudioEnabled: (BOOL) audioEnabled {
@@ -200,8 +202,8 @@
 }
 
 -(void) setMicButtonEnabled: (BOOL) enabled sendButtonEnabled: (BOOL) sendButtonEnabled {
-    _micButtonEnabled = enabled;
-    _sendButton.enabled = sendButtonEnabled || enabled;
+    _micButtonEnabled = enabled && self.isConnected;
+    _sendButton.enabled = (sendButtonEnabled || enabled) && self.isConnected;
     if (enabled) {
         [_sendButton setTitle:Nil forState:UIControlStateNormal];
         [_sendButton setImage:[NSBundle uiImageNamed: @"icn_24_mic"]
