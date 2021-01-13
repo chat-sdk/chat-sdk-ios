@@ -43,7 +43,7 @@
 
 -(BOOL) hasMessages {
     [self checkOnMain];
-    return self.newestMessage != Nil;
+	return (self.messages.count > 0);
 }
 
 -(void) addMessage: (id<PMessage>) theMessage {
