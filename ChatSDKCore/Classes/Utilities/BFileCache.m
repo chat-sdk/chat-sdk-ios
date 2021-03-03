@@ -16,6 +16,10 @@
 }
 
 + (RXPromise *)cacheFileFromURL:(NSURL *)url withFileName:(NSString *)fileName andCacheName:(NSString *)cacheName {
+    if (!fileName || !fileName.length) {
+        fileName = BCoreUtilities.getUUID;
+    }
+    
     RXPromise * promise = [RXPromise new];
     if (!url) {
         [promise rejectWithReason: @"URL must not be nil"];
