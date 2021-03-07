@@ -19,7 +19,7 @@ import ChatSDK
     @objc public static let icnCheck = "check"
 
     @objc public static func get(name: String) -> UIImage? {
-        return UIImage(named: name, in:  BChatSDK.shared()?.iconsBundle, compatibleWith: nil)
+        return UIImage(named: name, in:  BChatSDK.shared().iconsBundle, compatibleWith: nil)
     }
         
     @objc public static func defaultUserImage() -> UIImage? {

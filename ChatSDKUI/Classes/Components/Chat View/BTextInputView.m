@@ -141,15 +141,13 @@
         [self setFont:[UIFont systemFontOfSize:bFontSize]];
         
         __weak __typeof__(self) weakSelf = self;
-        _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
-            __typeof__(self) strongSelf = weakSelf;
-            [strongSelf updateInterfaceForReachabilityStateChange];
+        _internetConnectionHook = [BHook hookOnMain:^(NSDictionary * data) {
+            [weakSelf updateInterfaceForReachabilityStateChange];
         }];
         [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
 
-        _connectionStatusHook = [BHook hook:^(NSDictionary * data) {
-            __typeof__(self) strongSelf = weakSelf;
-            [strongSelf updateInterfaceForReachabilityStateChange];
+        _connectionStatusHook = [BHook hookOnMain:^(NSDictionary * data) {
+            [weakSelf updateInterfaceForReachabilityStateChange];
         }];
         [BChatSDK.hook addHook:_connectionStatusHook withName:bHookServerConnectionStatusUpdated];
         

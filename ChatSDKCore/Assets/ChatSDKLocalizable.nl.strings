@@ -88,7 +88,6 @@
 "bTapHereForContactInfo" = "Tik voor meer contactinformatie";
 "bPhoneNumber" = "Telefoonnummer";
 "bEmail" = "E-mail";
-"bDetails" = "Details";
 "bAddParticipant" = "Voeg een deelnemer toe";
 "bLeaveConversation" = "Verlaat dit gesprek";
 "bRejoinConversation" = "Keer terug naar dit gesprek";
@@ -131,9 +130,6 @@
 
 "bAudioLengthLimitReached" = "Limiet van je audiobericht bereikt";
 "bSendOrDiscardRecording" = "Opname versturen of annuleren";
-
-"bAddFriend" = "Een vriend toevoegen";
-"bRemoveFriend" = "Een 'vriend' verwijderen";
 
 "bBlock" = "Blokkeren";
 "bUnblock" = "Deblokkeren";

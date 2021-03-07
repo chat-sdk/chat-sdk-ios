@@ -16,7 +16,6 @@
 +(instancetype) hook: (void(^)(NSDictionary *)) function weight: (int) weight;
 +(instancetype) hookOnMain: (void(^)(NSDictionary *)) function weight: (int) weight;
 
--(instancetype) initWithFunction: (void(^)(NSDictionary *)) function;
 -(void) execute: (NSDictionary *) properties;
 -(int) weight;
 

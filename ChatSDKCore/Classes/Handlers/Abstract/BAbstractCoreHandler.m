@@ -32,11 +32,6 @@
     [BChatSDK.db save];
 }
 
-//-(void) saveToStore {
-//    [BChatSDK.db saveToStore];
-//}
-
-
 -(id<PUser>) userForEntityID: (NSString *) entityID {
     // Get the user and make sure it's updated
     return [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
@@ -65,21 +60,21 @@
     return _currentUser;
 }
 
--(RXPromise *) currentUserModelAsync {
-    NSString * currentUserID = BChatSDK.auth.currentUserID;
-    if (currentUserID.length && !_currentUser) {
-        RXPromise * promise = [RXPromise new];
-        
-        [BChatSDK.db performOnMain:^{
-            _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
-            [promise resolveWithResult:_currentUser];
-        }];
-        
-        return promise;
-    } else {
-        return [RXPromise resolveWithResult:_currentUser];
-    }
-}
+//-(RXPromise *) currentUserModelAsync {
+//    NSString * currentUserID = BChatSDK.auth.currentUserID;
+//    if (currentUserID.length && !_currentUser) {
+//        RXPromise * promise = [RXPromise new];
+//
+//        [BChatSDK.db performOnMain:^{
+//            _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
+//            [promise resolveWithResult:_currentUser];
+//        }];
+//
+//        return promise;
+//    } else {
+//        return [RXPromise resolveWithResult:_currentUser];
+//    }
+//}
 
 // TODO: Consider removing / refactoring this
 /**

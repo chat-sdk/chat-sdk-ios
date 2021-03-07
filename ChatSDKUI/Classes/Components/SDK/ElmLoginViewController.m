@@ -96,7 +96,7 @@
         self.passwordField.text = BChatSDK.config.debugPassword;
     }
     
-    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
+    _internetConnectionHook = [BHook hookOnMain:^(NSDictionary * data) {
         __typeof__(self) strongSelf = weakSelf;
         [strongSelf updateInterfaceForReachabilityStateChange];
     }];

@@ -51,6 +51,7 @@
 }
 
 -(void) setAvailabilityLabelText: (NSString *) availability {
+    self.stateLabel.hidden = false;
     if(!availability || availability.length == 0) {
         [self.statusImageView keepVerticallyCentered];
         self.stateLabel.text = @"";
@@ -64,7 +65,7 @@
 }
 
 -(void) setAvailability: (NSString *) availability {
-    
+
     if ([availability isEqualToString:bAvailabilityStateChat] || [availability isEqualToString:bAvailabilityStateAvailable]) {
         availability = bOnline;
     }
@@ -74,14 +75,17 @@
 }
 
 -(void) setOnline {
+    self.statusImageView.hidden = false;
     self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_online"];
 }
 
 -(void) setAway {
+    self.statusImageView.hidden = false;
     self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_away"];
 }
 
 -(void) setOffline {
+    self.statusImageView.hidden = false;
     self.statusImageView.image = [NSBundle uiImageNamed: @"icn_16_status_offline"];
 }
 

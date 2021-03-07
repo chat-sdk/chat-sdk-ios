@@ -43,11 +43,45 @@
 
 -(BOOL) hasMessages {
     [self checkOnMain];
-	return (self.messages.count > 0);
+    return self.newestMessage != nil;
 }
 
 -(void) addMessage: (id<PMessage>) theMessage {
     [self addMessage:theMessage toStart:NO];
+}
+
+-(void) addMessageAndSort: (id<PMessage>) theMessage {
+    // Check if the message has already been added
+    CDMessage * message = (CDMessage *) theMessage;
+
+    if ([self containsMessage:message]) {
+        return;
+    }
+    message.thread = self;
+    NSArray * messages = [BChatSDK.db loadMessagesForThread:self oldest:NSIntegerMax];
+    
+    int index = [messages indexOfObject:message];
+    if (index > 0) {
+        CDMessage * previous = messages[index - 1];
+        message.previousMessage = previous;
+        previous.nextMessage = message;
+        [previous updatePosition];
+    }
+    if(index < messages.count - 1) {
+        CDMessage * next = messages[index + 1];
+        message.nextMessage = next;
+        next.previousMessage = message;
+        [next updatePosition];
+    }
+    [message updatePosition];
+    
+    //    NSArray * messages = [BChatSDK.db loadMessagesForThread:self newest:1];
+    //    if (messages.count) {
+    //        return messages.firstObject;
+    //    }
+
+    self.newestMessage = messages.lastObject;
+    
 }
 
 -(void) addMessage: (id<PMessage>) theMessage toStart: (BOOL) toStart {
@@ -65,6 +99,9 @@
         if (oldestMessage) {
             message.nextMessage = oldestMessage;
             oldestMessage.previousMessage = message;
+        } else {
+            // if this is the first message...
+            self.newestMessage = theMessage;
         }
     } else {
         // Set the last message for this message
@@ -73,6 +110,7 @@
             message.previousMessage = newestMessage;
             newestMessage.nextMessage = message;
         }
+        self.newestMessage = message;
     }
     
     // Add the message to the thread
@@ -86,19 +124,29 @@
     }
     [message updatePosition];
     
-    [BCoreUtilities checkDuplicateThread];
-    [BCoreUtilities checkOnMain];
-
-}
-
--(id<PMessage>) newestMessage {
-    [self checkOnMain];
-    NSArray * messages = [BChatSDK.db loadMessagesForThread:self newest:1];
-    if (messages.count) {
-        return messages.firstObject;
+    if (BChatSDK.config.debugModeEnabled) {
+        [BCoreUtilities checkDuplicateThread];
+        [BCoreUtilities checkOnMain];
     }
-    return Nil;
+
 }
+//
+//-(id<PMessage>) newestMessage {
+//    [self checkOnMain];
+//    
+//    [self willAccessValueForKey:NSStringFromSelector(_cmd)];
+//    CDMessage * message = [self primativeNewestMessage];
+//    [self didAccessValueForKey:NSStringFromSelector(_cmd)];
+//
+//    if (!message) {
+//        NSArray * messages = [BChatSDK.db loadMessagesForThread:self newest:1];
+//        if (messages.count) {
+//            [self setNewestMessage:messages.firstObject];
+//        }
+//    }
+//    
+//    return message;
+//}
 
 -(id<PMessage>) oldestMessage {
     [self checkOnMain];
@@ -126,6 +174,8 @@
 
     message.thread = Nil;
     [BChatSDK.db deleteEntity:message];
+    
+    self.newestMessage = [[self messagesOrderedByDateNewestFirst] firstObject];
 }
 
 -(NSArray *) orderMessagesByDateAsc: (NSArray *) messages {
@@ -178,8 +228,12 @@
     [self checkOnMain];
     NSString * name = @"";
     
-    for (id<PUser> user in self.users) {
+    for (id<PUser> user in self.members) {
         if (!user.isMe) {
+            CDUserConnection * connection = [self connection:user.entityID];
+            if (connection && connection.affiliation.isOutcast) {
+                continue;
+            }
             if (user.name.length) {
                 name = [name stringByAppendingFormat:@"%@, ", user.name];
             }
@@ -192,6 +246,19 @@
     return Nil;
 }
 
+-(NSArray<PUser> *) members {
+    NSMutableArray * members = [NSMutableArray new];
+    for (id<PUser> user in self.users) {
+        CDUserConnection * connection = [self connection:user.entityID];
+        if (connection && (connection.hasLeft || connection.affiliation.isOutcast)) {
+            continue;
+        }
+        [members addObject:user];
+    }
+    return members;
+    
+}
+
 -(void) markRead {
     [self checkOnMain];
 
@@ -200,63 +267,99 @@
     NSArray<PMessage> * messages = [BChatSDK.db loadAllMessagesForThread:self newestFirst:YES];
     for(id<PMessage> message in messages) {
         if (!message.isRead && !message.senderIsMe) {
+            [message setDelivered: @YES];
             [message setRead: @YES];
             
             // TODO: Should we have this here? Maybe this gets called too soon
             // but it's a good backup in case the app closes before we save
-            [message setDelivered: @YES];
             didMarkRead = YES;
         }
     }
     if (didMarkRead) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadRead object:Nil];
+        [BHookNotification notificationThreadMarkedRead:self];
     }
-//    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationThreadRead object:Nil];
 }
 
--(int) unreadMessageCount __deprecated {
-    [self checkOnMain];
-
-    int i = 0;
-    NSArray<PMessage> * messages = [BChatSDK.db loadAllMessagesForThread:self newestFirst:YES];
-    for (id<PMessage> message in messages) {
-        if (!message.isRead && !message.senderIsMe) {
-            i++;
-        }
-    }
-    return i;
+-(int) unreadMessageCount {
+    return [BChatSDK.db unreadMessagesCountNow:self.entityID];
 }
 
 -(id<PThread>) model {
     return self;
 }
 
--(void) addUser: (id<PUser>) user {
+-(BOOL) addUser: (id<PUser>) user {
     [self checkOnMain];
-    if ([user isKindOfClass:[CDUser class]]) {
-        if (![self containsUser:user]) {
-            [self addUsersObject:(CDUser *)user];
+    @synchronized (self) {
+        if ([user isKindOfClass:[CDUser class]]) {
+            if (![self containsUser:user]) {
+                [self addUsersObject:(CDUser *)user];
+                [self addConnection:user];
+                return YES;
+            }
         }
+        return NO;
     }
 }
 
-- (void)removeUser:(id<PUser>) user {
+-(BOOL) addConnection: (id<PUser>) user {
+    @synchronized (self) {
+        if (![self connection:user.entityID]) {
+            CDUserConnection * connection = [BChatSDK.db fetchOrCreateUserConnectionWithID:user.entityID withType:bUserConnectionTypeMember];
+            [self addUserConnectionsObject:connection];
+            return YES;
+        }
+        return NO;
+    }
+}
+
+-(BOOL) removeConnection: (id<PUser>) user {
+    CDUserConnection * connection = [self connection:user.entityID];
+    if (connection) {
+        [self removeUserConnectionsObject:connection];
+        [BChatSDK.db deleteEntity:connection];
+        return YES;
+    }
+    return NO;
+}
+
+-(NSArray<id<PUserConnection>> *) connections {
+    return self.userConnections;
+}
+
+-(id<PUserConnection>) connection: (NSString *) entityID {
+    [self checkOnMain];
+    for (id<PUserConnection> u in self.userConnections) {
+        if ([u.entityID isEqualToString: entityID]) {
+            return u;
+        }
+    }
+    return nil;
+}
+
+- (BOOL) removeUser:(id<PUser>) user {
     [self checkOnMain];
     if ([user isKindOfClass:[CDUser class]]) {
         if ([self containsUser: user]) {
             [self removeUsersObject:(CDUser *) user];
+            [self removeConnection:user];
+            return YES;
         }
     }
+    return NO;
 }
 
 -(BOOL) containsUser: (id<PUser>) user {
     [self checkOnMain];
+    
     for (id<PUser> u in self.users) {
         if ([u.entityID isEqualToString:user.entityID]) {
             return true;
         }
     }
-    return false;
+    
+    // Check connections too
+    return [self connection:user.entityID] != nil;
 }
 
 -(BOOL) containsMessage: (id<PMessage>) message {

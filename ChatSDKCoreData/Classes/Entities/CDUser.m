@@ -49,13 +49,7 @@
 
 -(NSString *) pushChannel {
     NSString * channel = self.entityID;
-    channel = [channel stringByReplacingOccurrencesOfString:@"." withString:@"1"];
-    channel = [channel stringByReplacingOccurrencesOfString:@"%2E" withString:@"1"];
-    channel = [channel stringByReplacingOccurrencesOfString:@"@" withString:@"2"];
-    channel = [channel stringByReplacingOccurrencesOfString:@"%40" withString:@"2"];
-    channel = [channel stringByReplacingOccurrencesOfString:@":" withString:@"3"];
-    channel = [channel stringByReplacingOccurrencesOfString:@"%3A" withString:@"3"];
-    return channel;
+    return [BCoreUtilities md5: channel].lowercaseString;
 }
 
 -(void) updateMeta: (NSDictionary *) dict {
@@ -68,10 +62,6 @@
 -(void) setMetaValue: (id) value forKey: (NSString *) key {
     [self updateMeta:@{key: [NSString safe: value]}];
 }
-
-//-(void) addContact: (id<PUser>) user {
-//    [self addConnection:user withType:bUserConnectionTypeContact];
-//}
 
 // TODO: Do we need this?
 -(NSArray *) contactsWithType: (bUserConnectionType) type {
@@ -194,11 +184,6 @@
     [self updateMeta:@{bUserImageURLKey: url}];
 }
 
-// TODO: Remove UI dependency on CoreData
-//-(UIImage *) defaultImage {
-//    return [Icons getWithName:Icons.defaultProfile];
-//}
-
 -(BOOL) isMe {
     return [self isEqualToEntity:BChatSDK.currentUser];
 }
@@ -206,47 +191,5 @@
 -(BOOL) isEqualToEntity: (id<PEntity>) entity {
     return [self.entityID isEqualToString:entity.entityID];
 }
-
--(void) clearPublicKeys {
-    [self setMetaValue:@{} forKey:bUserPublicKeysKey];
-}
-
--(BOOL) addPublicKey: (NSString *) key identifier: (NSString *) identifier {
-    [BChatSDK.shared.logger log: @"Public Key - Add - %@, %@, %@", BChatSDK.currentUserID, identifier, key];
-    if (!key || !key.length) {
-        return false;
-    }
-    NSMutableDictionary * keys = [NSMutableDictionary dictionaryWithDictionary:self.meta[bUserPublicKeysKey]];
-    for (NSString * existing in keys.allValues) {
-        if ([existing isEqual:key]) {
-            return false;
-        }
-    }
-    [keys setObject:key forKey:identifier];
-    [self setMetaValue:keys forKey:bUserPublicKeysKey];
-    return true;
-}
-
--(void) removePublicKey: (NSString *) key {
-    NSMutableDictionary * keys = [NSMutableDictionary dictionaryWithDictionary:self.meta[bUserPublicKeysKey]];
-    NSString * identifier;
-    for (NSString * existing in keys.allKeys) {
-        if ([keys[existing] isEqual:key]) {
-            identifier = existing;
-            break;
-        }
-    }
-    [keys removeObjectForKey:identifier];
-    [self setMetaValue:keys forKey:bUserPublicKeysKey];
-}
-
--(NSString *) publicKeyForIdentifier: (NSString *) identifier {
-    return self.publicKeys[identifier];
-}
-
--(NSDictionary *) publicKeys {
-    return self.meta[bUserPublicKeysKey];
-}
-
 
 @end

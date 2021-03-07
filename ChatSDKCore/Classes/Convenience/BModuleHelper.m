@@ -12,77 +12,14 @@
 
 -(instancetype) init {
     if((self = [super init])) {
-        _excludingModules = [NSMutableArray new];
-        _activated = [NSMutableArray new];
     }
     return self;
 }
 
--(void) activateModules {
-    [self activateCommonModules:[self currentServer]];
-}
-
--(NSString *) currentServer {
-    bool firebaseAdapter = NSClassFromString(@"BFirebaseNetworkAdapter") != Nil;
-    bool xmppAdapter = NSClassFromString(@"BXMPPNetworkAdapter") != Nil;
-    
-    if(firebaseAdapter && xmppAdapter) {
-        
-        [BChatSDK.shared.logger log:@"You should only have one network adapter active in the project. The project will be setup to use the server type defined in configuration.defaultServer"];
-    }
-    else {
-        if(firebaseAdapter) {
-            return bServerFirebase;
-        }
-        if(xmppAdapter) {
-            return bServerXMPP;
-        }
-    }
-    return BChatSDK.config.defaultServer;
-}
-
--(void) activateModulesForFirebase {
-    [self activateCommonModules:bServerFirebase];
-}
-
--(void) activateModulesForXMPP {
-    [self activateCommonModules: bServerXMPP];
-}
-
--(void) activateCommonModules: (NSString *) server {
-    [self activateModuleForName:@"BBlockingModule"];
-    [self activateModuleForName:@"BLastOnlineModule"];
-    [self activateModuleForName:@"BAudioMessageModule"];
-    [self activateModuleForName:@"BVideoMessageModule"];
-    [self activateModuleForName:@"BNearbyUsersModule"];
-    [self activateModuleForName:@"BReadReceiptsModule"];
-    [self activateModuleForName:@"BTypingIndicatorModule"];
-    [self activateModuleForName:@"BStickerMessageModule"];
-    [self activateModuleForName:@"BFileMessageModule"];
-    [self activateModuleForName:@"BDiagnosticModule"];
-    [self activateModuleForName:@"BContactBookModule"];
-//    [self activateModuleForName:@"EncryptionModule"];
-    [self activateModuleForName:@"BKeyboardOverlayOptionsModule"];
-}
-
 -(void) activateCoreModules {
-    NSString * server = [self currentServer];
-    
-    if([server isEqualToString:bServerFirebase]) {
-        [self activateModuleForName:@"BFirebaseNetworkAdapterModule"];
-        [self activateModuleForName:@"BDefaultUIModule"];
-        [self activateModuleForName:@"BFirebaseSocialLoginModule"];
-    }
-    if([server isEqualToString:bServerXMPP]) {
-        [self activateModuleForName:@"BXMPPModule"];
-//        [self activateModuleForName:@"BXMPPModule"];
-    }
-    
+    [self activateModuleForName:@"BDefaultUIModule"];
     [self activateModuleForName:@"BCoreDataStorageModule"];
     [self activateModuleForName:@"BReachabilityModule"];
-
-    [self activateModuleForName:@"BFirebaseFileStorageModule" server:server];
-    [self activateModuleForName:@"BFirebasePushModule"];
 }
 
 -(BOOL) activateModuleForName: (NSString *) name {
@@ -90,9 +27,6 @@
 }
 
 -(BOOL) activateModuleForName: (NSString *) name server: (NSString *) server {
-    if ([self shouldExclude:name]) {
-        return NO;
-    }
     Class module = NSClassFromString(name);
     if (module) {
         id<PModule> instance = (id<PModule>) [[module alloc] init];
@@ -103,21 +37,12 @@
             [instance activate];
         }
         [BChatSDK.shared.logger log:@"%@ activated successfully", name];
-        [_activated addObject:name];
         return YES;
     }
     else {
         [BChatSDK.shared.logger log:@"%@ wasn't available", name];
         return NO;
     }
-}
-
--(BOOL) shouldExclude: (NSString *) moduleName {
-    return [_excludingModules containsObject:moduleName] || [_activated containsObject:moduleName];;
-}
-
--(void) excludeModules: (NSArray *) modules {
-    [_excludingModules addObjectsFromArray:modules];
 }
 
 @end

@@ -11,11 +11,16 @@
 #import <ChatSDK/Core.h>
 #import <ChatSDK/CoreData.h>
 
-#define bSubscriptionTypeKey @"subscriptionType"
+#define SubscriptionTypeKey @"subscriptionType"
 
-#define bSubscriptionTypeStringTo @"to"
-#define bSubscriptionTypeStringFrom @"from"
-#define bSubscriptionTypeStringBoth @"both"
+#define SubscriptionTypeStringTo @"to"
+#define SubscriptionTypeStringFrom @"from"
+#define SubscriptionTypeStringBoth @"both"
+
+#define IsActive @"isActive"
+#define HasLeft @"hasLeft"
+#define Affiliation @"affiliation"
+#define Role @"role"
 
 @implementation CDUserConnection
 
@@ -31,19 +36,19 @@
 }
 
 -(void) setSubscriptionType:(NSString *)subscriptionType {
-    [self setMetaValue:subscriptionType forKey:bSubscriptionTypeKey];
+    [self setMetaValue:subscriptionType forKey:SubscriptionTypeKey];
 }
 
 -(bSubscriptionType) subscriptionType {
-    NSString * type = [self.meta metaStringForKey:bSubscriptionTypeKey];
+    NSString * type = [self.meta metaStringForKey:SubscriptionTypeKey];
     
-    if ([type isEqualToString:bSubscriptionTypeStringTo]) {
+    if ([type isEqualToString:SubscriptionTypeStringTo]) {
         return bSubscriptionTypeTo;
     }
-    if ([type isEqualToString:bSubscriptionTypeStringFrom]) {
+    if ([type isEqualToString:SubscriptionTypeStringFrom]) {
         return bSubscriptionTypeFrom;
     }
-    if ([type isEqualToString:bSubscriptionTypeStringBoth]) {
+    if ([type isEqualToString:SubscriptionTypeStringBoth]) {
         return bSubscriptionTypeBoth;
     }
     return bSubscriptionTypeNone;
@@ -63,5 +68,55 @@
 -(BOOL) isEqualToEntity: (id<PEntity>) entity {
     return [self.entityID isEqualToString:entity.entityID];
 }
+
+-(BOOL) setRole: (NSString *) role {
+    if (role != self.role) {
+        [self setMetaValue:role forKey:Role];
+        return true;
+    }
+    return false;
+}
+
+-(NSString *) role {
+    return self.meta[Role];
+}
+
+-(BOOL) setAffiliation: (NSString *) affiliation {
+    if (affiliation != self.affiliation) {
+        [self setMetaValue:affiliation forKey:Affiliation];
+        return true;
+    }
+    return false;
+}
+
+-(NSString *) affiliation {
+    return self.meta[Affiliation];
+}
+
+-(BOOL) setIsActive:(BOOL) isActive {
+    if (isActive != self.isActive) {
+        [self setMetaValue:@(isActive) forKey:IsActive];
+        return true;
+    }
+    return false;
+}
+
+-(BOOL) isActive {
+    return [self.meta[IsActive] boolValue];
+}
+
+-(BOOL) setHasLeft:(BOOL) hasLeft {
+    if (hasLeft != self.hasLeft) {
+        [self setMetaValue:@(hasLeft) forKey:HasLeft];
+        return true;
+    }
+    return false;
+}
+
+-(BOOL) hasLeft {
+    return [self.meta[HasLeft] boolValue];
+}
+
+
 
 @end

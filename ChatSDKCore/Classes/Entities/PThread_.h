@@ -72,8 +72,10 @@ typedef enum {
 -(void) setDeletedDate: (NSDate *) date;
 -(NSDate *) deletedDate;
 
--(void) addUser: (id<PUser>) user;
--(void) removeUser:(id<PUser>) user;
+-(BOOL) addUser: (id<PUser>) user;
+-(BOOL) removeUser:(id<PUser>) user;
+
+-(void) addMessageAndSort: (id<PMessage>) message;
 -(void) addMessage: (id<PMessage>) message;
 -(void) addMessage: (id<PMessage>) theMessage toStart: (BOOL) toStart;
 -(void) removeMessage: (id<PMessage>) message;
@@ -83,6 +85,9 @@ typedef enum {
 -(NSSet *) users;
 -(id<PUser>) otherUser;
 -(id<PMessage>) newestMessage;
+
+// Active members - i.e. doesn't include banned members
+-(NSArray<PUser> *) members;
 
 -(void) markRead;
 -(int) unreadMessageCount;
@@ -113,5 +118,10 @@ typedef enum {
 -(NSString *) draft;
 -(BOOL) typeIs: (bThreadType) type;
  
+-(BOOL) addConnection: (PUser *) user;
+-(BOOL) removeConnection: (PUser *) user;
+-(NSArray<id<PUserConnection>> *) connections;
+-(id<PUserConnection>) connection: (NSString *) entityID;
+
 @end
 

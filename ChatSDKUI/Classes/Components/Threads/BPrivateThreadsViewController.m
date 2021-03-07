@@ -92,10 +92,9 @@
     return YES;
 }
 
--(void) reloadData {
+-(void) loadThreads {
     [_threads removeAllObjects];
     [_threads addObjectsFromArray:[BChatSDK.thread threadsWithType:bThreadFilterPrivateThread includeDeleted:NO]];
-    [super reloadData];
 }
 
 -(void) updateLocalNotificationHandler {
@@ -103,6 +102,13 @@
         BOOL result = !(thread.type.intValue & bThreadFilterPrivate);
         return result;
     }];
+}
+
+-(void) updateBadge {
+    [BChatSDK.db privateThreadUnreadMessageCount].thenOnMain(^id(NSNumber * result) {
+        self.tabBarItem.badgeValue = result.intValue > 0 ? result.stringValue : nil;
+        return nil;
+    }, nil);
 }
 
 @end

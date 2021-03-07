@@ -12,7 +12,7 @@
 #define bAvailabilityStateAvailable @"available"
 #define bAvailabilityStateAway @"away"
 #define bAvailabilityStateBusy @"dnd"
-#define bAvailabilityStateEntendedAway @"xa"
+#define bAvailabilityStateExtendedAway @"xa"
 
 @interface BAvailabilityState : NSObject
 

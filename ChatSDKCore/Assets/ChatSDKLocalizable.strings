@@ -23,7 +23,7 @@
 "bBroadcast" = "Broadcasts";
 "bThreadCreationError" = "Thread creation failed";
 "bChatRooms" = "Chat Rooms";
-"bPickFriends" = "Pick Friends";
+"bSelectUsers" = "Select Users";
 "bReset" = "Reset";
 "bLogin" = "Login";
 "bRegister" = "Register";
@@ -55,11 +55,15 @@
 "bFlag" = "Flag";
 "bDelete" = "Delete";
 "bUnflag" = "Unflag";
+"bDestroy" = "Destroy";
+"bDestroyAndDelete" = "Destroy and delete chat for all users?";
 
 "bSearch" = "Search";
 "bSearching" = "Searching";
-"bAddUsers" = "Add users";
+"bAddUsers" = "Add Users";
 "bNoNearbyUsers" = "No nearby users";
+"bNearbyUsersModuleDisabled" = "Nearby Users Module Disabled";
+
 
 "away" = "Away";
 "xa" = "Extended Away";
@@ -85,6 +89,8 @@
 "bPhotoLibrary" = "Photo Library";
 "bPhotoAlbum" = "Saved Photo Album";
 
+"bImageUnavailable" = "Image could not be loaded";
+
 "bTakePhotoOrVideo" = "Take photo or video";
 "bChooseExistingPhoto" = "Choose existing photo";
 "bChooseExistingVideo" = "Choose existing video";
@@ -98,11 +104,11 @@
 "bTapHereForContactInfo" = "tap here for contact info";
 "bPhoneNumber" = "Phone Number";
 "bEmail" = "Email";
-"bDetails" = "Details";
 "bAddParticipant" = "Add Participant";
 "bLeaveConversation" = "Leave Conversation";
 "bRejoinConversation" = "Rejoin Conversation";
 "bParticipants" = "Participants";
+"bMe" = "Me";
 "bActiveParticipants" = "Active Participants";
 "bNoActiveParticipants" = "No Active Participants";
 "bDone" = "Done";
@@ -113,6 +119,22 @@
 "b_at_" = "%@ at %@";
 "bToday" = "Today";
 "bYesterday" = "Yesterday";
+
+"bActive" = "Active";
+
+"moderator" = "Moderator";
+"participant" = "Participant";
+"visitor" = "Visitor";
+
+"admin" = "Admin";
+"owner" = "Owner";
+"member" = "Member";
+"outcast" = "Outcast";
+
+"bRole" = "Role";
+"bViewProfile" = "View Profile";
+"bSilence" = "Silence";
+"bModeration" = "Moderation";
 
 "bSearchTerm" = "Search Term";
 "bWaitingForNetwork" = "Waiting for Network";
@@ -144,8 +166,7 @@
 "bAudioLengthLimitReached" = "Audio Length Limit Reached";
 "bSendOrDiscardRecording" = "Send or discard recording";
 
-"bAddFriend" = "Add Friend";
-"bRemoveFriend" = "Remove Friend";
+"bRemoveFromGroup" = "Remove from Group";
 
 "bBlock" = "Block";
 "bUnblock" = "Unblock";

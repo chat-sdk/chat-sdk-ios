@@ -36,14 +36,19 @@
 +(void) notificationUserWillDisconnect;
 +(void) notificationAllMessagesDeletedForThreads: (NSArray *) threads;
 
++(void) notificationThreadsUpdated;
 +(void) notificationThreadAdded: (id<PThread>) thread;
 +(void) notificationThreadRemoved: (id<PThread>) thread;
 +(void) notificationThreadUpdated: (id<PThread>) thread;
 +(void) notificationThreadUsersUpdated: (id<PThread>) thread;
++(void) notificationThreadUserRoleUpdated: (id<PThread>) thread user: (id<PUser>) user;
++(void) notificationThreadMarkedRead: (id<PThread>) thread;
++(void) notificationMessageReadReceiptUpdated:(id<PMessage>) message;
 
 +(void) notificationSettingsUpdated: (NSString *) itemId newValue: (id) value;
 
 +(void) notificationWillPushUser: (id<PUser>) user;
++(void) notificationUserUpdated: (id<PUser>) user;
 
 //+(void) notificationWillResignActive: (UIApplication *) app;
 //+(void) notificationDidBecomeActive: (UIApplication *) app;

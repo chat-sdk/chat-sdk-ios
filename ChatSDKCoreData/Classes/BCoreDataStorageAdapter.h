@@ -18,6 +18,8 @@
     NSManagedObjectModel * _model;
     NSPersistentStoreCoordinator * _store;
     NSTimer * _saveTimer;
+    
+    NSMutableDictionary * _entityCache;
 }
 
 

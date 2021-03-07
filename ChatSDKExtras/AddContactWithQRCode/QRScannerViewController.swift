@@ -117,8 +117,8 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
 
     func found(code: String) {
         // Add the contact
-        let user = BChatSDK.core()?.user(forEntityID: code)
-        _ = BChatSDK.contact()?.addContact(user, with: bUserConnectionTypeContact)?.thenOnMain({ success in
+        let user = BChatSDK.core().user(forEntityID: code)
+        _ = BChatSDK.contact().addContact(user, with: bUserConnectionTypeContact)?.thenOnMain({ success in
             self.view.makeToast(Bundle.t(bSuccess))
             self.dismiss(animated: true, completion: nil)
             return nil

@@ -21,6 +21,10 @@
     return [UIImage imageNamed:path];
 }
 
+-(UIImage *) imageName: (NSString *) name {
+    return [UIImage imageNamed:[self.resourcePath stringByAppendingFormat:@"/%@", name]];
+}
+
 +(NSBundle *) bundleWithName: (NSString *) name {
     return [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:name ofType:@"bundle"]];
 }

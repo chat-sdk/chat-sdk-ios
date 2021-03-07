@@ -29,6 +29,7 @@
 -(BOOL) isAuthenticated;
 -(BOOL) isAuthenticatedThisSession;
 -(BOOL) cachedCredentialAvailable;
+-(NSString *) cachedPassword;
 
 /**
  * @brief Logout the user from the current account

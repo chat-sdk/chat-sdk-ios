@@ -15,6 +15,7 @@
 @protocol PModule <NSObject>
 
 -(void) activate;
+//-(NSString *) name;
 
 @optional
 

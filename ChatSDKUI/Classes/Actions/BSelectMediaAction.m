@@ -8,6 +8,7 @@
 #import "BSelectMediaAction.h"
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @implementation BSelectMediaAction
 
@@ -28,25 +29,26 @@
     if (!_picker) {
         _picker = [[UIImagePickerController alloc] init];
         _picker.delegate = self;
+        _picker.allowsEditing = NO;
         //_picker.allowsEditing = YES; // We comment this out as we are now editing with TOCropViewController
     }
     
     // Choose whether we want to show video, images or the camera with images and video
     if (_type == bPictureTypeAlbumVideo) {
-        _picker.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
+        _picker.mediaTypes = @[(NSString *)kUTTypeMovie];
     }
     else if (_type == bPictureTypeAlbumImage) {
-        _picker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *)kUTTypeImage, nil];
+        _picker.mediaTypes = @[(NSString *)kUTTypeImage];
     }
     else if (_type == bPictureTypeCameraVideo) {
-        _picker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *)kUTTypeImage, (NSString *) kUTTypeMovie, nil];
+        _picker.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
     }
     else {
-        _picker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *)kUTTypeImage, nil];
+        _picker.mediaTypes = @[(NSString *)kUTTypeImage];
     }
     
     // Make sure our picker is set to album as elsewhere we are using it for the camera
-    _picker.sourceType = _type == bPictureTypeCameraImage || _type == bPictureTypeCameraVideo ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary;
+    _picker.sourceType = (_type == bPictureTypeCameraImage || _type == bPictureTypeCameraVideo) ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary;
     
     
     // This code fixes an issue where the picker isn't loaded in iOS 8 and above sometimes on devices
@@ -62,17 +64,48 @@
     // This causes a warning but it seems to be harmless
     // http://stackoverflow.com/questions/40086636/creating-an-image-format-with-an-unknown-type-is-an-error-objective-c-xcode-8
     
+    
     // This checks whether we are adding image or video (public.movie for video)
     if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:@"public.image"]) {
-        
-        UIImage * image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        
-        TOCropViewController * cropViewController = [[TOCropViewController alloc] initWithImage:image];
-        cropViewController.delegate = self;
-        
-        [picker dismissViewControllerAnimated:NO completion:^{
-            [_controller presentViewController:cropViewController animated:NO completion:nil];
+
+        [_picker dismissViewControllerAnimated:YES completion:^{
+            UIImage * image = [info objectForKey:UIImagePickerControllerOriginalImage];
+            if (image) {
+                [self processSelectedImage:image error:nil];
+            } else {
+                [self processSelectedImage:nil error:[NSBundle t:bImageUnavailable]];
+            }
         }];
+        
+//        UIImage * image = [info objectForKey:UIImagePickerControllerOriginalImage];
+//
+//        if (!image) {
+//            NSURL * url = info[UIImagePickerControllerReferenceURL];
+//
+//            __weak __typeof(self) weakSelf = self;
+//            ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset) {
+//                ALAssetRepresentation *rep = [myasset defaultRepresentation];
+//                CGImageRef iref = [rep fullResolutionImage];
+//                if (iref) {
+//                    UIImage * image = [UIImage imageWithCGImage:iref];
+//                    [weakSelf processSelectedImage:image error:nil];
+//                }
+//            };
+//
+//            ALAssetsLibraryAccessFailureBlock failureblock  = ^(NSError *myerror) {
+//                [weakSelf processSelectedImage:nil error:myerror.localizedDescription];
+//                [_controller.view makeToast:[myerror localizedDescription]];
+//            };
+//
+//            ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+//
+//            [assetslibrary assetForURL:url
+//                               resultBlock:resultblock
+//                              failureBlock:failureblock];
+//
+//        } else {
+//            [self processSelectedImage:image error: [NSBundle t:bImageUnavailable]];
+//        }
         
         //[self sendImage:image];
     }
@@ -136,6 +169,21 @@
 
         }];
 
+    }
+}
+
+-(void) processSelectedImage: (UIImage *) image error: (NSString *) error {
+    if (image) {
+        TOCropViewController * cropViewController = [[TOCropViewController alloc] initWithImage:image];
+        cropViewController.delegate = self;
+        
+//        [_picker dismissViewControllerAnimated:NO completion:^{
+            [_controller presentViewController:cropViewController animated:NO completion:nil];
+//        }];
+    } else {
+//        [_picker dismissViewControllerAnimated:NO completion:^{
+            [_controller.view makeToast:error];
+//        }];
     }
 }
 

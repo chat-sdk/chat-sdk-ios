@@ -43,7 +43,8 @@
 @property (weak, nonatomic) IBOutlet UIView * _tokenView;
 @property (weak, nonatomic) IBOutlet UITextField * groupNameTextField;
 @property (weak, nonatomic) IBOutlet UIView * groupNameView;
-
+@property (nonatomic, readwrite) BOOL hideGroupNameView;
+ 
 @property (nonatomic, readwrite) int maximumSelectedUsers;
 
 -(instancetype) initWithUsersToExclude: (NSArray *) users onComplete: (void(^)(NSArray * users, NSString * name)) action;

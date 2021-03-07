@@ -32,7 +32,8 @@ typedef enum {
 } bMessagePos;
 
 typedef enum {
-    bMessageActionRemoveUser = 1
+    bMessageActionUserLeftGroup = 1,
+    bMessageActionUserGroupInvite = 2
 } bMessageAction;
 
 
@@ -53,10 +54,9 @@ typedef enum {
 #define bMessageLatitude @"latitude"
 #define bMessageAudioURL @"audio-url"
 #define bMessageAudioLength @"audio-length"
+#define bMessageEncryptedPayloadKey @"encrypted-message"
 
 #define bMessageSystemType @"system-type"
-
-#define bMessageOriginalThreadEntityID @"original-thread-entity-id"
 
 #define bMessageIsHistoric @"historic"
 
@@ -148,10 +148,14 @@ typedef enum {
 
 @optional
 
+
 -(void) setReadStatus:(NSDictionary *)status;
--(void) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid;
+-(BOOL) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid date: (NSDate *) date;
+-(BOOL) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid;
 -(bMessageReadStatus) readStatusForUserID: (NSString *) uid;
 -(bMessageReadStatus) messageReadStatus;
 -(void) setMetaValue: (id) value forKey: (NSString *) key;
+-(void) setupInitialReadReceipts;
+-(void) setReadReceiptsTo: (bMessageReadStatus) status;
 
 @end

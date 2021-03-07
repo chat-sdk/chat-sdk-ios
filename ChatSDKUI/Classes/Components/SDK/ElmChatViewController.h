@@ -81,7 +81,7 @@
 @property (nonatomic, readonly) BMessageManager * messageManager;
 @property (nonatomic, readwrite) ChatHeaderView * headerView;
 
--(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate;
+-(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate_ nibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil;
 
 -(void) setTitle: (NSString *) title;
 -(void) setSubtitle: (NSString *) subtitle;
@@ -111,9 +111,11 @@
 
 -(void) keyboardWillShow: (NSNotification *) notification;
 -(void) keyboardWillHide: (NSNotification *) notification;
+-(void) keyboardDidHide: (NSNotification *) notification;
 
 -(void) setupTextInputView: (BOOL) forceSuper;
 
 -(void) reloadData: (BOOL) scroll animate: (BOOL) animate force: (BOOL) force;
+-(void) setReadOnly: (BOOL) readOnly;
 
 @end

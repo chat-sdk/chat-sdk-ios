@@ -32,7 +32,6 @@ typedef enum {
  * @brief Return the current user data
  */
 -(id<PUser>) currentUserModel;
--(RXPromise *) currentUserModelAsync;
 
 // TODO: Consider removing / refactoring this
 /**
@@ -69,15 +68,13 @@ typedef enum {
  * changes are lost. Calling save forces Core Data to persist the data to perminant storage
  */
 -(void) save;
--(NSDate *) now;
+-(nonnull NSDate *) now;
 
 @optional
 
 -(bConnectionStatus) connectionStatus;
 -(void) reconnect;
-// Save the data to perminent storage
-//-(void) saveToStore;
--(void) activate;
+-(void) activate; 
 
 
 @end

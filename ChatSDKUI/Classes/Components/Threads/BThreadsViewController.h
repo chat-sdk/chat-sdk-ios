@@ -20,8 +20,8 @@
     id _typingObserver;
     NSMutableDictionary * _threadTypingMessages;
     
-    BNotificationObserverList * _notificationList;
-
+    BNotificationObserverList * _disposeOnDisappear;
+    BNotificationObserverList * _disposeOnDealloc;
 }
 
 @property (nonatomic, readwrite) UITableView *tableView;
@@ -31,9 +31,20 @@
 
 -(void) updateLocalNotificationHandler;
 -(void) pushChatViewControllerWithThread: (id<PThread>) thread;
--(void) reloadData;
 -(void) setEditingEnabled: (BOOL) enabled;
 -(void) toggleEditing;
 -(void) createThread;
+
+// Load the threads from the database
+-(void) loadThreads;
+
+// Reload threads, sort and refresh the table view
+-(void) loadThreadsAndReloadData;
+
+// Reload the tableView
+-(void) sortAndReloadData;
+
+// Reload the tableView
+-(void) reloadData;
 
 @end

@@ -21,8 +21,6 @@
 #define bDeletedKey @"deleted"
 #define bPushSent @"push-sent"
 
-// Deprecated in favour of bType
-#define bTypeV4 @"type_v4"
 #define bType @"type"
 #define bId @"id"
 #define bDate @"date"
@@ -34,8 +32,6 @@
 #define bMute @"mute"
 #define bUnmute @"unmute"
 
-// Deprecated in favour of bCreator
-#define bCreatorEntityID @"creator-entity-id"
 #define bCreator @"creator"
 #define bSenderEntityID @"sender-entity-id"
 #define bLastMessage @"lastMessage"
@@ -54,7 +50,6 @@
 #define bStatusOwner @"owner"
 
 // Paths
-#define bDetailsPath @"details"
 #define bTypingPath @"typing" // Typing Indicator
 
 #define bUsersPath @"users"
@@ -76,6 +71,7 @@
 #define bLocationPath @"location"
 #define bTimeKey @"time"
 #define bNameKey @"name"
+#define bPublicKey @"public-key"
 
 #define bLoginTypeKey @"login-type"
 #define bLoginEmailKey @"login-email"
@@ -87,7 +83,6 @@
 #define bUserStatusTextKey bStatus
 #define bUserNameKey bNameKey
 #define bUserEmailKey @"email"
-#define bUserPublicKeysKey @"public-keys"
 #define bUserPhoneKey @"phone"
 #define bUserPrefixKey @"user"
 #define bUserImageURLKey @"pictureURL"

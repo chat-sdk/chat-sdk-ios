@@ -32,7 +32,11 @@
         textView.textColor = [UIColor grayColor];
         textView.textAlignment = NSTextAlignmentCenter;
 
-        self.bubbleImageView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1];
+        if (@available(iOS 13.0, *)) {
+            self.bubbleImageView.backgroundColor = [UIColor systemGray4Color];
+        } else {
+            self.bubbleImageView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1];
+        }
         self.bubbleImageView.layer.cornerRadius = 10;
         
         textView.contentInset = UIEdgeInsetsMake(-9.0, -5.0, 0.0, 0.0);
@@ -52,12 +56,25 @@
     
     textView.text = dict[bMessageText];
     
+    _readMessageImageView.hidden = true;
+    
     int type = [dict[bMessageTypeKey] intValue];
-    if (type == bSystemMessageTypeInfo) {
-        self.bubbleImageView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1];
-    }
-    if (type == bSystemMessageTypeError) {
-        self.bubbleImageView.backgroundColor = [UIColor colorWithRed:1.0 green:0.9 blue:0.9 alpha:1];
+    if (@available(iOS 13.0, *)) {
+        self.backgroundColor = [UIColor systemGray4Color];
+        if (type == bSystemMessageTypeInfo) {
+            self.bubbleImageView.backgroundColor = [UIColor systemGray4Color];
+        }
+        if (type == bSystemMessageTypeError) {
+            self.bubbleImageView.backgroundColor = [UIColor systemRedColor];
+        }
+
+    } else {
+        if (type == bSystemMessageTypeInfo) {
+            self.bubbleImageView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1];
+        }
+        if (type == bSystemMessageTypeError) {
+            self.bubbleImageView.backgroundColor = [UIColor colorWithRed:1.0 green:0.9 blue:0.9 alpha:1];
+        }
     }
 
 }
@@ -81,8 +98,8 @@
     // Update the content view size for the message length
     [self cellContentView].frame = CGRectMake(padding.left,
                                               padding.top,
-                                              self.messageWidth,
-                                              self.messageHeight);
+                                              [BSystemMessageCell messageContentWidth:_message maxWidth:300].floatValue,
+                                              [BSystemMessageCell messageContentHeight:_message maxWidth:300].floatValue);
     
     // Layout the profile picture
     [self hideProfilePicture];

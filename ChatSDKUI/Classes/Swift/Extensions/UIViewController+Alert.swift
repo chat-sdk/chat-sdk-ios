@@ -21,4 +21,14 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         self.present(alert, animated: true, completion: completion)
     }
+    public func showAlert(title: String, message: String, accept: (() -> Void)? = nil, reject: (() -> Void)? = nil, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { sender in
+            accept?()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { sender in
+            reject?()
+        }))
+        self.present(alert, animated: true, completion: completion)
+    }
 }

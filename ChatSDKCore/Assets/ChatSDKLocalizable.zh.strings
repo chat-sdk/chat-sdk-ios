@@ -88,7 +88,6 @@
 "bTapHereForContactInfo" = "点击此处以查看名片";
 "bPhoneNumber" = "手机号";
 "bEmail" = "邮箱";
-"bDetails" = "详细信息";
 "bAddParticipant" = "添加成员";
 "bLeaveConversation" = "离开会话";
 "bRejoinConversation" = "重新加入会话";
@@ -132,8 +131,6 @@
 "bAudioLengthLimitReached" = "已达到语音长度限制";
 "bSendOrDiscardRecording" = "发送或删除录音";
 
-"bAddFriend" = "添加好友";
-"bRemoveFriend" = "删除好友";
 
 "bBlock" = "加入黑名单";
 "bUnblock" = "从黑名单中移除";

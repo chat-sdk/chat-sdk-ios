@@ -24,5 +24,7 @@
 @dynamic users;
 @dynamic draft;
 @dynamic userAccountID;
+@dynamic userConnections;
+@dynamic newestMessage;
 
 @end

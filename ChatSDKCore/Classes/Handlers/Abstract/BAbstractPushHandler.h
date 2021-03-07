@@ -19,6 +19,5 @@
     BLocalNotificationDelegate * notificationDelegate;
 }
 
--(NSString *) safeChannel: (NSString *) channel;
 
 @end

@@ -25,8 +25,6 @@
 @synthesize chatMessagesToLoad;
 @synthesize messagesToLoadPerBatch;
 @synthesize pushNotificationSound;
-@synthesize firebaseGoogleServicesPlistName;
-@synthesize firebaseShouldConfigureAutomatically;
 @synthesize locationMessagesEnabled;
 @synthesize imageMessagesEnabled;
 @synthesize googleMapsApiKey;
@@ -72,6 +70,7 @@
 @synthesize audioMessageMaxLengthSeconds;
 @synthesize maxImageDimension;
 @synthesize disableSendButtonWhenDisconnected;
+@synthesize disableSendButtonWhenNotReachable;
 
 @synthesize xmppPort;
 @synthesize xmppDomain;
@@ -93,12 +92,10 @@
 @synthesize remote;
 @synthesize remoteConfigEnabled;
 
-@synthesize firebaseApp;
 @synthesize firebaseStorageURL;
 @synthesize firebaseDatabaseURL;
 @synthesize firebaseFunctionsRegion;
 @synthesize enableWebCompatibility;
-@synthesize enableCompatibilityWithV4;
 @synthesize xmppSendPushOnAck;
 
 @synthesize messageDeletionEnabled;
@@ -106,7 +103,9 @@
 @synthesize xmppPingTimeout;
 @synthesize xmppPingInterval;
 @synthesize xmppOutgoingMessageQueueEnabled;
-@synthesize disableSendButtonWhenNotReachable;
+@synthesize xmppPubsubNode;
+@synthesize identiconBaseURL;
+@synthesize threadDestructionEnabled;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -149,9 +148,7 @@
         chatMessagesToLoad = messagesToLoadPerBatch;
 
         audioMessageMaxLengthSeconds = 300;
-        
-        firebaseShouldConfigureAutomatically = YES;
-        
+                
         locationMessagesEnabled = YES;
         imageMessagesEnabled = YES;
         termsAndConditionsEnabled = YES;
@@ -178,10 +175,12 @@
         showProfileViewOnTap = YES;
         
         rootPath = @"pre_1";
-                
+        identiconBaseURL = @"https://identicon.sdk.chat?value=%@&size=400.png";
+        
         anonymousLoginEnabled = NO;
         
         userChatInfoEnabled = YES;
+        threadDestructionEnabled = YES;
         
         maxImageDimension = 600;
         
@@ -229,10 +228,10 @@
         
         publicChatAutoSubscriptionEnabled = NO;
         enableWebCompatibility = NO;
-        enableCompatibilityWithV4 = YES;
         xmppOutgoingMessageQueueEnabled = NO;
         xmppSendPushOnAck = NO;
         
+        xmppPubsubNode = @"chatsdk";
     }
     return self;
 }

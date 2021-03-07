@@ -6,7 +6,6 @@
 //
 
 import Foundation
-//import ChatSDK
 import UIKit
 
 @objc public class ProfileSection: NSObject {

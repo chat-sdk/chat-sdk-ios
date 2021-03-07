@@ -43,6 +43,7 @@
 @property (nonatomic, readwrite) UIViewController * privateThreadsViewController;
 @property (nonatomic, readwrite) UIViewController * publicThreadsViewController;
 @property (nonatomic, readwrite) UIViewController * flaggedMessagesViewController;
+@property (nonatomic, readwrite) ModerationProvider moderationViewController;
 @property (nonatomic, readwrite) UIViewController * contactsViewController;
 @property (nonatomic, readwrite) UIViewController * mainViewController;
 @property (nonatomic, readwrite) UIViewController * (^searchViewController)(NSArray * usersToExclude, void(^usersAdded)(NSArray * users));

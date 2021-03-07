@@ -27,5 +27,6 @@
 -(void) setAway;
 -(void) setOffline;
 -(void) setAvailabilityLabelText: (NSString *) state;
+-(void) setAvailability: (NSString *) availability;
 
 @end

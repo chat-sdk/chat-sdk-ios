@@ -110,13 +110,12 @@
     return YES;
 }
 
--(void) reloadData {
+-(void) loadThreads {
     [_threads removeAllObjects];
     
     NSArray * threads = [BChatSDK.thread threadsWithType:bThreadTypePublicGroup];
     [_threads addObjectsFromArray:threads];
     
-    [super reloadData];
 }
 
 -(void) updateLocalNotificationHandler {
@@ -124,6 +123,15 @@
         BOOL result = !(thread.type.intValue & bThreadFilterPublic);
         return result;
     }];
+}
+
+-(void) updateBadge {
+    int count = 0;
+    for (id<PThread> thread in _threads) {
+        count += thread.unreadMessageCount;
+    }
+    self.tabBarItem.badgeValue = count > 0 ? [@(count) stringValue] : nil;
+
 }
 
 @end

@@ -17,6 +17,7 @@
 @dynamic meta;
 @dynamic type;
 @dynamic owner;
+@dynamic thread;
 @dynamic userAccountID;
 
 @end

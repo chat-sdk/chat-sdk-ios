@@ -16,10 +16,6 @@
 -(RXPromise *) sendMessageWithSticker: (NSString *) stickerName withThreadEntityID: (NSString *) threadID;
 -(Class) cellClass;
 
--(NSString *) stickerPlistName;
--(NSBundle *) stickerBundle;
--(void) setStickerPlistName: (NSString *) name withBundle: (NSBundle *) bundle;
-
 @end
 
 #endif /* PStickersHandler_h */

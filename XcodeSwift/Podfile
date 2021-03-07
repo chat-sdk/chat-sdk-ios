@@ -7,7 +7,7 @@ target 'ChatSDKSwift' do
 
   pod "ChatSDK", :path => "../"
   pod "ChatSDKFirebase/Adapter", :path => "../"
-  pod "ChatSDKFirebase/FileStorage", :path => "../"
+  pod "ChatSDKFirebase/Upload", :path => "../"
   pod "ChatSDKFirebase/Push", :path => "../"
   pod "ChatSDKFirebase/FirebaseUI", :path => "../"
 

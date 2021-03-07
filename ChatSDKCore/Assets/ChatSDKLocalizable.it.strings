@@ -94,7 +94,6 @@
 "bTapHereForContactInfo" = "fai tap qui per info sul contatto";
 "bPhoneNumber" = "Numero telefonico";
 "bEmail" = "Email";
-"bDetails" = "Dettagli";
 "bAddParticipant" = "Aggiungi partecipante";
 "bLeaveConversation" = "Lascia conversazione";
 "bRejoinConversation" = "Rientra nella conversazione";
@@ -138,8 +137,6 @@
 "bAudioLengthLimitReached" = "Raggiunto il limite di durata audio";
 "bSendOrDiscardRecording" = "Invia o cancella registrazione";
 
-"bAddFriend" = "Aggiungi amico";
-"bRemoveFriend" = "Elimina amico";
 
 "bBlock" = "Blocca";
 "bUnblock" = "Sblocca";

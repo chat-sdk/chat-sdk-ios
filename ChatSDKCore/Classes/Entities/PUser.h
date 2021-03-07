@@ -30,7 +30,6 @@
  */
 -(NSNumber *) online;
 
-
 /**
  * @brief User's large image - only ever seen by user
  * @para NSData Image in binary format
@@ -90,15 +89,6 @@
 -(void) updateMeta: (NSDictionary *) dict;
 -(RXPromise *) updateAvatarFromURL;
 
--(BOOL) addPublicKey: (NSString *) key identifier: (NSString *) identifier;
--(void) removePublicKey: (NSString *) key;
--(NSString *) publicKeyForIdentifier: (NSString *) identifier;
--(NSDictionary *) publicKeys;
--(void) clearPublicKeys;
-
-@optional
-
--(void) optimize;
 
 @end
 

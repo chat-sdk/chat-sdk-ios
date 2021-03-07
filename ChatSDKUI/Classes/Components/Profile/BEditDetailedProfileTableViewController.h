@@ -46,4 +46,7 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell *phoneCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;
 
+- (IBAction)profilePictureButtonPressed:(UIButton *)sender;
+-(void) setProfileImage: (UIImage *) image;
+
 @end

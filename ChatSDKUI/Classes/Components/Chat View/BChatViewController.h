@@ -24,7 +24,9 @@
 @property (nonatomic, readwrite) BOOL usersViewLoaded;
 
 -(instancetype) initWithThread: (id<PThread>) thread;
-- (void) updateSubtitle;
+-(instancetype) initWithThread: (id<PThread>) thread nibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil;
+
+-(void) updateSubtitle;
 -(void) updateTitle;
 -(void) doViewWillDisappear: (BOOL) animated;
 

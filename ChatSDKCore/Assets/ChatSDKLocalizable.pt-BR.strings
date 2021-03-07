@@ -108,7 +108,6 @@
 "bTapHereForContactInfo" = "Toque aqui para informações de contato";
 "bPhoneNumber" = "Número de Telefone";
 "bEmail" = "Email";
-"bDetails" = "Detalhes";
 "bAddParticipant" = "Adicionar Participantes";
 "bLeaveConversation" = "Sair da Conversa";
 "bRejoinConversation" = "Entrar na Conversa";
@@ -160,8 +159,6 @@
 "bSendOrDiscardRecording" = "Enviar ou descartar gravação de áudio";
  
  
-"bAddFriend" = "Adicionar Amigo";
-"bRemoveFriend" = "Remover Amigo";
  
  
 "bBlock" = "Bloquear";

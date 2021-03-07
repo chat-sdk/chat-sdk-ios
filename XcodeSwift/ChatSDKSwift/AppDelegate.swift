@@ -19,13 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     /* Two Factor Auth */
     //var verifyViewController:BVerifyViewController?;
-    var firebaseUIModule: BFirebaseUIModule?
+    var firebaseUIModule: FirebaseUIModule?
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let config = BConfiguration.init();
         config.rootPath = "pre_1"
-        config.allowUsersToCreatePublicChats = true
+        config.allowUsersToCreatePublicChats = false
         config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
         config.clearDatabaseWhenDataVersionChanges = true
         config.clearDataWhenRootPathChanges = true;
@@ -42,18 +42,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        config.messageBubbleMaskFirst = "chat_bubble_right_SS.png"
 //        config.messageBubbleMaskSingle = "chat_bubble_right_S0.png"
         
-
-        BChatSDK.initialize(config, app: application, options: launchOptions)
         
+
+        var modules = [
+            FirebaseNetworkAdapterModule.shared(),
+            FirebasePushModule.shared(),
+            FirebaseUploadModule.shared()
+        ]
+
         // If you want to use Firebase UI
         let useFirebaseUI = true
         if useFirebaseUI {
+            let module = FirebaseUIModule.init()
             let authUI = FUIAuth.defaultAuthUI()
-            let providers = [FUIEmailAuth(), FUIOAuth.appleAuthProvider(), FUIPhoneAuth.init(authUI: authUI!)]
-            
-            firebaseUIModule = BFirebaseUIModule()
-            firebaseUIModule?.activate(withProviders: providers)
+            module.setProviders([FUIEmailAuth(), FUIOAuth.appleAuthProvider(), FUIPhoneAuth.init(authUI: authUI!)])
+            modules.append(module)
         }
+
+        BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules)
+
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();

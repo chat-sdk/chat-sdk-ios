@@ -70,18 +70,16 @@
     self.hideSectionsWithHiddenRows = YES;
     
     [self refreshInterfaceAnimated:NO];
-
-    __weak __typeof(self) weakSelf = self;
-    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
-                                                      object:Nil
-                                                       queue:Nil
-                                                  usingBlock:^(NSNotification * notification) {
-                                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                                          [weakSelf reloadDataAnimated:NO];
-                                                      });
-
-    }];
     
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
+        id<PUser> user = dict[bHook_PUser];
+        if (user) {
+            [self reloadDataAnimated:NO];
+            [self refreshInterfaceAnimated:NO];
+        }
+    }] withName:bHookUserUpdated]];
+    
+    __weak __typeof(self) weakSelf = self;
     [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         weakSelf.user = Nil;
     }] withName:bHookDidLogout];
@@ -90,20 +88,32 @@
 //    if (backButtonTitle.length > 9) {
 //        backButtonTitle = [[backButtonTitle substringToIndex:9] stringByAppendingString:@"..."];
 //    }
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStylePlain target:Nil action:Nil];
-
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
-                                                                      object:Nil
-                                                                       queue:Nil
-                                                                  usingBlock:^(NSNotification * notification) {
-                                                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                                                          [weakSelf refreshInterfaceAnimated:NO];
-                                                                      });
-    }]];
     
+    
+    if (@available(iOS 13.0, *)) {
+
+    } else {
+        if([self presentingViewController]) {
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+        }
+    }
+    
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStylePlain target:Nil action:Nil];
     self.navigationItem.titleView = [ReconnectingView new];
 
 
+}
+
+-(void) settings {
+    UIViewController * settingsViewController = BChatSDK.ui.settingsViewController;
+    if (settingsViewController) {
+        [self presentViewController:settingsViewController animated:true completion:nil];
+    }
+}
+
+-(void) back {
+    [self dismissViewControllerAnimated:true completion:nil];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -111,6 +121,10 @@
     
     if(!user) {
         user = BChatSDK.currentUser;
+    }
+    
+    if (!self.navigationItem.leftBarButtonItem && user.isMe && BChatSDK.ui.settingsSections.count > 0 && BChatSDK.ui.settingsViewController) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_25_settings"] style:UIBarButtonItemStylePlain target:self action:@selector(settings)];
     }
     
     [self refreshInterfaceAnimated:NO];
@@ -137,12 +151,26 @@
     self.profilePictureButton.userInteractionEnabled = NO;
     if (!self.user.isMe) {
         self.title = user.name;
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_22_chat"]
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(startChat)];
+        
+        NSMutableArray * rightBarButtonItems = [NSMutableArray new];
+        
+        UIBarButtonItem * chatItem = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_25_chat"]
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(startChat)];
+
+        if (BChatSDK.call) {
+            [rightBarButtonItems addObject:chatItem];
+            [rightBarButtonItems addObject:[[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_25_call"]
+                                                                          style:UIBarButtonItemStylePlain
+                                                                         target:self
+                                                                  action:@selector(startCall)]];
+            self.navigationItem.rightBarButtonItems = rightBarButtonItems;
+        } else {
+            self.navigationItem.rightBarButtonItem = chatItem;
+        }
+
     }
-    
     //
     // Name
     //
@@ -189,7 +217,7 @@
     //
 
     [profilePictureButton loadAvatarForUser:user forControlState:UIControlStateNormal];
-
+    
     //
     // State
     //
@@ -398,6 +426,9 @@
     }];
 }
 
+-(void) startCall {
+    [BChatSDK.call callWithUser:self.user.entityID viewController: self];
+}
 
 -(BOOL) isContact {
     id<PUserConnection> userConnection = self.userConnection;
@@ -419,7 +450,9 @@
 }
 
 - (IBAction)moreButtonPressed:(id)sender {
-    [self presentViewController:[BChatSDK.ui profileOptionsViewControllerWithUser:user] animated:YES completion:Nil];
+    UIViewController * vc = [BChatSDK.ui profileOptionsViewControllerWithUser:user];
+    UINavigationController * nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController: nvc animated:YES completion:Nil];
 }
 
 

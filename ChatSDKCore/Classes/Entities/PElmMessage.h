@@ -48,6 +48,7 @@
 -(id<PElmMessage>) previousMessage;
 
 -(bMessageReadStatus) messageReadStatus;
+-(NSNumber *) read;
 
 -(NSDictionary *) meta;
 

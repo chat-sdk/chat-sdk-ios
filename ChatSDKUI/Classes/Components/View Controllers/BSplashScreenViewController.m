@@ -60,7 +60,7 @@
         [self pushLoginViewController];
     }
     
-    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+    [BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         if (self.impl_shouldPushViewControllerOnAuth) {
             NSString * type = data[bHook_AuthenticationType];
             if ([type isEqualToString:bHook_AuthenticationTypeCached]) {
@@ -75,7 +75,7 @@
         }
     }] withName:bHookDidAuthenticate];
     
-    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+    [BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         [self pushLoginViewController];
     }] withName:bHookDidLogout];
 }

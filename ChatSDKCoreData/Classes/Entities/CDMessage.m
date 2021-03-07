@@ -145,10 +145,22 @@
     return bMessageReadStatusNone;
 }
 
--(void) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid {
-    NSMutableDictionary * mutableStatus = [NSMutableDictionary dictionaryWithDictionary:self.readStatus];
-    mutableStatus[uid] = @{bStatus: @(status_)};
-    [self setReadStatus:mutableStatus];
+-(BOOL) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid {
+    return [self setReadStatus:status_ forUserID:uid date:BChatSDK.core.now];
+}
+
+-(BOOL) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid date: (NSDate *) date {
+//    if (status_ != [self readStatusForUserID:uid]) {
+    if (status_ > [self readStatusForUserID:uid]) {
+        NSMutableDictionary * mutableStatus = [NSMutableDictionary dictionaryWithDictionary:self.readStatus];
+        mutableStatus[uid] = @{bStatus: @(status_), bDate: date};
+        [self setReadStatus:mutableStatus];
+        if (status_ == bMessageReadStatusRead && [uid isEqualToString:BChatSDK.currentUserID]) {
+            self.read = @YES;
+        }
+        return true;
+    }
+    return false;
 }
 
 -(bMessageReadStatus) messageReadStatus {
@@ -161,8 +173,18 @@
     int readCount = 0;
     
     NSDictionary * messageStatus = self.readStatus;
+    
+    if (!messageStatus.count) {
+        return bMessageReadStatusRead;
+    }
 
-    for (NSDictionary * userStatus in messageStatus.allValues) {
+    NSString * currentUserID = BChatSDK.currentUserID;
+    for (NSString * key in messageStatus.allKeys) {
+        if ([key isEqual:currentUserID]) {
+            continue;
+        }
+        
+        NSDictionary * userStatus = messageStatus[key];
         bMessageReadStatus status = [userStatus[bStatus] intValue];
         if (status != bMessageReadStatusHide) {
             if (status == bMessageReadStatusDelivered) {
@@ -244,4 +266,27 @@
     return [self.meta[bType] intValue];
 }
 
+-(void) setupInitialReadReceipts {
+    // Setup the initial read receipts
+    if (self.thread) {
+        NSMutableDictionary * mutableStatus = [NSMutableDictionary dictionaryWithDictionary:self.readStatus];
+        for (id<PUser> user in self.thread.members) {
+            if (user.isMe) {
+                mutableStatus[user.entityID] = @{bStatus: @(bMessageReadStatusRead), bDate: BChatSDK.core.now};
+            } else {
+                mutableStatus[user.entityID] = @{bStatus: @(bMessageReadStatusNone), bDate: BChatSDK.core.now};
+            }
+        }
+        [self setReadStatus:mutableStatus];
+    }
+}
+
+-(void) setReadReceiptsTo: (bMessageReadStatus) status {
+    // Setup the initial read receipts
+    NSMutableDictionary * messageStatus = [NSMutableDictionary dictionaryWithDictionary:self.readStatus];
+    for (NSString * key in messageStatus.allKeys) {
+        messageStatus[key] = @{bStatus: @(status), bDate: BChatSDK.core.now};
+    }
+    [self setReadStatus:messageStatus];
+}
 @end

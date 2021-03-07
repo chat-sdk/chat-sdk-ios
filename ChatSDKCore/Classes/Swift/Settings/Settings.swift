@@ -12,7 +12,7 @@ import SAMKeychain
     
     public override init() {
         super.init()
-        BChatSDK.hook()?.add(BHook.init(_: { [weak self] dict in
+        BChatSDK.hook().add(BHook.init(_: { [weak self] dict in
             if let id = dict?[bHook_StringId] as? String, let value = dict?[bHook_ObjectValue] {
                 if let boolValue = value as? Bool {
                     self?.setValue(bool: boolValue, key: id)

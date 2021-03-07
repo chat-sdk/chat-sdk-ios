@@ -33,6 +33,7 @@
 @protocol PInternetConnectivityHandler;
 @protocol PEventHandler;
 @protocol PThreadHandler;
+@protocol CallHandler;
 
 // Depricated: Use bHookDidLogout (and hook system) instead
 #define bNotificationLogout @"bNLogout"
@@ -46,28 +47,11 @@
 #define bNotificationFlaggedMessageRemoved @"bNFlaggedMessageRemoved"
 #define bNotificationFlaggedMessageRemoved_PMessage @"bNFlaggedMessageRemoved_PMessage"
 
-#define bNotificationUserUpdated @"bNUserUpdated"
-#define bNotificationUserUpdated_PUser @"bNUserUpdated_PUser"
-
-#define bNotificationThreadRead @"bNThreadRead"
-#define bNotificationBadgeUpdated @"bNBadgeUpdated"
-
 #define bNotificationPresentChatView @"bNPresentChatView"
 #define bNotificationPresentChatView_PThread @"bNPresentChatView_PThread"
 
-//#define bNotificationThreadUsersUpdated @"bNThreadUsersUpdated"
-//#define bNotificationThreadMetaUpdated @"bNThreadMetaUpdated"
-
 #define bNotificationThreadLastMessageUpdated @"bNThreadLastMessageUpdated"
 #define bNotificationThreadLastMessageUpdated_Text @"bNThreadLastMessageUpdated_Text"
-
-
-#define bNotificationReadReceiptUpdated @"bNReadReceiptUpdated"
-#define bNotificationReadReceiptUpdatedKeyMessage @"bNReadReceiptUpdatedKeyMessage"
-
-//#define bNotificationTypingStarted @"bNTypingStarted"
-//#define bNotificationTypingStartedKeyThread @"bNTypingStartedKeyThread"
-//#define bNotificationTypingStartedKeyUser @"bNTypingStartedKeyUser"
 
 #define bNotificationTypingStateChanged @"bNTypingStateChanged"
 #define bNotificationTypingStateChangedKeyThread @"bNTypingStateChangedKeyThread"
@@ -104,6 +88,7 @@
 -(id<PEncryptionHandler>) encryption;
 -(id<PEventHandler>) event;
 -(id<PThreadHandler>) thread;
+-(id<CallHandler>) call;
 -(id) handlerWithName: (NSString *) name;
 
 -(void) setCore: (id<PCoreHandler>) core;
@@ -132,6 +117,7 @@
 -(void) setEvent: (id<PEventHandler>) event;
 -(void) setThread: (id<PThreadHandler>) thread;
 -(void) setConnectivity: (id<PInternetConnectivityHandler>) connectivity;
+-(void) setCall: (id<CallHandler>) call;
 
 @optional
 

@@ -21,10 +21,11 @@
 @synthesize networkAdapter = _networkAdapter;
 @synthesize logger = _logger;
 @synthesize settings = _settings;
+@synthesize modules = _modules;
 
 static BChatSDK * instance;
 
-+(BChatSDK *) shared {
++(nonnull BChatSDK *) shared {
     
     @synchronized(self) {
         
@@ -59,31 +60,40 @@ static BChatSDK * instance;
     return self;
 }
 
-+(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceAdapter>) adapter {
-    [self.shared initialize:config app:application options:launchOptions interfaceAdapter: adapter];
++(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions modules: (NSArray<PModule> *) modules {
+    [self.shared initialize:config app:application options:launchOptions modules: modules networkAdapter: nil interfaceAdapter: nil];
     [self application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
--(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceAdapter>) adapter {
++(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions  modules: (NSArray<PModule> *) modules networkAdapter:(id<PNetworkAdapter>)networkAdapter interfaceAdapter:(id<PInterfaceAdapter>)interfaceAdapter {
+    [self.shared initialize:config app:application options:launchOptions modules: modules networkAdapter: networkAdapter interfaceAdapter: interfaceAdapter];
+    [self application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+-(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions  modules: (NSArray<PModule> *) modules networkAdapter:(id<PNetworkAdapter>)networkAdapter interfaceAdapter:(id<PInterfaceAdapter>)interfaceAdapter {
+
     _configuration = config;
     
     [_moduleHelper activateCoreModules];
-    if(adapter) {
-        _interfaceAdapter = adapter;
+    for (id<PModule> module in modules) {
+        [module activate];
     }
-    [_moduleHelper activateModules];
+    
+    if(interfaceAdapter) {
+        _interfaceAdapter = interfaceAdapter;
+    }
+    if(networkAdapter) {
+        _networkAdapter = networkAdapter;
+    }
+//    [_moduleHelper activateModules];
     
     _settings = [Settings new];
     
     [self clearDataIfNecessary];
 }
 
-+(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions {
-    [self initialize:config app:application options:launchOptions interfaceAdapter:Nil];
-}
-
 -(void) appWillResignActive: (NSNotification *) notification {
-    if(self.networkAdapter) {
+    if(self.networkAdapter && BChatSDK.auth.isAuthenticated) {
 //        [BHookNotification notificationWillResignActive: notification.object];
         
         if (BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
@@ -112,21 +122,7 @@ static BChatSDK * instance;
     }
 }
 
--(BOOL) activateModuleForName: (NSString *) name {
-    return [_moduleHelper activateModuleForName:name];
-}
 
--(void) activateModules {
-    [_moduleHelper activateModules];
-}
-
--(void) activateModulesForFirebase {
-    [_moduleHelper activateModulesForFirebase];
-}
-
--(void) activateModulesForXMPP {
-    [_moduleHelper activateModulesForXMPP];
-}
 
 // If the configuration isn't set, return a default value
 -(BConfiguration *) config {
@@ -161,10 +157,6 @@ static BChatSDK * instance;
     return YES;
 }
 
--(void) preventAutomaticActivationForModule: (NSString *) moduleName {
-    [_moduleHelper excludeModules:@[moduleName]];
-}
-
 // Authenticate using a Firebase token
 +(RXPromise *) authenticateWithToken: (NSString *) token {
     return [BIntegrationHelper authenticateWithToken:token];
@@ -190,11 +182,9 @@ static BChatSDK * instance;
     
     if (BChatSDK.config.clearDataWhenRootPathChanges && rootPath && newRootPath && ![rootPath isEqualToString:newRootPath]) {
         [BChatSDK.db deleteAllData];
-//        [BChatSDK.db saveToStore];
     }
     else if (BChatSDK.config.clearDatabaseWhenDataVersionChanges && ![databaseVersion isEqual:newDatabaseVersion]) {
         [BChatSDK.db deleteAllData];
-//        [BChatSDK.db saveToStore];
     }
 
     if (newRootPath) {
@@ -319,6 +309,10 @@ static BChatSDK * instance;
 
 +(id<PStorageAdapter>) db {
     return self.shared.storageAdapter;
+}
+
++(id<CallHandler>) call {
+    return self.a.call;
 }
 
 +(id<PFileMessageHandler>) fileMessage {

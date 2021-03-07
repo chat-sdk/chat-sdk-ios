@@ -10,6 +10,8 @@ import UIKit
 
 @objc public class PhotoSourceActionSheet: NSObject {
     
+    var items = [PhotoSourceItem]()
+    
     @objc public func get(onPick: @escaping ((UIImagePickerController.SourceType) -> Void), sourceView: UIView? = nil) -> UIAlertController {
         
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -37,9 +39,31 @@ import UIKit
         optionMenu.addAction(cameraAction)
         optionMenu.addAction(photoLibraryAction)
         optionMenu.addAction(SavedPhotosAction)
+        
+        for item in items {
+            let action = UIAlertAction(title: item.title, style: .default, handler: { alert in
+                item.action(alert)
+            })
+            optionMenu.addAction(action)
+        }
+        
         optionMenu.addAction(cancelAction)
         
         return optionMenu
     }
     
+    @objc public func addItem(item: PhotoSourceItem) {
+        items.append(item)
+    }
+    
 }
+
+@objc public class PhotoSourceItem: NSObject {
+    let title: String
+    let action: ((UIAlertAction) -> Void)
+    @objc public init(title: String, action: @escaping ((UIAlertAction) -> Void)) {
+        self.title = title
+        self.action = action
+    }
+}
+

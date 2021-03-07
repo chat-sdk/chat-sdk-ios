@@ -13,12 +13,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CDThread;
+
 @interface CDUserConnection (CoreDataProperties)
 
 @property (nullable, nonatomic, retain) NSString *entityID;
 @property (nullable, nonatomic, retain) id meta;
 @property (nullable, nonatomic, retain) NSNumber *type;
 @property (nullable, nonatomic, retain) CDUser *owner;
+@property (nullable, nonatomic, retain) CDThread *thread;
 @property (nullable, nonatomic, retain) NSString *userAccountID;
 
 @end

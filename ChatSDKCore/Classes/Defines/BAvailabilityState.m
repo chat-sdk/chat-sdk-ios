@@ -14,7 +14,7 @@
 +(NSArray *) options {
     return @[@[[NSBundle t:bAvailable], bAvailabilityStateChat],
              @[[NSBundle t:bAway], bAvailabilityStateAway],
-             @[[NSBundle t:bExtendedAway], bAvailabilityStateEntendedAway],
+             @[[NSBundle t:bExtendedAway], bAvailabilityStateExtendedAway],
              @[[NSBundle t:bBusy], bAvailabilityStateBusy]];
 }
 

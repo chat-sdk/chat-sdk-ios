@@ -48,33 +48,10 @@
     [self.navigationController setNavigationBarHidden:YES];
     self.navigationController.toolbarHidden = YES;
 
-    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+    [BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         [self setSelectedIndex:0];
     }] withName:bHookDidLogout];
-    
-    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        [weakSelf updateBadge];
-    }] withNames:@[bHookMessageRecieved, bHookMessageWasDeleted, bHookAllMessagesDeleted]];
-    
-    // When a message is recieved we increase the messages tab number
-    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationBadgeUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf updateBadge];
-        });
-    }];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadRead object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf updateBadge];
-        });
-    }];
-    
-    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf updateBadge];
-        });
-    }] withNames: @[bHookThreadAdded, bHookThreadRemoved]];
-    
+        
     [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationPresentChatView object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
         dispatch_async(dispatch_get_main_queue(), ^{
             // Only run this code if this view is visible
@@ -86,9 +63,6 @@
             }
         });
     }];
-    
-    NSInteger badge = [[NSUserDefaults standardUserDefaults] integerForKey:bMessagesBadgeValueKey];
-    [self setPrivateThreadsBadge:badge];
     
     [BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
         NSString * title = dict[bHook_TitleString];
@@ -127,8 +101,6 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self updateBadge];
-    [BChatSDK.core save];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -145,12 +117,12 @@
         }
     }
     
-    [self updateBadge];
-    
     [BChatSDK.ui setLocalNotificationHandler:^(id<PThread> thread) {
         return NO;
     }];
     [self updateShowLocalNotifications:self.selectedViewController];
+
+    [BChatSDK.core save];
 }
 
 -(void) updateShowLocalNotifications: (UIViewController *) viewController {
@@ -172,72 +144,6 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     [BChatSDK.core save];
     [self updateShowLocalNotifications:viewController];
-//    [BChatSDK.core save];
-    [self updateBadge];
-}
-
--(void) updateBadge {
-    
-    [BChatSDK.db privateThreadUnreadMessageCount].thenOnMain(^id(NSNumber * result) {
-        [self setPrivateThreadsBadge:result.intValue];
-        return nil;
-    }, nil);
-
-    // The message view open with this thread?
-    // Get the number of unread messages
-//    int privateThreadsMessageCount = [self unreadMessagesCount:bThreadFilterPrivate];
-//    [self setPrivateThreadsBadge:privateThreadsMessageCount];
-
-    if(BChatSDK.config.showPublicThreadsUnreadMessageBadge) {
-        [BChatSDK.db publicThreadUnreadMessageCount].thenOnMain(^id(NSNumber * result) {
-            [self setBadge:result.intValue forViewController:BChatSDK.ui.publicThreadsViewController];
-            return nil;
-        }, nil);
-
-//        int publicThreadsMessageCount = [self unreadMessagesCount:bThreadFilterPublic];
-//        [self setBadge:publicThreadsMessageCount forViewController:BChatSDK.ui.publicThreadsViewController];
-    }
-    
-}
-
-// Very expensive in terms of CPU
--(int) unreadMessagesCount: (bThreadType) type {
-    
-    // Get all the threads
-    int i = 0;
-    NSArray * threads = [BChatSDK.thread threadsWithType:type];
-    for (id<PThread> thread in threads) {
-
-        [BChatSDK.db unreadMessagesCount:thread.entityID].thenOnMain(^id(id result) {
-            NSLog(@"Result %@", result);
-            return nil;
-        }, nil);
-        
-        i += thread.unreadMessageCount;
-    }
-    return i;
-}
-
-// TODO - move this to a more appropriate place in the code
--(void) setBadge: (int) badge forViewController: (UIViewController *) controller {
-    NSInteger index = [BChatSDK.ui.tabBarViewControllers indexOfObject:controller];
-    if (index != NSNotFound) {
-        // Using self.tabbar will correctly set the badge for the specific index
-        NSString * badgeString = badge == 0 ? Nil : [NSString stringWithFormat:@"%i", badge];
-        [self.tabBar.items objectAtIndex:index].badgeValue = badgeString;
-    }
-}
-
--(void) setPrivateThreadsBadge: (NSInteger) badge {
-    [self setBadge:badge forViewController:BChatSDK.ui.privateThreadsViewController];
-    
-    // Save the value to defaults
-    [[NSUserDefaults standardUserDefaults] setInteger:badge forKey:bMessagesBadgeValueKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    if ([BChatSDK.config appBadgeEnabled]) {
-        [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
-    }
 }
 
 -(NSBundle *) uiBundle {

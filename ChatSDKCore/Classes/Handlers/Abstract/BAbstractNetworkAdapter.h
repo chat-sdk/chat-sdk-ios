@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PNetworkAdapter.h>
 
+
+
 @interface BAbstractNetworkAdapter : NSObject<PNetworkAdapter>
 
 @property (nonatomic, readwrite) id<PCoreHandler> core;
@@ -36,5 +38,6 @@
 @property (nonatomic, readwrite) id<PInternetConnectivityHandler> connectivity;
 @property (nonatomic, readwrite) id<PEventHandler> event;
 @property (nonatomic, readwrite) id<PThreadHandler> thread;
+@property (nonatomic, readwrite) id<CallHandler> call;
 
 @end

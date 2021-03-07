@@ -127,15 +127,23 @@ import KeepLayout
             imageView.keepWidth.equal = 0
         }
         
-        superview?.keepAnimated(withDuration: duration, layout: {
+        if duration == 0 {
             self.keepHeight.equal = 51
-        })
+        } else {
+            superview?.keepAnimated(withDuration: duration, layout: {
+                self.keepHeight.equal = 51
+            })
+        }
     }
 
     @objc public func hide(duration: Double) -> Void {
-        superview?.keepAnimated(withDuration: duration, layout: {
+        if duration == 0 {
             self.keepHeight.equal = 0
-        })
+        } else {
+            superview?.keepAnimated(withDuration: duration, layout: {
+                self.keepHeight.equal = 0
+            })
+        }
     }
     
     @objc public func isVisible() -> Bool {

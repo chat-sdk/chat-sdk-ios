@@ -32,6 +32,7 @@
         // Get rid of padding and margin
         textView.textContainer.lineFragmentPadding = 0;
         textView.textContainerInset = UIEdgeInsetsZero;
+        textView.delegate = self;
         
         textView.font = [UIFont systemFontOfSize:bDefaultFontSize];
         if(BChatSDK.config.messageTextFont) {
@@ -61,7 +62,16 @@
     } else {
         textView.textColor = [Colors getWithName:Colors.incomingDefaultTextColor];
     }
+    textView.dataDetectorTypes = UIDataDetectorTypeAll;
+    textView.selectable = true;
+    textView.userInteractionEnabled = true;
+    textView.editable = false;
     
+}
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction {
+    NSLog(@"Click");
+    return YES;
 }
 
 #pragma Cell sizing static methods

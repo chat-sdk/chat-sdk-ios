@@ -127,7 +127,7 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   use_frameworks!
   pod "ChatSDK"
   pod "ChatSDKFirebase/Adapter"
-  pod "ChatSDKFirebase/FileStorage"
+  pod "ChatSDKFirebase/Upload"
   pod "ChatSDKFirebase/Push"
   ```
   _Optional_
@@ -140,50 +140,6 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
 
 3. Open the **App Delegate** add the following code to initialise the chat
 
-  **Objective C**
-
-  _AppDelegate.m -> application: didFinishLaunchingWithOptions:_
-  
-  ```
-  #import <ChatSDK/UI.h>
-  ```
-
-  Add the following code to the start of your didFinishLaunchingWithOptions function:
-
-  ```
-  BConfiguration * config = [BConfiguration configuration];
-  config.rootPath = @"test";
-  // Configure other options here...
-  
-  [BChatSDK initialize:config app:application options:launchOptions];
-
-  // Optional
-  [[[AddContactWithQRCodeModule alloc] init] activate];
-
-  // Set the root view controller
-  [self.window setRootViewController:BChatSDK.ui.splashScreenNavigationController];
-  ```
-  
-  Then add the following methods:
-  
-  ```
-  - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-      return [BChatSDK application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-  }
-	
-  -(BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-      return [BChatSDK application: app openURL: url options: options];
-  }
-	
-  -(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-      [BChatSDK application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-  }
-	
-  -(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-      [BChatSDK application:application didReceiveRemoteNotification:userInfo];
-  }
-  ```
-  
   **Swift**
   
   _AppDelegate.swift_
@@ -198,15 +154,22 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
   let config = BConfiguration.init();
   config.rootPath = "test"
   // Configure other options here...
-  
   config.allowUsersToCreatePublicChats = true
-  BChatSDK.initialize(config, app: application, options: launchOptions)
   
-  // Optional
-  AddContactWithQRCodeModule().activate()
+  // Define the modules you want to use. 
+  var modules = [
+      FirebaseNetworkAdapterModule.shared(),
+      FirebasePushModule.shared(),
+      FirebaseUploadModule.shared(),
+      // Optional...
+      AddContactWithQRCodeModule.init(),
+  ]
+  
+  BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules)
+  
       
   self.window = UIWindow.init(frame: UIScreen.main.bounds)
-  self.window?.rootViewController = BChatSDK.ui()?.splashScreenNavigationController()
+  self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController()
   self.window?.makeKeyAndVisible();
   ```
   
@@ -216,25 +179,25 @@ The Chat SDK is fully compatible with Swift projects and contains a Swift demo p
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         BChatSDK.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
     }
-    
+
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         BChatSDK.application(application, didReceiveRemoteNotification: userInfo)
     }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        BChatSDK.application(application, didReceiveRemoteNotification: userInfo)
-    }
-    
+
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         return BChatSDK.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         return BChatSDK.application(app, open: url, options: options)
     }
   ```
+
+**Objective C**
   
-  ##### The Root Path
+Check the [demo project](). 
+  
+##### The Root Path
 
   >The root path variable allows you to run multiple Chat SDK instances on one Firebase account. Each different root path will represent a completely separate set of Firebase data. This can be useful for testing because you could have separate **test** and **prod** root paths.
       
@@ -311,6 +274,16 @@ Congratulations! 🎉🎉 You've just turned your app into a fully featured inst
 View the [API documentation here](https://github.com/chat-sdk/docs#custom-authentication).
 
 # Next Steps
+
+## Documentation
+
+- [Docs Home](https://chat-sdk.gitbook.io/chat-sdk/)
+- [iOS Docs](https://chat-sdk.gitbook.io/ios/)
+- [Firebase Schema](https://chat-sdk.gitbook.io/chat-sdk/guides/firebase-schema)
+- [Custom Token Authentication](https://chat-sdk.gitbook.io/chat-sdk/guides/custom-token-authentication)
+- [API Quick Start](https://chat-sdk.gitbook.io/chat-sdk/guides/api-cheatsheet)
+- [Custom File Upload Handler](https://chat-sdk.gitbook.io/chat-sdk/guides/custom-file-upload-handler)
+- [XMPP Setup Guide](https://chat-sdk.gitbook.io/chat-sdk/xmpp/xmpp-setup-guide)
 
 ### Configuration
 
@@ -429,7 +402,7 @@ To install a module you should use the following steps:
 
 1. Copy the module code into your Xcode source code folder and add the files to your project from inside Xcode. If you are using a symlink you can use the symlink script (mentioned above) and then just add a link to the **ChatSDKFirebase** folder to Xcode.
 2. Add any necessary dependencies to your Podfile
-3. As soon as you add the module code, it will be **detected and installed automatically** by the Chat SDK.
+3. Add the modules to the array of modules during configuration.
   
 ### Firebase UI
 

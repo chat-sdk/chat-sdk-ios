@@ -123,9 +123,26 @@
     [BChatSDK.hook executeHookWithName:bHookUserWillDisconnect data:@{}];
 }
 
++(void) notificationThreadsUpdated {
+    [BChatSDK.hook executeHookWithName:bHookThreadsUpdated data:@{}];
+}
+
+
 +(void) notificationThreadAdded: (id<PThread>) thread {
     if(thread) {
         [BChatSDK.hook executeHookWithName:bHookThreadAdded data:@{bHook_PThread:thread}];
+    }
+}
+
++(void) notificationThreadMarkedRead: (id<PThread>) thread {
+    if(thread) {
+        [BChatSDK.hook executeHookWithName:bHookThreadMarkedRead data:@{bHook_PThread:thread}];
+    }
+}
+
++(void) notificationMessageReadReceiptUpdated:(id<PMessage>) message {
+    if(message) {
+        [BChatSDK.hook executeHookWithName:bHookMessageReadReceiptUpdated data:@{bHook_PMessage: message}];
     }
 }
 
@@ -144,6 +161,20 @@
 +(void) notificationThreadUsersUpdated: (id<PThread>) thread {
     if(thread) {
         [BChatSDK.hook executeHookWithName:bHookThreadUpdated data:@{bHook_PThread:thread}];
+    }
+}
+
++(void) notificationThreadUserRoleUpdated: (id<PThread>) thread user: (id<PUser>) user {
+    if (thread && user) {
+        [BChatSDK.hook executeHookWithName:bHookThreadUserRoleUpdated data:@{bHook_PThread: thread, bHook_PUser: user}];
+    }
+}
+
++(void) notificationUserUpdated: (id<PUser>) user {
+    if(user) {
+        [BChatSDK.hook executeHookWithName:bHookUserUpdated data:@{bHook_PUser:user}];
+    } else {
+        [BChatSDK.hook executeHookWithName:bHookUserUpdated data:@{}];
     }
 }
 

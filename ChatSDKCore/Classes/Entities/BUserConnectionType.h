@@ -14,6 +14,7 @@ typedef enum {
     bUserConnectionTypeFriend = 1,
     bUserConnectionTypeFollower = 2,
     bUserConnectionTypeBlocked = 3,
+    bUserConnectionTypeMember = 4,
 } bUserConnectionType;
 
 #endif /* BUserConnectionType_h */

@@ -39,6 +39,18 @@
 -(NSDictionary *) meta;
 -(void) setMetaValue: (id) value forKey: (NSString *) key;
 
+-(BOOL) setRole: (NSString *) role;
+-(NSString *) role;
+
+-(BOOL) setAffiliation: (NSString *) affiliation;
+-(NSString *) affiliation;
+
+-(BOOL) setIsActive: (BOOL) isActive;
+-(BOOL) isActive;
+
+-(BOOL) setHasLeft:(BOOL) hasLeft;
+-(BOOL) hasLeft;
+
 @end
 
 #endif /* PUserConnection_h */

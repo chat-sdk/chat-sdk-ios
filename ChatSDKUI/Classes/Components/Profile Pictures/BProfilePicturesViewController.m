@@ -114,7 +114,7 @@
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.label.text = [NSBundle t:bSaving];
     [BChatSDK.currentUser.meta setValue:_pictures forKey:bUserPictures];
-    BChatSDK.core.pushUser.thenOnMain(^id(id result) {
+    [BChatSDK.core pushUser: true].thenOnMain(^id(id result) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self reloadPictures];
         return Nil;

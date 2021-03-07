@@ -11,8 +11,9 @@
 @class BProfileNameCell;
 @protocol PThread;
 @class BHook;
+@protocol ModerationViewControllerDelegate;
 
-@interface BUsersViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate> {
+@interface BUsersViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, ModerationViewControllerDelegate> {
     
     NSMutableArray * _users;
     id<PThread> _thread;
@@ -28,6 +29,7 @@
 @property (nonatomic, readwrite) UINavigationController * parentNavigationController;
 
 @property (weak, nonatomic) IBOutlet UITableView * tableView;
+@property (nonatomic, readwrite) id<PThread> thread;
 
 -(instancetype) initWithThread: (id<PThread>) thread;
 

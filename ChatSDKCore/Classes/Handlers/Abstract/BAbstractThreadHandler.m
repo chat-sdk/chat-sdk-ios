@@ -58,21 +58,27 @@
 -(NSArray *) threadsWithType:(bThreadType)type includeDeleted: (BOOL) includeDeleted includeEmpty: (BOOL) includeEmpty {
     
     NSMutableArray * threads = [NSMutableArray new];
-    NSArray * allThreads = type & bThreadFilterPrivate ? BChatSDK.currentUser.threads : [BChatSDK.db fetchEntitiesWithName:bThreadEntity];
-    
-    for(id<PThread> thread in allThreads) {
-        if(thread.type.intValue & bThreadFilterPrivate && thread.type.intValue & type) {
-            if(thread.type.intValue & type && (!thread.deletedDate || includeDeleted) && (thread.hasMessages || includeEmpty)) {
+//    NSArray * allThreads = type & bThreadFilterPrivate ? BChatSDK.currentUser.threads : [BChatSDK.db fetchEntitiesWithName:bThreadEntity];
+    NSArray * allThreads = [BChatSDK.db threadsWithType:type];
+
+    if (type & bThreadFilterPrivate) {
+        for(id<PThread> thread in allThreads) {
+            if((!thread.deletedDate || includeDeleted) && (thread.hasMessages || includeEmpty)) {
                 [threads addObject:thread];
             }
         }
-        else if (thread.type.intValue & bThreadFilterPublic && thread.type.intValue & type) {
+    }
+    if (type & bThreadFilterPublic) {
+        for(id<PThread> thread in allThreads) {
+            if ((!thread.deletedDate && !includeDeleted) || (!thread.hasMessages && !includeEmpty)) {
+                continue;
+            }
             if (BChatSDK.config.publicChatRoomLifetimeMinutes == 0) {
                 [threads addObject:thread];
             } else {
                 NSDate * now = [NSDate date];
                 NSTimeInterval interval = [now timeIntervalSinceDate:thread.creationDate];
-                if (interval < BChatSDK.config.publicChatRoomLifetimeMinutes * 60 && (!thread.deletedDate || includeDeleted) && (thread.hasMessages || includeEmpty)) {
+                if (interval < BChatSDK.config.publicChatRoomLifetimeMinutes * 60) {
                     [threads addObject:thread];
                 } else {
                     [thread markRead];
@@ -94,7 +100,7 @@
 
 -(void) sendLocalSystemMessageWithText:(NSString *)text type: (bSystemMessageType) type withThreadEntityID:(NSString *)threadID {
     id<PMessage> message = [[[BMessageBuilder systemMessage:text type:type] thread:threadID] build];
-    [BHookNotification notificationMessageDidSend: message];
+    [BHookNotification notificationMessageReceived:message];
 }
 
 /**
@@ -105,6 +111,7 @@
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
                                 name: (NSString *) name
                                 type: (bThreadType) type
+                            entityID: (NSString *) entityID
                          forceCreate: (BOOL) force
                        threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
     assert(NO);
@@ -117,6 +124,7 @@
     return [self createThreadWithUsers:users
                                   name:name
                                   type:bThreadTypeNone
+                              entityID:nil
                            forceCreate:force
                          threadCreated:threadCreated];
 }
@@ -146,8 +154,22 @@
 /**
  * @brief Remove users from a thread
  */
--(RXPromise *) removeUsers: (NSArray *) users fromThread: (id<PThread>) threadModel {
+
+-(RXPromise *) removeUsers:(NSArray<NSString *> *)userEntityIDs fromThread:(NSString *) threadEntityID {
     assert(NO);
+}
+
+-(BOOL) canRemoveUser: (NSString *) userEntityID fromThread: (NSString *) threadEntityID {
+    return NO;
+}
+
+-(BOOL) canRemoveUsers: (NSArray<NSString *> *) userEntityIDs fromThread: (NSString *) threadEntityID {
+    for (NSString * entityID in userEntityIDs) {
+        if (![self canRemoveUser:entityID fromThread:threadEntityID]) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /**
@@ -317,11 +339,59 @@
     return false;
 }
 
--(NSString *) role: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
-    return nil;
+-(BOOL) canChangeRole: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return false;
+}
+
+-(nonnull NSString *) role: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return @"";
+}
+
+-(nonnull RXPromise *) setRole: (NSString *) role forThread: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return [RXPromise rejectWithReason:nil];
+}
+
+-(nonnull NSArray<NSString *> *) availableRoles: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return @[];
+}
+
+-(BOOL) canChangeVoice: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return false;
+}
+
+-(BOOL) hasVoice: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return true;
+}
+
+-(nonnull RXPromise *) grantVoice: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return [RXPromise rejectWithReason:nil];
+}
+
+-(nonnull RXPromise *) revokeVoice: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return [RXPromise rejectWithReason:nil];
+}
+
+-(BOOL) canChangeModerator: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return false;
+}
+
+-(BOOL) isModerator: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return false;
+}
+
+-(nonnull RXPromise *) grantModerator: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return [RXPromise rejectWithReason:nil];
+}
+
+-(nonnull RXPromise *) revokeModerator: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return [RXPromise rejectWithReason:nil];
 }
 
 -(BOOL) canDelete: (NSString *) threadEntityID {
+    return false;
+}
+
+-(BOOL) canDestroyThread: (nonnull NSString *) threadEntityID {
     return false;
 }
 

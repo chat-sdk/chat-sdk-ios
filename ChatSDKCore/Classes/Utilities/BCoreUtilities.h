@@ -21,7 +21,7 @@
 
 +(NSURL *)getDocumentsURL;
 +(RXPromise *)fetchImageFromURL:(NSURL *)url;
-+(NSString *)getUUID;
++(nonnull NSString *)getUUID;
 
 +(MKCoordinateRegion) regionForLongitude: (double) longitude latitude: (double) latitude;
 +(MKPointAnnotation *) annotationForLongitude: (double) longitude latitude: (double) latitude;
@@ -36,5 +36,6 @@
 
 +(void) checkOnMain;
 +(void) checkDuplicateThread;
++(NSString *)md5: (NSString *) input;
 
 @end

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "4.15.9"
+  s.version          = "4.16.0"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License', :file => 'LICENSE.md' }
@@ -62,7 +62,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'UI' do |s|
 
-	  s.source_files = ['ChatSDKUI/Classes/**/*']
+	  s.source_files = ['ChatSDKUI/Classes/**/*.{swift,h,m}']
 	  s.resource_bundles = {
 		'ChatUI' => ['ChatSDKUI/Assets/**/*', 'ChatSDKUI/Interface/**/*']
 	  }
@@ -93,18 +93,19 @@ Pod::Spec.new do |s|
   
   end
 
+
   
-#     s.subspec 'Extras' do |s|
-# 
-# 	  s.source_files = ['ChatSDKExtras/Classes/**/*']
-# 	  s.resource_bundles = {
-# 		'ChatExtras' => ['ChatSDKExtras/Assets/**/*', 'ChatSDKExtras/Interface/**/*']
-# 	  }
-# 			
-# 	  s.dependency 'SideMenu'
-# 
-# 	  s.dependency 'ChatSDK/UI'
-#   
-#   end
+  # s.subspec 'Extras' do |s|
+
+	 #  s.source_files = ['ChatSDKExtras/Classes/**/*']
+	 #  s.resource_bundles = {
+		# 'ChatExtras' => ['ChatSDKExtras/Assets/**/*', 'ChatSDKExtras/Interface/**/*']
+	 #  }
+			
+	 #  s.dependency 'SideMenu'
+
+	 #  s.dependency 'ChatSDK/UI'
+  
+  # end
       
 end

@@ -10,32 +10,66 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 #define bUserCellIdentifier @"UserCellIdentifier"
-#define bLeaveCellIdentifier @"LeaveCellIdentifier"
-
 #define bCell @"BTableCell"
 
-#define bParticipantsSection 0
-#define bLeaveConvoSection 1
-#define bSectionCount 2
+#define bMeSection 0
+#define bParticipantsSection 1
 
-@interface BUsersViewController ()
+typedef void(^Action)();
+
+@interface BSection: NSObject
+
+@property (nonatomic, readwrite) NSString * title;
+@property (nonatomic, readwrite) Action action;
+@property (nonatomic, readwrite) UIColor * textColor;
+@property (nonatomic, readwrite) UIColor * legacyTextColor;
+
+-(UIColor *) color;
+
+@end
+
+@implementation BSection
+
+-(instancetype) init: (NSString *) title action: (Action) action color: (UIColor *) color legacyColor: (UIColor *) legacy {
+    if ((self = [super init])) {
+        self.title = title;
+        self.action = action;
+        self.textColor = color;
+        self.legacyTextColor = legacy;
+    }
+    return self;
+}
+
+-(UIColor *) color {
+    if (@available(iOS 13.0, *)) {
+        return self.textColor;
+    } else {
+        return self.legacyTextColor;
+    }
+}
+
+@end
+
+@interface BUsersViewController () {
+    NSMutableArray<BSection *> * _sections;
+}
 
 @end
 
 @implementation BUsersViewController
 
 @synthesize tableView;
+@synthesize thread = _thread;
 
 -(instancetype) initWithThread: (id<PThread>) thread {
 
     self = [super initWithNibName:@"BUsersViewController" bundle:[NSBundle uiBundle]];
     if (self) {
-        
-        _users = [NSMutableArray arrayWithArray: thread.users.allObjects];
-        [_users removeObject:BChatSDK.currentUser];
-        
+        _users = [NSMutableArray new];
+        _sections = [NSMutableArray new];
         _thread = thread;
     }
     return self;
@@ -44,7 +78,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = [NSBundle t:bDetails];
+    NSString * title = _thread.displayName;
+    self.title = title;
     
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
     if (version.majorVersion < 13) {
@@ -53,212 +88,309 @@
                                                                                 target:self
                                                                                 action:@selector(backButtonPressed)];
     }
+    
 
-    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bSettings]
-                                                                   style:UIBarButtonItemStylePlain
-                                                                  target:self
-                                                                  action:@selector(settingsButtonPressed)];
+    NSMutableArray * rightItems = [NSMutableArray new];
 
     if (self.settingsActions.count) {
-        self.navigationItem.rightBarButtonItem = rightItem;
+        UIBarButtonItem * settings = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_75_dots"]
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(settingsButtonPressed)];
+        [rightItems addObject:settings];
     }
-
-//    if(_thread.creator.isMe) {
-//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-//                                                                                               target:self
-//                                                                                               action:@selector(addUser)];
-//    }
+    if ([BChatSDK.thread rolesEnabled:_thread.entityID] && [BChatSDK.thread respondsToSelector:@selector(refreshRoles:)]) {
+        UIBarButtonItem * refresh = [[UIBarButtonItem alloc] initWithImage:[NSBundle uiImageNamed:@"icn_75_refresh"]
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(refreshRolesAndReload)];
+        [rightItems addObject:refresh];
+        [self refreshRolesAndReload];
+    }
     
+    self.navigationItem.rightBarButtonItems = rightItems;
+    self.navigationController.presentationController.delegate = self;
+
     if (@available(iOS 13.0, *)) {
         tableView.separatorColor = UIColor.systemGray2Color;
     } else {
         tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
     }
     
-
-//    tableView.separatorColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:204/255.0 alpha:1];
-    
-    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bUserCellIdentifier];
-    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bLeaveCellIdentifier];
-    
+    [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bUserCellIdentifier];
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bCell];
+    
+    __weak __typeof(self) weakSelf = self;
+    _internetConnectionHook = [BHook hookOnMain:^(NSDictionary * data) {
+        if(!BChatSDK.connectivity.isConnected) {
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        }
+    }];
+    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
+        
+    _threadUsersHook = [BHook hookOnMain:^(NSDictionary * data) {
+        [weakSelf reloadOptions];
+    }];
+    
+    [BChatSDK.hook addHook:_threadUsersHook withNames:@[bHookThreadUsersUpdated, bHookThreadUserRoleUpdated]];
+    
+    [self reloadOptions];
+}
+
+-(void) reloadOptions {
+    __weak __typeof(self) weakSelf = self;
+    
+    [_sections removeAllObjects];
+    
+    if ([BChatSDK.thread canAddUsers:_thread.entityID]) {
+        [_sections addObject: [[BSection alloc] init:bAddUsers action:^{
+            [weakSelf addUser];
+        } color:UIColor.systemBlueColor legacyColor:UIColor.blueColor]];
+
+    }
+    
+    // Sections
+    if ([_thread typeIs:bThreadFilterGroup]) {
+        [_sections addObject:[[BSection alloc] init:bLeaveConversation action:^{
+            [BChatSDK.thread deleteThread:_thread];
+            [BChatSDK.thread leaveThread:_thread];
+            
+            [weakSelf.navigationController dismissViewControllerAnimated:NO completion:^{
+                if (weakSelf.parentNavigationController) {
+                    [weakSelf.parentNavigationController popViewControllerAnimated:YES];
+                }
+            }];
+        } color:UIColor.systemRedColor legacyColor:UIColor.redColor]];
+    }
+    
+    if ([BChatSDK.thread canDestroyThread:_thread.entityID]) {
+        [_sections addObject:[[BSection alloc] init:bDestroy action:^{
+            
+            UIAlertAction * deleteAction = [UIAlertAction actionWithTitle:[NSBundle t:bOk] style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+                [BChatSDK.thread destroyThread:weakSelf.thread];
+                [weakSelf dismissViewControllerAnimated:YES completion:^{
+                    [weakSelf.navigationController dismissViewControllerAnimated:YES completion:nil];
+                }];
+            }];
+            
+            [weakSelf alertWithTitle:[NSBundle t:bDestroy] withMessage:[NSBundle t:bDestroyAndDelete] actions:@[deleteAction]];
+            
+        } color:UIColor.systemRedColor legacyColor:UIColor.redColor]];
+    }
+    [self reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-   
-    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
-        if(!BChatSDK.connectivity.isConnected) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-    }];
-    [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
-    
-//    _threadUsersObserver = [[NSNotificationCenter defaultCenter] addObserverForName:bNotificationThreadUsersUpdated object:Nil queue:Nil usingBlock:^(NSNotification * notification) {
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self reloadData];
-//        });
-//    }];
-    
-    _threadUsersHook = [BHook hook:^(NSDictionary * data) {
-        [self reloadData];
-    }];
-    
-    [BChatSDK.hook addHook:_threadUsersHook withName:bHookThreadUsersUpdated];
-
+    [self refreshRolesAndReload];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [BChatSDK.hook removeHook:_internetConnectionHook];
-    [BChatSDK.hook removeHook:_threadUsersHook];
+//    [BChatSDK.hook removeHook:_internetConnectionHook];
+//    [BChatSDK.hook removeHook:_threadUsersHook];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    if (section == bParticipantsSection) {
-        return _users.count ? _users.count : 1;
-    }
-    if (section == bLeaveConvoSection) {
+    if (section == bMeSection) {
         return 1;
     }
-    return 0;
+    else if (section == bParticipantsSection) {
+        return MAX(_users.count, 1);
+    } else {
+        return 1;
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // We only show the add and leave group for private groups
-    return _thread.type.intValue == bThreadTypePrivateGroup ? bSectionCount : 1;
+    return 2 + _sections.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell * cell = [tableView_ dequeueReusableCellWithIdentifier:bCell];
-    
-    if (@available(iOS 13.0, *)) {
-        cell.textLabel.textColor = [UIColor labelColor];
-    } else {
-        cell.textLabel.textColor = [UIColor blackColor];
-    }
-        
-    if (indexPath.section == bParticipantsSection) {
-        
-        if (_users.count) {
             
-            id<PUser> user = _users[indexPath.row];
+    // Reset the image view
+    cell.imageView.image = nil;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    if (indexPath.section == bMeSection || indexPath.section == bParticipantsSection) {
+        id<PUser> user = [self userForIndexPath:indexPath];
+
+        if(user) {
+            BUserCell * userCell = [tableView_ dequeueReusableCellWithIdentifier:bUserCellIdentifier];
             
-            cell.textLabel.text = user.name;
-            [cell.imageView loadAvatar:user];
-            
-            cell.imageView.layer.cornerRadius = 20;
-            cell.imageView.clipsToBounds = YES;
-            
-            CGSize itemSize = CGSizeMake(40, 40);
-            
-            UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
-            CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-            [cell.imageView.image drawInRect:imageRect];
-            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-            
-            UIGraphicsEndImageContext();
-        }
-        else {
+            [userCell setUser:user];
+
+            userCell.statusImageView.hidden = true;
+            [userCell.stateLabel keepVerticallyCentered];
+            userCell.stateLabel.text = @"";
+
+            // Get the user connection
+            if ([BChatSDK.thread rolesEnabled:_thread.entityID]) {
+                NSString * role = [BChatSDK.thread role:_thread.entityID forUser:user.entityID];
+                userCell.subtitle.text = [NSBundle t:role];
+                
+                // Check if the user is active
+                id<PUserConnection> connection = [_thread connection:user.entityID];
+                if (connection && connection.isActive) {
+                    userCell.stateLabel.text = [NSBundle t:bActive];
+                }
+            }
+
+            cell = userCell;
+        } else {
+            if (@available(iOS 13.0, *)) {
+                cell.textLabel.textColor = [UIColor labelColor];
+            } else {
+                cell.textLabel.textColor = [UIColor blackColor];
+            }
             cell.textLabel.text = [NSBundle t:bNoActiveParticipants];
-            cell.imageView.image = nil;
         }
-        
-        cell.textLabel.textAlignment = _users.count ? NSTextAlignmentLeft : NSTextAlignmentCenter;
-        cell.selectionStyle = _users.count ? UITableViewCellSelectionStyleDefault :UITableViewCellSelectionStyleNone;
-        
+
         return cell;
     }
-    
-    if (indexPath.section == bLeaveConvoSection) {
-        
-        // Reset the image view
-        cell.imageView.image = nil;
-        cell.textLabel.text = [NSBundle t:bLeaveConversation];
-        
-        if (@available(iOS 13.0, *)) {
-            cell.textLabel.textColor = [UIColor systemRedColor];
-        } else {
-            cell.textLabel.textColor = [UIColor redColor];
-        }
-        
-        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            
+    if (@available(iOS 13.0, *)) {
+        cell.textLabel.textColor = [UIColor systemRedColor];
+    } else {
+        cell.textLabel.textColor = [UIColor redColor];
     }
+    BSection * section = _sections[indexPath.section - 2];
+
+    cell.textLabel.textColor = section.color;
+    cell.textLabel.text = [NSBundle t:section.title];
     
     return cell;
+}
+
+-(id<PUser>) userForIndexPath: (NSIndexPath *) indexPath {
+    if (indexPath.section == bMeSection) {
+        return BChatSDK.currentUser;
+    } else if (indexPath.section == bParticipantsSection && _users.count) {
+        return _users[indexPath.row];
+    }
+    return nil;
 }
 
 -(void) addUser {
     // Use initWithThread here to make sure we don't show any users already in the thread
     // Show the friends view controller
-    UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:_thread.users.allObjects onComplete:^(NSArray * users, NSString * groupName){
+    __weak __typeof(self) weakSelf = self;
+
+    BFriendsListViewController * friendsListVC = [BChatSDK.ui friendsViewControllerWithUsersToExclude:_users onComplete:^(NSArray * users, NSString * groupName){
         [BChatSDK.thread addUsers:users toThread:_thread].thenOnMain(^id(id success){
-            [self alertWithTitle:[NSBundle t:bSuccess] withMessage:[NSBundle t:bAdded]];
-            
-            [self reloadData];
-            return Nil;
+            [weakSelf refreshRolesAndReload];
+            return success;
         }, Nil);
     }];
-    [((id<PFriendsListViewController>) nav.topViewController) setRightBarButtonActionTitle:[NSBundle t: bAdd]];
     
-    [self presentViewController:nav animated:YES completion:Nil];
+    [friendsListVC setRightBarButtonActionTitle:[NSBundle t:bAdd]];
+    friendsListVC.hideGroupNameView = YES;
+    friendsListVC.maximumSelectedUsers = 0;
+        
+    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:friendsListVC] animated:YES completion:Nil];
 
+}
+
+-(void) refreshRolesAndReload {
+    if ([BChatSDK.thread respondsToSelector:@selector(refreshRoles:)]) {
+        __weak __typeof(self) weakSelf = self;
+        [BChatSDK.thread refreshRoles:_thread.entityID].thenOnMain(^id(id success) {
+            // Is this needed because if we refresh, then the updates should be made using notifications
+            [weakSelf reloadData];
+            return success;
+        }, nil);
+    } else {
+        [self reloadData];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // The add user button
-    if (indexPath.section == bParticipantsSection) {
+    if (indexPath.section == bParticipantsSection || indexPath.section == bMeSection) {
+        id<PUser> user = [self userForIndexPath:indexPath];
         
-        if (_users.count) {
-            id<PUser> user = _users[indexPath.row];
+        if (user) {
             
-            // Open the users profile
-            UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:user];
-            [self.navigationController pushViewController:profileView animated:YES];
-        }
-    }
-    if (indexPath.section == bLeaveConvoSection) {
-        
-        [BChatSDK.thread deleteThread:_thread];
-        [BChatSDK.thread leaveThread:_thread];
-        
-        [self.navigationController dismissViewControllerAnimated:NO completion:^{
-            if (self.parentNavigationController) {
-                [self.parentNavigationController popViewControllerAnimated:YES];
+            // Launch the moderation view controller if:
+            // - User is not me
+            // - Roles are enabled
+            // - We can moderate that user i.e.
+            // -- We can change their role
+            // -- We can change moderator
+            // -- We can change voice
+            
+            id<PThreadHandler> th = BChatSDK.thread;
+            
+            BOOL showModerationView = !user.isMe;
+            showModerationView = showModerationView && [th rolesEnabled:_thread.entityID];
+            
+            if (showModerationView) {
+                BOOL canModerateUser = [th canChangeRole:_thread.entityID forUser:user.entityID] || [th canChangeModerator:_thread.entityID forUser:user.entityID] || [th canChangeVoice:_thread.entityID forUser: user.entityID] || [th canRemoveUser:user.entityID fromThread:_thread.entityID];
+                showModerationView = showModerationView && canModerateUser;
             }
-        }];
+
+            if (showModerationView) {
+                UIViewController<PModerationViewController> * moderationViewController = [BChatSDK.ui moderationViewControllerWithThread:_thread withUser:user];
+                [moderationViewController setDelegate: self];
+//                [moderationViewController setDelegateWithDelegate:self];
+//                SEL selector = NSSelectorFromString(@"setDelegate:");
+//                if ([moderationViewController respondsToSelector:selector]) {
+//                    NSInvocation * inv = [NSInvocation invocationWithMethodSignature:[moderationViewController methodSignatureForSelector:selector]];
+//                    [inv setSelector:selector];
+//                    [inv setTarget:moderationViewController];
+//                    [inv setArgument:&(self) atIndex:2];
+//                    [inv invoke];
+//                }
+                [self presentViewController:[[UINavigationController alloc] initWithRootViewController:moderationViewController] animated:YES completion:nil];
+            } else {
+                // Open the users profile
+                UIViewController * profileView = [BChatSDK.ui profileViewControllerWithUser:user];
+                [self presentViewController:[[UINavigationController alloc] initWithRootViewController:profileView] animated:YES completion:nil];
+            }
+            
+        }
+    } else {
+        _sections[indexPath.section - 2].action();
     }
     
     [tableView_ deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+-(void) moderationViewWillDisappear {
+    [self refreshRolesAndReload];
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    
     if (section == bParticipantsSection) {
-        
-        if (_thread.type.integerValue & bThreadFilterPrivate) {
-            return [NSBundle t:bParticipants];
-        }
-        else {
-            return _thread.users.allObjects.count > 0 ? [NSBundle t:bActiveParticipants] : [NSBundle t:bNoActiveParticipants];
-        }
+        return [NSBundle t:bParticipants];
     }
-    if (section == bLeaveConvoSection) {
-        return @"";
+    if (section == bMeSection) {
+        return [NSBundle t:bMe];
     }
     return @"";
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 55;
+}
+
 - (void)reloadData {
+    [_users removeAllObjects];
+    for (id<PUser> user in _thread.members) {
+        if (!user.isMe) {
+            [_users addObject:user];
+        }
+    }
     
-    _users = [NSMutableArray arrayWithArray: _thread.users.allObjects];
-    [_users removeObject:BChatSDK.currentUser];
+    [_users sortAlphabetical];
     
     [self.tableView reloadData];
 }
+
 
 #pragma TextField delegate
 
@@ -294,23 +426,16 @@
 -(NSArray<UIAlertAction *> *) settingsActions {
     NSMutableArray * items = [NSMutableArray new];
     
+    __weak __typeof(self) weakSelf = self;
     if (BChatSDK.thread.canMuteThreads) {
         NSString * text = _thread.meta[bMute] ? bUnmute : bMute;
         UIAlertAction *mute = [UIAlertAction actionWithTitle:[NSBundle t:text] style:UIAlertActionStyleDefault
                                                      handler:^(UIAlertAction * action) {
-            [self muteUnmuteThread];
+            [weakSelf muteUnmuteThread];
         }];
         [items addObject:mute];
     }
     
-    if(_thread.creator.isMe) {
-        UIAlertAction *addUser = [UIAlertAction actionWithTitle:[NSBundle t:bAddUsers] style:UIAlertActionStyleDefault
-                                                        handler:^(UIAlertAction * action) {
-            [self addUser];
-        }];
-        [items addObject:addUser];
-    }
-
     return items;
 }
 

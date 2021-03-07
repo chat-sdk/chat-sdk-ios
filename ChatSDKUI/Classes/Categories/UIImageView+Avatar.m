@@ -53,7 +53,7 @@
         
         // See if all the users have images
         NSMutableArray * users = [NSMutableArray new];
-        for (id<PUser> user in thread.users.allObjects) {
+        for (id<PUser> user in thread.members) {
             if (user.image) {
                 [users addObject:user];
             }

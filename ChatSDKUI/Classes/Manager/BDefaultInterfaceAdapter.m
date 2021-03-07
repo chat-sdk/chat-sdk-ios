@@ -101,6 +101,17 @@
     return [[ProfileOptionsViewController alloc] initWithUser:user];
 }
 
+-(void) setModerationViewController: (ModerationProvider) provider {
+    self.moderationViewController = provider;
+}
+
+-(UIViewController<PModerationViewController> *) moderationViewControllerWithThread: (id<PThread>) thread withUser: (id<PUser>) user {
+    if (_moderationViewController) {
+        return _moderationViewController(thread, user);
+    }
+    return [[ModerationViewController alloc] initWithThread:thread user:user nibName:nil bundle:nil];
+}
+
 -(UIViewController *) contactsViewController {
     if (!_contactsViewController) {
         _contactsViewController = [[BContactsViewController alloc] init];

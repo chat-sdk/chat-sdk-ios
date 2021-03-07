@@ -91,7 +91,7 @@
 
 -(BMessageBuilder *) imageMessage: (UIImage *) image{
     [self type:bMessageTypeImage];
-    _message.placeholder = UIImageJPEGRepresentation(image, 0);
+    _message.placeholder = UIImagePNGRepresentation(image);
     
     return self;
 }
@@ -104,7 +104,7 @@
     
     _message.userModel = BChatSDK.currentUser;
     [_message setDelivered: @NO];
-    [_message setRead: @YES];
+    [_message setRead: @NO];
     _message.flagged = @NO;
     
     return self;

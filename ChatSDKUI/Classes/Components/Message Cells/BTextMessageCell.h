@@ -11,7 +11,7 @@
 
 @class BMessage;
 
-@interface BTextMessageCell : BMessageCell {
+@interface BTextMessageCell : BMessageCell<UITextViewDelegate> {
 }
 
 @property (nonatomic, readwrite) UITextView * textView;

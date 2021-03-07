@@ -271,8 +271,7 @@
         [user setImage:UIImagePNGRepresentation(_profileImage)];
     }
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationUserUpdated object:Nil userInfo:@{bNotificationUserUpdated_PUser: user}];
-
+    [BHookNotification notificationUserUpdated:user];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

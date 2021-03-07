@@ -23,6 +23,7 @@
 @protocol PUser;
 @protocol PStorageAdapter;
 @protocol PLogger;
+@protocol PModule;
 
 @interface BChatSDK : NSObject {
     BConfiguration * _configuration;
@@ -33,6 +34,7 @@
     BModuleHelper * _moduleHelper;
     id<PLogger> _logger;
     Settings * _settings;
+    NSMutableArray<PModule> * _modules;
 }
 
 @property (nonatomic, readonly) BConfiguration * configuration;
@@ -44,19 +46,22 @@
 @property (nonatomic, readwrite) NSBundle * iconsBundle;
 @property (nonatomic, readwrite) id<PLogger> logger;
 @property (nonatomic, readwrite) Settings * settings;
+@property (nonatomic, readwrite) NSMutableArray<PModule> * modules;
 
 
-+(BChatSDK *) shared;
++(nonnull BChatSDK *) shared;
 
 // Application lifecycle methods - should be called from App Delegate
-+(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions;
-+(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceAdapter>) adapter;
++(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions modules: (NSArray<PModule> *) modules;
++(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions  modules: (NSArray<PModule> *) modules networkAdapter:(id<PNetworkAdapter>)networkAdapter interfaceAdapter:(id<PInterfaceAdapter>)interfaceAdapter;
 
 +(BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
 +(BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options;
+
 +(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
 +(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
--(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions interfaceAdapter: (id<PInterfaceAdapter>) adapter;
+
+-(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions  modules: (NSArray<PModule> *) modules networkAdapter:(id<PNetworkAdapter>)networkAdapter interfaceAdapter:(id<PInterfaceAdapter>)adapter;
 
 // Integration helper methods
 
@@ -67,9 +72,6 @@
 // the user has been authenticated correctly by using the post auth hook
 +(void) updateUserWithName: (NSString *) name image: (UIImage *) image url: (NSString *) url;
 
--(void) preventAutomaticActivationForModule: (NSString *) moduleName;
--(BOOL) activateModuleForName: (NSString *) name;
-
 // Logout
 +(RXPromise *) logout;
 
@@ -78,18 +80,18 @@
 -(BBackgroundPushNotificationQueue *) pushQueue;
 
 // API Methods
-+(id<PCoreHandler>) core;
-+(id<PAuthenticationHandler>) auth;
++(nonnull id<PCoreHandler>) core;
++(nonnull id<PAuthenticationHandler>) auth;
 +(id<PUploadHandler>) upload;
 +(id<PVideoMessageHandler>) videoMessage;
 +(id<PAudioMessageHandler>) audioMessage;
 +(id<PImageMessageHandler>) imageMessage;
 +(id<PLocationMessageHandler>) locationMessage;
 +(id<PPushHandler>) push;
-+(id<PContactHandler>) contact;
++(nonnull id<PContactHandler>) contact;
 +(id<PTypingIndicatorHandler>) typingIndicator;
 +(id<PModerationHandler>) moderation;
-+(id<PSearchHandler>) search;
++(nonnull id<PSearchHandler>) search;
 +(id<PPublicThreadHandler>) publicThread;
 +(id<PBlockingHandler>) blocking;
 +(id<PLastOnlineHandler>) lastOnline;
@@ -99,18 +101,19 @@
 +(id<PUser>) currentUser;
 +(NSString *) currentUserID;
 +(id) handler: (NSString *) name;
-+(id<PHookHandler>) hook;
-+(id<PUsersHandler>) users;
++(nonnull id<PHookHandler>) hook;
++(nonnull id<PUsersHandler>) users;
 //+(BOOL) isMe: (id<PUser>) user;
-+(id<PInterfaceAdapter>) ui;
-+(id<PStorageAdapter>) db;
-+(id<PNetworkAdapter>) a;
++(nonnull id<PInterfaceAdapter>) ui;
++(nonnull id<PStorageAdapter>) db;
++(nonnull id<PNetworkAdapter>) a;
 +(id<PFileMessageHandler>) fileMessage;
 +(id<PEncryptionHandler>) encryption;
-+(id<PEventHandler>) event;
-+(id<PThreadHandler>) thread;
++(nonnull id<PEventHandler>) event;
++(nonnull id<PThreadHandler>) thread;
 +(id<PInternetConnectivityHandler>) connectivity;
++(id<CallHandler>) call;
 
-+(BConfiguration *) config;
++(nonnull BConfiguration *) config;
 
 @end

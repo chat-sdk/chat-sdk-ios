@@ -15,7 +15,7 @@
     
     // Upload the images:
     return [RXPromise all:@[
-        [self uploadFile:UIImageJPEGRepresentation(image, 0.6f) withName:@"image.jpg" mimeType:@"image/jpeg"],
+        [self uploadFile:UIImagePNGRepresentation(image) withName:@"image.jpg" mimeType:@"image/jpeg"],
     ]].thenOnMain(^id(NSArray * results) {
         NSMutableDictionary * urls = [NSMutableDictionary new];
         for (NSDictionary * result in results) {

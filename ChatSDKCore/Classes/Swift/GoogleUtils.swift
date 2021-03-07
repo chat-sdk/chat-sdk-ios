@@ -10,7 +10,7 @@ import Foundation
 @objc public class GoogleUtils: NSObject {
     
     @objc public static func getMapImageURL(latitude: Double, longitude: Double, width: Int, height: Int) -> String? {
-        if let googleMapsApiKey = BChatSDK.config()?.googleMapsApiKey {
+        if let googleMapsApiKey = BChatSDK.config().googleMapsApiKey {
             let api = "https://maps.googleapis.com/maps/api/staticmap"
             let markers = String(format: "markers=%f,%f", latitude, longitude)
             let size = String(format: "zoom=18&size=%ix%i", width, height)

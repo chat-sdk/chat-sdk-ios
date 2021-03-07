@@ -10,8 +10,13 @@
 
 @protocol PEncryptionHandler <NSObject>
 
--(void) encryptMessage: (id<PMessage>) message;
--(void) decryptMessage: (id<PMessage>) message;
+-(nullable NSDictionary<NSString *, id> *) encryptMessage: (nonnull id<PMessage>) message;
+-(nullable NSDictionary<NSString *, id> *) decryptMessage: (nonnull NSString *) message;
+
+-(nullable NSString *) publicKey;
+-(nullable NSString *) privateKeyId;
+-(nonnull RXPromise *) publishKey;
+-(void) addPublicKey: (nonnull NSString *) userId identifier: (nullable NSString *) identifier key: (nonnull NSString *) key;
 
 @end
 

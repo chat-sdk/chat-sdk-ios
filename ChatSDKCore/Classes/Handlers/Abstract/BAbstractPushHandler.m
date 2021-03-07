@@ -111,13 +111,16 @@
     assert(NO);
 }
 
--(NSString *) safeChannel: (NSString *) channel {
-    return [[channel stringByReplacingOccurrencesOfString:@"@" withString:@"a"] stringByReplacingOccurrencesOfString:@"." withString:@"d"];
-}
 
 -(NSDictionary *) pushDataForMessage: (id<PMessage>) message {
-    if (!message.text || !message.text.length || !BChatSDK.config.clientPushEnabled) {
+    
+    if (!BChatSDK.config.clientPushEnabled) {
         return Nil;
+    }
+
+    NSString * text = message.text;
+    if (!text) {
+        text = @"";
     }
         
     // Get a list of recipients
@@ -135,7 +138,7 @@
     }
     
     NSMutableDictionary * data = [NSMutableDictionary dictionaryWithDictionary: @{@"userIds" : users,
-                                                                                  @"body": message.text,
+                                                                                  @"body": text,
                                                                                   @"type": message.type,
                                                                                   @"senderName": BChatSDK.currentUser.name,
                                                                                   @"senderId": message.userModel.entityID,

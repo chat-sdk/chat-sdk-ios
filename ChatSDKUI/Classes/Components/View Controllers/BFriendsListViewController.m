@@ -36,7 +36,7 @@
 
 -(instancetype) initWithUsersToExclude: (NSArray *) users onComplete: (void(^)(NSArray * users, NSString * name)) action {
     if ((self = [self init])) {
-        self.title = [NSBundle t:bPickFriends];
+        self.title = [NSBundle t:bSelectUsers];
         [_contactsToExclude addObjectsFromArray:users];
         self.usersToInvite = action;
     }
@@ -46,7 +46,7 @@
 -(instancetype) init {
     self = [super initWithNibName:@"BFriendsListViewController" bundle:[NSBundle uiBundle]];
     if (self) {
-        self.title = [NSBundle t:bPickFriends];
+        self.title = [NSBundle t:bSelectUsers];
         _selectedContacts = [NSMutableArray new];
         _contacts = [NSMutableArray new];
         _contactsToExclude = [NSMutableArray new];
@@ -127,7 +127,7 @@
     [super viewWillAppear:YES];
     
     __weak __typeof__(self) weakSelf = self;
-    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
+    _internetConnectionHook = [BHook hookOnMain:^(NSDictionary * data) {
         __typeof__(self) strongSelf = weakSelf;
         if (!BChatSDK.connectivity.isConnected) {
             [self dismissViewControllerAnimated:YES completion:nil];
@@ -292,7 +292,9 @@
         _filterByName = Nil;
         [_tokenField reloadData];
         
-        [self setGroupNameHidden:_selectedContacts.count < 2 || _contactsToExclude.count > 0 duration:0.4];
+        if (!self.hideGroupNameView) {
+            [self setGroupNameHidden:_selectedContacts.count < 2 || _contactsToExclude.count > 0 duration:0.4];
+        }
         
         [self reloadData];
     }
@@ -316,7 +318,9 @@
     [self.names removeObject:name];
     [_tokenField reloadData];
     
-    [self setGroupNameHidden:_selectedContacts.count + _contactsToExclude.count < 2 duration:0.4];
+    if (!self.hideGroupNameView) {
+        [self setGroupNameHidden:_selectedContacts.count + _contactsToExclude.count < 2 duration:0.4];
+    }
     
     [self reloadData];
 }
@@ -353,7 +357,16 @@
     
     [tableView reloadData];
     [self updateRightBarButtonActionTitle];
-    self.navigationItem.rightBarButtonItem.enabled = _selectedContacts.count;
+    
+    if(_selectedContacts.count == 1) {
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    } else if (_selectedContacts.count > 1 && (groupNameTextField.text.length > 0 || self.hideGroupNameView)) {
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    } else {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    }
+    
+    
 }
 
 

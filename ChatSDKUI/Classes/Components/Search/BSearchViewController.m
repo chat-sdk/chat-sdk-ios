@@ -175,7 +175,7 @@
     [super viewDidAppear:animated];
     
     __weak __typeof__(self) weakSelf = self;
-    _internetConnectionHook = [BHook hook:^(NSDictionary * data) {
+    _internetConnectionHook = [BHook hookOnMain:^(NSDictionary * data) {
         __typeof__(self) strongSelf = weakSelf;
         if (!BChatSDK.connectivity.isConnected) {
             [self dismissViewControllerAnimated:YES completion:nil];

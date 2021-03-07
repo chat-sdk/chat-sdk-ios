@@ -29,6 +29,8 @@ import UIKit
         if (version.majorVersion < 13) {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: Bundle.t(bBack), style: .plain, target: self, action: #selector(back))
         }
+        
+        
 
     }
     

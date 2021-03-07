@@ -38,19 +38,22 @@
 #define bHookMessageWasDeleted @"bHookMessageWasDeleted"
 #define bHookAllMessagesDeleted @"bHookAllMessagesDeleted"
 
+#define bHookThreadsUpdated @"bHookThreadsUpdated"
 #define bHookThreadAdded @"bHookThreadAdded"
 #define bHookThreadRemoved @"bHookThreadRemoved"
 #define bHookThreadUpdated @"bHookThreadUpdated"
 #define bHookThreadUsersUpdated @"bHookThreadUsersUpdated"
+#define bHookThreadUserRoleUpdated @"bHookThreadUserRoleUpdated"
+#define bHookThreadMarkedRead @"bHookThreadMarkedRead"
+
+#define bHookMessageReadReceiptUpdated @"bHookMessageReadReceiptUpdated"
 
 #define bHookWillPushUser @"bHookWillPushUser"
+#define bHookUserUpdated @"bHookUserUpdated"
 
 #define bHookServerPingFailed @"bHookServerPingFailed"
 
 #define bHookServerConnectionStatusUpdated @"bHookServerConnectionStatusUpdated"
-
-//#define bHookWillResignActive @"bHookWillResignActive"
-//#define bHookDidBecomeActive @"bHookDidBecomeActive"
 
 #define bHookGlobalAlertMessage @"bHookGlobalAlertMessage"
 #define bHookSettingsUpdated @"bHookSettingsUpdated"

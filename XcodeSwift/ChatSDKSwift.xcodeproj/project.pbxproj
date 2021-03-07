@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3BDB8AB025AB712E00A7A2DA /* APICheatSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AAA25AB712E00A7A2DA /* APICheatSheet.m */; };
+		3BDB8AB125AB712E00A7A2DA /* APICheatSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AAC25AB712E00A7A2DA /* APICheatSheet.swift */; };
+		3BDB8AB225AB712E00A7A2DA /* AChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AAE25AB712E00A7A2DA /* AChatViewController.swift */; };
+		3BDB8AB325AB712E00A7A2DA /* APrivateThreadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AAF25AB712E00A7A2DA /* APrivateThreadsViewController.swift */; };
+		3BDB8AB725AB716300A7A2DA /* APIExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AB625AB716300A7A2DA /* APIExamples.swift */; };
+		3BDB8ABA25AB719400A7A2DA /* ALoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AB925AB719400A7A2DA /* ALoginViewController.swift */; };
+		3BDB8ABD25AB75DA00A7A2DA /* APushHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8ABC25AB75D900A7A2DA /* APushHandler.swift */; };
 		5BC9D4251905CF678B1C5B80 /* Pods_ChatSDKSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48D8752C3A16EED8540B7830 /* Pods_ChatSDKSwift.framework */; };
 		AC11A8831D5B128400EBFDFD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC11A8811D5B128400EBFDFD /* GoogleService-Info.plist */; };
 		ACF7BE7A1C8D8AD7003E8983 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF7BE791C8D8AD7003E8983 /* AppDelegate.swift */; };
@@ -17,6 +24,14 @@
 
 /* Begin PBXFileReference section */
 		0C3BCAABD0634B4B4A91E755 /* Pods-ChatSDKSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKSwift.debug.xcconfig"; path = "Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		3BDB8AAA25AB712E00A7A2DA /* APICheatSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APICheatSheet.m; sourceTree = "<group>"; };
+		3BDB8AAB25AB712E00A7A2DA /* APICheatSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APICheatSheet.h; sourceTree = "<group>"; };
+		3BDB8AAC25AB712E00A7A2DA /* APICheatSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICheatSheet.swift; sourceTree = "<group>"; };
+		3BDB8AAE25AB712E00A7A2DA /* AChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AChatViewController.swift; sourceTree = "<group>"; };
+		3BDB8AAF25AB712E00A7A2DA /* APrivateThreadsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APrivateThreadsViewController.swift; sourceTree = "<group>"; };
+		3BDB8AB625AB716300A7A2DA /* APIExamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIExamples.swift; sourceTree = "<group>"; };
+		3BDB8AB925AB719400A7A2DA /* ALoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALoginViewController.swift; sourceTree = "<group>"; };
+		3BDB8ABC25AB75D900A7A2DA /* APushHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APushHandler.swift; sourceTree = "<group>"; };
 		48D8752C3A16EED8540B7830 /* Pods_ChatSDKSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSDKSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C98B7E669060B4088EFEA3 /* Pods-ChatSDKSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKSwift.release.xcconfig"; path = "Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift.release.xcconfig"; sourceTree = "<group>"; };
 		AC11A8811D5B128400EBFDFD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -51,6 +66,36 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		3BDB8AA925AB712E00A7A2DA /* Docs */ = {
+			isa = PBXGroup;
+			children = (
+				3BDB8AAA25AB712E00A7A2DA /* APICheatSheet.m */,
+				3BDB8AAB25AB712E00A7A2DA /* APICheatSheet.h */,
+				3BDB8AAC25AB712E00A7A2DA /* APICheatSheet.swift */,
+			);
+			path = Docs;
+			sourceTree = "<group>";
+		};
+		3BDB8AAD25AB712E00A7A2DA /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				3BDB8AB525AB715700A7A2DA /* API */,
+				3BDB8AAE25AB712E00A7A2DA /* AChatViewController.swift */,
+				3BDB8AAF25AB712E00A7A2DA /* APrivateThreadsViewController.swift */,
+				3BDB8AB925AB719400A7A2DA /* ALoginViewController.swift */,
+				3BDB8ABC25AB75D900A7A2DA /* APushHandler.swift */,
+			);
+			path = Examples;
+			sourceTree = "<group>";
+		};
+		3BDB8AB525AB715700A7A2DA /* API */ = {
+			isa = PBXGroup;
+			children = (
+				3BDB8AB625AB716300A7A2DA /* APIExamples.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		473A1B8577891F6B3E122AD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +125,8 @@
 		ACF7BE781C8D8AD7003E8983 /* ChatSDKSwift */ = {
 			isa = PBXGroup;
 			children = (
+				3BDB8AA925AB712E00A7A2DA /* Docs */,
+				3BDB8AAD25AB712E00A7A2DA /* Examples */,
 				B52556CB1FB1ED4E0035F796 /* ChatSDKSwift.entitlements */,
 				AC11A8811D5B128400EBFDFD /* GoogleService-Info.plist */,
 				ACF7BE791C8D8AD7003E8983 /* AppDelegate.swift */,
@@ -198,80 +245,9 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
-				"${BUILT_PRODUCTS_DIR}/ChatSDK/ChatSDK.framework",
-				"${BUILT_PRODUCTS_DIR}/ChatSDKKeepLayout/KeepLayout.framework",
-				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
-				"${BUILT_PRODUCTS_DIR}/EFQRCode/EFQRCode.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseAuth/FirebaseAuth.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseDatabase/FirebaseDatabase.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseFunctions/FirebaseFunctions.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseInstanceID/FirebaseInstanceID.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseStorage/FirebaseStorage.framework",
-				"${BUILT_PRODUCTS_DIR}/FrameAccessor/FrameAccessor.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/Hakawai/Hakawai.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
-				"${BUILT_PRODUCTS_DIR}/QuickTableViewController/QuickTableViewController.framework",
-				"${BUILT_PRODUCTS_DIR}/RXPromise/RXPromise.framework",
-				"${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SAMKeychain/SAMKeychain.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/StaticDataTableViewController/StaticDataTableViewController.framework",
-				"${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework",
-				"${BUILT_PRODUCTS_DIR}/Toast/Toast.framework",
-				"${BUILT_PRODUCTS_DIR}/VENTokenField/VENTokenField.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChatSDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeepLayout.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EFQRCode.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAuth.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseDatabase.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseFunctions.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstanceID.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseStorage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FrameAccessor.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hakawai.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QuickTableViewController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RXPromise.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SAMKeychain.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StaticDataTableViewController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOCropViewController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VENTokenField.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -284,18 +260,9 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseEmailAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseOAuthUI.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseEmailAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseOAuthUI.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -311,6 +278,13 @@
 			files = (
 				ACF7BE7A1C8D8AD7003E8983 /* AppDelegate.swift in Sources */,
 				B546E4D2215E43BF006199C5 /* TestInterfaceAdapter.swift in Sources */,
+				3BDB8AB125AB712E00A7A2DA /* APICheatSheet.swift in Sources */,
+				3BDB8AB725AB716300A7A2DA /* APIExamples.swift in Sources */,
+				3BDB8ABD25AB75DA00A7A2DA /* APushHandler.swift in Sources */,
+				3BDB8AB225AB712E00A7A2DA /* AChatViewController.swift in Sources */,
+				3BDB8AB325AB712E00A7A2DA /* APrivateThreadsViewController.swift in Sources */,
+				3BDB8ABA25AB719400A7A2DA /* ALoginViewController.swift in Sources */,
+				3BDB8AB025AB712E00A7A2DA /* APICheatSheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

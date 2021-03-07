@@ -31,23 +31,28 @@
 -(RXPromise *) addLocalContact: (id<PUser>) contact withType: (bUserConnectionType) type {
 
     [BHookNotification notificationContactWillBeAdded:contact];
-
-    return [BChatSDK.db performOnMainAndSave:^id() {
-        id<PUserConnection> connection = [BChatSDK.db fetchOrCreateEntityWithID:contact.entityID withType:bUserConnectionEntity];
-        [connection setType:@(bUserConnectionTypeContact)];
-        [connection setEntityID:contact.entityID];
+    
+    RXPromise * promise = [RXPromise new];
+    [BChatSDK.db performOnMain:^{
+        id<PUserConnection> connection = [BChatSDK.db fetchOrCreateUserConnectionWithID:contact.entityID withType:bUserConnectionTypeContact];
         
         id<PUser> currentUser = [BChatSDK.db fetchOrCreateEntityWithID:BChatSDK.auth.currentUserID withType:bUserEntity];
         [currentUser addConnection:connection];
-        
-        return Nil;
-    }].thenOnMain(^id(id success) {
-
         [BChatSDK.core observeUser:contact.entityID];
         [BHookNotification notificationContactWasAdded:contact];
-
-        return success;
-    }, Nil);
+        [promise resolveWithResult:nil];
+    }];
+//    [BChatSDK.db performOnMainAndSave:^{
+//        id<PUserConnection> connection = [BChatSDK.db fetchOrCreateUserConnectionWithID:contact.entityID withType:bUserConnectionTypeContact];
+//
+//        id<PUser> currentUser = [BChatSDK.db fetchOrCreateEntityWithID:BChatSDK.auth.currentUserID withType:bUserEntity];
+//        [currentUser addConnection:connection];
+//    } finally:^{
+//        [BChatSDK.core observeUser:contact.entityID];
+//        [BHookNotification notificationContactWasAdded:contact];
+//        [promise resolveWithResult:nil];
+//    }];
+    return promise;
 }
 
 /**
@@ -61,9 +66,8 @@
     
     [BHookNotification notificationContactWillBeDeleted:user];
     
-    return [BChatSDK.db performOnMainAndSave:^id() {
-
-        // Clear down the old blocking list
+    RXPromise * promise = [RXPromise new];
+    [BChatSDK.db performOnMain:^{
         NSArray * connections = [BChatSDK.db fetchUserConnectionsWithType:type entityID:user ? user.entityID : Nil];
         id<PUser> currentUser = [BChatSDK.db fetchOrCreateEntityWithID:BChatSDK.auth.currentUserID withType:bUserEntity];
 
@@ -72,14 +76,26 @@
         }
         
         [BChatSDK.db deleteEntities:connections];
-
-        return Nil;
-    }].thenOnMain(^id(id success) {
-
         [BHookNotification notificationContactWasDeleted:user];
+        [promise resolveWithResult:nil];
+    }];
 
-        return success;
-    }, Nil);
+//    [BChatSDK.db performOnMainAndSave:^{
+//        // Clear down the old blocking list
+//        NSArray * connections = [BChatSDK.db fetchUserConnectionsWithType:type entityID:user ? user.entityID : Nil];
+//        id<PUser> currentUser = [BChatSDK.db fetchOrCreateEntityWithID:BChatSDK.auth.currentUserID withType:bUserEntity];
+//
+//        for (id<PUserConnection> connection in connections) {
+//            [currentUser removeConnection:connection];
+//        }
+//
+//        [BChatSDK.db deleteEntities:connections];
+//    } finally:^{
+//        [BHookNotification notificationContactWasDeleted:user];
+//        [promise resolveWithResult:nil];
+//    }];
+
+    return promise;
 }
 
 @end

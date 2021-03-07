@@ -90,23 +90,17 @@
     __weak __typeof__(self) weakSelf = self;
 
     [self updateButtonStatusForInternetConnection];
-
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationUserUpdated
-                                                                             object:Nil
-                                                                              queue:Nil
-                                                                         usingBlock:^(NSNotification * notification) {
-                                                                             dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                 __typeof__(self) strongSelf = weakSelf;
-                                                                                 [strongSelf reloadData];
-                                                                             });
-                                                                         }]];
     
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * dict) {
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
+        [weakSelf reloadData];
+    }] withNames: @[bHookUserUpdated]]];
+    
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
         __typeof__(self) strongSelf = weakSelf;
         [strongSelf reloadData];
     }] withNames:@[bHookContactWasAdded, bHookContactWasDeleted]]];
     
-    [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         __typeof__(self) strongSelf = weakSelf;
         [strongSelf updateButtonStatusForInternetConnection];
     }] withName:bHookInternetConnectivityDidChange]];

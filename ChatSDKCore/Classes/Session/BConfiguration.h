@@ -48,11 +48,20 @@ typedef enum {
 @property (nonatomic, readwrite) NSString * debugUsername;
 @property (nonatomic, readwrite) NSString * debugPassword;
 
+// When debug mode is enabled, there will be more logging
+@property (nonatomic, readwrite) BOOL debugModeEnabled;
+
 // Should empty chats be shown in the threads view?
 @property (nonatomic, readwrite) BOOL showEmptyChats;
 
 // User profile image
 @property (nonatomic, readwrite) NSString * defaultAvatarURL;
+
+// Provide a URL to generate an avatar
+// This URL should provide a link to a PNG to be used
+// it should be the form http://someurl.com/%s.png
+// %s will be replaced by the user's entity ID
+@property (nonatomic, readwrite) NSString * identiconBaseURL;
 
 // User profile image
 @property (nonatomic, readwrite) UIImage * xmppDefaultAvatar;
@@ -94,6 +103,14 @@ typedef enum {
 @property (nonatomic, readwrite) int xmppMucMessageHistory;
 @property (nonatomic, readwrite) NSString * termsOfServiceURL;
 @property (nonatomic, readwrite) BOOL xmppCustomCertEvaluation;
+@property (nonatomic, readwrite) NSString * xmppPubsubNode;
+@property (nonatomic, readwrite) BOOL xmppInvisibleModeEnabled;
+
+@property (nonatomic, readwrite) NSString * xmppUpdateLastOnlineOnResignActive;
+@property (nonatomic, readwrite) BOOL xmppReciprocalPresenceRequests;
+
+@property (nonatomic, readwrite) BOOL threadDestructionEnabled;
+@property (nonatomic, readwrite) BOOL callsEnabled;
 
 @property (nonatomic, readwrite) NSTimeInterval xmppPingInterval;
 @property (nonatomic, readwrite) NSTimeInterval xmppPingTimeout;
@@ -227,20 +244,15 @@ typedef enum {
 // If this is true, extra data will be added to support Chat SDK web
 @property (nonatomic, readwrite) BOOL enableWebCompatibility;
 
-// If this is true, extra data will be added to support Chat SDK v4
-@property (nonatomic, readwrite) BOOL enableCompatibilityWithV4;
 
 
 // Firebase options
 
-// Should the Chat SDK call [FIRApp configure];
-@property (nonatomic, readwrite) BOOL firebaseShouldConfigureAutomatically;
-
 // The name of the custom Firebase Google-Services plist file
-@property (nonatomic, readwrite) NSString * firebaseGoogleServicesPlistName;
+//@property (nonatomic, readwrite) NSString * firebaseGoogleServicesPlistName;
 
 @property (nonatomic, readwrite) NSString * firebaseDatabaseURL;
-@property (nonatomic, readwrite) NSString * firebaseApp;
+//@property (nonatomic, readwrite) NSString * firebaseApp;
 @property (nonatomic, readwrite) NSString * firebaseFunctionsRegion;
 @property (nonatomic, readwrite) NSString * firebaseStorageURL;
 

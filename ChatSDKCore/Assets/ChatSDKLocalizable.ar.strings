@@ -88,7 +88,6 @@
 "bTapHereForContactInfo" = "اضغط لمزيد من المعلومات";
 "bPhoneNumber" = "رقم الهاتف";
 "bEmail" = "البريد الالكتروني";
-"bDetails" = "تفاصيل";
 "bAddParticipant" = "أضف مشارك";
 "bLeaveConversation" = "اترك هذه المحادثة";
 "bRejoinConversation" = "العودة إلى هذه المحادثة";
@@ -132,8 +131,6 @@
 "bAudioLengthLimitReached" = "يتم التوصل إلى الحد من رسالة الصوت";
 "bSendOrDiscardRecording" = "إرسال تسجيل أم لا";
 
-"bAddFriend" = "أضف صديق";
-"bRemoveFriend" = "إزالة 'صديق'";
 
 "bBlock" = "كتلة";
 "bUnblock" = "فتح";

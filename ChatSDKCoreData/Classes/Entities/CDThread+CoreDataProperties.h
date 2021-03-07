@@ -13,7 +13,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CDThread (CoreDataProperties)
+@class CDUserConnection;
+
+@interface CDThread (CoreDataProperties) {
+}
 
 @property (nullable, nonatomic, retain) NSDate *creationDate;
 @property (nullable, nonatomic, retain) NSDate *deletedDate;
@@ -24,12 +27,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) CDUser *creator;
 @property (nullable, nonatomic, retain) NSSet<CDMessage *> *messages;
 @property (nullable, nonatomic, retain) NSSet<CDUser *> *users;
+@property (nullable, nonatomic, retain) NSSet<CDUserConnection *> *userConnections;
 @property (nullable, nonatomic, retain) NSString *draft;
 @property (nullable, nonatomic, retain) NSString *userAccountID;
+@property (nullable, nonatomic, retain) CDMessage *newestMessage;
 
 @end
 
 @interface CDThread (CoreDataGeneratedAccessors)
+
 
 - (void)addMessagesObject:(CDMessage *)value;
 - (void)removeMessagesObject:(CDMessage *)value;
@@ -41,6 +47,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addUsers:(NSSet<CDUser *> *)values;
 - (void)removeUsers:(NSSet<CDUser *> *)values;
 
+- (void)addUserConnectionsObject:(CDUserConnection *)value;
+- (void)removeUserConnectionsObject:(CDUserConnection *)value;
+- (void)addUserConnections:(NSSet<CDUserConnection *> *)values;
+- (void)removeUserConnections:(NSSet<CDUserConnection *> *)values;
+
 @end
+
 
 NS_ASSUME_NONNULL_END
