@@ -54,11 +54,6 @@
             // Update the thread
             [self deserialize:snapshot.value];
             [promise resolveWithResult:self];
-            
-            // TODO: Move this to inside the read receipt module
-//            if(BChatSDK.readReceipt) {
-//                [BChatSDK.readReceipt updateReadReceiptsForThread:self.model];
-//            }
 
         }
         else {

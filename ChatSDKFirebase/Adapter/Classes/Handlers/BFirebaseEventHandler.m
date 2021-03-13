@@ -59,7 +59,11 @@
                 [thread.model addUser:user];
             }
             
-            [thread on];
+            [thread on].thenOnMain(^id(id success) {
+                [BHookNotification notificationThreadAdded:thread.model];
+                return success;
+            }, nil);
+
             [thread messagesOn];
             [thread usersOn];
         }
@@ -101,8 +105,11 @@
                 [thread removeUser:[CCUserWrapper userWithModel:user]];
             }
             
-            [thread on];
-            
+            [thread on].thenOnMain(^id(id success) {
+                [BHookNotification notificationThreadAdded:thread.model];
+                return success;
+            }, nil);
+
             // TODO: Maybe move this so we only listen to a thread when it's open
             [thread messagesOn];
             [thread usersOn];

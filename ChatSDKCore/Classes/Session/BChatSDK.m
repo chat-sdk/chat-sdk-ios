@@ -94,16 +94,7 @@ static BChatSDK * instance;
 
 -(void) appWillResignActive: (NSNotification *) notification {
     if(self.networkAdapter && BChatSDK.auth.isAuthenticated) {
-//        [BHookNotification notificationWillResignActive: notification.object];
-        
-        if (BChatSDK.lastOnline && [BChatSDK.lastOnline respondsToSelector:@selector(setLastOnlineForUser:)]) {
-            [BChatSDK.lastOnline setLastOnlineForUser:BChatSDK.currentUser].thenOnMain(^id(id success) {
-                [self.networkAdapter.core goOffline];
-                return success;
-            }, nil);
-        } else {
-            [self.networkAdapter.core goOffline];
-        }
+        [self.networkAdapter.core goOffline];
     }
 }
 
@@ -280,7 +271,7 @@ static BChatSDK * instance;
 }
 
 +(id<PUser>) currentUser {
-    return BChatSDK.core.currentUserModel;
+    return self.auth.currentUser;
 }
 
 +(NSString *) currentUserID {

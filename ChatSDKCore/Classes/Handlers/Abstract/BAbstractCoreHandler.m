@@ -19,15 +19,6 @@
     return self;
 }
 
--(void) activate {
-    __weak __typeof__(self) weakSelf = self;
-    [BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
-        // Resets the view which the tab bar loads on
-        __typeof__(self) strongSelf = weakSelf;
-        strongSelf->_currentUser = Nil;
-    }] withName:bHookDidLogout];
-}
-
 -(void) save {
     [BChatSDK.db save];
 }
@@ -53,28 +44,9 @@
  * @brief Return the current user data
  */
 -(id<PUser>) currentUserModel {
-    NSString * currentUserID = BChatSDK.auth.currentUserID;
-    if (currentUserID && (!_currentUser || !_currentUser.entityID)) {
-        _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
-    }
-    return _currentUser;
+    return BChatSDK.auth.currentUser;
 }
 
-//-(RXPromise *) currentUserModelAsync {
-//    NSString * currentUserID = BChatSDK.auth.currentUserID;
-//    if (currentUserID.length && !_currentUser) {
-//        RXPromise * promise = [RXPromise new];
-//
-//        [BChatSDK.db performOnMain:^{
-//            _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
-//            [promise resolveWithResult:_currentUser];
-//        }];
-//
-//        return promise;
-//    } else {
-//        return [RXPromise resolveWithResult:_currentUser];
-//    }
-//}
 
 // TODO: Consider removing / refactoring this
 /**

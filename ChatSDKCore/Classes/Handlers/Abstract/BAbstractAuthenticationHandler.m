@@ -33,6 +33,14 @@
     return _isAuthenticatedThisSession && self.isAuthenticated;
 }
 
+-(id<PUser>) currentUser {
+    NSString * currentUserID = _currentUserID;
+    if (currentUserID && (!_currentUser || !_currentUser.entityID)) {
+        _currentUser = [BChatSDK.db fetchEntityWithID:currentUserID withType:bUserEntity];
+    }
+    return _currentUser;
+}
+
 -(RXPromise *) authenticateWithDictionary:(NSDictionary *)details {
     BAccountDetails * accountDetails;
     switch ([details[bLoginTypeKey] intValue]) {
@@ -74,6 +82,7 @@
 }
 
 -(void) clearCurrentUserID {
+    _currentUser = nil;
     _currentUserID = Nil;
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:bAuthenticationIDKey];
     [[NSUserDefaults standardUserDefaults] synchronize];

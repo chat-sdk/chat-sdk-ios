@@ -13,6 +13,8 @@
 #import <ChatSDK/BAccountTypes.h>
 #import <ChatSDK/BAccountDetails.h>
 
+@protocol PUser;
+
 @protocol PAuthenticationHandler <NSObject>
 
 /**
@@ -49,6 +51,7 @@
 -(NSString *) currentUserID;
 -(void) setCurrentUserID: (NSString *) currentUserID;
 -(void) clearCurrentUserID;
+-(id<PUser>) currentUser;
 
 -(RXPromise *) resetPasswordWithCredential: (NSString *) credential;
 

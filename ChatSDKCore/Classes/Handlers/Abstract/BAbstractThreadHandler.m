@@ -70,18 +70,17 @@
     }
     if (type & bThreadFilterPublic) {
         for(id<PThread> thread in allThreads) {
-            if ((!thread.deletedDate && !includeDeleted) || (!thread.hasMessages && !includeEmpty)) {
-                continue;
-            }
-            if (BChatSDK.config.publicChatRoomLifetimeMinutes == 0) {
-                [threads addObject:thread];
-            } else {
-                NSDate * now = [NSDate date];
-                NSTimeInterval interval = [now timeIntervalSinceDate:thread.creationDate];
-                if (interval < BChatSDK.config.publicChatRoomLifetimeMinutes * 60) {
+            if ((!thread.deletedDate || includeDeleted) && (thread.hasMessages || includeEmpty)) {
+                if (BChatSDK.config.publicChatRoomLifetimeMinutes == 0) {
                     [threads addObject:thread];
                 } else {
-                    [thread markRead];
+                    NSDate * now = [NSDate date];
+                    NSTimeInterval interval = [now timeIntervalSinceDate:thread.creationDate];
+                    if (interval < BChatSDK.config.publicChatRoomLifetimeMinutes * 60) {
+                        [threads addObject:thread];
+                    } else {
+                        [thread markRead];
+                    }
                 }
             }
         }
