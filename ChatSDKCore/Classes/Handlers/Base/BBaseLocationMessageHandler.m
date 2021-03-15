@@ -11,6 +11,7 @@
 #import <MapKit/MapKit.h>
 
 #import <ChatSDK/Core.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @implementation BBaseLocationMessageHandler
 
@@ -34,10 +35,16 @@
     
     // TODO: Get rid of this
     NSString * messageText = [NSString stringWithFormat:@"%f,%f",location.coordinate.latitude,location.coordinate.longitude];
-
+    
+    int dim = BChatSDK.config.maxImageDimension;
+    NSString * url = [GoogleUtils getMapImageURLWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude width:dim height:dim];
+    
     [message setMeta:@{bMessageText: messageText,
                        bMessageLongitude: @(location.coordinate.longitude),
-                       bMessageLatitude: @(location.coordinate.latitude)}];
+                       bMessageLatitude: @(location.coordinate.latitude),
+                       bMessageImageWidth: @(dim),
+                       bMessageImageHeight: @(dim),
+                       bMessageImageURL: url}];
     
     return [BChatSDK.thread sendMessage:message];
 

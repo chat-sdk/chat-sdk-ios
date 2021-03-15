@@ -26,9 +26,16 @@
 @synthesize tableView;
 @synthesize searchController;
 
--(instancetype) init
+-(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:@"BContactsViewController" bundle:[NSBundle uiBundle]];
+    if (!nibNameOrNil) {
+        nibNameOrNil = @"BContactsViewController";
+    }
+    if (!nibBundleOrNil) {
+        nibBundleOrNil =  [NSBundle uiBundle];
+    }
+    
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if (self) {
         self.title = [NSBundle t:bContacts];

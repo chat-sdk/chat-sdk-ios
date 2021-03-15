@@ -191,7 +191,8 @@
             
             if (data) {
                 [user deserialize:data];
-            } else if (!BChatSDK.config.disableProfileUpdateOnAuthentication) {
+            }
+            if (!data[bMetaPath] && !BChatSDK.config.disableProfileUpdateOnAuthentication) {
                 [user push];
             }
 

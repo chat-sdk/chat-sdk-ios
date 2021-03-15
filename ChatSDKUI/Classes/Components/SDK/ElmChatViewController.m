@@ -597,6 +597,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:Nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:Nil];
 }
 
 -(void) removeObservers {
@@ -606,6 +607,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:Nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:Nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:Nil];
 
 }
 
@@ -1010,6 +1012,23 @@
         return self.view.safeAreaInsets.bottom;
     }
     return 0;
+}
+
+-(void) keyboardWillChangeFrame: (NSNotification *) notification {
+    if (!_keyboardVisible) {
+        return;
+    }
+
+    // Get the keyboard size
+    CGRect keyboardBounds = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardBoundsConverted = [self.view convertRect:keyboardBounds toView:Nil];
+
+    // Set the new constraints
+    _sendBarView.keepBottomInset.equal = keyboardBoundsConverted.size.height;
+    
+    [[UIApplication sharedApplication].windows.lastObject addSubview: _keyboardOverlay];
+    _keyboardOverlay.frame = keyboardBounds;
+
 }
 
 -(void) keyboardDidHide: (NSNotification *) notification {

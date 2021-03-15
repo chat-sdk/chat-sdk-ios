@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B2F5FB625FE6849009F9189 /* AContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F5FB525FE6849009F9189 /* AContactViewController.swift */; };
+		3B2F5FE925FE6989009F9189 /* BContactsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B2F5FE825FE6989009F9189 /* BContactsViewController.xib */; };
 		3BDB8AB025AB712E00A7A2DA /* APICheatSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AAA25AB712E00A7A2DA /* APICheatSheet.m */; };
 		3BDB8AB125AB712E00A7A2DA /* APICheatSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AAC25AB712E00A7A2DA /* APICheatSheet.swift */; };
 		3BDB8AB225AB712E00A7A2DA /* AChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AAE25AB712E00A7A2DA /* AChatViewController.swift */; };
@@ -24,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		0C3BCAABD0634B4B4A91E755 /* Pods-ChatSDKSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKSwift.debug.xcconfig"; path = "Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		3B2F5FB525FE6849009F9189 /* AContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AContactViewController.swift; sourceTree = "<group>"; };
+		3B2F5FE825FE6989009F9189 /* BContactsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BContactsViewController.xib; sourceTree = "<group>"; };
 		3BDB8AAA25AB712E00A7A2DA /* APICheatSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APICheatSheet.m; sourceTree = "<group>"; };
 		3BDB8AAB25AB712E00A7A2DA /* APICheatSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APICheatSheet.h; sourceTree = "<group>"; };
 		3BDB8AAC25AB712E00A7A2DA /* APICheatSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICheatSheet.swift; sourceTree = "<group>"; };
@@ -79,11 +83,13 @@
 		3BDB8AAD25AB712E00A7A2DA /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				3B2F5FE825FE6989009F9189 /* BContactsViewController.xib */,
 				3BDB8AB525AB715700A7A2DA /* API */,
 				3BDB8AAE25AB712E00A7A2DA /* AChatViewController.swift */,
 				3BDB8AAF25AB712E00A7A2DA /* APrivateThreadsViewController.swift */,
 				3BDB8AB925AB719400A7A2DA /* ALoginViewController.swift */,
 				3BDB8ABC25AB75D900A7A2DA /* APushHandler.swift */,
+				3B2F5FB525FE6849009F9189 /* AContactViewController.swift */,
 			);
 			path = Examples;
 			sourceTree = "<group>";
@@ -208,6 +214,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B2F5FE925FE6989009F9189 /* BContactsViewController.xib in Resources */,
 				ACF7BE841C8D8AD7003E8983 /* LaunchScreen.storyboard in Resources */,
 				AC11A8831D5B128400EBFDFD /* GoogleService-Info.plist in Resources */,
 				ACF7BE811C8D8AD7003E8983 /* Assets.xcassets in Resources */,
@@ -281,6 +288,7 @@
 				3BDB8AB125AB712E00A7A2DA /* APICheatSheet.swift in Sources */,
 				3BDB8AB725AB716300A7A2DA /* APIExamples.swift in Sources */,
 				3BDB8ABD25AB75DA00A7A2DA /* APushHandler.swift in Sources */,
+				3B2F5FB625FE6849009F9189 /* AContactViewController.swift in Sources */,
 				3BDB8AB225AB712E00A7A2DA /* AChatViewController.swift in Sources */,
 				3BDB8AB325AB712E00A7A2DA /* APrivateThreadsViewController.swift in Sources */,
 				3BDB8ABA25AB719400A7A2DA /* ALoginViewController.swift in Sources */,

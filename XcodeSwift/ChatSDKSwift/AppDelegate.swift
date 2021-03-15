@@ -58,8 +58,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             module.setProviders([FUIEmailAuth(), FUIOAuth.appleAuthProvider(), FUIPhoneAuth.init(authUI: authUI!)])
             modules.append(module)
         }
-
+        
+//        let interfaceAdapter = BDefaultInterfaceAdapter()
+//        interfaceAdapter.setContactsViewController(AContactViewController(nibName: "BContactsViewController", bundle: Bundle.main))
+        
         BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules)
+//        BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules, networkAdapter: nil, interfaceAdapter: interfaceAdapter)
 
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
