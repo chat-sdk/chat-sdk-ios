@@ -8,6 +8,8 @@
 
 import UIKit
 import ChatSDK
+import ChatSDKFirebase
+//import FirebaseUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,7 +31,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.messageHistoryDownloadLimit = 100
         config.maxImageDimension = 4000
         
- 
+        var modules = [
+            FirebaseNetworkAdapterModule.shared(),
+            FirebasePushModule.shared(),
+            FirebaseUploadModule.shared()
+        ]
+
 
 //        config.setRemoteConfigValue("MC4CAQAwBQYDK2VwBCIEIFrI4pSMCz8DOo/EXrB/HC4UAwS/PsqAjrKB7bdcMPz3", forKey: "private-key")
         // Public key: MCowBQYDK2VwAyEAjBPW4rDT51sFF8nQRbYAZ7pD5xCCDL+kxfAQhVktWrk=
@@ -37,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        config.clientPushEnabled = true;
         
         
-        BChatSDK.initialize(config, app: application, options: launchOptions)
+        BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules)
 //        BDiagnosticModule().activate()
         
 //      _ = BChatSDK.auth()?.authenticate()?.thenOnMain({ success in
@@ -57,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        BFirebaseUIModule.init().activate(withProviders: [FUIPhoneAuth.init(authUI: auth!)]);
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = BChatSDK.ui()?.splashScreenNavigationController()
+        self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController()
         self.window?.makeKeyAndVisible();
 
         // Override point for customization after application launch.

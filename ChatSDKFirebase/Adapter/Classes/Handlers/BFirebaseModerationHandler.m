@@ -39,12 +39,11 @@
     flaggedMessages = [[NSMutableArray alloc] init];
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
-    __weak __typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [self.flaggedRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
             if (![snapshot.value isEqual: [NSNull null]]) {
                 CCMessageWrapper *message = [CCMessageWrapper messageWithID:snapshot.key];
-                [weakSelf.flaggedMessages addObject:message.model];
+                [self.flaggedMessages addObject:message.model];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSDictionary *userInfo = @{bNotificationFlaggedMessageAdded_PMessage: message.model};
                     [nc postNotificationName:bNotificationFlaggedMessageAdded object:Nil userInfo:userInfo];

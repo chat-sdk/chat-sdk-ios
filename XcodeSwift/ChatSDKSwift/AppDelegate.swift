@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.loginUsernamePlaceholder = "Email"
         config.messageSelectionEnabled = false
         config.logoImage = UIImage(named: "logo")
+        config.enableMessageModerationTab = true;
 
         // Uncomment this if you want the user avatar and name before the messages
 //        config.nameLabelPosition = bNameLabelPositionTop

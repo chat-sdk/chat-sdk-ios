@@ -5,9 +5,9 @@ use_frameworks!
 
 target 'ChatSDKSwift' do
 
-  pod "ChatSDK"
-  pod "ChatSDKFirebase/Adapter"
-  pod "ChatSDKFirebase/FileStorage"
-  pod "ChatSDKFirebase/Push"
+  pod "ChatSDK", "5.0.1"
+  pod "ChatSDKFirebase", "5.0.1"
+  pod "ChatSDKFirebase/Upload", "5.0.1"
+  pod "ChatSDKFirebase/Push", "5.0.1"
   
 end
