@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class MessagesViewModel: NSObject, UITableViewDataSource {
+public class MessagesViewModel: NSObject, UITableViewDataSource {
     
     let _thread: Thread
     let _messageTimeFormatter = DateFormatter()
@@ -16,7 +16,7 @@ import Foundation
     
     var _messageCellRegistrations = [String: MessageCellRegistration]()
     
-    @objc public init(thread: Thread) {
+    public init(thread: Thread) {
         _thread = thread
         _messageTimeFormatter.setLocalizedDateFormatFromTemplate("HH:mm")
 
@@ -25,23 +25,23 @@ import Foundation
         }
     }
     
-//    @objc public func itemCount() -> Int {
+//     public func itemCount() -> Int {
 //        return _thread.threadMessages().count
 //    }
     
-//    @objc public func message(indexPath: IndexPath) -> Message {
+//     public func message(indexPath: IndexPath) -> Message {
 //        return _thread.threadMessages()[indexPath.row]
 //    }
     
-    @objc public func messageTimeFormatter() -> DateFormatter {
+    public func messageTimeFormatter() -> DateFormatter {
         return _messageTimeFormatter
     }
     
-    @objc public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return _messages.count
     }
     
-    @objc public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Get the message
         let message = _messages[indexPath.row]
         
@@ -59,29 +59,29 @@ import Foundation
         return cell!
     }
     
-    @objc public func registerMessageCell(registration: MessageCellRegistration) {
+    public func registerMessageCell(registration: MessageCellRegistration) {
         _messageCellRegistrations[registration.messageType()] = registration
     }
 
-    @objc public func registerMessageCells(registrations: [MessageCellRegistration]) {
+    public func registerMessageCells(registrations: [MessageCellRegistration]) {
         for registration in registrations {
             registerMessageCell(registration: registration)
         }
     }
 
-    @objc public func messageCellRegistrations() -> [MessageCellRegistration] {
+    public func messageCellRegistrations() -> [MessageCellRegistration] {
         return _messageCellRegistrations.map { $1 }
     }
     
-    @objc public func estimatedRowHeight() -> CGFloat {
+    public func estimatedRowHeight() -> CGFloat {
         return 44
     }
 
-    @objc public func avatarSize() -> CGFloat {
+    public func avatarSize() -> CGFloat {
         return 34
     }
     
-    @objc public func incomingBubbleColor() -> UIColor {
+    public func incomingBubbleColor() -> UIColor {
         if let color = UIColor(named: "incoming_bubble", in: bundle(), compatibleWith: nil) {
             return color
         } else if #available(iOS 13.0, *) {
@@ -91,7 +91,7 @@ import Foundation
         }
     }
 
-    @objc public func outgoingBubbleColor() -> UIColor {
+    public func outgoingBubbleColor() -> UIColor {
         if let color = UIColor(named: "outgoing_bubble", in: bundle(), compatibleWith: nil) {
             return color
         } else if #available(iOS 13.0, *) {
@@ -101,11 +101,11 @@ import Foundation
         }
     }
     
-    @objc public func showAvatar() -> Bool {
+    public func showAvatar() -> Bool {
         return _thread.threadType() != .private1to1
     }
     
-    @objc public func bundle() -> Bundle {
+    public func bundle() -> Bundle {
         return Bundle(for: MessagesViewModel.self)
     }
 

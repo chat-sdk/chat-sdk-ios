@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public enum MessageDirection: Int {
+public enum MessageDirection: Int {
     case incoming
     case outgoing
 //    case none

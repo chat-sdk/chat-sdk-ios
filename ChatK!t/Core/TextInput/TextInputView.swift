@@ -23,8 +23,11 @@ public class TextInputView: UIView, UITextViewDelegate {
     public var sendAction: TextInputAction?
     public var audioEnabled = false
     public var micButtonEnabled = false
+    public var blurEnabled = true
+    
+    public var background: UIView?
 
-    @objc public override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
@@ -38,18 +41,16 @@ public class TextInputView: UIView, UITextViewDelegate {
     }
 
     public func setup() {
-        
-        if #available(iOS 13, *) {
-            backgroundColor = .systemBackground
-            divider.backgroundColor = .systemGray6
-        } else {
-            backgroundColor = .white
-            divider.backgroundColor = .lightGray
-        }
-        
+                
         textView = GrowingTextView()
         textView?.delegate = self
         textView?.font = UIFont.systemFont(ofSize: 15)
+        textView?.backgroundColor = ChatKit.shared().assets.get(color: "gray_6")
+        textView?.layer.cornerRadius = 15
+        textView?.layer.borderColor = ChatKit.shared().assets.get(color: "gray_5")?.cgColor
+        textView?.layer.borderWidth = 1
+        textView?.isScrollEnabled = true
+        textView?.maxHeight = 200
         
         addSubview(divider)
         addSubview(startButtonsView)
@@ -75,9 +76,34 @@ public class TextInputView: UIView, UITextViewDelegate {
 
         textView?.keepTopInset.equal = ChatKit.shared().textInputViewTopPadding
         textView?.keepBottomInset.equal = ChatKit.shared().textInputViewBottomPadding
-                                
+
+        background = makeBackground(blur: blurEnabled)
+        insertSubview(background!, at: 0)
+        background?.keepInsets.equal = 0
+        background?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        background?.alpha = 0
+
+        backgroundColor = .clear
+        divider.backgroundColor = ChatKit.shared().assets.get(color: "gray_6")
+
     }
     
+    public func makeBackground(blur: Bool = true) -> UIView {
+        if blur {
+            let background = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+            background.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            return background
+        } else {
+            let background = UIView()
+            background.backgroundColor = ChatKit.shared().assets.get(color: "background")
+            return background
+        }
+    }
+    
+    public func setBackgroundAlpha(alpha: CGFloat) {
+        background?.alpha = alpha
+    }
+        
     public func addActionToStart(action: TextInputAction) {
         startActions.append(action)
         layoutStartActions()
@@ -119,15 +145,36 @@ public class TextInputView: UIView, UITextViewDelegate {
             button.keepVerticallyCentered()
         }
     }
-    
-    public func layoutStartActions() {
-        resetLayout(actions: startActions)
         
-        startActions.first?.getButton().keepLeftInset.equal = ChatKit.shared().textInputViewStartPadding
-        startActions.last?.getButton().keepRightOffsetTo(textView)?.equal = ChatKit.shared().textInputViewElementSpacing
+    public func filterActions(actions: [TextInputAction], hasText: Bool) -> [TextInputAction] {
+        var result = [TextInputAction]()
+        
+        for action in actions {
+            if action.visibility == .always {
+                result.append(action)
+            }
+            if action.visibility == .noText && !hasText {
+                result.append(action)
+            }
+            if action.visibility == .text && hasText {
+                result.append(action)
+            }
+            // If this is filtered out, hide it
+            action.getButton().alpha = result.contains(action) ? 1 : 0
+        }
+        return result
+    }
+    
+    public func layoutStartActions(hasText: Bool = false) {
+        resetLayout(actions: startActions)
 
-        var previousAction = startActions.first
-        for action in startActions {
+        let actions = filterActions(actions: startActions, hasText: hasText)
+                
+        actions.first?.getButton().keepLeftInset.equal = ChatKit.shared().textInputViewStartPadding
+        actions.last?.getButton().keepRightOffsetTo(textView)?.equal = ChatKit.shared().textInputViewElementSpacing
+
+        var previousAction = actions.first
+        for action in actions {
             if !action.isEqual(previousAction) {
                 action.button?.keepLeftOffsetTo(previousAction?.button)?.equal = ChatKit.shared().textInputViewElementSpacing
             }
@@ -135,14 +182,22 @@ public class TextInputView: UIView, UITextViewDelegate {
         }
     }
     
-    public func layoutEndActions() {
+    public func layoutEndActions(hasText: Bool = false) {
         resetLayout(actions: endActions)
         
-        endActions.last?.getButton().keepRightInset.equal = ChatKit.shared().textInputViewEndPadding
-        endActions.first?.getButton().keepLeftOffsetTo(textView)?.equal = ChatKit.shared().textInputViewElementSpacing
+        let actions = filterActions(actions: endActions, hasText: hasText)
 
-        var previousAction = endActions.first
         for action in endActions {
+            if !actions.contains(action) {
+                action.getButton().keepRightInset.equal = ChatKit.shared().textInputViewEndPadding
+            }
+        }
+        
+        actions.last?.getButton().keepRightInset.equal = ChatKit.shared().textInputViewEndPadding
+        actions.first?.getButton().keepLeftOffsetTo(textView)?.equal = ChatKit.shared().textInputViewElementSpacing
+        
+        var previousAction = actions.first
+        for action in actions {
             if !action.isEqual(previousAction) {
                 action.button?.keepLeftOffsetTo(previousAction?.button)?.equal = ChatKit.shared().textInputViewElementSpacing
             }
@@ -150,7 +205,7 @@ public class TextInputView: UIView, UITextViewDelegate {
         }
     }
     
-    public func addSendButton(action: TextInputAction, toEnd: Bool = true) {
+    public func addButton(action: TextInputAction, toEnd: Bool = true) {
         sendAction = action
         if toEnd {
             addActionToEnd(action: action)
@@ -160,45 +215,95 @@ public class TextInputView: UIView, UITextViewDelegate {
     }
     
     public func addSendButton(onClick: @escaping (() -> Void), toEnd: Bool = true) {
-        addSendButton(action: TextInputAction(text: "Send", action: onClick), toEnd: toEnd)
+        if let image = ChatKit.shared().assets.get(icon: "icn_30_send") {
+            addButton(action: TextInputAction(image: image, action: onClick, visibility: .text), toEnd: toEnd)
+        } else {
+            addButton(action: TextInputAction(text: "Send", action: onClick, visibility: .text), toEnd: toEnd)
+        }
     }
 
-    public func addPlusButton(onClick: @escaping (() -> Void)) {
-        addActionToStart(action: TextInputAction(text: "+", action: onClick))
+    public func addMicButton(onClick: @escaping (() -> Void), toEnd: Bool = true) {
+        if let image = ChatKit.shared().assets.get(icon: "icn_30_mic") {
+            addButton(action: TextInputAction(image: image, action: onClick, visibility: .noText), toEnd: toEnd)
+        }
+    }
+
+    public func addCameraButton(onClick: @escaping (() -> Void), toEnd: Bool = true) {
+        if let image = ChatKit.shared().assets.get(icon: "icn_30_camera") {
+            addButton(action: TextInputAction(image: image, action: onClick, visibility: .noText), toEnd: toEnd)
+        }
+    }
+
+    public func addPlusButton(onClick: @escaping (() -> Void), toEnd: Bool = false) {
+        if let image = ChatKit.shared().assets.get(icon: "icn_30_plus") {
+            addButton(action: TextInputAction(image: image, action: onClick, visibility: .always), toEnd: toEnd)
+        } else {
+            addButton(action: TextInputAction(text: "+", action: onClick, visibility: .always), toEnd: toEnd)
+        }
     }
     
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text.isEmpty {
+            layout(hasText: false)
+        } else if let textRange = Range(range, in: text) {
+            let newText = textView.text.replacingCharacters(in: textRange, with: text)
+            if newText.isEmptyOrBlank() != textView.text.isEmptyOrBlank() {
+                layout(hasText: true)
+            }
+        }
         return true
     }
     
+    public func layout(hasText: Bool = false) {
+        keepAnimated(withDuration: 0.2, delay: 0, options: .curveEaseInOut, layout: { [weak self] in
+            self?.layoutStartActions(hasText: hasText)
+            self?.layoutEndActions(hasText: hasText)
+        }, completion: nil)
+//        keepAnimated(withDuration: 0.2, options: ,layout: { [weak self] in
+//        })
+    }
+    
     public func textViewDidChange(_ textView: UITextView) {
-        if text()?.count ?? 0 > 0 || !audioEnabled {
+        if hasText() {
             
         } else {
             
         }
     }
+
     
-    public func setMicButtonEnabled(enabled: Bool, sendButtonEnabled: Bool) {
-        micButtonEnabled = enabled
-        if let button = sendAction?.button {
-            button.isEnabled = sendButtonEnabled || enabled
-            if enabled {
-                button.setTitle(nil, for: .normal)
-                // TODO: 
-//                button.setImage(<#T##image: UIImage?##UIImage?#>, for: <#T##UIControl.State#>)
-            } else {
-//                button
-            }
-        }
-    }
+//    - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+//        NSString * newText = [textView.text stringByReplacingCharactersInRange:range withString:text];
+//        if (textView.heightToFitText >= 300 && newText.length > textView.text.length) {
+//            return NO;
+//        }
+//        return YES;
+//    }
+
     
     public func text() -> String? {
-        let text = textView?.text.replacingOccurrences(of: " ", with: "")
-        if text?.count ?? 0 > 0 {
-            return textView?.text
+        return textView?.text
+//        let text = textView?.text.replacingOccurrences(of: " ", with: "")
+//        if text?.count ?? 0 > 0 {
+//            return textView?.text
+//        }
+//        return nil
+    }
+    
+    public func hasText() -> Bool {
+        if let text = text(), text.hasText() {
+            return true
         }
-        return nil
+        return false
     }
 
+}
+
+extension String {
+    public func isEmptyOrBlank() -> Bool {
+        return replacingOccurrences(of: " ", with: "").isEmpty
+    }
+    public func hasText() -> Bool {
+        return !isEmptyOrBlank()
+    }
 }

@@ -7,16 +7,16 @@
 
 import Foundation
 
-@objc public protocol Message {
+public protocol Message {
     
-    @objc func messageId() -> String
-    @objc func messageType() -> String
-    @objc func messageDate() -> Date
-    @objc func messageText() -> String?
-    @objc func messageSender() -> User
-    @objc func messageImageUrl() -> URL?
-    @objc func messageMeta() -> [AnyHashable: Any]?
-    @objc func messageDirection() -> MessageDirection
-    @objc func messageReadStatus() -> MessageReadStatus
+    func messageId() -> String
+    func messageType() -> String
+    func messageDate() -> Date
+    func messageText() -> String?
+    func messageSender() -> User
+    func messageImageUrl() -> URL?
+    func messageMeta() -> [AnyHashable: Any]?
+    func messageDirection() -> MessageDirection
+    func messageReadStatus() -> MessageReadStatus
 
 }

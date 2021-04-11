@@ -125,11 +125,6 @@
     [_notificationList add:[BChatSDK.hook addHook:[BHook hook:^(NSDictionary * data) {
         [weakSelf reloadData];
 
-        // Black Chat
-//        [_messageManager clear];
-//        [self loadMoreMessages];
-//        [self reloadData:false animate:false force:true];
-//        [self reloadData];
 
     }] withNames:@[bHookMessageWasDeleted]]];
 

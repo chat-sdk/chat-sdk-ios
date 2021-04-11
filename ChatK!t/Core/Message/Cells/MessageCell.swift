@@ -10,14 +10,14 @@ import UIKit
 import LoremIpsum
 import KeepLayout
 
-@objc public enum BubbleMaskPosition: Int {
+public enum BubbleMaskPosition: Int {
     case topRight
     case topLeft
     case bottomRight
     case bottomLeft
 }
 
-@objc public class MessageCell: UITableViewCell {
+public class MessageCell: UITableViewCell {
     
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var timeLabel: UILabel!
@@ -39,7 +39,7 @@ import KeepLayout
 
     }
     
-    @objc public func setContent(content: MessageContent) {
+    public func setContent(content: MessageContent) {
         if self.content == nil {
             self.content = content
             contentContainerView.addSubview(content.view())
@@ -55,7 +55,7 @@ import KeepLayout
         }
     }
     
-    @objc public func bind(message: Message, model: MessagesViewModel) {
+    public func bind(message: Message, model: MessagesViewModel) {
         if let content = self.content {
             content.bind(message: message)
         }
@@ -91,23 +91,23 @@ import KeepLayout
         }
     }
 
-    @objc public func setAvatarSize(size: CGFloat) {
+    public func setAvatarSize(size: CGFloat) {
         avatarImageView.keepSize.equal = size
         avatarImageView.layer.cornerRadius = size / 2.0
     }
 
-    @objc public func setBubbleColor(color: UIColor) {
+    public func setBubbleColor(color: UIColor) {
         contentContainerView.backgroundColor = color
         bubbleMask.backgroundColor = color
     }
 
-    @objc public func setBubbleCornerRadius(radius: CGFloat) {
+    public func setBubbleCornerRadius(radius: CGFloat) {
         contentContainerView.layer.cornerRadius = radius
         bubbleMask.keepSize.equal = radius
         content?.view().layer.cornerRadius = radius
     }
 
-    @objc public func setBubbleMaskPosition(position: BubbleMaskPosition) {
+    public func setBubbleMaskPosition(position: BubbleMaskPosition) {
         switch position {
         case .topLeft:
             bubbleMask.keepTopInset.equal = 0

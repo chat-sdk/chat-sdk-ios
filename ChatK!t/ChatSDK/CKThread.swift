@@ -8,7 +8,7 @@
 import Foundation
 import ChatSDK
 
-@objc public class CKThread: NSObject, Thread {
+open class CKThread: Thread {
     
     let _thread: PThread
     
@@ -25,23 +25,23 @@ import ChatSDK
         return .none
     }()
     
-    @objc public init(thread: PThread) {
+    public init(thread: PThread) {
         _thread = thread
     }
 
-    @objc public func threadId() -> String {
+    open func threadId() -> String {
         return _thread.entityID()
     }
     
-    @objc public func threadName() -> String {
+    open func threadName() -> String {
         return _thread.displayName()
     }
     
-    @objc public func threadImageUrl() -> URL? {
+    open func threadImageUrl() -> URL? {
         return URL(string: _thread.imageURL())
     }
     
-    @objc public func threadUsers() -> [User] {
+    open func threadUsers() -> [User] {
         var users = [User]()
         for user in _thread.users() {
             if let user = user as? PUser {
@@ -51,7 +51,7 @@ import ChatSDK
         return users
     }
     
-    @objc public func threadMessages() -> [Message] {
+    open func threadMessages() -> [Message] {
         var messages = [Message]()
         for message in _thread.messagesOrderedByDateOldestFirst() {
             if let message = message as? PMessage {
@@ -61,7 +61,7 @@ import ChatSDK
         return messages
     }
     
-    @objc public func threadType() -> ThreadType {
+    open func threadType() -> ThreadType {
         return _threadType
     }
 }

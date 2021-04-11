@@ -7,12 +7,12 @@
 
 import Foundation
 
-@objc public protocol MessageContent {
+public protocol MessageContent {
  
-    @objc func view() -> UIView
-    @objc func bind(message: Message)
-    @objc func showBubble() -> Bool
-    @objc func bubbleCornerRadius() -> CGFloat
+    func view() -> UIView
+    func bind(message: Message)
+    func showBubble() -> Bool
+    func bubbleCornerRadius() -> CGFloat
 
 }
 

@@ -27,6 +27,8 @@
 @class BTextInputView;
 @class BLocalNotificationHandler;
 @class SettingsSection;
+@class BDetailedEditProfileTableViewController;
+@class BDetailedProfileTableViewController;
 
 typedef UIViewController * (^UserProvider) (id<PUser> user);
 typedef UIViewController * (^ChatProvider) (id<PThread> thread);
@@ -54,6 +56,9 @@ typedef UIViewController<PModerationViewController> * (^ModerationProvider) (id<
 
 -(void) setProfileOptionsViewController: (UserProvider) provider;
 -(UIViewController *) profileOptionsViewControllerWithUser: (id<PUser>) user;
+
+-(void) setEditProfileViewController: (BDetailedEditProfileTableViewController *) controller;
+-(UIViewController *) editProfileViewControllerWithParent: (BDetailedProfileTableViewController *) parent;
 
 -(void) setSettingsViewController: (UIViewController *) controller;
 -(UIViewController *) settingsViewController;

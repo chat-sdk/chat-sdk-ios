@@ -7,10 +7,19 @@
 
 import Foundation
 
-@objc public protocol User {
+public protocol User {
     
-    @objc func userId() -> String
-    @objc func userName() -> String
-    @objc func userImageUrl() -> URL?
+    func userId() -> String
+    func userName() -> String
+    func userImageUrl() -> URL?
+    func userIsMe() -> Bool
+    func userIsOnline() -> Bool
+    func userLastOnline() -> Date?
+    
+}
 
+public extension User {
+    func userLastOnline() -> Date? {
+        return nil
+    }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import ChatSDK
 
-@objc public class CKMessage: NSObject, Message {
+public class CKMessage: NSObject, Message {
 
     let message: PMessage
     
@@ -22,11 +22,11 @@ import ChatSDK
     lazy var imageUrl = message.imageURL()
     lazy var direction: MessageDirection = message.senderIsMe() ? .outgoing : .incoming
 
-    @objc public init(message: PMessage) {
+    public init(message: PMessage) {
         self.message = message
     }
     
-    @objc public func messageId() -> String {
+    public func messageId() -> String {
         return entityId!
     }
 
@@ -34,11 +34,11 @@ import ChatSDK
         return date!
     }
 
-    @objc public func messageText() -> String? {
+    public func messageText() -> String? {
         return text
     }
 
-    @objc public func messageSender() -> User {
+    public func messageSender() -> User {
         return sender
     }
 
@@ -54,11 +54,11 @@ import ChatSDK
         return meta!
     }
     
-    @objc public func messageDirection() -> MessageDirection {
+    public func messageDirection() -> MessageDirection {
         return direction
     }
 
-    @objc public func messageReadStatus() -> MessageReadStatus {
+    public func messageReadStatus() -> MessageReadStatus {
         if BChatSDK.readReceipt() != nil && messageDirection() == .outgoing {
             if let status = message.messageReadStatus?() {
                 if status == bMessageReadStatusRead {

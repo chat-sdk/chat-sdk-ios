@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public enum MessageReadStatus: Int {
+public enum MessageReadStatus: Int {
     case none
     case sent
     case delivered

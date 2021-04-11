@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class TextMessageContent: DefaultMessageContent {
+public class TextMessageContent: DefaultMessageContent {
     
     lazy var label: UILabel = {
         let label = UILabel()
@@ -23,11 +23,11 @@ import Foundation
         return view
     }()
     
-    @objc override public func view() -> UIView {
+    override public func view() -> UIView {
         return containerView
     }
     
-    @objc override public func bind(message: Message) {
+    override public func bind(message: Message) {
         label.text = message.messageText()
     }
         

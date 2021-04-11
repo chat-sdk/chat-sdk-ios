@@ -16,7 +16,13 @@
 @implementation BSplashScreenViewController
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if((self = [super initWithNibName:@"BSplashScreenViewController" bundle:[NSBundle uiBundle]])) {
+    if (!nibNameOrNil) {
+        nibNameOrNil = @"BSplashScreenViewController";
+    }
+    if (!nibBundleOrNil) {
+        nibBundleOrNil = NSBundle.uiBundle;
+    }
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         _shouldPushViewControllerOnAuth = YES;
         _impl_shouldPushViewControllerOnAuth = YES;
     }

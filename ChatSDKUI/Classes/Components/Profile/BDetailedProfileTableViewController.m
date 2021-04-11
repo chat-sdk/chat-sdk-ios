@@ -438,9 +438,12 @@
 
 
 - (IBAction)editButtonPressed:(id)sender {
-        
-    BDetailedEditProfileTableViewController * vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"EditProfile"];
-    vc.profileViewController = self;
+
+//    BDetailedEditProfileTableViewController * vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"EditProfile"];
+//    vc.profileViewController = self;
+
+    BDetailedEditProfileTableViewController * vc = [BChatSDK.ui editProfileViewControllerWithParent:self];
+
     UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nc animated:YES completion:Nil];
 }

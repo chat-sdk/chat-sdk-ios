@@ -8,11 +8,11 @@
 import Foundation
 import ChatSDK
 
-@objc public class CKUser: NSObject, User {
+open class CKUser: User {
     
     let user: PUser
     
-    @objc public init(user: PUser) {
+    public init(user: PUser) {
         self.user = user
     }
     
@@ -26,6 +26,14 @@ import ChatSDK
     
     public func userImageUrl() -> URL? {
         return URL(string: user.imageURL())
+    }
+    
+    public func userIsMe() -> Bool {
+        return user.isMe()
+    }
+    
+    public func userIsOnline() -> Bool {
+        return user.online()?.boolValue ?? false
     }
     
 }

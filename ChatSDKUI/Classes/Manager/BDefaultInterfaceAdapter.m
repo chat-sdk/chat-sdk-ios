@@ -112,6 +112,19 @@
     return [[ModerationViewController alloc] initWithThread:thread user:user nibName:nil bundle:nil];
 }
 
+-(void) setEditProfileViewController: (BDetailedEditProfileTableViewController *) controller {
+    _editProfileViewController = controller;
+}
+
+-(UIViewController *) editProfileViewControllerWithParent: (BDetailedProfileTableViewController *) parent {
+    if (!_editProfileViewController) {
+        _editProfileViewController = [[UIStoryboard storyboardWithName:@"DetailedProfile"
+                                                                bundle:[NSBundle uiBundle]] instantiateViewControllerWithIdentifier:@"EditProfile"];
+    }
+    _editProfileViewController.profileViewController = parent;
+    return _editProfileViewController;
+}
+
 -(UIViewController *) contactsViewController {
     if (!_contactsViewController) {
         _contactsViewController = [[BContactsViewController alloc] init];

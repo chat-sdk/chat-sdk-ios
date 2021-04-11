@@ -15,11 +15,12 @@ Pod::Spec.new do |s|
   
   s.source_files = "ChatK!t/Core/**/*.{h,m,swift}"
 
-  s.resources = 'ChatK!t/Core/**/*.{xib,xcassets}'
+  s.resources = 'ChatK!t/Core/**/*.{xib,xcassets,strings}'
 
   s.dependency 'ChatSDKKeepLayout'
   s.dependency 'LoremIpsum'
   s.dependency 'GrowingTextView', '0.7.2'
+  s.dependency 'ChatSDK/Core'
   
     s.subspec 'ChatSDK' do |s| 
 	  s.source_files = ['ChatK!t/ChatSDK/**/*']

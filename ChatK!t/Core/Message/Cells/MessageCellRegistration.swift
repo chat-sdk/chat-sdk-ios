@@ -7,7 +7,7 @@
 
 import Foundation
  
-@objc public class MessageCellRegistration: NSObject {
+public class MessageCellRegistration: NSObject {
     
     let _messageType: String
     let _incomingNib: UINib
@@ -15,7 +15,7 @@ import Foundation
     let _incomingContentClass: NSObject.Type
     let _outgoingContentClass: NSObject.Type
         
-    @objc public init(messageType: String, incomingNib: UINib, outgoingNib: UINib, incomingContentClass: NSObject.Type, outgoingContentClass: NSObject.Type) {
+    public init(messageType: String, incomingNib: UINib, outgoingNib: UINib, incomingContentClass: NSObject.Type, outgoingContentClass: NSObject.Type) {
         _messageType = messageType
         _incomingNib = incomingNib
         _outgoingNib = outgoingNib
@@ -23,7 +23,7 @@ import Foundation
         _outgoingContentClass = outgoingContentClass
     }
     
-    @objc public init(messageType: String, incomingContentClass: NSObject.Type, outgoingContentClass: NSObject.Type) {
+    public init(messageType: String, incomingContentClass: NSObject.Type, outgoingContentClass: NSObject.Type) {
         _messageType = messageType
         _incomingNib = UINib(nibName: "IncomingMessageCell", bundle: Bundle(for: MessageCell.self))
         _outgoingNib = UINib(nibName: "OutgoingMessageCell", bundle: Bundle(for: MessageCell.self))
@@ -31,7 +31,7 @@ import Foundation
         _outgoingContentClass = outgoingContentClass
     }
 
-    @objc public init(messageType: String, contentClass: NSObject.Type) {
+    public init(messageType: String, contentClass: NSObject.Type) {
         _messageType = messageType
         _incomingNib = UINib(nibName: "IncomingMessageCell", bundle: Bundle(for: MessageCell.self))
         _outgoingNib = UINib(nibName: "OutgoingMessageCell", bundle: Bundle(for: MessageCell.self))
@@ -39,11 +39,11 @@ import Foundation
         _outgoingContentClass = contentClass
     }
 
-    @objc public func messageType() -> String {
+    public func messageType() -> String {
         return _messageType
     }
 
-    @objc public func nib(direction: MessageDirection) -> UINib {
+    public func nib(direction: MessageDirection) -> UINib {
         switch direction {
         case .incoming:
             return _incomingNib
@@ -52,11 +52,11 @@ import Foundation
         }
     }
     
-    @objc public func identifier(direction: MessageDirection) -> String {
+    public func identifier(direction: MessageDirection) -> String {
         return _messageType + direction.get()
     }
         
-    @objc public func content(direction: MessageDirection) -> MessageContent {
+    public func content(direction: MessageDirection) -> MessageContent {
         var contentClass: NSObject.Type?
         switch direction {
         case .incoming:

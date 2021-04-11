@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public enum ThreadType: Int {
+public enum ThreadType: Int {
     case private1to1
     case privateGroup
     case publicGroup

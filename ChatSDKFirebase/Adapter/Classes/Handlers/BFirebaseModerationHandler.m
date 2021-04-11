@@ -54,7 +54,7 @@
             if (![snapshot.value isEqual: [NSNull null]]) {
                 NSString * entityID = snapshot.key;
                 id<PMessage> msg2remove;
-                for (id<PMessage> msg in weakSelf.flaggedMessages) {
+                for (id<PMessage> msg in self.flaggedMessages) {
                     if (msg.entityID == entityID) {
                         msg2remove = msg;
                         break;
@@ -62,7 +62,7 @@
                 }
                 NSDictionary * userInfo = Nil;
                 if (msg2remove) {
-                    [weakSelf.  flaggedMessages removeObject:msg2remove];
+                    [self.flaggedMessages removeObject:msg2remove];
                     userInfo = @{bNotificationFlaggedMessageRemoved_PMessage: msg2remove};
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{

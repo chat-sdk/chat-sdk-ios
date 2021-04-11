@@ -34,7 +34,13 @@
 @synthesize delegate;
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:@"BLoginViewController" bundle:[NSBundle uiBundle]])) {
+    if (!nibNameOrNil) {
+        nibNameOrNil = @"BLoginViewController";
+    }
+    if (!nibBundleOrNil) {
+        nibBundleOrNil = NSBundle.uiBundle;
+    }
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:Nil];
     }

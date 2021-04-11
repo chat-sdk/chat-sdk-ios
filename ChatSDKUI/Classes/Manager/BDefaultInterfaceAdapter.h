@@ -20,12 +20,11 @@
 @class BFlaggedMessagesViewController;
 @class BContactsViewController;
 @class BProfilePicturesViewController;
-@class UIViewController;
 @class BFriendsListViewController;
 @class BChatViewController;
 @class BSearchViewController;
-@protocol PUser;
 @class BLocalNotificationHandler;
+@class BDetailedEditProfileTableViewController;
 
 @protocol PThread;
 @protocol PUser;
@@ -51,6 +50,7 @@
 @property (nonatomic, readwrite) BFriendsListViewController * (^friendsListViewController)(NSArray * usersToExclude, void(^onComplete)(NSArray * users, NSString * groupName));
 @property (nonatomic, readwrite) UserProvider profileViewController;
 @property (nonatomic, readwrite) UserProvider profileOptionsViewController;
+@property (nonatomic, readwrite) BDetailedEditProfileTableViewController * editProfileViewController;
 
 @property (nonatomic, readwrite) UserProvider profilePicturesViewController;
 @property (nonatomic, readwrite) UIViewController * termsOfServiceViewController;

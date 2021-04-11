@@ -15,6 +15,9 @@ public class ChatKit {
         return instance
     }
     
+    public var assets = Assets()
+    public var config = Config()
+    
     // TextInputView layout parameters
     public var textInputViewTopPadding = 5
     public var textInputViewBottomPadding = 5

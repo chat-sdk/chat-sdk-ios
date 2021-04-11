@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class DefaultMessageContent: NSObject, MessageContent {
+public class DefaultMessageContent: NSObject, MessageContent {
 
     public func view() -> UIView {
         assert(false, "DefaultMessageContent view() method must be overridden")
@@ -18,20 +18,20 @@ import Foundation
         
     }
     
-//    @objc public func showBubble() -> Bool {
+//    public func showBubble() -> Bool {
 //        return true
 //    }
-//    @objc public func bubbleCornerRadius() -> Float {
+//    public func bubbleCornerRadius() -> Float {
 //        return 5.0
 //    }
     
 }
 
-@objc extension DefaultMessageContent {
-    @objc public func showBubble() -> Bool {
+extension DefaultMessageContent {
+    public func showBubble() -> Bool {
         return true
     }
-    @objc public func bubbleCornerRadius() -> CGFloat {
+    public func bubbleCornerRadius() -> CGFloat {
         return 10.0
     }
 }

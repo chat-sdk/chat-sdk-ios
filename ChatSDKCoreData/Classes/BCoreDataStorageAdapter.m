@@ -303,9 +303,6 @@ static void * kMainQueueKey = (void *) "Key1";
     if (entityID && [entity respondsToSelector:@selector(setEntityID:)]) {
         [((id<PEntity>) entity) setEntityID:entityID];
     }
-    if (type == bUserEntity && [entityID isEqualToString:@"blackchat.net"]) {
-        NSLog(@"Blackchat");
-    }
     
     return entity;
 }

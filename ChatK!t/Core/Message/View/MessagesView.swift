@@ -10,7 +10,7 @@ import UIKit
 import KeepLayout
 import LoremIpsum
 
-@objc public class MessagesView: UIView, UITableViewDelegate {
+public class MessagesView: UIView, UITableViewDelegate {
     
     var tableView = UITableView()
     var model: MessagesViewModel?
@@ -18,20 +18,20 @@ import LoremIpsum
     // Message selection
     var selectionModeIsEnabled = false
     
-    @objc public override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
 
-    @objc public convenience init() {
+    public convenience init() {
         self.init(frame: CGRect.zero)
     }
     
-    @objc public convenience required init?(coder: NSCoder) {
+    public convenience required init?(coder: NSCoder) {
         self.init()
     }
 
-    @objc public func setup() {
+    public func setup() {
         
         addSubview(tableView)
         
@@ -46,7 +46,7 @@ import LoremIpsum
                 
     }
     
-    @objc public func setModel(model: MessagesViewModel) {
+    public func setModel(model: MessagesViewModel) {
         
         assert(self.model == nil, "The model can't be set more than once")
         
@@ -62,7 +62,7 @@ import LoremIpsum
 
     }
     
-    @objc public func selectionModeEnabled() -> Bool {
+    public func selectionModeEnabled() -> Bool {
         return selectionModeIsEnabled;
     }
     

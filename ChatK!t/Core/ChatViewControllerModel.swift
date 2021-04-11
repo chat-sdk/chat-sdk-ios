@@ -6,28 +6,70 @@
 //
 
 import Foundation
+import RxSwift
+import ChatSDK
 
-@objc public class ChatViewControllerModel: NSObject {
+open class ChatViewControllerModel: NSObject {
 
-    let thread: Thread
+    public let thread: Thread
     
-    lazy var _messagesViewModel = {
+    public lazy var _messagesViewModel = {
         return MessagesViewModel(thread: thread)
     }()
     
-    @objc public init(thread: Thread) {
+    public init(thread: Thread) {
         self.thread = thread
     }
     
-    @objc public func messagesViewModel() -> MessagesViewModel {
+    open func messagesViewModel() -> MessagesViewModel {
         return _messagesViewModel
     }
     
-    @objc public func title() -> String {
+    open func title() -> String {
         return thread.threadName()
     }
+
+    /**
+     Steady state subtitle
+     */
+    open func subtitle() -> String {
+        let defaultText = initialSubtitle() ?? "";
+        
+        if thread.threadType() == .private1to1 {
+            if let user = thread.threadOtherUser() {
+                if user.userIsOnline() {
+                    return t(Strings.online)
+                } else if let lastOnline = user.userLastOnline() as NSDate?, let text = lastOnline.lastSeenTimeAgo() {
+                    return text
+                }
+            }
+        } else {
+            var text = ""
+            for user in thread.threadUsers() {
+                if !user.userIsMe() {
+                    text += user.userName() + ", "
+                }
+            }
+            if text.count > 1 {
+                text = String(text.prefix(text.count - 2))
+            }
+            return text
+        }
+        
+        return defaultText
+     }
     
-    @objc public func send(text: String) {
+    /**
+        This is shown for a period when the screen initially loads
+     */
+    open func initialSubtitle() -> String? {
+        if ChatKit.shared().config.userChatInfoEnabled {
+            return t(Strings.tapHereForContactInfo)
+        }
+        return nil
+    }
+
+    open func send(text: String) {
         
     }
 

@@ -28,7 +28,8 @@
         textView.dataDetectorTypes = UIDataDetectorTypeAll;
         textView.editable = NO;
         textView.userInteractionEnabled = NO;
-        textView.scrollEnabled = YES;
+        textView.scrollEnabled = NO;
+//        textView.scrollEnabled = YES;
         // Get rid of padding and margin
         textView.textContainer.lineFragmentPadding = 0;
         textView.textContainerInset = UIEdgeInsetsZero;
