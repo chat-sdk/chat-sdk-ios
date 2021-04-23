@@ -5,6 +5,6 @@
 "connecting" = "Connecting";
 //"lastSeen_at_" = "Last seen %@ at %@";
 "copiedToClipboard" = "Copied to Clipboard";
-"" = "";
-"" = "";
+"location" = "Location";
+"gallery" = "Gallery";
 "" = "";

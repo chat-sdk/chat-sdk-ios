@@ -14,6 +14,8 @@ public class Strings {
     public static let offline = "offline"
     public static let connecting = "connecting"
     public static let copiedToClipboard = "copiedToClipboard"
+    public static let gallery = "gallery"
+    public static let location = "location"
 
 //    public static let lastSeen_at_ = "lastSeen_at_"
 //    public static let today = "today"

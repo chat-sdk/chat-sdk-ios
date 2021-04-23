@@ -17,16 +17,16 @@ public class Assets {
         return Bundle(for: Assets.self)
     }()
 
-    public func get(icon named: String) -> UIImage? {
+    public func get(icon named: String) -> UIImage {
         let image = icons[named] ?? UIImage(named: named, in: bundle, compatibleWith: nil)
         icons[named] = image
-        return image
+        return image!
     }
 
-    public func get(color named: String) -> UIColor? {
-        var color = colors[named] ?? UIColor(named: named, in: bundle, compatibleWith: nil)
+    public func get(color named: String) -> UIColor {
+        let color = colors[named] ?? UIColor(named: named, in: bundle, compatibleWith: nil)
         colors[named] = color
-        return color
+        return color!
     }
 
     public func set(name: String, image: UIImage) {

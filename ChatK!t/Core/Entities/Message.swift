@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Message {
+public protocol Message: NSObject {
     
     func messageId() -> String
     func messageType() -> String
@@ -18,5 +18,6 @@ public protocol Message {
     func messageMeta() -> [AnyHashable: Any]?
     func messageDirection() -> MessageDirection
     func messageReadStatus() -> MessageReadStatus
+    func messageReply() -> Reply?
 
 }

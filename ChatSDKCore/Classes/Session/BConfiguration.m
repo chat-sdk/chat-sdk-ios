@@ -54,8 +54,6 @@
 @synthesize messageSelectionEnabled;
 @synthesize encryptGroupThreads;
 
-@synthesize vibrateOnNewMessage;
-
 @synthesize showMessageAvatarAtPosition;
 @synthesize messageBubbleMaskFirst;
 @synthesize messageBubbleMaskMiddle;
@@ -213,8 +211,6 @@
         publicChatRoomLifetimeMinutes = 7 * 60 * 24;
         
         searchIndexes = @[bUserNameKey, bUserEmailKey, bUserPhoneKey, bUserNameLowercase];
-        
-        vibrateOnNewMessage = YES;
         
         showMessageAvatarAtPosition = bMessagePosLast;
         

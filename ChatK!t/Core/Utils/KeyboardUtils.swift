@@ -44,7 +44,9 @@ public class KeyboardInfo {
 public class KeyboardListener {
     
     public var willShow: ((KeyboardInfo) -> Void)?
+    public var didShow: ((KeyboardInfo) -> Void)?
     public var willHide: ((KeyboardInfo) -> Void)?
+    public var didHide: ((KeyboardInfo) -> Void)?
     public var willChangeFrame: ((KeyboardInfo) -> Void)?
 
     init() {
@@ -54,7 +56,9 @@ public class KeyboardListener {
     public func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     public func removeObservers() {
@@ -70,14 +74,26 @@ public class KeyboardListener {
     }
     
     @objc public func keyboardWillShow(_ notification: Notification) {
-        if let callback = willShow, let data = KeyboardInfo.from(notification.userInfo) {
-            callback(data)
+        if let info = KeyboardInfo.from(notification.userInfo) {
+            willShow?(info)
+        }
+    }
+
+    @objc public func keyboardDidShow(_ notification: Notification) {
+        if let info = KeyboardInfo.from(notification.userInfo) {
+            didShow?(info)
         }
     }
 
     @objc public func keyboardWillHide(_ notification: Notification) {
-        if let callback = willHide, let data = KeyboardInfo.from(notification.userInfo) {
-            callback(data)
+        if let info = KeyboardInfo.from(notification.userInfo) {
+            willHide?(info)
+        }
+    }
+
+    @objc public func keyboardDidHide(_ notification: Notification) {
+        if let info = KeyboardInfo.from(notification.userInfo) {
+            didHide?(info)
         }
     }
 

@@ -88,7 +88,7 @@
 
     [BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict){
         id<PMessage> message = dict[bHook_PMessage];
-        if (message && [message.thread isEqualToEntity:_thread]) {
+        if (message && [message.thread isEqualToEntity:weakSelf.thread]) {
             [weakSelf reloadDataForMessage:message];
         }
     }] withName:bHookMessageReadReceiptUpdated];
@@ -96,12 +96,7 @@
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         id<PMessage> message = data[bHook_PMessage];
 
-        if (![message.thread isEqualToEntity:weakSelf.thread]) {
-            // If we are in chat and receive a message in another chat then vibrate the phone
-            if (!message.userModel.isMe && BChatSDK.config.vibrateOnNewMessage && !message.isRead && (message.date.timeIntervalSinceNow < 20) && !message.meta[bMessageIsHistoric]) {
-                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-            }
-        } else {
+        if ([message.thread isEqualToEntity:weakSelf.thread]) {
             if (!message.userModel.isMe) {
                 [self markRead];
             } else {

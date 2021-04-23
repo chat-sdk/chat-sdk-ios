@@ -316,6 +316,7 @@
         NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:message.meta];
         meta[bId] = message.entityID;
         meta[bType] = message.type;
+        meta[bFrom] = message.user.entityID;
         [builder meta: meta];
     }
     

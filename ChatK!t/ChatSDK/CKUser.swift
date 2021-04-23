@@ -25,7 +25,10 @@ open class CKUser: User {
     }
     
     public func userImageUrl() -> URL? {
-        return URL(string: user.imageURL())
+        if let url = user.imageURL() {
+            return URL(string: url)
+        }
+        return nil
     }
     
     public func userIsMe() -> Bool {

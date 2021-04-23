@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MessageReplyView" customModule="ChatKit" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YtI-2q-hUe">
+                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="Sqh-5P-zXx"/>
+                        <constraint firstAttribute="width" priority="750" constant="50" id="ea0-0b-BHx"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yqK-Yb-q3D">
+                    <rect key="frame" x="61" y="7" width="40" height="18"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="This is a long label to see what happens if it goes off the end of the label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="khD-WZ-anD">
+                    <rect key="frame" x="61" y="27" width="347" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MfF-WX-Jun">
+                    <rect key="frame" x="50" y="0.0" width="3" height="50"/>
+                    <color key="backgroundColor" systemColor="systemGreenColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="3" id="6g7-pv-zCX"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="YtI-2q-hUe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="0BY-Bv-1M4"/>
+                <constraint firstItem="MfF-WX-Jun" firstAttribute="leading" secondItem="YtI-2q-hUe" secondAttribute="trailing" id="1Bt-Zg-vmg"/>
+                <constraint firstItem="khD-WZ-anD" firstAttribute="top" secondItem="yqK-Yb-q3D" secondAttribute="bottom" constant="2" id="6so-Ni-0IQ"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="YtI-2q-hUe" secondAttribute="bottom" id="DHC-jG-cLH"/>
+                <constraint firstAttribute="trailing" secondItem="khD-WZ-anD" secondAttribute="trailing" constant="6" id="G04-aO-5dR"/>
+                <constraint firstItem="yqK-Yb-q3D" firstAttribute="leading" secondItem="MfF-WX-Jun" secondAttribute="trailing" constant="8" id="G49-dQ-Jk2"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yqK-Yb-q3D" secondAttribute="trailing" constant="8" id="Kc8-mN-Mzc"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="khD-WZ-anD" secondAttribute="bottom" constant="5" id="Olx-or-ioy"/>
+                <constraint firstItem="MfF-WX-Jun" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Vpx-Ar-u6D"/>
+                <constraint firstItem="khD-WZ-anD" firstAttribute="leading" secondItem="MfF-WX-Jun" secondAttribute="trailing" constant="8" symbolic="YES" id="Zcr-Ua-wod"/>
+                <constraint firstItem="YtI-2q-hUe" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="biD-Ea-Io1"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="MfF-WX-Jun" secondAttribute="bottom" id="gcZ-kJ-qvj"/>
+                <constraint firstItem="yqK-Yb-q3D" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="7" id="zw4-99-dSp"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="divider" destination="MfF-WX-Jun" id="z3e-fq-52A"/>
+                <outlet property="imageView" destination="YtI-2q-hUe" id="QxQ-0f-Wdh"/>
+                <outlet property="textLabel" destination="khD-WZ-anD" id="gUJ-Vo-bK1"/>
+                <outlet property="titleLabel" destination="yqK-Yb-q3D" id="2at-Dx-afF"/>
+            </connections>
+            <point key="canvasLocation" x="16" y="-136"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

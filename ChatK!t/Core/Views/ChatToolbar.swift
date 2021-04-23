@@ -7,17 +7,17 @@
 
 import Foundation
 
-public class ChatToolbar : UIToolbar {
+@objc public class ChatToolbar: UIToolbar {
     
     public var replyListener: (() -> Void)?
     public var forwardListener: (() -> Void)?
     public var copyListener: (() -> Void)?
     public var deleteListener: (() -> Void)?
-
-    public let copyButton = UIBarButtonItem(image: ChatKit.shared().assets.get(icon: "icn_24_copy"), style: .plain, target: self, action: #selector(_copy))
-    public let forwardButton = UIBarButtonItem(image: ChatKit.shared().assets.get(icon: "icn_24_forward"), style: .plain, target: self, action: #selector(forward))
-    public let replyButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(reply))
-    public let deleteButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(_delete))
+    
+    public var copyButton: UIBarButtonItem?
+    public var forwardButton: UIBarButtonItem?
+    public var replyButton: UIBarButtonItem?
+    public var deleteButton: UIBarButtonItem?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,47 +33,51 @@ public class ChatToolbar : UIToolbar {
     }
 
     public func setup() {
-        
+        update(count: 1)
+    }
+    
+    public func update(count: Int, animated: Bool = false) {
         var items = [UIBarButtonItem]()
         
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil);
         fixedSpace.width = 10
         
-        items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
-        items.append(copyButton)
-        items.append(fixedSpace)
-        items.append(deleteButton)
-        items.append(fixedSpace)
-        items.append(forwardButton)
-        items.append(fixedSpace)
-        items.append(replyButton)
+        copyButton = UIBarButtonItem(image: ChatKit.asset(icon: "icn_24_copy"), style: .plain, target: self, action: #selector(_copy))
+        forwardButton = UIBarButtonItem(image: ChatKit.asset(icon: "icn_24_forward"), style: .plain, target: self, action: #selector(forward))
+        replyButton = UIBarButtonItem(image: ChatKit.asset(icon: "icn_24_reply"), style: .plain, target: self, action: #selector(reply))
+        deleteButton = UIBarButtonItem(image: ChatKit.asset(icon: "icn_24_trash"), style: .plain, target: self, action: #selector(del))
 
-        setItems(items, animated: false)
-        
+        items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+        items.append(copyButton!)
+        items.append(fixedSpace)
+        items.append(deleteButton!)
+        if count == 1 {
+            items.append(fixedSpace)
+            items.append(forwardButton!)
+            items.append(fixedSpace)
+            items.append(replyButton!)
+        }
+        setItems(items, animated: animated)
     }
     
     @objc public func reply() {
-        if let listener = replyListener {
-            listener()
-        }
+        replyListener?()
     }
 
     @objc public func forward() {
-        if let listener = forwardListener {
-            listener()
-        }
+        forwardListener?()
     }
 
     @objc public func _copy() {
-        if let listener = copyListener {
-            listener()
-        }
+        copyListener?()
     }
 
-    @objc public func _delete() {
-        if let listener = deleteListener {
-            listener()
-        }
+    @objc public func del() {
+        deleteListener?()
+    }
+    
+    public func setSelectedMessageCount(count: Int) {
+        update(count: count, animated: true)
     }
     
     public func isVisible() -> Bool {
@@ -81,11 +85,11 @@ public class ChatToolbar : UIToolbar {
     }
 
     public func show() -> Void {
-        show(duration: 0.5)
+        show(duration: ChatKit.config().animationDuration)
     }
     
     public func hide() -> Void {
-        hide(duration: 0.5)
+        hide(duration: ChatKit.config().animationDuration)
     }
     
     public func show(duration: Double) {

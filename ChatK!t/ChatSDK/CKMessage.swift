@@ -10,6 +10,7 @@ import Foundation
 import ChatSDK
 
 public class CKMessage: NSObject, Message {
+    
 
     let message: PMessage
     
@@ -74,5 +75,23 @@ public class CKMessage: NSObject, Message {
         }
         return .none
     }
+    
+    public func messageReply() -> Reply? {
+        if message.isReply() {
+            // Get the user's name
+            var fromUser: PUser?
+            if let fromId = message.meta()[bFrom] as? String, let from = BChatSDK.db().fetchEntity(withID: fromId, withType: bUserEntity) as? PUser {
+                fromUser = from
+            }
+            if fromUser == nil {
+                if let fromId = message.meta()[bId] as? String, let originalMessage = BChatSDK.db().fetchEntity(withID: fromId, withType: bMessageEntity) as? PMessage {
+                    fromUser = originalMessage.user()
+                }
+            }
+            return CKReply(name: fromUser?.name(), text: message.reply(), imageURL: message.imageURL())
+        }
+        return nil
+    }
+
 
 }

@@ -16,8 +16,12 @@ public class ReplyView : UIView {
     let titleTextView = UITextView()
     let textView = UITextView()
     let closeButton = UIButton()
-    
-    var didClose: (() -> Void)?
+    var willHideListener: ((Double) -> Void)?
+    var didHideListener: (() -> Void)?
+    var _message: Message?
+
+    var willShow = false
+    var willHide = false
    
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,12 +47,10 @@ public class ReplyView : UIView {
         addSubview(closeButton)
         addSubview(topBorder)
 
-        divider.backgroundColor = ChatKit.shared().assets.get(color: "reply_divider")
-
         imageView.keepTopOffsetTo(topBorder)?.equal = 0
         imageView.keepLeftInset.equal = 0
         imageView.keepBottomInset.equal = 0
-        imageView.keepWidth.equal = 50
+        imageView.keepWidth.equal = 0
         
         imageView.backgroundColor = .red
         imageView.contentMode = .scaleAspectFill
@@ -70,16 +72,18 @@ public class ReplyView : UIView {
         divider.keepBottomInset.equal = 0
         divider.keepWidth.equal = 5
         
-        titleTextView.keepTopOffsetTo(topBorder)?.equal = 5;
+        titleTextView.keepTopOffsetTo(topBorder)?.equal = 1;
         titleTextView.keepLeftOffsetTo(divider)?.equal = 0
         titleTextView.keepRightOffsetTo(closeButton)?.equal = 0
-        titleTextView.keepHeight.equal = 20
+        titleTextView.keepHeight.equal = 19
+        titleTextView.backgroundColor = .clear
 
         textView.keepLeftOffsetTo(divider)?.equal = 0
         textView.keepRightOffsetTo(closeButton)?.equal = 0
         textView.keepTopOffsetTo(titleTextView)?.equal = 0
         textView.keepBottomInset.equal = 0
- 
+        textView.backgroundColor = .clear
+
         closeButton.keepVerticalCenter.equal = 0.5
         closeButton.keepRightInset.equal = 5
         closeButton.keepHeight.equal = 36
@@ -90,68 +94,88 @@ public class ReplyView : UIView {
         topBorder.keepRightInset.equal = 0
         topBorder.keepHeight.equal = 1
 
-        topBorder.backgroundColor = ChatKit.shared().assets.get(color: "reply_top_border_color")
-
-        closeButton.setImage(ChatKit.shared().assets.get(icon: "icn_36_cross"), for: .normal)
-        
-//        imageView.image = Icons.defaultUserImage()
-//        titleTextView.text = "Ben"
-//        textView.text = "This is some test text, This is some test text, This is some test text, This is some test text"
-//        textView.backgroundColor = .green
-
+        updateColors()
         
     }
     
-    public func show(title: String, message: String?, imageURL: URL?) -> Void {
-        show(title: title, message: message, imageURL: imageURL, duration: 0.5)
+    public func updateColors() {
+        divider.backgroundColor = ChatKit.asset(color: "reply_divider")
+        backgroundColor = ChatKit.asset(color: "gray_5")
+        topBorder.backgroundColor = ChatKit.asset(color: "gray_4")
+        closeButton.setImage(ChatKit.asset(icon: "icn_36_cross"), for: .normal)
     }
     
+//    public func show(title: String, message: String?, imageURL: URL?) {
+//        show(title: title, message: message, imageURL: imageURL, duration: ChatKit.config().animationDuration)
+//    }
+
+    public func show(message: Message, duration: Double) {
+        _message = message
+        show(title: message.messageSender().userName(), message: message.messageText(), imageURL: message.messageImageUrl(), duration: duration)
+    }
+    
+    public func message() -> Message? {
+        return _message
+    }
+
     @objc public func dismiss() {
-        didClose?()
-        hide()
+        hide(duration: ChatKit.config().animationDuration)
     }
     
-    public func hide() {
-        hide(duration: 0.5)
+    @objc public func hide() {
+        hide(duration: ChatKit.config().animationDuration)
     }
     
-    public func show(title: String, message: String?, imageURL: URL?, duration: Double) -> Void {
+    private func show(title: String, message: String?, imageURL: URL?, duration: Double) -> Void {
         
         titleTextView.text = title
         textView.text = message ?? ""
         
         if let url = imageURL {
             imageView.sd_setImage(with: url, completed: nil)
-            imageView.keepWidth.equal = 50
+            imageView.keepWidth.equal = ChatKit.config().chatReplyViewHeight
         } else {
             imageView.keepWidth.equal = 0
         }
         
         if duration == 0 {
-            self.keepHeight.equal = 51
+            alpha = 1
         } else {
-            superview?.keepAnimated(withDuration: duration, layout: {
-                self.keepHeight.equal = 51
+            willShow = true
+            superview?.keepAnimated(withDuration: duration, layout: { [weak self] in
+                self?.alpha = 1
+                self?.willShow = false
             })
         }
     }
 
-    public func hide(duration: Double) -> Void {
+    public func hide(duration: Double = 0, notify: Bool = true) -> Void {
+        willHide = true
+        willHideListener?(duration)
+        _message = nil
+
         if duration == 0 {
-            self.keepHeight.equal = 0
+            alpha = 0
+            self.willHide = false
+            didHideListener?()
         } else {
-            superview?.keepAnimated(withDuration: duration, layout: {
-                self.keepHeight.equal = 0
+            if notify {
+                willHideListener?(duration)
+            }
+            superview?.keepAnimated(withDuration: duration, layout: { [weak self] in
+                self?.alpha = 0
+                self?.willHide = false
+                self?.didHideListener?()
             })
         }
     }
     
     public func isVisible() -> Bool {
-        return self.keepHeight.equal.value != 0
+        return alpha != 0
     }
     
-    public func setDidCloseListener(listener: @escaping (()->Void)) {
-        didClose = listener
+    public func setWillHideListener(listener: @escaping ((Double)->Void)) {
+        willHideListener = listener
     }
     
 }

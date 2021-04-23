@@ -9,20 +9,25 @@ import Foundation
 import RxSwift
 import ChatSDK
 
-open class ChatViewControllerModel: NSObject {
+public class ChatModel: NSObject {
 
     public let thread: Thread
+    public var options = [Option]()
+    public var sendBarActions = [SendBarAction]()
+    public var keyboardOverlays = [String: KeyboardOverlay]()
     
-    public lazy var _messagesViewModel = {
-        return MessagesViewModel(thread: thread)
+    public var view: PChatViewController?
+    
+    public lazy var messagesModel = {
+        return MessagesModel(thread: thread)
     }()
     
     public init(thread: Thread) {
         self.thread = thread
     }
     
-    open func messagesViewModel() -> MessagesViewModel {
-        return _messagesViewModel
+    open func getMessagesModel() -> MessagesModel {
+        return messagesModel
     }
     
     open func title() -> String {
@@ -63,7 +68,7 @@ open class ChatViewControllerModel: NSObject {
         This is shown for a period when the screen initially loads
      */
     open func initialSubtitle() -> String? {
-        if ChatKit.shared().config.userChatInfoEnabled {
+        if ChatKit.config().userChatInfoEnabled {
             return t(Strings.tapHereForContactInfo)
         }
         return nil
@@ -71,6 +76,42 @@ open class ChatViewControllerModel: NSObject {
 
     open func send(text: String) {
         
+    }
+    
+    open func deleteMessages(messages: [Message]) {
+        
+    }
+    
+    public func addOption(_ option: Option) {
+        options.append(option)
+    }
+    
+    open func getOptions() -> [Option] {
+        return options
+    }
+    
+    public func addSendBarAction(_ action: SendBarAction) {
+        sendBarActions.append(action)
+    }
+
+    public func getSendBarActions() -> [SendBarAction] {
+        return sendBarActions
+    }
+
+    public func addKeyboardOverlay(name: String, overlay: KeyboardOverlay) {
+        keyboardOverlays[name] = overlay
+    }
+
+    public func getKeyboardOverlays() -> [KeyboardOverlay] {
+        var values = [KeyboardOverlay]()
+        for value in keyboardOverlays.values {
+            values.append(value)
+        }
+        return values
+    }
+
+    public func keyboardOverlay(for name: String) -> KeyboardOverlay? {
+        return keyboardOverlays[name]
     }
 
 }

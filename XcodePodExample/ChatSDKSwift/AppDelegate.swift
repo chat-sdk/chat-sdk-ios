@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 //        let auth = FUIAuth.init(uiWith: Auth.auth())
 //        BFirebaseUIModule.init().activate(withProviders: [FUIPhoneAuth.init(authUI: auth!)]);
-
+        
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController()
         self.window?.makeKeyAndVisible();

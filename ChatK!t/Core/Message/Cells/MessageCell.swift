@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import LoremIpsum
 import KeepLayout
 
 public enum BubbleMaskPosition: Int {
@@ -22,9 +21,9 @@ public class MessageCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var contentContainerView: UIView!
-    @IBOutlet weak var bubbleMask: UIView!
     @IBOutlet weak var readReceiptImageView: UIImageView?
-
+    @IBOutlet weak var nameLabel: UILabel?
+    
     var content: MessageContent?
     
     public required init?(coder: NSCoder) {
@@ -33,10 +32,8 @@ public class MessageCell: UITableViewCell {
     
     override public func awakeFromNib() {
         super.awakeFromNib()
-        
         timeLabel.numberOfLines = 0
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
-
     }
     
     public func setContent(content: MessageContent) {
@@ -55,7 +52,7 @@ public class MessageCell: UITableViewCell {
         }
     }
     
-    public func bind(message: Message, model: MessagesViewModel) {
+    public func bind(message: Message, model: MessagesModel, selected: Bool = false) {
         if let content = self.content {
             content.bind(message: message)
         }
@@ -69,10 +66,10 @@ public class MessageCell: UITableViewCell {
         if content?.showBubble() ?? true {
             switch message.messageDirection() {
             case .incoming:
-                setBubbleColor(color: model.incomingBubbleColor())
+                setBubbleColor(color: model.incomingBubbleColor(selected: selected))
                 setBubbleMaskPosition(position: .topLeft)
             case .outgoing:
-                setBubbleColor(color: model.outgoingBubbleColor())
+                setBubbleColor(color: model.outgoingBubbleColor(selected: selected))
                 setBubbleMaskPosition(position: .bottomRight)
             }
         }
@@ -89,6 +86,8 @@ public class MessageCell: UITableViewCell {
                 imageView.image = nil
             }
         }
+        
+        hideNameLabel()
     }
 
     public func setAvatarSize(size: CGFloat) {
@@ -98,32 +97,39 @@ public class MessageCell: UITableViewCell {
 
     public func setBubbleColor(color: UIColor) {
         contentContainerView.backgroundColor = color
-        bubbleMask.backgroundColor = color
     }
 
     public func setBubbleCornerRadius(radius: CGFloat) {
         contentContainerView.layer.cornerRadius = radius
-        bubbleMask.keepSize.equal = radius
         content?.view().layer.cornerRadius = radius
     }
 
     public func setBubbleMaskPosition(position: BubbleMaskPosition) {
-        switch position {
-        case .topLeft:
-            bubbleMask.keepTopInset.equal = 0
-            bubbleMask.keepLeftInset.equal = 0
-        case .topRight:
-            bubbleMask.keepTopInset.equal = 0
-            bubbleMask.keepRightInset.equal = 0
-        case .bottomLeft:
-            bubbleMask.keepBottomInset.equal = 0
-            bubbleMask.keepLeftInset.equal = 0
-        case .bottomRight:
-            bubbleMask.keepBottomInset.equal = 0
-            bubbleMask.keepRightInset.equal = 0
+        var mask: CACornerMask?
+        if position == .topLeft {
+            mask = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         }
+        if position == .topRight {
+            mask = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
+        if position == .bottomLeft {
+            mask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        }
+        if position == .bottomRight {
+            mask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
+        }
+        contentContainerView.layer.maskedCorners = mask!
+        content?.view().layer.maskedCorners = mask!
     }
-        
+    
+    public func hideNameLabel() {
+        nameLabel?.keepHeight.equal = 0
+    }
+
+    public func showNameLabel() {
+        nameLabel?.keepHeight.equal = 17
+    }
+
 }
 
 extension MessageCell {
