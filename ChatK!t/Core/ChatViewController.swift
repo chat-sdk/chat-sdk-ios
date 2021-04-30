@@ -14,18 +14,19 @@ public protocol PChatViewController {
     func add(message: Message)
 }
 
-open class ChatViewController: UIViewController {
+public class ChatViewController: UIViewController {
+    
     
     // View that contains the message list
-    public var messagesView = MessagesView()
+    public var messagesView = ChatKit.provider().messagesView()
     public var keyboardOverlayView = UIView()
-    public var headerView = ChatHeaderView()
-    public var reconnectingView = ReconnectingView()
+    public var headerView = ChatKit.provider().chatHeaderView()
+    public var reconnectingView = ChatKit.provider().reconnectingView()
         
     public var hiddenTextField = UITextField()
     
-    public var replyView = ReplyView()
-    public var toolbarView = ChatToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
+    public var replyView = ChatKit.provider().replyView()
+    public var toolbar: ChatToolbar
     public var subtitleTimer: Timer?
     
     public var messagesModel: MessagesModel?
@@ -34,7 +35,7 @@ open class ChatViewController: UIViewController {
         
     // Text input bar
     public lazy var sendBarView = {
-        return SendBarView()
+        return ChatKit.provider().sendBarView()
     }()
     // This view bridges between the bottom of the text input view and the bottom of the safe area
     public var sendBarViewFooter: UIView?
@@ -49,8 +50,10 @@ open class ChatViewController: UIViewController {
     
     public init(model: ChatModel) {
         self.model = model
+        toolbar = ChatKit.provider().chatToolbar(model.messagesModel(), actions: model)
+        toolbar.setActionsDelegate(model)
         super.init(nibName: nil, bundle: nil)
-        model.view = self
+        model.setView(self)
 
         // Hide the tab bar when the messages are shown
         hidesBottomBarWhenPushed = true
@@ -73,17 +76,19 @@ open class ChatViewController: UIViewController {
         updateNavigationBar()
 
         setupReplyView()
-        setupToolbarView()
+        setuptoolbar()
         setupKeyboardOverlay()
         
         setupKeyboardListener()
         setupKeyboardOverlays()
+        
+        model.loadMessages()
 
     }
     
     override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        for overlay in model.getKeyboardOverlays() {
+        for overlay in model.keyboardOverlays() {
             if let _ = overlay.superview {
                 overlay.viewWillLayoutSubviews(view: self.view)
             }
@@ -96,7 +101,7 @@ open class ChatViewController: UIViewController {
         updateMessageViewBottomInset()
     }
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         sendBarView.updateColors()
         replyView.updateColors()
@@ -142,7 +147,7 @@ open class ChatViewController: UIViewController {
         keyboardListener.removeObservers()
     }
     
-    open func setTitle(text: String) {
+    public func setTitle(text: String) {
         headerView.titleLabel?.text = text
     }
     
@@ -168,13 +173,12 @@ open class ChatViewController: UIViewController {
     }
 
     public func setupMessageModel() {
-        messagesModel = model.getMessagesModel()
+        messagesModel = model.messagesModel()
         messagesModel!._onSelectionChange = { [weak self] selection in
             if selection.isEmpty {
                 self?.hideToolbar()
             } else {
                 self?.showToolbar()
-                self?.toolbarView.setSelectedMessageCount(count: selection.count)
             }
         }
     }
@@ -199,7 +203,7 @@ open class ChatViewController: UIViewController {
             self?.hideKeyboardOverlay()
         }
         
-        for action in model.getSendBarActions() {
+        for action in model.sendBarActions() {
             sendBarView.addAction(action)
         }
         
@@ -219,7 +223,7 @@ open class ChatViewController: UIViewController {
         ])
     }
     
-    open func updateNavigationBar(reconnecting: Bool = false) {
+    public func updateNavigationBar(reconnecting: Bool = false) {
         if reconnecting {
             navigationItem.titleView = reconnectingView
         } else {
@@ -230,12 +234,12 @@ open class ChatViewController: UIViewController {
     }
     
     
-    open func setupReplyView() {
+    public func setupReplyView() {
         view.addSubview(replyView)
         replyView.keepRightInset.equal = 0
         replyView.keepLeftInset.equal = 0
         replyView.keepBottomOffsetTo(sendBarView)?.equal = 0
-        replyView.keepHeight.equal = 51
+        replyView.keepHeight.equal = ChatKit.config().chatReplyViewHeight + replyView.divider.frame.height
         replyView.hide(duration: 0, notify: false)
         replyView.didHideListener = { [weak self] in
             UIView.animate(withDuration: ChatKit.config().animationDuration, animations: { [weak self] in
@@ -244,60 +248,36 @@ open class ChatViewController: UIViewController {
         }
     }
     
-    open func setupToolbarView() {
-        view.addSubview(toolbarView)
+    public func clearSelection() {
+        messagesView.clearSelection()
+    }
+    
+    public func setuptoolbar() {
+        view.addSubview(toolbar)
         
-        toolbarView.keepTopAlignTo(sendBarView)?.equal = 0;
-        toolbarView.keepRightAlignTo(sendBarView)?.equal = 0;
-        toolbarView.keepBottomAlignTo(sendBarView)?.equal = 0;
-        toolbarView.keepLeftAlignTo(sendBarView)?.equal = 0;
-        toolbarView.alpha = 0;
-        
-        toolbarView.copyListener = { [weak self] in
-            if let mvm = self?.messagesModel {
-                mvm.copyToClipboard()
-                self?.view.makeToast(Strings.t(Strings.copiedToClipboard))
-            }
-            self?.messagesView.clearSelection()
-        }
-        
-        toolbarView.replyListener = { [weak self] in
-            // Get the message
-            if let message = self?.messagesModel?.selectedMessages().first {
-                self?.replyView.show(message: message, duration: ChatKit.config().animationDuration)
-                // Move the insets up
-                
-                UIView.animate(withDuration: ChatKit.config().animationDuration, animations: { [weak self] in
-                    self?.updateMessageViewBottomInset()
-                })
-                
-                self?.toolbarView.hide()
-            }
-            self?.messagesView.clearSelection()
-        }
-        
-        toolbarView.forwardListener = { [weak self] in
-            
-        }
-        
-        toolbarView.deleteListener = { [weak self] in
-            if let messages = self?.messagesModel?.selectedMessages() {
-                self?.model.deleteMessages(messages: messages)
-            }
-            self?.messagesView.clearSelection()
-        }
+        toolbar.keepTopAlignTo(sendBarView)?.equal = 0;
+        toolbar.keepRightAlignTo(sendBarView)?.equal = 0;
+        toolbar.keepBottomAlignTo(sendBarView)?.equal = 0;
+        toolbar.keepLeftAlignTo(sendBarView)?.equal = 0;
+        toolbar.alpha = 0;
         
     }
+    
+    public func showReplyView(_ message: Message) {
+        replyView.show(message: message, duration: ChatKit.config().animationDuration)
+        UIView.animate(withDuration: ChatKit.config().animationDuration, animations: { [weak self] in
+            self?.updateMessageViewBottomInset()
+        })
+        toolbar.hide()
+   }
 
     public func setupKeyboardOverlays() {
-        for name in model.keyboardOverlays.keys {
-            if let overlay = model.keyboardOverlay(for: name) {
-                addKeyboardOverlay(view: overlay)
-            }
+        for overlay in model.keyboardOverlays() {
+            addKeyboardOverlay(view: overlay)
         }
     }
     
-    open func setupKeyboardOverlay() {
+    public func setupKeyboardOverlay() {
         keyboardOverlayView.backgroundColor = ChatKit.asset(color: "background")
         keyboardOverlayView.alpha = 0
         keyboardOverlayView.isUserInteractionEnabled = false
@@ -307,11 +287,7 @@ open class ChatViewController: UIViewController {
     public func setupKeyboardListener() {
         keyboardListener.willShow = { [weak self] info in
             
-//            self?.resetKeyboardOverlayFrame()
             self?.keyboardOverlayView.frame = info.frame
-//            if let overlay = self?.keyboardOverlayView {
-//                overlay.superview?.bringSubviewToFront(overlay)
-//            }
 
             UIView.animate(withDuration: info.duration, delay: 0, options: info.curve, animations: {
                 let height = info.height(view: self?.view)
@@ -346,15 +322,13 @@ open class ChatViewController: UIViewController {
     
     // Keyboard Overlay
     
-    open func resetKeyboardOverlayFrame() {
+    public func resetKeyboardOverlayFrame() {
         keyboardOverlayView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 300)
     }
     
     public func showKeyboardOverlay() {
         hiddenTextField.becomeFirstResponder()
-//        if keyboardOverlayView.superview == nil {
-            UIApplication.shared.windows.last?.addSubview(keyboardOverlayView)
-//        }
+        UIApplication.shared.windows.last?.addSubview(keyboardOverlayView)
         keyboardOverlayView.alpha = 1
         keyboardOverlayView.isUserInteractionEnabled = true
     }
@@ -393,11 +367,11 @@ open class ChatViewController: UIViewController {
     // Toolbar
     
     public func hideToolbar() {
-        toolbarView.hide()
+        toolbar.hide()
     }
 
     public func showToolbar() {
-        toolbarView.show()
+        toolbar.show()
     }
     
     public func vibrate() {

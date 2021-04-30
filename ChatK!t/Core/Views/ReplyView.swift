@@ -105,10 +105,6 @@ public class ReplyView : UIView {
         closeButton.setImage(ChatKit.asset(icon: "icn_36_cross"), for: .normal)
     }
     
-//    public func show(title: String, message: String?, imageURL: URL?) {
-//        show(title: title, message: message, imageURL: imageURL, duration: ChatKit.config().animationDuration)
-//    }
-
     public func show(message: Message, duration: Double) {
         _message = message
         show(title: message.messageSender().userName(), message: message.messageText(), imageURL: message.messageImageUrl(), duration: duration)

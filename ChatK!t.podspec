@@ -19,7 +19,6 @@ Pod::Spec.new do |s|
 
   s.dependency 'ChatSDKKeepLayout'
   s.dependency 'NextGrowingTextView'
-  s.dependency 'ChatSDK/Core'
   s.dependency 'CollectionKit'
   
   s.subspec 'ChatSDK' do |s| 

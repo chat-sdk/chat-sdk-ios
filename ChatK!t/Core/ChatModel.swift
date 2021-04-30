@@ -7,31 +7,31 @@
 
 import Foundation
 import RxSwift
-import ChatSDK
 
 public class ChatModel: NSObject {
 
-    public let thread: Thread
-    public var options = [Option]()
-    public var sendBarActions = [SendBarAction]()
-    public var keyboardOverlays = [String: KeyboardOverlay]()
+    public let _thread: Thread
+    public var _options = [Option]()
+    public var _sendBarActions = [SendBarAction]()
+    public var _toolbarActions = [ToolbarAction]()
+    public var _keyboardOverlays = [String: KeyboardOverlay]()
     
-    public var view: PChatViewController?
+    public var _view: PChatViewController?
     
-    public lazy var messagesModel = {
-        return MessagesModel(thread: thread)
+    public lazy var _messagesModel = {
+        return ChatKit.provider().messagesModel(_thread)
     }()
     
-    public init(thread: Thread) {
-        self.thread = thread
+    public init(_ thread: Thread) {
+        _thread = thread
     }
     
-    open func getMessagesModel() -> MessagesModel {
-        return messagesModel
+    open func messagesModel() -> MessagesModel {
+        return _messagesModel
     }
     
     open func title() -> String {
-        return thread.threadName()
+        return _thread.threadName()
     }
 
     /**
@@ -40,8 +40,8 @@ public class ChatModel: NSObject {
     open func subtitle() -> String {
         let defaultText = initialSubtitle() ?? "";
         
-        if thread.threadType() == .private1to1 {
-            if let user = thread.threadOtherUser() {
+        if _thread.threadType() == .private1to1 {
+            if let user = _thread.threadOtherUser() {
                 if user.userIsOnline() {
                     return t(Strings.online)
                 } else if let lastOnline = user.userLastOnline() as NSDate?, let text = lastOnline.lastSeenTimeAgo() {
@@ -50,7 +50,7 @@ public class ChatModel: NSObject {
             }
         } else {
             var text = ""
-            for user in thread.threadUsers() {
+            for user in _thread.threadUsers() {
                 if !user.userIsMe() {
                     text += user.userName() + ", "
                 }
@@ -73,45 +73,55 @@ public class ChatModel: NSObject {
         }
         return nil
     }
-
-    open func send(text: String) {
-        
-    }
-    
-    open func deleteMessages(messages: [Message]) {
-        
-    }
     
     public func addOption(_ option: Option) {
-        options.append(option)
+        _options.append(option)
     }
     
-    open func getOptions() -> [Option] {
-        return options
+    open func options() -> [Option] {
+        return _options
     }
     
     public func addSendBarAction(_ action: SendBarAction) {
-        sendBarActions.append(action)
+        _sendBarActions.append(action)
     }
 
-    public func getSendBarActions() -> [SendBarAction] {
-        return sendBarActions
+    public func sendBarActions() -> [SendBarAction] {
+        return _sendBarActions
+    }
+
+    public func addToolbarAction(_ action: ToolbarAction) {
+        _toolbarActions.append(action)
     }
 
     public func addKeyboardOverlay(name: String, overlay: KeyboardOverlay) {
-        keyboardOverlays[name] = overlay
+        _keyboardOverlays[name] = overlay
     }
 
-    public func getKeyboardOverlays() -> [KeyboardOverlay] {
+    public func keyboardOverlays() -> [KeyboardOverlay] {
         var values = [KeyboardOverlay]()
-        for value in keyboardOverlays.values {
+        for value in _keyboardOverlays.values {
             values.append(value)
         }
         return values
     }
 
     public func keyboardOverlay(for name: String) -> KeyboardOverlay? {
-        return keyboardOverlays[name]
+        return _keyboardOverlays[name]
     }
 
+    public func setView(_ view: PChatViewController) {
+        _view = view
+    }
+    
+    public func loadMessages() {
+        _messagesModel.loadMessages()
+    }
+    
+}
+
+extension ChatModel: ChatToolbarActionsDelegate {
+    public func toolbarActions() -> [ToolbarAction] {
+        return _toolbarActions
+    }
 }

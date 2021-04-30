@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import KeepLayout
 
 public class TextMessageContent: DefaultMessageContent {
     
@@ -17,23 +18,21 @@ public class TextMessageContent: DefaultMessageContent {
     }()
     
     lazy var replyView: MessageReplyView = {
-        let view: MessageReplyView = .fromNib()
-        view.backgroundColor = ChatKit.asset(color: ChatKit.config().replyBackgroundColor)
-        view.titleLabel.textColor = ChatKit.asset(color: ChatKit.config().replyTitleColor)
-        view.textLabel.textColor = ChatKit.asset(color: ChatKit.config().replyTextColor)
-        view.layer.cornerRadius = ChatKit.config().bubbleCornerRadius
-        view.clipsToBounds = true
-        return view
+        return ChatKit.provider().messageReplyView()
     }()
     
     lazy var containerView: UIView = {
         let view = UIView()
+        view.clipsToBounds = true
         view.addSubview(label)
+        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(replyView)
         
         label.keepLeftInset.equal = ChatKit.config().bubbleInsets.left
         label.keepBottomInset.equal = ChatKit.config().bubbleInsets.bottom
         label.keepRightInset.equal = ChatKit.config().bubbleInsets.right
-
+        label.keepTopInset.equal = KeepHigh(ChatKit.config().bubbleInsets.top)
+        
         return view
     }()
     
@@ -54,23 +53,30 @@ public class TextMessageContent: DefaultMessageContent {
         } else {
             hideReply()
         }
+        containerView.setNeedsLayout()
     }
     
     public func hideReply() {
-        replyView.removeFromSuperview()
-        label.keepTopInset.equal = ChatKit.config().bubbleInsets.top
+        if replyView.superview != nil {
+            label.keepTopOffsetTo(replyView)?.deactivate()
+            replyView.removeFromSuperview()
+            label.keepTopInset.equal = ChatKit.config().bubbleInsets.top
+        }
     }
     
     public func showReply(title: String?, text: String?, imageURL: URL? = nil) {
-        containerView.addSubview(replyView)
-        
-        replyView.keepLeftInset.equal = ChatKit.config().bubbleInsets.left
-        replyView.keepTopInset.equal = ChatKit.config().bubbleInsets.top
-        replyView.keepRightInset.equal = ChatKit.config().bubbleInsets.right
+        if replyView.superview == nil {
+            containerView.addSubview(replyView)
 
-        label.keepTopOffsetTo(replyView)?.equal = ChatKit.config().bubbleInsets.top
-        
-//        replyView.keepHeight.equal = ChatKit.config().chatReplyViewHeight
+            replyView.keepLeftInset.equal = ChatKit.config().bubbleInsets.left
+            replyView.keepTopInset.equal = ChatKit.config().bubbleInsets.top
+            replyView.keepRightInset.equal = ChatKit.config().bubbleInsets.right
+            replyView.keepHeight.equal = KeepFitting(ChatKit.config().messageReplyViewHeight)
+
+            label.keepTopInset.deactivate()
+            label.keepTopOffsetTo(replyView)?.equal = ChatKit.config().bubbleInsets.top
+        }
+  
         replyView.titleLabel.text = title
         replyView.textLabel.text = text
         if let url = imageURL {

@@ -3,8 +3,13 @@
 "online" = "Online";
 "offline" = "Offline";
 "connecting" = "Connecting";
-//"lastSeen_at_" = "Last seen %@ at %@";
 "copiedToClipboard" = "Copied to Clipboard";
 "location" = "Location";
 "gallery" = "Gallery";
 "" = "";
+
+
+"today" = "Today";
+"yesterday" = "Yesterday";
+"lastSeen_at_" = "Last seen %@ at %@";
+

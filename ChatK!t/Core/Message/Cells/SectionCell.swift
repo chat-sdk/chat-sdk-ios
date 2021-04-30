@@ -7,7 +7,17 @@
 
 import Foundation
 
-public class SectionCell: UITableViewCell {
-    public static let identifier = "header"
+public class SectionCell: UIView {
+    public static let identifier = "section"
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var backgroundView: UIView!
+    
+    override public func awakeFromNib() {
+        super.awakeFromNib()
+        backgroundView.layer.cornerRadius = ChatKit.config().messagesViewSectionViewCornerRadius
+        backgroundView.clipsToBounds = true
+    }
+
 
 }

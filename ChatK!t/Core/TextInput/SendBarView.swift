@@ -96,11 +96,9 @@ public class SendBarView: UIView, UITextViewDelegate {
 
     }
     
-
-    
     public func updateColors() {
         textView?.backgroundColor = ChatKit.asset(color: "gray_4")
-        textView?.layer.borderColor = ChatKit.asset(color: "gray_5").cgColor
+        textView?.layer.borderColor = ChatKit.asset(color: "gray_6").cgColor
         divider.backgroundColor = ChatKit.asset(color: "gray_6")
     }
     

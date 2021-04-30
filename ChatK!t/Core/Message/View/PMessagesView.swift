@@ -9,14 +9,9 @@ import Foundation
 
 public protocol PMessagesView {
     
-    func insertItems(at: [IndexPath], completion: ((Bool) -> Void)?)
-    func updateItems(at: [IndexPath], completion: ((Bool) -> Void)?)
     func scrollToBottom(animated: Bool, force: Bool)
-//    func addMessage(toEnd: Message)
-//    func addMessages(toStart: [Message])
-//    func addMessages(toEnd: [Message])
-//    func removeMessage( _message: Message)
-//    func removeMessages( _message: [Message])
-//    func updateMessage(_ message: Message)
+    func clearSelection()
+    func updateTable(_ update: TableUpdate, completion: ((Bool) -> Void)?)
+    func reloadData()
 
 }

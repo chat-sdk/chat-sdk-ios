@@ -41,27 +41,4 @@ public class ChatKit {
     }
 }
 
-public class Provider {
-    
-    public func sectionNib() -> UINib {
-        return UINib(nibName: "SectionCell", bundle: Bundle(for: SectionCell.self))
-    }
-    
-    public func makeBackground(blur: Bool = true) -> UIView {
-        if blur {
-            var background: UIVisualEffectView
-            if #available(iOS 13.0, *) {
-                background = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
-            } else {
-                background = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-            }
-            background.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            return background
-        } else {
-            let background = UIView()
-            background.backgroundColor = ChatKit.asset(color: "background")
-            return background
-        }
-    }
-    
-}
+

@@ -8,9 +8,7 @@
 import Foundation
 
 public protocol KeyboardOverlay: UIView {
-    
     func viewWillLayoutSubviews(view: UIView)
-    
 }
 
 public extension KeyboardOverlay {

@@ -9,8 +9,7 @@
 import Foundation
 import ChatSDK
 
-public class CKMessage: NSObject, Message {
-    
+public class CKMessage: Message {
 
     let message: PMessage
     

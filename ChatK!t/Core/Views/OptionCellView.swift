@@ -73,11 +73,7 @@ public class BucketCellView: UIView {
             var lastView: UIView?
             for i in 0 ..< OptionBucket.max() {
                 
-                let view: OptionCellView = .fromNib()
-                view.background.layer.cornerRadius = 5
-                view.background.backgroundColor = ChatKit.asset(color: ChatKit.config().chatOptionsIconBackgroundColor)
-                view.label.textColor = ChatKit.asset(color: ChatKit.config().chatOptionsTextColor)
-                view.imageView.tintColor = ChatKit.asset(color: ChatKit.config().chatOptionsIconColor)
+                let view = ChatKit.provider().optionCellView()
 
                 bucket.addView(view)
                 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Message: NSObject {
+public protocol Message {
     
     func messageId() -> String
     func messageType() -> String
@@ -20,4 +20,15 @@ public protocol Message: NSObject {
     func messageReadStatus() -> MessageReadStatus
     func messageReply() -> Reply?
 
+}
+
+public extension Message {
+
+    func sameDayAs(_ message: Message) -> Bool {
+        return Calendar.current.isDate(messageDate(), inSameDayAs: message.messageDate())
+    }
+    
+    static func ==(lhs: Self, rhs: Self) -> Bool {
+        return lhs.messageId() == rhs.messageId()
+    }
 }

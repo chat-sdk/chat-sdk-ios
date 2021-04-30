@@ -25,7 +25,7 @@ open class CKThread: Thread {
         return .none
     }()
     
-    public init(thread: PThread) {
+    public init(_ thread: PThread) {
         _thread = thread
     }
 

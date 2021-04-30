@@ -23,7 +23,9 @@ public class Config {
     public var timeFormat = "HH:mm"
     
     public var messageHistoryTimeFormat = "dd/MM/yy hh:mm:ss"
-    
+
+    public var messagesViewSectionTimeFormat = "dd/MM/yy"
+
     // SendBarView layout parameters
     public var sendBarViewTopPadding = 8
     public var sendBarViewBottomPadding = 8
@@ -46,13 +48,18 @@ public class Config {
     public var chatOptionsTextColor = "gray_1"
     
     public var replyBackgroundColor = "white"
-    public var replyTitleColor = "gray_6"
-    public var replyTextColor = "gray_6"
+    public var replyTitleColor = "gray_dark_const"
+    public var replyTextColor = "gray_med_dark_const"
     
     public var messagesViewRefreshHeight: CGFloat = 300
-    
+    public var messagesViewSectionViewCornerRadius: CGFloat = 5
+
+    // The reply view that shows inside the message bubble
+    public var messageReplyViewHeight: CGFloat = 50
+
+    // The reply view that shows above the keyboard
     public var chatReplyViewHeight: CGFloat = 50
     
-    public var bubbleInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+    public var bubbleInsets = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
     public var bubbleCornerRadius: CGFloat = 5
 }

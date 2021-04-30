@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import KeepLayout
 
-public class MessagesView: UIView, UITableViewDelegate {
+public class MessagesView: UIView {
     
     public var _tableView = UITableView()
     public var _model: MessagesModel?
@@ -71,6 +71,7 @@ public class MessagesView: UIView, UITableViewDelegate {
 
         _tableView.dataSource = model
         _tableView.estimatedRowHeight = model.estimatedRowHeight()
+        _tableView.estimatedSectionHeaderHeight = 20
 
         for registration in model.messageCellRegistrations() {
             _tableView.register(registration.nib(direction: .incoming), forCellReuseIdentifier: registration.identifier(direction: .incoming))
@@ -165,37 +166,63 @@ public class MessagesView: UIView, UITableViewDelegate {
     public func notifySelectionChange() {
         _model?.selectionChanged(paths: _selectedIndexPaths)
     }
-    
+        
+}
 
-
-    
+extension MessagesView: UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if let section = _model?.section(for: section) {
+            return ChatKit.provider().sectionView(for: section)
+        }
+        return nil
+    }
 }
 
 extension MessagesView: PMessagesView {
-    public func insertItems(at: [IndexPath], completion: ((Bool) -> Void)? = nil) {
-        _tableView.performBatchUpdates({ [weak self] in
-            self?._tableView.insertRows(at: at, with: .none)
-        }, completion: completion)
-    }
+    
 
-    public func updateItems(at: [IndexPath], completion: ((Bool) -> Void)? = nil) {
-        _tableView.performBatchUpdates({ [weak self] in
-            self?._tableView.reloadRows(at: at, with: .none)
-        }, completion: completion)
-    }
+    
     public func scrollToBottom(animated: Bool = true, force: Bool = false) {
-        let row = _tableView.numberOfRows(inSection: 0) - 1
-        if row < 0 {
+        if _tableView.numberOfSections > 0 {
+            let section = _tableView.numberOfSections - 1
+            let row = _tableView.numberOfRows(inSection: section) - 1
+            if row < 0 {
+                return
+            }
+            let scroll = _tableView.contentSize.height - _tableView.frame.height - _tableView.contentOffset.y <= ChatKit.config().messagesViewRefreshHeight
+            
+            if scroll || force {
+                let indexPath = IndexPath(row: row, section: section)
+                _tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
+            }
+        }
+    }
+    
+    public func updateTable(_ update: TableUpdate, completion: ((Bool) -> Void)? = nil) {
+        if !update.hasChanges() {
             return
         }
-        
-        let scroll = _tableView.contentSize.height - _tableView.frame.height - _tableView.contentOffset.y <= ChatKit.config().messagesViewRefreshHeight
-        
-        if scroll || force {
-            let indexPath = IndexPath(row: row, section: 0)
-            _tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
-        }
+        update.log()
+        _tableView.performBatchUpdates({ [weak self] in
+            if update.type == .add {
+                self?._tableView.insertSections(IndexSet(update.sections), with: update.animation)
+                self?._tableView.insertRows(at: update.indexPaths, with: update.animation)
+            }
+            if update.type == .remove {
+                self?._tableView.deleteRows(at: update.indexPaths, with: update.animation)
+                self?._tableView.deleteSections(IndexSet(update.sections), with: update.animation)
+            }
+            if update.type == .update {
+                self?._tableView.reloadSections(IndexSet(update.sections), with: update.animation)
+                self?._tableView.reloadRows(at: update.indexPaths, with: update.animation)
+            }
+        }, completion: completion)
     }
+    
+    public func reloadData() {
+        _tableView.reloadData()
+    }
+    
 //    public func addMessage(toStart: Message) {
 //        _tableView.performBatchUpdates({ [weak self] in
 //            let indexPath = IndexPath(row: 0, section: 0)

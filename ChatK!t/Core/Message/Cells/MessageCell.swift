@@ -40,7 +40,6 @@ public class MessageCell: UITableViewCell {
         if self.content == nil {
             self.content = content
             contentContainerView.addSubview(content.view())
-//            contentContainerView.clipsToBounds = true
 
             content.view().keepInsets.equal = KeepRequired(0)
 
@@ -77,11 +76,11 @@ public class MessageCell: UITableViewCell {
         if let imageView = readReceiptImageView {
             switch message.messageReadStatus() {
             case .sent:
-                imageView.image = UIImage(named: "icn_message_sent", in: model.bundle(), compatibleWith: nil)
+                imageView.image = ChatKit.asset(icon: "icn_message_sent")
             case .delivered:
-                imageView.image = UIImage(named: "icn_message_delivered", in: model.bundle(), compatibleWith: nil)
+                imageView.image = ChatKit.asset(icon: "icn_message_delivered")
             case .read:
-                imageView.image = UIImage(named: "icn_message_read", in: model.bundle(), compatibleWith: nil)
+                imageView.image = ChatKit.asset(icon: "icn_message_read")
             default:
                 imageView.image = nil
             }
