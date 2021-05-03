@@ -43,14 +43,14 @@ public class Section: NSObject {
         _messagesIndex[message.messageId()] != nil
     }
 
-    public func addMessage(toIndex: Message) {
-        _messagesIndex[toIndex.messageId()] = toIndex
+    public func addMessage(toIndex message: Message) {
+        _messagesIndex[message.messageId()] = message
     }
 
-    public func addMessage(toStart: Message) -> Int? {
-        if !exists(toStart) {
-            _messages.insert(toStart, at: 0)
-            addMessage(toIndex: toStart)
+    public func addMessage(toStart message: Message) -> Int? {
+        if !exists(message) {
+            _messages.insert(message, at: 0)
+            addMessage(toIndex: message)
             return _messages.count - 1
         }
         return nil
@@ -70,10 +70,10 @@ public class Section: NSObject {
         }
     }
 
-    public func addMessage(toEnd: Message) -> Int? {
-        if !exists(toEnd) {
-            _messages.append(toEnd)
-            addMessage(toIndex: toEnd)
+    public func addMessage(toEnd message: Message) -> Int? {
+        if !exists(message) {
+            _messages.append(message)
+            addMessage(toIndex: message)
             return _messages.count - 1
         }
         return nil

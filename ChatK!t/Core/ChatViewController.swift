@@ -174,13 +174,13 @@ public class ChatViewController: UIViewController {
 
     public func setupMessageModel() {
         messagesModel = model.messagesModel()
-        messagesModel!._onSelectionChange = { [weak self] selection in
+        messagesModel!.setSelectionChangeListener({ [weak self] selection in
             if selection.isEmpty {
                 self?.hideToolbar()
             } else {
                 self?.showToolbar()
             }
-        }
+        })
     }
     
     public func setupMessagesView() {
@@ -249,7 +249,7 @@ public class ChatViewController: UIViewController {
     }
     
     public func clearSelection() {
-        messagesView.clearSelection()
+        model.messagesModel().clearSelection(true)
     }
     
     public func setuptoolbar() {

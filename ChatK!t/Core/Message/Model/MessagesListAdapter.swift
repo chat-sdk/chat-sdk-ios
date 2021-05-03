@@ -18,7 +18,19 @@ public class MessagesListAdapter {
         }
         return nil
     }
-    
+
+    public func messages(for indexPaths: [IndexPath]) -> [Message] {
+        var messages = [Message]()
+        
+        for indexPath in indexPaths {
+            if let message = message(for: indexPath) {
+                messages.append(message)
+            }
+        }
+        
+        return messages
+    }
+
     public func message(exists message: Message) -> Bool {
         for section in _sections {
             if section.exists(message) {
@@ -85,6 +97,16 @@ public class MessagesListAdapter {
         return sections
     }
     
+    public func indexPaths(for messages: [Message]) -> [IndexPath] {
+        var indexPaths = [IndexPath]()
+        for message in messages {
+            if let indexPath = indexPath(for: message) {
+                indexPaths.append(indexPath)
+            }
+        }
+        return indexPaths
+    }
+    
     public func addMessage(_ message: Message) -> IndexPath? {
         if let section = section(for: message), let index = _sections.firstIndex(of: section), let row = section.addMessage(message: message) {
             return IndexPath(row: row, section: index)
@@ -136,8 +158,39 @@ public class MessagesListAdapter {
             if let section = section(for: message), let i = index(of: section), let _ = section.removeMessage(message), let ip = indexPaths[message.messageId()] {
                 update.add(indexPath: ip)
                 if section.isEmpty() {
-                    _sections.remove(at: i)
+                    removeSection(section)
                     update.add(section: ip.section)
+                }
+            }
+        }
+        return update
+    }
+    
+    public func removeSection(_ section: Section) {
+        if let index = _sections.firstIndex(of: section) {
+            _sections.remove(at: index)
+            if let day = section.date().day() {
+                _sectionsIndex.removeValue(forKey: day)
+            }
+        }
+    }
+    
+    public func removeMessages2(_ messages: [Message]) -> TableUpdate {
+        let update = TableUpdate(.remove)
+        
+        // First get the index paths of all the messages
+        var indexPaths = [String: IndexPath]()
+
+        for message in messages {
+            indexPaths[message.messageId()] = indexPath(for: message)
+        }
+        
+        for message in messages {
+            if let section = section(for: message), let i = index(of: section), let row = section.removeMessage(message) {
+                update.add2(indexPath: IndexPath(row: row, section: i))
+                if section.isEmpty() {
+                    _sections.remove(at: i)
+                    update.add(section: i)
                 }
             }
         }
@@ -192,16 +245,27 @@ public class TableUpdate {
     var indexPaths = [IndexPath]()
     var sections = [Int]()
     let type: UpdateType
+    var allowConcurrent = false
     var animation: UITableView.RowAnimation = .none
     
-    init(_ type: UpdateType) {
+    init(_ type: UpdateType, indexPaths: [IndexPath]? = nil, sections: [Int]? = nil) {
         self.type = type
+        if let indexPaths = indexPaths {
+            self.indexPaths.append(contentsOf: indexPaths)
+        }
+        if let sections = sections {
+            self.sections.append(contentsOf: sections)
+        }
     }
     
     public func add(indexPath: IndexPath) {
         if !indexPaths.contains(indexPath) {
             indexPaths.append(indexPath)
         }
+    }
+
+    public func add2(indexPath: IndexPath) {
+        indexPaths.append(indexPath)
     }
 
     public func add(section: Int) {

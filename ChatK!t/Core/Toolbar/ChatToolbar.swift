@@ -9,7 +9,7 @@ import Foundation
 
 public protocol ChatToolbarDelegate {
     func selectedMessages() -> [Message]
-    func clearSelection()
+    func clearSelection(_ updateView: Bool?)
 }
 
 public protocol ChatToolbarActionsDelegate {
@@ -56,7 +56,7 @@ public class ChatToolbar: UIToolbar {
 
                 action.implOnClick = {
                     if action.notify(delegate.selectedMessages()) {
-                        delegate.clearSelection()
+                        delegate.clearSelection(true)
                     }
                 }
                 

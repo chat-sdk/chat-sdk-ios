@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="93"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Aqo-0b-Oiv">
+                    <view verifyAmbiguity="ignoreSizes" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Aqo-0b-Oiv">
                         <rect key="frame" x="50" y="21" width="311" height="68"/>
                         <color key="backgroundColor" systemColor="systemBrownColor"/>
                     </view>
@@ -48,14 +48,14 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="AEl-Nk-yAV" firstAttribute="leading" secondItem="pow-mP-MFv" secondAttribute="leading" constant="8" id="35R-ap-rwM"/>
+                    <constraint firstItem="AEl-Nk-yAV" firstAttribute="leading" secondItem="pow-mP-MFv" secondAttribute="leading" priority="750" constant="8" id="35R-ap-rwM"/>
                     <constraint firstItem="AEl-Nk-yAV" firstAttribute="top" secondItem="Bor-d8-IvD" secondAttribute="bottom" constant="8" id="5dO-31-CSh"/>
                     <constraint firstItem="ozE-hM-nbb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Aqo-0b-Oiv" secondAttribute="trailing" constant="8" id="9Bl-Do-vta"/>
-                    <constraint firstItem="Bor-d8-IvD" firstAttribute="top" secondItem="pow-mP-MFv" secondAttribute="top" id="AsC-38-fLs"/>
+                    <constraint firstItem="Bor-d8-IvD" firstAttribute="top" secondItem="pow-mP-MFv" secondAttribute="top" priority="750" id="AsC-38-fLs"/>
                     <constraint firstAttribute="bottom" secondItem="Aqo-0b-Oiv" secondAttribute="bottom" constant="4" id="BV0-oC-wC9"/>
                     <constraint firstItem="Bor-d8-IvD" firstAttribute="leading" secondItem="pow-mP-MFv" secondAttribute="leading" constant="8" id="BoV-pu-3yc"/>
                     <constraint firstItem="Aqo-0b-Oiv" firstAttribute="top" secondItem="Bor-d8-IvD" secondAttribute="bottom" constant="4" id="Zdd-n4-WEC"/>
-                    <constraint firstAttribute="trailing" secondItem="ozE-hM-nbb" secondAttribute="trailing" constant="8" id="fOm-6Y-J0e"/>
+                    <constraint firstAttribute="trailing" secondItem="ozE-hM-nbb" secondAttribute="trailing" priority="750" constant="8" id="fOm-6Y-J0e"/>
                     <constraint firstItem="Aqo-0b-Oiv" firstAttribute="leading" secondItem="AEl-Nk-yAV" secondAttribute="trailing" constant="8" id="ilG-PC-pvL"/>
                     <constraint firstItem="ozE-hM-nbb" firstAttribute="top" secondItem="Bor-d8-IvD" secondAttribute="bottom" constant="4" id="o2Z-iP-IvI"/>
                     <constraint firstItem="ozE-hM-nbb" firstAttribute="leading" secondItem="Bor-d8-IvD" secondAttribute="trailing" constant="8" id="sJZ-fc-jHb"/>

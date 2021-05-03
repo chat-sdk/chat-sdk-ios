@@ -90,7 +90,7 @@ public class MessageCell: UITableViewCell {
     }
 
     public func setAvatarSize(size: CGFloat) {
-        avatarImageView.keepSize.equal = size
+        avatarImageView.keepSize.equal = KeepHigh(size)
         avatarImageView.layer.cornerRadius = size / 2.0
     }
 

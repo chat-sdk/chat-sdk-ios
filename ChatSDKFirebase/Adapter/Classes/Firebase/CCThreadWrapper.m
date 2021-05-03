@@ -199,7 +199,7 @@
             
             // This will potentially delete all the messages
             [query observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
-                NSLog(@"Message deleted: %@", snapshot.value);
+//                NSLog(@"Message deleted: %@", snapshot.value);
                 CCMessageWrapper * wrapper = [CCMessageWrapper messageWithSnapshot:snapshot];
                 id<PMessage> message = wrapper.model;
                 [BHookNotification notificationMessageWillBeDeleted: message];

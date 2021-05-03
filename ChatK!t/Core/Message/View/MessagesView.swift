@@ -16,16 +16,15 @@ public class MessagesView: UIView {
     
     public var _longPressRecognizer: UIGestureRecognizer?
     public var _tapRecognizer: UIGestureRecognizer?
-    public var _selectedIndexPaths: Set<IndexPath> = []
     
     public var _hideKeyboardListener: (() -> Void)?
     
     // This is used to preseve the Y position when we change the table insets
     public var _bottomYClearance: CGFloat = 0
-        
-    // Message selection
-    public var _selectionModeIsEnabled = false
     
+    public var tableUpdateQueue = [TableUpdate]()
+    public var tableUpdating = false
+            
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -80,11 +79,7 @@ public class MessagesView: UIView {
         _tableView.register(model.sectionNib(), forCellReuseIdentifier: model.sectionIdentifier())
 
     }
-    
-    public func selectionModeEnabled() -> Bool {
-        return _selectionModeIsEnabled;
-    }
-    
+        
     public func willSetBottomInset() {
         // Save the scroll percentage
         let tableViewHeight = _tableView.frame.height - _tableView.contentInset.bottom - _tableView.contentInset.top
@@ -106,11 +101,18 @@ public class MessagesView: UIView {
 
     }
     
+    public func popTableUpdateQueue() {
+        if let update = tableUpdateQueue.first {
+            tableUpdateQueue.remove(at: 0)
+            updateTable(update)
+        }
+    }
+    
     @objc public func onLongPress(_ sender: UILongPressGestureRecognizer) {
         if ChatKit.config().messageSelectionEnabled && !isSelectionModeEnabled() {
             let point = sender.location(in: _tableView)
             if let path = _tableView.indexPathForRow(at: point) {
-                select(path)
+                _model?.select(indexPaths: [path], updateView: true)
             }
         }
     }
@@ -120,9 +122,9 @@ public class MessagesView: UIView {
             let point = sender.location(in: _tableView)
             if let path = _tableView.indexPathForRow(at: point) {
                 if isSelected(path) {
-                    deselect(path)
+                    _model?.deselect(indexPaths: [path], updateView: true)
                 } else {
-                    select(path)
+                    _model?.select(indexPaths: [path], updateView: true)
                 }
             }
         } else {
@@ -131,40 +133,11 @@ public class MessagesView: UIView {
     }
 
     public func isSelected(_ path: IndexPath) -> Bool {
-        return _selectedIndexPaths.contains(path)
+        return _model?.isSelected(path) ?? false
     }
     
     public func isSelectionModeEnabled() -> Bool {
-        return !_selectedIndexPaths.isEmpty
-    }
-    
-    public func select(_ path: IndexPath) {
-        if(!isSelected(path)) {
-            _selectedIndexPaths.insert(path)
-            notifySelectionChange()
-            _tableView.reloadRows(at: [path], with: .none)
-        }
-    }
-    
-    public func deselect(_ path: IndexPath) {
-        if(isSelected(path)) {
-            _selectedIndexPaths.remove(path)
-            notifySelectionChange()
-            _tableView.reloadRows(at: [path], with: .none)
-        }
-    }
-    
-    public func clearSelection() {
-        if !_selectedIndexPaths.isEmpty {
-            let rows = Array(_selectedIndexPaths)
-            _selectedIndexPaths.removeAll()
-            notifySelectionChange()
-            _tableView.reloadRows(at: rows, with: .none)
-        }
-    }
-    
-    public func notifySelectionChange() {
-        _model?.selectionChanged(paths: _selectedIndexPaths)
+        return !(_model?.selectedIndexPaths().isEmpty ?? false)
     }
         
 }
@@ -179,8 +152,6 @@ extension MessagesView: UITableViewDelegate {
 }
 
 extension MessagesView: PMessagesView {
-    
-
     
     public func scrollToBottom(animated: Bool = true, force: Bool = false) {
         if _tableView.numberOfSections > 0 {
@@ -203,52 +174,37 @@ extension MessagesView: PMessagesView {
             return
         }
         update.log()
-        _tableView.performBatchUpdates({ [weak self] in
-            if update.type == .add {
-                self?._tableView.insertSections(IndexSet(update.sections), with: update.animation)
-                self?._tableView.insertRows(at: update.indexPaths, with: update.animation)
-            }
-            if update.type == .remove {
-                self?._tableView.deleteRows(at: update.indexPaths, with: update.animation)
-                self?._tableView.deleteSections(IndexSet(update.sections), with: update.animation)
-            }
-            if update.type == .update {
-                self?._tableView.reloadSections(IndexSet(update.sections), with: update.animation)
-                self?._tableView.reloadRows(at: update.indexPaths, with: update.animation)
-            }
-        }, completion: completion)
+        
+        if tableUpdating && !update.allowConcurrent {
+            tableUpdateQueue.append(update)
+        } else {
+            tableUpdating = true
+            _tableView.performBatchUpdates({ [weak self] in
+                if update.type == .add {
+                    self?._tableView.insertSections(IndexSet(update.sections), with: update.animation)
+                    self?._tableView.insertRows(at: update.indexPaths, with: update.animation)
+                }
+                if update.type == .remove {
+                    if !update.sections.isEmpty {
+                        self?._tableView.deleteSections(IndexSet(update.sections), with: update.animation)
+                    } else {
+                        self?._tableView.deleteRows(at: update.indexPaths, with: update.animation)
+                    }
+                }
+                if update.type == .update {
+                    self?._tableView.reloadSections(IndexSet(update.sections), with: update.animation)
+                    self?._tableView.reloadRows(at: update.indexPaths, with: update.animation)
+                }
+            }, completion: { [weak self] success in
+                self?.tableUpdating = false
+                self?.popTableUpdateQueue()
+                completion?(success)
+            })
+        }
     }
     
     public func reloadData() {
         _tableView.reloadData()
     }
-    
-//    public func addMessage(toStart: Message) {
-//        _tableView.performBatchUpdates({ [weak self] in
-//            let indexPath = IndexPath(row: 0, section: 0)
-//            self?._tableView.insertRows(at: [indexPath], with: .none)
-//        }, completion: nil)
-//     }
-    
-//    public func addMessage(toEnd: Message) {
-//        _tableView.performBatchUpdates({ [weak self] in
-//            let indexPath = IndexPath(row: 0, section: 0)
-//            self?._tableView.insertRows(at: [indexPath], with: .none)
-//        }, completion: nil)
-//    }
-//
-//    public func addMessages(toStart: [Message]) {
-//    }
-//
-//    public func addMessages(toEnd: [Message]) {
-//    }
-//
-//    public func removeMessage(_message: Message) {
-//    }
-//
-//    public func removeMessages(_message: [Message]) {
-//    }
-//
-//    public func updateMessage(_ message: Message) {
-//    }
+
 }

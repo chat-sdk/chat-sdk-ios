@@ -10,7 +10,6 @@ import Foundation
 public protocol PMessagesView {
     
     func scrollToBottom(animated: Bool, force: Bool)
-    func clearSelection()
     func updateTable(_ update: TableUpdate, completion: ((Bool) -> Void)?)
     func reloadData()
 

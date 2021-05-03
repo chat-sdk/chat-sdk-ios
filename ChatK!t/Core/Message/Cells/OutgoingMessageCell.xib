@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,11 +20,11 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AEl-Nk-yAV">
                         <rect key="frame" x="372" y="18" width="34" height="34"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="34" id="l6y-Bo-lxt"/>
-                            <constraint firstAttribute="height" constant="34" id="rHQ-aU-do9"/>
+                            <constraint firstAttribute="width" priority="750" constant="34" id="l6y-Bo-lxt"/>
+                            <constraint firstAttribute="height" priority="750" constant="34" id="rHQ-aU-do9"/>
                         </constraints>
                     </imageView>
-                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Aqo-0b-Oiv">
+                    <view verifyAmbiguity="ignoreSizes" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Aqo-0b-Oiv">
                         <rect key="frame" x="55" y="4" width="299" height="52"/>
                         <color key="backgroundColor" systemColor="systemBrownColor"/>
                     </view>
@@ -46,7 +46,7 @@
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="AEl-Nk-yAV" secondAttribute="trailing" constant="8" id="6xH-cv-v9g"/>
+                    <constraint firstAttribute="trailing" secondItem="AEl-Nk-yAV" secondAttribute="trailing" priority="750" constant="8" id="6xH-cv-v9g"/>
                     <constraint firstItem="AQS-QC-WJl" firstAttribute="leading" secondItem="pow-mP-MFv" secondAttribute="leading" constant="5" id="Hbf-fG-FdO"/>
                     <constraint firstAttribute="bottom" secondItem="Aqo-0b-Oiv" secondAttribute="bottom" constant="4" id="KPu-og-tTV"/>
                     <constraint firstItem="ozE-hM-nbb" firstAttribute="top" secondItem="pow-mP-MFv" secondAttribute="top" constant="8" id="OvF-8O-bdP"/>
@@ -56,7 +56,7 @@
                     <constraint firstItem="AEl-Nk-yAV" firstAttribute="leading" secondItem="Aqo-0b-Oiv" secondAttribute="trailing" constant="8" id="olA-vB-MFU"/>
                     <constraint firstAttribute="bottom" secondItem="AQS-QC-WJl" secondAttribute="bottom" constant="2" id="ro2-8k-PwK"/>
                     <constraint firstAttribute="bottom" secondItem="AEl-Nk-yAV" secondAttribute="bottom" constant="8" id="x94-p5-Hnz"/>
-                    <constraint firstItem="ozE-hM-nbb" firstAttribute="leading" secondItem="pow-mP-MFv" secondAttribute="leading" constant="5" id="zXk-jp-YJb"/>
+                    <constraint firstItem="ozE-hM-nbb" firstAttribute="leading" secondItem="pow-mP-MFv" secondAttribute="leading" priority="750" constant="5" id="zXk-jp-YJb"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
