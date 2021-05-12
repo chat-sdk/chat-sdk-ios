@@ -26,39 +26,39 @@ public class CKMessage: Message {
         self.message = message
     }
     
-    public func messageId() -> String {
+    public override func messageId() -> String {
         return entityId!
     }
 
-    public func messageDate() -> Date {
+    public override func messageDate() -> Date {
         return date!
     }
 
-    public func messageText() -> String? {
+    public override func messageText() -> String? {
         return text
     }
 
-    public func messageSender() -> User {
+    public override func messageSender() -> User {
         return sender
     }
 
-    public func messageImageUrl() -> URL? {
+    public override func messageImageUrl() -> URL? {
         return imageUrl
     }
     
-    public func messageType() -> String {
+    public override func messageType() -> String {
         return type!
     }
     
-    public func messageMeta() -> [AnyHashable: Any]? {
+    public override func messageMeta() -> [AnyHashable: Any]? {
         return meta!
     }
     
-    public func messageDirection() -> MessageDirection {
+    public override func messageDirection() -> MessageDirection {
         return direction
     }
 
-    public func messageReadStatus() -> MessageReadStatus {
+    public override func messageReadStatus() -> MessageReadStatus {
         if BChatSDK.readReceipt() != nil && messageDirection() == .outgoing {
             if let status = message.messageReadStatus?() {
                 if status == bMessageReadStatusRead {
@@ -75,7 +75,7 @@ public class CKMessage: Message {
         return .none
     }
     
-    public func messageReply() -> Reply? {
+    public override func messageReply() -> Reply? {
         if message.isReply() {
             // Get the user's name
             var fromUser: PUser?

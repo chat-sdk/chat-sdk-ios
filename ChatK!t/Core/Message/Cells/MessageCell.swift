@@ -51,7 +51,7 @@ public class MessageCell: UITableViewCell {
         }
     }
     
-    public func bind(message: Message, model: MessagesModel, selected: Bool = false) {
+    public func bind(message: Message, model: MessagesModel) {
         if let content = self.content {
             content.bind(message: message)
         }
@@ -65,10 +65,10 @@ public class MessageCell: UITableViewCell {
         if content?.showBubble() ?? true {
             switch message.messageDirection() {
             case .incoming:
-                setBubbleColor(color: model.incomingBubbleColor(selected: selected))
+                setBubbleColor(color: model.incomingBubbleColor(selected: message.isSelected()))
                 setBubbleMaskPosition(position: .topLeft)
             case .outgoing:
-                setBubbleColor(color: model.outgoingBubbleColor(selected: selected))
+                setBubbleColor(color: model.outgoingBubbleColor(selected: message.isSelected()))
                 setBubbleMaskPosition(position: .bottomRight)
             }
         }

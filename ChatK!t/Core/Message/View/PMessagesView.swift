@@ -6,11 +6,10 @@
 //
 
 import Foundation
+import RxSwift
 
 public protocol PMessagesView {
-    
     func scrollToBottom(animated: Bool, force: Bool)
-    func updateTable(_ update: TableUpdate, completion: ((Bool) -> Void)?)
-    func reloadData()
-
+    func apply(snapshot: NSDiffableDataSourceSnapshot<Section, Message>, animated: Bool) -> Completable
+    func reload(messages: [Message], animated: Bool) -> Completable
 }

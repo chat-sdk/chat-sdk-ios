@@ -26,7 +26,6 @@ public class TextMessageContent: DefaultMessageContent {
         view.clipsToBounds = true
         view.addSubview(label)
         view.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(replyView)
         
         label.keepLeftInset.equal = ChatKit.config().bubbleInsets.left
         label.keepBottomInset.equal = ChatKit.config().bubbleInsets.bottom

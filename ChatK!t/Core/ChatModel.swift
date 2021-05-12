@@ -8,7 +8,31 @@
 import Foundation
 import RxSwift
 
-public class ChatModel: NSObject {
+public protocol PChatModelDelegate: PMessagesModelDelegate {
+}
+
+public class ChatModelDelegate: PChatModelDelegate {
+
+    weak var _model: ChatModel?
+
+    public init() {
+    }
+    
+    public func setModel(_ model: ChatModel) {
+        _model = model
+    }
+
+    public func loadMessages(with oldestMessage: Message?) -> Single<[Message]> {
+        preconditionFailure("This method must be overridden")
+    }
+    
+    public func initialMessages() -> [Message] {
+        preconditionFailure("This method must be overridden")
+    }
+    
+}
+
+public class ChatModel {
 
     public let _thread: Thread
     public var _options = [Option]()
@@ -17,13 +41,16 @@ public class ChatModel: NSObject {
     public var _keyboardOverlays = [String: KeyboardOverlay]()
     
     public var _view: PChatViewController?
+    public let _delegate: ChatModelDelegate
     
     public lazy var _messagesModel = {
-        return ChatKit.provider().messagesModel(_thread)
+        return ChatKit.provider().messagesModel(_thread, delegate: _delegate)
     }()
     
-    public init(_ thread: Thread) {
+    public init(_ thread: Thread, delegate: ChatModelDelegate) {
         _thread = thread
+        _delegate = delegate
+        _delegate.setModel(self)
     }
     
     open func messagesModel() -> MessagesModel {
@@ -43,7 +70,7 @@ public class ChatModel: NSObject {
         if _thread.threadType() == .private1to1 {
             if let user = _thread.threadOtherUser() {
                 if user.userIsOnline() {
-                    return t(Strings.online)
+                    return Strings.t(Strings.online)
                 } else if let lastOnline = user.userLastOnline() as NSDate?, let text = lastOnline.lastSeenTimeAgo() {
                     return text
                 }
@@ -69,7 +96,7 @@ public class ChatModel: NSObject {
      */
     open func initialSubtitle() -> String? {
         if ChatKit.config().userChatInfoEnabled {
-            return t(Strings.tapHereForContactInfo)
+            return Strings.t(Strings.tapHereForContactInfo)
         }
         return nil
     }
@@ -114,8 +141,12 @@ public class ChatModel: NSObject {
         _view = view
     }
     
-    public func loadMessages() {
-        _messagesModel.loadMessages()
+    public func loadInitialMessages() {
+        _messagesModel.loadInitialMessages()
+    }
+        
+    public func thread() -> Thread {
+        return _thread
     }
     
 }

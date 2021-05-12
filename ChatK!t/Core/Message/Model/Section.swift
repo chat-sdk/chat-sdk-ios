@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Section: NSObject {
+public class Section {
         
     let _date: Date
     
@@ -43,54 +43,44 @@ public class Section: NSObject {
         _messagesIndex[message.messageId()] != nil
     }
 
-    public func addMessage(toIndex message: Message) {
+    public func addToIndex(_ message: Message) {
         _messagesIndex[message.messageId()] = message
     }
 
-    public func addMessage(toStart message: Message) -> Int? {
+    public func addMessage(toStart message: Message) {
         if !exists(message) {
             _messages.insert(message, at: 0)
-            addMessage(toIndex: message)
-            return _messages.count - 1
+            addToIndex(message)
         }
-        return nil
     }
     
-    public func removeMessage(_ message: Message) -> Int? {
-        if let i = index(for: message) {
+    public func removeMessage(_ message: Message) {
+        if let i = index(of: message) {
             _messages.remove(at: i)
-            return i
         }
-        return nil
     }
     
-    public func index(for message: Message) -> Int? {
-        return _messages.firstIndex {
-            $0.messageId() == message.messageId()
-        }
+    public func index(of message: Message) -> Int? {
+        return _messages.firstIndex(of: message)
     }
 
-    public func addMessage(toEnd message: Message) -> Int? {
+    public func addMessage(toEnd message: Message) {
         if !exists(message) {
             _messages.append(message)
-            addMessage(toIndex: message)
-            return _messages.count - 1
+            addToIndex(message)
         }
-        return nil
     }
     
     public func isEmpty() -> Bool {
         return _messages.isEmpty
     }
     
-    public func addMessage(message: Message) -> Int? {
+    public func addMessage(message: Message) {
         if !exists(message) {
             _messages.append(message)
-            addMessage(toIndex: message)
+            addToIndex(message)
             sort()
-            return index(for: message)
         }
-        return nil
     }
     
     public func sort() {
@@ -106,7 +96,21 @@ public class Section: NSObject {
     public func messageCount() -> Int {
         return _messages.count
     }
+    
+    public func messages() -> [Message] {
+        return _messages
+    }
 
+}
 
+extension Section: Hashable {
 
+    public static func == (lhs: Section, rhs: Section) -> Bool {
+        return lhs.date() == rhs.date()
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(date().hashValue)
+    }
+    
 }

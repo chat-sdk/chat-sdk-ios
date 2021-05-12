@@ -13,6 +13,7 @@ public class ChatKit {
     
     public static let instance = ChatKit()
     
+    
     public static func shared() -> ChatKit {
         return instance
     }
@@ -39,6 +40,7 @@ public class ChatKit {
     public static func provider() -> Provider {
         return shared().provider
     }
+    
 }
 
 

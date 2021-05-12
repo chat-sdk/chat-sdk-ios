@@ -13,7 +13,6 @@ public protocol Thread {
     func threadName() -> String
     func threadImageUrl() -> URL?
     func threadUsers() -> [User]
-    func threadMessages() -> [Message]
     func threadType() -> ThreadType
     func threadOtherUser() -> User?
 

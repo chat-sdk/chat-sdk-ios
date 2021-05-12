@@ -82,9 +82,10 @@ public class ChatViewController: UIViewController {
         setupKeyboardListener()
         setupKeyboardOverlays()
         
-        model.loadMessages()
+        model.loadInitialMessages()
 
     }
+
     
     override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -99,6 +100,7 @@ public class ChatViewController: UIViewController {
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateMessageViewBottomInset()
+        print("New Height after layout: \(messagesView._tableView.contentSize.height)")
     }
     
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -108,11 +110,13 @@ public class ChatViewController: UIViewController {
     }
     
     public func updateMessageViewBottomInset(keyboardHeight: CGFloat? = nil) {
-        var keyboardHeight = keyboardHeight ?? -(sendBarViewBottomConstraint?.constant ?? 0)
+        var height = keyboardHeight ?? -(sendBarViewBottomConstraint?.constant ?? 0)
         if (replyView.isVisible() || replyView.willShow) && !replyView.willHide {
-            keyboardHeight += replyView.frame.size.height
+            height += replyView.frame.size.height
         }
-        messagesView.setBottomInset(height: keyboardHeight + sendBarView.frame.size.height)
+        height += sendBarView.frame.size.height
+        print("Height: ", height)
+        messagesView.setBottomInset(height: height)
     }
     
     override public func viewWillAppear(_ animated: Bool) {
@@ -248,9 +252,9 @@ public class ChatViewController: UIViewController {
         }
     }
     
-    public func clearSelection() {
-        model.messagesModel().clearSelection(true)
-    }
+//    public func clearSelection() {
+//        model.messagesModel().clearSelection()
+//    }
     
     public func setuptoolbar() {
         view.addSubview(toolbar)

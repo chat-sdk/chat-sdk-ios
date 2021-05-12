@@ -50,17 +50,7 @@ open class CKThread: Thread {
         }
         return users
     }
-    
-    open func threadMessages() -> [Message] {
-        var messages = [Message]()
-        for message in _thread.messagesOrderedByDateOldestFirst() {
-            if let message = message as? PMessage {
-                messages.append(CKMessage(message: message))
-            }
-        }
-        return messages
-    }
-    
+        
     open func threadType() -> ThreadType {
         return _threadType
     }

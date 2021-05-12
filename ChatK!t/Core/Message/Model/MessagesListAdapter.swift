@@ -12,25 +12,6 @@ public class MessagesListAdapter {
     var _sections = [Section]()
     var _sectionsIndex = [Date: Section]()
     
-    public func message(for indexPath: IndexPath) -> Message? {
-        if isValid(indexPath) {
-            return _sections[indexPath.section].message(for: indexPath)
-        }
-        return nil
-    }
-
-    public func messages(for indexPaths: [IndexPath]) -> [Message] {
-        var messages = [Message]()
-        
-        for indexPath in indexPaths {
-            if let message = message(for: indexPath) {
-                messages.append(message)
-            }
-        }
-        
-        return messages
-    }
-
     public func message(exists message: Message) -> Bool {
         for section in _sections {
             if section.exists(message) {
@@ -41,7 +22,6 @@ public class MessagesListAdapter {
     }
     
     public func sectionExists(_ section: Section) -> Bool {
-//        return _sections.contains(section)
         return _sectionsIndex[section.date()] != nil
     }
     
@@ -52,17 +32,6 @@ public class MessagesListAdapter {
             }
         }
         return nil
-    }
-
-    public func indexPath(for message: Message) -> IndexPath? {
-        if let s = section(for: message), let section = index(of: s), let row = s.index(for: message) {
-            return IndexPath(row: row, section: section)
-        }
-        return nil
-    }
-
-    public func isValid(_ indexPath: IndexPath) -> Bool {
-        indexPath.section < _sections.count
     }
     
     public func sectionCount() -> Int {
@@ -76,94 +45,67 @@ public class MessagesListAdapter {
         return nil
     }
     
-    public func addSection(for message: Message) -> Int? {
-        if let day = message.messageDate().day(), _sectionsIndex[day] == nil {
-            let section = Section(date: day)
-            _sections.append(section)
-            _sectionsIndex[day] = section
-            sort()
-            return _sections.firstIndex(of: section)
-        }
-        return nil
-    }
-
-    public func addSections(for messages: [Message]) -> [Int] {
-        var sections = [Int]()
-        for message in messages {
-            if let section = addSection(for: message) {
-                sections.append(section)
+    public func addSection(for message: Message) -> Section? {
+        if let day = message.messageDate().day() {
+            if let section = _sectionsIndex[day] {
+                return section
+            } else {
+                let section = Section(date: day)
+                _sections.append(section)
+                _sectionsIndex[day] = section
+                sort()
+                return section
             }
-        }
-        return sections
-    }
-    
-    public func indexPaths(for messages: [Message]) -> [IndexPath] {
-        var indexPaths = [IndexPath]()
-        for message in messages {
-            if let indexPath = indexPath(for: message) {
-                indexPaths.append(indexPath)
-            }
-        }
-        return indexPaths
-    }
-    
-    public func addMessage(_ message: Message) -> IndexPath? {
-        if let section = section(for: message), let index = _sections.firstIndex(of: section), let row = section.addMessage(message: message) {
-            return IndexPath(row: row, section: index)
-        }
-        return nil
-    }
-
-    public func addMessages(_ messages: [Message]) -> TableUpdate {
-        let update = TableUpdate(.add)
-        update.sections = addSections(for: messages)
-        for message in messages {
-            if let indexPath = addMessage(message) {
-                update.add(indexPath: indexPath)
-            }
-        }
-        return update
-    }
-
-    public func addMessages(toStart messages: [Message]) -> TableUpdate {
-        let update = TableUpdate(.add)
-        update.sections = addSections(for: messages)
-        
-        for message in messages {
-            if let indexPath = addMessage(toStart: message) {
-                update.add(indexPath: indexPath)
-            }
-        }
-        return update
-    }
-    
-    public func addMessage(toStart message: Message) -> IndexPath? {
-        if let section = section(for: message), let index = _sections.firstIndex(of: section), let row = section.addMessage(toStart: message) {
-            return IndexPath(row: row, section: index)
         }
         return nil
     }
     
-    public func removeMessages(_ messages: [Message]) -> TableUpdate {
-        let update = TableUpdate(.remove)
-        
-        // First get the index paths of all the messages
-        var indexPaths = [String: IndexPath]()
-
-        for message in messages {
-            indexPaths[message.messageId()] = indexPath(for: message)
+    public func addMessage(_ message: Message) {
+        if let section = addSection(for: message) {
+            section.addMessage(message: message)
         }
-        
+    }
+
+    public func addMessages(_ messages: [Message]) {
         for message in messages {
-            if let section = section(for: message), let i = index(of: section), let _ = section.removeMessage(message), let ip = indexPaths[message.messageId()] {
-                update.add(indexPath: ip)
-                if section.isEmpty() {
-                    removeSection(section)
-                    update.add(section: ip.section)
-                }
+            addMessage(message)
+        }
+    }
+
+    public func addMessages(toStart messages: [Message]) {
+        for message in messages {
+            addMessage(toStart: message)
+        }
+    }
+    
+    public func addMessage(toStart message: Message) {
+        if let section = addSection(for: message) {
+            section.addMessage(toStart: message)
+        }
+    }
+    
+    public func addMessages(toEnd messages: [Message]) {
+        for message in messages {
+            addMessage(toEnd: message)
+        }
+    }
+    
+    public func addMessage(toEnd message: Message) {
+        if let section = addSection(for: message) {
+            section.addMessage(toEnd: message)
+        }
+    }
+    
+    public func oldestMessage() -> Message? {
+        return _sections.first?.messages().first
+    }
+    
+    public func removeMessages(_ messages: [Message]) {
+        for message in messages {
+            if let section = section(for: message) {
+                section.removeMessage(message)
             }
         }
-        return update
     }
     
     public func removeSection(_ section: Section) {
@@ -175,47 +117,6 @@ public class MessagesListAdapter {
         }
     }
     
-    public func removeMessages2(_ messages: [Message]) -> TableUpdate {
-        let update = TableUpdate(.remove)
-        
-        // First get the index paths of all the messages
-        var indexPaths = [String: IndexPath]()
-
-        for message in messages {
-            indexPaths[message.messageId()] = indexPath(for: message)
-        }
-        
-        for message in messages {
-            if let section = section(for: message), let i = index(of: section), let row = section.removeMessage(message) {
-                update.add2(indexPath: IndexPath(row: row, section: i))
-                if section.isEmpty() {
-                    _sections.remove(at: i)
-                    update.add(section: i)
-                }
-            }
-        }
-        return update
-    }
-    
-    public func addMessages(toEnd messages: [Message]) -> TableUpdate {
-        let update = TableUpdate(.add)
-        update.sections = addSections(for: messages)
-        
-        for message in messages {
-            if let indexPath = addMessage(toEnd: message) {
-                update.add(indexPath: indexPath)
-            }
-        }
-        return update
-    }
-
-    public func addMessage(toEnd message: Message) -> IndexPath? {
-        if let section = section(for: message), let index = _sections.firstIndex(of: section), let row = section.addMessage(toEnd: message) {
-            return IndexPath(row: row, section: index)
-        }
-        return nil
-    }
-
     public func sort() {
         _sections.sort {
             $0.date().compare($1.date()) == .orderedAscending
@@ -232,65 +133,21 @@ public class MessagesListAdapter {
     public func index(of section: Section) -> Int? {
         return _sections.firstIndex(of: section)
     }
-}
-
-public class TableUpdate {
     
-    public enum UpdateType {
-        case add
-        case remove
-        case update
+    public func sections() -> [Section] {
+        return _sections
     }
     
-    var indexPaths = [IndexPath]()
-    var sections = [Int]()
-    let type: UpdateType
-    var allowConcurrent = false
-    var animation: UITableView.RowAnimation = .none
-    
-    init(_ type: UpdateType, indexPaths: [IndexPath]? = nil, sections: [Int]? = nil) {
-        self.type = type
-        if let indexPaths = indexPaths {
-            self.indexPaths.append(contentsOf: indexPaths)
+    public func indexPath(for message: Message) -> IndexPath? {
+        if let section = section(for: message), let index = index(of: section), let row = section.index(of: message) {
+            return IndexPath(row: row, section: index)
         }
-        if let sections = sections {
-            self.sections.append(contentsOf: sections)
-        }
+        return nil
     }
     
-    public func add(indexPath: IndexPath) {
-        if !indexPaths.contains(indexPath) {
-            indexPaths.append(indexPath)
-        }
-    }
-
-    public func add2(indexPath: IndexPath) {
-        indexPaths.append(indexPath)
-    }
-
-    public func add(section: Int) {
-        if !sections.contains(section) {
-            sections.append(section)
-        }
+    public func message(for indexPath: IndexPath) -> Message? {
+        return section(indexPath.section)?.message(for: indexPath)
     }
     
-    public func log() {
-        print("Type: ", type)
-        print("sections: ", sections)
-        print("indexPaths: ", indexPaths)
-    }
-    
-    public func hasChanges() -> Bool {
-        return hasRowChanges() || hasSectionChanges()
-    }
-
-    public func hasSectionChanges() -> Bool {
-        return !sections.isEmpty
-    }
-
-    public func hasRowChanges() -> Bool {
-        return !indexPaths.isEmpty
-    }
-
 }
 

@@ -53,6 +53,8 @@ public class Config {
     
     public var messagesViewRefreshHeight: CGFloat = 300
     public var messagesViewSectionViewCornerRadius: CGFloat = 5
+    
+    public var messagesViewSectionHeight: CGFloat = 40
 
     // The reply view that shows inside the message bubble
     public var messageReplyViewHeight: CGFloat = 50
