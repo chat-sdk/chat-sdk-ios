@@ -10,18 +10,18 @@ import KeepLayout
 
 public class TextMessageContent: DefaultMessageContent {
     
-    lazy var label: UILabel = {
+    public lazy var label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    lazy var replyView: MessageReplyView = {
+    public lazy var replyView: MessageReplyView = {
         return ChatKit.provider().messageReplyView()
     }()
     
-    lazy var containerView: UIView = {
+    public lazy var containerView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
         view.addSubview(label)
@@ -40,8 +40,8 @@ public class TextMessageContent: DefaultMessageContent {
     }
     
     override public func bind(_ message: Message, model: MessagesModel) {
-        message.setContent(self)
-        
+        super.bind(message, model: model)
+
         label.text = message.messageText()
         if message.messageDirection() == .incoming {
             replyView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]

@@ -194,9 +194,9 @@ public class RecordView: UIView {
     public func send() {
         ChatKit.audioRecorder().stop()
         do {
-            if let url = ChatKit.audioRecorder().url() {
+            if let url = ChatKit.audioRecorder().url {
                 let data = try Data(contentsOf: url)
-                delegate?.send(audio: data, duration: ChatKit.audioRecorder().time())
+                delegate?.send(audio: data, duration: ChatKit.audioRecorder().time)
             }
         } catch {
             

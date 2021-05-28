@@ -11,14 +11,14 @@ import AVFoundation
 
 public class AudioMessageContent: DefaultMessageContent, DownloadableContent {
 
-    let _view: AudioMessageView = .fromNib()
+    public let _view: AudioMessageView = .fromNib()
     
     public override func view() -> UIView {
         return _view
     }
-    
+        
     public override func bind(_ message: Message, model: MessagesModel) {
-        message.setContent(self)
+        super.bind(message, model: model)
         _view.bind(message, model: model)
     }
     
@@ -26,8 +26,8 @@ public class AudioMessageContent: DefaultMessageContent, DownloadableContent {
         _view.setProgress(progress)
     }
     
-    public func downloadFinished(_ error: Error?) {
-        _view.downloadFinished(error)
+    public func downloadFinished(_ url: URL?, error: Error?) {
+        _view.downloadFinished(url, error: error)
     }
     
     public func downloadPaused() {
@@ -55,7 +55,7 @@ public class AudioMessageView: UIView {
     
     public override func awakeFromNib() {
         super.awakeFromNib()
-//        progressView.progress = 0.5
+
         progressView.tintColor = ChatKit.asset(color: "message_icon")
         progressView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(startStopDownload)))
     }
@@ -86,18 +86,18 @@ public class AudioMessageView: UIView {
         }
     }
     
-    public func downloadFinished(_ error: Error?) {
+    public func downloadFinished(_ url: URL?, error: Error?) {
         // Delay a second so we have time to see the tick
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { timer in
             timer.invalidate()
             DispatchQueue.main.async { [weak self] in
-                self?.implDownloadFinished(error)
+                self?.implDownloadFinished(url, error: error)
             }
         })
     }
     
-    public func implDownloadFinished(_ error: Error?) {
-        if let error = error {
+    public func implDownloadFinished(_ url: URL?, error: Error?) {
+        if let _ = error {
             progressView.isHidden = false
             playPauseButton.isHidden = true
             progressView.progress = 0
@@ -105,7 +105,7 @@ public class AudioMessageView: UIView {
             progressView.isHidden = true
             progressView.stopSpinProgressBackgroundLayer()
             playPauseButton.isHidden = false
-            if let _ = audioMessage()?.messageLocalPath() {
+            if let _ = url {
                 playPauseButton.isEnabled = true
                 progressSlider.isEnabled = true
             } else {
@@ -158,10 +158,6 @@ public class AudioMessageView: UIView {
 
                 self?.update()
                 
-//                if(!player.isPlaying) {
-//                    self?.pause()
-//                }
-
                 if(player.currentTime == 0) {
                     self?.pause()
                 }
@@ -193,7 +189,7 @@ public class AudioMessageView: UIView {
         if let audioMessage = message as? IAudioMessage {
             
             // This message has not been downloaded yet
-            if message.messageRemotePath() != nil && message.messageLocalPath() == nil {
+            if message.messageRemoteURL() != nil && audioMessage.messageLocalURL() == nil {
                 setProgress(audioMessage.downloadProgress())
 
                 playPauseButton.isHidden = true
@@ -204,7 +200,7 @@ public class AudioMessageView: UIView {
                 progressView.isHidden = true
                 playPauseButton.isHidden = false
 
-                playPauseButton.isEnabled = message.messageLocalPath() != nil
+                playPauseButton.isEnabled = audioMessage.messageLocalURL() != nil
                 progressSlider.isEnabled = true
 
             }

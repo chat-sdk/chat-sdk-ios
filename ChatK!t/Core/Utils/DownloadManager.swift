@@ -17,7 +17,7 @@ public protocol DownloadManagerListener: AnyObject {
 }
 
 public class DownloadManager {
-    
+
     lazy var manager: MZDownloadManager = {
        return MZDownloadManager(session: "ChatKit", delegate: self)
     }()
@@ -46,7 +46,7 @@ public class DownloadManager {
         print("Dir Path = \(path)")
     }
     
-    public func localPath(for id: String) -> String? {
+    public func localURL(for id: String) -> String? {
         let path = path.appendingPathComponent(id)
         if FileManager.default.fileExists(atPath: path.path) {
             return path.path
@@ -191,3 +191,54 @@ extension DownloadManager: MZDownloadManagerDelegate {
     }
 }
 
+public class DefaultDownloadManagerListener: DownloadManagerListener {
+    
+    public let model: MessagesModel
+    
+    public init(_ model: MessagesModel) {
+        self.model = model
+    }
+    
+    public func downloadProgressUpdated(_ id: String, progress: Float) {
+        if let message = message(for: id) {
+            message.setProgress(progress)
+//            update(id: id)
+        }
+    }
+    
+    public func downloadFinished(_ id: String, path: String) {
+        if let message = message(for: id) {
+            message.setMessageLocalURL(URL(string: path + "/" + id))
+            message.downloadFinished(message.messageLocalURL(), error: nil)
+        }
+    }
+    
+    public func downloadFailed(_ id: String, error: NSError) {
+        if let message = message(for: id) {
+            message.downloadFinished(nil, error: error)
+        }
+    }
+    
+    public func downloadResumed(_ id: String) {
+        if let message = message(for: id) {
+            message.downloadStarted()
+        }
+    }
+
+    public func downloadPaused(_ id: String) {
+        if let message = message(for: id) {
+            message.downloadPaused()
+        }
+    }
+    
+    public func message(for id: String) -> DownloadableMessage? {
+        return model.message(for: id) as? DownloadableMessage
+    }
+    
+    public func update(id: String) {
+        DispatchQueue.main.async { [weak self] in
+            _ = self?.model.updateMessage(id: id).subscribe()
+        }
+    }
+
+}

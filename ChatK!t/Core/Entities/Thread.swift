@@ -8,14 +8,12 @@
 import Foundation
 
 public protocol Thread {
-    
     func threadId() -> String
     func threadName() -> String
     func threadImageUrl() -> URL?
     func threadUsers() -> [User]
     func threadType() -> ThreadType
     func threadOtherUser() -> User?
-
 }
 
 public extension Thread {

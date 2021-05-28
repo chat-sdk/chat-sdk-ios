@@ -106,7 +106,7 @@ public class Provider {
         return SendBarView()
     }
     
-    public func messagesModel(_ thread: Thread, delegate: PMessagesModelDelegate) -> MessagesModel {
+    public func messagesModel(_ thread: Thread, delegate: MessagesModelDelegate) -> MessagesModel {
         return MessagesModel(thread, delegate: delegate)
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 
 public class SectionCell: UIView {
+    
     public static let identifier = "section"
     
     @IBOutlet weak var titleLabel: UILabel!

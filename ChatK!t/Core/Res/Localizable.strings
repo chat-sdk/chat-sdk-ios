@@ -13,3 +13,10 @@
 "yesterday" = "Yesterday";
 "lastSeen_at_" = "Last seen %@ at %@";
 "requestAudioPermission" = "Click enable audio recording";
+
+"camera" = "Camera";
+"gallery" = "Gallery";
+"location" = "Location";
+"file" = "File";
+"sticker" = "Sticker";
+"video" = "Video";

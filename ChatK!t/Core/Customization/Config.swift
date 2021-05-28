@@ -63,7 +63,7 @@ public class Config {
     public var chatReplyViewHeight: CGFloat = 50
     
     public var bubbleInsets = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
-    public var bubbleCornerRadius: CGFloat = 5
+    public var bubbleCornerRadius: CGFloat = 10
     
     public var outgoingBubbleColor = "outgoing_bubble"
     public var outgoingBubbleSelectedColor = "outgoing_bubble_selected"
@@ -79,5 +79,10 @@ public class Config {
     
     public var downloadFolderName = "ChatKit"
     
-    public var downloadImageMessages = false
+    public var loadImageMessageFromURL = false
+    
+    // Raido
+    public var imageMessageWidthRatio = 0.8
 }
+
+

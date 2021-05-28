@@ -22,6 +22,7 @@ Pod::Spec.new do |s|
   s.dependency 'CollectionKit'
   s.dependency 'FFCircularProgressView'
   s.dependency 'MZDownloadManager'
+  s.dependency 'FLAnimatedImage'
   
   s.subspec 'ChatSDK' do |s| 
 	  s.source_files = ['ChatK!t/ChatSDK/**/*']

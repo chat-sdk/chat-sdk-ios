@@ -34,6 +34,43 @@ public class Option {
         self.image = image
         self.onClick = onClick
     }
+
+    public init(cameraOnClick: (() -> Void)? = nil) {
+        self.text = Strings.t(Strings.camera)
+        self.image = ChatKit.asset(icon: "icn_100_camera")
+        self.onClick = cameraOnClick
+    }
+
+    public init(galleryOnClick: (() -> Void)? = nil) {
+        self.text = Strings.t(Strings.gallery)
+        self.image = ChatKit.asset(icon: "icn_100_gallery")
+        self.onClick = galleryOnClick
+    }
+
+    public init(locationOnClick: (() -> Void)? = nil) {
+        self.text = Strings.t(Strings.location)
+        self.image = ChatKit.asset(icon: "icn_100_location")
+        self.onClick = locationOnClick
+    }
+
+    public init(fileOnClick: (() -> Void)? = nil) {
+        self.text = Strings.t(Strings.file)
+        self.image = ChatKit.asset(icon: "icn_100_file")
+        self.onClick = fileOnClick
+    }
+
+    public init(stickerOnClick: (() -> Void)? = nil) {
+        self.text = Strings.t(Strings.sticker)
+        self.image = ChatKit.asset(icon: "icn_100_sticker")
+        self.onClick = stickerOnClick
+    }
+
+    public init(videoOnClick: (() -> Void)? = nil) {
+        self.text = Strings.t(Strings.video)
+        self.image = ChatKit.asset(icon: "icn_100_video")
+        self.onClick = videoOnClick
+    }
+
 }
 
 public class BucketCellView: UIView {

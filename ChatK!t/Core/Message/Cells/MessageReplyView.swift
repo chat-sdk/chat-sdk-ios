@@ -8,6 +8,7 @@
 import Foundation
 
 public class MessageReplyView: UIView {
+    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var divider: UIView!
     @IBOutlet weak var titleLabel: UILabel!

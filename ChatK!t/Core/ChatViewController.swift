@@ -53,10 +53,10 @@ public class ChatViewController: UIViewController {
     
     public init(model: ChatModel) {
         self.model = model
-        toolbar = ChatKit.provider().chatToolbar(model.messagesModel(), actions: model)
+        toolbar = ChatKit.provider().chatToolbar(model.messagesModel, actions: model)
         toolbar.setActionsDelegate(model)
         super.init(nibName: nil, bundle: nil)
-        model.setView(self)
+        model.view = self
 
         // Hide the tab bar when the messages are shown
         hidesBottomBarWhenPushed = true
@@ -95,7 +95,7 @@ public class ChatViewController: UIViewController {
     }
     
     @objc public func doAction() {
-        model.messagesModel()._view?.scrollToBottom(animated: false, force: true)
+        model.messagesModel.view?.scrollToBottom(animated: false, force: true)
     }
 
     
@@ -203,7 +203,7 @@ public class ChatViewController: UIViewController {
     }
 
     public func setupMessageModel() {
-        messagesModel = model.messagesModel()
+        messagesModel = model.messagesModel
         messagesModel!.setSelectionChangeListener({ [weak self] selection in
             if selection.isEmpty {
                 self?.hideToolbar()
@@ -215,7 +215,7 @@ public class ChatViewController: UIViewController {
     
     public func setupMessagesView() {
         messagesView.setModel(model: messagesModel!)
-        messagesView._hideKeyboardListener = { [weak self] in
+        messagesView.hideKeyboardListener = { [weak self] in
             self?.sendBarView.hide()
             self?.hiddenTextField.resignFirstResponder()
         }
@@ -233,7 +233,7 @@ public class ChatViewController: UIViewController {
             self?.hideKeyboardOverlay()
         }
         
-        for action in model.sendBarActions() {
+        for action in model.sendBarActions {
             sendBarView.addAction(action)
         }
         

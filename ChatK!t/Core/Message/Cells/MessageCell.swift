@@ -58,25 +58,14 @@ public class MessageCell: UITableViewCell {
         if let url = message.messageSender().userImageUrl() {
             avatarImageView.sd_setImage(with: url, completed: nil)
         }
-        timeLabel.text = model.messageTimeFormatter().string(from: message.messageDate())
+        timeLabel.text = model.messageTimeFormatter.string(from: message.messageDate())
         
         setAvatarSize(size: model.avatarSize())
         
         if content?.showBubble() ?? true {
             setBubbleColor(color: model.bubbleColor(message))
-            
             contentContainerView.setMaskPosition(direction: message.messageDirection())
             content?.view().setMaskPosition(direction: message.messageDirection())
-    //        contentContainerView.layer.maskedCorners = mask!
-    //        content?.view().layer.maskedCorners = mask!
-//            content?.view().setMaskPosition(position: position)
-            
-//            switch message.messageDirection() {
-//            case .incoming:
-//                setBubbleMaskPosition(position: .topLeft)
-//            case .outgoing:
-//                setBubbleMaskPosition(position: .bottomRight)
-//            }
         }
                 
         if let imageView = readReceiptImageView {
@@ -108,26 +97,6 @@ public class MessageCell: UITableViewCell {
         contentContainerView.layer.cornerRadius = radius
         content?.view().layer.cornerRadius = radius
     }
-
-//    public func setBubbleMaskPosition(position: MaskPosition) {
-//        var mask: CACornerMask?
-//        if position == .topLeft {
-//            mask = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-//        }
-//        if position == .topRight {
-//            mask = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-//        }
-//        if position == .bottomLeft {
-//            mask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-//        }
-//        if position == .bottomRight {
-//            mask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-//        }
-//        contentContainerView.setMaskPosition(position: position)
-//        contentContainerView.layer.maskedCorners = mask!
-//        content?.view().layer.maskedCorners = mask!
-//        content?.view().setMaskPosition(position: position)
-//    }
     
     public func hideNameLabel() {
         nameLabel?.keepHeight.equal = 0
@@ -167,9 +136,3 @@ public extension UIView {
         self.layer.maskedCorners = mask!
     }
 }
-
-//extension MessageCell {
-//    class func fromNib<T: MessageCell>(nib: UINib) -> T {
-//        return nib.instantiate(withOwner: self, options: nil)[0] as! T
-//    }
-//}

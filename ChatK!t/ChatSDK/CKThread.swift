@@ -10,10 +10,10 @@ import ChatSDK
 
 open class CKThread: Thread {
     
-    let _thread: PThread
+    let thread: PThread
     
-    lazy var _threadType: ThreadType = {
-        if let type = _thread.type() {
+    lazy var type: ThreadType = {
+        if let type = thread.type() {
             if type.int32Value == bThreadTypePublicGroup.rawValue {
                 return .publicGroup
             } else if type.int32Value == bThreadTypePrivateGroup.rawValue {
@@ -26,24 +26,24 @@ open class CKThread: Thread {
     }()
     
     public init(_ thread: PThread) {
-        _thread = thread
+        self.thread = thread
     }
 
     open func threadId() -> String {
-        return _thread.entityID()
+        return thread.entityID()
     }
     
     open func threadName() -> String {
-        return _thread.displayName()
+        return thread.displayName()
     }
     
     open func threadImageUrl() -> URL? {
-        return URL(string: _thread.imageURL())
+        return URL(string: thread.imageURL())
     }
     
     open func threadUsers() -> [User] {
         var users = [User]()
-        for user in _thread.users() {
+        for user in thread.users() {
             if let user = user as? PUser {
                 users.append(CKUser(user: user))
             }
@@ -52,6 +52,6 @@ open class CKThread: Thread {
     }
         
     open func threadType() -> ThreadType {
-        return _threadType
+        return type
     }
 }

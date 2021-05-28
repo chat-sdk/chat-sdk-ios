@@ -20,36 +20,68 @@ public protocol IMessage {
     func messageDirection() -> MessageDirection
     func messageReadStatus() -> MessageReadStatus
     func messageReply() -> Reply?
+    func messageRemoteURL() -> URL?
+    func messageContent() -> MessageContent?
+
+}
+
+public protocol DownloadableMessage: IMessage {
     
-    func messageRemotePath() -> URL?
-    func messageLocalPath() -> URL?
-}
-
-public protocol Downloadable {
-    func startDownload()
-    func pauseDownload()
+    func downloadFinished(_ url: URL?, error: Error?)
+    
     func isDownloading() -> Bool
+    func setIsDownloading(_ downloading: Bool)
+
     func downloadProgress() -> Float
+    func setProgress(_ progress: Float)
+
+    func messageLocalURL() -> URL?
+    func setMessageLocalURL(_ url: URL?)
 }
 
-public protocol IAudioMessage: IMessage, Downloadable {
+public extension DownloadableMessage {
+
+    func startDownload() {
+         if let url = messageRemoteURL() {
+            ChatKit.downloadManager().startTask(messageId(), url: url.absoluteString)
+        }
+    }
+    
+    func pauseDownload() {
+        ChatKit.downloadManager().pauseTask(messageId())
+    }
+    
+    func downloadStarted() {
+        setIsDownloading(true)
+        if let content = messageContent() as? DownloadableContent {
+            content.downloadStarted()
+        }
+    }
+
+    func downloadPaused() {
+        setIsDownloading(false)
+        if let content = messageContent() as? DownloadableContent {
+            content.downloadPaused()
+        }
+    }
+}
+
+public protocol IAudioMessage: DownloadableMessage {
     func duration() -> Double?
-//    func seekPosition() -> TimeInterval
-//    func setSeekPosition(_ position: TimeInterval)
     func audioPlayer() -> AVAudioPlayer?
 }
 
 public class Message: IMessage, Hashable, Equatable {
     
-    var selected = false
+    public var selected = false
     
-    var content: MessageContent?
+    public var content: MessageContent?
     
-    func setContent(_ content: MessageContent) {
+    public func setContent(_ content: MessageContent) {
         self.content = content
     }
     
-    func sameDayAs(_ message: Message) -> Bool {
+    public func sameDayAs(_ message: Message) -> Bool {
         return Calendar.current.isDate(messageDate(), inSameDayAs: message.messageDate())
     }
         
@@ -109,49 +141,24 @@ public class Message: IMessage, Hashable, Equatable {
         return lhs.messageId() == rhs.messageId()
     }
         
-    public func messageRemotePath() -> URL? {
+    public func messageRemoteURL() -> URL? {
         return nil
     }
     
-    public func messageLocalPath() -> URL? {
-        return nil
-    }
-
-//
-////    public var hashValue: Int {
-////        return self.messageId().hashValue
-////    }
-//
-//    public static func == (lhs: Message, rhs: Message) -> Bool {
-//        return lhs.messageId() == rhs.messageId()
+//    public func messageLocalURL() -> URL? {
+//        return nil
 //    }
-//
+//    
+//    public func setMessageLocalURL(_ url: URL?) {
+//        preconditionFailure("This method must be overridden")
+//    }
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(messageId())
     }
+    
+    public func messageContent() -> MessageContent? {
+        return content
+    }
 
 }
-
-//public class AudioMessage: Message, IAudioMessage {
-//
-//    public func duration() -> Double? {
-//        preconditionFailure("This method must be overridden")
-//    }
-//
-//    public func startDownload() {
-//        preconditionFailure("This method must be overridden")
-//    }
-//
-//    public func pauseDownload() {
-//        preconditionFailure("This method must be overridden")
-//    }
-//
-//    public func localPath() -> URL? {
-//        return nil
-//    }
-//
-//}
-
-//extension Message: Hashable, Equatable {
-//
-//}

@@ -13,7 +13,9 @@ public protocol ChatToolbarDelegate {
 }
 
 public protocol ChatToolbarActionsDelegate {
-    func toolbarActions() -> [ToolbarAction]
+    var toolbarActions: [ToolbarAction] {
+        get
+    }
 }
 
 public class ChatToolbar: UIToolbar {
@@ -50,7 +52,7 @@ public class ChatToolbar: UIToolbar {
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
         
         if let delegate = _delegate, let actionsDelegate = _actionsDelegate {
-            let actions = actionsDelegate.toolbarActions()
+            let actions = actionsDelegate.toolbarActions
             for i in 0 ..< actions.count {
                 let action = actions[i]
 

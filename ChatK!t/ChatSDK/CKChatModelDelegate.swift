@@ -13,7 +13,7 @@ public class CKChatModelDelegate: ChatModelDelegate {
     
     public override func loadMessages(with oldestMessage: Message?) -> Single<[Message]> {
         return Single<[Message]>.create { [weak self] single in
-            if let model = self?._model, let thread = BChatSDK.db().fetchEntity(withID: model.thread().threadId(), withType: bThreadEntity) as? PThread {
+            if let model = self?.model, let thread = BChatSDK.db().fetchEntity(withID: model.thread.threadId(), withType: bThreadEntity) as? PThread {
                 _ = BChatSDK.thread().loadMoreMessages(from: oldestMessage?.messageDate(), for: thread).thenOnMain({ success in
                     if let messages = success as? [PMessage] {
                         single(.success(CKChatModelDelegate.convert(messages)))
@@ -32,20 +32,16 @@ public class CKChatModelDelegate: ChatModelDelegate {
     
     public override func initialMessages() -> [Message] {
         var messages = [Message]()
-        if let model = _model, let thread = BChatSDK.db().fetchEntity(withID: model.thread().threadId(), withType: bThreadEntity) as? PThread {
+        if let model = model, let thread = BChatSDK.db().fetchEntity(withID: model.thread.threadId(), withType: bThreadEntity) as? PThread {
             for message in BChatSDK.db().loadMessages(for: thread, newest: 25) {
                 if let message = message as? PMessage {
-                    if message.type().intValue == bMessageTypeAudio.rawValue {
-                        messages.insert(CKAudioMessage(message: message), at: 0)
-                    } else {
-                        messages.insert(CKMessage(message: message), at: 0)
-                    }
+                    messages.insert(CKMessage.new(for: message), at: 0)
                 }
             }
         }
         return messages
     }
-    
+        
     public static func convert(_ messages: [PMessage]) -> [Message] {
         var output = [Message]()
         for message in messages {

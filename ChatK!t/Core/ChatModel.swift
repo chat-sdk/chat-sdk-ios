@@ -8,20 +8,13 @@
 import Foundation
 import RxSwift
 
-public protocol PChatModelDelegate: PMessagesModelDelegate {
-}
+public class ChatModelDelegate: MessagesModelDelegate {
 
-public class ChatModelDelegate: PChatModelDelegate {
-
-    weak var _model: ChatModel?
+    weak var model: ChatModel?
 
     public init() {
     }
     
-    public func setModel(_ model: ChatModel) {
-        _model = model
-    }
-
     public func loadMessages(with oldestMessage: Message?) -> Single<[Message]> {
         preconditionFailure("This method must be overridden")
     }
@@ -32,43 +25,39 @@ public class ChatModelDelegate: PChatModelDelegate {
     
 }
 
-public class ChatModel {
+public class ChatModel: ChatToolbarActionsDelegate {
 
-    public let _thread: Thread
-    public var _options = [Option]()
-    public var _sendBarActions = [SendBarAction]()
-    public var _toolbarActions = [ToolbarAction]()
-    public var _keyboardOverlays = [String: KeyboardOverlay]()
+    public let thread: Thread
+    public var options = [Option]()
+    public var sendBarActions = [SendBarAction]()
+    public var toolbarActions = [ToolbarAction]()
+    public var keyboardOverlayMap = [String: KeyboardOverlay]()
     
-    public var _view: PChatViewController?
-    public let _delegate: ChatModelDelegate
+    public var view: PChatViewController?
+    public let delegate: ChatModelDelegate
     
-    public lazy var _messagesModel = {
-        return ChatKit.provider().messagesModel(_thread, delegate: _delegate)
+    public lazy var messagesModel = {
+        return ChatKit.provider().messagesModel(thread, delegate: delegate)
     }()
     
     public init(_ thread: Thread, delegate: ChatModelDelegate) {
-        _thread = thread
-        _delegate = delegate
-        _delegate.setModel(self)
+        self.thread = thread
+        self.delegate = delegate
+        delegate.model = self
     }
-    
-    open func messagesModel() -> MessagesModel {
-        return _messagesModel
-    }
-    
-    open func title() -> String {
-        return _thread.threadName()
+        
+    public func title() -> String {
+        return thread.threadName()
     }
 
     /**
      Steady state subtitle
      */
-    open func subtitle() -> String {
+    public func subtitle() -> String {
         let defaultText = initialSubtitle() ?? "";
         
-        if _thread.threadType() == .private1to1 {
-            if let user = _thread.threadOtherUser() {
+        if thread.threadType() == .private1to1 {
+            if let user = thread.threadOtherUser() {
                 if user.userIsOnline() {
                     return Strings.t(Strings.online)
                 } else if let lastOnline = user.userLastOnline() as NSDate?, let text = lastOnline.lastSeenTimeAgo() {
@@ -77,7 +66,7 @@ public class ChatModel {
             }
         } else {
             var text = ""
-            for user in _thread.threadUsers() {
+            for user in thread.threadUsers() {
                 if !user.userIsMe() {
                     text += user.userName() + ", "
                 }
@@ -94,7 +83,7 @@ public class ChatModel {
     /**
         This is shown for a period when the screen initially loads
      */
-    open func initialSubtitle() -> String? {
+    public func initialSubtitle() -> String? {
         if ChatKit.config().userChatInfoEnabled {
             return Strings.t(Strings.tapHereForContactInfo)
         }
@@ -102,57 +91,35 @@ public class ChatModel {
     }
     
     public func addOption(_ option: Option) {
-        _options.append(option)
+        options.append(option)
     }
-    
-    open func options() -> [Option] {
-        return _options
-    }
-    
+        
     public func addSendBarAction(_ action: SendBarAction) {
-        _sendBarActions.append(action)
-    }
-
-    public func sendBarActions() -> [SendBarAction] {
-        return _sendBarActions
+        sendBarActions.append(action)
     }
 
     public func addToolbarAction(_ action: ToolbarAction) {
-        _toolbarActions.append(action)
+        toolbarActions.append(action)
     }
 
     public func addKeyboardOverlay(name: String, overlay: KeyboardOverlay) {
-        _keyboardOverlays[name] = overlay
+        keyboardOverlayMap[name] = overlay
     }
 
     public func keyboardOverlays() -> [KeyboardOverlay] {
         var values = [KeyboardOverlay]()
-        for value in _keyboardOverlays.values {
+        for value in keyboardOverlayMap.values {
             values.append(value)
         }
         return values
     }
 
     public func keyboardOverlay(for name: String) -> KeyboardOverlay? {
-        return _keyboardOverlays[name]
-    }
-
-    public func setView(_ view: PChatViewController) {
-        _view = view
+        return keyboardOverlayMap[name]
     }
     
     public func loadInitialMessages() {
-        _messagesModel.loadInitialMessages()
-    }
-        
-    public func thread() -> Thread {
-        return _thread
+        messagesModel.loadInitialMessages()
     }
     
-}
-
-extension ChatModel: ChatToolbarActionsDelegate {
-    public func toolbarActions() -> [ToolbarAction] {
-        return _toolbarActions
-    }
 }

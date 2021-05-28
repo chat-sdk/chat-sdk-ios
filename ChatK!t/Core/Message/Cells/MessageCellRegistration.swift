@@ -7,68 +7,60 @@
 
 import Foundation
  
-public class MessageCellRegistration: NSObject {
+public class MessageCellRegistration {
     
-    let _messageType: String
-    let _incomingNib: UINib
-    let _outgoingNib: UINib
-    let _incomingContentClass: NSObject.Type
-    let _outgoingContentClass: NSObject.Type
+    public let messageType: String
+    public let incomingNib: UINib
+    public let outgoingNib: UINib
+    public let incomingContentClass: DefaultMessageContent.Type
+    public let outgoingContentClass: DefaultMessageContent.Type
 
-    public init(messageType: String, incomingNib: UINib, outgoingNib: UINib, incomingContentClass: NSObject.Type, outgoingContentClass: NSObject.Type) {
-        _messageType = messageType
-        _incomingNib = incomingNib
-        _outgoingNib = outgoingNib
-        _incomingContentClass = incomingContentClass
-        _outgoingContentClass = outgoingContentClass
+    public init(messageType: String, incomingNib: UINib, outgoingNib: UINib, incomingContentClass: DefaultMessageContent.Type, outgoingContentClass: DefaultMessageContent.Type) {
+        self.messageType = messageType
+        self.incomingNib = incomingNib
+        self.outgoingNib = outgoingNib
+        self.incomingContentClass = incomingContentClass
+        self.outgoingContentClass = outgoingContentClass
     }
     
-    public init(messageType: String, incomingContentClass: NSObject.Type, outgoingContentClass: NSObject.Type) {
-        _messageType = messageType
-        _incomingNib = UINib(nibName: ChatKit.config().incomingMessageNibName, bundle: Bundle(for: MessageCell.self))
-        _outgoingNib = UINib(nibName: ChatKit.config().outgoingMessageNibName, bundle: Bundle(for: MessageCell.self))
-        _incomingContentClass = incomingContentClass
-        _outgoingContentClass = outgoingContentClass
+    public init(messageType: String, incomingContentClass: DefaultMessageContent.Type, outgoingContentClass: DefaultMessageContent.Type) {
+        self.messageType = messageType
+        self.incomingNib = UINib(nibName: ChatKit.config().incomingMessageNibName, bundle: Bundle(for: MessageCell.self))
+        self.outgoingNib = UINib(nibName: ChatKit.config().outgoingMessageNibName, bundle: Bundle(for: MessageCell.self))
+        self.incomingContentClass = incomingContentClass
+        self.outgoingContentClass = outgoingContentClass
     }
 
-    public init(messageType: String, contentClass: NSObject.Type) {
-        _messageType = messageType
-        _incomingNib = UINib(nibName: ChatKit.config().incomingMessageNibName, bundle: Bundle(for: MessageCell.self))
-        _outgoingNib = UINib(nibName: ChatKit.config().outgoingMessageNibName, bundle: Bundle(for: MessageCell.self))
-        _incomingContentClass = contentClass
-        _outgoingContentClass = contentClass
-    }
-
-    public func messageType() -> String {
-        return _messageType
+    public init(messageType: String, contentClass: DefaultMessageContent.Type) {
+        self.messageType = messageType
+        self.incomingNib = UINib(nibName: ChatKit.config().incomingMessageNibName, bundle: Bundle(for: MessageCell.self))
+        self.outgoingNib = UINib(nibName: ChatKit.config().outgoingMessageNibName, bundle: Bundle(for: MessageCell.self))
+        self.incomingContentClass = contentClass
+        self.outgoingContentClass = contentClass
     }
 
     public func nib(direction: MessageDirection) -> UINib {
         switch direction {
         case .incoming:
-            return _incomingNib
+            return incomingNib
         case .outgoing:
-            return _outgoingNib
+            return outgoingNib
         }
     }
     
     public func identifier(direction: MessageDirection) -> String {
-        return _messageType + direction.get()
+        return messageType + direction.get()
     }
         
     public func content(direction: MessageDirection) -> MessageContent {
-        var contentClass: NSObject.Type?
+        var contentClass: DefaultMessageContent.Type?
         switch direction {
         case .incoming:
-            contentClass = _incomingContentClass
+            contentClass = incomingContentClass
         case .outgoing:
-            contentClass = _outgoingContentClass
+            contentClass = outgoingContentClass
         }
-        return contentClass!.init() as! MessageContent
-    }
-    
-    public func outgoingNib() {
-        
+        return contentClass!.init()
     }
 
 }

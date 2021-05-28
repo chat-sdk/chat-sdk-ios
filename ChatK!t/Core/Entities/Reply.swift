@@ -8,9 +8,7 @@
 import Foundation
 
 public protocol Reply {
-    
     func replyTitle() -> String?
     func replyText() -> String?
     func replyImageURL() -> URL?
-    
 }

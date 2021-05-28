@@ -7,14 +7,18 @@
 
 import Foundation
 
-public class DefaultMessageContent: NSObject, MessageContent {
+public class DefaultMessageContent: MessageContent {
 
+    public required init() {
+        
+    }
+    
     public func view() -> UIView {
         preconditionFailure("This method must be overridden")
     }
     
     public func bind(_ message: Message, model: MessagesModel) {
-        preconditionFailure("This method must be overridden")
+        message.setContent(self)
     }
     
 }
@@ -24,6 +28,6 @@ extension DefaultMessageContent {
         return true
     }
     @objc public func bubbleCornerRadius() -> CGFloat {
-        return 10.0
+        return ChatKit.config().bubbleCornerRadius
     }
 }

@@ -6,11 +6,20 @@
 //
 
 import Foundation
+import KeepLayout
+import FLAnimatedImage
 
 public class ImageMessageContent: DefaultMessageContent, DownloadableContent {
     
-    lazy var _view: UIImageView = {
-        let view = UIImageView()
+    lazy var _view: ImageMessageView = {
+        let view: ImageMessageView = .fromNib()
+        view.layer.cornerRadius = ChatKit.config().bubbleCornerRadius
+        view.clipsToBounds = true
+//        view.contentMode = .scaleAspectFill
+//        view.keepWidth.min = 200
+//        view.keepHeight.min = 200
+//        view.keepWidth.equal = KeepLow(400)
+//        view.keepHeight.equal = KeepLow(400)
         return view
     }()
 
@@ -19,17 +28,20 @@ public class ImageMessageContent: DefaultMessageContent, DownloadableContent {
     }
     
     public override func bind(_ message: Message, model: MessagesModel) {
-        if !ChatKit.config().downloadImageMessages {
-            _view.sd_setImage(with: message.messageImageUrl(), completed: nil)
-        } else {
-            if let local = message.messageLocalPath() {
+        super.bind(message, model: model)
+
+        if ChatKit.config().loadImageMessageFromURL {
+            _view.imageView.sd_setImage(with: message.messageImageUrl(), completed: nil)
+        } else if let downloadable = message as? DownloadableMessage {
+            if let local = downloadable.messageLocalURL() {
                 // The message is downloaded already
-                _view.sd_setImage(with: local, completed: nil)
+                _view.imageView.sd_setImage(with: local, completed: nil)
             } else {
-                (message as? Downloadable)?.startDownload()
+                downloadable.startDownload()
             }
         }
-        _view.setMaskPosition(direction: message.messageDirection())
+        view().setMaskPosition(direction: message.messageDirection())
+        _view.imageView.setMaskPosition(direction: message.messageDirection())
     }
     
     public override func showBubble() -> Bool {
@@ -42,7 +54,7 @@ public class ImageMessageContent: DefaultMessageContent, DownloadableContent {
     
     public func downloadFinished(_ url: URL?, error: Error?) {
         if error == nil {
-            _view.sd_setImage(with: url, completed: nil)
+            _view.imageView.sd_setImage(with: url, completed: nil)
         }
     }
     
@@ -53,4 +65,10 @@ public class ImageMessageContent: DefaultMessageContent, DownloadableContent {
     public func downloadStarted() {
         
     }
+}
+
+public class ImageMessageView: UIView {
+    
+    @IBOutlet weak var imageView: FLAnimatedImageView!
+    
 }
