@@ -20,7 +20,8 @@ Pod::Spec.new do |s|
   s.dependency 'ChatSDKKeepLayout'
   s.dependency 'NextGrowingTextView'
   s.dependency 'CollectionKit'
-  s.dependency 'SVPullToRefresh'
+  s.dependency 'FFCircularProgressView'
+  s.dependency 'MZDownloadManager'
   
   s.subspec 'ChatSDK' do |s| 
 	  s.source_files = ['ChatK!t/ChatSDK/**/*']

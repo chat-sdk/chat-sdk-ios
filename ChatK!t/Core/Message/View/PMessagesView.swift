@@ -12,4 +12,5 @@ public protocol PMessagesView {
     func scrollToBottom(animated: Bool, force: Bool)
     func apply(snapshot: NSDiffableDataSourceSnapshot<Section, Message>, animated: Bool) -> Completable
     func reload(messages: [Message], animated: Bool) -> Completable
+//    func layout()
 }

@@ -35,7 +35,9 @@ public class MessagesView: UIView {
     // This is used to preseve the Y position when we change the table insets
     public var _bottomYClearance: CGFloat = 0
     
-    public var datasource: UITableViewDiffableDataSource<Section, Message>?
+    public var _datasource: UITableViewDiffableDataSource<Section, Message>?
+    
+    public var _messageCellSizeCache: MessageCellSizeCache?
             
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,6 +45,7 @@ public class MessagesView: UIView {
     }
 
     public convenience init() {
+ 
         self.init(frame: CGRect.zero)
     }
     
@@ -61,6 +64,7 @@ public class MessagesView: UIView {
         _tableView.delegate = self
 
         _tableView.rowHeight = UITableView.automaticDimension
+        
         
         // Hide the dividers between cells
         _tableView.separatorColor = .clear
@@ -101,7 +105,7 @@ public class MessagesView: UIView {
         _refreshState = .none
         if let messages = _loadedMessages, !messages.isEmpty {
             if let indexPath = _tableView.indexPathsForVisibleRows?.first, let message = _model?.adapter().message(for: indexPath) {
-                _ = _model?.addMessages(toStart: messages, animated: false)?.subscribe(onCompleted: { [weak self] in
+                _ = _model?.addMessages(toStart: messages, animated: false).subscribe(onCompleted: { [weak self] in
                     if let newIndexPath = self?._model?.adapter().indexPath(for: message) {
                         self?._tableView.scrollToRow(at: newIndexPath, at: .top, animated: false)
                     }
@@ -117,29 +121,36 @@ public class MessagesView: UIView {
         _model = model
         model.setView(self)
         
-//        _lazyReloadManager = LazyReloadManager(model, messageAdder: { messages -> Completable? in
-//            return model.addMessages(toStart: messages, updateView: true, animated: false)
-//        })
+        _lazyReloadManager = LazyReloadManager(model, messageAdder: { messages -> Completable? in
+            return model.addMessages(toStart: messages, updateView: true, animated: false)
+        })
 
-        datasource = UITableViewDiffableDataSource<Section, Message>(tableView: _tableView) { tableView, indexPath, message in
+        _datasource = UITableViewDiffableDataSource<Section, Message>(tableView: _tableView) { tableView, indexPath, message in
             let registration = model.cellRegistration(message.messageType())!
             let identifier = registration.identifier(direction: message.messageDirection())
             let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! MessageCell
             cell.setContent(content: registration.content(direction: message.messageDirection()))
-            cell.bind(message: message, model: model)
+            cell.bind(message, model: model)
             return cell
         }
-        datasource?.defaultRowAnimation = .fade
+        _datasource?.defaultRowAnimation = .fade
 
         for registration in model.messageCellRegistrations() {
             _tableView.register(registration.nib(direction: .incoming), forCellReuseIdentifier: registration.identifier(direction: .incoming))
             _tableView.register(registration.nib(direction: .outgoing), forCellReuseIdentifier: registration.identifier(direction: .outgoing))
         }
         _tableView.register(model.sectionNib(), forCellReuseIdentifier: model.sectionIdentifier())
+        
+        // Add the cell cache
+        _messageCellSizeCache = ChatKit.provider().messageCellSizeCache(model)
 
-        _tableView.dataSource = datasource!
-        _tableView.estimatedRowHeight = model.estimatedRowHeight()
-        _tableView.estimatedSectionHeaderHeight = ChatKit.config().messagesViewSectionHeight
+        _tableView.dataSource = _datasource!
+
+//        _tableView.estimatedRowHeight = model.estimatedRowHeight()
+//        _tableView.estimatedSectionHeaderHeight = ChatKit.config().messagesViewSectionHeight
+
+        _tableView.estimatedRowHeight = 0
+        _tableView.estimatedSectionHeaderHeight = 0
 
     }
         
@@ -160,8 +171,9 @@ public class MessagesView: UIView {
         let tableViewHeight = _tableView.frame.height - _tableView.contentInset.bottom - _tableView.contentInset.top
         let contentHeight = _tableView.contentSize.height
 
-        print("Height: \(contentHeight), Y clearance: \(_bottomYClearance), tableViewHeight: \(tableViewHeight)")
+        print("Inset: \(height), Content height: \(contentHeight), Y clearance: \(_bottomYClearance), tableViewHeight: \(tableViewHeight)")
         
+//        _bottomYClearance = 0
         // Apply the bottom clearance
         _tableView.contentOffset.y = contentHeight - _bottomYClearance - tableViewHeight
 
@@ -171,7 +183,7 @@ public class MessagesView: UIView {
         if ChatKit.config().messageSelectionEnabled && !isSelectionModeEnabled() {
             let point = sender.location(in: _tableView)
             if let indexPath = _tableView.indexPathForRow(at: point) {
-                if let message = datasource?.itemIdentifier(for: indexPath) {
+                if let message = _datasource?.itemIdentifier(for: indexPath) {
                     _model?.toggleSelection(message)
                     _ = reload(messages: [message], animated: true).subscribe()
                 }
@@ -183,7 +195,7 @@ public class MessagesView: UIView {
         if ChatKit.config().messageSelectionEnabled && isSelectionModeEnabled() {
             let point = sender.location(in: _tableView)
             if let indexPath = _tableView.indexPathForRow(at: point) {
-                if let message = datasource?.itemIdentifier(for: indexPath) {
+                if let message = _datasource?.itemIdentifier(for: indexPath) {
                     _model?.toggleSelection(message)
                     _ = reload(messages: [message], animated: true).subscribe()
                 }
@@ -210,6 +222,18 @@ extension MessagesView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return ChatKit.config().messagesViewSectionHeight
     }
+    
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return heightForIndexPath(indexPath)
+    }
+    
+    public func heightForIndexPath(_ indexPath: IndexPath) -> CGFloat {
+        var height: CGFloat?
+        if let message = _datasource?.itemIdentifier(for: indexPath), let heightCache = _messageCellSizeCache, let model = _model {
+            height = heightCache.heightForIndexPath(message, model: model, width: frame.width)
+        }
+        return height ?? ChatKit.config().estimatedMessageCellHeight
+    }
 
 }
 
@@ -225,7 +249,9 @@ extension MessagesView: PMessagesView {
             let scroll = _tableView.contentSize.height - _tableView.frame.height - _tableView.contentOffset.y <= ChatKit.config().messagesViewRefreshHeight
             
             if scroll || force {
+                print("Scroll to bottom", row, section)
                 let indexPath = IndexPath(row: row, section: section)
+//                _tableView.setContentOffset(CGPoint(0, 1000), animated: false)
                 _tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
             }
         }
@@ -233,8 +259,19 @@ extension MessagesView: PMessagesView {
 
     public func apply(snapshot: NSDiffableDataSourceSnapshot<Section, Message>, animated: Bool) -> Completable {
         return Completable.create { [weak self] completable in
-            DispatchQueue.main.async {
-                self?.datasource?.apply(snapshot, animatingDifferences: animated, completion: {
+            self?._datasource?.apply(snapshot, animatingDifferences: animated, completion: {
+                completable(.completed)
+            })
+            return Disposables.create {}
+        }
+    }
+    
+    public func reload(messages: [Message], animated: Bool) -> Completable {
+        return Completable.create { [weak self] completable in
+            if var snapshot = self?._datasource?.snapshot() {
+                snapshot.reloadItems(messages)
+                self?._datasource?.apply(snapshot, animatingDifferences: animated, completion: {
+//                    self?.layout()
                     completable(.completed)
                 })
             }
@@ -242,25 +279,12 @@ extension MessagesView: PMessagesView {
         }
     }
     
-    public func reload(messages: [Message], animated: Bool) -> Completable {
-        return Completable.create { [weak self] completable in
-            DispatchQueue.main.async {
-                if var snapshot = self?.datasource?.snapshot() {
-                    snapshot.reloadItems(messages)
-                    self?.datasource?.apply(snapshot, animatingDifferences: animated, completion: {
-                        completable(.completed)
-                    })
-                }
-            }
-            return Disposables.create {}
-        }
-    }
 }
 
 extension MessagesView: UIScrollViewDelegate {
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        _lazyReloadManager?.tableViewDidScroll(_tableView)
+        _lazyReloadManager?.tableViewDidScroll(_tableView)
         
         let offset = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
         if abs(offset) < 5 && offset != 0 && _refreshState == .willLoad {
@@ -271,12 +295,16 @@ extension MessagesView: UIScrollViewDelegate {
         }
     }
 
-//    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        _lazyReloadManager?.scrollViewWillBeginDragging(scrollView: scrollView)
-//    }
-//
-//    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        _lazyReloadManager?.scrollViewDidEndDecelerating(scrollView: scrollView)
-//    }
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        _lazyReloadManager?.scrollViewWillBeginDragging(scrollView: scrollView)
+    }
+
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        _lazyReloadManager?.scrollViewDidEndDecelerating(scrollView: scrollView)
+    }
+    
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        _lazyReloadManager?.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
+    }
         
 }

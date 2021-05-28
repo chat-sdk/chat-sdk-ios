@@ -33,9 +33,13 @@ public class CKChatModelDelegate: ChatModelDelegate {
     public override func initialMessages() -> [Message] {
         var messages = [Message]()
         if let model = _model, let thread = BChatSDK.db().fetchEntity(withID: model.thread().threadId(), withType: bThreadEntity) as? PThread {
-            for message in BChatSDK.db().loadMessages(for: thread, newest: 15) {
+            for message in BChatSDK.db().loadMessages(for: thread, newest: 25) {
                 if let message = message as? PMessage {
-                    messages.insert(CKMessage(message: message), at: 0)
+                    if message.type().intValue == bMessageTypeAudio.rawValue {
+                        messages.insert(CKAudioMessage(message: message), at: 0)
+                    } else {
+                        messages.insert(CKMessage(message: message), at: 0)
+                    }
                 }
             }
         }

@@ -64,4 +64,20 @@ public class Config {
     
     public var bubbleInsets = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
     public var bubbleCornerRadius: CGFloat = 5
+    
+    public var outgoingBubbleColor = "outgoing_bubble"
+    public var outgoingBubbleSelectedColor = "outgoing_bubble_selected"
+
+    public var incomingBubbleColor = "incoming_bubble"
+    public var incomingBubbleSelectedColor = "incoming_bubble_selected"
+    
+    public var outgoingMessageNibName = "OutgoingMessageCell"
+    public var incomingMessageNibName = "IncomingMessageCell"
+    
+    public var estimatedMessageCellHeight:CGFloat = 100
+    public var estimatedMessageSectionHeight:CGFloat = 100
+    
+    public var downloadFolderName = "ChatKit"
+    
+    public var downloadImageMessages = false
 }

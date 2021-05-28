@@ -31,6 +31,7 @@ Pod::Spec.new do |s|
 
 	  s.dependency 'RXPromise', '~> 1.0'
 	  s.dependency 'AFNetworking/NSURLSession', '~>3.2.1'
+	  s.dependency 'MZDownloadManager'
 	  
 	  s.dependency 'DateTools', '~> 2.0'
       s.dependency 'SAMKeychain'

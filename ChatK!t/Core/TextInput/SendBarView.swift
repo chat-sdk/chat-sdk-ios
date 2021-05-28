@@ -229,12 +229,10 @@ public class SendBarView: UIView, UITextViewDelegate {
     }
     
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text.isEmpty {
-            layout(hasText: false)
-        } else if let textRange = Range(range, in: text) {
-            let newText = textView.text.replacingCharacters(in: textRange, with: text)
+        let old = textView.text as NSString?
+        if let newText = old?.replacingCharacters(in: range, with: text) {
             if newText.isEmptyOrBlank() != textView.text.isEmptyOrBlank() {
-                layout(hasText: true)
+                layout(hasText: !newText.isEmpty)
             }
         }
         return true

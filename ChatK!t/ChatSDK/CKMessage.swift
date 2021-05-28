@@ -92,5 +92,131 @@ public class CKMessage: Message {
         return nil
     }
 
+}
+
+public class CKDownloadableMessage: CKMessage {
+
+    public var downloading = false
+    public var progress: Float = 0
+    
+    public override init(message: PMessage) {
+        super.init(message: message)
+        if let path = ChatKit.downloadManager().localPath(for: message.entityID()) {
+            setLocalPath(path)
+        }
+    }
+    
+    public func setProgress(_ progress: Float) {
+        self.progress = progress
+        if let content = content as? DownloadableContent {
+            content.setProgress(progress)
+        }
+    }
+    
+    public func downloadStarted() {
+        downloading = true
+        if let content = content as? DownloadableContent {
+            content.downloadStarted()
+        }
+    }
+
+    public func downloadPaused() {
+        downloading = false
+        if let content = content as? DownloadableContent {
+            content.downloadPaused()
+        }
+    }
+
+    public func downloadFinished(_ error: Error?) {
+        downloading = false
+        if let content = content as? DownloadableContent {
+            content.downloadFinished(error)
+        }
+    }
+    
+    public func setLocalPath(_ path: String) {
+        message.setMetaValue?(path, forKey: "local")
+    }
+    
+    public override func messageLocalPath() -> URL? {
+        if let local = message.meta()["local"] as? String, let url = URL(string: local) {
+            return url
+        }
+        return nil
+    }
+    
+}
+
+extension CKDownloadableMessage: Downloadable {
+
+    public func downloadProgress() -> Float {
+        return progress
+    }
+    
+    public func startDownload() {
+         if let url = messageRemotePath() {
+            ChatKit.downloadManager().startTask(messageId(), url: url.absoluteString)
+        }
+    }
+    
+    public func pauseDownload() {
+        ChatKit.downloadManager().pauseTask(messageId())
+    }
+
+    public func isDownloading() -> Bool {
+        return downloading
+    }
 
 }
+
+public class CKAudioMessage: CKDownloadableMessage, IAudioMessage {
+
+    var player: AVAudioPlayer?
+    
+    public func audioPlayer() -> AVAudioPlayer? {
+        return player ?? {
+            if let url = messageLocalPath() {
+                do {
+                    player = try AVAudioPlayer(contentsOf: url)
+                    player?.prepareToPlay()
+                } catch {
+                    
+                }
+            }
+            return player
+        }()
+    }
+    
+//    public override init(message: PMessage) {
+//        super.init(message: message)
+//    }
+    
+    // Audio message methods
+    
+    public func duration() -> Double? {
+        if let length = message.meta()[bMessageAudioLength] as? NSNumber {
+            return length.doubleValue
+        }
+        return nil
+    }
+    
+    public func seekPosition() -> TimeInterval {
+        if let position = message.meta()["seek"] as? TimeInterval {
+            return position
+        }
+        return 0
+    }
+
+    public func setSeekPosition(_ position: TimeInterval) {
+        message.setMetaValue?(position, forKey: "seek")
+    }
+
+    public override func messageRemotePath() -> URL? {
+        if let path = message.meta()[bMessageAudioURL] as? String {
+            return URL(string: path)
+        }
+        return nil
+    }
+
+}
+

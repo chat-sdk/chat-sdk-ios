@@ -20,6 +20,7 @@ public class Strings {
     public static let lastSeen_at_ = "lastSeen_at_"
     public static let today = "today"
     public static let yesterday = "yesterday"
+    public static let requestAudioPermission = "requestAudioPermission"
 
     public static func t(_ text: String) -> String {
         return NSLocalizedString(text, bundle: Bundle(for: Strings.self), comment: "")

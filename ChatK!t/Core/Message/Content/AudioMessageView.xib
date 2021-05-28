@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AudioMessageView" customModule="ChatKit" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BkT-HX-Ytt">
+                    <rect key="frame" x="2" y="2" width="46" height="46"/>
+                    <constraints>
+                        <constraint firstAttribute="height" priority="750" constant="46" id="ZJT-pZ-ap2"/>
+                        <constraint firstAttribute="width" constant="46" id="c7D-Ut-ujQ"/>
+                    </constraints>
+                    <state key="normal" image="icn_46_play"/>
+                    <state key="selected" image="icn_46_pause"/>
+                    <connections>
+                        <action selector="playPauseButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="ePM-yt-H91"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zm3-kr-yEC">
+                    <rect key="frame" x="52" y="31" width="30.5" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m6f-fe-hfv">
+                    <rect key="frame" x="379.5" y="31" width="30.5" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Vyw-Fi-eSy">
+                    <rect key="frame" x="50" y="3" width="362" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="29" id="QfA-JV-bbC"/>
+                        <constraint firstAttribute="width" priority="750" constant="358" id="uo6-0e-EK8"/>
+                    </constraints>
+                    <connections>
+                        <action selector="progressSliderValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="mQW-cY-nnr"/>
+                    </connections>
+                </slider>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ys-T8-xke" customClass="FFCircularProgressView">
+                    <rect key="frame" x="7" y="7" width="36" height="36"/>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <constraints>
+                <constraint firstItem="Vyw-Fi-eSy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="3" id="3li-BR-fwO"/>
+                <constraint firstItem="Zm3-kr-yEC" firstAttribute="leading" secondItem="BkT-HX-Ytt" secondAttribute="trailing" constant="4" id="4Ri-zR-eGx"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="m6f-fe-hfv" secondAttribute="bottom" constant="2" id="CdC-TA-L6A"/>
+                <constraint firstItem="8ys-T8-xke" firstAttribute="top" secondItem="BkT-HX-Ytt" secondAttribute="top" constant="5" id="E77-l8-UtP"/>
+                <constraint firstAttribute="trailing" secondItem="Vyw-Fi-eSy" secondAttribute="trailing" constant="4" id="GT6-60-kzL"/>
+                <constraint firstItem="BkT-HX-Ytt" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="2" id="GrB-Db-jcT"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="BkT-HX-Ytt" secondAttribute="bottom" constant="2" id="Haz-ed-IHD"/>
+                <constraint firstItem="BkT-HX-Ytt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="Iau-ie-fWM"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Zm3-kr-yEC" secondAttribute="bottom" constant="2" id="Nwt-8z-FXa"/>
+                <constraint firstItem="8ys-T8-xke" firstAttribute="bottom" secondItem="BkT-HX-Ytt" secondAttribute="bottom" constant="-5" id="YCK-iP-jGh"/>
+                <constraint firstItem="8ys-T8-xke" firstAttribute="trailing" secondItem="BkT-HX-Ytt" secondAttribute="trailing" constant="-5" id="cXH-0x-61X"/>
+                <constraint firstItem="Vyw-Fi-eSy" firstAttribute="leading" secondItem="BkT-HX-Ytt" secondAttribute="trailing" constant="4" id="e53-Tx-BtV"/>
+                <constraint firstItem="8ys-T8-xke" firstAttribute="leading" secondItem="BkT-HX-Ytt" secondAttribute="leading" constant="5" id="g6E-oZ-Prb"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="m6f-fe-hfv" secondAttribute="trailing" constant="4" id="h6e-bG-b2A"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="currentTimeLabel" destination="Zm3-kr-yEC" id="AgR-Ae-MFt"/>
+                <outlet property="playPauseButton" destination="BkT-HX-Ytt" id="p36-e3-6Va"/>
+                <outlet property="progressSlider" destination="Vyw-Fi-eSy" id="s3p-LM-BUJ"/>
+                <outlet property="progressView" destination="8ys-T8-xke" id="VT7-Pf-SiY"/>
+                <outlet property="totalTimeLabel" destination="m6f-fe-hfv" id="RLn-r8-K5P"/>
+            </connections>
+            <point key="canvasLocation" x="-39.130434782608695" y="-88.392857142857139"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="icn_46_pause" width="46" height="46"/>
+        <image name="icn_46_play" width="46" height="46"/>
+    </resources>
+</document>

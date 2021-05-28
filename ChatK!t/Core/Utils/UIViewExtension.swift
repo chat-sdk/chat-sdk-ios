@@ -10,9 +10,14 @@ import UIKit
 
 extension UIView {
     class func fromNib<T: UIView>() -> T {
-        return Bundle(for: T.self).loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
+        return Bundle(for: T.self).loadNibNamed(String(describing: T.self), owner: nil, options: nil)!.first as! T
     }
     class func fromNib<T: UIView>(nibName: String) -> T {
-        return Bundle(for: T.self).loadNibNamed(nibName, owner: nil, options: nil)![0] as! T
+        return Bundle(for: T.self).loadNibNamed(nibName, owner: nil, options: nil)!.first as! T
+    }
+    class func fromNib<T: UIView>(nib: UINib) -> T {
+        return nib.instantiate(withOwner: nil, options: nil).first as! T
     }
 }
+
+

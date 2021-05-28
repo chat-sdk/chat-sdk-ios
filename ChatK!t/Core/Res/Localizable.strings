@@ -12,4 +12,4 @@
 "today" = "Today";
 "yesterday" = "Yesterday";
 "lastSeen_at_" = "Last seen %@ at %@";
-
+"requestAudioPermission" = "Click enable audio recording";

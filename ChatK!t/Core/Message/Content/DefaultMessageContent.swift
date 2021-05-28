@@ -10,28 +10,20 @@ import Foundation
 public class DefaultMessageContent: NSObject, MessageContent {
 
     public func view() -> UIView {
-        assert(false, "DefaultMessageContent view() method must be overridden")
-        return UIView()
+        preconditionFailure("This method must be overridden")
     }
     
-    public func bind(message: Message) {
-        
+    public func bind(_ message: Message, model: MessagesModel) {
+        preconditionFailure("This method must be overridden")
     }
-    
-//    public func showBubble() -> Bool {
-//        return true
-//    }
-//    public func bubbleCornerRadius() -> Float {
-//        return 5.0
-//    }
     
 }
 
 extension DefaultMessageContent {
-    public func showBubble() -> Bool {
+    @objc public func showBubble() -> Bool {
         return true
     }
-    public func bubbleCornerRadius() -> CGFloat {
+    @objc public func bubbleCornerRadius() -> CGFloat {
         return 10.0
     }
 }

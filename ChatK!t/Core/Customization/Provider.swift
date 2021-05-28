@@ -70,6 +70,30 @@ public class Provider {
     public func replyView() -> ReplyView {
         return ReplyView()
     }
+
+    public func audioRecorder() -> AudioRecorder {
+        return AudioRecorder()
+    }
+
+//    public func audioPlayer() -> AudioPlayer {
+//        return AudioPlayer()
+//    }
+
+    public func assets() -> Assets {
+        return Assets()
+    }
+
+    public func config() -> Config {
+        return Config()
+    }
+
+    public func downloadManager() -> DownloadManager {
+        return DownloadManager()
+    }
+
+    public func messageCellSizeCache(_ model: MessagesModel) -> MessageCellSizeCache {
+        return MessageCellSizeCache(model)
+    }
     
     public func chatToolbar(_ delegate: ChatToolbarDelegate, actions: ChatToolbarActionsDelegate) -> ChatToolbar {
         let toolbar = ChatToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 public protocol IMessage {
     
@@ -19,12 +20,34 @@ public protocol IMessage {
     func messageDirection() -> MessageDirection
     func messageReadStatus() -> MessageReadStatus
     func messageReply() -> Reply?
+    
+    func messageRemotePath() -> URL?
+    func messageLocalPath() -> URL?
+}
 
+public protocol Downloadable {
+    func startDownload()
+    func pauseDownload()
+    func isDownloading() -> Bool
+    func downloadProgress() -> Float
+}
+
+public protocol IAudioMessage: IMessage, Downloadable {
+    func duration() -> Double?
+//    func seekPosition() -> TimeInterval
+//    func setSeekPosition(_ position: TimeInterval)
+    func audioPlayer() -> AVAudioPlayer?
 }
 
 public class Message: IMessage, Hashable, Equatable {
     
     var selected = false
+    
+    var content: MessageContent?
+    
+    func setContent(_ content: MessageContent) {
+        self.content = content
+    }
     
     func sameDayAs(_ message: Message) -> Bool {
         return Calendar.current.isDate(messageDate(), inSameDayAs: message.messageDate())
@@ -85,7 +108,15 @@ public class Message: IMessage, Hashable, Equatable {
     public static func == (lhs: Message, rhs: Message) -> Bool {
         return lhs.messageId() == rhs.messageId()
     }
+        
+    public func messageRemotePath() -> URL? {
+        return nil
+    }
     
+    public func messageLocalPath() -> URL? {
+        return nil
+    }
+
 //
 ////    public var hashValue: Int {
 ////        return self.messageId().hashValue
@@ -96,11 +127,30 @@ public class Message: IMessage, Hashable, Equatable {
 //    }
 //
     public func hash(into hasher: inout Hasher) {
-        print("Ok1111")
         hasher.combine(messageId())
     }
 
 }
+
+//public class AudioMessage: Message, IAudioMessage {
+//
+//    public func duration() -> Double? {
+//        preconditionFailure("This method must be overridden")
+//    }
+//
+//    public func startDownload() {
+//        preconditionFailure("This method must be overridden")
+//    }
+//
+//    public func pauseDownload() {
+//        preconditionFailure("This method must be overridden")
+//    }
+//
+//    public func localPath() -> URL? {
+//        return nil
+//    }
+//
+//}
 
 //extension Message: Hashable, Equatable {
 //

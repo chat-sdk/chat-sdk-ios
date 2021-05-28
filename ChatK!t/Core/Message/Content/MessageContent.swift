@@ -10,9 +10,15 @@ import Foundation
 public protocol MessageContent {
  
     func view() -> UIView
-    func bind(message: Message)
+    func bind(_ message: Message, model: MessagesModel)
     func showBubble() -> Bool
     func bubbleCornerRadius() -> CGFloat
 
 }
 
+public protocol DownloadableContent {
+    func setProgress(_ progress: Float)
+    func downloadFinished(_ url: URL, error: Error?)
+    func downloadPaused()
+    func downloadStarted()
+}

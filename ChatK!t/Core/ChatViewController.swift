@@ -16,7 +16,6 @@ public protocol PChatViewController {
 
 public class ChatViewController: UIViewController {
     
-    
     // View that contains the message list
     public var messagesView = ChatKit.provider().messagesView()
     public var keyboardOverlayView = UIView()
@@ -32,6 +31,10 @@ public class ChatViewController: UIViewController {
     public var messagesModel: MessagesModel?
     
     public var keyboardListener = KeyboardListener()
+    
+    public var afterLayoutQueue = [AfterLayoutAction]()
+    
+    public var initialLoad = true
         
     // Text input bar
     public lazy var sendBarView = {
@@ -81,9 +84,18 @@ public class ChatViewController: UIViewController {
         
         setupKeyboardListener()
         setupKeyboardOverlays()
-        
-        model.loadInitialMessages()
 
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(doAction))
+
+    }
+    
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        initialLoad = false
+    }
+    
+    @objc public func doAction() {
+        model.messagesModel()._view?.scrollToBottom(animated: false, force: true)
     }
 
     
@@ -100,8 +112,18 @@ public class ChatViewController: UIViewController {
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateMessageViewBottomInset()
-        print("New Height after layout: \(messagesView._tableView.contentSize.height)")
+        popAllAfterLayoutActions()
+        
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(didFinishAutoLayout), object: nil)
+        self.perform(#selector(didFinishAutoLayout))
     }
+    
+    @objc public func didFinishAutoLayout() {
+        if initialLoad {
+            messagesView.scrollToBottom(animated: false, force: true)
+        }
+    }
+    
     
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -115,12 +137,16 @@ public class ChatViewController: UIViewController {
             height += replyView.frame.size.height
         }
         height += sendBarView.frame.size.height
-        print("Height: ", height)
         messagesView.setBottomInset(height: height)
     }
     
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        model.loadInitialMessages()
+//        addAfterLayout(AfterLayoutAction(action: { [weak self] in
+//            self?.messagesView.scrollToBottom(animated: false, force: true)
+//        }))
 
         setSubtitle(text: model.initialSubtitle())
         
@@ -274,6 +300,10 @@ public class ChatViewController: UIViewController {
         })
         toolbar.hide()
    }
+    
+    public func hideReplyView() {
+        replyView.hide()
+    }
 
     public func setupKeyboardOverlays() {
         for overlay in model.keyboardOverlays() {
@@ -346,6 +376,7 @@ public class ChatViewController: UIViewController {
     
     public func addKeyboardOverlay(view: KeyboardOverlay) {
         keyboardOverlayView.addSubview(view)
+        view.alpha = 0
         view.keepTopInset.equal = 0
         view.keepLeftInset.equal = 0
         view.keepRightInset.equal = 0
@@ -353,6 +384,10 @@ public class ChatViewController: UIViewController {
 
     public func showKeyboardOverlay(name: String) {
         showKeyboardOverlay()
+        for overlay in model.keyboardOverlays() {
+            overlay.alpha = 0
+            overlay.isUserInteractionEnabled = false
+        }
         if let overlay = model.keyboardOverlay(for: name) {
             overlay.alpha = 1
             overlay.isUserInteractionEnabled = true
@@ -389,6 +424,24 @@ public class ChatViewController: UIViewController {
     public func replyToMessage() -> Message? {
         return replyView.message()
     }
+    
+    public func addAfterLayout(_ action: AfterLayoutAction) {
+        afterLayoutQueue.append(action)
+    }
+
+    public func popAfterLayoutAction() {
+        if !afterLayoutQueue.isEmpty {
+            afterLayoutQueue.first?.action()
+            afterLayoutQueue.remove(at: 0)
+        }
+    }
+    
+    public func popAllAfterLayoutActions() {
+        for action in afterLayoutQueue {
+            action.action()
+        }
+        afterLayoutQueue.removeAll()
+    }
 
 }
 
@@ -407,5 +460,12 @@ extension ChatViewController: PChatViewController {
         
     }
     
+}
+
+public class AfterLayoutAction {
+    public var action: () -> Void
+    public init(action: @escaping () -> Void) {
+        self.action = action
+    }
 }
 

@@ -14,7 +14,7 @@ public class MessageCellRegistration: NSObject {
     let _outgoingNib: UINib
     let _incomingContentClass: NSObject.Type
     let _outgoingContentClass: NSObject.Type
-        
+
     public init(messageType: String, incomingNib: UINib, outgoingNib: UINib, incomingContentClass: NSObject.Type, outgoingContentClass: NSObject.Type) {
         _messageType = messageType
         _incomingNib = incomingNib
@@ -25,16 +25,16 @@ public class MessageCellRegistration: NSObject {
     
     public init(messageType: String, incomingContentClass: NSObject.Type, outgoingContentClass: NSObject.Type) {
         _messageType = messageType
-        _incomingNib = UINib(nibName: "IncomingMessageCell", bundle: Bundle(for: MessageCell.self))
-        _outgoingNib = UINib(nibName: "OutgoingMessageCell", bundle: Bundle(for: MessageCell.self))
+        _incomingNib = UINib(nibName: ChatKit.config().incomingMessageNibName, bundle: Bundle(for: MessageCell.self))
+        _outgoingNib = UINib(nibName: ChatKit.config().outgoingMessageNibName, bundle: Bundle(for: MessageCell.self))
         _incomingContentClass = incomingContentClass
         _outgoingContentClass = outgoingContentClass
     }
 
     public init(messageType: String, contentClass: NSObject.Type) {
         _messageType = messageType
-        _incomingNib = UINib(nibName: "IncomingMessageCell", bundle: Bundle(for: MessageCell.self))
-        _outgoingNib = UINib(nibName: "OutgoingMessageCell", bundle: Bundle(for: MessageCell.self))
+        _incomingNib = UINib(nibName: ChatKit.config().incomingMessageNibName, bundle: Bundle(for: MessageCell.self))
+        _outgoingNib = UINib(nibName: ChatKit.config().outgoingMessageNibName, bundle: Bundle(for: MessageCell.self))
         _incomingContentClass = contentClass
         _outgoingContentClass = contentClass
     }
@@ -65,6 +65,10 @@ public class MessageCellRegistration: NSObject {
             contentClass = _outgoingContentClass
         }
         return contentClass!.init() as! MessageContent
+    }
+    
+    public func outgoingNib() {
+        
     }
 
 }

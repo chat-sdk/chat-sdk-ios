@@ -69,28 +69,33 @@ public class MessagesModel {
     public func sectionIdentifier() -> String {
         return SectionCell.identifier
     }
-    
-    public func estimatedRowHeight() -> CGFloat {
-        return 69
-    }
 
     public func avatarSize() -> CGFloat {
         return 34
     }
     
+    public func bubbleColor(_ message: Message) -> UIColor {
+        switch message.messageDirection() {
+        case .incoming:
+            return incomingBubbleColor(selected: message.isSelected())
+        case .outgoing:
+            return outgoingBubbleColor(selected: message.isSelected())
+        }
+    }
+    
     public func incomingBubbleColor(selected: Bool = false) -> UIColor {
         if selected {
-            return ChatKit.asset(color: "incoming_bubble_selected")
+            return ChatKit.asset(color: ChatKit.config().incomingBubbleSelectedColor)
         } else {
-            return ChatKit.asset(color: "incoming_bubble")
+            return ChatKit.asset(color: ChatKit.config().incomingBubbleColor)
         }
     }
 
     public func outgoingBubbleColor(selected: Bool = false) -> UIColor {
         if selected {
-            return ChatKit.asset(color: "outgoing_bubble_selected")
+            return ChatKit.asset(color: ChatKit.config().outgoingBubbleSelectedColor)
         } else {
-            return ChatKit.asset(color: "outgoing_bubble")
+            return ChatKit.asset(color: ChatKit.config().outgoingBubbleColor)
         }
     }
     
@@ -125,8 +130,9 @@ public class MessagesModel {
     
     public func loadInitialMessages() {
         let messages = _delegate.initialMessages()
-        _ = addMessages(toEnd: messages, updateView: true, animated: false)?.subscribe(onCompleted: { [weak self] in
-            self?._view?.scrollToBottom(animated: false, force: true)
+        _ = addMessages(toEnd: messages, updateView: true, animated: false).subscribe(onCompleted: { [weak self] in
+//            self?._view?.layout()
+//            self?._view?.scrollToBottom(animated: false, force: true)
         })
     }
     
@@ -146,94 +152,92 @@ public class MessagesModel {
 
 extension MessagesModel {
 
-    public func addMessage(toStart message: Message, updateView: Bool = true, animated: Bool = true) -> Completable? {
-        _adapter.addMessage(toStart: message)
-        if updateView {
-            return synchronize(animated)
-        }
-        return nil
+    public func addMessage(toStart message: Message, updateView: Bool = true, animated: Bool = true) -> Completable {
+        return Completable.deferred({ [weak self] in
+            self?._adapter.addMessage(toStart: message)
+            if updateView, let completable = self?.synchronize(animated) {
+                return completable
+            }
+            return Completable.empty()
+        })
     }
 
-    public func addMessage(toEnd message: Message, updateView: Bool = true, animated: Bool = true, scrollToBottom: Bool = false) -> Completable? {
-        _adapter.addMessage(toEnd: message)
-        if updateView {
-            return synchronize(animated)?.do(onCompleted: { [weak self] in
-                if scrollToBottom {
-                    self?._view?.scrollToBottom(animated: true, force: message.messageSender().userIsMe())
-                }
-            })
-        }
-        return nil
+    public func addMessage(toEnd message: Message, updateView: Bool = true, animated: Bool = true, scrollToBottom: Bool = false) -> Completable {
+        return Completable.deferred({ [weak self] in
+            self?._adapter.addMessage(toEnd: message)
+            if updateView {
+                return self?.synchronize(animated).do(onCompleted: { [weak self] in
+                    if scrollToBottom {
+                        self?._view?.scrollToBottom(animated: animated, force: message.messageSender().userIsMe())
+                    }
+                }) ?? Completable.empty()
+            }
+            return Completable.empty()
+        })
     }
 
-    public func addMessages(toStart messages: [Message], updateView: Bool = true, animated: Bool = true) -> Completable? {
-        _adapter.addMessages(toStart: messages)
-        if updateView {
-            return synchronize(animated)
-        }
-        return nil
+    public func addMessages(toStart messages: [Message], updateView: Bool = true, animated: Bool = true) -> Completable {
+        return Completable.deferred({ [weak self] in
+            self?._adapter.addMessages(toStart: messages)
+            if updateView, let completable = self?.synchronize(animated) {
+                return completable
+            }
+            return Completable.empty()
+        })
     }
 
-    public func addMessages(toEnd messages: [Message], updateView: Bool = true, animated: Bool = true) -> Completable? {
-        _adapter.addMessages(toEnd: messages)
-        if updateView {
-            return synchronize(animated)
-        }
-        return nil
-    }
-    
-    public func synchronize(_ animated: Bool) -> Completable? {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Message>()
-        
-        snapshot.appendSections(_adapter.sections())
-        for section in _adapter._sections {
-            snapshot.appendItems(section.messages(), toSection: section)
-        }
-        return _view?.apply(snapshot: snapshot, animated: animated)
+    public func addMessages(toEnd messages: [Message], updateView: Bool = true, animated: Bool = true) -> Completable {
+        return Completable.deferred({ [weak self] in
+            self?._adapter.addMessages(toEnd: messages)
+            if updateView, let completable = self?.synchronize(animated) {
+                return completable
+            }
+            return Completable.empty()
+        })
     }
     
     public func loadMessages() -> Single<[Message]> {
         return _delegate.loadMessages(with: _adapter.oldestMessage())
     }
 
-//    public func nextItem(_ message: Message) -> NSObject? {
-//        if let index = _messages.firstIndex(of: message) {
-//            if index < _messages.count - 1 {
-//                return _messages[index + 1]
-//            }
-//        }
-//        return nil
-//    }
-//
-//    public func previousItem(_ message: Message) -> NSObject? {
-//        if let index = _messages.firstIndex(of: message) {
-//            if index > 0 {
-//                return _messages[index - 1]
-//            }
-//         }
-//        return nil
-//    }
-
-
-    public func removeMessage(_ message: Message, animated: Bool = true) -> Completable? {
-        _adapter.removeMessages([message])
-        notifySelectionChanged()
-        return synchronize(animated)
+    public func removeMessage(_ message: Message, animated: Bool = true) -> Completable {
+        return Completable.deferred({ [weak self] in
+            self?._adapter.removeMessages([message])
+            self?.notifySelectionChanged()
+            return self?.synchronize(animated) ?? Completable.empty()
+        })
     }
     
-    public func removeMessages(_ messages: [Message], animated: Bool = true) -> Completable? {
-        _adapter.removeMessages(messages)
-        notifySelectionChanged()
-        return synchronize(animated)
+    public func removeMessages(_ messages: [Message], animated: Bool = true) -> Completable {
+        return Completable.deferred({ [weak self] in
+            self?._adapter.removeMessages(messages)
+            self?.notifySelectionChanged()
+            return self?.synchronize(animated) ?? Completable.empty()
+        })
      }
     
-    public func updateMessage(id: String, animated: Bool = false) -> Completable? {
-        // Get the messages
-        if let message = adapter().message(for: id) {
-            return _view?.reload(messages: [message], animated: animated)
-        }
-        return nil
+    public func synchronize(_ animated: Bool) -> Completable {
+        return Completable.deferred({ [weak self] in
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Message>()
+            if let adapter = self?._adapter {
+                snapshot.appendSections(adapter.sections())
+                for section in adapter._sections {
+                    snapshot.appendItems(section.messages(), toSection: section)
+                }
+            }
+            return self?._view?.apply(snapshot: snapshot, animated: animated) ?? Completable.empty()
+        })
     }
+    
+    public func updateMessage(id: String, animated: Bool = false) -> Completable {
+        return Completable.deferred({ [weak self] in
+            // Get the messages
+            if let message = self?.adapter().message(for: id), let completable = self?._view?.reload(messages: [message], animated: animated) {
+                return completable
+            }
+            return Completable.empty()
+        })
+     }
     
 }
 
@@ -248,7 +252,6 @@ extension MessagesModel: ChatToolbarDelegate {
         if updateView ?? false {
             _ = _view?.reload(messages: selected, animated: animated).subscribe()
         }
-        
     }
 
     public func selectedMessages() -> [Message] {

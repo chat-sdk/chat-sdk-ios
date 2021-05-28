@@ -39,7 +39,9 @@ public class TextMessageContent: DefaultMessageContent {
         return containerView
     }
     
-    override public func bind(message: Message) {
+    override public func bind(_ message: Message, model: MessagesModel) {
+        message.setContent(self)
+        
         label.text = message.messageText()
         if message.messageDirection() == .incoming {
             replyView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
