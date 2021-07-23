@@ -76,9 +76,9 @@ typedef UIViewController<PModerationViewController> * (^ModerationProvider) (id<
 // Use termsOfServiceNavigationController instead
 -(UINavigationController *) eulaNavigationController __deprecated;
 
--(void) setFriendsListViewController: (BFriendsListViewController * (^)(NSArray * usersToExclude, void(^onComplete)(NSArray * users, NSString * groupName))) provider;
--(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action;
--(UINavigationController *) friendsNavigationControllerWithUsersToExclude: (NSArray *) usersToExclude onComplete: (void(^)(NSArray * users, NSString * name)) action;
+-(void) setFriendsListViewController: (BFriendsListViewController * (^)(NSArray<PUser> * usersToExclude, void(^onComplete)(NSArray<PUser> * users, NSString * groupName))) provider;
+-(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray<PUser> *) usersToExclude onComplete: (void(^)(NSArray<PUser> * users, NSString * name)) action;
+-(UINavigationController *) friendsNavigationControllerWithUsersToExclude: (NSArray<PUser> *) usersToExclude onComplete: (void(^)(NSArray<PUser> * users, NSString * name)) action;
 
 -(void) setChatViewController: (ChatProvider) provider;
 -(UIViewController *) chatViewControllerWithThread: (id<PThread>) thread;

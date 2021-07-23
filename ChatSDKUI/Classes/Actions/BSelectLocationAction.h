@@ -16,4 +16,6 @@
     RXPromise * _promise;
 }
 
+-(CLLocationManager *) locationManager;
+
 @end

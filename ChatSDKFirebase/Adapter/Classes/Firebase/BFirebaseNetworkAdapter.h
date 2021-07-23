@@ -12,4 +12,6 @@
 
 @interface BFirebaseNetworkAdapter : BAbstractNetworkAdapter
 
+
+
 @end

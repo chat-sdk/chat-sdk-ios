@@ -13,37 +13,40 @@
 
 @implementation NSBundle(Core)
 
-+ (NSBundle *)coreBundle {
-    //.return [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:bBundleName ofType:@"bundle"]];
++(NSBundle *) coreBundle {
     return [NSBundle bundleWithName:bCoreBundleName];
 }
 
-+ (NSString *)localizationFileForLang:(NSString *)lang {
-    NSString * filename = [[bLocalizableFile stringByAppendingString:@"."] stringByAppendingString:lang];
++(NSString *) localizationFileForLang:(NSString *)lang name: (NSString *) name {
+    NSString * filename = [[name stringByAppendingString:@"."] stringByAppendingString:lang];
     if ([[self coreBundle] pathForResource:filename ofType:@"strings"]) {
         return filename;
     }
     return nil;
 }
 
-+ (NSString *)bestLocalizationFileForLang:(NSString *)lang {
-    NSString * exact = [self localizationFileForLang:lang];
++(NSString *) bestLocalizationFileForLang:(NSString *) lang name: (NSString *) name {
+    NSString * exact = [self localizationFileForLang:lang name:name];
     if (exact) return exact;
     lang = [[lang componentsSeparatedByString:@"-"] firstObject];
-    NSString * general = [self localizationFileForLang:lang];
+    NSString * general = [self localizationFileForLang:lang name:name];
     if (general) return general;
-    return bLocalizableFile;
+    return name;
 }
 
-+ (NSString *)t:(NSString *)string {
++(NSString *) t:(NSString *) string bundle: (NSBundle *) bundle localizable: (NSString *) localizable {
     NSString * lang = [[NSLocale preferredLanguages] objectAtIndex:0];
-    NSString * localizableFile = [self bestLocalizationFileForLang:lang];
+    NSString * localizableFile = [self bestLocalizationFileForLang:lang name:localizable];
     if (!localizableFile) return string;
     
-    NSString * localized = NSLocalizedStringFromTableInBundle(string, localizableFile, [self coreBundle], @"");
+    NSString * localized = NSLocalizedStringFromTableInBundle(string, localizableFile, bundle, @"");
     if (![localized isEqualToString:string]) return localized;
 
-    return NSLocalizedStringFromTableInBundle(string, bLocalizableFile, [self coreBundle], @"");
+    return NSLocalizedStringFromTableInBundle(string, localizable, bundle, @"");
+}
+
++(NSString *) t:(NSString *) string {
+    return [self t:string bundle:[self coreBundle] localizable:bLocalizableFile];
 }
 
 +(NSString *) textForMessage: (id<PMessage>) message {

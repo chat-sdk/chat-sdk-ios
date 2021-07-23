@@ -10,6 +10,8 @@ import Foundation
 public class Strings {
     public static let thread = "thread"
     public static let tapHereForContactInfo = "tapHereForContactInfo"
+    public static let tapHereForGroupInfo = "tapHereForGroupInfo"
+
     public static let online = "online"
     public static let offline = "offline"
     public static let connecting = "connecting"
@@ -19,6 +21,7 @@ public class Strings {
     public static let today = "today"
     public static let yesterday = "yesterday"
     public static let requestAudioPermission = "requestAudioPermission"
+    public static let audioPermissionDenied = "audioPermissionDenied"
 
     public static let camera = "camera"
     public static let gallery = "gallery"

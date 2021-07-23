@@ -21,6 +21,7 @@ import FirebaseCore
     }
     
     @objc public func activate() {
+
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }

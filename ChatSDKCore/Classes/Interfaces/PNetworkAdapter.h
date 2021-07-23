@@ -35,12 +35,6 @@
 @protocol PThreadHandler;
 @protocol CallHandler;
 
-// Depricated: Use bHookDidLogout (and hook system) instead
-#define bNotificationLogout @"bNLogout"
-
-#define bNotificationMessageUpdated @"bNMessageUpdated"
-#define bNotificationMessageUpdatedKeyMessage @"bNMessageUpdatedKeyMessage"
-
 #define bNotificationFlaggedMessageAdded @"bNFlaggedMessageAdded"
 #define bNotificationFlaggedMessageAdded_PMessage @"bNFlaggedMessageAdded_PMessage"
 
@@ -49,16 +43,6 @@
 
 #define bNotificationPresentChatView @"bNPresentChatView"
 #define bNotificationPresentChatView_PThread @"bNPresentChatView_PThread"
-
-#define bNotificationThreadLastMessageUpdated @"bNThreadLastMessageUpdated"
-#define bNotificationThreadLastMessageUpdated_Text @"bNThreadLastMessageUpdated_Text"
-
-#define bNotificationTypingStateChanged @"bNTypingStateChanged"
-#define bNotificationTypingStateChangedKeyThread @"bNTypingStateChangedKeyThread"
-#define bNotificationTypingStateChangedKeyMessage @"bNTypingStateChangedKeyMessage"
-
-#define bNotificationAuthenticationComplete @"bNAuthenticationComplete"
-
 
 @protocol PNetworkAdapter <NSObject>
 

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -52,22 +51,21 @@
                     <rect key="frame" x="7" y="7" width="36" height="36"/>
                 </view>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <constraints>
                 <constraint firstItem="Vyw-Fi-eSy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="3" id="3li-BR-fwO"/>
                 <constraint firstItem="Zm3-kr-yEC" firstAttribute="leading" secondItem="BkT-HX-Ytt" secondAttribute="trailing" constant="4" id="4Ri-zR-eGx"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="m6f-fe-hfv" secondAttribute="bottom" constant="2" id="CdC-TA-L6A"/>
+                <constraint firstAttribute="bottom" secondItem="m6f-fe-hfv" secondAttribute="bottom" constant="2" id="CdC-TA-L6A"/>
                 <constraint firstItem="8ys-T8-xke" firstAttribute="top" secondItem="BkT-HX-Ytt" secondAttribute="top" constant="5" id="E77-l8-UtP"/>
                 <constraint firstAttribute="trailing" secondItem="Vyw-Fi-eSy" secondAttribute="trailing" constant="4" id="GT6-60-kzL"/>
-                <constraint firstItem="BkT-HX-Ytt" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="2" id="GrB-Db-jcT"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="BkT-HX-Ytt" secondAttribute="bottom" constant="2" id="Haz-ed-IHD"/>
+                <constraint firstItem="BkT-HX-Ytt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="2" id="GrB-Db-jcT"/>
+                <constraint firstAttribute="bottom" secondItem="BkT-HX-Ytt" secondAttribute="bottom" constant="2" id="Haz-ed-IHD"/>
                 <constraint firstItem="BkT-HX-Ytt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="Iau-ie-fWM"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Zm3-kr-yEC" secondAttribute="bottom" constant="2" id="Nwt-8z-FXa"/>
+                <constraint firstAttribute="bottom" secondItem="Zm3-kr-yEC" secondAttribute="bottom" constant="2" id="Nwt-8z-FXa"/>
                 <constraint firstItem="8ys-T8-xke" firstAttribute="bottom" secondItem="BkT-HX-Ytt" secondAttribute="bottom" constant="-5" id="YCK-iP-jGh"/>
                 <constraint firstItem="8ys-T8-xke" firstAttribute="trailing" secondItem="BkT-HX-Ytt" secondAttribute="trailing" constant="-5" id="cXH-0x-61X"/>
                 <constraint firstItem="Vyw-Fi-eSy" firstAttribute="leading" secondItem="BkT-HX-Ytt" secondAttribute="trailing" constant="4" id="e53-Tx-BtV"/>
                 <constraint firstItem="8ys-T8-xke" firstAttribute="leading" secondItem="BkT-HX-Ytt" secondAttribute="leading" constant="5" id="g6E-oZ-Prb"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="m6f-fe-hfv" secondAttribute="trailing" constant="4" id="h6e-bG-b2A"/>
+                <constraint firstAttribute="trailing" secondItem="m6f-fe-hfv" secondAttribute="trailing" constant="4" id="h6e-bG-b2A"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

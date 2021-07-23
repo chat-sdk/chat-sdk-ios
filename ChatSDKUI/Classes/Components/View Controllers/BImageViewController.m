@@ -18,6 +18,7 @@
 
 @synthesize imageView;
 @synthesize image;
+@synthesize imageURL;
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,7 +53,13 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [imageView setImage:image];
+    
+    if (image) {
+        [imageView setImage:image];
+    }
+    else if (imageURL) {
+        [imageView sd_setImageWithURL:imageURL];
+    }
     
     // We want to make sure the image always fits in the screen
     // Check the ratio of the height and width against the screens ratio, use this to determine the height and width set
@@ -62,8 +69,9 @@
     CGRect screenSize = [UIScreen mainScreen].applicationFrame;
     
     // Make sure the status bar and navigation bar don't overlap our view
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     
     if (screenRatio >= imageRatio) {
         

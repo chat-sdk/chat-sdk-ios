@@ -8,11 +8,25 @@
 import Foundation
 import FirebaseDatabase
 
-@objc public class FirebaseNetworkAdapterModule: NSObject, PModule {
+@objc public class FirebaseNetworkAdapterModule: NSObject, PModule, PNetworkAdapterProvider {
+
+    var networkAdapter: BFirebaseNetworkAdapter?
+    
+    public func getNetworkAdapter() -> PNetworkAdapter! {
+        if networkAdapter == nil {
+            networkAdapter = BFirebaseNetworkAdapter()
+        }
+        return networkAdapter
+    }
     
     static let instance = FirebaseNetworkAdapterModule()
     @objc public static func shared() -> FirebaseNetworkAdapterModule {
         return instance
+    }
+    
+    @objc public func withNetworkAdapter(_ adapter: BFirebaseNetworkAdapter) -> FirebaseNetworkAdapterModule {
+        networkAdapter = adapter
+        return self
     }
     
     @objc public var firebaseApp: FirebaseApp?
@@ -31,9 +45,10 @@ import FirebaseDatabase
     }
     
     @objc public func activate() {
-        let networkAdapter = BFirebaseNetworkAdapter.init()
-        BChatSDK.shared().networkAdapter = BFirebaseNetworkAdapter.init()
-        networkAdapter.activate()
+
+//        let networkAdapter = BFirebaseNetworkAdapter.init()
+//        BChatSDK.shared().networkAdapter = BFirebaseNetworkAdapter.init()
+        networkAdapter?.activate()
     }
   
     @objc public func app() -> FirebaseApp? {

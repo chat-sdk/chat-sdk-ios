@@ -144,7 +144,10 @@
                         }
                     }
                     
-                    [self.model setDeletedDate: Nil];
+                    if (self.model.deletedDate) {
+                        [self.model setDeletedDate: Nil];
+                        [BHookNotification notificationThreadAdded:self.model];
+                    }
                     
                     // This gets the message if it exists and then updates it from the snapshot
                     CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:snapshot];
@@ -202,9 +205,10 @@
 //                NSLog(@"Message deleted: %@", snapshot.value);
                 CCMessageWrapper * wrapper = [CCMessageWrapper messageWithSnapshot:snapshot];
                 id<PMessage> message = wrapper.model;
+                NSString * entityID = message.entityID;
                 [BHookNotification notificationMessageWillBeDeleted: message];
                 [self.model removeMessage: message];
-                [BHookNotification notificationMessageWasDeleted];
+                [BHookNotification notificationMessageWasDeleted:entityID];
             }];
         }
 

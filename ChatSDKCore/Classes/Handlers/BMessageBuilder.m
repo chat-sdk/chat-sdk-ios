@@ -92,7 +92,6 @@
 -(BMessageBuilder *) imageMessage: (UIImage *) image{
     [self type:bMessageTypeImage];
     _message.placeholder = UIImagePNGRepresentation(image);
-    
     return self;
 }
 

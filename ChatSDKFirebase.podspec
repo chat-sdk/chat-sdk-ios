@@ -11,10 +11,11 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '11.0'
   s.requires_arc = true
   s.swift_version = "5.0"
-  
+  # s.static_framework = true
+
   s.default_subspec = 'Adapter'
   
-  s.static_framework = true
+  # s.static_framework = true
   s.pod_target_xcconfig = { 'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES' }
 
  s.subspec 'Adapter' do |s|

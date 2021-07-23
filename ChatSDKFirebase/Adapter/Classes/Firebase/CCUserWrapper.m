@@ -100,8 +100,10 @@
 }
 
 - (void) setIdenticon {
-    NSString * url = [NSString stringWithFormat: BChatSDK.config.identiconBaseURL, self.model.entityID];
-    [self.model setImageURL:url];
+    if (BChatSDK.config.identiconBaseURL) {
+        NSString * url = [NSString stringWithFormat: BChatSDK.config.identiconBaseURL, self.model.entityID];
+        [self.model setImageURL:url];
+    }
 }
 
 -(id) initWithEntityID: (NSString *) entityID {

@@ -1,0 +1,44 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+use_frameworks!
+platform :ios, 13.0
+install! 'cocoapods', :disable_input_output_paths => true
+
+target 'ChatSDKSwift' do
+
+  pod "ChatSDK", :path => "../"
+  pod "ChatSDK/ModAddContactWithQRCode", :path => "../"
+  
+  pod "ChatSDKFirebase/Adapter", :path => "../"
+  pod "ChatSDKFirebase/Upload", :path => "../"
+  pod "ChatSDKFirebase/Push", :path => "../"
+
+  pod "ChatSDKModules/AsFramework", :path => "../../ChatSDK/ChatSDKModules"
+
+  # pod "ChatSDKModules/StickerMessage", :path => "../../ChatSDK/ChatSDKModules"
+  # pod "ChatSDKModules/StickerMessageChatKit", :path => "../../ChatSDK/ChatSDKModules"
+
+  # pod "ChatSDKModules/VideoMessage", :path => "../../ChatSDK/ChatSDKModules"
+  # pod "ChatSDKModules/AudioMessage", :path => "../../ChatSDK/ChatSDKModules"
+  # pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../../ChatSDK/ChatSDKModules"
+  # pod "ChatSDKModules/ContactBook", :path => "../../ChatSDK/ChatSDKModules"
+  # pod "ChatSDKModules/FileMessage", :path => "../../ChatSDK/ChatSDKModules"
+  # pod "ChatSDKModules/FirebaseBlocking", :path => "../../ChatSDK/ChatSDKModules"
+  # pod "ChatSDKModules/FirebaseLastOnline", :path => "../../ChatSDK/ChatSDKModules"
+  # pod "ChatSDKModules/FirebaseNearbyUsers", :path => "../../ChatSDK/ChatSDKModules"
+  # pod "ChatSDKModules/FirebaseTypingIndicator", :path => "../../ChatSDK/ChatSDKModules"
+  # pod "ChatSDKModules/FirebaseReadReceipts", :path => "../../ChatSDK/ChatSDKModules"
+  # pod "ChatSDKModules/Encryption", :path => "../../ChatSDK/ChatSDKModules"
+
+  # pod "ChatSDKModules/Diagnostic", :path => "../../ChatSDK/ChatSDKModules"
+
+  # pod "ChatK!t", :path => "../"
+  # pod "ChatK!t/ChatSDK", :path => "../"
+  # pod "ChatK!t/ChatSDKModules", :path => "../"
+
+  # Double Ratchet
+  # pod 'DoubleRatchet'
+  # pod 'X3DH'
+  # pod 'HKDF'
+
+end

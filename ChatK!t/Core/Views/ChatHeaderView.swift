@@ -12,7 +12,7 @@ public class ChatHeaderView : UIView {
     
     public var titleLabel: UILabel?
     public var subtitleLabel: UILabel?
-    public var tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap))
+    public var tapRecognizer: UITapGestureRecognizer?
     public var onTap: (()->Void)?
        
     public override init(frame: CGRect) {
@@ -30,8 +30,9 @@ public class ChatHeaderView : UIView {
     
     public func setup() {
         
-        addGestureRecognizer(tapRecognizer)
-        
+        tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap))
+        addGestureRecognizer(tapRecognizer!)
+                
         titleLabel = UILabel()
         
 //        titleLabel?.text = Bundle.t(bThread)

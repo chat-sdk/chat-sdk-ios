@@ -20,7 +20,7 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AEl-Nk-yAV">
                         <rect key="frame" x="372" y="18" width="34" height="34"/>
                         <constraints>
-                            <constraint firstAttribute="width" priority="750" constant="34" id="l6y-Bo-lxt"/>
+                            <constraint firstAttribute="width" constant="34" id="l6y-Bo-lxt"/>
                             <constraint firstAttribute="height" priority="750" constant="34" id="rHQ-aU-do9"/>
                         </constraints>
                     </imageView>

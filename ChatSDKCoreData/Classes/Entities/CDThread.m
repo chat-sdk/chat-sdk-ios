@@ -156,6 +156,7 @@
     }
     return Nil;
 }
+
 -(void) removeMessage: (id<PMessage>) theMessage {
     [self checkOnMain];
     CDMessage * message = (CDMessage *) theMessage;
@@ -176,6 +177,14 @@
     [BChatSDK.db deleteEntity:message];
     
     self.newestMessage = [[self messagesOrderedByDateNewestFirst] firstObject];
+}
+
+-(void) removeAllMessages {
+    NSArray * messages = self.allMessages;
+    for (CDMessage * message in messages) {
+        message.thread = nil;
+        [BChatSDK.db deleteEntity:message];
+    }
 }
 
 -(NSArray *) orderMessagesByDateAsc: (NSArray *) messages {
@@ -261,23 +270,37 @@
 
 -(void) markRead {
     [self checkOnMain];
-
-    BOOL didMarkRead = NO;
-    
-    NSArray<PMessage> * messages = [BChatSDK.db loadAllMessagesForThread:self newestFirst:YES];
-    for(id<PMessage> message in messages) {
-        if (!message.isRead && !message.senderIsMe) {
-            [message setDelivered: @YES];
-            [message setRead: @YES];
-            
-            // TODO: Should we have this here? Maybe this gets called too soon
-            // but it's a good backup in case the app closes before we save
-            didMarkRead = YES;
+    [BChatSDK.db unreadMessages:self.entityID then:^(NSArray * messages) {
+        if (messages) {
+            BOOL didMarkRead = NO;
+            for (id<PMessage> message in messages) {
+                [message setDelivered: @YES];
+                [message setRead: @YES];
+                didMarkRead = YES;
+            }
+            if (didMarkRead) {
+                [BHookNotification notificationThreadMarkedRead:self];
+            }
         }
-    }
-    if (didMarkRead) {
-        [BHookNotification notificationThreadMarkedRead:self];
-    }
+    }];
+
+//    BOOL didMarkRead = NO;
+//
+//
+//    NSArray<PMessage> * messages = [BChatSDK.db loadAllMessagesForThread:self newestFirst:YES];
+//    for(id<PMessage> message in messages) {
+//        if (!message.isRead && !message.senderIsMe) {
+//            [message setDelivered: @YES];
+//            [message setRead: @YES];
+//
+//            // TODO: Should we have this here? Maybe this gets called too soon
+//            // but it's a good backup in case the app closes before we save
+//            didMarkRead = YES;
+//        }
+//    }
+//    if (didMarkRead) {
+//        [BHookNotification notificationThreadMarkedRead:self];
+//    }
 }
 
 -(int) unreadMessageCount {
@@ -294,7 +317,7 @@
         if ([user isKindOfClass:[CDUser class]]) {
             if (![self containsUser:user]) {
                 [self addUsersObject:(CDUser *)user];
-                [self addConnection:user];
+                [self addConnection:(CDUser *)user];
                 return YES;
             }
         }
@@ -323,8 +346,8 @@
     return NO;
 }
 
--(NSArray<id<PUserConnection>> *) connections {
-    return self.userConnections;
+-(NSArray<PUserConnection> *) connections {
+    return self.userConnections.allObjects;
 }
 
 -(id<PUserConnection>) connection: (NSString *) entityID {
@@ -445,6 +468,15 @@
         return self.otherUser.imageURL;
     }
     return url;
+}
+
+-(void) markDeleted: (BOOL) notify {
+    self.deletedDate = [NSDate date];
+    [self markRead];
+    [self removeAllMessages];
+    if (notify) {
+        [BHookNotification notificationThreadRemoved:self];
+    }
 }
 
 @end

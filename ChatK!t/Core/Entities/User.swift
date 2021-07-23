@@ -10,7 +10,11 @@ import Foundation
 public protocol User {
     func userId() -> String
     func userName() -> String
+    
+    // You can either provide an image url or an actual image
     func userImageUrl() -> URL?
+    func userImage() -> UIImage?
+    
     func userIsMe() -> Bool
     func userIsOnline() -> Bool
     func userLastOnline() -> Date?

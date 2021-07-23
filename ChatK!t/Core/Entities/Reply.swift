@@ -11,4 +11,5 @@ public protocol Reply {
     func replyTitle() -> String?
     func replyText() -> String?
     func replyImageURL() -> URL?
+    func replyPlaceholder() -> UIImage?
 }

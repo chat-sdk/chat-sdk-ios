@@ -1,4 +1,6 @@
 "tapHereForContactInfo" = "Tap here for contact info";
+"tapHereForGroupInfo" = "Tap here for group info";
+
 "conversation" = "Conversation";
 "online" = "Online";
 "offline" = "Offline";
@@ -13,6 +15,7 @@
 "yesterday" = "Yesterday";
 "lastSeen_at_" = "Last seen %@ at %@";
 "requestAudioPermission" = "Click enable audio recording";
+"audioPermissionDenied" = "Audio permission denied";
 
 "camera" = "Camera";
 "gallery" = "Gallery";

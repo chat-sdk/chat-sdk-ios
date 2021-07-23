@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="S0e-Qh-Mjd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="S0e-Qh-Mjd">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -77,7 +77,7 @@
                             <tableViewSection headerTitle="Status" id="u9k-KM-pKG">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="120" id="mif-pA-KBU">
-                                        <rect key="frame" x="0.0" y="197" width="320" height="120"/>
+                                        <rect key="frame" x="0.0" y="191" width="320" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mif-pA-KBU" id="qO4-wq-jq6">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
@@ -104,7 +104,7 @@
                             <tableViewSection headerTitle="Availability" id="Xes-9A-sLF" userLabel="Availability">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="DiM-L4-wIu" userLabel="Availability  Cell">
-                                        <rect key="frame" x="0.0" y="365" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="353" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DiM-L4-wIu" id="aBs-69-rv9">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -143,7 +143,7 @@
                             <tableViewSection headerTitle="Presence" id="eYE-KT-6vO">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="xLf-kq-rla" userLabel="Follows Cell">
-                                        <rect key="frame" x="0.0" y="457" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="439" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xLf-kq-rla" id="oof-kp-jvj">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -188,7 +188,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="a45-cy-5fb" userLabel="Followed Cell">
-                                        <rect key="frame" x="0.0" y="501" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="483" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a45-cy-5fb" id="RcU-Hg-7K1">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -239,7 +239,7 @@
                             <tableViewSection id="aW1-ai-lXS">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Ocs-l1-iI1" userLabel="Locality  Cell">
-                                        <rect key="frame" x="0.0" y="565" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="547" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ocs-l1-iI1" id="W9o-25-L77">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -274,7 +274,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="cR4-sm-hFm" userLabel="Phone Cell">
-                                        <rect key="frame" x="0.0" y="609" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="591" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cR4-sm-hFm" id="1Re-CF-aO1">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -309,7 +309,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="LAf-26-6q9" userLabel="Email Cell">
-                                        <rect key="frame" x="0.0" y="653" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="635" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LAf-26-6q9" id="lgp-dR-GA7">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -348,7 +348,7 @@
                             <tableViewSection id="SSB-pk-Bug">
                                 <cells>
                                     <tableViewCell tag="2" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="TwU-Px-kyX" userLabel="Block User Cell">
-                                        <rect key="frame" x="0.0" y="717" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="699" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TwU-Px-kyX" id="dCC-Ir-70T">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -396,7 +396,7 @@
                             <tableViewSection id="lvG-HT-4ON">
                                 <cells>
                                     <tableViewCell tag="3" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="NSi-1N-W9U" userLabel="Add Contact Cell">
-                                        <rect key="frame" x="0.0" y="781" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="763" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NSi-1N-W9U" id="IcR-On-Ril">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -435,7 +435,7 @@
                             <tableViewSection id="FRr-HC-fZK">
                                 <cells>
                                     <tableViewCell tag="4" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="bf2-fZ-IJe" userLabel="More Cell">
-                                        <rect key="frame" x="0.0" y="845" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="827" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bf2-fZ-IJe" id="beQ-cB-XnL">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -565,7 +565,7 @@
                             <tableViewSection headerTitle="Status" id="dc3-SE-oyj">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="3es-jy-Hti">
-                                        <rect key="frame" x="0.0" y="168" width="320" height="120"/>
+                                        <rect key="frame" x="0.0" y="162" width="320" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3es-jy-Hti" id="4Po-N0-l89">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
@@ -589,7 +589,7 @@
                             <tableViewSection headerTitle="Availability" id="vys-Yc-OgL">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Mka-vg-HGT" userLabel="Availablity  Cell">
-                                        <rect key="frame" x="0.0" y="336" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="324" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mka-vg-HGT" id="CfL-Mc-f1z">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -614,7 +614,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="162" id="Ano-KY-Wa1">
-                                        <rect key="frame" x="0.0" y="386" width="320" height="162"/>
+                                        <rect key="frame" x="0.0" y="374" width="320" height="162"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ano-KY-Wa1" id="AYy-A6-Ksd">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
@@ -641,7 +641,7 @@
                             <tableViewSection headerTitle="Details" id="01g-SN-7pE">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="GyM-yN-Hnb">
-                                        <rect key="frame" x="0.0" y="596" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="578" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GyM-yN-Hnb" id="L6M-ui-pab">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -678,7 +678,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="m1Y-4B-Rgp">
-                                        <rect key="frame" x="0.0" y="646" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="628" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m1Y-4B-Rgp" id="nsU-FH-ifF">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -715,7 +715,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="17g-Cg-Yk8">
-                                        <rect key="frame" x="0.0" y="696" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="678" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="17g-Cg-Yk8" id="C7R-Mv-TQH">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -752,7 +752,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="Edi-Lu-N04">
-                                        <rect key="frame" x="0.0" y="746" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="728" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Edi-Lu-N04" id="XGH-em-8iE">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -793,7 +793,7 @@
                             <tableViewSection headerTitle="Account" id="lM0-tf-Q0u">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="KMd-oQ-foA">
-                                        <rect key="frame" x="0.0" y="844" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="820" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KMd-oQ-foA" id="vDf-Pf-UT1">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>

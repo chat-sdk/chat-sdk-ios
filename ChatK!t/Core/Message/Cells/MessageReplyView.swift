@@ -19,7 +19,8 @@ public class MessageReplyView: UIView {
         backgroundColor = ChatKit.asset(color: ChatKit.config().replyBackgroundColor)
         titleLabel.textColor = ChatKit.asset(color: ChatKit.config().replyTitleColor)
         textLabel.textColor = ChatKit.asset(color: ChatKit.config().replyTextColor)
-        layer.cornerRadius = ChatKit.config().bubbleCornerRadius
+        imageView.contentMode = .scaleAspectFill
+        layer.cornerRadius = ChatKit.config().replyViewCornerRadius
         translatesAutoresizingMaskIntoConstraints = false
         clipsToBounds = true
     }

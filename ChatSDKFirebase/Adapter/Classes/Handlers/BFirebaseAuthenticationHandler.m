@@ -136,6 +136,7 @@
         }
             break;
         default:
+            [promise rejectWithReason:nil];
             break;
     }
     
@@ -223,9 +224,7 @@
         
     // Add listeners here
     [BChatSDK.event currentUserOn:user.entityID];
-        
-    [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationAuthenticationComplete object:Nil];
-    
+            
     [BChatSDK.core setUserOnline];
 
     return [self retrieveRemoteConfig].thenOnMain(^id(id success) {

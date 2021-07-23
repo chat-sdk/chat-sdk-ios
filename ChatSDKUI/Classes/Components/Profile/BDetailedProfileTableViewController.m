@@ -100,7 +100,7 @@
     
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStylePlain target:Nil action:Nil];
-    self.navigationItem.titleView = [ReconnectingView new];
+    self.navigationItem.titleView = [BReconnectingView new];
 
 
 }

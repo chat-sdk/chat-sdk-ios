@@ -15,6 +15,10 @@
 @implementation BFirebaseUploadHandler
 
 -(RXPromise *) uploadFile:(NSData *)file withName: (NSString *) name mimeType: (NSString *) mimeType {
+    return [self uploadFile:file withName:name mimeType:mimeType message: nil];
+}
+
+-(RXPromise *) uploadFile:(NSData *)file withName: (NSString *) name mimeType: (NSString *) mimeType message: (id<PMessage>) message {
 
     FIRStorage * storage = FirebaseUploadModule.shared.storage;
     FIRStorageReference * ref = [storage reference];
@@ -26,7 +30,7 @@
 
     RXPromise * promise = [RXPromise new];
 
-    [fileRef putData:file metadata:Nil completion:^(FIRStorageMetadata * meta, NSError * error) {
+    FIRStorageUploadTask * task = [fileRef putData:file metadata:Nil completion:^(FIRStorageMetadata * meta, NSError * error) {
         if (!error) {
             [fileRef downloadURLWithCompletion:^(NSURL * url, NSError * error) {
                 if (!error) {
@@ -41,7 +45,12 @@
             [promise rejectWithReason:error];
         }
     }];
-    //FIRStorageReference * ref = []
+    
+    [task observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot * snapshot){
+        if (snapshot && snapshot.progress && message) {
+            [BChatSDK.hook executeHookWithName:bHookMessageUploadProgress data:@{bHook_PMessage: message, bHook_ObjectValue: snapshot.progress}];
+        }
+    }];
     
     return promise;
 }

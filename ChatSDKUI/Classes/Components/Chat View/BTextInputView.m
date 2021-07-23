@@ -35,7 +35,9 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-//        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
+        _readOnly = false;
+
+        //        self.barTintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
         
         if (@available(iOS 13.0, *)) {
             self.backgroundColor = [UIColor systemBackgroundColor];
@@ -175,8 +177,8 @@
 }
 
 -(void) updateInterfaceForReachabilityStateChange {
-    _sendButton.enabled = self.isConnected;
-    _optionsButton.enabled = self.isConnected;;
+    _sendButton.enabled = self.isConnected && !_readOnly;
+    _optionsButton.enabled = self.isConnected && !_readOnly;
 }
 
 -(BOOL) isConnected {
@@ -201,7 +203,7 @@
 
 -(void) setMicButtonEnabled: (BOOL) enabled sendButtonEnabled: (BOOL) sendButtonEnabled {
     _micButtonEnabled = enabled && self.isConnected;
-    _sendButton.enabled = (sendButtonEnabled || enabled) && self.isConnected;
+    _sendButton.enabled = (sendButtonEnabled || enabled) && self.isConnected && !_readOnly;
     if (enabled) {
         [_sendButton setTitle:Nil forState:UIControlStateNormal];
         [_sendButton setImage:[NSBundle uiImageNamed: @"icn_24_mic"]
@@ -558,6 +560,16 @@
 
 -(void) setSendBarDelegate:(id<PSendBarDelegate>)delegate {
     _sendBarDelegate = delegate;
+}
+
+-(void) setReadOnly: (BOOL) readonly {
+    _readOnly = readonly;
+    
+    _optionsButton.enabled = !readonly;
+    _textView.userInteractionEnabled = !readonly;
+    _placeholderLabel.hidden = readonly;
+    _sendButton.enabled = !readonly;
+    
 }
 
 @end

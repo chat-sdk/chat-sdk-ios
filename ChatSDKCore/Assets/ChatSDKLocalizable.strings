@@ -203,13 +203,13 @@
 "bInviteByEmail" = "Email";
 "bInviteBySMS" = "SMS";
 
-"bEncryptedMessage" = "Encrypted Message";
-"bImageMessage" = "Image Message";
-"bLocationMessage" = "Location Message";
-"bAudioMessage" = "Audio Message";
-"bVideoMessage" = "Video Message";
-"bStickerMessage" = "Sticker Message";
-"bFileMessage" = "File Message";
+"bEncryptedMessage" = "🔒 Encrypted Message";
+"bImageMessage" = "📷 Image Message";
+"bLocationMessage" = "📍 Location Message";
+"bAudioMessage" = "🎤 Audio Message";
+"bVideoMessage" = "📹 Video Message";
+"bStickerMessage" = "😊 Sticker Message";
+"bFileMessage" = "📁 File Message";
 "bPhoto" = "Photo";
 "bFile" = "File";
 

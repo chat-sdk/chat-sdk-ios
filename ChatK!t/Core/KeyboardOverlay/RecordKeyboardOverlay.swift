@@ -50,12 +50,6 @@ public class RecordKeyboardOverlay: UIView, KeyboardOverlay {
 }
 
 public protocol RecordViewDelegate {
-//    func permissionGranted() -> Bool
-//    func requestAudioPermission() -> Completable
-//
-//    func startRecording()
-//    func finishRecording() -> Data?
-//
     func send(audio: Data, duration: Int)
 }
 
@@ -64,23 +58,19 @@ public class RecordView: UIView {
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
     
+    @IBOutlet weak var recordImageView: UIImageView!
+    @IBOutlet weak var lockImageView: UIImageView!
+    
+    
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var micImageView: UIImageView!
     
-    @IBOutlet weak var recordButton: UIButton!
-    @IBOutlet weak var lockButton: UIButton!
-    
     @IBOutlet weak var infoLabel: UILabel!
     public var delegate: RecordViewDelegate?
-    
-    public var recording = false
-    public var locked = false
-    
+        
     public var timer: Timer?
     public var startTime: NSDate?
-        
-    public var panGestureRecognizer: UIPanGestureRecognizer?
-    
+            
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -89,45 +79,76 @@ public class RecordView: UIView {
         super.awakeFromNib()
         micImageView.image = ChatKit.asset(icon: "icn_30_mic").withRenderingMode(.alwaysTemplate)
         micImageView.tintColor = ChatKit.asset(color: "red")
-        lockButton.isUserInteractionEnabled = false
         
+        ChatKit.audioRecorder().prepare()
+                
         cancel()
-        
-        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didPan(sender:)))
-        
-        addGestureRecognizer(panGestureRecognizer!)
-        
+                
         updateMicButtonForPermission()
+        
+        lockImageView.isUserInteractionEnabled = false
+        recordImageView.isUserInteractionEnabled = false
 
     }
     
     public func updateMicButtonForPermission(error: Error? = nil) {
         if ChatKit.audioRecorder().isAuth() {
-            recordButton.setImage(ChatKit.asset(icon: "icn_60_mic_button"), for: .normal)
-            recordButton.setImage(ChatKit.asset(icon: "icn_100_mic_button_red"), for: .highlighted)
+            recordImageView.image = ChatKit.asset(icon: "icn_60_mic_button")
+            recordImageView.highlightedImage = ChatKit.asset(icon: "icn_100_mic_button_red")
             infoLabel.text = ""
         } else {
-            recordButton.setImage(ChatKit.asset(icon: "icn_60_mic_unlock_button"), for: .normal)
-            recordButton.setImage(ChatKit.asset(icon: "icn_60_mic_unlock_button"), for: .highlighted)
-            if let text = error?.localizedDescription {
-                infoLabel.text = text
-            } else {
-                infoLabel.text = t(Strings.requestAudioPermission)
+            recordImageView.image = ChatKit.asset(icon: "icn_60_mic_unlock_button")
+            recordImageView.highlightedImage = ChatKit.asset(icon: "icn_60_mic_unlock_button")
+            infoLabel.text = t(Strings.audioPermissionDenied)
+        }
+    }
+    
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+
+            let point = touch.location(in: self)
+
+            let recordOver = recordImageView.frame.contains(point)
+            
+            if recordOver && !isRecording() {
+                if !ChatKit.audioRecorder().isAuth() {
+                    requestAuth()
+                } else {
+                    start()
+                }
             }
         }
     }
     
-    @objc public func didPan(sender: UIPanGestureRecognizer) {
-        DispatchQueue.main.async { [weak self] in
-            if let this = self {
-                let point = sender.location(in: this)
-                if this.recordButton.isSelected {
-                    if this.lockButton.frame.contains(point) && !this.lockButton.isSelected {
-                        this.lock()
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+
+            let point = touch.location(in: self)
+
+            let lockOver = lockImageView.frame.contains(point)
+            
+            // If we pan over the lock button lock the record button
+            if !lockImageView.isHighlighted, isRecording(), lockOver {
+                lock()
+            }
+        }
+    }
+
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+
+            let point = touch.location(in: self)
+
+//            let lockOver = lockImageView.frame.contains(point)
+            let recordOver = recordImageView.frame.contains(point)
+                        
+            if !lockImageView.isHighlighted {
+                if ChatKit.audioRecorder().isAuth() {
+                    if recordOver {
+                        send()
+                    } else {
+                        cancel()
                     }
-                }
-                if this.recording {
-                    this.recordButton.isSelected = true
                 }
             }
         }
@@ -148,55 +169,33 @@ public class RecordView: UIView {
             self?.cancel()
         }
     }
-    
-    @IBAction func recordButtonDown(_ sender: Any) {
-        DispatchQueue.main.async { [weak self] in
-            self?.start()
-        }
-    }
-    
-    @IBAction func recordButtonDragExit(_ sender: Any) {
-        DispatchQueue.main.async { [weak self] in
-            self?.recordButton.isSelected = true
-        }
-    }
-
-    @IBAction func recordButtonUpInside(_ sender: Any) {
-        DispatchQueue.main.async { [weak self] in
-            if let this = self {
-                if !this.lockButton.isSelected {
-                    this.recordButton.isSelected = false
-                    this.send()
-                }
-            }
-        }
-    }
-    
-    @IBAction func recordButtonUpOutside(_ sender: Any) {
-        DispatchQueue.main.async { [weak self] in
-            if let this = self {
-                if !this.lockButton.isSelected {
-                    this.recordButton.isSelected = false
-                    this.send()
-                }
-            }
-        }
+        
+    public func requestAuth() {
+        _ = ChatKit.audioRecorder().requestAuth().observe(on: MainScheduler.instance).subscribe(onCompleted: { [weak self] in
+            ChatKit.audioRecorder().prepare()
+            self?.updateMicButtonForPermission()
+        }, onError: { [weak self] error in
+            self?.updateMicButtonForPermission(error: error)
+        })
     }
     
     public func lock() {
-        lockButton.isSelected = true
-        recordButton.isUserInteractionEnabled = false
-        
+        lockImageView.isHighlighted = true
         sendButton.isHidden = false
         deleteButton.isHidden = false
     }
         
     public func send() {
-        ChatKit.audioRecorder().stop()
+        
+        lockImageView.isHighlighted = false
+        recordImageView.isHighlighted = false
+    
         do {
-            if let url = ChatKit.audioRecorder().url {
-                let data = try Data(contentsOf: url)
-                delegate?.send(audio: data, duration: ChatKit.audioRecorder().time)
+            let result = try ChatKit.audioRecorder().stop()
+            let time = result.1
+            
+            if let data = result.0, time > ChatKit.config().minimumAudioRecordingLength  {
+                delegate?.send(audio: data, duration: time)
             }
         } catch {
             
@@ -206,12 +205,10 @@ public class RecordView: UIView {
     }
     
     public func cancel() {
-        recording = false
-        
+
         infoLabel.text = ""
-        lockButton.isSelected = false
-        recordButton.isSelected = false
-        recordButton.isUserInteractionEnabled = true
+        lockImageView.isHighlighted = false
+        recordImageView.isHighlighted = false
 
         sendButton.isHidden = true
         deleteButton.isHidden = true
@@ -220,38 +217,42 @@ public class RecordView: UIView {
         timeLabel.isHidden = true
         timeLabel.text = ""
         timer?.invalidate()
+                
+        do {
+            _ = try ChatKit.audioRecorder().stop()
+        } catch {
+            
+        }
+        ChatKit.audioRecorder().prepare()
+    }
+    
+    public func isRecording() -> Bool {
+        return ChatKit.audioRecorder().isRecording
     }
     
     public func start() {
-        if !ChatKit.audioRecorder().isAuth() {
-            _ = ChatKit.audioRecorder().requestAuth().subscribe(onCompleted: { [weak self] in
-                self?.updateMicButtonForPermission()
-            }, onError: { [weak self] error in
-                self?.updateMicButtonForPermission(error: error)
-            })
-        } else {
-            recording = true
-            
-            ChatKit.audioRecorder().record(name: "audio_file")
-            
-            startTime = NSDate()
-            
-            micImageView.isHidden = false
-            timeLabel.isHidden = false
-            
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { [weak self] timer in
-                DispatchQueue.main.async {
-                    if let start = self?.startTime {
-                        let min = floor(start.minutesAgo())
-                        let sec = floor(start.secondsAgo()) - min * 60
-                        self?.timeLabel.text = String(format: "%.0f:%02.0f", min, sec)
-                    } else {
-                        self?.timeLabel.text = ""
-                    }
+                
+        ChatKit.audioRecorder().record()
+
+        recordImageView.isHighlighted = true
+
+        startTime = NSDate()
+        
+        micImageView.isHidden = false
+        timeLabel.isHidden = false
+        
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { [weak self] timer in
+            DispatchQueue.main.async {
+                if let start = self?.startTime {
+                    let min = floor(start.minutesAgo())
+                    let sec = floor(start.secondsAgo()) - min * 60
+                    self?.timeLabel.text = String(format: "%.0f:%02.0f", min, sec)
+                } else {
+                    self?.timeLabel.text = ""
                 }
-            })
-        }
+            }
+        })
     }
     
 }

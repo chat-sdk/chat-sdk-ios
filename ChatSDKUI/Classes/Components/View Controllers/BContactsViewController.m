@@ -78,7 +78,7 @@
     
     [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bCellIdentifier];
     
-    self.navigationItem.titleView = [ReconnectingView new];
+    self.navigationItem.titleView = [BReconnectingView new];
 
 }
 

@@ -9,7 +9,7 @@
 #import "FirebaseUIModule.h"
 #import <ChatSDK/Core.h>
 #import <FirebaseAuth/FirebaseAuth.h>
-#import <FirebaseCore/FIRApp.h>
+//#import <FirebaseCore/FIRApp.h>
 
 @implementation FirebaseUIModule {
     NSArray * _providers;

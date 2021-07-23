@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '13.0'
   s.requires_arc = true
   s.swift_version = "5.0"
-  
+  # s.static_framework = true
   
   s.source_files = "ChatK!t/Core/**/*.{h,m,swift}"
 
@@ -23,9 +23,10 @@ Pod::Spec.new do |s|
   s.dependency 'FFCircularProgressView'
   s.dependency 'MZDownloadManager'
   s.dependency 'FLAnimatedImage'
+  s.dependency 'GSImageViewerController'
   
   s.subspec 'ChatSDK' do |s| 
-	  s.source_files = ['ChatK!t/ChatSDK/**/*']
+    s.source_files = ['ChatK!t/ChatSDK/**/*']
     s.dependency 'ChatSDK/Core'
   end
       

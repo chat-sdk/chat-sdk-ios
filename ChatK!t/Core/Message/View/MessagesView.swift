@@ -28,14 +28,14 @@ public class MessagesView: UIView {
     public var refreshControl: UIRefreshControl?
     
     public var refreshState: RefreshState = .none
-    public var loadedMessages: [Message]?
+    public var loadedMessages: [AbstractMessage]?
     
     public var hideKeyboardListener: (() -> Void)?
     
     // This is used to preseve the Y position when we change the table insets
     public var bottomYClearance: CGFloat = 0
     
-    public var datasource: UITableViewDiffableDataSource<Section, Message>?
+    public var datasource: UITableViewDiffableDataSource<Section, AbstractMessage>?
     
     public var messageCellSizeCache: MessageCellSizeCache?
             
@@ -78,7 +78,6 @@ public class MessagesView: UIView {
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(startLoading), for: .valueChanged)
         tableView.addSubview(refreshControl!)
-        
 
     }
     
@@ -123,7 +122,7 @@ public class MessagesView: UIView {
             return model.addMessages(toStart: messages, updateView: true, animated: false)
         })
 
-        datasource = UITableViewDiffableDataSource<Section, Message>(tableView: tableView) { tableView, indexPath, message in
+        datasource = UITableViewDiffableDataSource<Section, AbstractMessage>(tableView: tableView) { tableView, indexPath, message in
             let registration = model.cellRegistration(message.messageType())!
             let identifier = registration.identifier(direction: message.messageDirection())
             let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! MessageCell
@@ -176,29 +175,52 @@ public class MessagesView: UIView {
     }
         
     @objc public func onLongPress(_ sender: UILongPressGestureRecognizer) {
-        if ChatKit.config().messageSelectionEnabled && !isSelectionModeEnabled() {
-            let point = sender.location(in: tableView)
-            if let indexPath = tableView.indexPathForRow(at: point) {
-                if let message = datasource?.itemIdentifier(for: indexPath) {
-                    model?.toggleSelection(message)
-                    _ = reload(messages: [message], animated: true).subscribe()
-                }
-            }
+        if ChatKit.config().messageSelectionEnabled && !isSelectionModeEnabled(), let message = messageForTap(sender) {
+            model?.toggleSelection(message)
+            _ = reload(messages: [message], animated: false).subscribe()
         }
     }
 
     @objc public func onTap(_ sender: UITapGestureRecognizer) {
-        if ChatKit.config().messageSelectionEnabled && isSelectionModeEnabled() {
-            let point = sender.location(in: tableView)
-            if let indexPath = tableView.indexPathForRow(at: point) {
-                if let message = datasource?.itemIdentifier(for: indexPath) {
-                    model?.toggleSelection(message)
-                    _ = reload(messages: [message], animated: true).subscribe()
-                }
+        if let message = messageForTap(sender) {
+            if ChatKit.config().messageSelectionEnabled && isSelectionModeEnabled() {
+                model?.toggleSelection(message)
+                _ = reload(messages: [message], animated: false).subscribe()
+                return
+            } else if contentTapped(sender) && (model?.onClick(message) ?? true) {
+                return
             }
-        } else {
-            hideKeyboardListener?()
         }
+        hideKeyboardListener?()
+    }
+    
+    public func messageForTap(_ recognizer: UIGestureRecognizer) -> AbstractMessage? {
+        let point = recognizer.location(in: tableView)
+        if let indexPath = tableView.indexPathForRow(at: point) {
+            if let message = datasource?.itemIdentifier(for: indexPath) {
+                return message
+            }
+        }
+        return nil
+    }
+    
+    public func cellForTap(_ recognizer: UIGestureRecognizer) -> MessageCell? {
+        let point = recognizer.location(in: tableView)
+        if let indexPath = tableView.indexPathForRow(at: point) {
+            if let cell = tableView.cellForRow(at: indexPath) as? MessageCell {
+                return cell
+            }
+        }
+        return nil
+    }
+    
+    public func contentTapped(_ recognizer: UIGestureRecognizer) -> Bool {
+        if let cell = cellForTap(recognizer) {
+            let point = recognizer.location(in: tableView)
+            let cellPoint = CGPoint(x: point.x - cell.frame.minX, y: point.y - cell.frame.minY)
+            return cell.content?.view().frame.contains(cellPoint) ?? false
+        }
+        return false
     }
     
     public func isSelectionModeEnabled() -> Bool {
@@ -242,18 +264,22 @@ extension MessagesView: PMessagesView {
             if row < 0 {
                 return
             }
-            let scroll = tableView.contentSize.height - tableView.frame.height - tableView.contentOffset.y <= ChatKit.config().messagesViewRefreshHeight
+            let scroll = offsetFromBottom() <= ChatKit.config().messagesViewRefreshHeight
             
             if scroll || force {
-                print("Scroll to bottom", row, section)
+//                print("Scroll to bottom", row, section)
                 let indexPath = IndexPath(row: row, section: section)
 //                tableView.setContentOffset(CGPoint(0, 1000), animated: false)
                 tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
             }
         }
     }
+    
+    public func offsetFromBottom() -> CGFloat {
+        return tableView.contentSize.height - tableView.frame.height - tableView.contentOffset.y
+    }
 
-    public func apply(snapshot: NSDiffableDataSourceSnapshot<Section, Message>, animated: Bool) -> Completable {
+    public func apply(snapshot: NSDiffableDataSourceSnapshot<Section, AbstractMessage>, animated: Bool) -> Completable {
         return Completable.create { [weak self] completable in
             self?.datasource?.apply(snapshot, animatingDifferences: animated, completion: {
                 completable(.completed)
@@ -262,7 +288,7 @@ extension MessagesView: PMessagesView {
         }
     }
     
-    public func reload(messages: [Message], animated: Bool) -> Completable {
+    public func reload(messages: [AbstractMessage], animated: Bool) -> Completable {
         return Completable.create { [weak self] completable in
             if var snapshot = self?.datasource?.snapshot() {
                 snapshot.reloadItems(messages)

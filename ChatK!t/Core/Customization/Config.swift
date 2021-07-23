@@ -40,7 +40,7 @@ public class Config {
     public var blurEnabled = true
     public var blurStyle: UIBlurEffect.Style?
     
-    public var initialSubtitleInterval: Double = 5
+    public var initialSubtitleInterval: Double = 3
     
     public var chatOptionsBottomMargin: CGFloat = 50.0
     public var chatOptionsIconColor = "gray_1"
@@ -62,9 +62,10 @@ public class Config {
     // The reply view that shows above the keyboard
     public var chatReplyViewHeight: CGFloat = 50
     
-    public var bubbleInsets = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
+    public var bubbleInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     public var bubbleCornerRadius: CGFloat = 10
-    
+    public var replyViewCornerRadius: CGFloat = 5
+
     public var outgoingBubbleColor = "outgoing_bubble"
     public var outgoingBubbleSelectedColor = "outgoing_bubble_selected"
 
@@ -79,10 +80,17 @@ public class Config {
     
     public var downloadFolderName = "ChatKit"
     
-    public var loadImageMessageFromURL = false
+    public var minimumAudioRecordingLength = 1
+
+    public var typingTimeout: Double = 3
+
+//    public var loadImageMessageFromURL = false
     
-    // Raido
-    public var imageMessageWidthRatio = 0.8
+    // We define the max size i.e. 400 and the minimum size which is the screen width
+    // minus the space we need to display The avatar and time label
+    public lazy var imageMessageSize = {
+        return min(400, UIScreen.main.bounds.width - 115)
+    }()
 }
 
 

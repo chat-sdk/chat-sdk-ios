@@ -45,32 +45,13 @@
                         <constraint firstAttribute="height" constant="30" id="XGo-06-78u"/>
                     </constraints>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nff-bI-exL">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_60_mic_button" highlightedImage="icn_100_mic_button_red" translatesAutoresizingMaskIntoConstraints="NO" id="T2o-Vq-vtT">
                     <rect key="frame" x="145.5" y="130" width="100" height="100"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="100" id="hNS-xc-1Rv"/>
-                        <constraint firstAttribute="width" constant="100" id="rGH-Ls-gLQ"/>
+                        <constraint firstAttribute="height" constant="100" id="kXm-xv-uTZ"/>
+                        <constraint firstAttribute="width" constant="100" id="mKG-lN-hru"/>
                     </constraints>
-                    <state key="normal" image="icn_60_mic_button"/>
-                    <state key="selected" image="icn_100_mic_button_red"/>
-                    <state key="highlighted" image="icn_100_mic_button_red"/>
-                    <connections>
-                        <action selector="recordButtonDown:" destination="iN0-l3-epB" eventType="touchDown" id="x5i-3H-xno"/>
-                        <action selector="recordButtonDragExit:" destination="iN0-l3-epB" eventType="touchDragExit" id="C5G-mq-JOk"/>
-                        <action selector="recordButtonUpInside:" destination="iN0-l3-epB" eventType="touchUpInside" id="d68-dz-Rxd"/>
-                        <action selector="recordButtonUpOutside:" destination="iN0-l3-epB" eventType="touchUpOutside" id="QWU-YW-lOa"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUG-FV-6bU">
-                    <rect key="frame" x="165.5" y="10" width="60" height="65"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="65" id="chY-cP-EIG"/>
-                        <constraint firstAttribute="width" constant="60" id="o6E-9C-SOG"/>
-                    </constraints>
-                    <state key="normal" image="icn_slide_to_lock"/>
-                    <state key="selected" image="icn_slide_to_lock_sel"/>
-                    <state key="highlighted" image="icn_slide_to_lock_sel"/>
-                </button>
+                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WHn-Qh-9d0">
                     <rect key="frame" x="12" y="230" width="367" height="60"/>
                     <constraints>
@@ -80,19 +61,26 @@
                     <color key="textColor" systemColor="systemGray2Color"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_slide_to_lock" highlightedImage="icn_slide_to_lock_sel" translatesAutoresizingMaskIntoConstraints="NO" id="ftl-0y-Jhg">
+                    <rect key="frame" x="165.5" y="10" width="60" height="65"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="65" id="bv4-o1-bcv"/>
+                        <constraint firstAttribute="width" constant="60" id="hHG-kd-bCm"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="Guz-7M-6Eu" firstAttribute="centerY" secondItem="cJ3-fI-EqW" secondAttribute="centerY" id="2yC-9J-989"/>
                 <constraint firstItem="Wuk-bn-lDy" firstAttribute="centerY" secondItem="Guz-7M-6Eu" secondAttribute="centerY" id="3zJ-eT-PQw"/>
-                <constraint firstItem="WHn-Qh-9d0" firstAttribute="top" secondItem="nff-bI-exL" secondAttribute="bottom" id="4Z2-aR-sfE"/>
-                <constraint firstItem="nff-bI-exL" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="7e1-uA-5rc"/>
+                <constraint firstItem="ftl-0y-Jhg" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="6fl-hj-UVW"/>
+                <constraint firstItem="WHn-Qh-9d0" firstAttribute="top" secondItem="T2o-Vq-vtT" secondAttribute="bottom" id="Atn-cv-Zj0"/>
                 <constraint firstItem="Guz-7M-6Eu" firstAttribute="leading" secondItem="cJ3-fI-EqW" secondAttribute="trailing" constant="8" symbolic="YES" id="Bfz-tf-jTM"/>
-                <constraint firstItem="nff-bI-exL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="H85-Vf-Fo6"/>
+                <constraint firstItem="T2o-Vq-vtT" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="IKt-zD-Z2R"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="WHn-Qh-9d0" secondAttribute="trailing" constant="12" id="IZI-yg-7f5"/>
-                <constraint firstItem="RUG-FV-6bU" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="OOM-7w-vE9"/>
-                <constraint firstItem="RUG-FV-6bU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="POX-yb-xQd"/>
+                <constraint firstItem="ftl-0y-Jhg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="Ir2-Im-D9Q"/>
+                <constraint firstItem="T2o-Vq-vtT" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="URt-xB-08G"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cJ3-fI-EqW" secondAttribute="bottom" constant="5" id="j2b-uq-0MD"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="hto-YT-noC" secondAttribute="trailing" constant="12" id="kud-yg-X6m"/>
                 <constraint firstItem="Wuk-bn-lDy" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="nMY-Zh-ad6"/>
@@ -104,9 +92,9 @@
             <connections>
                 <outlet property="deleteButton" destination="Wuk-bn-lDy" id="F5L-tQ-Ays"/>
                 <outlet property="infoLabel" destination="WHn-Qh-9d0" id="Rar-5f-0M6"/>
-                <outlet property="lockButton" destination="RUG-FV-6bU" id="ZJ8-3B-pMs"/>
+                <outlet property="lockImageView" destination="ftl-0y-Jhg" id="dBq-eH-eaE"/>
                 <outlet property="micImageView" destination="cJ3-fI-EqW" id="YvR-jz-I2c"/>
-                <outlet property="recordButton" destination="nff-bI-exL" id="OuD-03-1g0"/>
+                <outlet property="recordImageView" destination="T2o-Vq-vtT" id="xd1-Xx-9gU"/>
                 <outlet property="sendButton" destination="hto-YT-noC" id="QIq-0V-FJo"/>
                 <outlet property="timeLabel" destination="Guz-7M-6Eu" id="Bim-0a-sSw"/>
             </connections>

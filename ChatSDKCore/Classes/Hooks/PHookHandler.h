@@ -32,7 +32,9 @@
 #define bHookMessageSending @"bHookMessageSending"
 #define bHookMessageDidSend @"bHookMessageDidSend"
 #define bHookMessageWillUpload @"bHookMessageWillUpload"
+#define bHookMessageUploadProgress @"bHookMessageUploadProgress"
 #define bHookMessageDidUpload @"bHookMessageDidUpload"
+#define bHookMessageUpdated @"bHookMessageUpdated"
 
 #define bHookMessageWillBeDeleted @"bHookMessageWillBeDeleted"
 #define bHookMessageWasDeleted @"bHookMessageWasDeleted"
@@ -45,6 +47,8 @@
 #define bHookThreadUsersUpdated @"bHookThreadUsersUpdated"
 #define bHookThreadUserRoleUpdated @"bHookThreadUserRoleUpdated"
 #define bHookThreadMarkedRead @"bHookThreadMarkedRead"
+
+#define bHookTypingStateUpdated @"bHookTypingStateUpdated"
 
 #define bHookMessageReadReceiptUpdated @"bHookMessageReadReceiptUpdated"
 
@@ -63,6 +67,8 @@
 #define bHook_PThread @"bHook_PThread"
 #define bHook_PThreads @"bHook_PThreads"
 #define bHook_UIApplication @"bHook_UIApplication"
+#define bHook_NSData @"bHook_NSData"
+#define bHook_NSString @"bHook_NSString"
 
 #define bHook_TitleString @"bHook_TitleString"
 #define bHook_MessageString @"bHook_MessageString"

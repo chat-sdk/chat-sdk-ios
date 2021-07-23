@@ -12,7 +12,7 @@ public class MessagesListAdapter {
     var _sections = [Section]()
     var _sectionsIndex = [Date: Section]()
     
-    public func message(exists message: Message) -> Bool {
+    public func message(exists message: AbstractMessage) -> Bool {
         for section in _sections {
             if section.exists(message) {
                 return true
@@ -25,7 +25,7 @@ public class MessagesListAdapter {
         return _sectionsIndex[section.date()] != nil
     }
     
-    public func message(for id: String) -> Message? {
+    public func message(for id: String) -> AbstractMessage? {
         for section in _sections {
             if let message = section.message(for: id) {
                 return message
@@ -38,14 +38,14 @@ public class MessagesListAdapter {
         _sections.count
     }
     
-    public func section(for message: Message) -> Section? {
+    public func section(for message: AbstractMessage) -> Section? {
         if let day = message.messageDate().day() {
             return _sectionsIndex[day]
         }
         return nil
     }
     
-    public func addSection(for message: Message) -> Section? {
+    public func addSection(for message: AbstractMessage) -> Section? {
         if let day = message.messageDate().day() {
             if let section = _sectionsIndex[day] {
                 return section
@@ -60,51 +60,58 @@ public class MessagesListAdapter {
         return nil
     }
     
-    public func addMessage(_ message: Message) {
+    public func addMessage(_ message: AbstractMessage) {
         if let section = addSection(for: message) {
             section.addMessage(message: message)
         }
     }
 
-    public func addMessages(_ messages: [Message]) {
+    public func addMessages(_ messages: [AbstractMessage]) {
         for message in messages {
             addMessage(message)
         }
     }
 
-    public func addMessages(toStart messages: [Message]) {
+    public func addMessages(toStart messages: [AbstractMessage]) {
         for message in messages {
             addMessage(toStart: message)
         }
     }
     
-    public func addMessage(toStart message: Message) {
+    public func addMessage(toStart message: AbstractMessage) {
         if let section = addSection(for: message) {
             section.addMessage(toStart: message)
         }
     }
     
-    public func addMessages(toEnd messages: [Message]) {
+    public func addMessages(toEnd messages: [AbstractMessage]) {
         for message in messages {
             addMessage(toEnd: message)
         }
     }
     
-    public func addMessage(toEnd message: Message) {
+    public func addMessage(toEnd message: AbstractMessage) {
         if let section = addSection(for: message) {
             section.addMessage(toEnd: message)
         }
     }
     
-    public func oldestMessage() -> Message? {
+    public func oldestMessage() -> AbstractMessage? {
         return _sections.first?.messages().first
     }
     
-    public func removeMessages(_ messages: [Message]) {
+    public func removeMessages(_ messages: [AbstractMessage]) {
+        var sectionsToRemove = [Section]()
         for message in messages {
             if let section = section(for: message) {
                 section.removeMessage(message)
+                if section.isEmpty() {
+                    sectionsToRemove.append(section)
+                }
             }
+        }
+        for section in sectionsToRemove {
+            removeSection(section)
         }
     }
     
@@ -138,14 +145,14 @@ public class MessagesListAdapter {
         return _sections
     }
     
-    public func indexPath(for message: Message) -> IndexPath? {
+    public func indexPath(for message: AbstractMessage) -> IndexPath? {
         if let section = section(for: message), let index = index(of: section), let row = section.index(of: message) {
             return IndexPath(row: row, section: index)
         }
         return nil
     }
     
-    public func message(for indexPath: IndexPath) -> Message? {
+    public func message(for indexPath: IndexPath) -> AbstractMessage? {
         return section(indexPath.section)?.message(for: indexPath)
     }
     

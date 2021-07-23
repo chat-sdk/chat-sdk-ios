@@ -31,6 +31,10 @@ open class CKUser: User {
         return nil
     }
     
+    public func userImage() -> UIImage? {
+        return user.imageAsImage()
+    }
+    
     public func userIsMe() -> Bool {
         return user.isMe()
     }

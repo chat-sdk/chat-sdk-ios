@@ -1,0 +1,16 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+inhibit_all_warnings!
+install! 'cocoapods', :disable_input_output_paths => true
+
+target 'ChatSDKDemo' do
+  current_target_definition.swift_version = '5.0'
+
+  pod "ChatSDK", :path => "../"
+  pod "ChatSDK/ModAddContactWithQRCode", :path => "../"
+  
+  pod "ChatSDKFirebase/Adapter", :path => "../"
+  pod "ChatSDKFirebase/Upload", :path => "../"
+  pod "ChatSDKFirebase/Push", :path => "../"
+
+end

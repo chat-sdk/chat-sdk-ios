@@ -102,10 +102,12 @@
     if (readOnly) {
         _replyView.keepBottomOffsetTo(_sendBarView).equal = -_sendBarView.frame.size.height;
         [_sendBarView.superview sendSubviewToBack:_sendBarView];
+        
     } else {
         _replyView.keepBottomOffsetTo(_sendBarView).equal = 0;
         [_sendBarView.superview bringSubviewToFront:_sendBarView];
     }
+    [_sendBarView setReadOnly:readOnly];
 }
 
 
@@ -127,7 +129,7 @@
     [self.view makeToast:[NSBundle t: bCopiedToClipboard]];
 }
 -(void) setupChatToolbar {
-    _chatToolbar = [[ChatToolbar alloc] init];
+    _chatToolbar = [[BChatToolbar alloc] init];
     [self.view addSubview:_chatToolbar];
     
     _chatToolbar.keepTopAlignTo(_sendBarView).equal = 0;
@@ -164,7 +166,7 @@
 
 }
 -(void) setupReplyView {
-    _replyView = [[ReplyView alloc] init];
+    _replyView = [[BReplyView alloc] init];
     [self.view addSubview:_replyView];
     
     _replyView.keepRightInset.equal = 0;
@@ -190,7 +192,7 @@
 // 3 - Show's who's typing
 -(void) setupNavigationBar {
     
-    _headerView = [ChatHeaderView new];
+    _headerView = [BChatHeaderView new];
 
     // When a user taps the title bar we want to know to show the options screen
     if (BChatSDK.config.userChatInfoEnabled) {
@@ -201,7 +203,7 @@
     void(^block)() = ^(NSDictionary * info){
         self.navigationItem.titleView = _headerView;
         if ([BChatSDK.core respondsToSelector:@selector(connectionStatus)] && (BChatSDK.core.connectionStatus != bConnectionStatusConnected) && BChatSDK.core.connectionStatus != bConnectionStatusNone) {
-            self.navigationItem.titleView = [ReconnectingView new];
+            self.navigationItem.titleView = [BReconnectingView new];
         }
     };
     

@@ -115,4 +115,7 @@
 
 #import <ChatSDK/bPictureTypes.h>
 
+#import <ChatSDK/PNetworkAdapterProvider.h>
+#import <ChatSDK/PInterfaceAdapterProvider.h>
+
 #endif /* ChatCore_h */

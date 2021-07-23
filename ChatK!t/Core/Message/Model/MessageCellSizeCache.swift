@@ -25,7 +25,7 @@ public class MessageCellSizeCache {
         cells[registration.identifier(direction: direction)] = cell
     }
     
-    public func heightForIndexPath(_ message: Message, model: MessagesModel, width: CGFloat) -> CGFloat? {
+    public func heightForIndexPath(_ message: AbstractMessage, model: MessagesModel, width: CGFloat) -> CGFloat? {
         if let height = heights[message.messageId()] {
             return height
         } else if let identifier = model.cellRegistration(message.messageType())?.identifier(direction: message.messageDirection()), let cell = cells[identifier] {

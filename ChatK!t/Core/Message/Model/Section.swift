@@ -12,21 +12,21 @@ public class Section {
     let _date: Date
     
     // Messages with date ascending
-    var _messages = [Message]()
-    var _messagesIndex = [String: Message]()
+    var _messages = [AbstractMessage]()
+    var _messagesIndex = [String: AbstractMessage]()
 
     public init(date: Date) {
         _date = date
     }
     
-    public func message(for indexPath: IndexPath) -> Message? {
+    public func message(for indexPath: IndexPath) -> AbstractMessage? {
         if isValid(indexPath) {
             return _messages[indexPath.row]
         }
         return nil
     }
         
-    public func message(for id: String) -> Message? {
+    public func message(for id: String) -> AbstractMessage? {
         for message in _messages {
             if message.messageId() == id {
                 return message
@@ -39,32 +39,32 @@ public class Section {
         indexPath.row < _messages.count
     }
 
-    public func exists(_ message: Message) -> Bool {
+    public func exists(_ message: AbstractMessage) -> Bool {
         _messagesIndex[message.messageId()] != nil
     }
 
-    public func addToIndex(_ message: Message) {
+    public func addToIndex(_ message: AbstractMessage) {
         _messagesIndex[message.messageId()] = message
     }
 
-    public func addMessage(toStart message: Message) {
+    public func addMessage(toStart message: AbstractMessage) {
         if !exists(message) {
             _messages.insert(message, at: 0)
             addToIndex(message)
         }
     }
     
-    public func removeMessage(_ message: Message) {
+    public func removeMessage(_ message: AbstractMessage) {
         if let i = index(of: message) {
             _messages.remove(at: i)
         }
     }
     
-    public func index(of message: Message) -> Int? {
+    public func index(of message: AbstractMessage) -> Int? {
         return _messages.firstIndex(of: message)
     }
 
-    public func addMessage(toEnd message: Message) {
+    public func addMessage(toEnd message: AbstractMessage) {
         if !exists(message) {
             _messages.append(message)
             addToIndex(message)
@@ -75,7 +75,7 @@ public class Section {
         return _messages.isEmpty
     }
     
-    public func addMessage(message: Message) {
+    public func addMessage(message: AbstractMessage) {
         if !exists(message) {
             _messages.append(message)
             addToIndex(message)
@@ -97,7 +97,7 @@ public class Section {
         return _messages.count
     }
     
-    public func messages() -> [Message] {
+    public func messages() -> [AbstractMessage] {
         return _messages
     }
 

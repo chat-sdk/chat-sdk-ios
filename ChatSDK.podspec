@@ -11,11 +11,13 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '11.0'
   s.requires_arc = true
   s.swift_version = "5.0"
+  # s.static_framework = true
+
 #   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
   
   s.default_subspec = 'Complete'
   
-#   s.static_framework = true
+  # s.static_framework = true
   
   s.subspec 'Complete' do |s| 
     s.dependency 'ChatSDK/UI'
@@ -68,7 +70,7 @@ Pod::Spec.new do |s|
 		'ChatUI' => ['ChatSDKUI/Assets/**/*', 'ChatSDKUI/Interface/**/*']
 	  }
 			
-	  s.dependency 'MBProgressHUD', '~> 1.0'
+	  s.dependency 'MBProgressHUD', '~> 1.2.0'
 	  s.dependency 'VENTokenField', '~> 2.0'
 	  s.dependency 'SDWebImage', '~> 5.0'
 	  s.dependency 'StaticDataTableViewController', '~> 2.0'
@@ -79,7 +81,7 @@ Pod::Spec.new do |s|
 	  s.dependency 'EFQRCode', '~> 5.1.6'
 
 	  s.dependency 'ChatSDK/CoreData'
-      s.dependency 'QuickTableViewController'	  
+    s.dependency 'QuickTableViewController'	  
 	  s.frameworks = 'CoreLocation'
   
   end

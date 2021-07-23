@@ -29,6 +29,10 @@ public class SendBarView: UIView, UITextViewDelegate {
     
     public var didBecomeFirstResponder: (() -> Void)?
 
+    public var didStartTyping: (() -> Void)?
+    public var didStopTyping: (() -> Void)?
+    public var typingTimer: Timer?
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -228,6 +232,17 @@ public class SendBarView: UIView, UITextViewDelegate {
         }
     }
     
+    public func allActions() -> [SendBarAction] {
+        var actions = [SendBarAction]()
+        for action in startActions {
+            actions.append(action)
+        }
+        for action in endActions {
+            actions.append(action)
+        }
+        return actions
+    }
+    
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let old = textView.text as NSString?
         if let newText = old?.replacingCharacters(in: range, with: text) {
@@ -235,7 +250,21 @@ public class SendBarView: UIView, UITextViewDelegate {
                 layout(hasText: !newText.isEmpty)
             }
         }
+        startTyping()
         return true
+    }
+    
+    public func startTyping() {
+        // We are already typing
+        if typingTimer == nil {
+            didStartTyping?()
+        }
+        typingTimer?.invalidate()
+        typingTimer = Timer.scheduledTimer(withTimeInterval: ChatKit.config().typingTimeout, repeats: false, block: { [weak self] timer in
+            timer.invalidate()
+            self?.typingTimer = nil
+            self?.didStopTyping?()
+        })
     }
     
     public func textViewDidBeginEditing(_ textView: UITextView) {
@@ -268,17 +297,17 @@ public class SendBarView: UIView, UITextViewDelegate {
         return false
     }
 
-    public func hide() {
+    public func hideKeyboard() {
         textView?.textView.resignFirstResponder()
     }
 
-    public func show() {
+    public func showKeyboard() {
         textView?.textView.becomeFirstResponder()
     }
 
     public func hideAndDisable() {
         setDisabled(value: true)
-        hide()
+        hideKeyboard()
     }
     
     public func setDisabled(value: Bool) {
@@ -293,6 +322,21 @@ public class SendBarView: UIView, UITextViewDelegate {
     
     public func clear() {
         textView?.textView.text = ""
+        layout()
+    }
+    
+    public func goOffline() {
+        textView?.isUserInteractionEnabled = false
+        for action in allActions() {
+            action.button?.isEnabled = false
+        }
+    }
+    
+    public func goOnline() {
+        textView?.isUserInteractionEnabled = true
+        for action in allActions() {
+            action.button?.isEnabled = true
+        }
     }
 }
 

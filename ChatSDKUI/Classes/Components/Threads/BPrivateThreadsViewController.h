@@ -13,4 +13,6 @@
 @interface BPrivateThreadsViewController : BThreadsViewController {
 }
 
+-(void) doViewWillAppear;
+
 @end

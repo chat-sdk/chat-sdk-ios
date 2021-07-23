@@ -22,6 +22,7 @@
 @synthesize logger = _logger;
 @synthesize settings = _settings;
 @synthesize modules = _modules;
+@synthesize identifier = _identifier;
 
 static BChatSDK * instance;
 
@@ -70,14 +71,27 @@ static BChatSDK * instance;
     [self application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
++(void) activateLicenseWithEmail: (NSString *) email {
+    [self.shared activateLicense:@"email" identifier:email];
+}
+
++(void) activateLicenseWithPatreon: (NSString *) patreonId {
+    [self.shared activateLicense:@"patreon" identifier:patreonId];
+}
+
++(void) activateLicenseWithGithub: (NSString *) githubId {
+    [self.shared activateLicense:@"github" identifier:githubId];
+}
+
+-(void) activateLicense: (NSString *) provider identifier: (NSString *) identifier {
+    _identifier = @[provider, identifier];
+}
+
 -(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions  modules: (NSArray<PModule> *) modules networkAdapter:(id<PNetworkAdapter>)networkAdapter interfaceAdapter:(id<PInterfaceAdapter>)interfaceAdapter {
 
     _configuration = config;
     
     [_moduleHelper activateCoreModules];
-    for (id<PModule> module in modules) {
-        [module activate];
-    }
     
     if(interfaceAdapter) {
         _interfaceAdapter = interfaceAdapter;
@@ -85,6 +99,21 @@ static BChatSDK * instance;
     if(networkAdapter) {
         _networkAdapter = networkAdapter;
     }
+    
+    // Activate the network adapter and interface adapter first
+    for (id<PModule> module in modules) {
+        if ([module respondsToSelector:@selector(getNetworkAdapter)] && !_networkAdapter) {
+            _networkAdapter = [((id<PNetworkAdapterProvider>) module) getNetworkAdapter];
+        }
+        if ([module respondsToSelector:@selector(getInterfaceAdapter)] && !_interfaceAdapter) {
+            _interfaceAdapter = [((id<PInterfaceAdapterProvider>) module) getInterfaceAdapter];
+        }
+    }
+
+    for (id<PModule> module in modules) {
+        [module activate];
+    }
+    
 //    [_moduleHelper activateModules];
     
     _settings = [Settings new];

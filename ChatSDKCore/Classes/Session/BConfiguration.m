@@ -105,6 +105,9 @@
 @synthesize identiconBaseURL;
 @synthesize threadDestructionEnabled;
 
+@synthesize xmppOutgoingMessageQueueRetryTime;
+@synthesize xmppOutgoingMessageAlwaysAdd;
+
 -(instancetype) init {
     if((self = [super init])) {
         
@@ -228,6 +231,9 @@
         xmppSendPushOnAck = NO;
         
         xmppPubsubNode = @"chatsdk";
+        
+        xmppOutgoingMessageQueueRetryTime = 10;
+        xmppOutgoingMessageAlwaysAdd = true;
     }
     return self;
 }

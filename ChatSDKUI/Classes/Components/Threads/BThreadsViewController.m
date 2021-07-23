@@ -60,7 +60,7 @@
     
     [tableView registerNib:[UINib nibWithNibName:@"BThreadCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bCellIdentifier];
     
-    self.navigationItem.titleView = [ReconnectingView new];
+    self.navigationItem.titleView = [BReconnectingView new];
     
     __weak __typeof(self) weakSelf = self;
     [_disposeOnDealloc add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
@@ -99,17 +99,12 @@
     [_disposeOnDisappear add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         [weakSelf updateButtonStatusForInternetConnection];
     }] withName:bHookInternetConnectivityDidChange]];
-    
-    [_disposeOnDisappear add:[nc addObserverForName:bNotificationTypingStateChanged
-                                           object:nil
-                                            queue:Nil
-                                       usingBlock:^(NSNotification * notification) {
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
-                                               _threadTypingMessages[thread.entityID] = notification.userInfo[bNotificationTypingStateChangedKeyMessage];
-                                               [weakSelf reloadDataForThread:thread];
-                                           });
-                                       }]];
+
+    [_disposeOnDisappear add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
+        id<PThread> thread = data[bHook_PThread];
+        _threadTypingMessages[thread.entityID] = data[bHook_NSString];
+        [weakSelf reloadDataForThread:thread];
+    }] withName:bHookTypingStateUpdated]];
     
     [_disposeOnDisappear add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * dict) {
         [weakSelf loadThreadsAndReloadData];

@@ -99,5 +99,19 @@
     return [NSDate date];
 }
 
+-(NSArray<PUser> *) allKnownUsers {
+    NSMutableSet * users = [NSMutableSet new];
+    for(id<PUser> user in BChatSDK.contact.contacts) {
+        [users addObject:user];
+    }
+    for(id<PThread> thread in [BChatSDK.thread threadsWithType:bThreadFilterAll]) {
+        for (id<PUser> user in thread.users) {
+            [users addObject:user];
+        }
+    }
+    return users.allObjects;
+}
+
+
 
 @end

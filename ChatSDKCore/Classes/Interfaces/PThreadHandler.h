@@ -12,6 +12,7 @@
 #import <ChatSDK/PMessage.h>
 #import <RXSwift/RXSwift-Swift.h>
 
+@protocol PUser;
 
 @protocol PThreadHandler <NSObject>
 
@@ -46,7 +47,7 @@
 /**
  * @brief Add users to a thread
  */
--(RXPromise *) addUsers: (NSArray *) userIDs toThread: (id<PThread>) threadModel;
+-(RXPromise *) addUsers: (NSArray<PUser> *) users toThread: (id<PThread>) threadModel;
 -(BOOL) canAddUsers: (NSString *) threadEntityID;
 
 /**

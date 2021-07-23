@@ -112,7 +112,7 @@
 }
 
 -(void) setText: (NSString *) text {
-    [self setMeta:@{bMessageText: [NSString safe:text]}];
+    [self updateMeta:@{bMessageText: [NSString safe:text]}];
 }
 
 // This helps us know if we want to show it in the thread

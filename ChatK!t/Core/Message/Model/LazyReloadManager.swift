@@ -14,11 +14,11 @@ public class LazyReloadManager {
     var _active = false
 
     weak var _messagesModel: MessagesModel?
-    let _messageAdder: (([Message]) -> Completable?)
+    let _messageAdder: (([AbstractMessage]) -> Completable?)
     
-    var _messagesToAdd = [Message]()
+    var _messagesToAdd = [AbstractMessage]()
     
-    public init(_ messagesModel: MessagesModel, messageAdder: @escaping ([Message]) -> Completable?) {
+    public init(_ messagesModel: MessagesModel, messageAdder: @escaping ([AbstractMessage]) -> Completable?) {
         _messagesModel = messagesModel
         _messageAdder = messageAdder
     }

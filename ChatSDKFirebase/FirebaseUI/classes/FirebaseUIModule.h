@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PModule.h>
 
-@import FirebaseUI;
+@import FirebaseAuthUI;
 
 @protocol FUIAuthDelegate;
 

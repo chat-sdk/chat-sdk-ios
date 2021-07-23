@@ -7,6 +7,7 @@
 
 import Foundation
 import KeepLayout
+import SDWebImage
 
 public class TextMessageContent: DefaultMessageContent {
     
@@ -39,10 +40,9 @@ public class TextMessageContent: DefaultMessageContent {
         return containerView
     }
     
-    override public func bind(_ message: Message, model: MessagesModel) {
+    override public func bind(_ message: AbstractMessage, model: MessagesModel) {
         super.bind(message, model: model)
 
-        label.text = message.messageText()
         if message.messageDirection() == .incoming {
             replyView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
         }
@@ -50,11 +50,12 @@ public class TextMessageContent: DefaultMessageContent {
             replyView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
         }
         if let reply = message.messageReply() {
-            showReply(title: reply.replyTitle(), text: reply.replyText(), imageURL: reply.replyImageURL())
+            showReply(title: reply.replyTitle(), text: reply.replyText(), imageURL: reply.replyImageURL(), placeholder: reply.replyPlaceholder())
         } else {
             hideReply()
         }
-        containerView.setNeedsLayout()
+        label.text = message.messageText()
+//        containerView.setNeedsLayout()
     }
     
     public func hideReply() {
@@ -65,7 +66,7 @@ public class TextMessageContent: DefaultMessageContent {
         }
     }
     
-    public func showReply(title: String?, text: String?, imageURL: URL? = nil) {
+    public func showReply(title: String?, text: String?, imageURL: URL? = nil, placeholder: UIImage? = nil) {
         if replyView.superview == nil {
             containerView.addSubview(replyView)
 
@@ -82,7 +83,10 @@ public class TextMessageContent: DefaultMessageContent {
         replyView.textLabel.text = text
         if let url = imageURL {
             replyView.showImage()
-            replyView.imageView.sd_setImage(with: url, completed: nil)
+            replyView.imageView.sd_setImage(with: url, placeholderImage: placeholder, options: .scaleDownLargeImages, completed: nil)
+        } else if let placeholder = placeholder {
+            replyView.showImage()
+            replyView.imageView.image = placeholder
         } else {
             replyView.hideImage()
         }

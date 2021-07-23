@@ -17,6 +17,7 @@ import Foundation
     @objc public var showWatermark = false
 
     @objc public func activate() {
+        
         BChatSDK.ui().addSearch(QRScannerViewController.init(usersToExclude: []), withType: "QRCode", withName: Bundle.t(bQRCode))
 
         let qrCode = ProfileItem(name: Bundle.t(bQRCode), icon: "icn_36_qr", showFor: nil, executor: { [weak self] (vc: UIViewController, user: PUser) -> Void in

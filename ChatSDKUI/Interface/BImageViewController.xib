@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,8 +25,8 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bVJ-qU-mwC">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             <constraints>
-                                <constraint firstAttribute="height" priority="100" constant="568" id="P1w-Ac-lJT"/>
-                                <constraint firstAttribute="width" priority="100" constant="320" id="qEO-7Z-jFt"/>
+                                <constraint firstAttribute="width" priority="750" constant="320" id="5af-pk-qd1"/>
+                                <constraint firstAttribute="height" priority="750" constant="568" id="yOo-AP-1IA"/>
                             </constraints>
                         </imageView>
                     </subviews>
@@ -40,7 +41,7 @@
                     </connections>
                 </scrollView>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="zBP-CP-jEE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Kl1-Nw-TcM"/>
                 <constraint firstAttribute="trailing" secondItem="zBP-CP-jEE" secondAttribute="trailing" id="OPa-i0-T8Q"/>
@@ -50,4 +51,9 @@
             <point key="canvasLocation" x="142" y="154"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

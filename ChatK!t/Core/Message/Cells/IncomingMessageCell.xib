@@ -21,10 +21,10 @@
                         <rect key="frame" x="50" y="21" width="311" height="68"/>
                         <color key="backgroundColor" systemColor="systemBrownColor"/>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozE-hM-nbb">
-                        <rect key="frame" x="361" y="45" width="45" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozE-hM-nbb">
+                        <rect key="frame" x="367" y="45" width="42" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="45" id="jXR-II-2oD"/>
+                            <constraint firstAttribute="width" constant="42" id="jXR-II-2oD"/>
                             <constraint firstAttribute="height" constant="20" id="wYW-Rn-ZmS"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
@@ -39,7 +39,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Good gy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bor-d8-IvD">
-                        <rect key="frame" x="8" y="0.0" width="345" height="17"/>
+                        <rect key="frame" x="8" y="0.0" width="351" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" priority="750" constant="17" id="hel-1N-B9W"/>
                         </constraints>
@@ -49,14 +49,14 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="AEl-Nk-yAV" firstAttribute="leading" secondItem="pow-mP-MFv" secondAttribute="leading" priority="750" constant="8" id="35R-ap-rwM"/>
+                    <constraint firstItem="AEl-Nk-yAV" firstAttribute="leading" secondItem="pow-mP-MFv" secondAttribute="leading" constant="8" id="35R-ap-rwM"/>
                     <constraint firstItem="AEl-Nk-yAV" firstAttribute="top" secondItem="Bor-d8-IvD" secondAttribute="bottom" constant="8" id="5dO-31-CSh"/>
                     <constraint firstItem="ozE-hM-nbb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Aqo-0b-Oiv" secondAttribute="trailing" constant="8" id="9Bl-Do-vta"/>
                     <constraint firstItem="Bor-d8-IvD" firstAttribute="top" secondItem="pow-mP-MFv" secondAttribute="top" priority="750" id="AsC-38-fLs"/>
                     <constraint firstAttribute="bottom" secondItem="Aqo-0b-Oiv" secondAttribute="bottom" constant="4" id="BV0-oC-wC9"/>
                     <constraint firstItem="Bor-d8-IvD" firstAttribute="leading" secondItem="pow-mP-MFv" secondAttribute="leading" constant="8" id="BoV-pu-3yc"/>
                     <constraint firstItem="Aqo-0b-Oiv" firstAttribute="top" secondItem="Bor-d8-IvD" secondAttribute="bottom" constant="4" id="Zdd-n4-WEC"/>
-                    <constraint firstAttribute="trailing" secondItem="ozE-hM-nbb" secondAttribute="trailing" priority="750" constant="8" id="fOm-6Y-J0e"/>
+                    <constraint firstAttribute="trailing" secondItem="ozE-hM-nbb" secondAttribute="trailing" priority="750" constant="5" id="fOm-6Y-J0e"/>
                     <constraint firstItem="Aqo-0b-Oiv" firstAttribute="leading" secondItem="AEl-Nk-yAV" secondAttribute="trailing" constant="8" id="ilG-PC-pvL"/>
                     <constraint firstItem="ozE-hM-nbb" firstAttribute="leading" secondItem="Bor-d8-IvD" secondAttribute="trailing" constant="8" id="sJZ-fc-jHb"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="AEl-Nk-yAV" secondAttribute="bottom" constant="8" id="x94-p5-Hnz"/>

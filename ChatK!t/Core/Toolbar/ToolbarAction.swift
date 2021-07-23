@@ -10,11 +10,11 @@ import Foundation
 public class ToolbarAction {
     
     public let barButtonItem: UIBarButtonItem
-    public var visibleFor: (([Message]) -> Bool)?
-    public let onClick: ([Message]) -> Bool
+    public var visibleFor: (([AbstractMessage]) -> Bool)?
+    public let onClick: ([AbstractMessage]) -> Bool
     public var implOnClick: (() -> Void)?
 
-    public init(item: UIBarButtonItem, visibleFor: (([Message]) -> Bool)? = nil, onClick: @escaping (([Message]) -> Bool)) {
+    public init(item: UIBarButtonItem, visibleFor: (([AbstractMessage]) -> Bool)? = nil, onClick: @escaping (([AbstractMessage]) -> Bool)) {
         self.onClick = onClick
         self.visibleFor = visibleFor
         barButtonItem = item
@@ -26,14 +26,32 @@ public class ToolbarAction {
         implOnClick?()
     }
         
-    public func isVisible(for messages: [Message]) -> Bool {
+    public func isVisible(for messages: [AbstractMessage]) -> Bool {
         if let visibleFor = visibleFor {
             return visibleFor(messages)
         }
         return true
     }
     
-    public func notify(_ messages: [Message]) -> Bool {
+    public func notify(_ messages: [AbstractMessage]) -> Bool {
         return onClick(messages)
     }
+    
+    public static func copyAction(visibleFor: (([AbstractMessage]) -> Bool)? = nil, onClick: @escaping (([AbstractMessage]) -> Bool)) -> ToolbarAction {
+        return ToolbarAction(item: UIBarButtonItem(image: ChatKit.asset(icon: "icn_24_copy"), style: .plain, target: nil, action: nil), visibleFor: visibleFor, onClick: onClick)
+    }
+
+    public static func trashAction(visibleFor: (([AbstractMessage]) -> Bool)? = nil, onClick: @escaping (([AbstractMessage]) -> Bool)) -> ToolbarAction {
+        return ToolbarAction(item: UIBarButtonItem(image: ChatKit.asset(icon: "icn_24_trash"), style: .plain, target: nil, action: nil), visibleFor: visibleFor, onClick: onClick)
+    }
+
+    public static func forwardAction(visibleFor: (([AbstractMessage]) -> Bool)? = nil, onClick: @escaping (([AbstractMessage]) -> Bool)) -> ToolbarAction {
+        return ToolbarAction(item: UIBarButtonItem(image: ChatKit.asset(icon: "icn_24_forward"), style: .plain, target: nil, action: nil), visibleFor: visibleFor, onClick: onClick)
+    }
+
+    public static func replyAction(visibleFor: (([AbstractMessage]) -> Bool)? = nil, onClick: @escaping (([AbstractMessage]) -> Bool)) -> ToolbarAction {
+        return ToolbarAction(item: UIBarButtonItem(image: ChatKit.asset(icon: "icn_24_reply"), style: .plain, target: nil, action: nil), visibleFor: visibleFor, onClick: onClick)
+    }
+    
+    
 }

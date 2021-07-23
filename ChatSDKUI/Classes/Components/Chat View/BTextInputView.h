@@ -29,6 +29,8 @@
     
     BHook * _internetConnectionHook;
     BHook * _connectionStatusHook;
+    
+    BOOL _readOnly;
 }
 
 @property (weak, nonatomic, readwrite) id<PSendBarDelegate> sendBarDelegate;
@@ -50,5 +52,6 @@
 -(void) becomeTextViewFirstResponder;
 -(void) setOptionsButtonHidden: (BOOL) hidden;
 -(void) setMicButtonEnabled: (BOOL) enabled;
+-(void) setReadOnly: (BOOL) readonly;
 
 @end

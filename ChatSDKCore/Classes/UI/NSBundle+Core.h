@@ -228,5 +228,6 @@
 +(NSBundle *) coreBundle;
 +(NSString *) t: (NSString *) string;
 +(NSString *) textForMessage: (id<PMessage>) message;
++(NSString *) t:(NSString *) string bundle: (NSBundle *) bundle localizable: (NSString *) localizable;
 
 @end

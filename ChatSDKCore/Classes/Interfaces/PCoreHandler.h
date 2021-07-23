@@ -57,7 +57,8 @@ typedef enum {
  */
 -(RXPromise *)observeUser: (NSString *)entityID;
 
-
+// Get all contacts and all users we share threads with
+-(NSArray<PUser> *) allKnownUsers;
 
 -(id<PUser>) userForEntityID: (NSString *) entityID;
 

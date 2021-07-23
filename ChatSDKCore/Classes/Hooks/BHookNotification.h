@@ -18,6 +18,9 @@
 +(void) notificationMessageDidSend: (id<PMessage>) message;
 +(void) notificationMessageWillUpload: (id<PMessage>) message;
 +(void) notificationMessageDidUpload: (id<PMessage>) message;
++(void) notificationMessageDidUpload: (id<PMessage>) message withData: (NSData *) data;
++(void) notificationMessageUpdated: (id<PMessage>) message;
+
 +(void) notificationMessageReceived: (id<PMessage>) message;
 
 +(void) notificationContactWillBeAdded: (id<PUser>) user;
@@ -26,7 +29,7 @@
 +(void) notificationContactWasDeleted: (id<PUser>) user;
 
 +(void) notificationMessageWillBeDeleted: (id<PMessage>) message;
-+(void) notificationMessageWasDeleted;
++(void) notificationMessageWasDeleted: (NSString *) messageEntityID;
 
 +(void) notificationDidAuthenticate: (id<PUser>) user type: (NSString *) type;
 +(void) notificationWillLogout: (id<PUser>) user;
@@ -49,6 +52,8 @@
 
 +(void) notificationWillPushUser: (id<PUser>) user;
 +(void) notificationUserUpdated: (id<PUser>) user;
+
++(void) notificationTypingStateUpdated: (id<PThread>) thread text: (NSString *) text;
 
 //+(void) notificationWillResignActive: (UIApplication *) app;
 //+(void) notificationDidBecomeActive: (UIApplication *) app;

@@ -54,7 +54,7 @@
     // This code fixes an issue where the picker isn't loaded in iOS 8 and above sometimes on devices
     // This seems to be due to UIActionSheet delegate being depreciated
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [_controller presentViewController:_picker animated:NO completion:nil];
+        [_controller presentViewController:_picker animated:YES completion:nil];
     }];
     
     return _promise;
@@ -68,7 +68,7 @@
     // This checks whether we are adding image or video (public.movie for video)
     if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:@"public.image"]) {
 
-        [_picker dismissViewControllerAnimated:YES completion:^{
+        [_picker dismissViewControllerAnimated:NO completion:^{
             UIImage * image = [info objectForKey:UIImagePickerControllerOriginalImage];
             if (image) {
                 [self processSelectedImage:image error:nil];

@@ -60,7 +60,7 @@
     }
 }
 
--(RXPromise *) addUsers: (NSArray *) users toThread: (id<PThread>) threadModel {
+-(RXPromise *) addUsers: (NSArray<id<PUser>> *) users toThread: (id<PThread>) threadModel {
     
     CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
     
@@ -192,7 +192,13 @@
 
 - (RXPromise *) deleteMessage: (NSString *)messageID {
     id<PMessage> message = [BChatSDK.db fetchOrCreateEntityWithID:messageID withType:bMessageEntity];
-    return [[CCMessageWrapper messageWithModel:message] delete];
+    return [[CCMessageWrapper messageWithModel:message] delete].thenOnMain(^id(id success) {
+        [message.thread removeMessage:message];
+        return success;
+    },^id(NSError * error) {
+//        [message.thread removeMessage:message];
+        return error;
+    });
 }
 
 -(BOOL) canDeleteMessage: (id<PMessage>) message {

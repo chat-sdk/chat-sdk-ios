@@ -9,36 +9,45 @@ public class AudioRecorder: NSObject {
         case permission
     }
     
-    public var audioSession:AVAudioSession = AVAudioSession.sharedInstance()
-    public var audioRecorder:AVAudioRecorder!
+    public var audioSession = AVAudioSession.sharedInstance()
+    public var audioRecorder:AVAudioRecorder?
     public let settings = [AVFormatIDKey: Int(kAudioFormatMPEG4AAC), AVSampleRateKey: 12000, AVNumberOfChannelsKey: 1, AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue]
     public var timer:Timer!
     
-    var isRecording:Bool = false
-    var url:URL?
-    var time:Int = 0
+    public var isRecording:Bool = false
+    public var url:URL?
+    public var time:Int = 0
+    public var fileName = "audio_file"
     
     override init() {
         super.init()
     }
     
-    private func recordSetup(name: String) {
-        url = getDir().appendingPathComponent(name.appending(".m4a"))
+    public func prepare(name: String? = nil) {
+ 
+        if !isAuth() {
+            return
+        }
+        
+        url = getDir().appendingPathComponent((name ?? fileName).appending(".m4a"))
         do {
             try audioSession.setCategory(AVAudioSession.Category.playAndRecord, options: .defaultToSpeaker)
             
                 audioRecorder = try AVAudioRecorder(url: url!, settings: settings)
-                audioRecorder.delegate = self as AVAudioRecorderDelegate
-                audioRecorder.isMeteringEnabled = true
-                audioRecorder.prepareToRecord()
+                audioRecorder?.delegate = self as AVAudioRecorderDelegate
+                audioRecorder?.isMeteringEnabled = true
+                audioRecorder?.prepareToRecord()
             
         } catch {
             print("Recording update error:",error.localizedDescription)
         }
     }
     
-    func record(name: String) {
-        recordSetup(name: name)
+    func record() {
+        
+        if url == nil {
+            prepare()
+        }
         
         if let recorder = audioRecorder {
             if !isRecording {
@@ -66,13 +75,20 @@ public class AudioRecorder: NSObject {
         }
     }
     
-    func stop() {
-       audioRecorder.stop()
-        do {
-            try audioSession.setActive(false)
-        } catch {
-            print("stop()",error.localizedDescription)
+    func stop() throws -> (Data?, Int) {
+ 
+        if audioRecorder?.isRecording ?? false {
+            audioRecorder?.stop()
         }
+        
+        var data: Data?
+        
+        if let url = url {
+            data = try Data(contentsOf: url)
+        }
+
+        url = nil
+        return (data, time)
     }
     
     func delete(name:String) {
@@ -131,7 +147,6 @@ extension AudioRecorder: AVAudioRecorderDelegate {
     
     public func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         isRecording = false
-        url = nil
         timer.invalidate()
         print("record finish")
     }

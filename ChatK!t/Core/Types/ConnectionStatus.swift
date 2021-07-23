@@ -7,9 +7,9 @@
 
 import Foundation
 
-public enum ConnectionStatus {
-    case none
-    case disconnected
-    case connecting
-    case connected
+public enum ConnectionStatus: Int {
+    case none = 0
+    case connected = 1
+    case connecting = 2
+    case disconnected = 3
 }

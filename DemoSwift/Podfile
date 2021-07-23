@@ -1,0 +1,21 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+use_frameworks!
+install! 'cocoapods', :disable_input_output_paths => true
+
+target 'ChatSDKSwift' do
+
+  pod "ChatSDK", :path => "../"
+  pod "ChatSDKFirebase/Adapter", :path => "../"
+  pod "ChatSDKFirebase/Upload", :path => "../"
+  pod "ChatSDKFirebase/Push", :path => "../"
+  pod "ChatSDKFirebase/FirebaseUI", :path => "../"
+
+  pod "ChatK!t", :path => "../"
+  pod "ChatK!t/ChatSDK", :path => "../"
+
+  #pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
+  #pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"
+  #pod "ChatSDKModules/ContactBook", :path => "../ChatSDKModules"
+  
+end

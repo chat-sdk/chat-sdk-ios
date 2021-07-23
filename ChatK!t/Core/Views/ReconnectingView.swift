@@ -77,26 +77,24 @@ public class ReconnectingView : UIView {
         
     }
     
-    public func update(connStatus: ConnectionStatus = .none) {
+    public func update(_ connStatus: ConnectionStatus? = .none) {
         if connStatus != .none {
+            isHidden = false
             if connStatus != status {
-                
-//                label?.isHidden = connStatus == .none
-//                imageView?.isHidden = connStatus == .none
-                
+                                
                 if connStatus == .connecting {
                     label?.text = t(Strings.connecting)
                     startBlink()
-                    imageView?.image = Bundle.uiImageNamed("icn_20_connecting")
+                    imageView?.image = ChatKit.asset(icon: "icn_20_connecting")
                 } else {
                     stopBlink()
                     if connStatus == .disconnected {
                         label?.text = t(Strings.offline)
-                        imageView?.image = Bundle.uiImageNamed("icn_20_offline")
+                        imageView?.image = ChatKit.asset(icon: "icn_20_offline")
                     }
                     if connStatus == .connected {
                         label?.text = t(Strings.online)
-                        imageView?.image = Bundle.uiImageNamed("icn_20_connected")
+                        imageView?.image = ChatKit.asset(icon: "icn_20_connected")
                     }
                 }
                 label?.keepWidth.equal = label?.intrinsicContentSize.width ?? 130

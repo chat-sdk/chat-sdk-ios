@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,36 +15,62 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view clipsSubviews="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="n1B-ao-NFO" customClass="FLAnimatedImageView">
-                    <rect key="frame" x="0.0" y="44" width="256" height="256"/>
-                    <color key="backgroundColor" systemColor="systemBlueColor"/>
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_120_play" translatesAutoresizingMaskIntoConstraints="NO" id="8AK-Dt-xFT">
+                            <rect key="frame" x="90" y="90" width="120" height="120"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="120" id="DqX-B4-hCH"/>
+                                <constraint firstAttribute="width" constant="120" id="VIH-Ue-MYw"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
                     <constraints>
-                        <constraint firstAttribute="width" priority="250" constant="300" id="ILy-Lo-wtB"/>
-                        <constraint firstAttribute="width" secondItem="n1B-ao-NFO" secondAttribute="height" multiplier="1:1" id="QeC-Pk-sSh"/>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="eFE-qq-3N7"/>
+                        <constraint firstItem="8AK-Dt-xFT" firstAttribute="centerY" secondItem="n1B-ao-NFO" secondAttribute="centerY" id="0nH-ss-xw9"/>
+                        <constraint firstItem="8AK-Dt-xFT" firstAttribute="centerX" secondItem="n1B-ao-NFO" secondAttribute="centerX" id="vgT-7V-ad1"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="31P-OP-q94" customClass="FFCircularProgressView">
+                    <rect key="frame" x="120" y="120" width="60" height="60"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="Wrh-mC-iNz"/>
+                        <constraint firstAttribute="height" constant="60" id="oCG-Am-55B"/>
+                    </constraints>
+                </view>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_20_check" translatesAutoresizingMaskIntoConstraints="NO" id="Eec-LV-2Ow">
+                    <rect key="frame" x="275" y="275" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="20" id="5MM-Yh-kdc"/>
+                        <constraint firstAttribute="height" constant="20" id="m5g-nI-1Kr"/>
+                    </constraints>
+                </imageView>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="n1B-ao-NFO" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Ptn-Zq-2jc"/>
-                <constraint firstItem="n1B-ao-NFO" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="clT-GK-I95"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="n1B-ao-NFO" secondAttribute="trailing" priority="950" id="oQD-LP-kR4"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="n1B-ao-NFO" secondAttribute="bottom" id="pnG-fP-u7J"/>
+                <constraint firstItem="31P-OP-q94" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="1Ah-vx-qs3"/>
+                <constraint firstItem="n1B-ao-NFO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Dkf-CB-3cg"/>
+                <constraint firstItem="n1B-ao-NFO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GAV-r8-ych"/>
+                <constraint firstAttribute="bottom" secondItem="n1B-ao-NFO" secondAttribute="bottom" id="RPx-Iu-5Hb"/>
+                <constraint firstAttribute="trailing" secondItem="n1B-ao-NFO" secondAttribute="trailing" id="YfN-O7-Ljb"/>
+                <constraint firstItem="31P-OP-q94" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="faF-za-DtQ"/>
+                <constraint firstAttribute="bottom" secondItem="Eec-LV-2Ow" secondAttribute="bottom" constant="5" id="hJb-hc-0gh"/>
+                <constraint firstAttribute="trailing" secondItem="Eec-LV-2Ow" secondAttribute="trailing" constant="5" id="kav-Er-Jzc"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="checkImageView" destination="Eec-LV-2Ow" id="Ep9-ei-n2E"/>
                 <outlet property="imageView" destination="n1B-ao-NFO" id="Dd4-g3-mYv"/>
+                <outlet property="progressView" destination="31P-OP-q94" id="ia6-w2-OzJ"/>
+                <outlet property="videoImageView" destination="8AK-Dt-xFT" id="a2e-N8-AbJ"/>
             </connections>
             <point key="canvasLocation" x="85.507246376811594" y="-81.696428571428569"/>
         </view>
     </objects>
     <resources>
+        <image name="icn_120_play" width="120" height="120"/>
+        <image name="icn_20_check" width="20" height="20"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

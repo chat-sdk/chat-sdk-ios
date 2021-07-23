@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol ChatToolbarDelegate {
-    func selectedMessages() -> [Message]
+    func selectedMessages() -> [AbstractMessage]
     func clearSelection(_ updateView: Bool?, animated: Bool)
 }
 

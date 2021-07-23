@@ -295,6 +295,12 @@ typedef enum {
 // How long should a public chat room live until expires and is removed from the list
 @property (nonatomic, readwrite) int publicChatRoomLifetimeMinutes;
 
+@property (nonatomic, readwrite) double xmppOutgoingMessageQueueRetryTime;
+
+// Should we add every message to the outgoing message queue and only remove it when it's acknoledged? This is the case if this is set to true
+// If it's set to false, we only add the message to the queue if it fails to send.
+@property (nonatomic, readwrite) BOOL xmppOutgoingMessageAlwaysAdd;
+
 +(BConfiguration *) configuration;
 
 -(void) xmppWithHostAddress: (NSString *) hostAddress;

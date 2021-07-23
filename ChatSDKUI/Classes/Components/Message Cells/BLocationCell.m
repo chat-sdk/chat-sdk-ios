@@ -47,7 +47,6 @@
     
     float longitude = [self.message.meta[bMessageLongitude] floatValue];
     float latitude = [self.message.meta[bMessageLatitude] floatValue];
-        
     
     [mapImageView sd_setImageWithURL:[GoogleUtils getMapImageURLWithLatitude:latitude longitude:longitude width:bMaxMessageWidth height:bMaxMessageHeight]
                     placeholderImage:Nil

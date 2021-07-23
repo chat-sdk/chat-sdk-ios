@@ -11,7 +11,8 @@
 #import <ChatSDK/BAbstractPushHandler.h>
 #import <ChatSDK/BBackgroundPushAction.h>
 
-#import <FirebaseMessaging/FirebaseMessaging.h>
+//#import <FirebaseMessaging/FirebaseMessaging.h>
+@import FirebaseMessaging;
 
 @class FIRFunctions;
 

@@ -51,13 +51,19 @@ public class MessageCell: UITableViewCell {
         }
     }
     
-    public func bind(_ message: Message, model: MessagesModel) {
+    public func bind(_ message: AbstractMessage, model: MessagesModel) {
         if let content = self.content {
             content.bind(message, model: model)
         }
-        if let url = message.messageSender().userImageUrl() {
-            avatarImageView.sd_setImage(with: url, completed: nil)
+        if let image = message.messageSender().userImage() {
+            avatarImageView.image = image
         }
+        else if let url = message.messageSender().userImageUrl() {
+            avatarImageView.sd_setImage(with: url, completed: nil)
+        } else {
+            avatarImageView.image = ChatKit.asset(icon: "icn_100_avatar")
+        }
+
         timeLabel.text = model.messageTimeFormatter.string(from: message.messageDate())
         
         setAvatarSize(size: model.avatarSize())

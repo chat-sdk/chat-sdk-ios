@@ -29,8 +29,11 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:YES];
-    
+    [super viewWillAppear:animated];
+    [self doViewWillAppear];
+}
+
+-(void) doViewWillAppear {
     _editButton = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bEdit]
                                                    style:UIBarButtonItemStylePlain
                                                   target:self
@@ -57,7 +60,7 @@
 
     __weak __typeof__(self) weakSelf = self;
 
-    UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:@[] onComplete:^(NSArray * users, NSString * groupName){
+    UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:@[] onComplete:^(NSArray<PUser> * users, NSString * groupName){
         __typeof__(self) strongSelf = weakSelf;
         
         MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:strongSelf.view animated:YES];

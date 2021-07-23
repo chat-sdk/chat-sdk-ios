@@ -157,9 +157,7 @@
     if (userID) {
         id<PMessage>(^onComplete)(id<PUser> user) = ^id<PMessage>(id<PUser> user) {
             self.model.userModel = user;
-            [[NSNotificationCenter defaultCenter] postNotificationName:bNotificationMessageUpdated
-                                                                object:Nil
-                                                              userInfo:@{bNotificationMessageUpdatedKeyMessage: self.model}];
+            [BHookNotification notificationMessageUpdated: self.model];
             return self.model;
         };
         

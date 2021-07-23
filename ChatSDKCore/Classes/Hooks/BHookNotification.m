@@ -35,13 +35,20 @@
         [BChatSDK.hook executeHookWithName:bHookMessageDidUpload data:@{bHook_PMessage: message}];
 }
 
++(void) notificationMessageDidUpload: (id<PMessage>) message withData: (NSData *) data {
+    if (message && data)
+        [BChatSDK.hook executeHookWithName:bHookMessageDidUpload data:@{bHook_PMessage: message, bHook_NSData: data}];
+}
+
 +(void) notificationMessageWillBeDeleted: (id<PMessage>) message {
     if (message)
         [BChatSDK.hook executeHookWithName:bHookMessageWillBeDeleted data:@{bHook_PMessage: message}];
 }
 
-+(void) notificationMessageWasDeleted {
-    [BChatSDK.hook executeHookWithName:bHookMessageWasDeleted data:@{}];
++(void) notificationMessageWasDeleted: (NSString *) messageEntityID {
+    if (messageEntityID) {
+        [BChatSDK.hook executeHookWithName:bHookMessageWasDeleted data:@{bHook_StringId: messageEntityID}];
+     }
 }
 
 +(void) notificationAllMessagesDeletedForThreads: (NSArray *) threads {
@@ -140,6 +147,16 @@
     }
 }
 
++(void) notificationTypingStateUpdated: (id<PThread>) thread text: (NSString *) text {
+    if(thread) {
+        if (text) {
+            [BChatSDK.hook executeHookWithName:bHookTypingStateUpdated data:@{bHook_PThread:thread, bHook_NSString: text}];
+        } else {
+            [BChatSDK.hook executeHookWithName:bHookTypingStateUpdated data:@{bHook_PThread:thread}];
+        }
+    }
+}
+
 +(void) notificationMessageReadReceiptUpdated:(id<PMessage>) message {
     if(message) {
         [BChatSDK.hook executeHookWithName:bHookMessageReadReceiptUpdated data:@{bHook_PMessage: message}];
@@ -166,7 +183,11 @@
 
 +(void) notificationThreadUserRoleUpdated: (id<PThread>) thread user: (id<PUser>) user {
     if (thread && user) {
-        [BChatSDK.hook executeHookWithName:bHookThreadUserRoleUpdated data:@{bHook_PThread: thread, bHook_PUser: user}];
+        if(user) {
+            [BChatSDK.hook executeHookWithName:bHookThreadUserRoleUpdated data:@{bHook_PThread: thread, bHook_PUser: user}];
+        } else {
+            [BChatSDK.hook executeHookWithName:bHookThreadUserRoleUpdated data:@{bHook_PThread: thread}];
+        }
     }
 }
 
@@ -175,6 +196,12 @@
         [BChatSDK.hook executeHookWithName:bHookUserUpdated data:@{bHook_PUser:user}];
     } else {
         [BChatSDK.hook executeHookWithName:bHookUserUpdated data:@{}];
+    }
+}
+
++(void) notificationMessageUpdated: (id<PMessage>) message {
+    if(message) {
+        [BChatSDK.hook executeHookWithName:bHookMessageUpdated data:@{bHook_PMessage:message}];
     }
 }
 

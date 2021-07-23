@@ -8,22 +8,11 @@
 import Foundation
 import RxSwift
 
-public class ChatModelDelegate: MessagesModelDelegate {
-
-    weak var model: ChatModel?
-
-    public init() {
-    }
-    
-    public func loadMessages(with oldestMessage: Message?) -> Single<[Message]> {
-        preconditionFailure("This method must be overridden")
-    }
-    
-    public func initialMessages() -> [Message] {
-        preconditionFailure("This method must be overridden")
-    }
-    
-}
+//public protocol ChatModelDelegate: MessagesModelDelegate {
+//    var model: ChatModel? {
+//        get set
+//    }
+//}
 
 public class ChatModel: ChatToolbarActionsDelegate {
 
@@ -34,16 +23,16 @@ public class ChatModel: ChatToolbarActionsDelegate {
     public var keyboardOverlayMap = [String: KeyboardOverlay]()
     
     public var view: PChatViewController?
-    public let delegate: ChatModelDelegate
+    public var delegate: MessagesModelDelegate
     
     public lazy var messagesModel = {
         return ChatKit.provider().messagesModel(thread, delegate: delegate)
     }()
     
-    public init(_ thread: Thread, delegate: ChatModelDelegate) {
+    public init(_ thread: Thread, delegate: MessagesModelDelegate) {
         self.thread = thread
         self.delegate = delegate
-        delegate.model = self
+        self.delegate.model = self
     }
         
     public func title() -> String {
@@ -85,7 +74,11 @@ public class ChatModel: ChatToolbarActionsDelegate {
      */
     public func initialSubtitle() -> String? {
         if ChatKit.config().userChatInfoEnabled {
-            return Strings.t(Strings.tapHereForContactInfo)
+            if thread.threadType() == ThreadType.private1to1 {
+                return Strings.t(Strings.tapHereForContactInfo)
+            } else {
+                return Strings.t(Strings.tapHereForGroupInfo)
+            }
         }
         return nil
     }

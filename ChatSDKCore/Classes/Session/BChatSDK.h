@@ -35,6 +35,7 @@
     id<PLogger> _logger;
     Settings * _settings;
     NSMutableArray<PModule> * _modules;
+    NSArray * _identifier;
 }
 
 @property (nonatomic, readonly) BConfiguration * configuration;
@@ -47,6 +48,7 @@
 @property (nonatomic, readwrite) id<PLogger> logger;
 @property (nonatomic, readwrite) Settings * settings;
 @property (nonatomic, readwrite) NSMutableArray<PModule> * modules;
+@property (nonatomic, readonly) NSArray * identifier;
 
 
 +(nonnull BChatSDK *) shared;
@@ -115,5 +117,9 @@
 +(id<CallHandler>) call;
 
 +(nonnull BConfiguration *) config;
+
++(void) activateLicenseWithEmail: (NSString *) email;
++(void) activateLicenseWithPatreon: (NSString *) patreonId;
++(void) activateLicenseWithGithub: (NSString *) githubId;
 
 @end

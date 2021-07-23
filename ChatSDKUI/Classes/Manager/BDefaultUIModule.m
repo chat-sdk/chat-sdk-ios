@@ -15,4 +15,8 @@
     BChatSDK.shared.interfaceAdapter = [[BDefaultInterfaceAdapter alloc] init];
 }
 
+-(id<PInterfaceAdapter>) getInterfaceAdapter {
+    return [[BDefaultInterfaceAdapter alloc] init];
+}
+
 @end

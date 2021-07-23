@@ -22,6 +22,7 @@ typedef void(^Send)(void);
 -(void) setMaxCharacters: (NSInteger) maxCharacters;
 -(void) setText: (NSString *) text;
 -(NSString *) text;
+-(void) setReadOnly: (BOOL) readonly;
 
 -(void) setSendListener: (Send) listener;
 

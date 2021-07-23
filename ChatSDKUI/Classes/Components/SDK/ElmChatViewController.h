@@ -26,15 +26,15 @@
 @class BHook;
 @class BMessageManager;
 @class BLazyReloadManager;
-@class ChatToolbar;
-@class ReplyView;
-@class ChatHeaderView;
+@class BChatToolbar;
+@class BReplyView;
+@class BChatHeaderView;
 
 @interface ElmChatViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, PSendBarDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, BChatOptionDelegate, UIDocumentInteractionControllerDelegate> {
         
     UIView<PSendBar> * _sendBarView;
-    ChatToolbar * _chatToolbar;
-    ReplyView * _replyView;
+    BChatToolbar * _chatToolbar;
+    BReplyView * _replyView;
     
     UIGestureRecognizer * _tapRecognizer;
     UIGestureRecognizer * _longPressRecognizer;
@@ -70,7 +70,7 @@
     
     NSMutableArray * _selectedIndexPaths;
     
-    ChatHeaderView * _headerView;
+    BChatHeaderView * _headerView;
     
 }
 
@@ -79,7 +79,7 @@
 @property (nonatomic, readonly) UIView<PSendBar> * sendBarView;
 //@property (nonatomic, readonly) UILabel * titleLabel;
 @property (nonatomic, readonly) BMessageManager * messageManager;
-@property (nonatomic, readwrite) ChatHeaderView * headerView;
+@property (nonatomic, readwrite) BChatHeaderView * headerView;
 
 -(instancetype) initWithDelegate: (id<ElmChatViewDelegate>) delegate_ nibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil;
 

@@ -23,14 +23,16 @@
 
     [BHookNotification notificationMessageWillUpload: message];
     
-    return [BChatSDK.upload uploadFile:UIImagePNGRepresentation(resizedImage) withName:@"image.jpg" mimeType:@"image/jpeg"].thenOnMain(^id(NSDictionary * info) {
+    return [BChatSDK.upload uploadFile:UIImagePNGRepresentation(resizedImage) withName:@"image.jpg" mimeType:@"image/jpeg" message: message].thenOnMain(^id(NSDictionary * info) {
         
         NSURL * url = info[bFilePath] ? info[bFilePath] : Nil;
         NSString * urlString = url ? url.absoluteString : @"";
 
         [message setMeta:@{bMessageImageURL: urlString,
                            bMessageImageWidth: @(image.size.width),
-                           bMessageImageHeight: @(image.size.height)}];
+                           bMessageImageHeight: @(image.size.height),
+                           bMessageText: [NSBundle t:bImageMessage],
+        }];
         
         [BHookNotification notificationMessageDidUpload: message];
 

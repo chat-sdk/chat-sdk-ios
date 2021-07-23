@@ -310,23 +310,33 @@
 
 -(RXPromise *) replyToMessage: (id<PMessage>) message withThreadID: (NSString *) threadEntityID reply: (NSString *) reply {
     
-    BMessageBuilder * builder = [[BMessageBuilder textMessage: message.isReply ? message.reply : @""] thread:threadEntityID];
+    [BChatSDK.db beginUndoGroup];
+
+    BMessageBuilder * builder = [[BMessageBuilder textMessage: @""] thread:threadEntityID];
     
-    if (!message.isReply) {
+//    if (!message.isReply) {
         NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:message.meta];
         meta[bId] = message.entityID;
         meta[bType] = message.type;
         meta[bFrom] = message.user.entityID;
         [builder meta: meta];
-    }
-    
+//    }
+
     id<PMessage> newMessage = [builder build];
+
     [newMessage setMetaValue:reply forKey:bReplyKey];
-    
+
+    if (message.isReply) {
+        [newMessage setText:message.reply];
+    } else {
+        [newMessage setText:message.text];
+    }
+
     return [self sendMessage:newMessage];
 }
 
 -(RXPromise *) forwardMessage: (id<PMessage>) message toThreadWithID: (NSString *) threadEntityID {
+    [BChatSDK.db beginUndoGroup];
     id<PMessage> newMessage = [[[[BMessageBuilder withType:message.type.intValue] meta:message.meta] thread:threadEntityID] build];
     return [self sendMessage:newMessage];
 }

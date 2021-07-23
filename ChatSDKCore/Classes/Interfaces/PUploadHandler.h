@@ -13,10 +13,12 @@
 #define bFileName @"file-name"
 
 @class RXPromise;
+@protocol PMessage;
 
 @protocol PUploadHandler <NSObject>
 
 -(RXPromise *) uploadFile:(NSData *)file withName: (NSString *) name mimeType: (NSString *) mimeType;
+-(RXPromise *) uploadFile:(NSData *)file withName: (NSString *) name mimeType: (NSString *) mimeType message: (id<PMessage>) message;
 
 -(RXPromise *) uploadImage:(UIImage *)image;
 

@@ -46,12 +46,6 @@
     
     [super setAudioEnabled: BChatSDK.audioMessage != Nil];
     
-    if([BChatSDK.thread rolesEnabled:_thread.entityID]) {
-        BOOL hasVoice = [BChatSDK.thread hasVoice:_thread.entityID forUser:BChatSDK.currentUserID];
-        if (!hasVoice) {
-            [self setReadOnly:true];
-        }
-    }
     
 }
 
@@ -156,17 +150,14 @@
         }
     }] withName:bHookThreadUserRoleUpdated]];
     
-    [_notificationList add:[[NSNotificationCenter defaultCenter] addObserverForName:bNotificationTypingStateChanged
-                                                                        object:nil
-                                                                         queue:Nil
-                                                                    usingBlock:^(NSNotification * notification) {
-                                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                                            id<PThread> thread = notification.userInfo[bNotificationTypingStateChangedKeyThread];
-                                                                            if ([thread isEqualToEntity: weakSelf.thread]) {
-                                                                                [weakSelf startTypingWithMessage:notification.userInfo[bNotificationTypingStateChangedKeyMessage]];
-                                                                            }
-                                                                        });
-    }]];
+    
+    [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
+        id<PThread> thread = data[bHook_PThread];
+        
+        if ([thread isEqualToEntity: weakSelf.thread]) {
+            [weakSelf startTypingWithMessage:data[bHook_NSString]];
+        }
+    }] withName:bHookTypingStateUpdated]];
     
     [_notificationList add:[BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         [weakSelf updateSubtitle];
@@ -217,6 +208,14 @@
     NSArray<PMessage> * messages = [BChatSDK.db loadMessagesForThread:_thread newest:BChatSDK.config.messagesToLoadPerBatch];
     messages = [messages sortedArrayUsingComparator:[BMessageSorter oldestFirst]];
     [self setMessages:messages scrollToBottom:NO animate:NO force: YES];
+    
+    if([BChatSDK.thread rolesEnabled:_thread.entityID]) {
+        BOOL hasVoice = [BChatSDK.thread hasVoice:_thread.entityID forUser:BChatSDK.currentUserID];
+        if (!hasVoice) {
+            [self setReadOnly:true];
+        }
+    }
+
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -257,8 +256,7 @@
 -(void) doViewWillDisappear: (BOOL) animated {
     // Remove the user from the thread
     if (_thread.type.intValue & bThreadFilterPublic && (!BChatSDK.config.publicChatAutoSubscriptionEnabled || [_thread.meta valueForKey:bMute]) && !_usersViewLoaded) {
-        id<PUser> currentUser = BChatSDK.currentUser;
-        [BChatSDK.thread removeUsers:@[currentUser] fromThread:_thread];
+        [BChatSDK.thread removeUsers:@[BChatSDK.currentUserID] fromThread:_thread];
     }
 }
 

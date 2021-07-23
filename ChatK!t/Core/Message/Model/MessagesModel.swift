@@ -9,11 +9,18 @@ import Foundation
 import RxSwift
 
 public protocol MessagesModelDelegate {
+    
+    var model: ChatModel? {
+        get set
+    }
+    
     // Need to be with the oldest message first
-    func loadMessages(with oldestMessage: Message?) -> Single<[Message]>
+    func loadMessages(with oldestMessage: AbstractMessage?) -> Single<[AbstractMessage]>
 
     // Need to be with the oldest message last
-    func initialMessages() -> [Message]
+    func initialMessages() -> [AbstractMessage]
+    
+    func onClick(_ message: AbstractMessage) -> Bool
 }
 
 public class MessagesModel {
@@ -22,7 +29,7 @@ public class MessagesModel {
     public let delegate: MessagesModelDelegate
     public let messageTimeFormatter = DateFormatter()
             
-    public var onSelectionChange: (([Message]) -> Void)?
+    public var onSelectionChange: (([AbstractMessage]) -> Void)?
     public var sectionNib: UINib? = ChatKit.provider().sectionNib()
     
     public var messageCellRegistrationsMap = [String: MessageCellRegistration]()
@@ -62,7 +69,7 @@ public class MessagesModel {
         return 34
     }
     
-    public func bubbleColor(_ message: Message) -> UIColor {
+    public func bubbleColor(_ message: AbstractMessage) -> UIColor {
         switch message.messageDirection() {
         case .incoming:
             return incomingBubbleColor(selected: message.isSelected())
@@ -87,6 +94,10 @@ public class MessagesModel {
         }
     }
     
+    public func onClick(_ message: AbstractMessage) -> Bool {
+        return delegate.onClick(message)
+    }
+    
     public func showAvatar() -> Bool {
         return thread.threadType() != .private1to1
     }
@@ -99,7 +110,7 @@ public class MessagesModel {
         onSelectionChange?(selectedMessages())
     }
     
-    public func toggleSelection(_ message: Message) {
+    public func toggleSelection(_ message: AbstractMessage) {
         message.toggleSelected()
         notifySelectionChanged()
     }
@@ -117,11 +128,11 @@ public class MessagesModel {
         _ = addMessages(toEnd: messages, updateView: true, animated: false).subscribe()
     }
     
-    public func messageExists(_ message: Message) -> Bool {
+    public func messageExists(_ message: AbstractMessage) -> Bool {
         adapter.message(exists: message)
     }
     
-    public func message(for id: String) -> Message? {
+    public func message(for id: String) -> AbstractMessage? {
         adapter.message(for: id)
     }
         
@@ -129,7 +140,7 @@ public class MessagesModel {
 
 extension MessagesModel {
 
-    public func addMessage(toStart message: Message, updateView: Bool = true, animated: Bool = true) -> Completable {
+    public func addMessage(toStart message: AbstractMessage, updateView: Bool = true, animated: Bool = true) -> Completable {
         return Completable.deferred({ [weak self] in
             self?.adapter.addMessage(toStart: message)
             if updateView, let completable = self?.synchronize(animated) {
@@ -139,13 +150,16 @@ extension MessagesModel {
         })
     }
 
-    public func addMessage(toEnd message: Message, updateView: Bool = true, animated: Bool = true, scrollToBottom: Bool = false) -> Completable {
+    public func addMessage(toEnd message: AbstractMessage, updateView: Bool = true, animated: Bool = true, scrollToBottom: Bool = false) -> Completable {
         return Completable.deferred({ [weak self] in
             self?.adapter.addMessage(toEnd: message)
             if updateView {
+                // Get the offset
+                let offset = self?.view?.offsetFromBottom() ?? 0
+                let scroll = offset <= ChatKit.config().messagesViewRefreshHeight
                 return self?.synchronize(animated).do(onCompleted: { [weak self] in
                     if scrollToBottom {
-                        self?.view?.scrollToBottom(animated: animated, force: message.messageSender().userIsMe())
+                        self?.view?.scrollToBottom(animated: animated, force: message.messageSender().userIsMe() || scroll)
                     }
                 }) ?? Completable.empty()
             }
@@ -153,7 +167,7 @@ extension MessagesModel {
         })
     }
 
-    public func addMessages(toStart messages: [Message], updateView: Bool = true, animated: Bool = true) -> Completable {
+    public func addMessages(toStart messages: [AbstractMessage], updateView: Bool = true, animated: Bool = true) -> Completable {
         return Completable.deferred({ [weak self] in
             self?.adapter.addMessages(toStart: messages)
             if updateView, let completable = self?.synchronize(animated) {
@@ -163,7 +177,7 @@ extension MessagesModel {
         })
     }
 
-    public func addMessages(toEnd messages: [Message], updateView: Bool = true, animated: Bool = true) -> Completable {
+    public func addMessages(toEnd messages: [AbstractMessage], updateView: Bool = true, animated: Bool = true) -> Completable {
         return Completable.deferred({ [weak self] in
             self?.adapter.addMessages(toEnd: messages)
             if updateView, let completable = self?.synchronize(animated) {
@@ -173,11 +187,11 @@ extension MessagesModel {
         })
     }
     
-    public func loadMessages() -> Single<[Message]> {
+    public func loadMessages() -> Single<[AbstractMessage]> {
         return delegate.loadMessages(with: adapter.oldestMessage())
     }
 
-    public func removeMessage(_ message: Message, animated: Bool = true) -> Completable {
+    public func removeMessage(_ message: AbstractMessage, animated: Bool = true) -> Completable {
         return Completable.deferred({ [weak self] in
             self?.adapter.removeMessages([message])
             self?.notifySelectionChanged()
@@ -185,7 +199,7 @@ extension MessagesModel {
         })
     }
     
-    public func removeMessages(_ messages: [Message], animated: Bool = true) -> Completable {
+    public func removeMessages(_ messages: [AbstractMessage], animated: Bool = true) -> Completable {
         return Completable.deferred({ [weak self] in
             self?.adapter.removeMessages(messages)
             self?.notifySelectionChanged()
@@ -195,7 +209,7 @@ extension MessagesModel {
     
     public func synchronize(_ animated: Bool) -> Completable {
         return Completable.deferred({ [weak self] in
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Message>()
+            var snapshot = NSDiffableDataSourceSnapshot<Section, AbstractMessage>()
             if let adapter = self?.adapter {
                 snapshot.appendSections(adapter.sections())
                 for section in adapter._sections {
@@ -231,8 +245,8 @@ extension MessagesModel: ChatToolbarDelegate {
         }
     }
 
-    public func selectedMessages() -> [Message] {
-        var messages = [Message]()
+    public func selectedMessages() -> [AbstractMessage] {
+        var messages = [AbstractMessage]()
         for section in adapter.sections() {
             for message in section.messages() {
                 if message.isSelected() {

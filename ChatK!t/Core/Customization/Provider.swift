@@ -13,14 +13,9 @@ public class Provider {
         return UINib(nibName: "SectionCell", bundle: Bundle(for: SectionCell.self))
     }
     
-    public func makeBackground(blur: Bool = true) -> UIView {
+    public func makeBackground(blur: Bool = true, effect: UIBlurEffect? = nil) -> UIView {
         if blur {
-            var background: UIVisualEffectView
-            if #available(iOS 13.0, *) {
-                background = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
-            } else {
-                background = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-            }
+            var background: UIVisualEffectView = UIVisualEffectView(effect: effect ?? UIBlurEffect(style: .systemThinMaterial))
             background.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             return background
         } else {

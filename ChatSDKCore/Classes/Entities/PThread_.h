@@ -46,7 +46,8 @@ typedef enum {
     
     bThreadFilterPublic = bThreadTypePublicGroup | bThreadTypePublicBroadcast,
     bThreadFilterGroup = bThreadTypePrivateGroup | bThreadTypePublicGroup | bThreadFilterBroadcast,
-    
+    bThreadFilterAll = 0xFFFF,
+
     bThreadFilterPrivateThread = bThreadTypePrivateGroup | bThreadType1to1,
     
 } bThreadType;
@@ -79,6 +80,9 @@ typedef enum {
 -(void) addMessage: (id<PMessage>) message;
 -(void) addMessage: (id<PMessage>) theMessage toStart: (BOOL) toStart;
 -(void) removeMessage: (id<PMessage>) message;
+-(void) removeAllMessages;
+
+-(BOOL) containsUser: (id<PUser>) user;
 
 -(NSString *) displayName;
 
@@ -120,8 +124,10 @@ typedef enum {
  
 -(BOOL) addConnection: (PUser *) user;
 -(BOOL) removeConnection: (PUser *) user;
--(NSArray<id<PUserConnection>> *) connections;
+-(NSArray<PUserConnection> *) connections;
 -(id<PUserConnection>) connection: (NSString *) entityID;
+
+-(void) markDeleted: (BOOL) notify;
 
 @end
 

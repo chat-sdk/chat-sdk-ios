@@ -18,22 +18,24 @@
     else {
         _promise = [RXPromise new];
     }
+
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+        [self.locationManager requestWhenInUseAuthorization];
+    } else {
+        [self.locationManager startUpdatingLocation];
+    }
     
-    if(!_locationManager) {
+    return _promise;
+}
+
+-(CLLocationManager *) locationManager {
+    if (!_locationManager) {
         _locationManager = [[CLLocationManager alloc] init];
-        
-        if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined &&
-            [_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
-            [_locationManager requestWhenInUseAuthorization];
-        }
-        
         _locationManager.delegate = self;
         _locationManager.distanceFilter = kCLDistanceFilterNone;
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     }
-    [_locationManager startUpdatingLocation];
-    
-    return _promise;
+    return _locationManager;
 }
 
 - (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
@@ -49,6 +51,10 @@
         [_promise resolveWithResult: Nil];
     }
     _promise = Nil;
+}
+
+-(void) dealloc {
+    NSLog(@"Dealloc");
 }
 
 @end

@@ -230,7 +230,12 @@ typedef void(^Action)();
             // Get the user connection
             if ([BChatSDK.thread rolesEnabled:_thread.entityID]) {
                 NSString * role = [BChatSDK.thread role:_thread.entityID forUser:user.entityID];
-                userCell.subtitle.text = [NSBundle t:role];
+                
+                if ([role isEqualToString:BRole.none]) {
+                    userCell.subtitle.text = nil;
+                } else {
+                    userCell.subtitle.text = [NSBundle t:role];
+                }
                 
                 // Check if the user is active
                 id<PUserConnection> connection = [_thread connection:user.entityID];
