@@ -24,6 +24,7 @@
 #define bConnecting @"bConnecting"
 
 #define bSelectUsers @"bSelectUsers"
+#define bForwardMessage @"bForwardMessage"
 
 #define bBack @"bBack"
 #define bImageSaved @"bImageSaved"

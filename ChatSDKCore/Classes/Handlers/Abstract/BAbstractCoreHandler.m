@@ -92,7 +92,10 @@
 }
 
 -(bConnectionStatus) connectionStatus {
-    return bConnectionStatusNone;
+    if (BChatSDK.connectivity) {
+        return BChatSDK.connectivity.isConnected ? bConnectionStatusConnected : bConnectionStatusDisconnected;
+    }
+    return bConnectionStatusConnected;
 }
 
 -(NSDate *) now {

@@ -7,12 +7,12 @@
 
 import Foundation
 
-public class ToolbarAction {
+open class ToolbarAction {
     
     public let barButtonItem: UIBarButtonItem
-    public var visibleFor: (([AbstractMessage]) -> Bool)?
+    open var visibleFor: (([AbstractMessage]) -> Bool)?
     public let onClick: ([AbstractMessage]) -> Bool
-    public var implOnClick: (() -> Void)?
+    open var implOnClick: (() -> Void)?
 
     public init(item: UIBarButtonItem, visibleFor: (([AbstractMessage]) -> Bool)? = nil, onClick: @escaping (([AbstractMessage]) -> Bool)) {
         self.onClick = onClick
@@ -22,18 +22,18 @@ public class ToolbarAction {
         barButtonItem.action = #selector(click)
     }
     
-    @objc public func click() {
+    @objc open func click() {
         implOnClick?()
     }
         
-    public func isVisible(for messages: [AbstractMessage]) -> Bool {
+    open func isVisible(for messages: [AbstractMessage]) -> Bool {
         if let visibleFor = visibleFor {
             return visibleFor(messages)
         }
         return true
     }
     
-    public func notify(_ messages: [AbstractMessage]) -> Bool {
+    open func notify(_ messages: [AbstractMessage]) -> Bool {
         return onClick(messages)
     }
     

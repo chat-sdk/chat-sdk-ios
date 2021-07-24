@@ -16,30 +16,30 @@ open class CKUser: User {
         self.user = user
     }
     
-    public func userId() -> String {
+    open func userId() -> String {
         return user.entityID()
     }
     
-    public func userName() -> String {
+    open func userName() -> String {
         return user.name()
     }
     
-    public func userImageUrl() -> URL? {
+    open func userImageUrl() -> URL? {
         if let url = user.imageURL() {
             return URL(string: url)
         }
         return nil
     }
     
-    public func userImage() -> UIImage? {
+    open func userImage() -> UIImage? {
         return user.imageAsImage()
     }
     
-    public func userIsMe() -> Bool {
+    open func userIsMe() -> Bool {
         return user.isMe()
     }
     
-    public func userIsOnline() -> Bool {
+    open func userIsOnline() -> Bool {
         return user.online()?.boolValue ?? false
     }
     

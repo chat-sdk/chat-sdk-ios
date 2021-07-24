@@ -16,26 +16,26 @@ public protocol DownloadManagerListener: AnyObject {
     func downloadPaused(_ id: String, pathExtension: String?)
 }
 
-public class DownloadManager {
+open class DownloadManager {
 
     lazy var manager: MZDownloadManager = {
        return MZDownloadManager(session: "ChatKit", delegate: self)
     }()
     
-    public var taskIndexMap = [String: Int]()
+    open var taskIndexMap = [String: Int]()
     
-    public var listeners = [DownloadManagerListener]()
+    open var listeners = [DownloadManagerListener]()
     public let path: URL
     
     public init() {
                 
         path = DownloadManager.downloadPath()
 
-        do {
-            try FileManager.default.removeItem(at: path)
-        } catch let error as NSError {
-            print("\(error.localizedDescription)")
-        }
+//        do {
+//            try FileManager.default.removeItem(at: path)
+//        } catch let error as NSError {
+//            print("\(error.localizedDescription)")
+//        }
 
         do {
             try FileManager.default.createDirectory(atPath: path.path, withIntermediateDirectories: true, attributes: nil)
@@ -46,7 +46,7 @@ public class DownloadManager {
         
     }
     
-    public func save(_ data: Data, messageId: String, pathExtension: String? = nil) throws -> URL? {
+    open func save(_ data: Data, messageId: String, pathExtension: String? = nil) throws -> URL? {
         var path = DownloadManager.downloadPath().appendingPathComponent(messageId)
         if let ext = pathExtension {
             path.appendPathExtension(ext)
@@ -60,7 +60,7 @@ public class DownloadManager {
         return dd.appendingPathComponent(ChatKit.config().downloadFolderName)!
     }
     
-    public func localURL(for id: String, pathExtension: String? = nil) -> URL? {
+    open func localURL(for id: String, pathExtension: String? = nil) -> URL? {
         var path = path.appendingPathComponent(id)
         if let ext = pathExtension {
             path.appendPathExtension(ext)
@@ -71,7 +71,7 @@ public class DownloadManager {
         return nil
     }
     
-    public func fileName(_ id: String, pathExtension: String? = nil) -> String {
+    open func fileName(_ id: String, pathExtension: String? = nil) -> String {
         var fileName = id
         if let ext = pathExtension {
             fileName += "." + ext
@@ -79,7 +79,7 @@ public class DownloadManager {
         return fileName
     }
     
-    public func startTask(_ id: String, pathExtension: String? = nil, url: String) {
+    open func startTask(_ id: String, pathExtension: String? = nil, url: String) {
         let name = fileName(id, pathExtension: pathExtension)
         if let index = taskIndexMap[name] {
             manager.resumeDownloadTaskAtIndex(index)
@@ -88,21 +88,21 @@ public class DownloadManager {
         }
     }
 
-    public func pauseTask(_ id: String, pathExtension: String? = nil) {
+    open func pauseTask(_ id: String, pathExtension: String? = nil) {
         let name = fileName(id, pathExtension: pathExtension)
         if let index = taskIndexMap[name] {
             manager.pauseDownloadTaskAtIndex(index)
         }
     }
 
-    public func resumeTask(_ id: String, pathExtension: String? = nil) {
+    open func resumeTask(_ id: String, pathExtension: String? = nil) {
         let name = fileName(id, pathExtension: pathExtension)
         if let index = taskIndexMap[name] {
             manager.resumeDownloadTaskAtIndex(index)
         }
     }
 
-    public func index(for id: String, pathExtension: String? = nil) -> Int? {
+    open func index(for id: String, pathExtension: String? = nil) -> Int? {
         let name = fileName(id, pathExtension: pathExtension)
         var i = 0
         for model in manager.downloadingArray {
@@ -114,11 +114,11 @@ public class DownloadManager {
         return nil
     }
     
-    public func addListener(_ listener: DownloadManagerListener) {
+    open func addListener(_ listener: DownloadManagerListener) {
         listeners.append(listener)
     }
     
-    public func removeListener(_ listener: DownloadManagerListener) {
+    open func removeListener(_ listener: DownloadManagerListener) {
         for i in 0 ..< listeners.count {
             if listeners[i] === listener {
                 listeners.remove(at: i)
@@ -136,7 +136,7 @@ extension DownloadManager: MZDownloadManagerDelegate {
         case notFound
     }
         
-    public func downloadRequestDidUpdateProgress(_ downloadModel: MZDownloadModel, index: Int) {
+    open func downloadRequestDidUpdateProgress(_ downloadModel: MZDownloadModel, index: Int) {
         let progress = downloadModel.progress
         let name = bareName(fileName: downloadModel.fileName)
         let ext = pathExtension(fileName: downloadModel.fileName)
@@ -147,25 +147,25 @@ extension DownloadManager: MZDownloadManagerDelegate {
         print("Progress:", index, progress)
     }
     
-    public func bareName(fileName: String) -> String {
+    open func bareName(fileName: String) -> String {
         if let ext = pathExtension(fileName: fileName) {
             return fileName.replacingOccurrences(of: "." + ext, with: "")
         }
         return fileName
     }
 
-    public func pathExtension(fileName: String) -> String? {
+    open func pathExtension(fileName: String) -> String? {
         if let url = URL(string: fileName) {
             return url.pathExtension
         }
         return nil
     }
 
-    public func downloadRequestDidPopulatedInterruptedTasks(_ downloadModel: [MZDownloadModel]) {
+    open func downloadRequestDidPopulatedInterruptedTasks(_ downloadModel: [MZDownloadModel]) {
         
     }
     
-    public func downloadRequestStarted(_ downloadModel: MZDownloadModel, index: Int) {
+    open func downloadRequestStarted(_ downloadModel: MZDownloadModel, index: Int) {
         taskIndexMap[downloadModel.fileName] = index
         let name = bareName(fileName: downloadModel.fileName)
         let ext = pathExtension(fileName: downloadModel.fileName)
@@ -176,7 +176,7 @@ extension DownloadManager: MZDownloadManagerDelegate {
         print("Started:", index)
     }
 
-    public func downloadRequestDidPaused(_ downloadModel: MZDownloadModel, index: Int) {
+    open func downloadRequestDidPaused(_ downloadModel: MZDownloadModel, index: Int) {
         let name = bareName(fileName: downloadModel.fileName)
         let ext = pathExtension(fileName: downloadModel.fileName)
         
@@ -186,7 +186,7 @@ extension DownloadManager: MZDownloadManagerDelegate {
         print("Paused:", index)
     }
 
-    public func downloadRequestDidResumed(_ downloadModel: MZDownloadModel, index: Int) {
+    open func downloadRequestDidResumed(_ downloadModel: MZDownloadModel, index: Int) {
         let name = bareName(fileName: downloadModel.fileName)
         let ext = pathExtension(fileName: downloadModel.fileName)
         
@@ -196,11 +196,11 @@ extension DownloadManager: MZDownloadManagerDelegate {
         print("Resumed:", index)
     }
 
-    public func downloadRequestDidRetry(_ downloadModel: MZDownloadModel, index: Int) {
+    open func downloadRequestDidRetry(_ downloadModel: MZDownloadModel, index: Int) {
         
     }
 
-    public func downloadRequestCanceled(_ downloadModel: MZDownloadModel, index: Int) {
+    open func downloadRequestCanceled(_ downloadModel: MZDownloadModel, index: Int) {
         taskIndexMap[downloadModel.fileName] = nil
         let name = bareName(fileName: downloadModel.fileName)
         let ext = pathExtension(fileName: downloadModel.fileName)
@@ -212,7 +212,7 @@ extension DownloadManager: MZDownloadManagerDelegate {
         print("Canceled:", index)
     }
 
-    public func downloadRequestFinished(_ downloadModel: MZDownloadModel, index: Int) {
+    open func downloadRequestFinished(_ downloadModel: MZDownloadModel, index: Int) {
         taskIndexMap[downloadModel.fileName] = nil
         let name = bareName(fileName: downloadModel.fileName)
         let ext = pathExtension(fileName: downloadModel.fileName)
@@ -224,7 +224,7 @@ extension DownloadManager: MZDownloadManagerDelegate {
         print("Finished:", index)
     }
 
-    public func downloadRequestDidFailedWithError(_ error: NSError, downloadModel: MZDownloadModel, index: Int) {
+    open func downloadRequestDidFailedWithError(_ error: NSError, downloadModel: MZDownloadModel, index: Int) {
         taskIndexMap[downloadModel.fileName] = nil
         let name = bareName(fileName: downloadModel.fileName)
         let ext = pathExtension(fileName: downloadModel.fileName)
@@ -236,7 +236,7 @@ extension DownloadManager: MZDownloadManagerDelegate {
         print("Error:", index, error.localizedDescription)
     }
 
-    public func downloadRequestDestinationDoestNotExists(_ downloadModel: MZDownloadModel, index: Int, location: URL) {
+    open func downloadRequestDestinationDoestNotExists(_ downloadModel: MZDownloadModel, index: Int, location: URL) {
         do {
             try FileManager.default.createDirectory(atPath: location.path, withIntermediateDirectories: true, attributes: nil)
         } catch let error as NSError {
@@ -255,7 +255,7 @@ extension DownloadManager: MZDownloadManagerDelegate {
     }
 }
 
-public class DefaultDownloadManagerListener: DownloadManagerListener {
+open class DefaultDownloadManagerListener: DownloadManagerListener {
     
     public let model: MessagesModel
     
@@ -263,13 +263,13 @@ public class DefaultDownloadManagerListener: DownloadManagerListener {
         self.model = model
     }
     
-    public func downloadProgressUpdated(_ id: String, pathExtension: String?, progress: Float) {
+    open func downloadProgressUpdated(_ id: String, pathExtension: String?, progress: Float) {
         if var message = message(for: id) {
             message.setDownloadProgress(progress)
         }
     }
     
-    public func downloadFinished(_ id: String, pathExtension: String?, path: String) {
+    open func downloadFinished(_ id: String, pathExtension: String?, path: String) {
         if let message = message(for: id) {
             var url = URL(string: path + "/" + id)
             if let ext = pathExtension {
@@ -279,29 +279,29 @@ public class DefaultDownloadManagerListener: DownloadManagerListener {
         }
     }
     
-    public func downloadFailed(_ id: String, pathExtension: String?, error: NSError) {
+    open func downloadFailed(_ id: String, pathExtension: String?, error: NSError) {
         if let message = message(for: id) {
             message.downloadFinished(nil, error: error)
         }
     }
     
-    public func downloadResumed(_ id: String, pathExtension: String?) {
+    open func downloadResumed(_ id: String, pathExtension: String?) {
         if let message = message(for: id) {
             message.downloadStarted()
         }
     }
 
-    public func downloadPaused(_ id: String, pathExtension: String?) {
+    open func downloadPaused(_ id: String, pathExtension: String?) {
         if let message = message(for: id) {
             message.downloadPaused()
         }
     }
     
-    public func message(for id: String) -> DownloadableMessage? {
+    open func message(for id: String) -> DownloadableMessage? {
         return model.message(for: id) as? DownloadableMessage
     }
     
-    public func update(id: String) {
+    open func update(id: String) {
         DispatchQueue.main.async { [weak self] in
             _ = self?.model.updateMessage(id: id).subscribe()
         }

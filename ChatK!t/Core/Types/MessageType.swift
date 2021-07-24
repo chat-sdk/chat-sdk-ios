@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class MessageType: NSObject {
+open class MessageType: NSObject {
     
     let type: String
     
@@ -15,35 +15,35 @@ public class MessageType: NSObject {
         self.type = type
     }
     
-    public class func text() -> MessageType {
+    open class func text() -> MessageType {
         return MessageType(type: "Text")
     }
 
-    public class func image() -> MessageType {
+    open class func image() -> MessageType {
         return MessageType(type: "Image")
     }
 
-    public class func location() -> MessageType {
+    open class func location() -> MessageType {
         return MessageType(type: "Location")
     }
 
-    public class func audio() -> MessageType {
+    open class func audio() -> MessageType {
         return MessageType(type: "Audio")
     }
     
-    public class func video() -> MessageType {
+    open class func video() -> MessageType {
         return MessageType(type: "Video")
     }
     
-    public class func file() -> MessageType {
+    open class func file() -> MessageType {
         return MessageType(type: "File")
     }
 
-    public class func sticker() -> MessageType {
+    open class func sticker() -> MessageType {
         return MessageType(type: "Sticker")
     }
     
-    public func get() -> String {
+    open func get() -> String {
         return type
     }
 }

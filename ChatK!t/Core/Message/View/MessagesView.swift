@@ -10,7 +10,7 @@ import UIKit
 import KeepLayout
 import RxSwift
 
-public class MessagesView: UIView {
+open class MessagesView: UIView {
     
     public enum RefreshState {
         case none
@@ -19,25 +19,25 @@ public class MessagesView: UIView {
         case loaded
     }
     
-    public var tableView = UITableView()
-    public var model: MessagesModel?
-    public var lazyReloadManager: LazyReloadManager?
+    open var tableView = UITableView()
+    open var model: MessagesModel?
+    open var lazyReloadManager: LazyReloadManager?
     
-    public var longPressRecognizer: UIGestureRecognizer?
-    public var tapRecognizer: UIGestureRecognizer?
-    public var refreshControl: UIRefreshControl?
+    open var longPressRecognizer: UIGestureRecognizer?
+    open var tapRecognizer: UIGestureRecognizer?
+    open var refreshControl: UIRefreshControl?
     
-    public var refreshState: RefreshState = .none
-    public var loadedMessages: [AbstractMessage]?
+    open var refreshState: RefreshState = .none
+    open var loadedMessages: [AbstractMessage]?
     
-    public var hideKeyboardListener: (() -> Void)?
+    open var hideKeyboardListener: (() -> Void)?
     
     // This is used to preseve the Y position when we change the table insets
-    public var bottomYClearance: CGFloat = 0
+    open var bottomYClearance: CGFloat = 0
     
-    public var datasource: UITableViewDiffableDataSource<Section, AbstractMessage>?
+    open var datasource: UITableViewDiffableDataSource<Section, AbstractMessage>?
     
-    public var messageCellSizeCache: MessageCellSizeCache?
+    open var messageCellSizeCache: MessageCellSizeCache?
             
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,7 +53,7 @@ public class MessagesView: UIView {
         self.init()
     }
 
-    public func setup() {
+    open func setup() {
         
         addSubview(tableView)
         
@@ -81,12 +81,12 @@ public class MessagesView: UIView {
 
     }
     
-    @objc public func startLoading() {
+    @objc open func startLoading() {
         refreshState = .willLoad
         tableView.isUserInteractionEnabled = false
     }
     
-    @objc public func loadMoreMessages() {
+    @objc open func loadMoreMessages() {
         refreshState = .loading
         _ = model?.loadMessages().subscribe(onSuccess: { [weak self] messages in
             self?.loadedMessages = messages
@@ -99,7 +99,7 @@ public class MessagesView: UIView {
         })
     }
     
-    public func addLoadedMessages() {
+    open func addLoadedMessages() {
         tableView.isUserInteractionEnabled = true
         refreshState = .none
         if let messages = loadedMessages, !messages.isEmpty {
@@ -113,7 +113,7 @@ public class MessagesView: UIView {
         }
     }
     
-    public func setModel(model: MessagesModel) {
+    open func setModel(model: MessagesModel) {
         
         self.model = model
         model.view = self
@@ -151,14 +151,14 @@ public class MessagesView: UIView {
 
     }
         
-    public func willSetBottomInset() {
+    open func willSetBottomInset() {
         // Save the scroll percentage
         let tableViewHeight = tableView.frame.height - tableView.contentInset.bottom - tableView.contentInset.top
         let contentHeight = tableView.contentSize.height
         bottomYClearance = contentHeight - (tableView.contentOffset.y + tableViewHeight)
     }
     
-    public func setBottomInset(height: CGFloat) {
+    open func setBottomInset(height: CGFloat) {
 
         var insets = tableView.contentInset
         insets.bottom = height
@@ -174,14 +174,14 @@ public class MessagesView: UIView {
 
     }
         
-    @objc public func onLongPress(_ sender: UILongPressGestureRecognizer) {
+    @objc open func onLongPress(_ sender: UILongPressGestureRecognizer) {
         if ChatKit.config().messageSelectionEnabled && !isSelectionModeEnabled(), let message = messageForTap(sender) {
             model?.toggleSelection(message)
             _ = reload(messages: [message], animated: false).subscribe()
         }
     }
 
-    @objc public func onTap(_ sender: UITapGestureRecognizer) {
+    @objc open func onTap(_ sender: UITapGestureRecognizer) {
         if let message = messageForTap(sender) {
             if ChatKit.config().messageSelectionEnabled && isSelectionModeEnabled() {
                 model?.toggleSelection(message)
@@ -194,7 +194,7 @@ public class MessagesView: UIView {
         hideKeyboardListener?()
     }
     
-    public func messageForTap(_ recognizer: UIGestureRecognizer) -> AbstractMessage? {
+    open func messageForTap(_ recognizer: UIGestureRecognizer) -> AbstractMessage? {
         let point = recognizer.location(in: tableView)
         if let indexPath = tableView.indexPathForRow(at: point) {
             if let message = datasource?.itemIdentifier(for: indexPath) {
@@ -204,7 +204,7 @@ public class MessagesView: UIView {
         return nil
     }
     
-    public func cellForTap(_ recognizer: UIGestureRecognizer) -> MessageCell? {
+    open func cellForTap(_ recognizer: UIGestureRecognizer) -> MessageCell? {
         let point = recognizer.location(in: tableView)
         if let indexPath = tableView.indexPathForRow(at: point) {
             if let cell = tableView.cellForRow(at: indexPath) as? MessageCell {
@@ -214,7 +214,7 @@ public class MessagesView: UIView {
         return nil
     }
     
-    public func contentTapped(_ recognizer: UIGestureRecognizer) -> Bool {
+    open func contentTapped(_ recognizer: UIGestureRecognizer) -> Bool {
         if let cell = cellForTap(recognizer) {
             let point = recognizer.location(in: tableView)
             let cellPoint = CGPoint(x: point.x - cell.frame.minX, y: point.y - cell.frame.minY)
@@ -223,29 +223,29 @@ public class MessagesView: UIView {
         return false
     }
     
-    public func isSelectionModeEnabled() -> Bool {
+    open func isSelectionModeEnabled() -> Bool {
         return !(model?.selectedMessages().isEmpty ?? false)
     }
         
 }
 
 extension MessagesView: UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let section = model?.section(for: section) {
             return ChatKit.provider().sectionView(for: section)
         }
         return nil
     }
     
-    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return ChatKit.config().messagesViewSectionHeight
     }
     
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return heightForIndexPath(indexPath)
     }
     
-    public func heightForIndexPath(_ indexPath: IndexPath) -> CGFloat {
+    open func heightForIndexPath(_ indexPath: IndexPath) -> CGFloat {
         var height: CGFloat?
         if let message = datasource?.itemIdentifier(for: indexPath), let heightCache = messageCellSizeCache, let model = model {
             height = heightCache.heightForIndexPath(message, model: model, width: frame.width)
@@ -257,7 +257,7 @@ extension MessagesView: UITableViewDelegate {
 
 extension MessagesView: PMessagesView {
     
-    public func scrollToBottom(animated: Bool = true, force: Bool = false) {
+    open func scrollToBottom(animated: Bool = true, force: Bool = false) {
         if tableView.numberOfSections > 0 {
             let section = tableView.numberOfSections - 1
             let row = tableView.numberOfRows(inSection: section) - 1
@@ -275,11 +275,11 @@ extension MessagesView: PMessagesView {
         }
     }
     
-    public func offsetFromBottom() -> CGFloat {
+    open func offsetFromBottom() -> CGFloat {
         return tableView.contentSize.height - tableView.frame.height - tableView.contentOffset.y
     }
 
-    public func apply(snapshot: NSDiffableDataSourceSnapshot<Section, AbstractMessage>, animated: Bool) -> Completable {
+    open func apply(snapshot: NSDiffableDataSourceSnapshot<Section, AbstractMessage>, animated: Bool) -> Completable {
         return Completable.create { [weak self] completable in
             self?.datasource?.apply(snapshot, animatingDifferences: animated, completion: {
                 completable(.completed)
@@ -288,7 +288,7 @@ extension MessagesView: PMessagesView {
         }
     }
     
-    public func reload(messages: [AbstractMessage], animated: Bool) -> Completable {
+    open func reload(messages: [AbstractMessage], animated: Bool) -> Completable {
         return Completable.create { [weak self] completable in
             if var snapshot = self?.datasource?.snapshot() {
                 snapshot.reloadItems(messages)
@@ -305,7 +305,7 @@ extension MessagesView: PMessagesView {
 
 extension MessagesView: UIScrollViewDelegate {
     
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         lazyReloadManager?.tableViewDidScroll(tableView)
         
         let offset = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
@@ -317,15 +317,15 @@ extension MessagesView: UIScrollViewDelegate {
         }
     }
 
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         lazyReloadManager?.scrollViewWillBeginDragging(scrollView: scrollView)
     }
 
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         lazyReloadManager?.scrollViewDidEndDecelerating(scrollView: scrollView)
     }
     
-    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         lazyReloadManager?.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
         

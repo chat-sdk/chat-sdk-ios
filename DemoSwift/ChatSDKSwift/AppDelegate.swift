@@ -46,14 +46,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        config.messageBubbleMaskLast = "chat_bubble_right_S0.png"
 //        config.messageBubbleMaskFirst = "chat_bubble_right_SS.png"
 //        config.messageBubbleMaskSingle = "chat_bubble_right_S0.png"
-        
-        
 
         var modules = [
             FirebaseNetworkAdapterModule.shared(),
             FirebasePushModule.shared(),
             FirebaseUploadModule.shared(),
-            ChatKitModule.init()
+            ChatKitModule.shared()
         ]
 
         // If you want to use Firebase UI
@@ -64,13 +62,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             module.setProviders([FUIEmailAuth(), FUIOAuth.appleAuthProvider(), FUIPhoneAuth.init(authUI: authUI!)])
             modules.append(module)
         }
-        
-//        let interfaceAdapter = BDefaultInterfaceAdapter()
-//        interfaceAdapter.setContactsViewController(AContactViewController(nibName: "BContactsViewController", bundle: Bundle.main))
-        
+                
         BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules)
-//        BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules, networkAdapter: nil, interfaceAdapter: interfaceAdapter)
-
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();

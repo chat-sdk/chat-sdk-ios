@@ -7,13 +7,13 @@
 
 import Foundation
 
-public class Provider {
+open class Provider {
     
-    public func sectionNib() -> UINib {
+    open func sectionNib() -> UINib {
         return UINib(nibName: "SectionCell", bundle: Bundle(for: SectionCell.self))
     }
     
-    public func makeBackground(blur: Bool = true, effect: UIBlurEffect? = nil) -> UIView {
+    open func makeBackground(blur: Bool = true, effect: UIBlurEffect? = nil) -> UIView {
         if blur {
             var background: UIVisualEffectView = UIVisualEffectView(effect: effect ?? UIBlurEffect(style: .systemThinMaterial))
             background.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -25,7 +25,7 @@ public class Provider {
         }
     }
     
-    public func sectionView(for section: Section) -> UIView? {
+    open func sectionView(for section: Section) -> UIView? {
         let view: SectionCell = .fromNib()
         view.titleLabel.text = section.date().dateAgo()
         
@@ -36,12 +36,12 @@ public class Provider {
         return view
     }
     
-    public func messageReplyView() -> MessageReplyView {
+    open func messageReplyView() -> MessageReplyView {
         let view: MessageReplyView = .fromNib()
         return view
     }
     
-    public func optionCellView() -> OptionCellView {
+    open func optionCellView() -> OptionCellView {
         let view: OptionCellView = .fromNib()
         view.background.layer.cornerRadius = 5
         view.background.backgroundColor = ChatKit.asset(color: ChatKit.config().chatOptionsIconBackgroundColor)
@@ -50,58 +50,58 @@ public class Provider {
         return view
     }
     
-    public func messagesView() -> MessagesView {
+    open func messagesView() -> MessagesView {
         return MessagesView()
     }
 
-    public func chatHeaderView() -> ChatHeaderView {
+    open func chatHeaderView() -> ChatHeaderView {
         return ChatHeaderView()
     }
     
-    public func reconnectingView() -> ReconnectingView {
+    open func reconnectingView() -> ReconnectingView {
         return ReconnectingView()
     }
     
-    public func replyView() -> ReplyView {
+    open func replyView() -> ReplyView {
         return ReplyView()
     }
 
-    public func audioRecorder() -> AudioRecorder {
+    open func audioRecorder() -> AudioRecorder {
         return AudioRecorder()
     }
 
-//    public func audioPlayer() -> AudioPlayer {
+//    open func audioPlayer() -> AudioPlayer {
 //        return AudioPlayer()
 //    }
 
-    public func assets() -> Assets {
+    open func assets() -> Assets {
         return Assets()
     }
 
-    public func config() -> Config {
+    open func config() -> Config {
         return Config()
     }
 
-    public func downloadManager() -> DownloadManager {
+    open func downloadManager() -> DownloadManager {
         return DownloadManager()
     }
 
-    public func messageCellSizeCache(_ model: MessagesModel) -> MessageCellSizeCache {
+    open func messageCellSizeCache(_ model: MessagesModel) -> MessageCellSizeCache {
         return MessageCellSizeCache(model)
     }
     
-    public func chatToolbar(_ delegate: ChatToolbarDelegate, actions: ChatToolbarActionsDelegate) -> ChatToolbar {
+    open func chatToolbar(_ delegate: ChatToolbarDelegate, actions: ChatToolbarActionsDelegate) -> ChatToolbar {
         let toolbar = ChatToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
         toolbar.setActionsDelegate(actions)
         toolbar.setDelegate(delegate)
         return toolbar
     }
     
-    public func sendBarView() -> SendBarView {
+    open func sendBarView() -> SendBarView {
         return SendBarView()
     }
     
-    public func messagesModel(_ thread: Thread, delegate: MessagesModelDelegate) -> MessagesModel {
+    open func messagesModel(_ thread: Thread, delegate: MessagesModelDelegate) -> MessagesModel {
         return MessagesModel(thread, delegate: delegate)
     }
 }

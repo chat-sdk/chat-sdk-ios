@@ -9,7 +9,7 @@ import Foundation
 import KeepLayout
 import SDWebImage
 
-public class ReplyView : UIView {
+open class ReplyView : UIView {
     
     let topBorder = UIView()
     let divider = UIView()
@@ -37,7 +37,7 @@ public class ReplyView : UIView {
         self.init()
     }
 
-    public func setup() {
+    open func setup() {
         
         clipsToBounds = true
         
@@ -100,14 +100,14 @@ public class ReplyView : UIView {
         
     }
     
-    public func updateColors() {
+    open func updateColors() {
         divider.backgroundColor = ChatKit.asset(color: "reply_divider")
         backgroundColor = ChatKit.asset(color: "gray_5")
         topBorder.backgroundColor = ChatKit.asset(color: "gray_4")
         closeButton.setImage(ChatKit.asset(icon: "icn_36_cross"), for: .normal)
     }
     
-    public func show(message: AbstractMessage, duration: Double) {
+    open func show(message: AbstractMessage, duration: Double) {
         _message = message
         
         var url: URL? = nil
@@ -121,15 +121,15 @@ public class ReplyView : UIView {
         show(title: message.messageSender().userName(), message: message.messageText(), imageURL: url, placeholder: placeholder, duration: duration)
     }
     
-    public func message() -> Message? {
+    open func message() -> Message? {
         return _message
     }
 
-    @objc public func dismiss() {
+    @objc open func dismiss() {
         hide(duration: ChatKit.config().animationDuration)
     }
     
-    @objc public func hide() {
+    @objc open func hide() {
         hide(duration: ChatKit.config().animationDuration)
     }
     
@@ -159,7 +159,7 @@ public class ReplyView : UIView {
         }
     }
 
-    public func hide(duration: Double = 0, notify: Bool = true) -> Void {
+    open func hide(duration: Double = 0, notify: Bool = true) -> Void {
         willHide = true
         willHideListener?(duration)
         _message = nil
@@ -180,11 +180,11 @@ public class ReplyView : UIView {
         }
     }
     
-    public func isVisible() -> Bool {
+    open func isVisible() -> Bool {
         return alpha != 0
     }
     
-    public func setWillHideListener(listener: @escaping ((Double)->Void)) {
+    open func setWillHideListener(listener: @escaping ((Double)->Void)) {
         willHideListener = listener
     }
     

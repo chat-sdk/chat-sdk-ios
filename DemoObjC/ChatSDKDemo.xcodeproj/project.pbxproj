@@ -68,7 +68,7 @@
 		AC7BD98E1E0874B400C785EE = {
 			isa = PBXGroup;
 			children = (
-				AC7BD9991E0874B400C785EE /* ChatSDK Demo */,
+				AC7BD9991E0874B400C785EE /* ChatSDKDemo */,
 				AC7BD9981E0874B400C785EE /* Products */,
 				7F48A7DD8DBA9B7953956161 /* Pods */,
 				3DE9A5A7545EBF0D3DF32857 /* Frameworks */,
@@ -83,7 +83,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AC7BD9991E0874B400C785EE /* ChatSDK Demo */ = {
+		AC7BD9991E0874B400C785EE /* ChatSDKDemo */ = {
 			isa = PBXGroup;
 			children = (
 				B5736DD220A1F25900D0947B /* ChatSDK Demo.entitlements */,
@@ -96,7 +96,7 @@
 				AC7BD9AB1E0874B400C785EE /* Info.plist */,
 				AC7BD99A1E0874B400C785EE /* Supporting Files */,
 			);
-			path = "ChatSDK Demo";
+			path = ChatSDKDemo;
 			sourceTree = "<group>";
 		};
 		AC7BD99A1E0874B400C785EE /* Supporting Files */ = {
@@ -237,7 +237,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n";
+			shellScript = "
+";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -383,10 +384,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "ChatSDK Demo/ChatSDK Demo.entitlements";
+				CODE_SIGN_ENTITLEMENTS = ChatSDKDemo/ChatSDKDemo.entitlements;
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = "ChatSDK Demo/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/ChatSDKDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -400,10 +401,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "ChatSDK Demo/ChatSDK Demo.entitlements";
+				CODE_SIGN_ENTITLEMENTS = ChatSDKDemo/ChatSDKDemo.entitlements;
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = "ChatSDK Demo/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/ChatSDKDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";

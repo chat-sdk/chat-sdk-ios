@@ -7,69 +7,69 @@
 
 import Foundation
 
-public class AbstractMessage: Message, Hashable, Equatable {
+open class AbstractMessage: Message, Hashable, Equatable {
     
     public init() {
         
     }
     
-    public var selected = false
+    open var selected = false
     
-    public var content: MessageContent?
+    open var content: MessageContent?
     
-    public func setContent(_ content: MessageContent) {
+    open func setContent(_ content: MessageContent) {
         self.content = content
     }
     
-    public func sameDayAs(_ message: Message) -> Bool {
+    open func sameDayAs(_ message: Message) -> Bool {
         return Calendar.current.isDate(messageDate(), inSameDayAs: message.messageDate())
     }
         
-    public func messageId() -> String {
+    open func messageId() -> String {
         preconditionFailure("This method must be overridden")
     }
 
-    public func messageType() -> String {
+    open func messageType() -> String {
         preconditionFailure("This method must be overridden")
     }
 
-    public func messageDate() -> Date {
+    open func messageDate() -> Date {
         preconditionFailure("This method must be overridden")
     }
 
-    public func messageText() -> String? {
+    open func messageText() -> String? {
         return nil
     }
 
-    public func messageSender() -> User {
+    open func messageSender() -> User {
         preconditionFailure("This method must be overridden")
     }
 
-    public func messageMeta() -> [AnyHashable: Any]? {
+    open func messageMeta() -> [AnyHashable: Any]? {
         return nil
     }
 
-    public func messageDirection() -> MessageDirection {
+    open func messageDirection() -> MessageDirection {
         preconditionFailure("This method must be overridden")
     }
 
-    public func messageReadStatus() -> MessageReadStatus {
+    open func messageReadStatus() -> MessageReadStatus {
         preconditionFailure("This method must be overridden")
     }
     
-    public func messageReply() -> Reply? {
+    open func messageReply() -> Reply? {
         return nil
     }
 
-    public func isSelected() -> Bool {
+    open func isSelected() -> Bool {
         return selected
     }
     
-    public func setSelected(_ selected: Bool) {
+    open func setSelected(_ selected: Bool) {
         self.selected = selected
     }
 
-    public func toggleSelected() {
+    open func toggleSelected() {
         selected = !selected
     }
     
@@ -77,11 +77,11 @@ public class AbstractMessage: Message, Hashable, Equatable {
         return lhs.messageId() == rhs.messageId()
     }
             
-    public func hash(into hasher: inout Hasher) {
+    open func hash(into hasher: inout Hasher) {
         hasher.combine(messageId())
     }
     
-    public func messageContent() -> MessageContent? {
+    open func messageContent() -> MessageContent? {
         return content
     }
 

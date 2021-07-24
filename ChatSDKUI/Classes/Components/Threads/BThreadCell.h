@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class AsyncImageView;
+@protocol PThread;
 
 @interface BThreadCell : UITableViewCell
 
@@ -22,5 +23,6 @@
 -(void) setIsOnline: (BOOL) isOnline;
 -(void) startTypingWithMessage: (NSString *) message;
 -(void) stopTypingWithMessage: (NSString *) message;
+-(void) bind: (id<PThread>) thread;
 
 @end

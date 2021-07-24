@@ -11,19 +11,23 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '13.0'
   s.requires_arc = true
   s.swift_version = "5.0"
+  s.default_subspec = 'ChatKit'
   # s.static_framework = true
+
+  s.subspec 'ChatKit' do |s| 
   
-  s.source_files = "ChatK!t/Core/**/*.{h,m,swift}"
+    s.source_files = "ChatK!t/Core/**/*.{h,m,swift}"
 
-  s.resources = 'ChatK!t/Core/**/*.{xib,xcassets,strings}'
+    s.resources = 'ChatK!t/Core/**/*.{xib,xcassets,strings}'
 
-  s.dependency 'ChatSDKKeepLayout'
-  s.dependency 'NextGrowingTextView'
-  s.dependency 'CollectionKit'
-  s.dependency 'FFCircularProgressView'
-  s.dependency 'MZDownloadManager'
-  s.dependency 'FLAnimatedImage'
-  s.dependency 'GSImageViewerController'
+    s.dependency 'ChatSDKKeepLayout'
+    s.dependency 'NextGrowingTextView'
+    s.dependency 'CollectionKit'
+    s.dependency 'FFCircularProgressView'
+    s.dependency 'MZDownloadManager'
+    s.dependency 'FLAnimatedImage'
+    s.dependency 'GSImageViewerController'
+  end
   
   s.subspec 'ChatSDK' do |s| 
     s.source_files = ['ChatK!t/ChatSDK/**/*']

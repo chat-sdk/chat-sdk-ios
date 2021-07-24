@@ -15,39 +15,54 @@ public protocol MessageProvider {
     func new(for message: PMessage) -> CKMessage
 }
 
-public protocol KeyboardOverlayProvider {
-    func new(for vc: ChatViewController) -> KeyboardOverlay
+//
+//public protocol KeyboardOverlayProvider {
+//    func provide(for vc: ChatViewController, model: ChatModel, thread: PThread) -> KeyboardOverlay
+//}
+
+public protocol OnCreateListener {
+    func onCreate(for vc: ChatViewController, model: ChatModel, thread: PThread)
 }
 
-public class ChatKitModule: NSObject, PModule {
+public protocol OptionProvider {
+    func provide(for vc: ChatViewController, thread: PThread) -> Option
+}
+
+open class ChatKitModule: NSObject, PModule {
     
     static let instance = ChatKitModule()
     public static func shared() -> ChatKitModule {
         return instance
     }
 
-    public var model: ChatModel?
-    public var vc: ChatViewController?
-    public var thread: PThread?
-    public var locationAction: BSelectLocationAction?
-    
-    public var overlays = [KeyboardOverlay]()
-    public var messageRegistrations = [MessageCellRegistration]()
-    public var newMessageProviders = [Int: MessageProvider]()
+    open var model: ChatModel?
+    open var vc: ChatViewController?
+    open var thread: PThread?
+    open var locationAction: BSelectLocationAction?
 
-    public func add(overlay: KeyboardOverlay) {
-        overlays.append(overlay)
+    open var onCreateListeners = [OnCreateListener]()
+
+    open var messageRegistrations = [MessageCellRegistration]()
+    open var newMessageProviders = [Int: MessageProvider]()
+    open var optionProviders = [OptionProvider]()
+
+    open func add(optionProvider: OptionProvider) {
+        optionProviders.append(optionProvider)
     }
 
-    public func add(messageRegistration: MessageCellRegistration) {
+    open func add(messageRegistration: MessageCellRegistration) {
         messageRegistrations.append(messageRegistration)
     }
 
-    public func add(provider: MessageProvider, type: Int) {
-        newMessageProviders[type] = provider
+    open func add(newMessageProvider: MessageProvider, type: Int) {
+        newMessageProviders[type] = newMessageProvider
     }
 
-    public func activate() {
+    open func add(onCreateListener: OnCreateListener) {
+        onCreateListeners.append(onCreateListener)
+    }
+
+    open func activate() {
         
         BChatSDK.ui().setChatViewController({ [weak self] (thread: PThread?) -> UIViewController? in
             if let thread = thread {
@@ -153,7 +168,7 @@ public class ChatKitModule: NSObject, PModule {
         }), withName: bHookMessageWasDeleted)
     }
     
-    public func chatViewController(_ thread: PThread) -> UIViewController? {
+    open func chatViewController(_ thread: PThread) -> UIViewController? {
         let ckThread = CKThread(thread)
 
         let model = ChatModel(ckThread, delegate: self)
@@ -169,13 +184,24 @@ public class ChatKitModule: NSObject, PModule {
         //
         
         // Map the message type to a content view type
-        let textRegistration = MessageCellRegistration(messageType: String(bMessageTypeText.rawValue), contentClass: TextMessageContent.self)
-        let audioRegistration = MessageCellRegistration(messageType: String(bMessageTypeAudio.rawValue), contentClass: AudioMessageContent.self)
-        let imageRegistration = MessageCellRegistration(messageType: String(bMessageTypeImage.rawValue), contentClass: ImageMessageContent.self)
-        let videoRegistration = MessageCellRegistration(messageType: String(bMessageTypeVideo.rawValue), contentClass: VideoMessageContent.self)
-        let locationRegistration = MessageCellRegistration(messageType: String(bMessageTypeLocation.rawValue), contentClass: ImageMessageContent.self)
+        var registrations = [
+            MessageCellRegistration(messageType: String(bMessageTypeText.rawValue), contentClass: TextMessageContent.self),
+            MessageCellRegistration(messageType: String(bMessageTypeImage.rawValue), contentClass: ImageMessageContent.self),
+            MessageCellRegistration(messageType: String(bMessageTypeLocation.rawValue), contentClass: ImageMessageContent.self),
+        ]
+        
+        if BChatSDK.audioMessage() != nil {
+            registrations.append(MessageCellRegistration(messageType: String(bMessageTypeAudio.rawValue), contentClass: AudioMessageContent.self))
+        }
+        if BChatSDK.videoMessage() != nil {
+            registrations.append(MessageCellRegistration(messageType: String(bMessageTypeVideo.rawValue), contentClass: VideoMessageContent.self))
+        }
 
-        model.messagesModel.registerMessageCells(registrations: [textRegistration, videoRegistration, audioRegistration, imageRegistration, locationRegistration])
+        for reg in self.messageRegistrations {
+            registrations.append(reg)
+        }
+
+        model.messagesModel.registerMessageCells(registrations: registrations)
         
         // Create the chat view controller
         let vc = ChatViewController(model: model)
@@ -199,8 +225,16 @@ public class ChatKitModule: NSObject, PModule {
 
         addSendBarActions(model: model, vc: vc, thread: thread)
         addToolbarActions(model: model, vc: vc, thread: thread)
-        addOptions(model: model, vc: vc, thread: thread)
-        
+
+        let optionsOverlay = OptionsKeyboardOverlay()
+
+        var options = getOptions(vc: vc, thread: thread)
+        for provider in optionProviders {
+            options.append(provider.provide(for: vc, thread: thread))
+        }
+        optionsOverlay.setOptions(options: options)
+        model.addKeyboardOverlay(name: OptionsKeyboardOverlay.key, overlay: optionsOverlay)
+
         let recordOverlay = RecordKeyboardOverlay.new(ChatSDKRecordViewDelegate(thread.entityID()))
         
         model.addKeyboardOverlay(name: RecordKeyboardOverlay.key, overlay: recordOverlay)
@@ -210,11 +244,15 @@ public class ChatKitModule: NSObject, PModule {
         }
         
         markRead(thread: thread)
+        
+        for listener in onCreateListeners {
+            listener.onCreate(for: vc, model: model, thread: thread)
+        }
 
         return vc
     }
     
-    public func markRead(thread: PThread) {
+    open func markRead(thread: PThread) {
         if vc != nil {
             if let rr = BChatSDK.readReceipt() {
                 rr.markRead(thread)
@@ -224,7 +262,7 @@ public class ChatKitModule: NSObject, PModule {
         }
     }
         
-    public func updateConnectionStatus() {
+    open func updateConnectionStatus() {
         let connectionStatus = BChatSDK.core().connectionStatus?() ?? bConnectionStatusConnected
         let status = ConnectionStatus.init(rawValue: Int(connectionStatus.rawValue))
         let connected = BChatSDK.connectivity().isConnected()
@@ -239,7 +277,7 @@ public class ChatKitModule: NSObject, PModule {
         }
     }
     
-    public func updateRightBarButtonItem() {
+    open func updateRightBarButtonItem() {
         if let thread = thread {
             vc?.navigationItem.rightBarButtonItem?.isEnabled = BChatSDK.thread().canAddUsers(thread.entityID())
         } else {
@@ -249,12 +287,12 @@ public class ChatKitModule: NSObject, PModule {
     
 }
 
-public class ChatSDKRecordViewDelegate: RecordViewDelegate {
+open class ChatSDKRecordViewDelegate: RecordViewDelegate {
     let threadEntityID: String
     init(_ threadEntityID: String) {
         self.threadEntityID = threadEntityID
     }
-    public func send(audio: Data, duration: Int) {
+    open func send(audio: Data, duration: Int) {
         // Save this file to the standard directory
         BChatSDK.audioMessage().sendMessage(withAudio: audio, duration: Double(duration), withThreadEntityID: threadEntityID)
     }
@@ -262,7 +300,7 @@ public class ChatSDKRecordViewDelegate: RecordViewDelegate {
 
 extension ChatKitModule: MessagesModelDelegate {
         
-    public func loadMessages(with oldestMessage: AbstractMessage?) -> Single<[AbstractMessage]> {
+    open func loadMessages(with oldestMessage: AbstractMessage?) -> Single<[AbstractMessage]> {
         return Single<[AbstractMessage]>.create { [weak self] single in
             if let model = self?.model?.messagesModel, let thread = BChatSDK.db().fetchEntity(withID: model.thread.threadId(), withType: bThreadEntity) as? PThread {
                 _ = BChatSDK.thread().loadMoreMessages(from: oldestMessage?.messageDate(), for: thread).thenOnMain({ success in
@@ -281,7 +319,7 @@ extension ChatKitModule: MessagesModelDelegate {
         }
     }
     
-    public func initialMessages() -> [AbstractMessage] {
+    open func initialMessages() -> [AbstractMessage] {
         var messages = [AbstractMessage]()
         if let model = model?.messagesModel, let thread = BChatSDK.db().fetchEntity(withID: model.thread.threadId(), withType: bThreadEntity) as? PThread {
             if let msgs = BChatSDK.db().loadMessages(for: thread, newest: 25) {
@@ -303,7 +341,7 @@ extension ChatKitModule: MessagesModelDelegate {
         return output
     }
     
-    public func onClick(_ message: AbstractMessage) -> Bool {
+    open func onClick(_ message: AbstractMessage) -> Bool {
         if message.messageType() == String(bMessageTypeVideo.rawValue) {
             
             if let message = message as? VideoMessage, let url = message.localVideoURL {
@@ -350,31 +388,31 @@ extension ChatKitModule: MessagesModelDelegate {
 
 extension ChatKitModule: ChatViewControllerTypingDelegate {
 
-    public func didStartTyping() {
-        if let thread = thread {
-            BChatSDK.typingIndicator().setChatState(bChatStateComposing, for: thread)
+    open func didStartTyping() {
+        if let thread = thread, let indicator = BChatSDK.typingIndicator() {
+            indicator.setChatState(bChatStateComposing, for: thread)
         }
     }
     
-    public func didStopTyping() {
-        if let thread = thread {
-            BChatSDK.typingIndicator().setChatState(bChatStateActive, for: thread)
+    open func didStopTyping() {
+        if let thread = thread, let indicator = BChatSDK.typingIndicator() {
+            indicator.setChatState(bChatStateActive, for: thread)
         }
     }
     
 }
 
 extension ChatKitModule: ChatViewControllerDelegate {
-    public func viewDidLoad() {
+    open func viewDidLoad() {
         updateRightBarButtonItem()
         updateConnectionStatus()
     }
     
-    public func viewWillAppear() {
+    open func viewWillAppear() {
 
     }
     
-    public func viewDidAppear() {
+    open func viewDidAppear() {
         if let thread = thread {
             if thread.typeIs(bThreadFilterPublic) {
                 BChatSDK.thread().addUsers([BChatSDK.currentUser()], to: thread)
@@ -382,11 +420,11 @@ extension ChatKitModule: ChatViewControllerDelegate {
         }
     }
 
-    public func viewWillDisappear() {
+    open func viewWillDisappear() {
         
     }
     
-    public func viewDidDisappear() {
+    open func viewDidDisappear() {
         vc = nil
         if let thread = thread {
             if thread.typeIs(bThreadFilterPublic) && (!BChatSDK.config().publicChatAutoSubscriptionEnabled || thread.meta()[bMute] != nil) {

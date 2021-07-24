@@ -14,18 +14,18 @@ import RxSwift
 //    }
 //}
 
-public class ChatModel: ChatToolbarActionsDelegate {
+open class ChatModel: ChatToolbarActionsDelegate {
 
     public let thread: Thread
-    public var options = [Option]()
-    public var sendBarActions = [SendBarAction]()
-    public var toolbarActions = [ToolbarAction]()
-    public var keyboardOverlayMap = [String: KeyboardOverlay]()
+    open var options = [Option]()
+    open var sendBarActions = [SendBarAction]()
+    open var toolbarActions = [ToolbarAction]()
+    open var keyboardOverlayMap = [String: KeyboardOverlay]()
     
-    public var view: PChatViewController?
-    public var delegate: MessagesModelDelegate
+    open var view: PChatViewController?
+    open var delegate: MessagesModelDelegate
     
-    public lazy var messagesModel = {
+    open lazy var messagesModel = {
         return ChatKit.provider().messagesModel(thread, delegate: delegate)
     }()
     
@@ -35,14 +35,14 @@ public class ChatModel: ChatToolbarActionsDelegate {
         self.delegate.model = self
     }
         
-    public func title() -> String {
+    open func title() -> String {
         return thread.threadName()
     }
 
     /**
      Steady state subtitle
      */
-    public func subtitle() -> String {
+    open func subtitle() -> String {
         let defaultText = initialSubtitle() ?? "";
         
         if thread.threadType() == .private1to1 {
@@ -72,7 +72,7 @@ public class ChatModel: ChatToolbarActionsDelegate {
     /**
         This is shown for a period when the screen initially loads
      */
-    public func initialSubtitle() -> String? {
+    open func initialSubtitle() -> String? {
         if ChatKit.config().userChatInfoEnabled {
             if thread.threadType() == ThreadType.private1to1 {
                 return Strings.t(Strings.tapHereForContactInfo)
@@ -83,23 +83,23 @@ public class ChatModel: ChatToolbarActionsDelegate {
         return nil
     }
     
-    public func addOption(_ option: Option) {
+    open func addOption(_ option: Option) {
         options.append(option)
     }
         
-    public func addSendBarAction(_ action: SendBarAction) {
+    open func addSendBarAction(_ action: SendBarAction) {
         sendBarActions.append(action)
     }
 
-    public func addToolbarAction(_ action: ToolbarAction) {
+    open func addToolbarAction(_ action: ToolbarAction) {
         toolbarActions.append(action)
     }
 
-    public func addKeyboardOverlay(name: String, overlay: KeyboardOverlay) {
+    open func addKeyboardOverlay(name: String, overlay: KeyboardOverlay) {
         keyboardOverlayMap[name] = overlay
     }
 
-    public func keyboardOverlays() -> [KeyboardOverlay] {
+    open func keyboardOverlays() -> [KeyboardOverlay] {
         var values = [KeyboardOverlay]()
         for value in keyboardOverlayMap.values {
             values.append(value)
@@ -107,11 +107,11 @@ public class ChatModel: ChatToolbarActionsDelegate {
         return values
     }
 
-    public func keyboardOverlay(for name: String) -> KeyboardOverlay? {
+    open func keyboardOverlay(for name: String) -> KeyboardOverlay? {
         return keyboardOverlayMap[name]
     }
     
-    public func loadInitialMessages() {
+    open func loadInitialMessages() {
         messagesModel.loadInitialMessages()
     }
     

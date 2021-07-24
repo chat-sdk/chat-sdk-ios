@@ -7,12 +7,12 @@
 
 import Foundation
 
-public class MessagesListAdapter {
+open class MessagesListAdapter {
     
     var _sections = [Section]()
     var _sectionsIndex = [Date: Section]()
     
-    public func message(exists message: AbstractMessage) -> Bool {
+    open func message(exists message: AbstractMessage) -> Bool {
         for section in _sections {
             if section.exists(message) {
                 return true
@@ -21,11 +21,11 @@ public class MessagesListAdapter {
         return false
     }
     
-    public func sectionExists(_ section: Section) -> Bool {
+    open func sectionExists(_ section: Section) -> Bool {
         return _sectionsIndex[section.date()] != nil
     }
     
-    public func message(for id: String) -> AbstractMessage? {
+    open func message(for id: String) -> AbstractMessage? {
         for section in _sections {
             if let message = section.message(for: id) {
                 return message
@@ -34,18 +34,18 @@ public class MessagesListAdapter {
         return nil
     }
     
-    public func sectionCount() -> Int {
+    open func sectionCount() -> Int {
         _sections.count
     }
     
-    public func section(for message: AbstractMessage) -> Section? {
+    open func section(for message: AbstractMessage) -> Section? {
         if let day = message.messageDate().day() {
             return _sectionsIndex[day]
         }
         return nil
     }
     
-    public func addSection(for message: AbstractMessage) -> Section? {
+    open func addSection(for message: AbstractMessage) -> Section? {
         if let day = message.messageDate().day() {
             if let section = _sectionsIndex[day] {
                 return section
@@ -60,47 +60,47 @@ public class MessagesListAdapter {
         return nil
     }
     
-    public func addMessage(_ message: AbstractMessage) {
+    open func addMessage(_ message: AbstractMessage) {
         if let section = addSection(for: message) {
             section.addMessage(message: message)
         }
     }
 
-    public func addMessages(_ messages: [AbstractMessage]) {
+    open func addMessages(_ messages: [AbstractMessage]) {
         for message in messages {
             addMessage(message)
         }
     }
 
-    public func addMessages(toStart messages: [AbstractMessage]) {
+    open func addMessages(toStart messages: [AbstractMessage]) {
         for message in messages {
             addMessage(toStart: message)
         }
     }
     
-    public func addMessage(toStart message: AbstractMessage) {
+    open func addMessage(toStart message: AbstractMessage) {
         if let section = addSection(for: message) {
             section.addMessage(toStart: message)
         }
     }
     
-    public func addMessages(toEnd messages: [AbstractMessage]) {
+    open func addMessages(toEnd messages: [AbstractMessage]) {
         for message in messages {
             addMessage(toEnd: message)
         }
     }
     
-    public func addMessage(toEnd message: AbstractMessage) {
+    open func addMessage(toEnd message: AbstractMessage) {
         if let section = addSection(for: message) {
             section.addMessage(toEnd: message)
         }
     }
     
-    public func oldestMessage() -> AbstractMessage? {
+    open func oldestMessage() -> AbstractMessage? {
         return _sections.first?.messages().first
     }
     
-    public func removeMessages(_ messages: [AbstractMessage]) {
+    open func removeMessages(_ messages: [AbstractMessage]) {
         var sectionsToRemove = [Section]()
         for message in messages {
             if let section = section(for: message) {
@@ -115,7 +115,7 @@ public class MessagesListAdapter {
         }
     }
     
-    public func removeSection(_ section: Section) {
+    open func removeSection(_ section: Section) {
         if let index = _sections.firstIndex(of: section) {
             _sections.remove(at: index)
             if let day = section.date().day() {
@@ -124,35 +124,35 @@ public class MessagesListAdapter {
         }
     }
     
-    public func sort() {
+    open func sort() {
         _sections.sort {
             $0.date().compare($1.date()) == .orderedAscending
         }
     }
     
-    public func section(_ index: Int) -> Section? {
+    open func section(_ index: Int) -> Section? {
         if index < _sections.count {
             return _sections[index]
         }
         return nil
     }
     
-    public func index(of section: Section) -> Int? {
+    open func index(of section: Section) -> Int? {
         return _sections.firstIndex(of: section)
     }
     
-    public func sections() -> [Section] {
+    open func sections() -> [Section] {
         return _sections
     }
     
-    public func indexPath(for message: AbstractMessage) -> IndexPath? {
+    open func indexPath(for message: AbstractMessage) -> IndexPath? {
         if let section = section(for: message), let index = index(of: section), let row = section.index(of: message) {
             return IndexPath(row: row, section: index)
         }
         return nil
     }
     
-    public func message(for indexPath: IndexPath) -> AbstractMessage? {
+    open func message(for indexPath: IndexPath) -> AbstractMessage? {
         return section(indexPath.section)?.message(for: indexPath)
     }
     

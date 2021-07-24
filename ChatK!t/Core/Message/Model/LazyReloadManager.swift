@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-public class LazyReloadManager {
+open class LazyReloadManager {
     
     var _loadingMoreMesssages = false
     var _active = false
@@ -23,11 +23,11 @@ public class LazyReloadManager {
         _messageAdder = messageAdder
     }
     
-    public func tableViewDidScroll(_ tableView: UITableView) {
+    open func tableViewDidScroll(_ tableView: UITableView) {
         loadMessages(tableView)
     }
 
-//    public func loadMessages(_ tableView: UITableView) {
+//    open func loadMessages(_ tableView: UITableView) {
 //        let offset = tableView.contentOffset.y + tableView.adjustedContentInset.top
 //        let percentage = offset / tableView.frame.height
 //
@@ -54,7 +54,7 @@ public class LazyReloadManager {
 //        }
 //    }
     
-    public func loadMessages(_ tableView: UITableView) {
+    open func loadMessages(_ tableView: UITableView) {
         let offset = tableView.contentOffset.y + tableView.adjustedContentInset.top
         let percentage = offset / tableView.frame.height
 
@@ -72,7 +72,7 @@ public class LazyReloadManager {
         }
     }
     
-    public func addMessages(_ scrollView: UIScrollView) {
+    open func addMessages(_ scrollView: UIScrollView) {
         let h1 = scrollView.contentSize.height
         let y = scrollView.contentOffset.y
         _ = _messageAdder(_messagesToAdd)?.subscribe(onCompleted: { [weak self] in
@@ -82,19 +82,19 @@ public class LazyReloadManager {
         })
     }
         
-    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    open func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         scrollView.layer.removeAllAnimations()
         _active = true
     }
 
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    open func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         if !_messagesToAdd.isEmpty {
             addMessages(scrollView)
         }
         _active = false
     }
     
-    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 //        print("Velocity ", velocity)
 //        let value = targetContentOffset.pointee
 //        self.targetContentOffset = targetContentOffset

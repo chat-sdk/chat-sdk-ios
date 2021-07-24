@@ -16,7 +16,7 @@ public enum MaskPosition: Int {
     case bottomLeft
 }
 
-public class MessageCell: UITableViewCell {
+open class MessageCell: UITableViewCell {
     
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var timeLabel: UILabel!
@@ -30,13 +30,13 @@ public class MessageCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    override public func awakeFromNib() {
+    override open func awakeFromNib() {
         super.awakeFromNib()
         timeLabel.numberOfLines = 0
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    public func setContent(content: MessageContent) {
+    open func setContent(content: MessageContent) {
         if self.content == nil {
             self.content = content
             contentContainerView.addSubview(content.view())
@@ -51,7 +51,7 @@ public class MessageCell: UITableViewCell {
         }
     }
     
-    public func bind(_ message: AbstractMessage, model: MessagesModel) {
+    open func bind(_ message: AbstractMessage, model: MessagesModel) {
         if let content = self.content {
             content.bind(message, model: model)
         }
@@ -90,25 +90,25 @@ public class MessageCell: UITableViewCell {
         hideNameLabel()
     }
 
-    public func setAvatarSize(size: CGFloat) {
+    open func setAvatarSize(size: CGFloat) {
         avatarImageView.keepSize.equal = KeepHigh(size)
         avatarImageView.layer.cornerRadius = size / 2.0
     }
 
-    public func setBubbleColor(color: UIColor) {
+    open func setBubbleColor(color: UIColor) {
         contentContainerView.backgroundColor = color
     }
 
-    public func setBubbleCornerRadius(radius: CGFloat) {
+    open func setBubbleCornerRadius(radius: CGFloat) {
         contentContainerView.layer.cornerRadius = radius
         content?.view().layer.cornerRadius = radius
     }
     
-    public func hideNameLabel() {
+    open func hideNameLabel() {
         nameLabel?.keepHeight.equal = 0
     }
 
-    public func showNameLabel() {
+    open func showNameLabel() {
         nameLabel?.keepHeight.equal = 17
     }
 

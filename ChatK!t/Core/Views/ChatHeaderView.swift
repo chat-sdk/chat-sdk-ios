@@ -8,12 +8,12 @@
 import Foundation
 import KeepLayout
 
-public class ChatHeaderView : UIView {
+open class ChatHeaderView : UIView {
     
-    public var titleLabel: UILabel?
-    public var subtitleLabel: UILabel?
-    public var tapRecognizer: UITapGestureRecognizer?
-    public var onTap: (()->Void)?
+    open var titleLabel: UILabel?
+    open var subtitleLabel: UILabel?
+    open var tapRecognizer: UITapGestureRecognizer?
+    open var onTap: (()->Void)?
        
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,7 +28,7 @@ public class ChatHeaderView : UIView {
         self.init()
     }
     
-    public func setup() {
+    open func setup() {
         
         tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap))
         addGestureRecognizer(tapRecognizer!)
@@ -61,7 +61,7 @@ public class ChatHeaderView : UIView {
         keepHeight.equal = 40
     }
     
-    @objc public func tap() {
+    @objc open func tap() {
         if let onTap = onTap {
             onTap()
         }

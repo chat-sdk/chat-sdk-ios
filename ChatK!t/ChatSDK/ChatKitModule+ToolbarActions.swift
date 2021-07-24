@@ -49,6 +49,11 @@ public extension ChatKitModule {
         model.addToolbarAction(ToolbarAction.forwardAction(visibleFor: { messages in
             return messages.count == 1
         }, onClick: { messages in
+            if let message = messages.first as? CKMessage {
+                let forwardViewController = ForwardViewController()
+                forwardViewController.message = message.message
+                vc.present(UINavigationController(rootViewController: forwardViewController), animated: true, completion: nil)
+            }
             return true
         }))
 

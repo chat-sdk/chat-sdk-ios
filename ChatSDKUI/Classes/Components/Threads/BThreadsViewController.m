@@ -192,57 +192,15 @@
     
     id<PThread> thread = _threads[indexPath.row];
     
-    NSDate * threadDate = thread.orderDate;
+    [cell bind: thread];
     
     NSString * text = @"";// [NSBundle t:bNoMessages];
-    
+
     id<PMessage> newestMessage = thread.newestMessage;
     if (newestMessage) {
         text = [NSBundle textForMessage:newestMessage];
     }
-    
-    if (threadDate) {
-        cell.dateLabel.text = threadDate.threadTimeAgo;
-    }
-    else {
-        cell.dateLabel.text = @"";
-    }
-    
-    if(BChatSDK.config.threadTimeFont) {
-        cell.dateLabel.font = BChatSDK.config.threadTimeFont;
-    }
-    
-    if(BChatSDK.config.threadTitleFont) {
-        cell.titleLabel.font = BChatSDK.config.threadTitleFont;
-    }
-    
-    if(BChatSDK.config.threadSubtitleFont) {
-        cell.messageTextView.font = BChatSDK.config.threadSubtitleFont;
-    }
-    
-    cell.titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
-   
-    [cell.profileImageView loadThreadImage:thread];
-    
-//    NSString * threadImagePath = thread.imageURL;
-//    NSURL * threadURL = threadImagePath && threadImagePath.length ? [NSURL URLWithString:threadImagePath] : Nil;
-//
-//    if (threadURL) {
-//        [cell.profileImageView sd_setImageWithURL:threadURL];
-//    } else {
-//        [thread imageForThread].thenOnMain(^id(UIImage * image) {
-//            cell.profileImageView.image = image;
-////            [cell.profileImageView sd_setImageWithURL:threadURL placeholderImage:image];
-//            return Nil;
-//        }, Nil);
-//    }
-    
-    //    cell.unreadView.hidden = !thread.unreadMessageCount;
-    
-    int unreadCount = thread.unreadMessageCount;
-    cell.unreadMessagesLabel.hidden = !unreadCount;
-    cell.unreadMessagesLabel.text = [@(unreadCount) stringValue];
-    
+
     // Add the typing indicator
     NSString * typingText = _threadTypingMessages[thread.entityID];
     if (typingText && typingText.length) {

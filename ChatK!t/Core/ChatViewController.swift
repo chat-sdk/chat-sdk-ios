@@ -27,36 +27,36 @@ public protocol ChatViewControllerDelegate {
     func viewDidDisappear()
 }
 
-public class ChatViewController: UIViewController {
+open class ChatViewController: UIViewController {
     
     // View that contains the message list
-    public var messagesView = ChatKit.provider().messagesView()
-    public var keyboardOverlayView = UIView()
-    public var headerView = ChatKit.provider().chatHeaderView()
-    public var reconnectingView = ChatKit.provider().reconnectingView()
+    open var messagesView = ChatKit.provider().messagesView()
+    open var keyboardOverlayView = UIView()
+    open var headerView = ChatKit.provider().chatHeaderView()
+    open var reconnectingView = ChatKit.provider().reconnectingView()
         
-    public var hiddenTextField = UITextField()
+    open var hiddenTextField = UITextField()
     
-    public var replyView = ChatKit.provider().replyView()
-    public var toolbar: ChatToolbar
-    public var subtitleTimer: Timer?
+    open var replyView = ChatKit.provider().replyView()
+    open var toolbar: ChatToolbar
+    open var subtitleTimer: Timer?
     
-    public var messagesModel: MessagesModel?
+    open var messagesModel: MessagesModel?
     
-    public var keyboardListener = KeyboardListener()
+    open var keyboardListener = KeyboardListener()
     
-    public var afterLayoutQueue = [AfterLayoutAction]()
+    open var afterLayoutQueue = [AfterLayoutAction]()
     
-    public var initialLoad = true
+    open var initialLoad = true
         
     // Text input bar
-    public lazy var sendBarView = {
+    open lazy var sendBarView = {
         return ChatKit.provider().sendBarView()
     }()
     // This view bridges between the bottom of the text input view and the bottom of the safe area
-    public var sendBarViewFooter: UIView?
-    public var sendBarViewBottomConstraint: NSLayoutConstraint?
-    public var sendBarViewFooterBottomConstraint: NSLayoutConstraint?
+    open var sendBarViewFooter: UIView?
+    open var sendBarViewBottomConstraint: NSLayoutConstraint?
+    open var sendBarViewFooterBottomConstraint: NSLayoutConstraint?
 
     // Gesture recognizers
     var tapRecognizer: UITapGestureRecognizer?
@@ -66,8 +66,8 @@ public class ChatViewController: UIViewController {
     
     // Data model
     public let model: ChatModel
-    public var typingDelegate: ChatViewControllerTypingDelegate?
-    public var delegate: ChatViewControllerDelegate?
+    open var typingDelegate: ChatViewControllerTypingDelegate?
+    open var delegate: ChatViewControllerDelegate?
 
     public init(model: ChatModel) {
         self.model = model
@@ -85,7 +85,7 @@ public class ChatViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
 
         setup()
@@ -110,24 +110,24 @@ public class ChatViewController: UIViewController {
         delegate?.viewDidLoad()
     }
     
-    public func addRightBarButtonItem(item: UIBarButtonItem, action: @escaping ((UIBarButtonItem) -> Void)) {
+    open func addRightBarButtonItem(item: UIBarButtonItem, action: @escaping ((UIBarButtonItem) -> Void)) {
         item.target = self
         item.action = #selector(rightBarButtonAction(sender:))
         rightBarButtonItem = item
         rightBarButtonAction = action
     }
     
-    @objc public func rightBarButtonAction(sender: UIBarButtonItem) {
+    @objc open func rightBarButtonAction(sender: UIBarButtonItem) {
         rightBarButtonAction?(sender)
     }
     
-    override public func viewDidAppear(_ animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         initialLoad = false
         delegate?.viewDidAppear()
     }
     
-    override public func viewWillLayoutSubviews() {
+    override open func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         for overlay in model.keyboardOverlays() {
             if let _ = overlay.superview {
@@ -137,7 +137,7 @@ public class ChatViewController: UIViewController {
         messagesView.willSetBottomInset()
     }
     
-    override public func viewDidLayoutSubviews() {
+    override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateMessageViewBottomInset()
         popAllAfterLayoutActions()
@@ -146,20 +146,20 @@ public class ChatViewController: UIViewController {
         self.perform(#selector(didFinishAutoLayout))
     }
     
-    @objc public func didFinishAutoLayout() {
+    @objc open func didFinishAutoLayout() {
         if initialLoad {
             messagesView.scrollToBottom(animated: false, force: true)
         }
     }
     
     
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         sendBarView.updateColors()
         replyView.updateColors()
     }
     
-    public func updateMessageViewBottomInset(keyboardHeight: CGFloat? = nil) {
+    open func updateMessageViewBottomInset(keyboardHeight: CGFloat? = nil) {
         var height = keyboardHeight ?? -(sendBarViewBottomConstraint?.constant ?? 0)
         if (replyView.isVisible() || replyView.willShow) && !replyView.willHide {
             height += replyView.frame.size.height
@@ -168,7 +168,7 @@ public class ChatViewController: UIViewController {
         messagesView.setBottomInset(height: height)
     }
     
-    override public func viewWillAppear(_ animated: Bool) {
+    override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         model.loadInitialMessages()
@@ -187,54 +187,54 @@ public class ChatViewController: UIViewController {
 
     }
     
-    override public func viewWillDisappear(_ animated: Bool) {
+    override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeObservers()
         hideKeyboardOverlay()
         delegate?.viewWillDisappear()
     }
     
-    override public func viewDidDisappear(_ animated: Bool) {
+    override open func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         delegate?.viewDidDisappear()
     }
     
     // Observers
     
-    public func addObservers() {
+    open func addObservers() {
         keyboardListener.addObservers()
     }
 
-    public func removeObservers() {
+    open func removeObservers() {
         keyboardListener.removeObservers()
     }
     
-    public func setTitle(text: String) {
+    open func setTitle(text: String) {
         headerView.titleLabel?.text = text
     }
     
-    public func setSubtitle(text: String? = nil) {
+    open func setSubtitle(text: String? = nil) {
         if let text = text {
             headerView.subtitleLabel?.text = text
-        } else {
+        } else if !model.subtitle().isEmpty {
             headerView.subtitleLabel?.text = model.subtitle()
         }
     }
     
     // Setup methods
     
-    public func setup() {
+    open func setup() {
         view.backgroundColor = ChatKit.asset(color: "background")
         title = model.title()
     }
 
-    public func setupHiddenTextView() {
+    open func setupHiddenTextView() {
         view.addSubview(hiddenTextField)
         hiddenTextField.keepTopInset.equal = -1000
         hiddenTextField.alpha = 0
     }
 
-    public func setupMessageModel() {
+    open func setupMessageModel() {
         messagesModel = model.messagesModel
         messagesModel!.setSelectionChangeListener({ [weak self] selection in
             if selection.isEmpty {
@@ -245,7 +245,7 @@ public class ChatViewController: UIViewController {
         })
     }
     
-    public func setupMessagesView() {
+    open func setupMessagesView() {
         messagesView.setModel(model: messagesModel!)
         messagesView.hideKeyboardListener = { [weak self] in
             self?.sendBarView.hideKeyboard()
@@ -255,7 +255,7 @@ public class ChatViewController: UIViewController {
         messagesView.keepInsets.equal = 0
     }
     
-    public func setupSendBarView() {
+    open func setupSendBarView() {
         view.addSubview(sendBarView)
         
         sendBarView.keepLeftInset.equal = 0
@@ -292,7 +292,7 @@ public class ChatViewController: UIViewController {
         ])
     }
     
-    public func updateNavigationBar(reconnecting: Bool = false) {
+    open func updateNavigationBar(reconnecting: Bool = false) {
         if reconnecting {
             navigationItem.titleView = reconnectingView
         } else {
@@ -302,7 +302,7 @@ public class ChatViewController: UIViewController {
         setSubtitle(text: model.subtitle())
     }
     
-    public func setupReplyView() {
+    open func setupReplyView() {
         view.addSubview(replyView)
         replyView.keepRightInset.equal = 0
         replyView.keepLeftInset.equal = 0
@@ -316,11 +316,11 @@ public class ChatViewController: UIViewController {
         }
     }
     
-//    public func clearSelection() {
+//    open func clearSelection() {
 //        model.messagesModel().clearSelection()
 //    }
     
-    public func setuptoolbar() {
+    open func setuptoolbar() {
         view.addSubview(toolbar)
         
         toolbar.keepTopAlignTo(sendBarView)?.equal = 0;
@@ -331,21 +331,24 @@ public class ChatViewController: UIViewController {
         
     }
     
-    public func goOffline() {
+    open func goOffline() {
         sendBarView.goOffline()
         updateNavigationBar(reconnecting: true)
     }
 
-    public func goOnline() {
+    open func goOnline() {
         sendBarView.goOnline()
         updateNavigationBar()
     }
     
-    public func updateConnectionStatus(_ status: ConnectionStatus? = .none) {
+    open func updateConnectionStatus(_ status: ConnectionStatus? = .none) {
+        if status == .none {
+            updateNavigationBar(reconnecting: false)
+        }
         reconnectingView.update(status)
     }
 
-    public func showReplyView(_ message: AbstractMessage) {
+    open func showReplyView(_ message: AbstractMessage) {
         replyView.show(message: message, duration: ChatKit.config().animationDuration)
         UIView.animate(withDuration: ChatKit.config().animationDuration, animations: { [weak self] in
             self?.updateMessageViewBottomInset()
@@ -353,24 +356,24 @@ public class ChatViewController: UIViewController {
         toolbar.hide()
    }
     
-    public func hideReplyView() {
+    open func hideReplyView() {
         replyView.hide()
     }
 
-    public func setupKeyboardOverlays() {
+    open func setupKeyboardOverlays() {
         for overlay in model.keyboardOverlays() {
             addKeyboardOverlay(view: overlay)
         }
     }
     
-    public func setupKeyboardOverlay() {
+    open func setupKeyboardOverlay() {
         keyboardOverlayView.backgroundColor = ChatKit.asset(color: "background")
         keyboardOverlayView.alpha = 0
         keyboardOverlayView.isUserInteractionEnabled = false
         resetKeyboardOverlayFrame()
     }
     
-    public func setupKeyboardListener() {
+    open func setupKeyboardListener() {
         keyboardListener.willShow = { [weak self] info in
             
             self?.keyboardOverlayView.frame = info.frame
@@ -408,25 +411,25 @@ public class ChatViewController: UIViewController {
     
     // Keyboard Overlay
     
-    public func resetKeyboardOverlayFrame() {
+    open func resetKeyboardOverlayFrame() {
         keyboardOverlayView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 300)
     }
     
-    public func showKeyboardOverlay() {
+    open func showKeyboardOverlay() {
         hiddenTextField.becomeFirstResponder()
         UIApplication.shared.windows.last?.addSubview(keyboardOverlayView)
         keyboardOverlayView.alpha = 1
         keyboardOverlayView.isUserInteractionEnabled = true
     }
 
-    public func hideKeyboardOverlay() {
+    open func hideKeyboardOverlay() {
         hiddenTextField.resignFirstResponder()
         keyboardOverlayView.removeFromSuperview()
         keyboardOverlayView.alpha = 0
         keyboardOverlayView.isUserInteractionEnabled = false
     }
     
-    public func addKeyboardOverlay(view: KeyboardOverlay) {
+    open func addKeyboardOverlay(view: KeyboardOverlay) {
         keyboardOverlayView.addSubview(view)
         view.alpha = 0
         view.keepTopInset.equal = 0
@@ -434,7 +437,7 @@ public class ChatViewController: UIViewController {
         view.keepRightInset.equal = 0
     }
 
-    public func showKeyboardOverlay(name: String) {
+    open func showKeyboardOverlay(name: String) {
         showKeyboardOverlay()
         for overlay in model.keyboardOverlays() {
             overlay.alpha = 0
@@ -446,7 +449,7 @@ public class ChatViewController: UIViewController {
         }
     }
 
-    public func hideKeyboardOverlay(name: String) {
+    open func hideKeyboardOverlay(name: String) {
         hiddenTextField.resignFirstResponder()
         hideKeyboardOverlay()
         if let overlay = model.keyboardOverlay(for: name) {
@@ -457,45 +460,45 @@ public class ChatViewController: UIViewController {
     
     // Toolbar
     
-    public func hideToolbar() {
+    open func hideToolbar() {
         toolbar.hide()
     }
 
-    public func showToolbar() {
+    open func showToolbar() {
         toolbar.show()
     }
     
-    public func vibrate() {
+    open func vibrate() {
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
     
-    public func isReply() -> Bool {
+    open func isReply() -> Bool {
         return replyView.message() != nil
     }
 
-    public func replyToMessage() -> Message? {
+    open func replyToMessage() -> Message? {
         return replyView.message()
     }
     
-    public func addAfterLayout(_ action: AfterLayoutAction) {
+    open func addAfterLayout(_ action: AfterLayoutAction) {
         afterLayoutQueue.append(action)
     }
 
-    public func popAfterLayoutAction() {
+    open func popAfterLayoutAction() {
         if !afterLayoutQueue.isEmpty {
             afterLayoutQueue.first?.action()
             afterLayoutQueue.remove(at: 0)
         }
     }
     
-    public func popAllAfterLayoutActions() {
+    open func popAllAfterLayoutActions() {
         for action in afterLayoutQueue {
             action.action()
         }
         afterLayoutQueue.removeAll()
     }
     
-    public func setReadOnly(_ readonly: Bool) {
+    open func setReadOnly(_ readonly: Bool) {
         if readonly {
             sendBarView.isHidden = true
             sendBarView.keepHeight.equal = 0
@@ -508,7 +511,7 @@ public class ChatViewController: UIViewController {
 }
 
 extension UIView {
-    public func safeAreaHeight() -> CGFloat {
+    open func safeAreaHeight() -> CGFloat {
         if #available(iOS 11, *) {
             return safeAreaInsets.bottom
         }
@@ -518,14 +521,14 @@ extension UIView {
 
 extension ChatViewController: PChatViewController {
 
-    public func add(message: Message) {
+    open func add(message: Message) {
         
     }
     
 }
 
-public class AfterLayoutAction {
-    public var action: () -> Void
+open class AfterLayoutAction {
+    open var action: () -> Void
     public init(action: @escaping () -> Void) {
         self.action = action
     }

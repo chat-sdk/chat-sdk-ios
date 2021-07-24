@@ -79,9 +79,10 @@ Pod::Spec.new do |s|
 	  s.dependency 'ChatSDKKeepLayout'
 	  s.dependency 'Toast', '~>4.0.0'
 	  s.dependency 'EFQRCode', '~> 5.1.6'
+	  s.dependency 'CollectionKit'
+    s.dependency 'QuickTableViewController'	  
 
 	  s.dependency 'ChatSDK/CoreData'
-    s.dependency 'QuickTableViewController'	  
 	  s.frameworks = 'CoreLocation'
   
   end

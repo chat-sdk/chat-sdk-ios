@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class SendBarActions {
+open class SendBarActions {
     
     public static func camera(onClick: @escaping (() -> Void)) -> SendBarAction {
         return SendBarAction(image: ChatKit.asset(icon: "icn_30_camera"), action: onClick, visibility: .noText, position: .end)

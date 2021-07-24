@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public class KeyboardInfo {
+open class KeyboardInfo {
     
     public let frame: CGRect
     public let duration: Double
@@ -30,7 +30,7 @@ public class KeyboardInfo {
         return nil
     }
     
-    public func height(view: UIView? = nil) -> CGFloat {
+    open func height(view: UIView? = nil) -> CGFloat {
         var keyboardHeight = UIScreen.main.bounds.height - frame.origin.y
         if #available(iOS 11, *) {
             if keyboardHeight > 0, let view = view {
@@ -41,19 +41,19 @@ public class KeyboardInfo {
     }
 }
 
-public class KeyboardListener {
+open class KeyboardListener {
     
-    public var willShow: ((KeyboardInfo) -> Void)?
-    public var didShow: ((KeyboardInfo) -> Void)?
-    public var willHide: ((KeyboardInfo) -> Void)?
-    public var didHide: ((KeyboardInfo) -> Void)?
-    public var willChangeFrame: ((KeyboardInfo) -> Void)?
+    open var willShow: ((KeyboardInfo) -> Void)?
+    open var didShow: ((KeyboardInfo) -> Void)?
+    open var willHide: ((KeyboardInfo) -> Void)?
+    open var didHide: ((KeyboardInfo) -> Void)?
+    open var willChangeFrame: ((KeyboardInfo) -> Void)?
 
     init() {
         
     }
     
-    public func addObservers() {
+    open func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
@@ -61,37 +61,37 @@ public class KeyboardListener {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
-    public func removeObservers() {
+    open func removeObservers() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc public func keyboardWillChangeFrame(_ notification: Notification) {
+    @objc open func keyboardWillChangeFrame(_ notification: Notification) {
         if let callback = willChangeFrame, let data = KeyboardInfo.from(notification.userInfo) {
             callback(data)
         }
     }
     
-    @objc public func keyboardWillShow(_ notification: Notification) {
+    @objc open func keyboardWillShow(_ notification: Notification) {
         if let info = KeyboardInfo.from(notification.userInfo) {
             willShow?(info)
         }
     }
 
-    @objc public func keyboardDidShow(_ notification: Notification) {
+    @objc open func keyboardDidShow(_ notification: Notification) {
         if let info = KeyboardInfo.from(notification.userInfo) {
             didShow?(info)
         }
     }
 
-    @objc public func keyboardWillHide(_ notification: Notification) {
+    @objc open func keyboardWillHide(_ notification: Notification) {
         if let info = KeyboardInfo.from(notification.userInfo) {
             willHide?(info)
         }
     }
 
-    @objc public func keyboardDidHide(_ notification: Notification) {
+    @objc open func keyboardDidHide(_ notification: Notification) {
         if let info = KeyboardInfo.from(notification.userInfo) {
             didHide?(info)
         }

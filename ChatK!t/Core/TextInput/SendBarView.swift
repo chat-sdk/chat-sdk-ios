@@ -9,29 +9,29 @@ import Foundation
 import KeepLayout
 import NextGrowingTextView
 
-public class SendBarView: UIView, UITextViewDelegate {
+open class SendBarView: UIView, UITextViewDelegate {
     
-    public var textView: NextGrowingTextView?
+    open var textView: NextGrowingTextView?
     public let divider = UIView()
 
     public let startButtonsView = UIView()
-    public var startActions = [SendBarAction]()
+    open var startActions = [SendBarAction]()
 
     public let endButtonsView = UIView()
-    public var endActions = [SendBarAction]()
+    open var endActions = [SendBarAction]()
     
-    public var sendAction: SendBarAction?
-    public var audioEnabled = false
-    public var micButtonEnabled = false
-    public var blurEnabled = ChatKit.config().blurEnabled
+    open var sendAction: SendBarAction?
+    open var audioEnabled = false
+    open var micButtonEnabled = false
+    open var blurEnabled = ChatKit.config().blurEnabled
     
-    public var background: UIView?
+    open var background: UIView?
     
-    public var didBecomeFirstResponder: (() -> Void)?
+    open var didBecomeFirstResponder: (() -> Void)?
 
-    public var didStartTyping: (() -> Void)?
-    public var didStopTyping: (() -> Void)?
-    public var typingTimer: Timer?
+    open var didStartTyping: (() -> Void)?
+    open var didStopTyping: (() -> Void)?
+    open var typingTimer: Timer?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,7 +46,7 @@ public class SendBarView: UIView, UITextViewDelegate {
         self.init()
     }
 
-    public func setup() {
+    open func setup() {
                 
         textView = NextGrowingTextView()
         textView?.delegate = self
@@ -100,46 +100,46 @@ public class SendBarView: UIView, UITextViewDelegate {
 
     }
     
-    public func updateColors() {
+    open func updateColors() {
         textView?.backgroundColor = ChatKit.asset(color: "gray_4")
         textView?.layer.borderColor = ChatKit.asset(color: "gray_6").cgColor
         divider.backgroundColor = ChatKit.asset(color: "gray_6")
     }
     
-    public func setBackgroundAlpha(alpha: CGFloat) {
+    open func setBackgroundAlpha(alpha: CGFloat) {
         background?.alpha = alpha
     }
         
-    public func addActionToStart(action: SendBarAction) {
+    open func addActionToStart(action: SendBarAction) {
         startActions.append(action)
         layoutStartActions()
     }
 
-    public func addActionToEnd(action: SendBarAction) {
+    open func addActionToEnd(action: SendBarAction) {
         endActions.append(action)
         layoutEndActions()
     }
     
-    public func removeActionFromStart(at: Int) {
+    open func removeActionFromStart(at: Int) {
         clearLayout(actions: startActions)
         startActions.remove(at: at)
         layoutStartActions()
     }
 
-    public func removeActionFromEnd(at: Int) {
+    open func removeActionFromEnd(at: Int) {
         clearLayout(actions: endActions)
         endActions.remove(at: at)
         layoutEndActions()
     }
 
-    public func clearLayout(actions: [SendBarAction]) {
+    open func clearLayout(actions: [SendBarAction]) {
         for action in actions {
             let button = action.getButton()
             button.removeFromSuperview()
         }
     }
     
-    public func resetLayout(actions: [SendBarAction]) {
+    open func resetLayout(actions: [SendBarAction]) {
         for action in actions {
             let button = action.getButton()
 
@@ -152,7 +152,7 @@ public class SendBarView: UIView, UITextViewDelegate {
         }
     }
         
-    public func filterActions(actions: [SendBarAction], hasText: Bool) -> [SendBarAction] {
+    open func filterActions(actions: [SendBarAction], hasText: Bool) -> [SendBarAction] {
         var result = [SendBarAction]()
         
         for action in actions {
@@ -171,7 +171,7 @@ public class SendBarView: UIView, UITextViewDelegate {
         return result
     }
     
-    public func layoutStartActions(hasText: Bool = false) {
+    open func layoutStartActions(hasText: Bool = false) {
         resetLayout(actions: startActions)
 
         let actions = filterActions(actions: startActions, hasText: hasText)
@@ -200,7 +200,7 @@ public class SendBarView: UIView, UITextViewDelegate {
         }
     }
     
-    public func layoutEndActions(hasText: Bool = false) {
+    open func layoutEndActions(hasText: Bool = false) {
         resetLayout(actions: endActions)
         
         let actions = filterActions(actions: endActions, hasText: hasText)
@@ -223,7 +223,7 @@ public class SendBarView: UIView, UITextViewDelegate {
         }
     }
     
-    public func addAction(_ action: SendBarAction) {
+    open func addAction(_ action: SendBarAction) {
         sendAction = action
         if action.position == .end {
             addActionToEnd(action: action)
@@ -232,7 +232,7 @@ public class SendBarView: UIView, UITextViewDelegate {
         }
     }
     
-    public func allActions() -> [SendBarAction] {
+    open func allActions() -> [SendBarAction] {
         var actions = [SendBarAction]()
         for action in startActions {
             actions.append(action)
@@ -243,7 +243,7 @@ public class SendBarView: UIView, UITextViewDelegate {
         return actions
     }
     
-    public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let old = textView.text as NSString?
         if let newText = old?.replacingCharacters(in: range, with: text) {
             if newText.isEmptyOrBlank() != textView.text.isEmptyOrBlank() {
@@ -254,7 +254,7 @@ public class SendBarView: UIView, UITextViewDelegate {
         return true
     }
     
-    public func startTyping() {
+    open func startTyping() {
         // We are already typing
         if typingTimer == nil {
             didStartTyping?()
@@ -267,18 +267,18 @@ public class SendBarView: UIView, UITextViewDelegate {
         })
     }
     
-    public func textViewDidBeginEditing(_ textView: UITextView) {
+    open func textViewDidBeginEditing(_ textView: UITextView) {
         didBecomeFirstResponder?()
     }
     
-    public func layout(hasText: Bool = false) {
+    open func layout(hasText: Bool = false) {
         keepAnimated(withDuration: 0.2, delay: 0, options: .curveEaseInOut, layout: { [weak self] in
             self?.layoutStartActions(hasText: hasText)
             self?.layoutEndActions(hasText: hasText)
         }, completion: nil)
     }
     
-    public func textViewDidChange(_ textView: UITextView) {
+    open func textViewDidChange(_ textView: UITextView) {
         if hasText() {
             
         } else {
@@ -286,31 +286,31 @@ public class SendBarView: UIView, UITextViewDelegate {
         }
     }
     
-    public func text() -> String? {
+    open func text() -> String? {
         return textView?.textView.text
     }
     
-    public func hasText() -> Bool {
+    open func hasText() -> Bool {
         if let text = text(), text.hasText() {
             return true
         }
         return false
     }
 
-    public func hideKeyboard() {
+    open func hideKeyboard() {
         textView?.textView.resignFirstResponder()
     }
 
-    public func showKeyboard() {
+    open func showKeyboard() {
         textView?.textView.becomeFirstResponder()
     }
 
-    public func hideAndDisable() {
+    open func hideAndDisable() {
         setDisabled(value: true)
         hideKeyboard()
     }
     
-    public func setDisabled(value: Bool) {
+    open func setDisabled(value: Bool) {
         textView?.textView.isEditable = !value
         for action in startActions {
             action.getButton().isEnabled = !value
@@ -320,19 +320,19 @@ public class SendBarView: UIView, UITextViewDelegate {
         }
     }
     
-    public func clear() {
+    open func clear() {
         textView?.textView.text = ""
         layout()
     }
     
-    public func goOffline() {
+    open func goOffline() {
         textView?.isUserInteractionEnabled = false
         for action in allActions() {
             action.button?.isEnabled = false
         }
     }
     
-    public func goOnline() {
+    open func goOnline() {
         textView?.isUserInteractionEnabled = true
         for action in allActions() {
             action.button?.isEnabled = true

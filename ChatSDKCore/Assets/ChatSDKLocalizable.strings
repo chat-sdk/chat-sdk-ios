@@ -31,6 +31,7 @@
 "bForgotPassword" = "Forgot password";
 "bEnterCredentialToResetPassword" = "Enter email to reset password";
 "bPasswordResetSuccess" = "Your password reset has been successful";
+"bForwardMessage" = "Forward Message";
 
 "bBack" = "Back";
 "bOpenInMaps" = "Open in maps";

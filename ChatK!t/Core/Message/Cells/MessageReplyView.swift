@@ -7,14 +7,14 @@
 
 import Foundation
 
-public class MessageReplyView: UIView {
+open class MessageReplyView: UIView {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var divider: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var textLabel: UILabel!
     
-    override public func awakeFromNib() {
+    override open func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = ChatKit.asset(color: ChatKit.config().replyBackgroundColor)
         titleLabel.textColor = ChatKit.asset(color: ChatKit.config().replyTitleColor)
@@ -25,11 +25,11 @@ public class MessageReplyView: UIView {
         clipsToBounds = true
     }
     
-    public func showImage() {
+    open func showImage() {
         imageView.keepWidth.equal = ChatKit.config().messageReplyViewHeight
     }
     
-    public func hideImage() {
+    open func hideImage() {
         imageView.keepWidth.equal = 0
     }
     

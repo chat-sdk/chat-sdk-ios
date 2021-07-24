@@ -51,7 +51,10 @@
 
 +(NSString *) textForMessage: (id<PMessage>) message {
     NSString * text;
-    if (message.type.intValue == bMessageTypeImage) {
+    if (message.isReply) {
+        text = message.reply;
+    }
+    else if (message.type.intValue == bMessageTypeImage) {
         text = [self t:bImageMessage];
     }
     else if(message.type.intValue == bMessageTypeLocation) {

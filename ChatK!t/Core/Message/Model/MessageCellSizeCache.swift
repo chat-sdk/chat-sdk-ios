@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class MessageCellSizeCache {
+open class MessageCellSizeCache {
     
     var cells = [String: MessageCell]()
     var heights = [String: CGFloat]()
@@ -19,13 +19,13 @@ public class MessageCellSizeCache {
         }
     }
     
-    public func addCell(direction: MessageDirection, registration: MessageCellRegistration) {
+    open func addCell(direction: MessageDirection, registration: MessageCellRegistration) {
         let cell: MessageCell = .fromNib(nib: registration.nib(direction: direction))
         cell.setContent(content: registration.content(direction: direction))
         cells[registration.identifier(direction: direction)] = cell
     }
     
-    public func heightForIndexPath(_ message: AbstractMessage, model: MessagesModel, width: CGFloat) -> CGFloat? {
+    open func heightForIndexPath(_ message: AbstractMessage, model: MessagesModel, width: CGFloat) -> CGFloat? {
         if let height = heights[message.messageId()] {
             return height
         } else if let identifier = model.cellRegistration(message.messageType())?.identifier(direction: message.messageDirection()), let cell = cells[identifier] {

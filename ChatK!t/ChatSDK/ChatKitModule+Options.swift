@@ -10,11 +10,8 @@ import ChatSDK
 
 public extension ChatKitModule {
     
-    func addOptions(model: ChatModel, vc: ChatViewController, thread: PThread) {
-
-        let optionsOverlay = OptionsKeyboardOverlay()
-        
-        let options = [
+    func getOptions(vc: ChatViewController, thread: PThread) -> [Option] {
+        return [
             Option(galleryOnClick: {
                 let action = BSelectMediaAction(type: bPictureTypeAlbumImage, viewController: vc)
                 _ = action?.execute()?.thenOnMain({ success in
@@ -44,10 +41,5 @@ public extension ChatKitModule {
                 }, nil)
             }),
         ]
-        
-        optionsOverlay.setOptions(options: options)
-                    
-        model.addKeyboardOverlay(name: OptionsKeyboardOverlay.key, overlay: optionsOverlay)
-        
     }
 }

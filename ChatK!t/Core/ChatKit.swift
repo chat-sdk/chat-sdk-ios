@@ -7,9 +7,9 @@
 
 import Foundation
 
-public class ChatKit {
+open class ChatKit {
     
-    public var provider = Provider()
+    open var provider = Provider()
     
     public static let instance = ChatKit()
     
@@ -17,23 +17,23 @@ public class ChatKit {
         return instance
     }
     
-    public lazy var _assets = {
+    open lazy var _assets = {
         return ChatKit.provider().assets()
     }()
 
-    public lazy var _config = {
+    open lazy var _config = {
         return ChatKit.provider().config()
     }()
     
-    public lazy var _audioRecorder = {
+    open lazy var _audioRecorder = {
         ChatKit.provider().audioRecorder()
     }()
 
-//    public lazy var _audioPlayer = {
+//    open lazy var _audioPlayer = {
 //        ChatKit.provider().audioPlayer()
 //    }()
 
-    public lazy var _downloadManager = {
+    open lazy var _downloadManager = {
         ChatKit.provider().downloadManager()
     }()
 
@@ -61,7 +61,7 @@ public class ChatKit {
         return shared().provider
     }
 
-    public func setProvider(_ provider: Provider) {
+    open func setProvider(_ provider: Provider) {
         self.provider = provider
     }
 

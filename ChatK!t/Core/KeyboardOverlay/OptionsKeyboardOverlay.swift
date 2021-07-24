@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import CollectionKit
 
-public class OptionsKeyboardOverlay: UIView, KeyboardOverlay {
+open class OptionsKeyboardOverlay: UIView, KeyboardOverlay {
     
     public static let key = "options"
     
@@ -28,14 +28,14 @@ public class OptionsKeyboardOverlay: UIView, KeyboardOverlay {
         self.init()
     }
 
-    public func setup() {
+    open func setup() {
         collectionView = CollectionView()
         addSubview(collectionView!)
         collectionView?.keepInsets.equal = 0
         collectionView?.showsHorizontalScrollIndicator = false
     }
     
-    public func setOptions(options: [Option]) {
+    open func setOptions(options: [Option]) {
         
         var buckets = [OptionBucket]()
 
@@ -63,11 +63,11 @@ public class OptionsKeyboardOverlay: UIView, KeyboardOverlay {
         collectionView?.provider = provider
     }
             
-    public func reload() {
+    open func reload() {
         collectionView?.reloadData()
     }
     
-    public func viewWillLayoutSubviews(view: UIView) {
+    open func viewWillLayoutSubviews(view: UIView) {
         reload()
         keepBottomInset.equal = view.safeAreaHeight() + ChatKit.config().chatOptionsBottomMargin
     }

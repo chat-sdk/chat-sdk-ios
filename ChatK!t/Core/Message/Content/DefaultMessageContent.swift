@@ -9,7 +9,7 @@ import Foundation
 
 open class DefaultMessageContent: MessageContent {
     
-    open required init() {
+    public required init() {
         
     }
     

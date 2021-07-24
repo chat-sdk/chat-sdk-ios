@@ -7,7 +7,7 @@
 
 import Foundation
  
-public class MessageCellRegistration {
+open class MessageCellRegistration {
     
     public let messageType: String
     public let incomingNib: UINib
@@ -39,7 +39,7 @@ public class MessageCellRegistration {
         self.outgoingContentClass = contentClass
     }
 
-    public func nib(direction: MessageDirection) -> UINib {
+    open func nib(direction: MessageDirection) -> UINib {
         switch direction {
         case .incoming:
             return incomingNib
@@ -48,11 +48,11 @@ public class MessageCellRegistration {
         }
     }
     
-    public func identifier(direction: MessageDirection) -> String {
+    open func identifier(direction: MessageDirection) -> String {
         return messageType + direction.get()
     }
         
-    public func content(direction: MessageDirection) -> MessageContent {
+    open func content(direction: MessageDirection) -> MessageContent {
         var contentClass: DefaultMessageContent.Type?
         switch direction {
         case .incoming:

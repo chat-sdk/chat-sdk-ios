@@ -9,20 +9,20 @@ import Foundation
 import KeepLayout
 import SDWebImage
 
-public class TextMessageContent: DefaultMessageContent {
+open class TextMessageContent: DefaultMessageContent {
     
-    public lazy var label: UILabel = {
+    open lazy var label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    public lazy var replyView: MessageReplyView = {
+    open lazy var replyView: MessageReplyView = {
         return ChatKit.provider().messageReplyView()
     }()
     
-    public lazy var containerView: UIView = {
+    open lazy var containerView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
         view.addSubview(label)
@@ -36,11 +36,11 @@ public class TextMessageContent: DefaultMessageContent {
         return view
     }()
     
-    override public func view() -> UIView {
+    override open func view() -> UIView {
         return containerView
     }
     
-    override public func bind(_ message: AbstractMessage, model: MessagesModel) {
+    override open func bind(_ message: AbstractMessage, model: MessagesModel) {
         super.bind(message, model: model)
 
         if message.messageDirection() == .incoming {
@@ -58,7 +58,7 @@ public class TextMessageContent: DefaultMessageContent {
 //        containerView.setNeedsLayout()
     }
     
-    public func hideReply() {
+    open func hideReply() {
         if replyView.superview != nil {
             label.keepTopOffsetTo(replyView)?.deactivate()
             replyView.removeFromSuperview()
@@ -66,7 +66,7 @@ public class TextMessageContent: DefaultMessageContent {
         }
     }
     
-    public func showReply(title: String?, text: String?, imageURL: URL? = nil, placeholder: UIImage? = nil) {
+    open func showReply(title: String?, text: String?, imageURL: URL? = nil, placeholder: UIImage? = nil) {
         if replyView.superview == nil {
             containerView.addSubview(replyView)
 

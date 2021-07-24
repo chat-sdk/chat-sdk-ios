@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:ChatSDKDemo.xcodeproj">
+      location = "group:/Users/Shared/Projects2/Chat SDK iOS/Master/ChatSDKPublic/DemoObjC/ChatSDKDemo.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

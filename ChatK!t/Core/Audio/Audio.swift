@@ -3,27 +3,27 @@ import UIKit
 import AVFoundation
 import RxSwift
 
-public class AudioRecorder: NSObject {
+open class AudioRecorder: NSObject {
     
     public enum AudioRecorderError: Error {
         case permission
     }
     
-    public var audioSession = AVAudioSession.sharedInstance()
-    public var audioRecorder:AVAudioRecorder?
+    open var audioSession = AVAudioSession.sharedInstance()
+    open var audioRecorder:AVAudioRecorder?
     public let settings = [AVFormatIDKey: Int(kAudioFormatMPEG4AAC), AVSampleRateKey: 12000, AVNumberOfChannelsKey: 1, AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue]
-    public var timer:Timer!
+    open var timer:Timer!
     
-    public var isRecording:Bool = false
-    public var url:URL?
-    public var time:Int = 0
-    public var fileName = "audio_file"
+    open var isRecording:Bool = false
+    open var url:URL?
+    open var time:Int = 0
+    open var fileName = "audio_file"
     
     override init() {
         super.init()
     }
     
-    public func prepare(name: String? = nil) {
+    open func prepare(name: String? = nil) {
  
         if !isAuth() {
             return
@@ -145,13 +145,13 @@ public class AudioRecorder: NSObject {
 
 extension AudioRecorder: AVAudioRecorderDelegate {
     
-    public func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+    open func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         isRecording = false
         timer.invalidate()
         print("record finish")
     }
     
-    public func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
+    open func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
         print(error.debugDescription)
     }
 }

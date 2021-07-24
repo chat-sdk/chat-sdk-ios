@@ -131,10 +131,10 @@ open class ImageMessageContent: DefaultMessageContent, DownloadableContent, Uplo
 
 open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
     
-    @IBOutlet weak var imageView: FLAnimatedImageView!
-    @IBOutlet weak var checkImageView: UIImageView!
-    @IBOutlet weak var videoImageView: UIImageView!
-    @IBOutlet weak var progressView: FFCircularProgressView!
+    @IBOutlet public weak var imageView: FLAnimatedImageView!
+    @IBOutlet public weak var checkImageView: UIImageView!
+    @IBOutlet public weak var videoImageView: UIImageView!
+    @IBOutlet public weak var progressView: FFCircularProgressView!
     
     open var blurView: UIView?
     open var message: Message?

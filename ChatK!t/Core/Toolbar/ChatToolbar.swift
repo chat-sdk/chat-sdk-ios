@@ -18,10 +18,10 @@ public protocol ChatToolbarActionsDelegate {
     }
 }
 
-public class ChatToolbar: UIToolbar {
+open class ChatToolbar: UIToolbar {
     
-    public var _delegate: ChatToolbarDelegate?
-    public var _actionsDelegate: ChatToolbarActionsDelegate?
+    open var _delegate: ChatToolbarDelegate?
+    open var _actionsDelegate: ChatToolbarActionsDelegate?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,15 +36,15 @@ public class ChatToolbar: UIToolbar {
         fatalError("init(coder:) has not been implemented")
     }
         
-    public func setDelegate(_ delegate: ChatToolbarDelegate) {
+    open func setDelegate(_ delegate: ChatToolbarDelegate) {
         _delegate = delegate
     }
 
-    public func setActionsDelegate(_ delegate: ChatToolbarActionsDelegate) {
+    open func setActionsDelegate(_ delegate: ChatToolbarActionsDelegate) {
         _actionsDelegate = delegate
     }
 
-    public func update(animated: Bool = false) {
+    open func update(animated: Bool = false) {
         var items = [UIBarButtonItem]()
         
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil);
@@ -75,20 +75,20 @@ public class ChatToolbar: UIToolbar {
 
     }
     
-    public func isVisible() -> Bool {
+    open func isVisible() -> Bool {
         return self.alpha != 0
     }
 
-    public func show() -> Void {
+    open func show() -> Void {
         update()
         show(duration: ChatKit.config().animationDuration)
     }
     
-    public func hide() -> Void {
+    open func hide() -> Void {
         hide(duration: ChatKit.config().animationDuration)
     }
     
-    public func show(duration: Double) {
+    open func show(duration: Double) {
         if !isVisible() {
             superview?.keepAnimated(withDuration: duration, layout: {
                 self.alpha = 1
@@ -96,7 +96,7 @@ public class ChatToolbar: UIToolbar {
         }
     }
 
-    public func hide(duration: Double) {
+    open func hide(duration: Double) {
         if isVisible() {
             superview?.keepAnimated(withDuration: duration, layout: {
                 self.alpha = 0

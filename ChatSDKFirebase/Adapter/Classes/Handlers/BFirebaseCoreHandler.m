@@ -31,7 +31,7 @@
         }
         
         return promise.then(^id(id result) {
-            return [self.currentUser push];
+            return [[CCUserWrapper userWithModel:self.currentUserModel] push];
         }, nil);
     }
     else return [RXPromise rejectWithReason:Nil];
@@ -88,14 +88,6 @@
     return [[CCUserWrapper userWithModel:userModel] metaOn];
 }
 
-
-
-#pragma Private methods
-
--(CCUserWrapper *) currentUser {
-    return [CCUserWrapper userWithModel:self.currentUserModel];
-}
-
 #pragma Static methods
 
 +(NSDate *) timestampToDate:(NSNumber *)timestamp {
@@ -105,6 +97,5 @@
 +(NSNumber *) dateToTimestamp:(NSDate *)date {
     return @((double)date.timeIntervalSince1970 * 1000);
 }
-
 
 @end

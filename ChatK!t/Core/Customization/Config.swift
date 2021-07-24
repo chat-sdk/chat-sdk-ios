@@ -7,88 +7,88 @@
 
 import Foundation
 
-public class Config {
+open class Config {
     
     // Should the camera icon be shown next to the send button
-    public var cameraIconEnabled = true
+    open var cameraIconEnabled = true
     
     // Should we use icons or text for send button
-    public var useIconForSendButton = true
+    open var useIconForSendButton = true
     
     // Should we allow the user to tap the chat navigation bar to show the user info
-    public var userChatInfoEnabled = true
+    open var userChatInfoEnabled = true
 
-    public var messageSelectionEnabled = true
+    open var messageSelectionEnabled = true
 
-    public var timeFormat = "HH:mm"
+    open var timeFormat = "HH:mm"
     
-    public var messageHistoryTimeFormat = "dd/MM/yy hh:mm:ss"
+    open var messageHistoryTimeFormat = "dd/MM/yy hh:mm:ss"
 
-    public var messagesViewSectionTimeFormat = "dd/MM/yy"
+    open var messagesViewSectionTimeFormat = "dd/MM/yy"
 
     // SendBarView layout parameters
-    public var sendBarViewTopPadding = 8
-    public var sendBarViewBottomPadding = 8
-    public var sendBarViewStartPadding = 8
-    public var sendBarViewEndPadding = 8
-    public var sendBarViewElementSpacing = 5
+    open var sendBarViewTopPadding = 8
+    open var sendBarViewBottomPadding = 8
+    open var sendBarViewStartPadding = 8
+    open var sendBarViewEndPadding = 8
+    open var sendBarViewElementSpacing = 5
 
-    public var sendBarMaxLines = 5
+    open var sendBarMaxLines = 5
 
-    public var animationDuration = 0.3
+    open var animationDuration = 0.3
     
-    public var blurEnabled = true
-    public var blurStyle: UIBlurEffect.Style?
+    open var blurEnabled = true
+    open var blurStyle: UIBlurEffect.Style?
     
-    public var initialSubtitleInterval: Double = 3
+    open var initialSubtitleInterval: Double = 3
     
-    public var chatOptionsBottomMargin: CGFloat = 50.0
-    public var chatOptionsIconColor = "gray_1"
-    public var chatOptionsIconBackgroundColor = "gray_6"
-    public var chatOptionsTextColor = "gray_1"
+    open var chatOptionsBottomMargin: CGFloat = 50.0
+    open var chatOptionsIconColor = "gray_1"
+    open var chatOptionsIconBackgroundColor = "gray_6"
+    open var chatOptionsTextColor = "gray_1"
     
-    public var replyBackgroundColor = "white"
-    public var replyTitleColor = "gray_dark_const"
-    public var replyTextColor = "gray_med_dark_const"
+    open var replyBackgroundColor = "white"
+    open var replyTitleColor = "gray_dark_const"
+    open var replyTextColor = "gray_med_dark_const"
     
-    public var messagesViewRefreshHeight: CGFloat = 300
-    public var messagesViewSectionViewCornerRadius: CGFloat = 5
+    open var messagesViewRefreshHeight: CGFloat = 300
+    open var messagesViewSectionViewCornerRadius: CGFloat = 5
     
-    public var messagesViewSectionHeight: CGFloat = 40
+    open var messagesViewSectionHeight: CGFloat = 40
 
     // The reply view that shows inside the message bubble
-    public var messageReplyViewHeight: CGFloat = 50
+    open var messageReplyViewHeight: CGFloat = 50
 
     // The reply view that shows above the keyboard
-    public var chatReplyViewHeight: CGFloat = 50
+    open var chatReplyViewHeight: CGFloat = 50
     
-    public var bubbleInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-    public var bubbleCornerRadius: CGFloat = 10
-    public var replyViewCornerRadius: CGFloat = 5
+    open var bubbleInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+    open var bubbleCornerRadius: CGFloat = 10
+    open var replyViewCornerRadius: CGFloat = 5
 
-    public var outgoingBubbleColor = "outgoing_bubble"
-    public var outgoingBubbleSelectedColor = "outgoing_bubble_selected"
+    open var outgoingBubbleColor = "outgoing_bubble"
+    open var outgoingBubbleSelectedColor = "outgoing_bubble_selected"
 
-    public var incomingBubbleColor = "incoming_bubble"
-    public var incomingBubbleSelectedColor = "incoming_bubble_selected"
+    open var incomingBubbleColor = "incoming_bubble"
+    open var incomingBubbleSelectedColor = "incoming_bubble_selected"
     
-    public var outgoingMessageNibName = "OutgoingMessageCell"
-    public var incomingMessageNibName = "IncomingMessageCell"
+    open var outgoingMessageNibName = "OutgoingMessageCell"
+    open var incomingMessageNibName = "IncomingMessageCell"
     
-    public var estimatedMessageCellHeight:CGFloat = 100
-    public var estimatedMessageSectionHeight:CGFloat = 100
+    open var estimatedMessageCellHeight:CGFloat = 100
+    open var estimatedMessageSectionHeight:CGFloat = 100
     
-    public var downloadFolderName = "ChatKit"
+    open var downloadFolderName = "ChatKit"
     
-    public var minimumAudioRecordingLength = 1
+    open var minimumAudioRecordingLength = 1
 
-    public var typingTimeout: Double = 3
+    open var typingTimeout: Double = 3
 
-//    public var loadImageMessageFromURL = false
+//    open var loadImageMessageFromURL = false
     
     // We define the max size i.e. 400 and the minimum size which is the screen width
     // minus the space we need to display The avatar and time label
-    public lazy var imageMessageSize = {
+    open lazy var imageMessageSize = {
         return min(400, UIScreen.main.bounds.width - 115)
     }()
 }

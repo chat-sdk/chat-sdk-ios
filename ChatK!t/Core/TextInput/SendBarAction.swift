@@ -9,7 +9,7 @@ import Foundation
 import KeepLayout
 
 
-public class SendBarAction: NSObject {
+open class SendBarAction: NSObject {
 
     public enum Visibility {
         case always
@@ -29,7 +29,7 @@ public class SendBarAction: NSObject {
     var visibility: Visibility
     var position: Position
     var keyboardOverlay: String?
-    public var color: UIColor?
+    open var color: UIColor?
     
     var button: UIButton?
         
@@ -62,7 +62,7 @@ public class SendBarAction: NSObject {
         super.init()
     }
     
-    public func getButton() -> UIButton {
+    open func getButton() -> UIButton {
         if let button = button {
             return button
         }
@@ -87,7 +87,7 @@ public class SendBarAction: NSObject {
         return button!
     }
 
-    @objc public func execute() {
+    @objc open func execute() {
         action()
     }
     

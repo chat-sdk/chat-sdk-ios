@@ -9,16 +9,16 @@ import Foundation
 import ChatSDK
 
 
-public class CKMessageStore {
+open class CKMessageStore {
     
     public static let instance = CKMessageStore()
     public static func shared() -> CKMessageStore {
         return instance
     }
     
-    public var messageStore = [String: CKMessage]()
+    open var messageStore = [String: CKMessage]()
 
-    public func new(for message: PMessage) -> CKMessage {
+    open func new(for message: PMessage) -> CKMessage {
         var m: CKMessage?
         
         print("CKMessageStore: new message id: " + message.entityID())
@@ -45,13 +45,13 @@ public class CKMessageStore {
         return m!
     }
 
-    public func message(for message: PMessage) -> CKMessage {
+    open func message(for message: PMessage) -> CKMessage {
         let message = self.message(with: message.entityID()) ?? new(for: message)
         messageStore[message.messageId()] = message
         return message
     }
 
-    public func message(with id: String) -> CKMessage? {
+    open func message(with id: String) -> CKMessage? {
         return messageStore[id]
     }
 

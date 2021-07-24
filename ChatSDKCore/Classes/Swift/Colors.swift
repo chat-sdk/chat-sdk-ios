@@ -26,6 +26,8 @@ import Foundation
     @objc public static let loginButton = "loginButton"
     @objc public static let registerButton = "registerButton"
 
+    @objc public static let background = "background"
+
     @objc public static let loginTextFieldBackgroundColor = "loginTextFieldBackgroundColor"
 
     @objc public static func get(name: String) -> UIColor? {

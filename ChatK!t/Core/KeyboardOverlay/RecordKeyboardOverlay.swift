@@ -9,11 +9,11 @@ import Foundation
 import DateTools
 import RxSwift
 
-public class RecordKeyboardOverlay: UIView, KeyboardOverlay {
+open class RecordKeyboardOverlay: UIView, KeyboardOverlay {
     
     public static let key = "record"
     
-    public var recordView: RecordView = .fromNib()
+    open var recordView: RecordView = .fromNib()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,13 +33,13 @@ public class RecordKeyboardOverlay: UIView, KeyboardOverlay {
         self.init()
     }
 
-    public func setup(_ delegate: RecordViewDelegate) {
+    open func setup(_ delegate: RecordViewDelegate) {
         addSubview(recordView)
         recordView.setDelegate(delegate)
         recordView.keepInsets.equal = 0
     }
 
-    public func viewWillLayoutSubviews(view: UIView) {
+    open func viewWillLayoutSubviews(view: UIView) {
         keepBottomInset.equal = view.safeAreaHeight() + ChatKit.config().chatOptionsBottomMargin
     }
     
@@ -53,7 +53,7 @@ public protocol RecordViewDelegate {
     func send(audio: Data, duration: Int)
 }
 
-public class RecordView: UIView {
+open class RecordView: UIView {
     
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
@@ -66,16 +66,16 @@ public class RecordView: UIView {
     @IBOutlet weak var micImageView: UIImageView!
     
     @IBOutlet weak var infoLabel: UILabel!
-    public var delegate: RecordViewDelegate?
+    open var delegate: RecordViewDelegate?
         
-    public var timer: Timer?
-    public var startTime: NSDate?
+    open var timer: Timer?
+    open var startTime: NSDate?
             
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    override public func awakeFromNib() {
+    override open func awakeFromNib() {
         super.awakeFromNib()
         micImageView.image = ChatKit.asset(icon: "icn_30_mic").withRenderingMode(.alwaysTemplate)
         micImageView.tintColor = ChatKit.asset(color: "red")
@@ -91,7 +91,7 @@ public class RecordView: UIView {
 
     }
     
-    public func updateMicButtonForPermission(error: Error? = nil) {
+    open func updateMicButtonForPermission(error: Error? = nil) {
         if ChatKit.audioRecorder().isAuth() {
             recordImageView.image = ChatKit.asset(icon: "icn_60_mic_button")
             recordImageView.highlightedImage = ChatKit.asset(icon: "icn_100_mic_button_red")
@@ -103,7 +103,7 @@ public class RecordView: UIView {
         }
     }
     
-    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
 
             let point = touch.location(in: self)
@@ -120,7 +120,7 @@ public class RecordView: UIView {
         }
     }
     
-    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
 
             let point = touch.location(in: self)
@@ -134,7 +134,7 @@ public class RecordView: UIView {
         }
     }
 
-    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
 
             let point = touch.location(in: self)
@@ -154,7 +154,7 @@ public class RecordView: UIView {
         }
     }
     
-    public func setDelegate(_ delegate: RecordViewDelegate) {
+    open func setDelegate(_ delegate: RecordViewDelegate) {
         self.delegate = delegate
     }
     
@@ -170,7 +170,7 @@ public class RecordView: UIView {
         }
     }
         
-    public func requestAuth() {
+    open func requestAuth() {
         _ = ChatKit.audioRecorder().requestAuth().observe(on: MainScheduler.instance).subscribe(onCompleted: { [weak self] in
             ChatKit.audioRecorder().prepare()
             self?.updateMicButtonForPermission()
@@ -179,13 +179,13 @@ public class RecordView: UIView {
         })
     }
     
-    public func lock() {
+    open func lock() {
         lockImageView.isHighlighted = true
         sendButton.isHidden = false
         deleteButton.isHidden = false
     }
         
-    public func send() {
+    open func send() {
         
         lockImageView.isHighlighted = false
         recordImageView.isHighlighted = false
@@ -204,7 +204,7 @@ public class RecordView: UIView {
         cancel()
     }
     
-    public func cancel() {
+    open func cancel() {
 
         infoLabel.text = ""
         lockImageView.isHighlighted = false
@@ -226,11 +226,11 @@ public class RecordView: UIView {
         ChatKit.audioRecorder().prepare()
     }
     
-    public func isRecording() -> Bool {
+    open func isRecording() -> Bool {
         return ChatKit.audioRecorder().isRecording
     }
     
-    public func start() {
+    open func start() {
                 
         ChatKit.audioRecorder().record()
 

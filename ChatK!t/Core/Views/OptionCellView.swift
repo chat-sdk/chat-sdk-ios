@@ -9,14 +9,14 @@ import Foundation
 import UIKit
 import CollectionKit
 
-public class OptionBucket {
+open class OptionBucket {
     var options = [Option]()
     
-    public func add(_ option: Option) {
+    open func add(_ option: Option) {
         options.append(option)
     }
 
-    public func isFull() -> Bool {
+    open func isFull() -> Bool {
         return options.count >= OptionBucket.max()
     }
     
@@ -25,7 +25,7 @@ public class OptionBucket {
     }
 }
 
-public class Option {
+open class Option {
     public let image: UIImage
     public let text: String
     public let onClick: (() -> Void)?
@@ -73,19 +73,19 @@ public class Option {
 
 }
 
-public class BucketCellView: UIView {
+open class BucketCellView: UIView {
     
     var optionViews = [OptionCellView]()
     var onClick: ((Option) -> Void)?
     
-    public func addView(_ view: OptionCellView) {
+    open func addView(_ view: OptionCellView) {
         optionViews.append(view)
         addSubview(view)
         view.keepTopInset.equal = 0
         view.keepBottomInset.equal = 0
     }
     
-    public func bind(bucket: OptionBucket) {
+    open func bind(bucket: OptionBucket) {
         for view in optionViews {
             view.isHidden = true
         }
@@ -131,13 +131,13 @@ public class BucketCellView: UIView {
     
 }
 
-public class OptionCellView: UIView {
+open class OptionCellView: UIView {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var background: UIView!
     var gestureRecognizer: UIGestureRecognizer?
-    public var onClick: (() -> Void)?
+    open var onClick: (() -> Void)?
     
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -145,7 +145,7 @@ public class OptionCellView: UIView {
         addGestureRecognizer(gestureRecognizer!)
     }
     
-    @objc public func click() {
+    @objc open func click() {
         onClick?()
     }
     

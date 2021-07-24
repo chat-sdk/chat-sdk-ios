@@ -15,33 +15,85 @@
 
 @implementation BThreadCell
 
+@synthesize profileImageView;
+@synthesize messageTextView;
+@synthesize unreadView;
+@synthesize unreadMessagesLabel;
+@synthesize titleLabel;
+@synthesize dateLabel;
+
+
 - (void)awakeFromNib
 {
-    self.profileImageView.layer.cornerRadius = self.profileImageView.fh/2.0;
-    self.profileImageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    self.profileImageView.layer.borderWidth = 1.0;
-    self.messageTextView.userInteractionEnabled = NO;
-    self.messageTextView.textContainer.lineBreakMode = NSLineBreakByTruncatingTail;
-    self.unreadView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    self.unreadView.layer.borderWidth = 1.0;
-    self.unreadView.layer.cornerRadius = self.unreadView.fh / 2.0;
+    [super awakeFromNib];
     
-    self.unreadMessagesLabel.layer.cornerRadius = 5;
-    self.unreadMessagesLabel.clipsToBounds = YES;
+    profileImageView.layer.cornerRadius = profileImageView.fh/2.0;
+    profileImageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    profileImageView.layer.borderWidth = 1.0;
+    messageTextView.userInteractionEnabled = NO;
+    messageTextView.textContainer.lineBreakMode = NSLineBreakByTruncatingTail;
+    unreadView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    unreadView.layer.borderWidth = 1.0;
+    unreadView.layer.cornerRadius = unreadView.fh / 2.0;
+    
+    unreadMessagesLabel.layer.cornerRadius = 5;
+    unreadMessagesLabel.clipsToBounds = YES;
     
     self.preservesSuperviewLayoutMargins = NO;
     self.separatorInset = UIEdgeInsetsZero;
     self.layoutMargins = UIEdgeInsetsZero;
 }
 
--(void) setIsOnline: (BOOL) isOnline {
-    if (isOnline) {
-        self.profileImageView.layer.borderColor = [BCoreUtilities colorWithHexString:bOnlineIndicatorColor].CGColor;
-        self.profileImageView.layer.borderWidth = 2.0;
+-(void) bind: (id<PThread>) thread {
+ 
+    NSDate * threadDate = thread.orderDate;
+    
+    NSString * text = @"";// [NSBundle t:bNoMessages];
+    
+    id<PMessage> newestMessage = thread.newestMessage;
+    if (newestMessage) {
+        text = [NSBundle textForMessage:newestMessage];
+    }
+    
+    if (threadDate) {
+        dateLabel.text = threadDate.threadTimeAgo;
     }
     else {
-        self.profileImageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-        self.profileImageView.layer.borderWidth = 1.0;
+        dateLabel.text = @"";
+    }
+    
+    if(BChatSDK.config.threadTimeFont) {
+        dateLabel.font = BChatSDK.config.threadTimeFont;
+    }
+    
+    if(BChatSDK.config.threadTitleFont) {
+        titleLabel.font = BChatSDK.config.threadTitleFont;
+    }
+    
+    if(BChatSDK.config.threadSubtitleFont) {
+        messageTextView.font = BChatSDK.config.threadSubtitleFont;
+    }
+    
+    titleLabel.text = thread.displayName ? thread.displayName : [NSBundle t: bDefaultThreadName];
+   
+    [profileImageView loadThreadImage:thread];
+    
+    int unreadCount = thread.unreadMessageCount;
+    unreadMessagesLabel.hidden = !unreadCount;
+    unreadMessagesLabel.text = [@(unreadCount) stringValue];
+    
+    [self stopTypingWithMessage:text];
+    
+}
+
+-(void) setIsOnline: (BOOL) isOnline {
+    if (isOnline) {
+        profileImageView.layer.borderColor = [BCoreUtilities colorWithHexString:bOnlineIndicatorColor].CGColor;
+        profileImageView.layer.borderWidth = 2.0;
+    }
+    else {
+        profileImageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+        profileImageView.layer.borderWidth = 1.0;
     }
 }
 
@@ -53,13 +105,13 @@
 }
 
 -(void) startTypingWithMessage: (NSString *) message {
-    self.messageTextView.text = message;
-    self.messageTextView.textColor = [UIColor darkGrayColor];
+    messageTextView.text = message;
+    messageTextView.textColor = [UIColor darkGrayColor];
 }
 
 -(void) stopTypingWithMessage: (NSString *) message {
-    self.messageTextView.text = message;
-    self.messageTextView.textColor = [UIColor lightGrayColor];
+    messageTextView.text = message;
+    messageTextView.textColor = [UIColor lightGrayColor];
 }
 
 @end

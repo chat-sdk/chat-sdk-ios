@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Section {
+open class Section {
         
     let _date: Date
     
@@ -19,14 +19,14 @@ public class Section {
         _date = date
     }
     
-    public func message(for indexPath: IndexPath) -> AbstractMessage? {
+    open func message(for indexPath: IndexPath) -> AbstractMessage? {
         if isValid(indexPath) {
             return _messages[indexPath.row]
         }
         return nil
     }
         
-    public func message(for id: String) -> AbstractMessage? {
+    open func message(for id: String) -> AbstractMessage? {
         for message in _messages {
             if message.messageId() == id {
                 return message
@@ -35,47 +35,47 @@ public class Section {
         return nil
     }
     
-    public func isValid(_ indexPath: IndexPath) -> Bool {
+    open func isValid(_ indexPath: IndexPath) -> Bool {
         indexPath.row < _messages.count
     }
 
-    public func exists(_ message: AbstractMessage) -> Bool {
+    open func exists(_ message: AbstractMessage) -> Bool {
         _messagesIndex[message.messageId()] != nil
     }
 
-    public func addToIndex(_ message: AbstractMessage) {
+    open func addToIndex(_ message: AbstractMessage) {
         _messagesIndex[message.messageId()] = message
     }
 
-    public func addMessage(toStart message: AbstractMessage) {
+    open func addMessage(toStart message: AbstractMessage) {
         if !exists(message) {
             _messages.insert(message, at: 0)
             addToIndex(message)
         }
     }
     
-    public func removeMessage(_ message: AbstractMessage) {
+    open func removeMessage(_ message: AbstractMessage) {
         if let i = index(of: message) {
             _messages.remove(at: i)
         }
     }
     
-    public func index(of message: AbstractMessage) -> Int? {
+    open func index(of message: AbstractMessage) -> Int? {
         return _messages.firstIndex(of: message)
     }
 
-    public func addMessage(toEnd message: AbstractMessage) {
+    open func addMessage(toEnd message: AbstractMessage) {
         if !exists(message) {
             _messages.append(message)
             addToIndex(message)
         }
     }
     
-    public func isEmpty() -> Bool {
+    open func isEmpty() -> Bool {
         return _messages.isEmpty
     }
     
-    public func addMessage(message: AbstractMessage) {
+    open func addMessage(message: AbstractMessage) {
         if !exists(message) {
             _messages.append(message)
             addToIndex(message)
@@ -83,21 +83,21 @@ public class Section {
         }
     }
     
-    public func sort() {
+    open func sort() {
         _messages.sort {
             $0.messageDate().compare($1.messageDate()) == .orderedAscending
         }
     }
     
-    public func date() -> Date {
+    open func date() -> Date {
         _date
     }
     
-    public func messageCount() -> Int {
+    open func messageCount() -> Int {
         return _messages.count
     }
     
-    public func messages() -> [AbstractMessage] {
+    open func messages() -> [AbstractMessage] {
         return _messages
     }
 
@@ -109,7 +109,7 @@ extension Section: Hashable {
         return lhs.date() == rhs.date()
     }
 
-    public func hash(into hasher: inout Hasher) {
+    open func hash(into hasher: inout Hasher) {
         hasher.combine(date().hashValue)
     }
     

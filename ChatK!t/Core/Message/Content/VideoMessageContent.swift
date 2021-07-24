@@ -7,14 +7,14 @@
 
 import Foundation
 
-public class VideoMessageContent: ImageMessageContent {
+open class VideoMessageContent: ImageMessageContent {
     
-    public override func bind(_ message: AbstractMessage, model: MessagesModel) {
+    open override func bind(_ message: AbstractMessage, model: MessagesModel) {
         _view.videoIconVisible = true
         super.bind(message, model: model)
     }
     
-    public override func downloadFinished(_ url: URL?, error: Error?) {
+    open override func downloadFinished(_ url: URL?, error: Error?) {
         super.downloadFinished(url, error: error)
         if url != nil {
             showVideoIcon()
@@ -23,17 +23,17 @@ public class VideoMessageContent: ImageMessageContent {
         }
     }
 
-    public override func downloadStarted() {
+    open override func downloadStarted() {
         super.downloadStarted()
         hideVideoIcon()
     }
     
-    public override func uploadFinished(_ url: URL?, error: Error?) {
+    open override func uploadFinished(_ url: URL?, error: Error?) {
         super.uploadFinished(url, error: error)
         showVideoIcon()
     }
     
-    public override func uploadStarted() {
+    open override func uploadStarted() {
         super.uploadStarted()
         hideVideoIcon()
     }

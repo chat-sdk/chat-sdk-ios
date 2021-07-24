@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class CKReply: Reply {
+open class CKReply: Reply {
     
     
     var name: String?
@@ -22,19 +22,19 @@ public class CKReply: Reply {
         self.placeholder = placeholder
     }
     
-    public func replyTitle() -> String? {
+    open func replyTitle() -> String? {
         return name
     }
     
-    public func replyText() -> String? {
+    open func replyText() -> String? {
         return text
     }
     
-    public func replyImageURL() -> URL? {
+    open func replyImageURL() -> URL? {
         return imageURL
     }
     
-    public func replyPlaceholder() -> UIImage? {
+    open func replyPlaceholder() -> UIImage? {
         return placeholder
     }
 

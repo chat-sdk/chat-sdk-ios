@@ -8,7 +8,7 @@
 import Foundation
 import KeepLayout
 
-public class ReconnectingView : UIView {
+open class ReconnectingView : UIView {
     
 //    var activityIndicator: UIActivityIndicatorView?
     var imageView: UIImageView?
@@ -29,7 +29,7 @@ public class ReconnectingView : UIView {
         self.init()
     }
     
-    public func setup() {
+    open func setup() {
 
 //        activityIndicator = UIActivityIndicatorView(style: .white)
 //        activityIndicator?.startAnimating()
@@ -77,7 +77,7 @@ public class ReconnectingView : UIView {
         
     }
     
-    public func update(_ connStatus: ConnectionStatus? = .none) {
+    open func update(_ connStatus: ConnectionStatus? = .none) {
         if connStatus != .none {
             isHidden = false
             if connStatus != status {
@@ -105,16 +105,16 @@ public class ReconnectingView : UIView {
         }
     }
     
-    @objc public func tap() {
+    @objc open func tap() {
     }
     
-    public func startBlink() {
+    open func startBlink() {
         UIView.animateKeyframes(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse], animations: { [weak self] in
             self?.imageView?.alpha = 0
         })
     }
     
-    public func stopBlink() {
+    open func stopBlink() {
         imageView?.layer.removeAllAnimations()
         imageView?.alpha = 1
     }
