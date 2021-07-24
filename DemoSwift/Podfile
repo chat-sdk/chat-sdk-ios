@@ -14,6 +14,9 @@ target 'ChatSDKSwift' do
   pod "ChatK!t", :path => "../"
   pod "ChatK!t/ChatSDK", :path => "../"
 
+  pod "ChatSDKPro/Modules", :path => "../"
+  pod "ChatSDKPro/ChatK!t", :path => "../"
+
   #pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
   #pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"
   #pod "ChatSDKModules/ContactBook", :path => "../ChatSDKModules"

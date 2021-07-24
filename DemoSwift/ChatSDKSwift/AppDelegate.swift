@@ -14,6 +14,8 @@ import FirebaseEmailAuthUI
 import FirebasePhoneAuthUI
 import FirebaseOAuthUI
 import ChatKit
+//import ChatKitExtras
+//import ChatSDKModules
 
 @UIApplicationMain 
 /* Two Factor Auth */
@@ -51,7 +53,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             FirebaseNetworkAdapterModule.shared(),
             FirebasePushModule.shared(),
             FirebaseUploadModule.shared(),
-            ChatKitModule.shared()
+
+//            BBlockingModule.init(),
+//            BReadReceiptsModule.init(),
+//            BTypingIndicatorModule.init(),
+//            BLastOnlineModule.init(),
+//            StickerMessageModule.shared(),
+//            BVideoMessageModule.init(),
+//            FileMessageModule.init(),
+//            BAudioMessageModule.init(),
+//            AddContactWithQRCodeModule.init(),
+            BReachabilityModule.init(),
+//            EncryptionModule.init(),
+            ChatKitModule.shared(),
+//            ChatKitExtrasModule.init(),
+
         ]
 
         // If you want to use Firebase UI
@@ -64,6 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
                 
         BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules)
+        BChatSDK.activateLicense(withEmail: "ben@sdk.chat")
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();
