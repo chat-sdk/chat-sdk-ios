@@ -1,4 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
+
 use_frameworks!
 inhibit_all_warnings!
 install! 'cocoapods', :disable_input_output_paths => true
@@ -12,5 +13,8 @@ target 'ChatSDKDemo' do
   pod "ChatSDKFirebase/Adapter", :path => "../"
   pod "ChatSDKFirebase/Upload", :path => "../"
   pod "ChatSDKFirebase/Push", :path => "../"
+
+  pod "ChatK!t", :path => "../"
+  pod "ChatK!t/ChatSDK", :path => "../"
 
 end

@@ -15,11 +15,6 @@ public protocol MessageProvider {
     func new(for message: PMessage) -> CKMessage
 }
 
-//
-//public protocol KeyboardOverlayProvider {
-//    func provide(for vc: ChatViewController, model: ChatModel, thread: PThread) -> KeyboardOverlay
-//}
-
 public protocol OnCreateListener {
     func onCreate(for vc: ChatViewController, model: ChatModel, thread: PThread)
 }
@@ -28,10 +23,10 @@ public protocol OptionProvider {
     func provide(for vc: ChatViewController, thread: PThread) -> Option
 }
 
-open class ChatKitModule: NSObject, PModule {
+@objc open class ChatKitModule: NSObject, PModule {
     
     static let instance = ChatKitModule()
-    public static func shared() -> ChatKitModule {
+    @objc public static func shared() -> ChatKitModule {
         return instance
     }
 

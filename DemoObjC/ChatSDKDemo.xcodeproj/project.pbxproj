@@ -18,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		031205109FB80894A9481F4C /* Pods-ChatSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDKDemo/Pods-ChatSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		3BA3D5B126AC4B7200FE3843 /* ChatSDKDemo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ChatSDKDemo.entitlements; sourceTree = "<group>"; };
 		477DD8FD7BD90D4CA2B215A4 /* Pods-ChatSDK Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		4B51C457555AB36B80C4F411 /* Pods-ChatSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDKDemo/Pods-ChatSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 		4E06AD1F20207A6D58C6E82A /* Pods-ChatSDK Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.release.xcconfig"; sourceTree = "<group>"; };
@@ -31,7 +32,6 @@
 		AC7BD9A91E0874B400C785EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC7BD9AB1E0874B400C785EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		B5736DD220A1F25900D0947B /* ChatSDK Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ChatSDK Demo.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +86,7 @@
 		AC7BD9991E0874B400C785EE /* ChatSDKDemo */ = {
 			isa = PBXGroup;
 			children = (
-				B5736DD220A1F25900D0947B /* ChatSDK Demo.entitlements */,
+				3BA3D5B126AC4B7200FE3843 /* ChatSDKDemo.entitlements */,
 				AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */,
 				AC7BD99D1E0874B400C785EE /* AppDelegate.h */,
 				AC7BD99E1E0874B400C785EE /* AppDelegate.m */,
@@ -388,7 +388,7 @@
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/ChatSDKDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -405,7 +405,7 @@
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/ChatSDKDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
