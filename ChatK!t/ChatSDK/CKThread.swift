@@ -8,6 +8,7 @@
 import Foundation
 import ChatSDK
 
+
 open class CKThread: Thread {
     
     let thread: PThread
