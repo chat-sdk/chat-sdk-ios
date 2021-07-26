@@ -28,6 +28,7 @@ Pod::Spec.new do |s|
     s.dependency 'FLAnimatedImage'
     s.dependency 'GSImageViewerController'
     s.dependency 'RxSwift'
+    s.dependency 'DateTools'
 
   end
   
