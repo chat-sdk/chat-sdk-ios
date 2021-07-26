@@ -29,6 +29,7 @@ Pod::Spec.new do |s|
     s.dependency 'GSImageViewerController'
     s.dependency 'RxSwift'
     s.dependency 'DateTools'
+    s.dependency 'SDWebImage', '~> 5.0'
 
   end
   
