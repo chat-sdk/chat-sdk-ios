@@ -9,7 +9,6 @@
 import Foundation
 import ChatSDK
 import AVKit
-import GSImageViewerController
 
 public protocol MessageProvider {
     func new(for message: PMessage) -> CKMessage

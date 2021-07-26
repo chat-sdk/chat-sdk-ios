@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseDatabase
+import ChatSDK
 
 @objc public class FirebaseNetworkAdapterModule: NSObject, PModule, PNetworkAdapterProvider {
 
