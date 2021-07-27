@@ -26,7 +26,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Labely" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SDR-wu-lsl">
-                        <rect key="frame" x="63" y="6" width="241" height="28"/>
+                        <rect key="frame" x="63" y="6" width="221" height="28"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -58,7 +58,7 @@
                 <constraints>
                     <constraint firstItem="jcG-Cw-1Tj" firstAttribute="top" secondItem="Efj-wV-T2c" secondAttribute="bottom" priority="750" id="1o0-TL-gLz"/>
                     <constraint firstItem="FUw-i5-1N1" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="-110" id="282-uC-Kfj"/>
-                    <constraint firstItem="SDR-wu-lsl" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="8cP-Ua-VHI"/>
+                    <constraint firstItem="SDR-wu-lsl" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="-20" id="8cP-Ua-VHI"/>
                     <constraint firstItem="FUw-i5-1N1" firstAttribute="leading" secondItem="clE-A3-1Bc" secondAttribute="trailing" constant="8" id="8or-qk-pkT"/>
                     <constraint firstAttribute="trailingMargin" secondItem="jcG-Cw-1Tj" secondAttribute="trailing" id="93K-kh-bcg"/>
                     <constraint firstItem="SDR-wu-lsl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-5" id="Bbx-R3-Ydi"/>

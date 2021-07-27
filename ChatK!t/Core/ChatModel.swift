@@ -7,7 +7,6 @@
 
 import Foundation
 import RxSwift
-import DateTools
 
 //public protocol ChatModelDelegate: MessagesModelDelegate {
 //    var model: ChatModel? {
@@ -50,8 +49,8 @@ open class ChatModel: ChatToolbarActionsDelegate {
             if let user = thread.threadOtherUser() {
                 if user.userIsOnline() {
                     return Strings.t(Strings.online)
-                } else if let lastOnline = user.userLastOnline() as NSDate?, let text = lastOnline.lastSeenTimeAgo() {
-                    return text
+                } else if let lastOnline = user.userLastOnline() as Date? {
+                    return lastOnline.lastSeenTimeAgo()
                 }
             }
         } else {

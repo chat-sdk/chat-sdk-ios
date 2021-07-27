@@ -1,0 +1,11 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+use_frameworks!
+install! 'cocoapods', :disable_input_output_paths => true
+
+target 'ChatKitDemo' do
+
+  pod "ChatK!t", :path => "../"
+  # pod "ChatK!t/ChatSDK", :path => "../"
+  
+end
