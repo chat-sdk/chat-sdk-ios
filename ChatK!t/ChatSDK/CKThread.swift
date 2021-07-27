@@ -9,11 +9,11 @@ import Foundation
 import ChatSDK
 
 
-open class CKThread: Thread {
+open class CKThread: Conversation {
     
     let thread: PThread
     
-    lazy var type: ThreadType = {
+    lazy var type: ConversationType = {
         if let type = thread.type() {
             if type.int32Value == bThreadTypePublicGroup.rawValue {
                 return .publicGroup
@@ -30,19 +30,19 @@ open class CKThread: Thread {
         self.thread = thread
     }
 
-    open func threadId() -> String {
+    open func conversationId() -> String {
         return thread.entityID()
     }
     
-    open func threadName() -> String {
+    open func conversationName() -> String {
         return thread.displayName()
     }
     
-    open func threadImageUrl() -> URL? {
+    open func conversationImageUrl() -> URL? {
         return URL(string: thread.imageURL())
     }
     
-    open func threadUsers() -> [User] {
+    open func conversationUsers() -> [User] {
         var users = [User]()
         for user in thread.users() {
             if let user = user as? PUser {
@@ -52,7 +52,7 @@ open class CKThread: Thread {
         return users
     }
         
-    open func threadType() -> ThreadType {
+    open func conversationType() -> ConversationType {
         return type
     }
 }

@@ -35,7 +35,6 @@ open class ChatHeaderView : UIView {
                 
         titleLabel = UILabel()
         
-//        titleLabel?.text = Bundle.t(bThread)
         titleLabel?.textAlignment = .center
         titleLabel?.font = UIFont.boldSystemFont(ofSize: titleLabel!.font.pointSize)
         

@@ -101,7 +101,7 @@ open class Provider {
         return SendBarView()
     }
     
-    open func messagesModel(_ thread: Thread, delegate: MessagesModelDelegate) -> MessagesModel {
-        return MessagesModel(thread, delegate: delegate)
+    open func messagesModel(_ conversation: Conversation, delegate: ChatModelDelegate) -> MessagesModel {
+        return MessagesModel(conversation, delegate: delegate)
     }
 }

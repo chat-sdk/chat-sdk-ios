@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		010AF6F19C9C1D54B215CA46 /* Pods_ChatKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F9DBE7B38B9FB1CCDCE125 /* Pods_ChatKitDemo.framework */; };
+		3B28908526B0291300155642 /* ChatKitSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28908426B0291300155642 /* ChatKitSetup.swift */; };
 		3B76AE5626B015B00036870A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B76AE5526B015B00036870A /* AppDelegate.swift */; };
 		3B76AE5826B015B00036870A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B76AE5726B015B00036870A /* SceneDelegate.swift */; };
 		3B76AE5A26B015B00036870A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B76AE5926B015B00036870A /* ViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B28908426B0291300155642 /* ChatKitSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatKitSetup.swift; sourceTree = "<group>"; };
 		3B76AE5226B015B00036870A /* ChatKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B76AE5526B015B00036870A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B76AE5726B015B00036870A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				3B76AE5E26B015B30036870A /* Assets.xcassets */,
 				3B76AE6026B015B30036870A /* LaunchScreen.storyboard */,
 				3B76AE6326B015B30036870A /* Info.plist */,
+				3B28908426B0291300155642 /* ChatKitSetup.swift */,
 			);
 			path = ChatKitDemo;
 			sourceTree = "<group>";
@@ -88,7 +91,6 @@
 				F3F9452298FE3FCE0EBF748F /* Pods-ChatKitDemo.debug.xcconfig */,
 				4FAC487C291E5B5C1EE57654 /* Pods-ChatKitDemo.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -206,6 +208,7 @@
 			files = (
 				3B76AE5A26B015B00036870A /* ViewController.swift in Sources */,
 				3B76AE5626B015B00036870A /* AppDelegate.swift in Sources */,
+				3B28908526B0291300155642 /* ChatKitSetup.swift in Sources */,
 				3B76AE5826B015B00036870A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

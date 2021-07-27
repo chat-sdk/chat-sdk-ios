@@ -120,7 +120,7 @@ public protocol OptionProvider {
         }), withName: bHookUserUpdated)
         
         _ = BChatSDK.hook().add(BHook({ [weak self] data in
-            if  let thread = data?[bHook_PThread] as? PThread, thread.isEqual(to: self?.thread), let user = data?[bHook_PUser] as? PUser {
+            if  let thread = data?[bHook_PThread] as? PThread, thread.isEqual(to: self?.thread), let user = data?[bHook_PUser] as? PUser, user.isMe() {
                 self?.updateRightBarButtonItem()
                 let hasVoice = BChatSDK.thread().hasVoice(thread.entityID(), forUser: user.entityID())
                 self?.vc?.setReadOnly(!hasVoice)
@@ -292,11 +292,11 @@ open class ChatSDKRecordViewDelegate: RecordViewDelegate {
     }
 }
 
-extension ChatKitModule: MessagesModelDelegate {
+extension ChatKitModule: ChatModelDelegate {
         
     open func loadMessages(with oldestMessage: AbstractMessage?) -> Single<[AbstractMessage]> {
         return Single<[AbstractMessage]>.create { [weak self] single in
-            if let model = self?.model?.messagesModel, let thread = BChatSDK.db().fetchEntity(withID: model.thread.threadId(), withType: bThreadEntity) as? PThread {
+            if let model = self?.model?.messagesModel, let thread = BChatSDK.db().fetchEntity(withID: model.conversation.conversationId(), withType: bThreadEntity) as? PThread {
                 _ = BChatSDK.thread().loadMoreMessages(from: oldestMessage?.messageDate(), for: thread).thenOnMain({ success in
                     if let messages = success as? [PMessage] {
                         single(.success(ChatKitModule.convert(messages)))
@@ -315,7 +315,7 @@ extension ChatKitModule: MessagesModelDelegate {
     
     open func initialMessages() -> [AbstractMessage] {
         var messages = [AbstractMessage]()
-        if let model = model?.messagesModel, let thread = BChatSDK.db().fetchEntity(withID: model.thread.threadId(), withType: bThreadEntity) as? PThread {
+        if let model = model?.messagesModel, let thread = BChatSDK.db().fetchEntity(withID: model.conversation.conversationId(), withType: bThreadEntity) as? PThread {
             if let msgs = BChatSDK.db().loadMessages(for: thread, newest: 25) {
                 for message in msgs {
                     if let message = message as? PMessage {

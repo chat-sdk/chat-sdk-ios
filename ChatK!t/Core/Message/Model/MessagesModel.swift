@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-public protocol MessagesModelDelegate {
+public protocol ChatModelDelegate {
     
     var model: ChatModel? {
         get set
@@ -25,8 +25,8 @@ public protocol MessagesModelDelegate {
 
 open class MessagesModel {
     
-    public let thread: Thread
-    public let delegate: MessagesModelDelegate
+    public let conversation: Conversation
+    public let delegate: ChatModelDelegate
     public let messageTimeFormatter = DateFormatter()
             
     open var onSelectionChange: (([AbstractMessage]) -> Void)?
@@ -37,8 +37,8 @@ open class MessagesModel {
     
     open var adapter = MessagesListAdapter()
     
-    public init(_ thread: Thread, delegate: MessagesModelDelegate) {
-        self.thread = thread
+    public init(_ conversation: Conversation, delegate: ChatModelDelegate) {
+        self.conversation = conversation
         self.delegate = delegate
         messageTimeFormatter.setLocalizedDateFormatFromTemplate(ChatKit.config().timeFormat)
     }
@@ -99,7 +99,7 @@ open class MessagesModel {
     }
     
     open func showAvatar() -> Bool {
-        return thread.threadType() != .private1to1
+        return conversation.conversationType() != .private1to1
     }
     
     open func bundle() -> Bundle {

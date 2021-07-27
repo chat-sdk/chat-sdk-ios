@@ -8,7 +8,7 @@
 import Foundation
 
 public class Strings {
-    public static let thread = "thread"
+    public static let conversation = "conversation"
     public static let tapHereForContactInfo = "tapHereForContactInfo"
     public static let tapHereForGroupInfo = "tapHereForGroupInfo"
 

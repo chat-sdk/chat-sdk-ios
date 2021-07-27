@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let model = ChatModel()
+//        let model = ChatModel()
         
         ChatKit.shared()
         
@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-public class DummyThread: ChatKit.Thread {
-    
-}
+//public class DummyThread: ChatKit.Thread {
+//
+//}
 

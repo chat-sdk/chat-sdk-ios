@@ -10,27 +10,27 @@ import RxSwift
 
 open class ChatModel: ChatToolbarActionsDelegate {
 
-    public let thread: Thread
+    public let conversation: Conversation
     open var options = [Option]()
     open var sendBarActions = [SendBarAction]()
     open var toolbarActions = [ToolbarAction]()
     open var keyboardOverlayMap = [String: KeyboardOverlay]()
     
     open var view: PChatViewController?
-    open var delegate: MessagesModelDelegate
+    open var delegate: ChatModelDelegate
     
     open lazy var messagesModel = {
-        return ChatKit.provider().messagesModel(thread, delegate: delegate)
+        return ChatKit.provider().messagesModel(conversation, delegate: delegate)
     }()
     
-    public init(_ thread: Thread, delegate: MessagesModelDelegate) {
-        self.thread = thread
+    public init(_ conversation: Conversation, delegate: ChatModelDelegate) {
+        self.conversation = conversation
         self.delegate = delegate
         self.delegate.model = self
     }
         
     open func title() -> String {
-        return thread.threadName()
+        return conversation.conversationName()
     }
 
     /**
@@ -39,8 +39,8 @@ open class ChatModel: ChatToolbarActionsDelegate {
     open func subtitle() -> String {
         let defaultText = initialSubtitle() ?? "";
         
-        if thread.threadType() == .private1to1 {
-            if let user = thread.threadOtherUser() {
+        if conversation.conversationType() == .private1to1 {
+            if let user = conversation.conversationOtherUser() {
                 if user.userIsOnline() {
                     return Strings.t(Strings.online)
                 } else if let lastOnline = user.userLastOnline() as Date? {
@@ -49,7 +49,7 @@ open class ChatModel: ChatToolbarActionsDelegate {
             }
         } else {
             var text = ""
-            for user in thread.threadUsers() {
+            for user in conversation.conversationUsers() {
                 if !user.userIsMe() {
                     text += user.userName() + ", "
                 }
@@ -68,7 +68,7 @@ open class ChatModel: ChatToolbarActionsDelegate {
      */
     open func initialSubtitle() -> String? {
         if ChatKit.config().userChatInfoEnabled {
-            if thread.threadType() == ThreadType.private1to1 {
+            if conversation.conversationType() == .private1to1 {
                 return Strings.t(Strings.tapHereForContactInfo)
             } else {
                 return Strings.t(Strings.tapHereForGroupInfo)
