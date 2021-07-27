@@ -8,12 +8,6 @@
 import Foundation
 import RxSwift
 
-//public protocol ChatModelDelegate: MessagesModelDelegate {
-//    var model: ChatModel? {
-//        get set
-//    }
-//}
-
 open class ChatModel: ChatToolbarActionsDelegate {
 
     public let thread: Thread

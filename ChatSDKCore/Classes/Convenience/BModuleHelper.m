@@ -16,8 +16,11 @@
     return self;
 }
 
--(void) activateCoreModules {
+-(void) activateUIModule {
     [self activateModuleForName:@"BDefaultUIModule"];
+}
+
+-(void) activateCoreModules {
     [self activateModuleForName:@"BCoreDataStorageModule"];
     [self activateModuleForName:@"BReachabilityModule"];
 }

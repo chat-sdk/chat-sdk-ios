@@ -12,5 +12,6 @@
 
 // Acivate the core Chat SDK modules
 -(void) activateCoreModules;
+-(void) activateUIModule;
 
 @end

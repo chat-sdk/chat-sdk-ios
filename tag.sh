@@ -3,6 +3,6 @@
 git add --all
 git commit -m "Update podspec"
 git push origin master
-git tag 5.0.5
+git tag 5.0.6
 git push --tags
 pod trunk push --allow-warnings ChatK\!t.podspec
