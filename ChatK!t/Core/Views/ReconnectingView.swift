@@ -10,7 +10,6 @@ import KeepLayout
 
 open class ReconnectingView : UIView {
     
-//    var activityIndicator: UIActivityIndicatorView?
     var imageView: UIImageView?
     var label: UILabel?
     var tapGestureRecognizer: UITapGestureRecognizer?
@@ -30,12 +29,9 @@ open class ReconnectingView : UIView {
     }
     
     open func setup() {
-
-//        activityIndicator = UIActivityIndicatorView(style: .white)
-//        activityIndicator?.startAnimating()
         
         imageView = UIImageView()
-        imageView?.image = Bundle.uiImageNamed("icn_20_offline")
+        imageView?.image = ChatKit.asset(icon: "icn_20_offline")
         
         label = UILabel()
 //        label?.text = Bundle.t(bWaitingForNetwork)
@@ -45,12 +41,7 @@ open class ReconnectingView : UIView {
 //        addSubview(activityIndicator!)
         addSubview(imageView!)
         addSubview(label!)
-        
-//        imageView?.keepLeftInset.equal = 0
-//        imageView?.keepLeftInset.equal = 0
-//        imageView?.keepTopInset.equal = 0
-//        imageView?.keepBottomInset.equal = 0
-        
+                
         imageView?.keepVerticallyCentered()
         
         imageView?.keepWidth.equal = 10
