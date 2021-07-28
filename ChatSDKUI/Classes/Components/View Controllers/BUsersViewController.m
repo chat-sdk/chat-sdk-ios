@@ -224,8 +224,9 @@ typedef void(^Action)();
             [userCell setUser:user];
 
             userCell.statusImageView.hidden = true;
-            [userCell.stateLabel keepVerticallyCentered];
+//            [userCell.stateLabel keepVerticallyCentered];
             userCell.stateLabel.text = @"";
+            [userCell bringSubviewToFront:userCell.stateLabel];
 
             // Get the user connection
             if ([BChatSDK.thread rolesEnabled:_thread.entityID]) {

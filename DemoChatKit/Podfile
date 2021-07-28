@@ -5,7 +5,9 @@ install! 'cocoapods', :disable_input_output_paths => true
 
 target 'ChatKitDemo' do
 
+  # pod "ChatSDK/UI", :path => "../"
   pod "ChatK!t", :path => "../"
-  # pod "ChatK!t/ChatSDK", :path => "../"
+  pod "ChatK!t/ChatSDK", :path => "../"
+  pod "LoremIpsum"
   
 end

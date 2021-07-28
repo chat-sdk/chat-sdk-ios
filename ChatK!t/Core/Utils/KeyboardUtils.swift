@@ -49,7 +49,7 @@ open class KeyboardListener {
     open var didHide: ((KeyboardInfo) -> Void)?
     open var willChangeFrame: ((KeyboardInfo) -> Void)?
 
-    init() {
+    public init() {
         
     }
     

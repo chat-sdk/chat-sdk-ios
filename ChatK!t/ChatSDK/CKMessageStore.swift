@@ -36,7 +36,7 @@ open class CKMessageStore {
         else if type == bMessageTypeVideo.rawValue {
             m = CKVideoMessage(message: message)
         }
-        else if let provider = ChatKitModule.shared().newMessageProviders[type] {
+        else if let provider = ChatKitModule.shared().get().newMessageProviders[type] {
             m = provider.new(for: message)
         }
         else {

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatK!t"
-  s.version          = "5.0.9"
+  s.version          = "5.0.11"
   s.summary          = "ChatK!t - Message View"
   s.homepage         = "https://chatk.it"
   s.license          = { :type => 'Apache 2.0' }
@@ -27,16 +27,15 @@ Pod::Spec.new do |s|
     s.dependency 'MZDownloadManager'
     s.dependency 'FLAnimatedImage'
     s.dependency 'GSImageViewerController'
-    # s.dependency 'RxSwift'
-    s.dependency 'RxSwift', '~>6.0.0'
+    s.dependency 'RxSwift', '~>6.2.0'
     s.dependency 'DateTools'
-    s.dependency 'SDWebImage', '~> 5.0'
+    s.dependency 'SDWebImage'
 
   end
   
   s.subspec 'ChatSDK' do |s| 
     s.source_files = ['ChatK!t/ChatSDK/**/*']
-    s.dependency 'ChatSDK/UI'
+    s.dependency 'ChatSDK/UI', '~>5.0.3'
     s.dependency 'ChatK!t/ChatK!t'
   end
       

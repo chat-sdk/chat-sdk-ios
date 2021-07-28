@@ -8,9 +8,11 @@
 import Foundation
 import ChatKit
 import RxSwift
+import LoremIpsum
 
 public class ChatKitSetup: ChatModelDelegate {
     public var model: ChatModel?
+    public var thread: DummyThread?
     
     public func loadMessages(with oldestMessage: AbstractMessage?) -> Single<[AbstractMessage]> {
         Single<[AbstractMessage]>.create { [weak self] single in
@@ -29,21 +31,64 @@ public class ChatKitSetup: ChatModelDelegate {
     
     public init() {
         
-        let model = ChatModel(DummyThread(), delegate: self)
-        let vc = ChatViewController(model: model)
         
+        
+        
+    }
+    
+    public func chatViewController() -> UIViewController {
+        thread = DummyThread()
+        model = ChatModel(thread!, delegate: self)
+        
+        model?.addSendBarAction(SendBarActions.send {
+            model?.messagesModel.addMessage(toEnd: DummyMessage())
+        })
+        
+        return ChatViewController(model: model)
     }
     
 }
 
 public class DummyMessage: AbstractMessage {
     
+    let id = String(Int.random(in: 0..<999999999))
+    let date = Date()
+    let text = LoremIpsum.word
+    let sender = User()
+    let type = MessageType.text()
+    
+    override init() {
+        
+    }
+    
+    open override func messageId() -> String {
+        return id
+    }
+
+    open override func messageDate() -> Date {
+        return date
+    }
+
+    open override func messageText() -> String? {
+        return text
+    }
+
+    open override func messageSender() -> User {
+        return sender
+    }
+    
+    open override func messageType() -> String {
+        return type!
+    }
+
 }
 
 public class DummyThread: Conversation {
 
+    let id = String(Int.random(in: 0..<999999999))
+   
     public func conversationId() -> String {
-        return String(Int.random(in: 0..<999999999))
+        return id
     }
     
     public func conversationName() -> String {

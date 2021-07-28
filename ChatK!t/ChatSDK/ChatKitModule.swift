@@ -29,6 +29,37 @@ public protocol OptionProvider {
         return instance
     }
 
+    open var integration: ChatKitIntegration?
+    
+    open func get() -> ChatKitIntegration {
+        if integration == nil {
+            integration = ChatKitIntegration()
+        }
+        return integration!
+    }
+
+    open func with(integration: ChatKitIntegration) -> ChatKitModule {
+        self.integration = integration
+        return self
+    }
+    
+    open func activate() {
+        get().activate()
+    }
+}
+
+open class ChatSDKRecordViewDelegate: RecordViewDelegate {
+    let threadEntityID: String
+    init(_ threadEntityID: String) {
+        self.threadEntityID = threadEntityID
+    }
+    open func send(audio: Data, duration: Int) {
+        // Save this file to the standard directory
+        BChatSDK.audioMessage().sendMessage(withAudio: audio, duration: Double(duration), withThreadEntityID: threadEntityID)
+    }
+}
+
+open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, ChatViewControllerTypingDelegate {
     open var model: ChatModel?
     open var vc: ChatViewController?
     open var thread: PThread?
@@ -40,6 +71,10 @@ public protocol OptionProvider {
     open var newMessageProviders = [Int: MessageProvider]()
     open var optionProviders = [OptionProvider]()
 
+    public init() {
+        
+    }
+    
     open func add(optionProvider: OptionProvider) {
         optionProviders.append(optionProvider)
     }
@@ -279,27 +314,46 @@ public protocol OptionProvider {
         }
     }
     
-}
-
-open class ChatSDKRecordViewDelegate: RecordViewDelegate {
-    let threadEntityID: String
-    init(_ threadEntityID: String) {
-        self.threadEntityID = threadEntityID
+    // ChatViewControllerDelegate
+    
+    open func viewDidLoad() {
+        updateRightBarButtonItem()
+        updateConnectionStatus()
     }
-    open func send(audio: Data, duration: Int) {
-        // Save this file to the standard directory
-        BChatSDK.audioMessage().sendMessage(withAudio: audio, duration: Double(duration), withThreadEntityID: threadEntityID)
-    }
-}
+    
+    open func viewWillAppear() {
 
-extension ChatKitModule: ChatModelDelegate {
+    }
+    
+    open func viewDidAppear() {
+        if let thread = thread {
+            if thread.typeIs(bThreadFilterPublic) {
+                BChatSDK.thread().addUsers([BChatSDK.currentUser()], to: thread)
+            }
+        }
+    }
+
+    open func viewWillDisappear() {
         
+    }
+    
+    open func viewDidDisappear() {
+        vc = nil
+        if let thread = thread {
+            if thread.typeIs(bThreadFilterPublic) && (!BChatSDK.config().publicChatAutoSubscriptionEnabled || thread.meta()[bMute] != nil) {
+                BChatSDK.thread().removeUsers([BChatSDK.currentUserID()], fromThread: thread.entityID())
+            }
+        }
+    }
+    
+    // ChatModel Delegate
+    
     open func loadMessages(with oldestMessage: AbstractMessage?) -> Single<[AbstractMessage]> {
         return Single<[AbstractMessage]>.create { [weak self] single in
             if let model = self?.model?.messagesModel, let thread = BChatSDK.db().fetchEntity(withID: model.conversation.conversationId(), withType: bThreadEntity) as? PThread {
                 _ = BChatSDK.thread().loadMoreMessages(from: oldestMessage?.messageDate(), for: thread).thenOnMain({ success in
                     if let messages = success as? [PMessage] {
-                        single(.success(ChatKitModule.convert(messages)))
+                        single(.success(ChatKitIntegration.convert(messages)))
                     } else {
                         single(.success([]))
                     }
@@ -378,10 +432,9 @@ extension ChatKitModule: ChatModelDelegate {
         }
         return false
     }
-}
-
-extension ChatKitModule: ChatViewControllerTypingDelegate {
-
+    
+    // Typing delegate
+    
     open func didStartTyping() {
         if let thread = thread, let indicator = BChatSDK.typingIndicator() {
             indicator.setChatState(bChatStateComposing, for: thread)
@@ -394,38 +447,128 @@ extension ChatKitModule: ChatViewControllerTypingDelegate {
         }
     }
     
-}
-
-extension ChatKitModule: ChatViewControllerDelegate {
-    open func viewDidLoad() {
-        updateRightBarButtonItem()
-        updateConnectionStatus()
+    open func getOptions(vc: ChatViewController, thread: PThread) -> [Option] {
+        return [
+            Option(galleryOnClick: {
+                let action = BSelectMediaAction(type: bPictureTypeAlbumImage, viewController: vc)
+                _ = action?.execute()?.thenOnMain({ success in
+                    if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
+                        imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+                    }
+                    return success
+                }, nil)
+            }),
+            Option(locationOnClick: { [weak self] in
+                self?.locationAction = BSelectLocationAction()
+                _ = self?.locationAction?.execute()?.thenOnMain({ location in
+                    if let locationMessage = BChatSDK.locationMessage(), let location = location as? CLLocation {
+                        locationMessage.sendMessage(with: location, withThreadEntityID: thread.entityID())
+                    }
+                    return location
+                }, nil)
+            }),
+            Option(videoOnClick: {
+                let action = BSelectMediaAction(type: bPictureTypeAlbumVideo, viewController: vc)
+                _ = action?.execute()?.thenOnMain({ success in
+                    if let videoMessage = BChatSDK.videoMessage(), let data = action?.videoData, let coverImage = action?.coverImage {
+                        // Set the local url of the message
+                        videoMessage.sendMessage(withVideo: data, cover: coverImage, withThreadEntityID: thread.entityID())
+                    }
+                    return success
+                }, nil)
+            }),
+        ]
     }
     
-    open func viewWillAppear() {
-
-    }
-    
-    open func viewDidAppear() {
-        if let thread = thread {
-            if thread.typeIs(bThreadFilterPublic) {
-                BChatSDK.thread().addUsers([BChatSDK.currentUser()], to: thread)
+    open func addSendBarActions(model: ChatModel, vc: ChatViewController, thread: PThread) {
+        
+        model.addSendBarAction(SendBarActions.send {
+            if let text = vc.sendBarView.text() {
+                if let message = vc.replyToMessage(), let m = BChatSDK.db().fetchEntity(withID: message.messageId(), withType: bMessageEntity) as? PMessage {
+                    BChatSDK.thread().reply(to: m, withThreadID: thread.entityID(), reply: text)
+                    vc.hideReplyView()
+                } else {
+                    BChatSDK.thread().sendMessage(withText: text, withThreadEntityID: thread.entityID())
+                }
+                vc.sendBarView.clear()
             }
-        }
-    }
+        })
 
-    open func viewWillDisappear() {
+        model.addSendBarAction(SendBarActions.mic {
+            vc.showKeyboardOverlay(name: RecordKeyboardOverlay.key)
+        })
+
+        model.addSendBarAction(SendBarActions.plus {
+            vc.showKeyboardOverlay(name: OptionsKeyboardOverlay.key)
+        })
+        
+        model.addSendBarAction(SendBarActions.camera {
+            let action = BSelectMediaAction(type: bPictureTypeCameraImage, viewController: vc)
+            _ = action?.execute()?.thenOnMain({ success in
+                if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
+                    imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+                }
+                return success
+            }, nil)
+        })
         
     }
     
-    open func viewDidDisappear() {
-        vc = nil
-        if let thread = thread {
-            if thread.typeIs(bThreadFilterPublic) && (!BChatSDK.config().publicChatAutoSubscriptionEnabled || thread.meta()[bMute] != nil) {
-                BChatSDK.thread().removeUsers([BChatSDK.currentUserID()], fromThread: thread.entityID())
-            }
-        }
-    }
-    
-}
+    open func addToolbarActions(model: ChatModel, vc: ChatViewController, thread: PThread) {
 
+        model.addToolbarAction(ToolbarAction.copyAction(onClick: { messages in
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = ChatKit.config().messageHistoryTimeFormat
+            
+            var text = ""
+            for message in messages {
+                text += String(format: "%@ - %@ %@\n", formatter.string(from: message.messageDate()), message.messageSender().userName(), message.messageText() ?? "")
+            }
+            
+            UIPasteboard.general.string = text
+            vc.view.makeToast(Strings.t(Strings.copiedToClipboard))
+
+            return true
+        }))
+
+        model.addToolbarAction(ToolbarAction.trashAction(visibleFor: { messages in
+            var visible = true
+            for message in messages {
+                if let m = CKMessageStore.shared().message(with: message.messageId()) {
+                    visible = visible && BChatSDK.thread().canDelete(m.message)
+                }
+            }
+            return visible
+        }, onClick: { messages in
+            for message in messages {
+                _ = BChatSDK.thread().deleteMessage(message.messageId()).thenOnMain({ success in
+                    _ = model.messagesModel.removeMessages([message]).subscribe()
+                    return success
+                }, nil)
+            }
+            return false
+        }))
+
+        model.addToolbarAction(ToolbarAction.forwardAction(visibleFor: { messages in
+            return messages.count == 1
+        }, onClick: { messages in
+            if let message = messages.first as? CKMessage {
+                let forwardViewController = ForwardViewController()
+                forwardViewController.message = message.message
+                vc.present(UINavigationController(rootViewController: forwardViewController), animated: true, completion: nil)
+            }
+            return true
+        }))
+
+        model.addToolbarAction(ToolbarAction.replyAction(visibleFor: { messages in
+            return messages.count == 1
+        }, onClick: { messages in
+            if let message = messages.first {
+                vc.showReplyView(message)
+            }
+            return true
+        }))
+        
+    }
+}
