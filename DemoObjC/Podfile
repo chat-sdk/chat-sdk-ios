@@ -13,6 +13,7 @@ target 'ChatSDKDemo' do
   pod "ChatSDKFirebase/Adapter", :path => "../"
   pod "ChatSDKFirebase/Upload", :path => "../"
   pod "ChatSDKFirebase/Push", :path => "../"
+  pod "ChatSDKFirebase/FirebaseUI", :path => "../"
 
   pod "ChatK!t", :path => "../"
   pod "ChatK!t/ChatSDK", :path => "../"

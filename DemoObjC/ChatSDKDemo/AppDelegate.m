@@ -12,6 +12,8 @@
 #import <ChatSDKFirebase/FirebaseAdapter.h>
 #import <ChatSDKFirebase/ChatSDKFirebase-Swift.h>
 #import <ChatKit/ChatKit-Swift.h>
+#import <ChatSDKFirebase/FirebaseUIModule.h>
+#import <FirebaseEmailAuthUI/FirebaseEmailAuthUI.h>
 
 @interface AppDelegate ()
 
@@ -31,13 +33,24 @@
     config.googleMapsApiKey = @"AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE";
     config.clearDataWhenRootPathChanges = YES;
     config.loginUsernamePlaceholder = @"Email";
+    config.logoImage = [UIImage imageNamed:@"AppIcon"];
     
-    NSArray * modules = @[
+    
+    NSMutableArray<PModule> * modules = [NSMutableArray arrayWithArray: @[
         [FirebaseNetworkAdapterModule shared],
         [FirebaseUploadModule shared],
         [FirebasePushModule shared],
         [ChatKitModule shared],
-    ];
+        [FirebaseUIModule new],
+    ]];
+    
+    
+    FirebaseUIModule * firebaseUI = [FirebaseUIModule new];
+    [firebaseUI setProviders:@[
+        [FUIEmailAuth new]
+    ]];
+
+    [modules addObject:firebaseUI];
     
     [BChatSDK initialize:config app:application options:launchOptions modules:modules];
     
