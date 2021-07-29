@@ -27,7 +27,6 @@
 /* Begin PBXFileReference section */
 		3B2F5FB525FE6849009F9189 /* AContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AContactViewController.swift; sourceTree = "<group>"; };
 		3B2F5FE825FE6989009F9189 /* BContactsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BContactsViewController.xib; sourceTree = "<group>"; };
-		3BA3D56926A9AF8400FE3843 /* ChatSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BDB8AAA25AB712E00A7A2DA /* APICheatSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APICheatSheet.m; sourceTree = "<group>"; };
 		3BDB8AAB25AB712E00A7A2DA /* APICheatSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APICheatSheet.h; sourceTree = "<group>"; };
 		3BDB8AAC25AB712E00A7A2DA /* APICheatSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICheatSheet.swift; sourceTree = "<group>"; };
@@ -51,13 +50,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3BA3D56626A9AF8400FE3843 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ACF7BE731C8D8AD7003E8983 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				ACF7BE761C8D8AD7003E8983 /* ChatSDKSwift.app */,
-				3BA3D56926A9AF8400FE3843 /* ChatSDK.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -157,23 +148,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3BA3D56826A9AF8400FE3843 /* ChatSDK */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3BA3D58126A9AF8700FE3843 /* Build configuration list for PBXNativeTarget "ChatSDK" */;
-			buildPhases = (
-				3BA3D56526A9AF8400FE3843 /* Sources */,
-				3BA3D56626A9AF8400FE3843 /* Frameworks */,
-				3BA3D56726A9AF8400FE3843 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ChatSDK;
-			productName = ChatSDK;
-			productReference = 3BA3D56926A9AF8400FE3843 /* ChatSDK.app */;
-			productType = "com.apple.product-type.application";
-		};
 		ACF7BE751C8D8AD7003E8983 /* ChatSDKSwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACF7BE881C8D8AD7003E8983 /* Build configuration list for PBXNativeTarget "ChatSDKSwift" */;
@@ -203,11 +177,6 @@
 				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = deluge;
 				TargetAttributes = {
-					3BA3D56826A9AF8400FE3843 = {
-						CreatedOnToolsVersion = 12.5.1;
-						DevelopmentTeam = P7RPLLCMTA;
-						ProvisioningStyle = Automatic;
-					};
 					ACF7BE751C8D8AD7003E8983 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = P7RPLLCMTA;
@@ -235,19 +204,11 @@
 			projectRoot = "";
 			targets = (
 				ACF7BE751C8D8AD7003E8983 /* ChatSDKSwift */,
-				3BA3D56826A9AF8400FE3843 /* ChatSDK */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		3BA3D56726A9AF8400FE3843 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ACF7BE741C8D8AD7003E8983 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -302,13 +263,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		3BA3D56526A9AF8400FE3843 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ACF7BE721C8D8AD7003E8983 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -340,55 +294,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		3BA3D57F26A9AF8700FE3843 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = P7RPLLCMTA;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = ChatSDK/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = sdk.chat.ChatSDK;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		3BA3D58026A9AF8700FE3843 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = P7RPLLCMTA;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = ChatSDK/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = sdk.chat.ChatSDK;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		ACF7BE861C8D8AD7003E8983 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -536,15 +441,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3BA3D58126A9AF8700FE3843 /* Build configuration list for PBXNativeTarget "ChatSDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3BA3D57F26A9AF8700FE3843 /* Debug */,
-				3BA3D58026A9AF8700FE3843 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		ACF7BE711C8D8AD7003E8983 /* Build configuration list for PBXProject "ChatSDKSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

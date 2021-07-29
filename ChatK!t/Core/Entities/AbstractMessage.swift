@@ -54,7 +54,7 @@ open class AbstractMessage: Message, Hashable, Equatable {
     }
 
     open func messageReadStatus() -> MessageReadStatus {
-        preconditionFailure("This method must be overridden")
+        return .none
     }
     
     open func messageReply() -> Reply? {

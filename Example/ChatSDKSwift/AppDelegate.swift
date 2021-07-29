@@ -8,6 +8,11 @@
 
 import UIKit
 import ChatSDK
+import ChatSDKFirebase
+import FirebaseAuthUI
+import FirebaseEmailAuthUI
+import FirebasePhoneAuthUI
+import FirebaseOAuthUI
 
 @UIApplicationMain
 /* Two Factor Auth */
@@ -18,22 +23,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /* Two Factor Auth */
     //var verifyViewController:BVerifyViewController?;
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let config = BConfiguration.init();
-        config.rootPath! = "test"
+        config.rootPath = "pre_1"
         config.allowUsersToCreatePublicChats = false
         config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
         config.clearDatabaseWhenDataVersionChanges = true
         config.clearDataWhenRootPathChanges = true;
         config.databaseVersion = "2"
+        config.loginUsernamePlaceholder = "Email"
+        config.messageSelectionEnabled = false
+        config.logoImage = UIImage(named: "logo")
 
-        BChatSDK.initialize(config, app: application, options: launchOptions)
+        var modules = [
+            FirebaseNetworkAdapterModule.shared(),
+            FirebasePushModule.shared(),
+            FirebaseUploadModule.shared(),
+        ]
 
-        NM.moderation().on()
-        
+        // If you want to use Firebase UI
+        let module = FirebaseUIModule.init()
+        let authUI = FUIAuth.defaultAuthUI()
+        module.setProviders([FUIEmailAuth(), FUIPhoneAuth.init(authUI: authUI!)])
+        modules.append(module)
+                
+        BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules)
+        BChatSDK.activateLicense(withEmail: "ben@sdk.chat")
+
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = BInterfaceManager.shared().a.appTabBarViewController();
+        self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();
         self.window?.makeKeyAndVisible();
 
         return true
@@ -56,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return BChatSDK.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         return BChatSDK.application(app, open: url, options: options)
     }
 

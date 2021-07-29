@@ -78,7 +78,7 @@ public protocol UploadableMessage: Message {
     func uploadFinished(_ data: Data?, error: Error?)
 }
 
-public protocol AudioMessage: DownloadableMessage, UploadableMessage, HasPlaceholder {
+public protocol AudioMessage: DownloadableMessage, UploadableMessage { //}, HasPlaceholder {
     
     var localAudioURL: URL? {
         get set

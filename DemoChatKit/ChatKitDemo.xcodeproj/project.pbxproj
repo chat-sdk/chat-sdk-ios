@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		010AF6F19C9C1D54B215CA46 /* Pods_ChatKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F9DBE7B38B9FB1CCDCE125 /* Pods_ChatKitDemo.framework */; };
 		3B28908526B0291300155642 /* ChatKitSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28908426B0291300155642 /* ChatKitSetup.swift */; };
+		3B3DA59026B2E06000815F18 /* 333.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 3B3DA58E26B2E06000815F18 /* 333.jpeg */; };
+		3B3DA59126B2E06000815F18 /* Audio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B3DA58F26B2E06000815F18 /* Audio.mp3 */; };
 		3B76AE5626B015B00036870A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B76AE5526B015B00036870A /* AppDelegate.swift */; };
 		3B76AE5826B015B00036870A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B76AE5726B015B00036870A /* SceneDelegate.swift */; };
 		3B76AE5A26B015B00036870A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B76AE5926B015B00036870A /* ViewController.swift */; };
@@ -19,6 +21,8 @@
 
 /* Begin PBXFileReference section */
 		3B28908426B0291300155642 /* ChatKitSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatKitSetup.swift; sourceTree = "<group>"; };
+		3B3DA58E26B2E06000815F18 /* 333.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 333.jpeg; sourceTree = "<group>"; };
+		3B3DA58F26B2E06000815F18 /* Audio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Audio.mp3; sourceTree = "<group>"; };
 		3B76AE5226B015B00036870A /* ChatKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B76AE5526B015B00036870A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B76AE5726B015B00036870A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -44,6 +48,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B3DA58D26B2E06000815F18 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3B3DA58E26B2E06000815F18 /* 333.jpeg */,
+				3B3DA58F26B2E06000815F18 /* Audio.mp3 */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		3B76AE4926B015B00036870A = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +78,7 @@
 		3B76AE5426B015B00036870A /* ChatKitDemo */ = {
 			isa = PBXGroup;
 			children = (
+				3B3DA58D26B2E06000815F18 /* Resources */,
 				3B76AE5526B015B00036870A /* AppDelegate.swift */,
 				3B76AE5726B015B00036870A /* SceneDelegate.swift */,
 				3B76AE5926B015B00036870A /* ViewController.swift */,
@@ -154,6 +168,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B76AE6226B015B30036870A /* LaunchScreen.storyboard in Resources */,
+				3B3DA59126B2E06000815F18 /* Audio.mp3 in Resources */,
+				3B3DA59026B2E06000815F18 /* 333.jpeg in Resources */,
 				3B76AE5F26B015B30036870A /* Assets.xcassets in Resources */,
 				3B76AE5D26B015B00036870A /* Main.storyboard in Resources */,
 			);

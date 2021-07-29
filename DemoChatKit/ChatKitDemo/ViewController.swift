@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        present(UINavigationController(rootViewController: vc!), animated: false, completion: nil)
+        navigationController?.pushViewController(vc!, animated: true)
     }
 
 
