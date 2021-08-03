@@ -49,7 +49,7 @@ open class RecordKeyboardOverlay: UIView, KeyboardOverlay {
     
 }
 
-public protocol RecordViewDelegate {
+public protocol RecordViewDelegate: class {
     func send(audio: Data, duration: Int)
 }
 
@@ -66,7 +66,7 @@ open class RecordView: UIView {
     @IBOutlet weak var micImageView: UIImageView!
     
     @IBOutlet weak var infoLabel: UILabel!
-    open var delegate: RecordViewDelegate?
+    open weak var delegate: RecordViewDelegate?
         
     open var timer: Timer?
     open var startTime: NSDate?
@@ -198,7 +198,7 @@ open class RecordView: UIView {
                 delegate?.send(audio: data, duration: time)
             }
         } catch {
-            
+            print(error.localizedDescription)
         }
         
         cancel()

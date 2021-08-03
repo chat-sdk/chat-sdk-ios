@@ -15,7 +15,7 @@ import UIKit
     var currentRole: String?
     var progressView = UIProgressView()
     
-    public var delegate: ModerationViewControllerDelegate?
+    public weak var delegate: ModerationViewControllerDelegate?
 
     @objc public init(thread: PThread, user: PUser, nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         self.thread = thread

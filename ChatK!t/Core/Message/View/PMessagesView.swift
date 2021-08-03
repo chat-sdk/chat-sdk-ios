@@ -8,10 +8,9 @@
 import Foundation
 import RxSwift
 
-public protocol PMessagesView {
+public protocol PMessagesView: class {
     func scrollToBottom(animated: Bool, force: Bool)
     func apply(snapshot: NSDiffableDataSourceSnapshot<Section, AbstractMessage>, animated: Bool) -> Completable
     func reload(messages: [AbstractMessage], animated: Bool) -> Completable
     func offsetFromBottom() -> CGFloat
-//    func layout()
 }

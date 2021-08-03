@@ -10,21 +10,22 @@ import UIKit
 import KeepLayout
 import AudioToolbox
 
-public protocol PChatViewController {
-    func add(message: Message)
-}
+//public protocol PChatViewController {
+//    func add(message: Message)
+//}
 
-public protocol ChatViewControllerTypingDelegate {
+public protocol ChatViewControllerTypingDelegate: class {
     func didStartTyping()
     func didStopTyping()
 }
 
-public protocol ChatViewControllerDelegate {
+public protocol ChatViewControllerDelegate: class {
     func viewDidLoad()
     func viewWillAppear()
     func viewDidAppear()
     func viewWillDisappear()
     func viewDidDisappear()
+    func viewDidDestroy()
 }
 
 open class ChatViewController: UIViewController {
@@ -66,15 +67,15 @@ open class ChatViewController: UIViewController {
     
     // Data model
     public let model: ChatModel
-    open var typingDelegate: ChatViewControllerTypingDelegate?
-    open var delegate: ChatViewControllerDelegate?
+    open weak var typingDelegate: ChatViewControllerTypingDelegate?
+    open weak var delegate: ChatViewControllerDelegate?
 
     public init(model: ChatModel) {
         self.model = model
         toolbar = ChatKit.provider().chatToolbar(model.messagesModel, actions: model)
         toolbar.setActionsDelegate(model)
         super.init(nibName: nil, bundle: nil)
-        model.view = self
+//        model.view = self
 
         // Hide the tab bar when the messages are shown
         hidesBottomBarWhenPushed = true
@@ -508,6 +509,10 @@ open class ChatViewController: UIViewController {
         }
     }
 
+    deinit {
+        delegate?.viewDidDestroy()
+    }
+
 }
 
 extension UIView {
@@ -519,13 +524,13 @@ extension UIView {
     }
 }
 
-extension ChatViewController: PChatViewController {
-
-    open func add(message: Message) {
-        
-    }
-    
-}
+//extension ChatViewController: PChatViewController {
+//
+//    open func add(message: Message) {
+//
+//    }
+//
+//}
 
 open class AfterLayoutAction {
     open var action: () -> Void

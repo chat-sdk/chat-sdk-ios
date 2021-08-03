@@ -62,7 +62,7 @@ import AVFoundation
     @IBOutlet weak var totalTimeLabel: UILabel!
     @IBOutlet weak var progressSlider: UISlider!
     
-    var timer: Timer?
+    public var timer: Timer?
     
     open override func awakeFromNib() {
         super.awakeFromNib()

@@ -84,37 +84,37 @@
 // API Methods
 +(nonnull id<PCoreHandler>) core;
 +(nonnull id<PAuthenticationHandler>) auth;
-+(id<PUploadHandler>) upload;
-+(id<PVideoMessageHandler>) videoMessage;
-+(id<PAudioMessageHandler>) audioMessage;
-+(id<PImageMessageHandler>) imageMessage;
-+(id<PLocationMessageHandler>) locationMessage;
-+(id<PPushHandler>) push;
++(nullable id<PUploadHandler>) upload;
++(nullable id<PVideoMessageHandler>) videoMessage;
++(nullable id<PAudioMessageHandler>) audioMessage;
++(nullable id<PImageMessageHandler>) imageMessage;
++(nullable id<PLocationMessageHandler>) locationMessage;
++(nullable id<PPushHandler>) push;
 +(nonnull id<PContactHandler>) contact;
-+(id<PTypingIndicatorHandler>) typingIndicator;
-+(id<PModerationHandler>) moderation;
++(nullable id<PTypingIndicatorHandler>) typingIndicator;
++(nullable id<PModerationHandler>) moderation;
 +(nonnull id<PSearchHandler>) search;
-+(id<PPublicThreadHandler>) publicThread;
-+(id<PBlockingHandler>) blocking;
-+(id<PLastOnlineHandler>) lastOnline;
-+(id<PNearbyUsersHandler>) nearbyUsers;
-+(id<PReadReceiptHandler>) readReceipt;
-+(id<PStickerMessageHandler>) stickerMessage;
++(nullable id<PPublicThreadHandler>) publicThread;
++(nullable id<PBlockingHandler>) blocking;
++(nullable id<PLastOnlineHandler>) lastOnline;
++(nullable id<PNearbyUsersHandler>) nearbyUsers;
++(nullable id<PReadReceiptHandler>) readReceipt;
++(nullable id<PStickerMessageHandler>) stickerMessage;
 +(id<PUser>) currentUser;
 +(NSString *) currentUserID;
 +(id) handler: (NSString *) name;
 +(nonnull id<PHookHandler>) hook;
 +(nonnull id<PUsersHandler>) users;
-//+(BOOL) isMe: (id<PUser>) user;
+
 +(nonnull id<PInterfaceAdapter>) ui;
 +(nonnull id<PStorageAdapter>) db;
 +(nonnull id<PNetworkAdapter>) a;
-+(id<PFileMessageHandler>) fileMessage;
-+(id<PEncryptionHandler>) encryption;
++(nullable id<PFileMessageHandler>) fileMessage;
++(nullable id<PEncryptionHandler>) encryption;
 +(nonnull id<PEventHandler>) event;
 +(nonnull id<PThreadHandler>) thread;
-+(id<PInternetConnectivityHandler>) connectivity;
-+(id<CallHandler>) call;
++(nullable id<PInternetConnectivityHandler>) connectivity;
++(nullable id<CallHandler>) call;
 
 +(nonnull BConfiguration *) config;
 

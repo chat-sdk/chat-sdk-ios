@@ -114,7 +114,11 @@ open class MessagesListAdapter {
             removeSection(section)
         }
     }
-    
+
+    open func removeAllMessages() {
+        _sections.removeAll()
+    }
+
     open func removeSection(_ section: Section) {
         if let index = _sections.firstIndex(of: section) {
             _sections.remove(at: index)

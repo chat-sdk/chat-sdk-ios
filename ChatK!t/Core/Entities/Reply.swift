@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Reply {
+public protocol Reply : class {
     func replyTitle() -> String?
     func replyText() -> String?
     func replyImageURL() -> URL?

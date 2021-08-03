@@ -48,20 +48,26 @@ public protocol OptionProvider {
     }
 }
 
-open class ChatSDKRecordViewDelegate: RecordViewDelegate {
-    let threadEntityID: String
-    init(_ threadEntityID: String) {
-        self.threadEntityID = threadEntityID
-    }
-    open func send(audio: Data, duration: Int) {
-        // Save this file to the standard directory
-        BChatSDK.audioMessage().sendMessage(withAudio: audio, duration: Double(duration), withThreadEntityID: threadEntityID)
-    }
-}
+//open class ChatSDKRecordViewDelegate: RecordViewDelegate {
+//    let threadEntityID: String
+//
+//    init(_ threadEntityID: String) {
+//        self.threadEntityID = threadEntityID
+//    }
+//
+//    open func send(audio: Data, duration: Int) {
+//        // Save this file to the standard directory
+//        BChatSDK.audioMessage()?.sendMessage(withAudio: audio, duration: Double(duration), withThreadEntityID: threadEntityID)
+//    }
+//}
 
-open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, ChatViewControllerTypingDelegate {
-    open var model: ChatModel?
-    open var vc: ChatViewController?
+open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, ChatViewControllerTypingDelegate, RecordViewDelegate {
+    
+    open unowned var model: ChatModel?
+
+//    open var vc: ChatViewController?
+    open weak var weakVC: ChatViewController?
+
     open var thread: PThread?
     open var locationAction: BSelectLocationAction?
 
@@ -139,9 +145,9 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
         _ = BChatSDK.hook().add(BHook({ [weak self] data in
             if let thread = data?[bHook_PThread] as? PThread, thread.isEqual(self?.thread) {
                 if let text = data?[bHook_NSString] as? String {
-                    self?.vc?.setSubtitle(text: text)
+                    self?.weakVC?.setSubtitle(text: text)
                 } else {
-                    self?.vc?.setSubtitle()
+                    self?.weakVC?.setSubtitle()
                 }
             }
         }), withName: bHookTypingStateUpdated)
@@ -149,7 +155,7 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
         _ = BChatSDK.hook().add(BHook({ [weak self] data in
             if let thread = self?.thread, let user = data?[bHook_PUser] as? PUser {
                 if thread.contains(user) {
-                    self?.vc?.setSubtitle()
+                    self?.weakVC?.setSubtitle()
                 }
             }
         }), withName: bHookUserUpdated)
@@ -158,7 +164,7 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
             if  let thread = data?[bHook_PThread] as? PThread, thread.isEqual(to: self?.thread), let user = data?[bHook_PUser] as? PUser, user.isMe() {
                 self?.updateRightBarButtonItem()
                 let hasVoice = BChatSDK.thread().hasVoice(thread.entityID(), forUser: user.entityID())
-                self?.vc?.setReadOnly(!hasVoice)
+                self?.weakVC?.setReadOnly(!hasVoice)
             }
         }), withName: bHookThreadUserRoleUpdated)
         
@@ -195,6 +201,18 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
                 })
             }
         }), withName: bHookMessageWasDeleted)
+        
+
+        BChatSDK.hook().add(BHook(onMain: { [weak self] data in
+            if let threads = data?[bHook_PThreads] as? [PThread] {
+                for t in threads {
+                    if t.entityID() == self?.thread?.entityID() {
+                        _ = self?.model?.messagesModel.removeAllMessages(animated: false).subscribe()
+                    }
+                }
+            }
+        }), withName: bHookAllMessagesDeleted)
+
     }
     
     open func chatViewController(_ thread: PThread) -> UIViewController? {
@@ -234,10 +252,10 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
         
         // Create the chat view controller
         let vc = ChatViewController(model: model)
+        weakVC = vc
+
         vc.delegate = self
         vc.typingDelegate = self
-        
-        self.vc = vc
         
         vc.addRightBarButtonItem(item: UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil), action: { [weak self] item in
             if let thread = self?.thread {
@@ -248,28 +266,31 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
                 flvc?.hideGroupNameView = true
                 flvc?.maximumSelectedUsers = 0
                 
-                vc.present(UINavigationController(rootViewController: flvc!), animated: true, completion: nil)
+                self?.weakVC?.present(UINavigationController(rootViewController: flvc!), animated: true, completion: nil)
             }
         })
 
-        addSendBarActions(model: model, vc: vc, thread: thread)
-        addToolbarActions(model: model, vc: vc, thread: thread)
+        addSendBarActions()
+        addToolbarActions()
 
         let optionsOverlay = OptionsKeyboardOverlay()
 
-        var options = getOptions(vc: vc, thread: thread)
+        var options = getOptions()
         for provider in optionProviders {
             options.append(provider.provide(for: vc, thread: thread))
         }
         optionsOverlay.setOptions(options: options)
         model.addKeyboardOverlay(name: OptionsKeyboardOverlay.key, overlay: optionsOverlay)
 
-        let recordOverlay = RecordKeyboardOverlay.new(ChatSDKRecordViewDelegate(thread.entityID()))
-        
-        model.addKeyboardOverlay(name: RecordKeyboardOverlay.key, overlay: recordOverlay)
+        if BChatSDK.audioMessage() != nil {
+            let recordOverlay = RecordKeyboardOverlay.new(self)
+            model.addKeyboardOverlay(name: RecordKeyboardOverlay.key, overlay: recordOverlay)
+        }
                 
-        vc.headerView.onTap = {
-            vc.present(BChatSDK.ui().usersViewNavigationController(with: thread, parentNavigationController: vc.navigationController), animated: true, completion: nil)
+        vc.headerView.onTap = { [weak self] in
+            if let vc = self?.weakVC {
+                vc.present(BChatSDK.ui().usersViewNavigationController(with: thread, parentNavigationController: vc.navigationController), animated: true, completion: nil)
+            }
         }
         
         markRead(thread: thread)
@@ -282,7 +303,7 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
     }
     
     open func markRead(thread: PThread) {
-        if vc != nil {
+        if  weakVC != nil {
             if let rr = BChatSDK.readReceipt() {
                 rr.markRead(thread)
             } else {
@@ -294,23 +315,23 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
     open func updateConnectionStatus() {
         let connectionStatus = BChatSDK.core().connectionStatus?() ?? bConnectionStatusConnected
         let status = ConnectionStatus.init(rawValue: Int(connectionStatus.rawValue))
-        let connected = BChatSDK.connectivity().isConnected()
+        let connected = BChatSDK.connectivity()?.isConnected() ?? true
 
-        vc?.updateConnectionStatus(status)
+        weakVC?.updateConnectionStatus(status)
 
-        vc?.navigationItem.rightBarButtonItem?.isEnabled = connected
+        weakVC?.navigationItem.rightBarButtonItem?.isEnabled = connected
         if connected && status == .connected {
-            vc?.goOnline()
+            weakVC?.goOnline()
         } else {
-            vc?.goOffline()
+            weakVC?.goOffline()
         }
     }
     
     open func updateRightBarButtonItem() {
         if let thread = thread {
-            vc?.navigationItem.rightBarButtonItem?.isEnabled = BChatSDK.thread().canAddUsers(thread.entityID())
+            weakVC?.navigationItem.rightBarButtonItem?.isEnabled = BChatSDK.thread().canAddUsers(thread.entityID())
         } else {
-            vc?.navigationItem.rightBarButtonItem?.isEnabled = false
+            weakVC?.navigationItem.rightBarButtonItem?.isEnabled = false
         }
     }
     
@@ -338,12 +359,16 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
     }
     
     open func viewDidDisappear() {
-        vc = nil
         if let thread = thread {
             if thread.typeIs(bThreadFilterPublic) && (!BChatSDK.config().publicChatAutoSubscriptionEnabled || thread.meta()[bMute] != nil) {
                 BChatSDK.thread().removeUsers([BChatSDK.currentUserID()], fromThread: thread.entityID())
             }
         }
+    }
+    
+    open func viewDidDestroy() {
+        ChatKit.downloadManager().removeAllListeners()
+        print("Destroy")
     }
     
     // ChatModel Delegate
@@ -400,7 +425,7 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
                     let player = AVPlayer(url: fileURL.absoluteURL)
                     let playerController = AVPlayerViewController()
                     playerController.player = player
-                    vc?.present(playerController, animated: true, completion: nil)
+                    weakVC?.present(playerController, animated: true, completion: nil)
                 } catch {
                     
                 }
@@ -413,7 +438,7 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
             
             if let ivc = BChatSDK.ui().imageViewController(), let message = message as? ImageMessage, let url = message.imageURL() {
                 ivc.setImageURL(url)
-                vc?.present(UINavigationController(rootViewController: ivc), animated: true, completion: nil)
+                weakVC?.present(UINavigationController(rootViewController: ivc), animated: true, completion: nil)
             }
             return true
         }
@@ -425,7 +450,7 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
             if let longitude = message.messageMeta()?[bMessageLongitude] as? NSNumber, let latitude = message.messageMeta()?[bMessageLatitude] as? NSNumber {
                 if let nvc = BChatSDK.ui().locationViewController() {
                     nvc.setLatitude(latitude.doubleValue, longitude: longitude.doubleValue)
-                    vc?.present(UINavigationController(rootViewController: nvc), animated: true, completion: nil)
+                    weakVC?.present(UINavigationController(rootViewController: nvc), animated: true, completion: nil)
                 }
             }
             return true
@@ -447,77 +472,86 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
         }
     }
     
-    open func getOptions(vc: ChatViewController, thread: PThread) -> [Option] {
+    open func getOptions() -> [Option] {
         return [
-            Option(galleryOnClick: {
-                let action = BSelectMediaAction(type: bPictureTypeAlbumImage, viewController: vc)
-                _ = action?.execute()?.thenOnMain({ success in
-                    if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
-                        imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
-                    }
-                    return success
-                }, nil)
+            Option(galleryOnClick: { [weak self] in
+                if let vc = self?.weakVC, let thread = self?.thread {
+                    let action = BSelectMediaAction(type: bPictureTypeAlbumImage, viewController: vc)
+                    _ = action?.execute()?.thenOnMain({ success in
+                        if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
+                            imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+                        }
+                        return success
+                    }, nil)
+                }
             }),
             Option(locationOnClick: { [weak self] in
-                self?.locationAction = BSelectLocationAction()
-                _ = self?.locationAction?.execute()?.thenOnMain({ location in
-                    if let locationMessage = BChatSDK.locationMessage(), let location = location as? CLLocation {
-                        locationMessage.sendMessage(with: location, withThreadEntityID: thread.entityID())
-                    }
-                    return location
-                }, nil)
+                if let vc = self?.weakVC, let thread = self?.thread {
+                    self?.locationAction = BSelectLocationAction()
+                    _ = self?.locationAction?.execute()?.thenOnMain({ location in
+                        if let locationMessage = BChatSDK.locationMessage(), let location = location as? CLLocation {
+                            locationMessage.sendMessage(with: location, withThreadEntityID: thread.entityID())
+                        }
+                        return location
+                    }, nil)
+                }
             }),
-            Option(videoOnClick: {
-                let action = BSelectMediaAction(type: bPictureTypeAlbumVideo, viewController: vc)
-                _ = action?.execute()?.thenOnMain({ success in
-                    if let videoMessage = BChatSDK.videoMessage(), let data = action?.videoData, let coverImage = action?.coverImage {
-                        // Set the local url of the message
-                        videoMessage.sendMessage(withVideo: data, cover: coverImage, withThreadEntityID: thread.entityID())
-                    }
-                    return success
-                }, nil)
+            Option(videoOnClick: { [weak self] in
+                if let vc = self?.weakVC, let thread = self?.thread {
+                    let action = BSelectMediaAction(type: bPictureTypeAlbumVideo, viewController: vc)
+                    _ = action?.execute()?.thenOnMain({ success in
+                        if let videoMessage = BChatSDK.videoMessage(), let data = action?.videoData, let coverImage = action?.coverImage {
+                            // Set the local url of the message
+                            videoMessage.sendMessage(withVideo: data, cover: coverImage, withThreadEntityID: thread.entityID())
+                        }
+                        return success
+                    }, nil)
+                }
             }),
         ]
     }
     
-    open func addSendBarActions(model: ChatModel, vc: ChatViewController, thread: PThread) {
-        
-        model.addSendBarAction(SendBarActions.send {
-            if let text = vc.sendBarView.text() {
-                if let message = vc.replyToMessage(), let m = BChatSDK.db().fetchEntity(withID: message.messageId(), withType: bMessageEntity) as? PMessage {
-                    BChatSDK.thread().reply(to: m, withThreadID: thread.entityID(), reply: text)
-                    vc.hideReplyView()
-                } else {
-                    BChatSDK.thread().sendMessage(withText: text, withThreadEntityID: thread.entityID())
+    open func addSendBarActions() {
+            model?.addSendBarAction(SendBarActions.send { [weak self] in
+                if let thread = self?.thread {
+                    if let text = self?.weakVC?.sendBarView.text() {
+                        if let message = self?.weakVC?.replyToMessage(), let m = BChatSDK.db().fetchEntity(withID: message.messageId(), withType: bMessageEntity) as? PMessage {
+                            BChatSDK.thread().reply(to: m, withThreadID: thread.entityID(), reply: text)
+                            self?.weakVC?.hideReplyView()
+                        } else {
+                            BChatSDK.thread().sendMessage(withText: text, withThreadEntityID: thread.entityID())
+                        }
+                        self?.weakVC?.sendBarView.clear()
+                    }
                 }
-                vc.sendBarView.clear()
+            })
+
+            if BChatSDK.audioMessage() != nil {
+                model?.addSendBarAction(SendBarActions.mic { [weak self] in
+                    self?.weakVC?.showKeyboardOverlay(name: RecordKeyboardOverlay.key)
+                })
             }
-        })
 
-        model.addSendBarAction(SendBarActions.mic {
-            vc.showKeyboardOverlay(name: RecordKeyboardOverlay.key)
-        })
-
-        model.addSendBarAction(SendBarActions.plus {
-            vc.showKeyboardOverlay(name: OptionsKeyboardOverlay.key)
-        })
-        
-        model.addSendBarAction(SendBarActions.camera {
-            let action = BSelectMediaAction(type: bPictureTypeCameraImage, viewController: vc)
-            _ = action?.execute()?.thenOnMain({ success in
-                if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
-                    imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
-                }
-                return success
-            }, nil)
-        })
-        
-    }
-    
-    open func addToolbarActions(model: ChatModel, vc: ChatViewController, thread: PThread) {
-
-        model.addToolbarAction(ToolbarAction.copyAction(onClick: { messages in
+            model?.addSendBarAction(SendBarActions.plus { [weak self] in
+                self?.weakVC?.showKeyboardOverlay(name: OptionsKeyboardOverlay.key)
+            })
             
+            model?.addSendBarAction(SendBarActions.camera { [weak self] in
+                if let vc = self?.weakVC, let thread = self?.thread {
+                    let action = BSelectMediaAction(type: bPictureTypeCameraImage, viewController: vc)
+                    _ = action?.execute()?.thenOnMain({ success in
+                        if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
+                            imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+                        }
+                        return success
+                    }, nil)
+                }
+            })
+        }
+    
+    open func addToolbarActions() {
+
+        model?.addToolbarAction(ToolbarAction.copyAction(onClick: { [weak self] messages in
             let formatter = DateFormatter()
             formatter.dateFormat = ChatKit.config().messageHistoryTimeFormat
             
@@ -527,12 +561,12 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
             }
             
             UIPasteboard.general.string = text
-            vc.view.makeToast(Strings.t(Strings.copiedToClipboard))
+            self?.weakVC?.view.makeToast(Strings.t(Strings.copiedToClipboard))
 
             return true
         }))
 
-        model.addToolbarAction(ToolbarAction.trashAction(visibleFor: { messages in
+        model?.addToolbarAction(ToolbarAction.trashAction(visibleFor: { messages in
             var visible = true
             for message in messages {
                 if let m = CKMessageStore.shared().message(with: message.messageId()) {
@@ -540,35 +574,44 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
                 }
             }
             return visible
-        }, onClick: { messages in
+        }, onClick: { [weak self] messages in
             for message in messages {
                 _ = BChatSDK.thread().deleteMessage(message.messageId()).thenOnMain({ success in
-                    _ = model.messagesModel.removeMessages([message]).subscribe()
+                    _ = self?.model?.messagesModel.removeMessages([message]).subscribe()
                     return success
                 }, nil)
             }
             return false
         }))
 
-        model.addToolbarAction(ToolbarAction.forwardAction(visibleFor: { messages in
+        model?.addToolbarAction(ToolbarAction.forwardAction(visibleFor: { messages in
             return messages.count == 1
-        }, onClick: { messages in
+        }, onClick: { [weak self] messages in
             if let message = messages.first as? CKMessage {
                 let forwardViewController = ForwardViewController()
                 forwardViewController.message = message.message
-                vc.present(UINavigationController(rootViewController: forwardViewController), animated: true, completion: nil)
+                self?.weakVC?.present(UINavigationController(rootViewController: forwardViewController), animated: true, completion: nil)
             }
             return true
         }))
 
-        model.addToolbarAction(ToolbarAction.replyAction(visibleFor: { messages in
+        model?.addToolbarAction(ToolbarAction.replyAction(visibleFor: { messages in
             return messages.count == 1
-        }, onClick: { messages in
+        }, onClick: { [weak self] messages in
             if let message = messages.first {
-                vc.showReplyView(message)
+                self?.weakVC?.showReplyView(message)
             }
             return true
         }))
         
     }
+    
+    // Record view delegate
+    public func send(audio: Data, duration: Int) {
+        // Save this file to the standard directory
+        if let thread = thread {
+            BChatSDK.audioMessage()?.sendMessage(withAudio: audio, duration: Double(duration), withThreadEntityID: thread.entityID())
+        }
+    }
+
 }

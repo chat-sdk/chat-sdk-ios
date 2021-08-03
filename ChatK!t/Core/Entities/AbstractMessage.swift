@@ -15,7 +15,7 @@ open class AbstractMessage: Message, Hashable, Equatable {
     
     open var selected = false
     
-    open var content: MessageContent?
+    open weak var content: MessageContent?
     
     open func setContent(_ content: MessageContent) {
         self.content = content

@@ -16,17 +16,17 @@ open class ChatModel: ChatToolbarActionsDelegate {
     open var toolbarActions = [ToolbarAction]()
     open var keyboardOverlayMap = [String: KeyboardOverlay]()
     
-    open var view: PChatViewController?
-    open var delegate: ChatModelDelegate
+//    open var view: PChatViewController?
+    open weak var delegate: ChatModelDelegate?
     
-    open lazy var messagesModel = {
-        return ChatKit.provider().messagesModel(conversation, delegate: delegate)
-    }()
+    open var messagesModel: MessagesModel
     
     public init(_ conversation: Conversation, delegate: ChatModelDelegate) {
         self.conversation = conversation
+        self.messagesModel = ChatKit.provider().messagesModel(conversation)
+        self.messagesModel.setDelegate(delegate)
         self.delegate = delegate
-        self.delegate.model = self
+        self.delegate?.model = self
     }
         
     open func title() -> String {

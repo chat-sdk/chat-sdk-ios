@@ -127,6 +127,10 @@ open class DownloadManager {
         }
     }
     
+    open func removeAllListeners() {
+        listeners.removeAll()
+    }
+    
 }
 
 extension DownloadManager: MZDownloadManagerDelegate {
@@ -257,7 +261,7 @@ extension DownloadManager: MZDownloadManagerDelegate {
 
 open class DefaultDownloadManagerListener: DownloadManagerListener {
     
-    public let model: MessagesModel
+    public unowned let model: MessagesModel
     
     public init(_ model: MessagesModel) {
         self.model = model

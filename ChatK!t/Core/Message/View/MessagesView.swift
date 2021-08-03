@@ -226,6 +226,10 @@ open class MessagesView: UIView {
     open func isSelectionModeEnabled() -> Bool {
         return !(model?.selectedMessages().isEmpty ?? false)
     }
+    
+    deinit {
+        messageCellSizeCache?.clear()
+    }
         
 }
 
@@ -300,7 +304,7 @@ extension MessagesView: PMessagesView {
             return Disposables.create {}
         }
     }
-    
+        
 }
 
 extension MessagesView: UIScrollViewDelegate {

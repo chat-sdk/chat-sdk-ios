@@ -7,12 +7,12 @@
 
 import Foundation
 
-public protocol ChatToolbarDelegate {
+public protocol ChatToolbarDelegate: class {
     func selectedMessages() -> [AbstractMessage]
     func clearSelection(_ updateView: Bool?, animated: Bool)
 }
 
-public protocol ChatToolbarActionsDelegate {
+public protocol ChatToolbarActionsDelegate: class {
     var toolbarActions: [ToolbarAction] {
         get
     }
@@ -20,8 +20,8 @@ public protocol ChatToolbarActionsDelegate {
 
 open class ChatToolbar: UIToolbar {
     
-    open var _delegate: ChatToolbarDelegate?
-    open var _actionsDelegate: ChatToolbarActionsDelegate?
+    open weak var toolbarDelegate: ChatToolbarDelegate?
+    open weak var toolbarActionsDelegate: ChatToolbarActionsDelegate?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,11 +37,11 @@ open class ChatToolbar: UIToolbar {
     }
         
     open func setDelegate(_ delegate: ChatToolbarDelegate) {
-        _delegate = delegate
+        self.toolbarDelegate = delegate
     }
 
     open func setActionsDelegate(_ delegate: ChatToolbarActionsDelegate) {
-        _actionsDelegate = delegate
+        self.toolbarActionsDelegate = delegate
     }
 
     open func update(animated: Bool = false) {
@@ -51,7 +51,7 @@ open class ChatToolbar: UIToolbar {
         fixedSpace.width = 10
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
         
-        if let delegate = _delegate, let actionsDelegate = _actionsDelegate {
+        if let delegate = toolbarDelegate, let actionsDelegate = toolbarActionsDelegate {
             let actions = actionsDelegate.toolbarActions
             for i in 0 ..< actions.count {
                 let action = actions[i]

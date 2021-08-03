@@ -7,6 +7,6 @@
 
 import Foundation
 
-@objc public protocol ModerationViewControllerDelegate {
+@objc public protocol ModerationViewControllerDelegate: class {
     @objc func moderationViewWillDisappear()
 }

@@ -36,5 +36,10 @@ open class MessageCellSizeCache {
         }
         return nil
     }
+    
+    open func clear() {
+        cells.removeAll()
+        heights.removeAll()
+    }
 
 }
