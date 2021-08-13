@@ -35,6 +35,7 @@
 #define bHookMessageUploadProgress @"bHookMessageUploadProgress"
 #define bHookMessageDidUpload @"bHookMessageDidUpload"
 #define bHookMessageUpdated @"bHookMessageUpdated"
+#define bHookSilentMessageReceived @"bHookSilentMessageReceived"
 
 #define bHookMessageWillBeDeleted @"bHookMessageWillBeDeleted"
 #define bHookMessageWasDeleted @"bHookMessageWasDeleted"
@@ -76,6 +77,11 @@
 #define bHook_StringId @"bHook_StringId"
 #define bHook_ObjectValue @"bHook_ObjectValue"
 
+#define bHook_NSObject @"bHook_NSObject"
+#define bHook_NSDictionary @"bHook_NSDictionary"
+
+#define bHook_RawMessage_NSObject bHook_NSObject
+#define bHook_Meta_NSDictionary bHook_NSDictionary
 
 #define bHookInternetConnectivityDidChange @"bHookInternetConnectivityDidChange"
 #define bHookUserWillDisconnect @"bHookUserWillDisconnect"

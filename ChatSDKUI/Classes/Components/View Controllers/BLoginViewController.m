@@ -106,6 +106,8 @@
         rightView.keepLeftOffsetTo(view).equal = 0;
     }
     view.hidden = YES;
+    
+    
 }
 
 -(void) viewWillDisappear:(BOOL)animated {

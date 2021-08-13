@@ -22,16 +22,16 @@ open class SendBarAction: NSObject {
         case end
     }
 
-    let action: (()->Void)
-    var text: String?
-    var image: UIImage?
-    var size: CGSize?
-    var visibility: Visibility
-    var position: Position
-    var keyboardOverlay: String?
+    public let action: (()->Void)
+    open var text: String?
+    open var image: UIImage?
+    open var size: CGSize?
+    open var visibility: Visibility
+    open var position: Position
+    open var keyboardOverlay: String?
     open var color: UIColor?
     
-    var button: UIButton?
+    open var button: UIButton?
         
     public init(text: String, action: @escaping (() -> Void), color: UIColor? = nil, visibility: Visibility = .always, position: Position = .end, keyboardOverlay: String? = nil) {
         self.action = action

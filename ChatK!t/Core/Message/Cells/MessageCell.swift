@@ -10,22 +10,33 @@ import UIKit
 import KeepLayout
 
 public enum MaskPosition: Int {
+    case none
     case topRight
     case topLeft
     case bottomRight
     case bottomLeft
 }
 
-open class MessageCell: UITableViewCell {
+open class AbstractMessageCell: UITableViewCell {
+
+    open var content: MessageContent?
+
+    open func setContent(content: MessageContent) {
+        preconditionFailure("This method must be overridden")
+    }
+    open func bind(_ message: AbstractMessage, model: MessagesModel) {
+        preconditionFailure("This method must be overridden")
+    }
+}
+
+open class MessageCell: AbstractMessageCell {
     
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var contentContainerView: UIView!
-    @IBOutlet weak var readReceiptImageView: UIImageView?
-    @IBOutlet weak var nameLabel: UILabel?
-    
-    var content: MessageContent?
-    
+    @IBOutlet open weak var avatarImageView: UIImageView!
+    @IBOutlet open weak var timeLabel: UILabel!
+    @IBOutlet open weak var contentContainerView: UIView!
+    @IBOutlet open weak var readReceiptImageView: UIImageView?
+    @IBOutlet open weak var nameLabel: UILabel?
+        
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -36,7 +47,7 @@ open class MessageCell: UITableViewCell {
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    open func setContent(content: MessageContent) {
+    open override func setContent(content: MessageContent) {
         if self.content == nil {
             self.content = content
             contentContainerView.addSubview(content.view())
@@ -51,7 +62,7 @@ open class MessageCell: UITableViewCell {
         }
     }
     
-    open func bind(_ message: AbstractMessage, model: MessagesModel) {
+    open override func bind(_ message: AbstractMessage, model: MessagesModel) {
         if let content = self.content {
             content.bind(message, model: model)
         }
@@ -126,7 +137,7 @@ public extension UIView {
     }
 
     func setMaskPosition(position: MaskPosition) {
-        var mask: CACornerMask?
+        var mask: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         if position == .topLeft {
             mask = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         }
@@ -139,6 +150,6 @@ public extension UIView {
         if position == .bottomRight {
             mask = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
         }
-        self.layer.maskedCorners = mask!
+        self.layer.maskedCorners = mask
     }
 }

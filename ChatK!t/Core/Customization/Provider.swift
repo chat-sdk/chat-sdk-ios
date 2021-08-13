@@ -9,6 +9,10 @@ import Foundation
 
 open class Provider {
     
+    public init() {
+        
+    }
+    
     open func sectionNib() -> UINib {
         return UINib(nibName: "SectionCell", bundle: Bundle(for: SectionCell.self))
     }
@@ -104,4 +108,13 @@ open class Provider {
     open func messagesModel(_ conversation: Conversation) -> MessagesModel {
         return MessagesModel(conversation)
     }
+    
+    open func chatViewController(_ model: ChatModel) -> ChatViewController {
+        return ChatViewController(model: model)
+    }
+    
+    open func messageHeightCache() -> MessageHeightCache {
+        return MessageHeightCache()
+    }
+
 }

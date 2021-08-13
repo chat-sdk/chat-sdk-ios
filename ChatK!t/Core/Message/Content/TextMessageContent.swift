@@ -14,6 +14,7 @@ open class TextMessageContent: DefaultMessageContent {
     open lazy var label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+//        label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -55,7 +56,12 @@ open class TextMessageContent: DefaultMessageContent {
             hideReply()
         }
         label.text = message.messageText()
+
+//        label.sizeToFit()
+//        label.updateConstraints()
+//        label.setNeedsLayout()
 //        containerView.setNeedsLayout()
+
     }
     
     open func hideReply() {

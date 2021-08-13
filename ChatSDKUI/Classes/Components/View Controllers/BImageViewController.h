@@ -18,4 +18,7 @@
 @property (nonatomic, readwrite) NSURL * imageURL;
 @property (nonatomic, readwrite) BOOL hideSaveButton;
 
+-(void) downloadImage;
+-(void) downloadComplete: (UIImage *) image;
+
 @end

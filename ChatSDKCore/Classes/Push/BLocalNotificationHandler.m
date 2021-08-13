@@ -11,7 +11,7 @@
 @implementation BLocalNotificationHandler
 
 -(BOOL) showLocalNotification: (id<PThread>) thread {
-    return BChatSDK.config.showLocalNotifications;
+    return BChatSDK.config.showLocalNotificationInChat && (!BChatSDK.encryption || BChatSDK.config.showLocalNotificationForEncryptedChats);
 }
 
 @end

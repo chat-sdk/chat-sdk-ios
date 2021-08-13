@@ -45,6 +45,27 @@
     _swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDownDetected)];
     _swipeRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
     [self.view addGestureRecognizer:_swipeRecognizer];
+    
+    
+
+}
+
+//-(void) downloadImage {
+//    if (image) {
+//        [self downloadComplete:image];
+//    } else if (imageURL) {
+//        [NSURLSession.sharedSession dataTaskWithURL:imageURL completionHandler:^(NSData * data, NSURLResponse * response, NSError * error) {
+//            if (data && data.length && !error) {
+//                [self downloadComplete:[UIImage imageWithData:data]];
+//            }
+//        }];
+//    }
+//}
+
+-(void) downloadComplete: (UIImage *) image {
+    if (!self.hideSaveButton) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t: bSave] style:UIBarButtonItemStylePlain target:self action:@selector(save)];
+    }
 }
 
 -(void) swipeDownDetected {
@@ -56,9 +77,16 @@
     
     if (image) {
         [imageView setImage:image];
+        [self downloadComplete:image];
     }
     else if (imageURL) {
-        [imageView sd_setImageWithURL:imageURL];
+        __weak __typeof(self) weakSelf = self;
+        [imageView sd_setImageWithURL:imageURL completed:^(UIImage * image, NSError * error, SDImageCacheType cacheType, NSURL * imageURL) {
+            if (image && !error) {
+                weakSelf.image = image;
+                [weakSelf downloadComplete:image];
+            }
+        }];
     }
     
     // We want to make sure the image always fits in the screen
@@ -108,7 +136,9 @@
 }
 
 -(void) save {
+//    [self downloadImage];
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), Nil);
+
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo  {

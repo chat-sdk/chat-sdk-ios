@@ -116,7 +116,11 @@ open class MessagesListAdapter {
     }
 
     open func removeAllMessages() {
+        for section in _sections {
+            section.removeAll()
+        }
         _sections.removeAll()
+        _sectionsIndex.removeAll()
     }
 
     open func removeSection(_ section: Section) {

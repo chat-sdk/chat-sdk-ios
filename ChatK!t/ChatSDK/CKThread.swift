@@ -35,7 +35,7 @@ open class CKThread: Conversation {
     }
     
     open func conversationName() -> String {
-        return thread.displayName()
+        return thread.displayName() ?? "Thread"
     }
     
     open func conversationImageUrl() -> URL? {

@@ -101,6 +101,10 @@ open class Section {
         return _messages
     }
 
+    public func removeAll() {
+        _messages.removeAll()
+        _messagesIndex.removeAll()
+    }
 }
 
 extension Section: Hashable {

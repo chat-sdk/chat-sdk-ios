@@ -19,7 +19,7 @@
 
 @end
 
-@interface FirebaseUIModule : NSObject<FUIAuthDelegate, PModule>
+@interface FirebaseUIModule : NSObject<FUIAuthDelegate, PModule> 
 
 -(FUIAuthPickerViewController *) viewControllerForProviders: (NSArray *) providers;
 -(void) setProviders: (NSArray *) providers;

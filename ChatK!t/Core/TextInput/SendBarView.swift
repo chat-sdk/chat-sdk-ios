@@ -289,7 +289,11 @@ open class SendBarView: UIView, UITextViewDelegate {
     open func text() -> String? {
         return textView?.textView.text
     }
-    
+
+    open func trimmedText() -> String? {
+        return text()?.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
     open func hasText() -> Bool {
         if let text = text(), text.hasText() {
             return true

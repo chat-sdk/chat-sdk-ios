@@ -112,6 +112,7 @@
 }
 
 -(void) setText: (NSString *) text {
+    NSLog(@"Text %@", text);
     [self updateMeta:@{bMessageText: [NSString safe:text]}];
 }
 

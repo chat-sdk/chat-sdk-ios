@@ -125,7 +125,7 @@ open class MessagesView: UIView {
         datasource = UITableViewDiffableDataSource<Section, AbstractMessage>(tableView: tableView) { tableView, indexPath, message in
             let registration = model.cellRegistration(message.messageType())!
             let identifier = registration.identifier(direction: message.messageDirection())
-            let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! MessageCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! AbstractMessageCell
             cell.setContent(content: registration.content(direction: message.messageDirection()))
             cell.bind(message, model: model)
             return cell
@@ -204,10 +204,10 @@ open class MessagesView: UIView {
         return nil
     }
     
-    open func cellForTap(_ recognizer: UIGestureRecognizer) -> MessageCell? {
+    open func cellForTap(_ recognizer: UIGestureRecognizer) -> AbstractMessageCell? {
         let point = recognizer.location(in: tableView)
         if let indexPath = tableView.indexPathForRow(at: point) {
-            if let cell = tableView.cellForRow(at: indexPath) as? MessageCell {
+            if let cell = tableView.cellForRow(at: indexPath) as? AbstractMessageCell {
                 return cell
             }
         }
@@ -251,9 +251,18 @@ extension MessagesView: UITableViewDelegate {
     
     open func heightForIndexPath(_ indexPath: IndexPath) -> CGFloat {
         var height: CGFloat?
+        
+        var width = UIScreen.main.bounds.width
+//        if frame.width > 0 {
+//            width = frame.width
+//        }
+        
+        // This is called before the messages view has been layed out... so the frame is zero
         if let message = datasource?.itemIdentifier(for: indexPath), let heightCache = messageCellSizeCache, let model = model {
-            height = heightCache.heightForIndexPath(message, model: model, width: frame.width)
+            height = heightCache.heightForIndexPath(message, model: model, width: width)
         }
+        
+//        print("Cell height", height)
         return height ?? ChatKit.config().estimatedMessageCellHeight
     }
 

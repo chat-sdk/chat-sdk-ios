@@ -111,8 +111,8 @@ open class ImageMessageContent: DefaultMessageContent, DownloadableContent, Uplo
     }
 
     open func size() -> CGSize {
-        let size = ChatKit.config().imageMessageSize
-        return CGSize(width: size, height: size)
+        return ChatKit.config().imageMessageSize
+        //return CGSize(width: size, height: size)
     }
 
     open func downloadStarted() {

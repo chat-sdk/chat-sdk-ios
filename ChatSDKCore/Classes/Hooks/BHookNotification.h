@@ -49,6 +49,7 @@
 +(void) notificationMessageReadReceiptUpdated:(id<PMessage>) message;
 
 +(void) notificationSettingsUpdated: (NSString *) itemId newValue: (id) value;
++(void) notificationSilentMessageReceivedWithMessage: (NSObject *) message withMeta: (NSDictionary *) meta;
 
 +(void) notificationWillPushUser: (id<PUser>) user;
 +(void) notificationUserUpdated: (id<PUser>) user;

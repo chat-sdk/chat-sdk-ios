@@ -36,7 +36,7 @@
     _providers = providers;
 }
 
-- (void)authUI:(FUIAuth *)authUI
+-(void)authUI:(FUIAuth *)authUI
     didSignInWithAuthDataResult:(nullable FIRAuthDataResult *)authDataResult
          error:(nullable NSError *)error {
     if (!error) {
@@ -60,5 +60,8 @@
     }
 }
 
+-(void) dealloc {
+    NSLog(@"Dealloc");
+}
 
 @end

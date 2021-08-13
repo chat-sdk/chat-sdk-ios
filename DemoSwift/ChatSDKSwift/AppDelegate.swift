@@ -15,7 +15,7 @@ import FirebasePhoneAuthUI
 import FirebaseOAuthUI
 import ChatKit
 //import ChatKitExtras
-//import ChatSDKModules
+import ChatSDKModules
 
 @UIApplicationMain 
 /* Two Factor Auth */
@@ -23,9 +23,6 @@ import ChatKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    /* Two Factor Auth */
-    //var verifyViewController:BVerifyViewController?;
-    var firebaseUIModule: FirebaseUIModule?
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
@@ -54,14 +51,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             FirebasePushModule.shared(),
             FirebaseUploadModule.shared(),
 
-//            BBlockingModule.init(),
-//            BReadReceiptsModule.init(),
-//            BTypingIndicatorModule.init(),
-//            BLastOnlineModule.init(),
-//            StickerMessageModule.shared(),
-//            BVideoMessageModule.init(),
-//            FileMessageModule.init(),
-//            BAudioMessageModule.init(),
+            BBlockingModule.init(),
+            BReadReceiptsModule.init(),
+            BTypingIndicatorModule.init(),
+            BLastOnlineModule.init(),
+            StickerMessageModule.shared(),
+            BVideoMessageModule.init(),
+            FileMessageModule.init(),
+            BAudioMessageModule.init(),
 //            AddContactWithQRCodeModule.init(),
             BReachabilityModule.init(),
 //            EncryptionModule.init(),

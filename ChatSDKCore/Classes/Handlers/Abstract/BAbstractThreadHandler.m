@@ -9,6 +9,7 @@
 
 #import <ChatSDK/Core.h>
 #import <Foundation/Foundation.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @implementation BAbstractThreadHandler
 
@@ -315,11 +316,24 @@
     BMessageBuilder * builder = [[BMessageBuilder textMessage: @""] thread:threadEntityID];
     
 //    if (!message.isReply) {
-        NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:message.meta];
-        meta[bId] = message.entityID;
-        meta[bType] = message.type;
-        meta[bFrom] = message.user.entityID;
-        [builder meta: meta];
+    NSMutableDictionary * meta = [NSMutableDictionary dictionaryWithDictionary:message.meta];
+    meta[bPushSent] = nil;
+    meta[bId] = message.entityID;
+    meta[bType] = message.type;
+    meta[bFrom] = message.user.entityID;
+    
+    if (message.type.intValue == bMessageTypeLocation) {
+        float longitude = [message.meta[bMessageLongitude] floatValue];
+        float latitude = [message.meta[bMessageLatitude] floatValue];
+        int size = BChatSDK.config.replyThumbnailSize;
+        
+        NSString * url = [GoogleUtils getMapImageURLWithLatitude:latitude longitude:longitude width:size height:size];
+        if (url) {
+            meta[bImageURL] = url;
+        }
+    }
+
+    [builder meta: meta];
 //    }
 
     id<PMessage> newMessage = [builder build];

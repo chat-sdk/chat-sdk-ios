@@ -1,0 +1,11 @@
+framework module ChatKitExtras {
+  umbrella header "ChatK!tExtras-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module ChatKitExtras.Swift {
+    header "ChatKitExtras-Swift.h"
+    requires objc
+}

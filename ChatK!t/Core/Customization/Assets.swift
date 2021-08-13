@@ -12,6 +12,10 @@ open class Assets {
 
     open var colors = [String: UIColor]()
     open var icons = [String: UIImage]()
+    
+    public init() {
+        
+    }
 
     open lazy var bundle = {
         return Bundle(for: Assets.self)

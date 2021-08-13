@@ -22,21 +22,41 @@ open class MessageCellRegistration {
         self.incomingContentClass = incomingContentClass
         self.outgoingContentClass = outgoingContentClass
     }
-    
+
+    public init(messageType: String, incomingNibName: String, outgoingNibName: String, incomingContentClass: DefaultMessageContent.Type, outgoingContentClass: DefaultMessageContent.Type) {
+        self.messageType = messageType
+        self.incomingNib = MessageCellRegistration.nib(forName: incomingNibName)
+        self.outgoingNib = MessageCellRegistration.nib(forName: outgoingNibName)
+        self.incomingContentClass = incomingContentClass
+        self.outgoingContentClass = outgoingContentClass
+    }
+
+    public init(messageType: String, nibName: String, contentClass: DefaultMessageContent.Type) {
+        self.messageType = messageType
+        self.incomingNib = MessageCellRegistration.nib(forName: nibName)
+        self.outgoingNib = MessageCellRegistration.nib(forName: nibName)
+        self.incomingContentClass = contentClass
+        self.outgoingContentClass = contentClass
+    }
+
     public init(messageType: String, incomingContentClass: DefaultMessageContent.Type, outgoingContentClass: DefaultMessageContent.Type) {
         self.messageType = messageType
-        self.incomingNib = UINib(nibName: ChatKit.config().incomingMessageNibName, bundle: Bundle(for: MessageCell.self))
-        self.outgoingNib = UINib(nibName: ChatKit.config().outgoingMessageNibName, bundle: Bundle(for: MessageCell.self))
+        self.incomingNib = MessageCellRegistration.nib(forName: ChatKit.config().incomingMessageNibName)
+        self.outgoingNib = MessageCellRegistration.nib(forName: ChatKit.config().outgoingMessageNibName)
         self.incomingContentClass = incomingContentClass
         self.outgoingContentClass = outgoingContentClass
     }
 
     public init(messageType: String, contentClass: DefaultMessageContent.Type) {
         self.messageType = messageType
-        self.incomingNib = UINib(nibName: ChatKit.config().incomingMessageNibName, bundle: Bundle(for: MessageCell.self))
-        self.outgoingNib = UINib(nibName: ChatKit.config().outgoingMessageNibName, bundle: Bundle(for: MessageCell.self))
+        self.incomingNib = MessageCellRegistration.nib(forName: ChatKit.config().incomingMessageNibName)
+        self.outgoingNib = MessageCellRegistration.nib(forName: ChatKit.config().outgoingMessageNibName)
         self.incomingContentClass = contentClass
         self.outgoingContentClass = contentClass
+    }
+    
+    public static func nib(forName: String) -> UINib {
+        return UINib(nibName: forName, bundle: Bundle(for: MessageCell.self))
     }
 
     open func nib(direction: MessageDirection) -> UINib {

@@ -205,6 +205,12 @@
     }
 }
 
++(void) notificationSilentMessageReceivedWithMessage: (NSObject *) message withMeta: (NSDictionary *) meta {
+    if(message && meta) {
+        [BChatSDK.hook executeHookWithName:bHookSilentMessageReceived data:@{bHook_RawMessage_NSObject:message, bHook_Meta_NSDictionary: meta}];
+    }
+}
+
 //+(void) notificationWillResignActive: (UIApplication *) app {
 //    [BChatSDK.hook executeHookWithName:bHookWillResignActive data:@{bHook_UIApplication: app}];
 //}

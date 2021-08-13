@@ -206,7 +206,7 @@
 
 "bEncryptedMessage" = "🔒 Encrypted Message";
 "bImageMessage" = "📷 Image Message";
-"bLocationMessage" = "📍 Location Message";
+"bLocationMessage" = "📍Location Message";
 "bAudioMessage" = "🎤 Audio Message";
 "bVideoMessage" = "📹 Video Message";
 "bStickerMessage" = "😊 Sticker Message";

@@ -152,8 +152,11 @@ open class CKLocationMessage: CKImageMessage {
     
     open override func imageURL() -> URL? {
         if let longitude = messageMeta()?[bMessageLongitude] as? NSNumber, let latitude = messageMeta()?[bMessageLatitude] as? NSNumber {
-            let size = Int(ChatKit.config().imageMessageSize) * 3
-            if let url = GoogleUtils.getMapImageURL(latitude: latitude.doubleValue, longitude: longitude.doubleValue, width: size, height: size) {
+//            let size = Int(ChatKit.config().imageMessageSize) * 3
+            let size = ChatKit.config().imageMessageSize
+            let w = Int(size.width) * 3
+            let h = Int(size.height) * 3
+            if let url = GoogleUtils.getMapImageURL(latitude: latitude.doubleValue, longitude: longitude.doubleValue, width: w, height: h) {
                 return URL(string: url)
             }
         }

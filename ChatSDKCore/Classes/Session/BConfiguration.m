@@ -104,6 +104,7 @@
 @synthesize xmppPubsubNode;
 @synthesize identiconBaseURL;
 @synthesize threadDestructionEnabled;
+@synthesize replyThumbnailSize;
 
 @synthesize xmppOutgoingMessageQueueRetryTime;
 @synthesize xmppOutgoingMessageAlwaysAdd;
@@ -234,6 +235,8 @@
         
         xmppOutgoingMessageQueueRetryTime = 10;
         xmppOutgoingMessageAlwaysAdd = true;
+        
+        replyThumbnailSize = 60 * 3;
     }
     return self;
 }

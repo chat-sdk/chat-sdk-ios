@@ -88,6 +88,8 @@ static BChatSDK * instance;
 }
 
 -(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions  modules: (NSArray<PModule> *) modules networkAdapter:(id<PNetworkAdapter>)networkAdapter interfaceAdapter:(id<PInterfaceAdapter>)interfaceAdapter {
+    
+    self.modules = modules;
 
     _configuration = config;
 
@@ -329,6 +331,7 @@ static BChatSDK * instance;
 
 +(id<PInterfaceAdapter>) ui {
     return self.shared.interfaceAdapter;
+    
 }
 
 +(id<PStorageAdapter>) db {

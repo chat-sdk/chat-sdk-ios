@@ -1,0 +1,11 @@
+framework module ChatSDKXMPP {
+  umbrella header "ChatSDKXMPP-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module ChatSDKXMPP.Swift {
+    header "ChatSDKXMPP-Swift.h"
+    requires objc
+}

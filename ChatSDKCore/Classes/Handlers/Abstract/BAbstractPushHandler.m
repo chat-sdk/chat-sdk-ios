@@ -122,6 +122,9 @@
     if (!text) {
         text = @"";
     }
+    if (message.isReply) {
+        text = message.reply;
+    }
         
     // Get a list of recipients
     NSMutableDictionary * users = [NSMutableDictionary new];

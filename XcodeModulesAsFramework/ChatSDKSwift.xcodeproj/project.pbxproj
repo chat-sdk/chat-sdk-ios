@@ -122,7 +122,6 @@
 				ACF7BE741C8D8AD7003E8983 /* Resources */,
 				B5988C562084A4210093435F /* Embed App Extensions */,
 				3B22FE9E5DB37B1864CAC48F /* [CP] Embed Pods Frameworks */,
-				298BF6E9B7538A9D28A08C32 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -194,21 +193,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		298BF6E9B7538A9D28A08C32 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3B22FE9E5DB37B1864CAC48F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

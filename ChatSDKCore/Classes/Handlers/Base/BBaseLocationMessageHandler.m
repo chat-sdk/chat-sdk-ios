@@ -34,12 +34,12 @@
     [thread addMessage: message];
     
     // TODO: Get rid of this
-    NSString * messageText = [NSString stringWithFormat:@"%f,%f",location.coordinate.latitude,location.coordinate.longitude];
+//    NSString * messageText = [NSString stringWithFormat:@"%f,%f",location.coordinate.latitude,location.coordinate.longitude];
     
     int dim = BChatSDK.config.maxImageDimension;
     NSString * url = [GoogleUtils getMapImageURLWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude width:dim height:dim];
     
-    [message setMeta:@{bMessageText: messageText,
+    [message setMeta:@{bMessageText: [NSBundle t:bLocationMessage],
                        bMessageLongitude: @(location.coordinate.longitude),
                        bMessageLatitude: @(location.coordinate.latitude),
                        bMessageImageWidth: @(dim),

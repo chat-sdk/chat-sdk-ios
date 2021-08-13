@@ -63,6 +63,8 @@ open class Config {
     open var chatReplyViewHeight: CGFloat = 50
     
     open var bubbleInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+    open var systemMessageInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+
     open var bubbleCornerRadius: CGFloat = 10
     open var replyViewCornerRadius: CGFloat = 5
 
@@ -88,9 +90,17 @@ open class Config {
     
     // We define the max size i.e. 400 and the minimum size which is the screen width
     // minus the space we need to display The avatar and time label
-    open lazy var imageMessageSize = {
-        return min(400, UIScreen.main.bounds.width - 115)
+//    open lazy var imageMessageSize = {
+//        return min(400, UIScreen.main.bounds.width - 115)
+//    }()
+
+    open lazy var imageMessageSize: CGSize = {
+        let dim = min(400, UIScreen.main.bounds.width - 115)
+        return CGSize(width: dim, height: dim)
     }()
+
 }
+
+
 
 

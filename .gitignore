@@ -64,5 +64,5 @@ ChatSDKModules/
 !/ChatSDKFirebaseAdapter/
 !/ChatSDKModules/
 
-ChatSDKPro/
-ChatSDKPro.podspec
+# ChatSDKPro/
+# ChatSDKPro.podspec
