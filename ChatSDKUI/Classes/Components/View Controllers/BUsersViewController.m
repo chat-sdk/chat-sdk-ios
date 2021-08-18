@@ -150,19 +150,34 @@ typedef void(^Action)();
     }
     
     // Sections
-    if ([_thread typeIs:bThreadFilterGroup]) {
+    if ([BChatSDK.thread canLeaveThread:_thread]) {
         [_sections addObject:[[BSection alloc] init:bLeaveConversation action:^{
-            [BChatSDK.thread deleteThread:_thread];
-            [BChatSDK.thread leaveThread:_thread];
-            
-            [weakSelf.navigationController dismissViewControllerAnimated:NO completion:^{
-                if (weakSelf.parentNavigationController) {
-                    [weakSelf.parentNavigationController popViewControllerAnimated:YES];
+            [BChatSDK.thread leaveThread:_thread].thenOnMain(^id(id success) {
+                if (BChatSDK.config.deleteThreadOnLeaving) {
+                    [BChatSDK.thread deleteThread:_thread];
+                    
+                    [weakSelf.navigationController dismissViewControllerAnimated:NO completion:^{
+                        if (weakSelf.parentNavigationController) {
+                            [weakSelf.parentNavigationController popViewControllerAnimated:YES];
+                        }
+                    }];
+                } else {
+                    [weakSelf reloadOptions];
                 }
-            }];
+                return success;
+            }, nil);
         } color:UIColor.systemRedColor legacyColor:UIColor.redColor]];
     }
-    
+
+    if ([BChatSDK.thread canJoinThread:_thread]) {
+        [_sections addObject:[[BSection alloc] init:bRejoinConversation action:^{
+            [BChatSDK.thread joinThread:_thread].thenOnMain(^id(id success) {
+                [weakSelf reloadOptions];
+                return success;
+            }, nil);
+        } color:UIColor.systemBlueColor legacyColor:UIColor.blueColor]];
+    }
+
     if ([BChatSDK.thread canDestroyThread:_thread.entityID]) {
         [_sections addObject:[[BSection alloc] init:bDestroy action:^{
             

@@ -13,6 +13,6 @@ public protocol KeyboardOverlay: UIView {
 
 public extension KeyboardOverlay {
     func viewWillLayoutSubviews(view: UIView) {
-        
+        keepBottomInset.equal = 0
     }
 }

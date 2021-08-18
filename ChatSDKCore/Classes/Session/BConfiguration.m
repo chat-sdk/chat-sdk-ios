@@ -53,6 +53,7 @@
 @synthesize developmentModeEnabled;
 @synthesize messageSelectionEnabled;
 @synthesize encryptGroupThreads;
+@synthesize allowUserToRejoinGroup;
 
 @synthesize showMessageAvatarAtPosition;
 @synthesize messageBubbleMaskFirst;
@@ -204,6 +205,8 @@
         
         textInputViewMaxCharacters = 0;
         textInputViewMaxLines = 5;
+        
+        allowUserToRejoinGroup = YES;
         
         xmppAuthType = @"default";
 

@@ -12,7 +12,7 @@
 @implementation BAvailabilityState
 
 +(NSArray *) options {
-    return @[@[[NSBundle t:bAvailable], bAvailabilityStateChat],
+    return @[@[[NSBundle t:bAvailable], bAvailabilityStateChat, bAvailabilityStateAvailable],
              @[[NSBundle t:bAway], bAvailabilityStateAway],
              @[[NSBundle t:bExtendedAway], bAvailabilityStateExtendedAway],
              @[[NSBundle t:bBusy], bAvailabilityStateBusy]];
@@ -20,8 +20,10 @@
 
 +(NSString *) titleForKey: (NSString *) key {
     for (NSArray * array in self.options) {
-        if ([array.lastObject isEqualToString:key]) {
-            return array.firstObject;
+        for (int i = 1; i < array.count; i++) {
+            if ([array[i] isEqual:key]) {
+                return array.firstObject;
+            }
         }
     }
     return Nil;

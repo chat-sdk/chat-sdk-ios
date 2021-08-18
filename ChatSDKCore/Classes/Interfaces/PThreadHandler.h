@@ -73,6 +73,9 @@
 -(RXPromise *) leaveThread: (id<PThread>) thread;
 -(RXPromise *) joinThread: (id<PThread>) thread;
 
+-(BOOL) canLeaveThread: (id<PThread>) thread;
+-(BOOL) canJoinThread: (id<PThread>) thread;
+
 
 /**
  * @brief Send different types of message to a particular thread

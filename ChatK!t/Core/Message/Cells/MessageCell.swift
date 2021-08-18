@@ -31,8 +31,8 @@ open class AbstractMessageCell: UITableViewCell {
 
 open class MessageCell: AbstractMessageCell {
     
-    @IBOutlet open weak var avatarImageView: UIImageView!
-    @IBOutlet open weak var timeLabel: UILabel!
+    @IBOutlet open weak var avatarImageView: UIImageView?
+    @IBOutlet open weak var timeLabel: UILabel?
     @IBOutlet open weak var contentContainerView: UIView!
     @IBOutlet open weak var readReceiptImageView: UIImageView?
     @IBOutlet open weak var nameLabel: UILabel?
@@ -43,8 +43,9 @@ open class MessageCell: AbstractMessageCell {
     
     override open func awakeFromNib() {
         super.awakeFromNib()
-        timeLabel.numberOfLines = 0
-        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel?.numberOfLines = 0
+        timeLabel?.translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .clear
     }
     
     open override func setContent(content: MessageContent) {
@@ -67,15 +68,15 @@ open class MessageCell: AbstractMessageCell {
             content.bind(message, model: model)
         }
         if let image = message.messageSender().userImage() {
-            avatarImageView.image = image
+            avatarImageView?.image = image
         }
         else if let url = message.messageSender().userImageUrl() {
-            avatarImageView.sd_setImage(with: url, completed: nil)
+            avatarImageView?.sd_setImage(with: url, completed: nil)
         } else {
-            avatarImageView.image = ChatKit.asset(icon: "icn_100_avatar")
+            avatarImageView?.image = ChatKit.asset(icon: "icn_100_avatar")
         }
 
-        timeLabel.text = model.messageTimeFormatter.string(from: message.messageDate())
+        timeLabel?.text = model.messageTimeFormatter.string(from: message.messageDate())
         
         setAvatarSize(size: model.avatarSize())
         
@@ -102,8 +103,8 @@ open class MessageCell: AbstractMessageCell {
     }
 
     open func setAvatarSize(size: CGFloat) {
-        avatarImageView.keepSize.equal = KeepHigh(size)
-        avatarImageView.layer.cornerRadius = size / 2.0
+        avatarImageView?.keepSize.equal = KeepHigh(size)
+        avatarImageView?.layer.cornerRadius = size / 2.0
     }
 
     open func setBubbleColor(color: UIColor) {

@@ -122,6 +122,9 @@ typedef enum {
 
 @property (nonatomic, readwrite) BOOL messageDeletionEnabled;
 
+@property (nonatomic, readwrite) BOOL allowUserToRejoinGroup;
+@property (nonatomic, readwrite) BOOL deleteThreadOnLeaving;
+
 // The message view text input box, max lines and characters
 @property (nonatomic, readwrite) int textInputViewMaxLines;
 @property (nonatomic, readwrite) int textInputViewMaxCharacters;
@@ -303,6 +306,8 @@ typedef enum {
 // Should we add every message to the outgoing message queue and only remove it when it's acknoledged? This is the case if this is set to true
 // If it's set to false, we only add the message to the queue if it fails to send.
 @property (nonatomic, readwrite) BOOL xmppOutgoingMessageAlwaysAdd;
+
+
 
 +(BConfiguration *) configuration;
 

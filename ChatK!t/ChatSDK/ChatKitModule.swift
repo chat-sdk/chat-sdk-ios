@@ -48,7 +48,7 @@ public protocol OptionProvider {
     }
 }
 
-open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, ChatViewControllerTypingDelegate, RecordViewDelegate {
+open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDelegate, ChatViewControllerTypingDelegate, RecordViewDelegate {
     
     open unowned var model: ChatModel?
 
@@ -65,8 +65,8 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
     
     open var observers = BNotificationObserverList()
 
-    public init() {
-        
+    public override init() {
+        super.init()
     }
     
     open func add(optionProvider: OptionProvider) {
@@ -540,7 +540,7 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
     open func addSendBarActions() {
             model?.addSendBarAction(SendBarActions.send { [weak self] in
                 if let thread = self?.thread {
-                    if let text = self?.weakVC?.sendBarView.trimmedText() {
+                    if let text = self?.weakVC?.sendBarView.trimmedText(), !text.isEmpty {
                         if let message = self?.weakVC?.replyToMessage(), let m = BChatSDK.db().fetchEntity(withID: message.messageId(), withType: bMessageEntity) as? PMessage {
                             BChatSDK.thread().reply(to: m, withThreadID: thread.entityID(), reply: text)
                             self?.weakVC?.hideReplyView()
@@ -644,5 +644,6 @@ open class ChatKitIntegration: ChatViewControllerDelegate, ChatModelDelegate, Ch
             BChatSDK.audioMessage()?.sendMessage(withAudio: audio, duration: Double(duration), withThreadEntityID: thread.entityID())
         }
     }
+
 
 }

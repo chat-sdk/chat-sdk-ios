@@ -419,4 +419,12 @@
     return false;
 }
 
+-(BOOL) canLeaveThread: (id<PThread>) thread {
+    return [thread typeIs:bThreadFilterGroup];
+}
+
+-(BOOL) canJoinThread: (id<PThread>) thread {
+    return NO;
+}
+
 @end

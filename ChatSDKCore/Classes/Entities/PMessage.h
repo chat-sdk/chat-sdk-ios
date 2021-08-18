@@ -11,6 +11,7 @@
 #import "bMessageStatus.h"
 
 typedef enum {
+    bMessageTypeNone = -2,
     bMessageTypeAll = -1,
     bMessageTypeText = 0,
     bMessageTypeLocation = 1,
@@ -32,8 +33,10 @@ typedef enum {
 } bMessagePos;
 
 typedef enum {
+    bMessageActionNone = -1,
     bMessageActionUserLeftGroup = 1,
-    bMessageActionUserGroupInvite = 2
+    bMessageActionUserGroupInvite = 2,
+    bMessageActionUserJoinedGroup = 3,
 } bMessageAction;
 
 

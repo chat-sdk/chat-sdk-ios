@@ -130,7 +130,7 @@
 "admin" = "Admin";
 "owner" = "Owner";
 "member" = "Member";
-"outcast" = "Outcast";
+"outcast" = "Banned";
 
 "bRole" = "Role";
 "bViewProfile" = "View Profile";
