@@ -1,0 +1,11 @@
+framework module VirgilCryptoApiImpl {
+  umbrella header "VirgilCryptoApiImpl-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module VirgilCryptoApiImpl.Swift {
+    header "VirgilCryptoApiImpl-Swift.h"
+    requires objc
+}

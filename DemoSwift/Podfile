@@ -1,6 +1,8 @@
 source 'https://github.com/CocoaPods/Specs.git'
+# plugin 'cocoapods-binary'
 
 use_frameworks!
+# enable_bitcode_for_prebuilt_frameworks!
 install! 'cocoapods', :disable_input_output_paths => true
 
 target 'ChatSDKSwift' do
@@ -14,11 +16,20 @@ target 'ChatSDKSwift' do
   pod "ChatK!t", :path => "../"
   pod "ChatK!t/ChatSDK", :path => "../"
 
-  pod "ChatSDKPro/Modules", :path => "../"
+  pod "ChatSDKPro/ContactBook", :path => "../"
+  pod "ChatSDKPro/Encryption", :path => "../"
+  pod "ChatSDKPro/Firebase", :path => "../"
+  pod "ChatSDKPro/FirebaseNearbyUsers", :path => "../"
+  pod "ChatSDKPro/Message", :path => "../"
+
   # pod "ChatSDKPro/ChatK!t", :path => "../"
 
   #pod "ChatSDKModules/StickerMessage", :path => "../ChatSDKModules"
   #pod "ChatSDKModules/KeyboardOverlayOptions", :path => "../ChatSDKModules"
-  #pod "ChatSDKModules/ContactBook", :path => "../ChatSDKModules"
+
+  # pod "ChatSDKModules/ContactBook", :path => "GIU"
+  # pod "ChatSDKModules/FileMessage", :path => "GIU"
+
+
   
 end

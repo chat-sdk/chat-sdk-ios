@@ -27,6 +27,9 @@ import Foundation
     @objc public static let registerButton = "registerButton"
 
     @objc public static let background = "background"
+    @objc public static let label = "label"
+    @objc public static let gray = "gray"
+
 
     @objc public static let loginTextFieldBackgroundColor = "loginTextFieldBackgroundColor"
 

@@ -1,0 +1,11 @@
+framework module VirgilCrypto {
+  umbrella header "VirgilCrypto-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module VirgilCrypto.Swift {
+    header "VirgilCrypto-Swift.h"
+    requires objc
+}

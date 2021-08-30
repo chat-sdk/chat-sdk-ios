@@ -15,6 +15,8 @@
 -(void) publicLog: (NSString *)format, ...;
 -(void)remoteLog: (NSString *) message;
 
+-(void)debugLog: (NSString *) message;
+
 -(NSString *) log;
 -(NSString *) publicLog;
 -(NSMutableArray<NSString *> *) publicTranscript;

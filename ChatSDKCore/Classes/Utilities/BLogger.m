@@ -23,6 +23,12 @@
     
 }
 
+-(void)debugLog: (NSString *) message {
+    if(BChatSDK.config.debugModeEnabled) {
+        NSLog(@"%@", message);
+    }
+}
+
 
 //-(void) log: (NSString *) text {
 //    NSLog(text);

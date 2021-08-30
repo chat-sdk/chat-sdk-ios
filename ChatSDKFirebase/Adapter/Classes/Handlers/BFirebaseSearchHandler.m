@@ -15,6 +15,10 @@
 -(RXPromise *) usersForIndex: (NSString *) index withValue: (NSString *) value limit: (int) limit userAdded: (void(^)(id<PUser> user)) userAdded {
     RXPromise * promise = [RXPromise new];
     
+    if ([index isEqualToString:bNameKey]) {
+        index = bUserNameLowercase;
+    }
+    
     if ([index isEqual:bUserNameLowercase]) {
         value = [value lowercaseString];
     }
@@ -26,11 +30,14 @@
         }
         else {
             NSString * childPath = [NSString stringWithFormat:@"%@/%@", bMetaPath, index];
+            
             FIRDatabaseQuery * query = [[FIRDatabaseReference usersRef] queryOrderedByChild: childPath];
+            [query keepSynced:true];
             query = [query queryStartingAtValue:value];
             query = [query queryLimitedToFirst:limit];
-            
+
             [query observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
+                NSMutableArray * users = [NSMutableArray new];
                 if(snapshot.value != [NSNull null]) {
                     for(NSString * key in [snapshot.value allKeys]) {
                         NSDictionary * meta = snapshot.value[key][bMetaPath];
@@ -38,11 +45,12 @@
                             CCUserWrapper * wrapper = [CCUserWrapper userWithSnapshot:[snapshot childSnapshotForPath:key]];
                             if(![wrapper.model isEqual:BChatSDK.currentUser]) {
                                 userAdded(wrapper.model);
+                                [users addObject:wrapper.model];
                             }
                         }
                     }
                 }
-                [promise resolveWithResult:Nil];
+                [promise resolveWithResult:nil];
             }];
         }
     });
@@ -55,7 +63,7 @@
     if(!indexes) {
         indexes = BChatSDK.config.searchIndexes;
     }
-    
+        
     NSMutableArray * promises = [NSMutableArray new];
     for (NSString * index in indexes) {
         [promises addObject:[self usersForIndex:index withValue:value limit: limit userAdded:userAdded]];

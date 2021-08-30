@@ -1,0 +1,66 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.4.2 (swiftlang-1205.0.28.2 clang-1205.0.19.57)
+// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name MessageModules
+import ChatSDK
+import FLAnimatedImage
+import Foundation
+import Licensing
+@_exported import MessageModules
+import Swift
+@_inheritsConvenienceInitializers @objc public class FileMessageModule : ObjectiveC.NSObject, ChatSDK.PModule {
+  @objc public func activate()
+  @objc public static func bundle() -> Foundation.Bundle?
+  @objc public static func image(named: Swift.String) -> UIKit.UIImage?
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public class Sticker : ObjectiveC.NSObject {
+  @objc public var image: UIKit.UIImage?
+  @objc public var animatedImage: FLAnimatedImage.FLAnimatedImage?
+  @objc public var imageName: Swift.String?
+  @objc public var sound: Swift.String?
+  @objc public var isAnimated: Swift.Bool
+  @objc public init(data: Any)
+  @objc public init(image: Swift.String, sound: Swift.String? = nil)
+  @objc public func setImage(name: Swift.String)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class StickerManager : ObjectiveC.NSObject {
+  @objc public static func shared() -> MessageModules.StickerManager
+  @objc public var packs: [MessageModules.StickerPack]
+  @objc public func loadFrom(plist: Swift.String, bundle: Foundation.Bundle) -> Swift.Bool
+  @objc public func addPack(_ pack: MessageModules.StickerPack)
+  @objc public func removePack(_ pack: MessageModules.StickerPack)
+  @objc public func pack(at index: Swift.Int) -> MessageModules.StickerPack?
+  @objc public func loadDefaultStickers(name: Swift.String, bundle: Foundation.Bundle)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc open class StickerMessageModule : ObjectiveC.NSObject, ChatSDK.PModule {
+  @objc public static func shared() -> MessageModules.StickerMessageModule
+  @objc public var loadStickersFromPlist: Swift.Bool
+  @objc public var plist: Swift.String
+  @objc public var plistBundle: Foundation.Bundle?
+  @objc public var imageProvider: ((Swift.String) -> UIKit.UIImage?)?
+  @objc public var animatedImageProvider: ((Swift.String) -> FLAnimatedImage.FLAnimatedImage?)?
+  @objc public func activate()
+  @objc public func addPack(_ pack: MessageModules.StickerPack)
+  @objc open func image(_ name: Swift.String) -> UIKit.UIImage?
+  @objc open func animatedImage(_ name: Swift.String) -> FLAnimatedImage.FLAnimatedImage?
+  @objc public func setImageProvider(with imageProvider: @escaping ((Swift.String) -> UIKit.UIImage?))
+  @objc public func setAnimatedImageProvider(with animatedImageProvider: @escaping ((Swift.String) -> FLAnimatedImage.FLAnimatedImage?))
+  @objc public func setCustomStickers(plist name: Swift.String, bundle: Foundation.Bundle)
+  @objc deinit
+}
+@objc public class StickerPack : ObjectiveC.NSObject {
+  @objc public var icon: UIKit.UIImage?
+  @objc public var stickers: [MessageModules.Sticker]
+  public init(with dict: Foundation.NSDictionary)
+  public init(icon: Swift.String, stickers: [MessageModules.Sticker])
+  @objc public func sticker(at index: Swift.Int) -> MessageModules.Sticker?
+  public func addSticker(sticker: MessageModules.Sticker)
+  public func removeSticker(sticker: MessageModules.Sticker)
+  @objc override dynamic public init()
+  @objc deinit
+}

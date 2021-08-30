@@ -16,3 +16,4 @@
 +(RXPromise *) resolveWithResult: (id) result;
 
 @end
+

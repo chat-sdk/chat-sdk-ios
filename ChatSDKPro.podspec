@@ -10,34 +10,63 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '11.0'
   s.swift_version = "5.0"
   # s.requires_arc = true
-  s.static_framework = true
+  # s.static_framework = true
 
   s.subspec 'Core' do |s|
     s.source_files = ['Core/*']
     s.dependency 'ChatSDK'
+    s.vendored_frameworks = 'ChatSDKPro/Licensing/Licensing.framework'
   end
 
-  s.subspec 'Modules' do |s|
+  s.subspec 'ContactBook' do |s|
 
-    s.vendored_frameworks = 'ChatSDKPro/Modules/ChatSDKModules.framework'
-    # s.resources ='Modules/ChatContactBook.bundle'
+    s.vendored_frameworks = 'ChatSDKPro/ContactBookModule/ContactBookModule.framework'
+    s.dependency 'ChatSDKPro/Core'
+
+  end
+
+  s.subspec 'Encryption' do |s|
+
+    s.vendored_frameworks = ['ChatSDKPro/EncryptionModule/EncryptionModule.framework', 
+      'ChatSDKPro/EncryptionModule/VirgilCrypto.framework',
+      'ChatSDKPro/EncryptionModule/VirgilCryptoAPI.framework',
+      'ChatSDKPro/EncryptionModule/VirgilCryptoApiImpl.framework',
+      'ChatSDKPro/EncryptionModule/VirgilSDK.framework']
 
     s.dependency 'ChatSDKPro/Core'
 
-    # Encryption
     # s.dependency 'VirgilCryptoApiImpl', '~> 3.2.2'
     # s.dependency 'VirgilSDK', '~> 5.7'
+
     s.dependency 'SAMKeychain'
     s.dependency 'QRCodeReader.swift', '~> 10.1.0'
 
-    # Sticker
-    s.dependency 'ChatSDK'
-    s.dependency 'FLAnimatedImage'
+  end
 
-    # Firebase
+  s.subspec 'Firebase' do |s|
+
+    s.vendored_frameworks = 'ChatSDKPro/FirebaseModules/FirebaseModules.framework'
+    s.dependency 'ChatSDKPro/Core'
     s.dependency 'ChatSDKFirebase/Adapter'
 
   end
+
+    s.subspec 'Message' do |s|
+
+    s.vendored_frameworks = 'ChatSDKPro/MessageModules/MessageModules.framework'
+    s.dependency 'ChatSDKPro/Core'
+    s.dependency 'FLAnimatedImage'
+
+  end
+
+  s.subspec 'FirebaseNearbyUsers' do |s|
+
+    s.vendored_frameworks = 'ChatSDKPro/FirebaseNearbyUsersModule/FirebaseNearbyUsersModule.framework'
+    s.dependency 'ChatSDKPro/Core'
+    s.dependency 'ChatSDKFirebase/Adapter'
+
+  end
+
 
   # s.subspec 'ChatK!t' do |s|
 

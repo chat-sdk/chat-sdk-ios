@@ -1,0 +1,16 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.4.2 (swiftlang-1205.0.28.2 clang-1205.0.19.57)
+// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name Licensing
+import AFNetworking
+import ChatSDK
+import Foundation
+@_exported import Licensing
+import Swift
+@_inheritsConvenienceInitializers @objc public class Licensing : ObjectiveC.NSObject {
+  @objc public static func shared() -> Licensing.Licensing
+  @objc public func add(item: Swift.String)
+  public func resetTimer()
+  public func report()
+  @objc override dynamic public init()
+  @objc deinit
+}

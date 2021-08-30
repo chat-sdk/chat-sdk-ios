@@ -1,0 +1,11 @@
+framework module VirgilSDK {
+  umbrella header "VirgilSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module VirgilSDK.Swift {
+    header "VirgilSDK-Swift.h"
+    requires objc
+}
