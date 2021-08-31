@@ -31,6 +31,7 @@ Pod::Spec.new do |s|
       'ChatSDKPro/EncryptionModule/VirgilCrypto.framework',
       'ChatSDKPro/EncryptionModule/VirgilCryptoAPI.framework',
       'ChatSDKPro/EncryptionModule/VirgilCryptoApiImpl.framework',
+      'ChatSDKPro/EncryptionModule/VSCCrypto.framework',
       'ChatSDKPro/EncryptionModule/VirgilSDK.framework']
 
     s.dependency 'ChatSDKPro/Core'
