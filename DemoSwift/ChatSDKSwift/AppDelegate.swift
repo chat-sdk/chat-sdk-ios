@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             modules.append(module)
         }
                 
-        BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules)
+        BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules, networkAdapter: nil, interfaceAdapter: nil)
         BChatSDK.activateLicense(withEmail: "ben@sdk.chat")
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
