@@ -16,7 +16,7 @@
 		3BDB8AB725AB716300A7A2DA /* APIExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AB625AB716300A7A2DA /* APIExamples.swift */; };
 		3BDB8ABA25AB719400A7A2DA /* ALoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AB925AB719400A7A2DA /* ALoginViewController.swift */; };
 		3BDB8ABD25AB75DA00A7A2DA /* APushHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8ABC25AB75D900A7A2DA /* APushHandler.swift */; };
-		8A32E0341F84A9B3FBB21611 /* Pods_ChatSDKSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BF9EEDEBE56DD5B2061CADE /* Pods_ChatSDKSwift.framework */; };
+		3BDC0F0526DE3B7300D9CE64 /* Pods_ChatSDKSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BF9EEDEBE56DD5B2061CADE /* Pods_ChatSDKSwift.framework */; };
 		AC11A8831D5B128400EBFDFD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC11A8811D5B128400EBFDFD /* GoogleService-Info.plist */; };
 		ACF7BE7A1C8D8AD7003E8983 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF7BE791C8D8AD7003E8983 /* AppDelegate.swift */; };
 		ACF7BE811C8D8AD7003E8983 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF7BE801C8D8AD7003E8983 /* Assets.xcassets */; };
@@ -54,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A32E0341F84A9B3FBB21611 /* Pods_ChatSDKSwift.framework in Frameworks */,
+				3BDC0F0526DE3B7300D9CE64 /* Pods_ChatSDKSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
