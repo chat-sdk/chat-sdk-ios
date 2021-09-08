@@ -56,19 +56,19 @@ public extension DownloadableMessage {
     
     func downloadStarted() {
         if let content = messageContent() as? DownloadableContent {
-            content.downloadStarted()
+            content.downloadStarted?()
         }
     }
 
     func downloadPaused() {
         if let content = messageContent() as? DownloadableContent {
-            content.downloadPaused()
+            content.downloadPaused?()
         }
     }
     
     func setDownloadProgress(_ progress: Float) {
         if let content = messageContent() as? DownloadableContent {
-            content.setDownloadProgress(progress)
+            content.setDownloadProgress?(progress)
         }
     }
 

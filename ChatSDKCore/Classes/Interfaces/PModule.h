@@ -20,6 +20,7 @@
 @optional
 
 -(void) activateWithServer: (NSString *) server;
+-(int) weight;
 
 @end
 

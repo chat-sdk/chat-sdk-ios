@@ -18,6 +18,10 @@ public protocol OnCreateListener {
     func onCreate(for vc: ChatViewController, model: ChatModel, thread: PThread)
 }
 
+public protocol MessageOnClickListener {
+    func onClick(for vc: ChatViewController?, message: AbstractMessage)
+}
+
 public protocol OptionProvider {
     func provide(for vc: ChatViewController, thread: PThread) -> Option
 }
@@ -62,7 +66,8 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
     open var messageRegistrations = [MessageCellRegistration]()
     open var newMessageProviders = [Int: MessageProvider]()
     open var optionProviders = [OptionProvider]()
-    
+    open var messageOnClick = [MessageOnClickListener]()
+
     open var observers = BNotificationObserverList()
 
     public override init() {
@@ -71,6 +76,10 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
     
     open func add(optionProvider: OptionProvider) {
         optionProviders.append(optionProvider)
+    }
+
+    open func add(messageOnClickListener: MessageOnClickListener) {
+        messageOnClick.append(messageOnClickListener)
     }
 
     open func add(messageRegistration: MessageCellRegistration) {
@@ -106,7 +115,7 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
         observers.add(BChatSDK.hook().add(BHook({ [weak self] input in
             if let message = input?[bHook_PMessage] as? PMessage {
                 if let m = self?.model?.messagesModel.message(for: message.entityID()), let content = m.messageContent() as? UploadableContent {
-                    content.uploadStarted()
+                    content.uploadStarted?()
                 }
             }
         }, weight: 50), withName: bHookMessageWillUpload))
@@ -118,7 +127,7 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
                     let total = Float(progress.totalUnitCount)
                     let current = Float(progress.completedUnitCount)
                     
-                    content.setUploadProgress(current / total)
+                    content.setUploadProgress?(current / total)
                 }
             }
         }), withName: bHookMessageUploadProgress))
@@ -441,6 +450,10 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
     }
     
     open func onClick(_ message: AbstractMessage) -> Bool {
+        for listener in messageOnClick {
+            listener.onClick(for: weakVC, message: message)
+        }
+        
         if message.messageType() == String(bMessageTypeVideo.rawValue) {
             
             if let message = message as? VideoMessage, let url = message.localVideoURL {
@@ -469,7 +482,7 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
             return true
         }
         if message.messageType() == String(bMessageTypeFile.rawValue) {
-            
+
             return true
         }
         if message.messageType() == String(bMessageTypeLocation.rawValue) {

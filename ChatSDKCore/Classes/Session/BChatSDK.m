@@ -89,7 +89,17 @@ static BChatSDK * instance;
 
 -(void) initialize: (BConfiguration *) config app:(UIApplication *)application options:(NSDictionary *)launchOptions  modules: (NSArray<PModule> *) modules networkAdapter:(id<PNetworkAdapter>)networkAdapter interfaceAdapter:(id<PInterfaceAdapter>)interfaceAdapter {
     
-    self.modules = modules;
+    self.modules = [modules sortedArrayUsingComparator:^NSComparisonResult(id<PModule> h1, id<PModule> h2) {
+        int w1 = 0;
+        int w2 = 0;
+        if ([h1 respondsToSelector:@selector(weight)]) {
+            w1 = [h1 weight];
+        }
+        if ([h2 respondsToSelector:@selector(weight)]) {
+            w2 = [h2 weight];
+        }
+        return w1 - w2;
+    }];;
 
     _configuration = config;
 
@@ -115,7 +125,7 @@ static BChatSDK * instance;
     }
 
     [_moduleHelper activateCoreModules];
-
+    
     for (id<PModule> module in modules) {
         [module activate];
     }

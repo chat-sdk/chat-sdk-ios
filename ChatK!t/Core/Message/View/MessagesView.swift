@@ -217,8 +217,9 @@ open class MessagesView: UIView {
     open func contentTapped(_ recognizer: UIGestureRecognizer) -> Bool {
         if let cell = cellForTap(recognizer) {
             let point = recognizer.location(in: tableView)
-            let cellPoint = CGPoint(x: point.x - cell.frame.minX, y: point.y - cell.frame.minY)
-            return cell.content?.view().frame.contains(cellPoint) ?? false
+            return cell.frame.contains(point)
+//            let cellPoint = CGPoint(x: point.x - cell.frame.minX, y: point.y - cell.frame.minY)
+//            return cell.content?.view().frame.contains(cellPoint) ?? false
         }
         return false
     }

@@ -11,13 +11,13 @@ import ChatSDK
 
 open class CKMessage: AbstractMessage {
 
-    let message: PMessage
+    public let message: PMessage
     
-    lazy var sender = CKUser(user: message.user())
-    lazy var entityId = message.entityID()
-    lazy var date = message.date()
-    lazy var type = message.type()?.stringValue
-    lazy var direction: MessageDirection = message.senderIsMe() ? .outgoing : .incoming
+    public lazy var sender = CKUser(user: message.user())
+    public lazy var entityId = message.entityID()
+    public lazy var date = message.date()
+    public lazy var type = message.type()?.stringValue
+    public lazy var direction: MessageDirection = message.senderIsMe() ? .outgoing : .incoming
 
     public init(message: PMessage) {
         self.message = message
@@ -110,7 +110,7 @@ open class CKDownloadableMessage: CKMessage, DownloadableMessage, UploadableMess
     open func downloadFinished(_ url: URL?, error: Error? = nil) {
         isDownloading = false
         if let content = content as? DownloadableContent {
-            content.downloadFinished(url, error: error)
+            content.downloadFinished?(url, error: error)
         }
     }
 
@@ -208,12 +208,12 @@ open class CKVideoMessage: CKDownloadableMessage, ImageMessage, VideoMessage {
                 do {
                     let url = try ChatKit.downloadManager().save(data, messageId: messageId(), pathExtension: pathExtension())
                     localVideoURL = url
-                    content.uploadFinished(url, error: nil)
+                    content.uploadFinished?(url, error: nil)
                 } catch {
-                    content.uploadFinished(nil, error: error)
+                    content.uploadFinished?(nil, error: error)
                 }
             } else {
-                content.uploadFinished(nil, error: error)
+                content.uploadFinished?(nil, error: error)
             }
         }
     }
@@ -299,12 +299,12 @@ open class CKAudioMessage: CKDownloadableMessage, AudioMessage {
                 do {
                     let url = try ChatKit.downloadManager().save(data, messageId: messageId())
                     localAudioURL = url
-                    content.uploadFinished(url, error: nil)
+                    content.uploadFinished?(url, error: nil)
                 } catch {
-                    content.uploadFinished(nil, error: error)
+                    content.uploadFinished?(nil, error: error)
                 }
             } else {
-                content.uploadFinished(nil, error: error)
+                content.uploadFinished?(nil, error: error)
             }
         }
     }

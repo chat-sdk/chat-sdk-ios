@@ -139,7 +139,7 @@
                 if (![snapshot.value isEqual: [NSNull null]]) {
                     
                     if(BChatSDK.blocking) {
-                        if([BChatSDK.blocking isBlocked:snapshot.value[bUserFirebaseID]]) {
+                        if([BChatSDK.blocking isBlocked:snapshot.value[bFrom]]) {
                             return;
                         }
                     }

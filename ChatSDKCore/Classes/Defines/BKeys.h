@@ -24,7 +24,6 @@
 #define bType @"type"
 #define bId @"id"
 #define bDate @"date"
-#define bUserFirebaseID @"user-firebase-id"
 #define bFrom @"from"
 #define bTo @"to"
 #define bReadOnly @"read-only"
