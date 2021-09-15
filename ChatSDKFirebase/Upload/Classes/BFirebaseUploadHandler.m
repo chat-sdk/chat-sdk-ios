@@ -9,6 +9,7 @@
 #import "BFirebaseUploadHandler.h"
 #import <ChatSDKFirebase/FirebaseUpload.h>
 #import <ChatSDKFirebase/ChatSDKFirebase-Swift.h>
+#import <ChatSDK/PHookHandler.h>
 
 #define bStorageBucket @"files"
 

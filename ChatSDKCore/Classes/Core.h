@@ -92,6 +92,7 @@
 #import <ChatSDK/PLocationViewController.h>
 #import <ChatSDK/PFriendsListViewController.h>
 #import <ChatSDK/BMessageBuilder.h>
+#import <ChatSDK/BAbstractThreadHandler.h>
 
 #import <ChatSDK/BHook.h>
 #import <ChatSDK/PHookHandler.h>
