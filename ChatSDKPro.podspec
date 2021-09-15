@@ -7,6 +7,7 @@ Pod::Spec.new do |s|
   s.author           = { "Ben Smiley" => "ben@chatsdk.co" }
   s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => '4.0.0' }
 
+  s.platform = :ios, '10.0'
   s.swift_version = "5.0"
   # s.requires_arc = true
   # s.static_framework = true
@@ -18,14 +19,11 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'ContactBook' do |s|
-    s.platform     = :ios, '10.0'
     s.vendored_frameworks = 'ChatSDKPro/ContactBookModule/ContactBookModule.framework'
     s.dependency 'ChatSDKPro/Core'
-
   end
 
   s.subspec 'Encryption' do |s|
-    s.platform     = :ios, '10.0'
 
     s.vendored_frameworks = ['ChatSDKPro/EncryptionModule/EncryptionModule.framework', 
       'ChatSDKPro/EncryptionModule/VirgilCrypto.framework',
@@ -47,7 +45,6 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Firebase' do |s|
-    s.platform     = :ios, '10.0'
 
     s.vendored_frameworks = 'ChatSDKPro/FirebaseModules/FirebaseModules.framework'
     s.dependency 'ChatSDKPro/Core'
@@ -56,7 +53,6 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Message' do |s|
-    s.platform     = :ios, '10.0'
 
     s.vendored_frameworks = 'ChatSDKPro/MessageModules/MessageModules.framework'
     s.dependency 'ChatSDKPro/Core'
@@ -65,7 +61,6 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'FirebaseNearbyUsers' do |s|
-    s.platform     = :ios, '10.0'
 
     s.vendored_frameworks = 'ChatSDKPro/FirebaseNearbyUsersModule/FirebaseNearbyUsersModule.framework'
     s.dependency 'ChatSDKPro/Core'
@@ -73,17 +68,17 @@ Pod::Spec.new do |s|
 
   end
 
-  s.subspec 'ChatK!t' do |s|
-    s.platform     = :ios, '13.0'
+  # s.subspec 'ChatK!t' do |s|
+  #   s.ios.deployment_target = '13.0'
 
-    s.source_files = ['ChatK!tExtras/*.{h,m,swift}']
-    s.resources = [ 'ChatK!tExtras/*.{xcassets,xib}']
+  #   s.source_files = ['ChatK!tExtras/*.{h,m,swift}']
+  #   s.resources = [ 'ChatK!tExtras/*.{xcassets,xib}']
 
-    s.dependency 'ChatK!t'
-    s.dependency 'ChatK!t/ChatSDK'
-    s.dependency 'ChatSDKPro/Message'
+  #   s.dependency 'ChatK!t'
+  #   s.dependency 'ChatK!t/ChatSDK'
+  #   s.dependency 'ChatSDKPro/Message'
 
-  end
+  # end
 
   #   s.subspec 'XMPPFramework' do |s|
 
