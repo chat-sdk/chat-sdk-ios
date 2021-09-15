@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0851CFA754552C0F18249CDD /* Pods_ChatSDKDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684CD005D8741694E56D57B4 /* Pods_ChatSDKDemo.framework */; };
+		3B4FA74E26F262B3009BEA3B /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FA74D26F262B3009BEA3B /* Dummy.swift */; };
+		7814F4D40CCE0781C2F1FF67 /* Pods_ChatSDKDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47ACA847C86102DD94578094 /* Pods_ChatSDKDemo.framework */; };
 		AC7BD9A51E0874B400C785EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A31E0874B400C785EE /* Main.storyboard */; };
 		AC7BD9A71E0874B400C785EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A61E0874B400C785EE /* Assets.xcassets */; };
 		AC7BD9AA1E0874B400C785EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7BD9A81E0874B400C785EE /* LaunchScreen.storyboard */; };
@@ -17,12 +18,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		031205109FB80894A9481F4C /* Pods-ChatSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDKDemo/Pods-ChatSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		3B4FA74C26F262B2009BEA3B /* ChatSDKDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChatSDKDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		3B4FA74D26F262B3009BEA3B /* Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Dummy.swift; path = ChatSDKDemo/Dummy.swift; sourceTree = "<group>"; };
 		3BA3D5B126AC4B7200FE3843 /* ChatSDKDemo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ChatSDKDemo.entitlements; sourceTree = "<group>"; };
-		477DD8FD7BD90D4CA2B215A4 /* Pods-ChatSDK Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.debug.xcconfig"; sourceTree = "<group>"; };
-		4B51C457555AB36B80C4F411 /* Pods-ChatSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDKDemo/Pods-ChatSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
-		4E06AD1F20207A6D58C6E82A /* Pods-ChatSDK Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDK Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChatSDK Demo/Pods-ChatSDK Demo.release.xcconfig"; sourceTree = "<group>"; };
-		684CD005D8741694E56D57B4 /* Pods_ChatSDKDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSDKDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		47ACA847C86102DD94578094 /* Pods_ChatSDKDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSDKDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B0FF2659972E702ECE2E917 /* Pods-ChatSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKDemo.release.xcconfig"; path = "Target Support Files/Pods-ChatSDKDemo/Pods-ChatSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 		AC7BD9971E0874B400C785EE /* ChatSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC7BD99B1E0874B400C785EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AC7BD99D1E0874B400C785EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -32,6 +32,7 @@
 		AC7BD9A91E0874B400C785EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC7BD9AB1E0874B400C785EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC7BD9BE1E096E9000C785EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D539B5A9D047E3D8D9E879D5 /* Pods-ChatSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKDemo.debug.xcconfig"; path = "Target Support Files/Pods-ChatSDKDemo/Pods-ChatSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,39 +40,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0851CFA754552C0F18249CDD /* Pods_ChatSDKDemo.framework in Frameworks */,
+				7814F4D40CCE0781C2F1FF67 /* Pods_ChatSDKDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3DE9A5A7545EBF0D3DF32857 /* Frameworks */ = {
+		3B6F3DE210D4F72551702A49 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				684CD005D8741694E56D57B4 /* Pods_ChatSDKDemo.framework */,
+				D539B5A9D047E3D8D9E879D5 /* Pods-ChatSDKDemo.debug.xcconfig */,
+				9B0FF2659972E702ECE2E917 /* Pods-ChatSDKDemo.release.xcconfig */,
 			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		7F48A7DD8DBA9B7953956161 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				477DD8FD7BD90D4CA2B215A4 /* Pods-ChatSDK Demo.debug.xcconfig */,
-				4E06AD1F20207A6D58C6E82A /* Pods-ChatSDK Demo.release.xcconfig */,
-				031205109FB80894A9481F4C /* Pods-ChatSDKDemo.debug.xcconfig */,
-				4B51C457555AB36B80C4F411 /* Pods-ChatSDKDemo.release.xcconfig */,
-			);
-			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		AC7BD98E1E0874B400C785EE = {
 			isa = PBXGroup;
 			children = (
+				3B4FA74D26F262B3009BEA3B /* Dummy.swift */,
 				AC7BD9991E0874B400C785EE /* ChatSDKDemo */,
 				AC7BD9981E0874B400C785EE /* Products */,
-				7F48A7DD8DBA9B7953956161 /* Pods */,
-				3DE9A5A7545EBF0D3DF32857 /* Frameworks */,
+				3B6F3DE210D4F72551702A49 /* Pods */,
+				B6D65813176E44F2D33D5E17 /* Frameworks */,
+				3B4FA74C26F262B2009BEA3B /* ChatSDKDemo-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,6 +100,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B6D65813176E44F2D33D5E17 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				47ACA847C86102DD94578094 /* Pods_ChatSDKDemo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -114,12 +115,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AC7BD9AE1E0874B400C785EE /* Build configuration list for PBXNativeTarget "ChatSDKDemo" */;
 			buildPhases = (
-				127236AC99E27B5A8BE396DA /* [CP] Check Pods Manifest.lock */,
+				3E3671D1EA0AB8933B7DA3BB /* [CP] Check Pods Manifest.lock */,
 				AC7BD9931E0874B400C785EE /* Sources */,
 				AC7BD9941E0874B400C785EE /* Frameworks */,
 				AC7BD9951E0874B400C785EE /* Resources */,
 				B5030DB2202883D0001BF175 /* ShellScript */,
-				025B88AA4852C077AA6E289F /* [CP] Embed Pods Frameworks */,
+				351D46F4A4F1E95F1A00A54D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -142,7 +143,7 @@
 					AC7BD9961E0874B400C785EE = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = P7RPLLCMTA;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 1250;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -189,7 +190,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		025B88AA4852C077AA6E289F /* [CP] Embed Pods Frameworks */ = {
+		351D46F4A4F1E95F1A00A54D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -204,7 +205,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatSDKDemo/Pods-ChatSDKDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		127236AC99E27B5A8BE396DA /* [CP] Check Pods Manifest.lock */ = {
+		3E3671D1EA0AB8933B7DA3BB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -248,6 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5081AC81F56C04B0015417B /* AppDelegate.m in Sources */,
+				3B4FA74E26F262B3009BEA3B /* Dummy.swift in Sources */,
 				B5081AC91F56C04B0015417B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,34 +382,51 @@
 		};
 		AC7BD9AF1E0874B400C785EE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 031205109FB80894A9481F4C /* Pods-ChatSDKDemo.debug.xcconfig */;
+			baseConfigurationReference = D539B5A9D047E3D8D9E879D5 /* Pods-ChatSDKDemo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ChatSDKDemo/ChatSDKDemo.entitlements;
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
+				ENABLE_BITCODE = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/ChatSDKDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LD_VERIFY_BITCODE = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ChatSDKDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		AC7BD9B01E0874B400C785EE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4B51C457555AB36B80C4F411 /* Pods-ChatSDKDemo.release.xcconfig */;
+			baseConfigurationReference = 9B0FF2659972E702ECE2E917 /* Pods-ChatSDKDemo.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ChatSDKDemo/ChatSDKDemo.entitlements;
 				DEVELOPMENT_TEAM = P7RPLLCMTA;
+				ENABLE_BITCODE = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/ChatSDKDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LD_VERIFY_BITCODE = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.deluge.Chat-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ChatSDKDemo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

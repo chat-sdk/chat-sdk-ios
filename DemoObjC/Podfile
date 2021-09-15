@@ -3,13 +3,12 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 inhibit_all_warnings!
 install! 'cocoapods', :disable_input_output_paths => true
+platform :ios, 13.0
 
 target 'ChatSDKDemo' do
-  current_target_definition.swift_version = '5.0'
+  # current_target_definition.swift_version = '5.0'
 
   pod "ChatSDK", :path => "../"
-  pod "ChatSDK/ModAddContactWithQRCode", :path => "../"
-  
   pod "ChatSDKFirebase/Adapter", :path => "../"
   pod "ChatSDKFirebase/Upload", :path => "../"
   pod "ChatSDKFirebase/Push", :path => "../"
@@ -18,4 +17,13 @@ target 'ChatSDKDemo' do
   pod "ChatK!t", :path => "../"
   pod "ChatK!t/ChatSDK", :path => "../"
 
+  pod "ChatSDKPro/ContactBook", :path => "../"
+  pod "ChatSDKPro/Encryption", :path => "../"
+  pod "ChatSDKPro/Firebase", :path => "../"
+  pod "ChatSDKPro/FirebaseNearbyUsers", :path => "../"
+  pod "ChatSDKPro/Message", :path => "../"
+  pod "ChatSDKPro/ChatK!t", :path => "../"
+
 end
+
+#LD_VERIFY_BITCODE

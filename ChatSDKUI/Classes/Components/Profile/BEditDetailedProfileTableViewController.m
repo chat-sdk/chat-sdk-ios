@@ -62,6 +62,8 @@
     phoneTextField.text = user.phoneNumber;
     emailTextField.text = user.email;
     
+    statusTextView.textColor = [Colors getWithName:Colors.mediumGray];
+    
     // Availability
     _availabilityOptions = [BAvailabilityState options];
     

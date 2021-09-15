@@ -70,6 +70,12 @@
         }
     }
     
+    if (@available(iOS 11.0, * )) {
+        self.view.backgroundColor = UIColor.systemBackgroundColor;
+    } else {
+        self.view.backgroundColor = UIColor.whiteColor;
+    }
+    
     self.forgotPasswordButton.hidden = !BChatSDK.config.forgotPasswordEnabled;
     self.termsAndConditionsButton.hidden = !BChatSDK.config.termsAndConditionsEnabled;
     

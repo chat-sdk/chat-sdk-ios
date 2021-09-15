@@ -1,0 +1,107 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.4.2 (swiftlang-1205.0.28.2 clang-1205.0.19.57)
+// swift-module-flags: -target arm64-apple-ios13.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ChatKitExtras
+import ChatKit
+@_exported import ChatKitExtras
+import ChatSDK
+import FFCircularProgressView
+import Foundation
+import MessageModules
+import Swift
+@_hasMissingDesignatedInitializers public class FileKeys {
+  public static var data: Swift.String
+  public static var mimeType: Swift.String
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class ChatKitExtrasModule : ObjectiveC.NSObject, ChatSDK.PModule {
+  @objc public func weight() -> Swift.Int32
+  @objc public func activate()
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class FileMessageOnClick : ObjectiveC.NSObject, ChatKit.MessageOnClickListener, UIKit.UIDocumentInteractionControllerDelegate {
+  public func onClick(for vc: ChatKit.ChatViewController?, message: ChatKit.AbstractMessage)
+  @objc public func documentInteractionControllerViewControllerForPreview(_ controller: UIKit.UIDocumentInteractionController) -> UIKit.UIViewController
+  @objc public func documentInteractionControllerViewForPreview(_ controller: UIKit.UIDocumentInteractionController) -> UIKit.UIView?
+  @objc public func documentInteractionControllerRectForPreview(_ controller: UIKit.UIDocumentInteractionController) -> CoreGraphics.CGRect
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class FileMessageProvider : ChatKit.MessageProvider {
+  public func new(for message: ChatSDK.PMessage) -> ChatKit.CKMessage
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class FileOptionProvider : ChatKit.OptionProvider {
+  public func provide(for vc: ChatKit.ChatViewController, thread: ChatSDK.PThread) -> ChatKit.Option
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class StickerMessageOnCreateListener : ChatKit.OnCreateListener {
+  public func onCreate(for vc: ChatKit.ChatViewController, model: ChatKit.ChatModel, thread: ChatSDK.PThread)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class StickerMessageProvider : ChatKit.MessageProvider {
+  public func new(for message: ChatSDK.PMessage) -> ChatKit.CKMessage
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class StickerOptionProvider : ChatKit.OptionProvider {
+  public func provide(for vc: ChatKit.ChatViewController, thread: ChatSDK.PThread) -> ChatKit.Option
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class CKFileMessage : ChatKit.CKDownloadableMessage {
+  open var localFileURL: Foundation.URL?
+  override public init(message: ChatSDK.PMessage)
+  open func fileURL() -> Foundation.URL?
+  open func imageURL() -> Foundation.URL?
+  override open func downloadFinished(_ url: Foundation.URL?, error: Swift.Error? = nil)
+  override open func startDownload()
+  open func pathExtension() -> Swift.String?
+  override open func uploadFinished(_ data: Foundation.Data?, error: Swift.Error?)
+  override open func isDownloaded() -> Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class CKStickerMessage : ChatKit.CKMessage, ChatKit.HasPlaceholder {
+  override public func placeholder() -> UIKit.UIImage?
+  override public init(message: ChatSDK.PMessage)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers open class FileMessageContent : ChatKit.DefaultDownloadableMessageContent, ChatKit.MessageProgressHelperDelegate {
+  final public let _view: ChatKitExtras.FileMessageView
+  open var message: ChatKit.DownloadableMessage?
+  required public init()
+  override public func view() -> UIKit.UIView
+  override public func bind(_ message: ChatKit.AbstractMessage, model: ChatKit.MessagesModel)
+  @objc override public func downloadFinished(_ url: Foundation.URL?, error: Swift.Error?)
+  public func updateImage()
+  public func startDownload()
+  public func pauseDownload()
+  public func isDownloading() -> Swift.Bool
+  open func downloadFinished()
+  override open func progressViewHelper() -> ChatKit.MessageProgressHelper?
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class FileMessageView : UIKit.UIView {
+  @objc @IBOutlet weak open var textLabel: UIKit.UILabel!
+  @objc @IBOutlet weak open var progressView: FFCircularProgressView.FFCircularProgressView!
+  @objc @IBOutlet weak open var imageView: UIKit.UIImageView!
+  open var progressHelper: ChatKit.MessageProgressHelper?
+  @objc override dynamic open func awakeFromNib()
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class StickerKeyboardOverlay : UIKit.UIView, ChatKit.KeyboardOverlay {
+  public static var key: Swift.String
+  public var stickerView: MessageModules.BStickerView?
+  @objc dynamic public convenience init()
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public convenience init?(coder: Foundation.NSCoder)
+  public func setup()
+  public func viewWillLayoutSubviews(view: UIKit.UIView)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class StickerMessageContent : ChatKit.ImageMessageContent {
+  override public func bind(_ message: ChatKit.AbstractMessage, model: ChatKit.MessagesModel)
+  override public func size() -> CoreGraphics.CGSize
+  required public init()
+  @objc deinit
+}

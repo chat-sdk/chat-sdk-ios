@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDKPro"
-  s.version          = "5.0.3"
+  s.version          = "5.1.0"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = 'Commercial'
   s.author           = { "Ben Smiley" => "ben@chatsdk.co" }
   s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => '4.0.0' }
 
-  s.platform     = :ios, '11.0'
+  s.platform     = :ios, '10.0'
   s.swift_version = "5.0"
   # s.requires_arc = true
   # s.static_framework = true
@@ -32,7 +32,9 @@ Pod::Spec.new do |s|
       'ChatSDKPro/EncryptionModule/VirgilCryptoAPI.framework',
       'ChatSDKPro/EncryptionModule/VirgilCryptoApiImpl.framework',
       'ChatSDKPro/EncryptionModule/VSCCrypto.framework',
-      'ChatSDKPro/EncryptionModule/VirgilSDK.framework']
+      'ChatSDKPro/EncryptionModule/VirgilSDK.framework',
+      # 'ChatSDKPro/EncryptionModule/QRCodeReader.framework'
+    ]
 
     s.dependency 'ChatSDKPro/Core'
 
@@ -69,14 +71,17 @@ Pod::Spec.new do |s|
   end
 
 
-  # s.subspec 'ChatK!t' do |s|
+  s.subspec 'ChatK!t' do |s|
+    s.platform     = :ios, '13.0'
 
-  #   s.vendored_frameworks = 'ChatSDKPro/ChatK!t/ChatKitExtras.framework'
+    s.source_files = ['ChatK!tExtras/*.{h,m,swift}']
+    s.resources = [ 'ChatK!tExtras/*.{xcassets,xib}']
 
-  #   s.dependency 'ChatK!t'
-  #   s.dependency 'ChatK!t/ChatSDK'
-  #   s.dependency 'ChatSDKPro/Modules'
-  # end
+    s.dependency 'ChatK!t'
+    s.dependency 'ChatK!t/ChatSDK'
+    s.dependency 'ChatSDKPro/Message'
+
+  end
 
   #   s.subspec 'XMPPFramework' do |s|
 

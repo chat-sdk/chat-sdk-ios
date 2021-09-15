@@ -102,7 +102,17 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStylePlain target:Nil action:Nil];
     self.navigationItem.titleView = [BReconnectingView new];
 
+    self.localityLabel.textColor = [Colors getWithName:Colors.mediumGray];
+    self.phoneNumberLabel.textColor = [Colors getWithName:Colors.mediumGray];
+    self.emailLabel.textColor = [Colors getWithName:Colors.mediumGray];
 
+    self.addContactLabel.textColor = [Colors getWithName:Colors.mediumGray];
+//    self.moreLabel.textColor = [Colors getWithName:Colors.mediumGray];
+    self.moreLabel.tintColor = [Colors getWithName:Colors.mediumGray];
+    self.statusTextView.textColor = [Colors getWithName:Colors.mediumGray];
+    self.blockTextView.textColor = [Colors getWithName:Colors.mediumGray];
+    self.availabilityLabel.textColor = [Colors getWithName:Colors.mediumGray];
+    
 }
 
 -(void) settings {
@@ -277,11 +287,6 @@
     
     id<PUserConnection> userConnection = self.userConnection;
     BUserConnectionWrapper * wrapper = [BUserConnectionWrapper wrapperWithConnection:userConnection];
-    
-    // Presence
-    BOOL hideFollow = !userConnection || !userConnection.subscriptionType || !wrapper.ask;
-    [self cell:_followsCell setHidden:hideFollow];
-    [self cell:_followedCell setHidden:hideFollow];
     
     UIImage * tick = [NSBundle uiImageNamed:@"icn_36_tick"];
     UIImage * cross = [NSBundle uiImageNamed:@"icn_36_cross"];

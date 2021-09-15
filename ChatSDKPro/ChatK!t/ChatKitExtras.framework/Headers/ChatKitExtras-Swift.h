@@ -209,14 +209,42 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # pragma pop_macro("any")
 #endif
 
+@class NSNumber;
 
 SWIFT_CLASS("_TtC13ChatKitExtras19ChatKitExtrasModule")
 @interface ChatKitExtrasModule : NSObject <PModule>
+- (int32_t)weight SWIFT_WARN_UNUSED_RESULT;
 - (void)activate;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class UIDocumentInteractionController;
+@class UIViewController;
+@class UIView;
+
+SWIFT_CLASS("_TtC13ChatKitExtras18FileMessageOnClick")
+@interface FileMessageOnClick : NSObject <UIDocumentInteractionControllerDelegate>
+- (UIViewController * _Nonnull)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController * _Nonnull)controller SWIFT_WARN_UNUSED_RESULT;
+- (UIView * _Nullable)documentInteractionControllerViewForPreview:(UIDocumentInteractionController * _Nonnull)controller SWIFT_WARN_UNUSED_RESULT;
+- (CGRect)documentInteractionControllerRectForPreview:(UIDocumentInteractionController * _Nonnull)controller SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UILabel;
+@class FFCircularProgressView;
+@class UIImageView;
 @class NSCoder;
+
+SWIFT_CLASS("_TtC13ChatKitExtras15FileMessageView")
+@interface FileMessageView : UIView
+@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified textLabel;
+@property (nonatomic, weak) IBOutlet FFCircularProgressView * _Null_unspecified progressView;
+@property (nonatomic, weak) IBOutlet UIImageView * _Null_unspecified imageView;
+- (void)awakeFromNib;
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
 
 SWIFT_CLASS("_TtC13ChatKitExtras22StickerKeyboardOverlay")
 @interface StickerKeyboardOverlay : UIView

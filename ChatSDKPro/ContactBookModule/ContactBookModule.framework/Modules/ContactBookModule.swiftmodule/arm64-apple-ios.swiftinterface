@@ -1,0 +1,15 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.4.2 (swiftlang-1205.0.28.2 clang-1205.0.19.57)
+// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ContactBookModule
+@_exported import ContactBookModule
+import Contacts
+import Foundation
+import Swift
+@_inheritsConvenienceInitializers @objc public class ContactBookManager : ObjectiveC.NSObject {
+  @objc public static func getContacts() -> RXPromise.RXPromise
+  @objc public static func searchForUser(user: ContactBookModule.BPhoneBookUser) -> RXPromise.RXPromise
+  @objc public static func search(for user: ContactBookModule.BPhoneBookUser, index: Swift.Int) -> RXPromise.RXPromise
+  @objc public static func search(index: Swift.String, value: Swift.String) -> RXPromise.RXPromise
+  @objc override dynamic public init()
+  @objc deinit
+}

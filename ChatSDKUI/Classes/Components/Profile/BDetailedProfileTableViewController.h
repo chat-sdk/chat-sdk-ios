@@ -54,12 +54,11 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell *phoneNumberCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *availabilityCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *followsCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *followedCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *addContactCell;
 @property (weak, nonatomic) IBOutlet UIImageView *addContactImageView;
 @property (weak, nonatomic) IBOutlet UILabel *addContactLabel;
 @property (weak, nonatomic) IBOutlet UITableViewCell *moreCell;
+@property (weak, nonatomic) IBOutlet UIButton *moreLabel;
 
 
 -(void) refreshInterfaceAnimated: (BOOL) animated;

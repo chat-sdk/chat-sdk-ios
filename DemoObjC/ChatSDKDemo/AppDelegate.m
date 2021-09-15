@@ -15,6 +15,12 @@
 #import <ChatSDKFirebase/FirebaseUIModule.h>
 #import <FirebaseEmailAuthUI/FirebaseEmailAuthUI.h>
 
+#import <FirebaseModules/FirebaseModules-umbrella.h>
+#import <EncryptionModule/EncryptionModule-umbrella.h>
+#import <MessageModules/MessageModules-umbrella.h>
+#import <ContactBookModule/ContactBookModule-umbrella.h>
+#import <FirebaseNearbyUsersModule/FirebaseNearbyUsersModule-umbrella.h>
+
 @interface AppDelegate ()
 
 @end
@@ -42,6 +48,20 @@
         [FirebasePushModule shared],
         [ChatKitModule shared],
         [FirebaseUIModule new],
+        
+        [BBlockingModule new],
+        [BReadReceiptsModule new],
+        [BTypingIndicatorModule new],
+        [BLastOnlineModule new],
+        
+        [StickerMessageModule shared],
+        [BVideoMessageModule new],
+        [FileMessageModule new],
+        [BAudioMessageModule new],
+        [BContactBookModule new],
+        [BNearbyUsersModule shared],
+        
+        [EncryptionModule new]
     ]];
     
     

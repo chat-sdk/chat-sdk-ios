@@ -14,13 +14,13 @@ import FirebaseEmailAuthUI
 import FirebasePhoneAuthUI
 import FirebaseOAuthUI
 import ChatKit
-//import ChatKitExtras
+
 import FirebaseModules
 import ContactBookModule
 import MessageModules
 import FirebaseNearbyUsersModule
 import EncryptionModule
-
+import ChatSDKPro
 
 @UIApplicationMain 
 /* Two Factor Auth */
@@ -68,8 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            AddContactWithQRCodeModule.init(),
             BReachabilityModule.init(),
             EncryptionModule.init(),
-//            ChatKitModule.shared(),
-//            ChatKitExtrasModule.init(),
+            ChatKitModule.shared(),
+            ChatKitExtrasModule.init(),
 
         ]
 

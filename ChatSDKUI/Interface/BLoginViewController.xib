@@ -4,8 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -65,12 +63,12 @@
                         <constraint firstAttribute="height" constant="38" id="1yU-Cm-SqJ"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="italicSystem" pointSize="20"/>
-                    <color key="textColor" name="mediumGray"/>
+                    <color key="textColor" red="0.39612001869188118" green="0.41326318199099205" blue="0.43011723443715255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WlM-w5-GCE">
                     <rect key="frame" x="75.5" y="407.5" width="105" height="40"/>
-                    <color key="backgroundColor" name="loginButton"/>
+                    <color key="backgroundColor" red="0.27803788088413289" green="0.70816878265904737" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="900" constant="105" id="Wgg-mu-ZRW"/>
                         <constraint firstAttribute="height" constant="40" id="mIa-aH-mLd"/>
@@ -97,7 +95,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HeC-qI-71z">
                     <rect key="frame" x="192.5" y="407.5" width="105" height="40"/>
-                    <color key="backgroundColor" name="registerButton"/>
+                    <color key="backgroundColor" red="0.18115875899061365" green="0.7803921568627451" blue="0.37684096457958821" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="1s0-Mc-lqV"/>
                         <constraint firstAttribute="width" priority="900" constant="105" id="qLo-Lr-SsZ"/>
@@ -117,7 +115,7 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="Forgot password">
-                        <color key="titleColor" name="mediumGray"/>
+                        <color key="titleColor" red="0.3970297540877531" green="0.41421228864232817" blue="0.43110504836747143" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
                         <action selector="forgotPasswordPressed:" destination="-1" eventType="touchUpInside" id="M9b-bc-6hp"/>
@@ -125,7 +123,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hre-W7-hiD">
                     <rect key="frame" x="77.5" y="462.5" width="220" height="30"/>
-                    <color key="backgroundColor" systemColor="systemGrayColor"/>
+                    <color key="backgroundColor" red="0.57206601479915686" green="0.57056818365643647" blue="0.59673156284960116" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="900" constant="30" id="7ka-UT-5mt"/>
                     </constraints>
@@ -138,7 +136,7 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="Yy7-xO-WLG" firstAttribute="top" secondItem="KCJ-rr-kr4" secondAttribute="bottom" priority="900" constant="20" id="1If-mk-ds0"/>
                 <constraint firstAttribute="centerX" secondItem="Yy7-xO-WLG" secondAttribute="centerX" id="DSr-aG-cOx"/>
@@ -168,20 +166,5 @@
     </objects>
     <resources>
         <image name="AppIcon" width="128" height="128"/>
-        <namedColor name="loginButton">
-            <color red="0.2630000114440918" green="0.64200001955032349" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="mediumGray">
-            <color red="0.40700000524520874" green="0.42300000786781311" blue="0.43999999761581421" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="registerButton">
-            <color red="0.22599999606609344" green="0.78899997472763062" blue="0.4309999942779541" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
     </resources>
 </document>
