@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   # s.static_framework = true
 
   s.subspec 'Core' do |s|
-    s.source_files = ['Core/*']
+    # s.source_files = ['ChatSDKPro/Core/*']
     s.dependency 'ChatSDK'
     s.vendored_frameworks = 'ChatSDKPro/Licensing/Licensing.framework'
   end
