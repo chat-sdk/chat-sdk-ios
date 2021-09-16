@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDK"
-  s.version          = "5.1.0"
+  s.version          = "5.1.3"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "https://sdk.chat"
   s.license          = { :type => 'Chat SDK License' }
@@ -87,16 +87,18 @@ Pod::Spec.new do |s|
   
   end
 
-    s.subspec 'ModAddContactWithQRCode' do |s|
+  s.subspec 'ModAddContactWithQRCode' do |s|
 
 	  s.source_files = ['ChatSDKExtras/AddContactWithQRCode/**/*.{swift,h,m}']
-# 	  s.resource_bundles = {
-# 		'ChatExtras' => ['ChatSDKExtras/AddContactWithQRCode/**/*.{xib,storyboard}']
-# 	  }
       s.dependency 'ChatSDK/UI'
   
   end
 
+  s.subspec 'Base64ImageMessage' do |s|
+
+	  s.source_files = ['ChatSDKExtras/Base64ImageMessage/**/*.{swift,h,m}']
+      s.dependency 'ChatSDK/UI'
+  end
 
   
   # s.subspec 'Extras' do |s|

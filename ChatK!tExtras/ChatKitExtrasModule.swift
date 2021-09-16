@@ -9,13 +9,6 @@ import Foundation
 import ChatSDK
 import ChatKit
 
-public class FileKeys {
-    
-    public static let data = "file-data"
-    public static let mimeType = "file-mime-type"
-
-}
-
 @objc public class ChatKitExtrasModule: NSObject, PModule {
 
     public func weight() -> Int32 {
@@ -33,17 +26,6 @@ public class FileKeys {
             let stickerRegistration = MessageCellRegistration(messageType: String(bMessageTypeSticker.rawValue), contentClass: StickerMessageContent.self)
             ChatKitModule.shared().get().add(messageRegistration: stickerRegistration)
         }
-        
-        if BChatSDK.fileMessage() != nil {
-            // File Message
-            let fileRegistration = MessageCellRegistration(messageType: String(bMessageTypeFile.rawValue), contentClass: FileMessageContent.self)
-            ChatKitModule.shared().get().add(messageRegistration: fileRegistration)
-
-            ChatKitModule.shared().get().add(newMessageProvider: FileMessageProvider(), type: Int(bMessageTypeFile.rawValue))
-            ChatKitModule.shared().get().add(optionProvider: FileOptionProvider())
-            ChatKitModule.shared().get().add(messageOnClickListener: FileMessageOnClick())
-        }
-        
     }
     
 }

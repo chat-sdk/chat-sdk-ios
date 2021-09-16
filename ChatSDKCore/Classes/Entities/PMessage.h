@@ -21,6 +21,7 @@ typedef enum {
     bMessageTypeSystem = 5,
     bMessageTypeSticker = 6,
     bMessageTypeFile = 7,
+    bMessageTypeBase64Image = 8,
     bMessageTypeSilent = 98,
     bMessageTypeCustom = 99,
 } bMessageType;
@@ -48,6 +49,7 @@ typedef enum {
 #define bMessageImageURL @"image-url"
 
 #define bMessageImageWidth @"image-width"
+#define bMessageImageData @"image-data"
 #define bMessageImageHeight @"image-height"
 #define bMessageVideoURL @"video-url"
 #define bMessageFileURL @"file-url"

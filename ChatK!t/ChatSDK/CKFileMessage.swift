@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import MessageModules
 import ChatKit
+import ChatSDK
 
 public class CKFileMessage: CKDownloadableMessage {
 

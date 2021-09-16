@@ -10,6 +10,7 @@
 
 @protocol PEncryptionHandler <NSObject>
 
+-(nullable NSDictionary<NSString *, id> *) encryptMeta: (nonnull id<PThread>) thread meta: (nonnull NSDictionary<NSString *, id> *) meta;
 -(nullable NSDictionary<NSString *, id> *) encryptMessage: (nonnull id<PMessage>) message;
 -(nullable NSDictionary<NSString *, id> *) decryptMessage: (nonnull NSString *) message;
 

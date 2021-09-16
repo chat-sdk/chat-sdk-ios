@@ -10,6 +10,13 @@ import Foundation
 import ChatSDK
 import AVKit
 
+public class FileKeys {
+    
+    public static let data = "file-data"
+    public static let mimeType = "file-mime-type"
+
+}
+
 public protocol MessageProvider {
     func new(for message: PMessage) -> CKMessage
 }
@@ -48,7 +55,24 @@ public protocol OptionProvider {
     }
     
     open func activate() {
+        
+        if BChatSDK.fileMessage() != nil {
+            // File Message
+            let fileRegistration = MessageCellRegistration(messageType: String(bMessageTypeFile.rawValue), contentClass: FileMessageContent.self)
+            get().add(messageRegistration: fileRegistration)
+
+            get().add(newMessageProvider: FileMessageProvider(), type: Int(bMessageTypeFile.rawValue))
+            get().add(optionProvider: FileOptionProvider())
+            get().add(messageOnClickListener: FileMessageOnClick())
+        }
+        
+        get().add(messageOnClickListener: Base64MessageOnClick())
+        
         get().activate()
+    }
+    
+    open func weight() -> Int32 {
+        return 50
     }
 }
 
@@ -281,6 +305,9 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
         var registrations = [
             MessageCellRegistration(messageType: String(bMessageTypeText.rawValue), contentClass: TextMessageContent.self),
             MessageCellRegistration(messageType: String(bMessageTypeImage.rawValue), contentClass: ImageMessageContent.self),
+
+            MessageCellRegistration(messageType: String(bMessageTypeBase64Image.rawValue), contentClass: Base64ImageMessageContent.self),
+
             MessageCellRegistration(messageType: String(bMessageTypeLocation.rawValue), contentClass: ImageMessageContent.self),
             MessageCellRegistration(messageType: String(bMessageTypeSystem.rawValue), nibName: "SystemMessageCell", contentClass: SystemMessageContent.self)
         ]
@@ -512,7 +539,7 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
     }
     
     open func getOptions() -> [Option] {
-        return [
+        var options = [
             Option(galleryOnClick: { [weak self] in
                 if let vc = self?.weakVC, let thread = self?.thread {
                     let action = BSelectMediaAction(type: bPictureTypeAlbumImage, viewController: vc)
@@ -525,7 +552,7 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
                 }
             }),
             Option(locationOnClick: { [weak self] in
-                if let vc = self?.weakVC, let thread = self?.thread {
+                if let thread = self?.thread {
                     self?.locationAction = BSelectLocationAction()
                     _ = self?.locationAction?.execute()?.thenOnMain({ location in
                         if let locationMessage = BChatSDK.locationMessage(), let location = location as? CLLocation {
@@ -534,8 +561,11 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
                         return location
                     }, nil)
                 }
-            }),
-            Option(videoOnClick: { [weak self] in
+            })
+        ]
+        
+        if BChatSDK.videoMessage() != nil {
+            options.append( Option(videoOnClick: { [weak self] in
                 if let vc = self?.weakVC, let thread = self?.thread {
                     let action = BSelectMediaAction(type: bPictureTypeAlbumVideo, viewController: vc)
                     _ = action?.execute()?.thenOnMain({ success in
@@ -546,8 +576,10 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
                         return success
                     }, nil)
                 }
-            }),
-        ]
+            }))
+        }
+        
+        return options
     }
     
     open func addSendBarActions() {
@@ -659,4 +691,85 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
     }
 
 
+}
+
+public class FileMessageOnClick: NSObject, MessageOnClickListener, UIDocumentInteractionControllerDelegate {
+    
+    var documentInteractionProvider : UIDocumentInteractionController?
+    weak var vc: UIViewController?
+    
+    public func onClick(for vc: ChatViewController?, message: AbstractMessage) {
+        if let vc = vc, let message = message as? CKFileMessage, let url = message.localFileURL {
+            
+            var fileURL = url;
+            if !url.isFileURL {
+                fileURL = URL(fileURLWithPath: url.path)
+            }
+            
+            self.vc = vc
+            documentInteractionProvider = UIDocumentInteractionController(url: fileURL)
+            documentInteractionProvider?.name = message.messageText()
+            documentInteractionProvider?.delegate = self
+            documentInteractionProvider?.presentPreview(animated: true)
+        }
+    }
+    
+    public func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self.vc!
+    }
+    
+    public func documentInteractionControllerViewForPreview(_ controller: UIDocumentInteractionController) -> UIView? {
+        return self.vc!.view
+    }
+    
+    public func documentInteractionControllerRectForPreview(_ controller: UIDocumentInteractionController) -> CGRect {
+        return self.vc!.view.frame
+    }
+}
+
+public class FileMessageProvider: MessageProvider {
+    public func new(for message: PMessage) -> CKMessage {
+        return CKFileMessage(message: message)
+    }
+}
+
+public class FileOptionProvider: OptionProvider {
+    
+    var action: BSelectFileAction?
+    
+    public func provide(for vc: ChatViewController, thread: PThread) -> Option {
+        return Option(fileOnClick: { [weak self] in
+            self?.action = BSelectFileAction.init(viewController: vc)
+            _ = self?.action?.execute().thenOnMain({ success in
+                
+                if let fileMessage = BChatSDK.fileMessage(), let action = self?.action, let name = action.name, let url = action.url, let mimeType = action.mimeType, let data = action.data {
+                    let file: [AnyHashable: Any] = [
+                        bFileName: name,
+                        bFilePath: url,
+                        FileKeys.mimeType: mimeType,
+                        FileKeys.data: data
+                    ]
+                    return fileMessage.sendMessage(withFile: file, andThreadEntityID: thread.entityID())
+                }
+                
+                return success
+            }, nil)
+        })
+    }
+}
+
+public class Base64MessageOnClick: NSObject, MessageOnClickListener {
+        
+    public func onClick(for vc: ChatViewController?, message: AbstractMessage) {
+        if let vc = vc,
+           let message = message as? CKMessage,
+           let base64 = message.messageMeta()?["image-data"] as? String,
+           let data = NSData(base64Encoded: base64, options: .ignoreUnknownCharacters) {
+            
+            if let ivc = BChatSDK.ui().imageViewController(), let image = UIImage(data: data as Data) {
+                ivc.setImage(image)
+                vc.present(UINavigationController(rootViewController: ivc), animated: true, completion: nil)
+            }
+        }
+    }
 }

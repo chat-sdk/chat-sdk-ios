@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import MessageModules
 import ChatKit
+import MessageModules
 
 public class CKStickerMessage: CKMessage, HasPlaceholder {
 
