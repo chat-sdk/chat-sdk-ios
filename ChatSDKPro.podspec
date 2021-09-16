@@ -68,17 +68,17 @@ Pod::Spec.new do |s|
 
   end
 
-  # s.subspec 'ChatK!t' do |s|
-  #   s.ios.deployment_target = '13.0'
+  s.subspec 'ChatK!t' do |s|
+    s.ios.deployment_target = '13.0'
 
-  #   s.source_files = ['ChatK!tExtras/*.{h,m,swift}']
-  #   s.resources = [ 'ChatK!tExtras/*.{xcassets,xib}']
+    s.source_files = ['ChatK!tExtras/*.{h,m,swift}']
+    s.resources = [ 'ChatK!tExtras/*.{xcassets,xib}']
 
-  #   s.dependency 'ChatK!t'
-  #   s.dependency 'ChatK!t/ChatSDK'
-  #   s.dependency 'ChatSDKPro/Message'
+    s.dependency 'ChatK!t'
+    s.dependency 'ChatK!t/ChatSDK'
+    s.dependency 'ChatSDKPro/Message'
 
-  # end
+  end
 
   #   s.subspec 'XMPPFramework' do |s|
 
