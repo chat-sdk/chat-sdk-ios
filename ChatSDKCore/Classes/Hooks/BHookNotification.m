@@ -147,6 +147,13 @@
     }
 }
 
++(void) notificationUserLastOnlineUpdated: (id<PUser>) user date: (NSDate *) date {
+    if(user && date) {
+        [BChatSDK.hook executeHookWithName:bHookUserLastOnlineUpdated data:@{bHook_PUser:user, bHook_NSData: date}];
+    }
+}
+
+
 +(void) notificationTypingStateUpdated: (id<PThread>) thread text: (NSString *) text {
     if(thread) {
         if (text) {

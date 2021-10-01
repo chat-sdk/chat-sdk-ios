@@ -12,6 +12,7 @@ import ChatSDK
 open class CKThread: Conversation {
     
     let thread: PThread
+    let users: [PUser] = []
     
     lazy var type: ConversationType = {
         if let type = thread.type() {
@@ -44,11 +45,13 @@ open class CKThread: Conversation {
     
     open func conversationUsers() -> [User] {
         var users = [User]()
+        
         for user in thread.users() {
             if let user = user as? PUser {
                 users.append(CKUser(user: user))
             }
         }
+        
         return users
     }
         

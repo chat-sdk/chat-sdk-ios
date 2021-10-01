@@ -299,6 +299,7 @@
     [_threads sortUsingComparator:^(id<PThread>t1, id<PThread> t2) {
         return [t2.orderDate compare:t1.orderDate];
     }];
+
     [self reloadData];
 }
 

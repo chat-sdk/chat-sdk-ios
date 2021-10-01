@@ -43,4 +43,15 @@ open class CKUser: User {
         return user.online()?.boolValue ?? false
     }
     
+    open func userLastOnline() -> Date? {
+        if let module = BChatSDK.lastOnline() {
+            if let date = module.lastOnline(for: user) {
+                return date
+            } else {
+                module.getLastOnline(for: user)
+            }
+        }
+        return nil
+    }
+    
 }

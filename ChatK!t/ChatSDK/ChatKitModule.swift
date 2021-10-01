@@ -131,6 +131,14 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
             }
         }), withName: bHookMessageDidUpload))
 
+        observers.add(BChatSDK.hook().add(BHook({ [weak self] input in
+            if let user = input?[bHook_PUser] as? PUser {
+                if self?.thread?.contains(user) ?? false {
+                    self?.weakVC?.updateNavigationBar()
+                }
+            }
+        }), withName: bHookUserLastOnlineUpdated))
+
         // Add a listener to add outgoing messages to the download area so we don't have to download them again...
         observers.add(BChatSDK.hook().add(BHook(onMain: { [weak self] input in
             self?.updateConnectionStatus()
@@ -268,6 +276,7 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
         addKeyboardOverlays()
         addNavigationBarAction()
         
+        weakVC?.setReadOnly(thread.isReadOnly())
         
         markRead(thread: thread)
         

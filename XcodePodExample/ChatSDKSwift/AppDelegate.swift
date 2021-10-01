@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             FirebasePushModule.shared(),
             FirebaseUploadModule.shared()
         ]
+        
 
 
 //        config.setRemoteConfigValue("MC4CAQAwBQYDK2VwBCIEIFrI4pSMCz8DOo/EXrB/HC4UAwS/PsqAjrKB7bdcMPz3", forKey: "private-key")

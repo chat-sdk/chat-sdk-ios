@@ -53,6 +53,7 @@
 
 +(void) notificationWillPushUser: (id<PUser>) user;
 +(void) notificationUserUpdated: (id<PUser>) user;
++(void) notificationUserLastOnlineUpdated: (id<PUser>) user date: (NSDate *) date;
 
 +(void) notificationTypingStateUpdated: (id<PThread>) thread text: (NSString *) text;
 

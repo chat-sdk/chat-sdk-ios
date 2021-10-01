@@ -48,6 +48,7 @@
 #define bHookThreadUsersUpdated @"bHookThreadUsersUpdated"
 #define bHookThreadUserRoleUpdated @"bHookThreadUserRoleUpdated"
 #define bHookThreadMarkedRead @"bHookThreadMarkedRead"
+#define bHookUserLastOnlineUpdated @"bHookUserLastOnlineUpdated"
 
 #define bHookTypingStateUpdated @"bHookTypingStateUpdated"
 

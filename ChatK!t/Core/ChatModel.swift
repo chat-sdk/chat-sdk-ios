@@ -43,7 +43,7 @@ open class ChatModel: ChatToolbarActionsDelegate {
             if let user = conversation.conversationOtherUser() {
                 if user.userIsOnline() {
                     return Strings.t(Strings.online)
-                } else if let lastOnline = user.userLastOnline() as Date? {
+                } else if let lastOnline = user.userLastOnline() {
                     return lastOnline.lastSeenTimeAgo()
                 }
             }
