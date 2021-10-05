@@ -9,7 +9,7 @@
 "location" = "Location";
 "gallery" = "Gallery";
 "" = "";
-
+"grantCameraPermission" = "Grant camera permission to take a photo";
 
 "today" = "Today";
 "yesterday" = "Yesterday";

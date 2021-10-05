@@ -62,6 +62,8 @@ open class SendBarView: UIView, UITextViewDelegate {
         }
         textView?.delegates.willChangeHeight = { height in
         }
+
+        
         
         addSubview(divider)
         addSubview(startButtonsView)
@@ -144,10 +146,20 @@ open class SendBarView: UIView, UITextViewDelegate {
             let button = action.getButton()
 
             button.removeFromSuperview()
-            addSubview(button)
-            
-            button.keepTopInset.min = ChatKit.config().sendBarViewTopPadding
-            button.keepBottomInset.min = ChatKit.config().sendBarViewBottomPadding
+  
+            if action.position == .start {
+                startButtonsView.addSubview(button)
+            } else {
+                endButtonsView.addSubview(button)
+            }
+
+//            addSubview(button)
+//            button.keepTopInset.min = ChatKit.config().sendBarViewTopPadding
+//            button.keepBottomInset.min = ChatKit.config().sendBarViewBottomPadding
+
+            button.keepTopInset.min = 0
+            button.keepBottomInset.min = 0
+
             button.keepVerticallyCentered()
         }
     }
@@ -176,20 +188,23 @@ open class SendBarView: UIView, UITextViewDelegate {
 
         let actions = filterActions(actions: startActions, hasText: hasText)
         
-//        if actions.isEmpty {
-//            startButtonsView.keepWidth.equal = 0
-//        } else {
-//            startButtonsView.keepWidth.equal = KeepLow(0)
-//        }
-
         for action in startActions {
             if !actions.contains(action) {
-                action.getButton().keepLeftInset.equal = ChatKit.config().sendBarViewStartPadding
+                action.getButton().keepLeftInset.equal = 0
             }
         }
 
-        actions.first?.getButton().keepLeftInset.equal = ChatKit.config().sendBarViewStartPadding
-        actions.last?.getButton().keepRightOffsetTo(textView)?.equal = ChatKit.config().sendBarViewElementSpacing
+        actions.first?.getButton().keepLeftInset.equal = 0
+        actions.last?.getButton().keepRightInset.equal = 0
+
+//        for action in startActions {
+//            if !actions.contains(action) {
+//                action.getButton().keepLeftInset.equal = ChatKit.config().sendBarViewStartPadding
+//            }
+//        }
+//
+//        actions.first?.getButton().keepLeftInset.equal = ChatKit.config().sendBarViewStartPadding
+//        actions.last?.getButton().keepRightOffsetTo(textView)?.equal = ChatKit.config().sendBarViewElementSpacing
 
         var previousAction = actions.first
         for action in actions {
@@ -205,14 +220,24 @@ open class SendBarView: UIView, UITextViewDelegate {
         
         let actions = filterActions(actions: endActions, hasText: hasText)
 
+//        for action in endActions {
+//            if !actions.contains(action) {
+//                action.getButton().keepRightInset.equal = ChatKit.config().sendBarViewEndPadding
+//            }
+//        }
+//
+//        actions.last?.getButton().keepRightInset.equal = ChatKit.config().sendBarViewEndPadding
+//        actions.first?.getButton().keepLeftOffsetTo(textView)?.equal = ChatKit.config().sendBarViewElementSpacing
+        
         for action in endActions {
             if !actions.contains(action) {
-                action.getButton().keepRightInset.equal = ChatKit.config().sendBarViewEndPadding
+                action.getButton().keepRightInset.equal = 0
             }
         }
         
-        actions.last?.getButton().keepRightInset.equal = ChatKit.config().sendBarViewEndPadding
-        actions.first?.getButton().keepLeftOffsetTo(textView)?.equal = ChatKit.config().sendBarViewElementSpacing
+        actions.last?.getButton().keepRightInset.equal = 0
+        actions.first?.getButton().keepLeftInset.equal = 0
+
         
         var previousAction = actions.first
         for action in actions {

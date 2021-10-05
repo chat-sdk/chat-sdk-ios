@@ -621,15 +621,24 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
                     let type = BChatSDK.videoMessage() == nil ? bPictureTypeCameraImage : bPictureTypeCameraVideo
 
                     let action = BSelectMediaAction(type: type, viewController: vc)
-                    _ = action?.execute()?.thenOnMain({ success in
-                        if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
-                            imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+                    
+                    AVCaptureDevice.requestAccess(for: .video, completionHandler: { success in
+                        DispatchQueue.main.async {
+                            if success {
+                                _ = action?.execute()?.thenOnMain({ success in
+                                    if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
+                                        imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+                                    }
+                                    if let videoMessage = BChatSDK.videoMessage(), let video = action?.videoData, let coverImage = action?.coverImage {
+                                        videoMessage.sendMessage(withVideo: video, cover: coverImage, withThreadEntityID: thread.entityID())
+                                    }
+                                    return success
+                                }, nil)
+                            } else {
+                                self?.weakVC?.view.makeToast(Strings.t(Strings.grantCameraPermission))
+                            }
                         }
-                        if let videoMessage = BChatSDK.videoMessage(), let video = action?.videoData, let coverImage = action?.coverImage {
-                            videoMessage.sendMessage(withVideo: video, cover: coverImage, withThreadEntityID: thread.entityID())
-                        }
-                        return success
-                    }, nil)
+                    })
                 }
             })
         }
