@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PLastOnlineHandler.h>
 
-@interface BFirebaseLastOnlineHandler : NSObject<PLastOnlineHandler>
+@interface BFirebaseLastOnlineHandler : NSObject<PLastOnlineHandler> {
+    NSMutableDictionary * _userMap;
+}
+
+@property (nonatomic, readonly) NSMutableDictionary * userMap;
 
 @end

@@ -1,0 +1,30 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
+// swift-module-flags: -target armv7-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name VirgilCrypto
+import Foundation
+import Swift
+import VSCCrypto
+@_exported import VirgilCrypto
+import _Concurrency
+@_hasMissingDesignatedInitializers @objc(VSCBlindResult) final public class BlindResult : ObjectiveC.NSObject {
+  @objc final public let blindedPassword: Foundation.Data
+  @objc final public let blindingSecret: Foundation.Data
+  @objc deinit
+}
+@objc(VSCVirgilPythiaError) public enum VirgilPythiaError : Swift.Int, Swift.Error {
+  case underlyingCryptoError = 0
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public static var _nsErrorDomain: Swift.String {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @objc(VSCVirgilPythia) public class VirgilPythia : ObjectiveC.NSObject {
+  @objc public func blind(password: Foundation.Data) throws -> VirgilCrypto.BlindResult
+  @objc public func deblind(transformedPassword: Foundation.Data, blindingSecret: Foundation.Data) throws -> Foundation.Data
+  @objc override dynamic public init()
+  @objc deinit
+}

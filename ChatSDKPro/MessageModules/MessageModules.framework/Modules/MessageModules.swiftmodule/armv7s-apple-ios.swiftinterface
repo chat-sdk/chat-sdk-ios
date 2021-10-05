@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.4.2 (swiftlang-1205.0.28.2 clang-1205.0.19.57)
+// swift-compiler-version: Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
 // swift-module-flags: -target armv7s-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name MessageModules
 import ChatSDK
 import FLAnimatedImage
@@ -7,6 +7,7 @@ import Foundation
 import Licensing
 @_exported import MessageModules
 import Swift
+import _Concurrency
 @_inheritsConvenienceInitializers @objc public class FileMessageModule : ObjectiveC.NSObject, ChatSDK.PModule {
   @objc public func activate()
   @objc public static func bundle() -> Foundation.Bundle?
@@ -23,7 +24,6 @@ import Swift
   @objc public init(data: Any)
   @objc public init(image: Swift.String, sound: Swift.String? = nil)
   @objc public func setImage(name: Swift.String)
-  @objc override dynamic public init()
   @objc deinit
 }
 @_inheritsConvenienceInitializers @objc public class StickerManager : ObjectiveC.NSObject {
@@ -61,6 +61,5 @@ import Swift
   @objc public func sticker(at index: Swift.Int) -> MessageModules.Sticker?
   public func addSticker(sticker: MessageModules.Sticker)
   public func removeSticker(sticker: MessageModules.Sticker)
-  @objc override dynamic public init()
   @objc deinit
 }
