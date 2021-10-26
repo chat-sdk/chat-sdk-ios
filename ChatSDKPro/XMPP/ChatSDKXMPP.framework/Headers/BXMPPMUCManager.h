@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XMPPModule.h"
-#import <ChatSDKXMPP/XMPPMUC.h>
+//#import "XMPPModule.h"
+//#import <ChatSDKVendor/XMPPMUC.h>
+#import <ChatSDKVendor/XMPPFramework.h>
+
 
 @class XMPPRoomMemoryStorage;
 @class XMPPStream;

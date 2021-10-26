@@ -20,6 +20,7 @@
 +(void) notificationMessageDidUpload: (id<PMessage>) message;
 +(void) notificationMessageDidUpload: (id<PMessage>) message withData: (NSData *) data;
 +(void) notificationMessageUpdated: (id<PMessage>) message;
++(void) notificationMessageDidFailToSend: (NSString *) messageId error: (NSError *) error;
 
 +(void) notificationMessageReceived: (id<PMessage>) message;
 

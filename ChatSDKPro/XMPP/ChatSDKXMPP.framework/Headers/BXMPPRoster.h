@@ -5,7 +5,8 @@
 //  Created by Ben on 11/14/18.
 //
 
-#import "XMPPFramework.h"
+//#import "XMPPFramework.h"
+#import <ChatSDKVendor/XMPPFramework.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

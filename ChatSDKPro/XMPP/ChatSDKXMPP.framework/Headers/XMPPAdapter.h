@@ -15,7 +15,7 @@
 #import <ChatSDK/Core.h>
 
 //@import XMPPFramework;
-#import <ChatSDKXMPP/XMPPFramework.h>
+#import <ChatSDKVendor/XMPPFramework.h>
 #import <ChatSDKXMPP/BXMPPManager.h>
 #import <ChatSDKXMPP/BXMPPUserManager.h>
 #import <ChatSDKXMPP/BXMPPServerDetails.h>
@@ -63,7 +63,7 @@
 
 #import <ChatSDKXMPP/BXMPPNetworkAdapter.h>
 #import <ChatSDKXMPP/BXMPPInterfaceAdapter.h>
-#import <ChatSDKXMPP/XMPPJingle.h>
+#import <ChatSDKVendor/XMPPJingle.h>
 
 #import <ChatSDKXMPP/BXMPPModule.h>
 

@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XMPP.h"
-#import "XMPPCapabilities.h"
-#import "XMPPMessageCarbons.h"
+
+//#import "XMPP.h"
+//#import "XMPPCapabilities.h"
+//#import "XMPPMessageCarbons.h"
+
+#import <ChatSDKVendor/XMPPFramework.h>
 
 
 @class XMPPReconnect;
@@ -54,6 +57,7 @@
 
 #define bHookXMPPSetupStream @"bHookXMPPSetupStream"
 #define bHookXMPPTeardownStream @"bHookXMPPTeardownStream"
+#define bXMPPErrorStanza @"xmpp-error-stanza"
 
 typedef void(^Completion)(void);
 
@@ -133,6 +137,7 @@ typedef void(^Completion)(void);
 @property (nonatomic, readonly) CapabilitiesListener * capabilitiesListener;
 @property (nonatomic, readonly) PrivacyLists * privacyLists;
 
+
 @property (nonatomic, readonly) dispatch_queue_t xmppDispatchQueue;
 
 @property (nonatomic, readwrite) BOOL customCertificateEvaluation;
@@ -173,7 +178,7 @@ typedef void(^Completion)(void);
 -(nonnull RXPromise *) sendXMPPMessage: (XMPPMessage *) xmppMessage thread: (id<PThread>) thread;
 -(RXPromise *) joinExistingGroupChats;
 
--(void) updateLastOnlineTime;
--(NSDate *) lastOnlineTime;
+//-(void) updateLastOnlineTime;
+//-(NSDate *) lastOnlineTime;
 
 @end

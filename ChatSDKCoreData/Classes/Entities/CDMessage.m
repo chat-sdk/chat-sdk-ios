@@ -108,7 +108,14 @@
 }
 
 -(NSString *) text {
-    return self.meta[bMessageText];
+    NSObject * text = self.meta[bMessageText];
+    if ([text isKindOfClass:NSString.class]) {
+        return text;
+    }
+    if ([text isKindOfClass:NSNumber.class]) {
+        return ((NSNumber *)text).stringValue;
+    }
+    else return @"";
 }
 
 -(void) setText: (NSString *) text {

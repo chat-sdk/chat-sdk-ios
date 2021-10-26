@@ -34,6 +34,7 @@
 #define bHookMessageWillUpload @"bHookMessageWillUpload"
 #define bHookMessageUploadProgress @"bHookMessageUploadProgress"
 #define bHookMessageDidUpload @"bHookMessageDidUpload"
+#define bHookMessageDidFailToSend @"bHookMessageDidFailToSend"
 #define bHookMessageUpdated @"bHookMessageUpdated"
 #define bHookSilentMessageReceived @"bHookSilentMessageReceived"
 
@@ -71,6 +72,7 @@
 #define bHook_UIApplication @"bHook_UIApplication"
 #define bHook_NSData @"bHook_NSData"
 #define bHook_NSString @"bHook_NSString"
+#define bHook_NSError @"bHook_NSError"
 
 #define bHook_TitleString @"bHook_TitleString"
 #define bHook_MessageString @"bHook_MessageString"

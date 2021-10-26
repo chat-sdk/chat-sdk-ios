@@ -1,0 +1,608 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
+// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ChatSDKXMPP
+import ChatSDK
+@_exported import ChatSDKXMPP
+import CoreData
+import EncryptionModule
+import Foundation
+import RXPromise
+import RxSwift
+import Swift
+import _Concurrency
+@_inheritsConvenienceInitializers @objc public class CapabilitiesListener : ChatSDKVendor.XMPPModule, ChatSDKVendor.XMPPCapabilitiesDelegate {
+  @objc public func xmppCapabilities(_ sender: ChatSDKVendor.XMPPCapabilities, didDiscoverCapabilities caps: KissXML.DDXMLElement, for jid: ChatSDKVendor.XMPPJID)
+  public func hasCapability(xmlns: Swift.String) -> Swift.Bool?
+  @objc override dynamic public init()
+  @objc override dynamic public init(dispatchQueue queue: Dispatch.DispatchQueue?)
+  @objc deinit
+}
+@objc public class ConnectionManager : ChatSDKVendor.XMPPModule, ChatSDKVendor.XMPPStreamDelegate {
+  public var overrideLastOnline: ((Swift.String, Foundation.Date?) -> Foundation.Date?)?
+  public var overrideLastOnlineForGroup: ((Swift.String, Swift.String, Foundation.Date?) -> Foundation.Date?)?
+  @objc override dynamic public init(dispatchQueue queue: Dispatch.DispatchQueue?)
+  @objc override dynamic public func activate(_ aXmppStream: ChatSDKVendor.XMPPStream) -> Swift.Bool
+  @objc public func reconnect()
+  @objc public func xmppStreamDidAuthenticate(_ sender: ChatSDKVendor.XMPPStream)
+  @objc public func xmppStreamDidDisconnect(_ sender: ChatSDKVendor.XMPPStream, withError error: Swift.Error?)
+  @objc override dynamic public func deactivate()
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive presence: ChatSDKVendor.XMPPPresence)
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive message: ChatSDKVendor.XMPPMessage)
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive iq: ChatSDKVendor.XMPPIQ) -> Swift.Bool
+  @objc public func updateLastOnline(bare: Swift.String, threadId: Swift.String, date: Foundation.Date?)
+  @objc public func updateLastOnline(bare: Swift.String, date: Foundation.Date?)
+  @objc public func updateLastOnline(key: Swift.String, date: Foundation.Date?)
+  @objc public func lastOnline(bare: Swift.String) -> Foundation.Date?
+  @objc public func lastOnline(bare: Swift.String, threadId: Swift.String) -> Foundation.Date?
+  @objc public func lastOnline(key: Swift.String) -> Foundation.Date?
+  @objc public func makeKey(id: Swift.String) -> Swift.String
+  @objc public func sendPing() -> RXPromise.RXPromise?
+  @objc deinit
+}
+@objc extension ChatSDKXMPP.ConnectionManager : ChatSDKVendor.XMPPPingDelegate {
+  @objc dynamic public func xmppPing(_ sender: ChatSDKVendor.XMPPPing!, didReceivePong pong: ChatSDKVendor.XMPPIQ!, withRTT rtt: Foundation.TimeInterval)
+  @objc dynamic public func xmppPing(_ sender: ChatSDKVendor.XMPPPing!, didNotReceivePong pingID: Swift.String!, dueToTimeout timeout: Foundation.TimeInterval)
+}
+@objc extension ChatSDKXMPP.ConnectionManager : ChatSDKVendor.XMPPAutoPingDelegate {
+  @objc dynamic public func xmppAutoPingDidSend(_ sender: ChatSDKVendor.XMPPAutoPing!)
+  @objc dynamic public func xmppAutoPingDidTimeout(_ sender: ChatSDKVendor.XMPPAutoPing!)
+  @objc dynamic public func xmppAutoPingDidReceivePong(_ sender: ChatSDKVendor.XMPPAutoPing!)
+}
+@_inheritsConvenienceInitializers @objc public class DeliveryReceiptListener : ObjectiveC.NSObject, ChatSDKVendor.XMPPMessageDeliveryReceiptsDelegate {
+  @objc public func xmppMessageDeliveryReceipts(_ xmppMessageDeliveryReceipts: ChatSDKVendor.XMPPMessageDeliveryReceipts, didReceiveReceiptResponseMessage xm: ChatSDKVendor.XMPPMessage)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public typealias EntityTimeListener = ((Swift.Bool) -> Swift.Void)
+@_inheritsConvenienceInitializers @objc public class EntityTimeManager : ChatSDKVendor.XMPPModule, ChatSDKVendor.XMPPCapabilitiesDelegate, ChatSDKVendor.XMPPAutoTimeDelegate {
+  @objc override dynamic public func activate(_ aXmppStream: ChatSDKVendor.XMPPStream) -> Swift.Bool
+  @objc override dynamic public func deactivate()
+  @objc public func xmppCapabilities(_ sender: ChatSDKVendor.XMPPCapabilities, didDiscoverCapabilities caps: KissXML.DDXMLElement, for jid: ChatSDKVendor.XMPPJID)
+  @objc public func xmppAutoTime(_ sender: ChatSDKVendor.XMPPAutoTime!, didUpdateTimeDifference timeDifference: Foundation.TimeInterval)
+  @objc public func add(listener: @escaping ChatSDKXMPP.EntityTimeListener)
+  @objc public func ready() -> Swift.Bool
+  @objc public func timeDifference() -> Swift.Double
+  @objc public func date() -> Foundation.Date
+  @objc override dynamic public init()
+  @objc override dynamic public init(dispatchQueue queue: Dispatch.DispatchQueue?)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class GroupInviteMessage : ObjectiveC.NSObject {
+  @objc public static func get(to: ChatSDKVendor.XMPPJID, chatId: ChatSDKVendor.XMPPJID) -> ChatSDKVendor.XMPPMessage
+  @objc public static func isType(_ message: ChatSDKVendor.XMPPMessage) -> Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class IncomingMessageQueue : ObjectiveC.NSObject {
+  @objc public var queue: [ChatSDKXMPP.IncomingMessage]
+  @objc public var sendAction: ((ChatSDKXMPP.IncomingMessage) -> Swift.Void)?
+  @objc public func add(message: ChatSDKXMPP.IncomingMessage)
+  @objc public func flush()
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public class IncomingMessage : ObjectiveC.NSObject {
+  @objc final public let message: ChatSDKVendor.XMPPMessage
+  @objc final public let thread: ChatSDK.PThread
+  @objc final public let user: ChatSDK.PUser
+  @objc public init(message: ChatSDKVendor.XMPPMessage, thread: ChatSDK.PThread, user: ChatSDK.PUser)
+  @objc deinit
+}
+@objc public class JoinGroupMessage : ChatSDKXMPP.SilentMessage {
+  public init(user: ChatSDKVendor.XMPPJID? = nil)
+  @objc override public func get(_ message: ChatSDKVendor.XMPPMessage) -> ChatSDKVendor.XMPPMessage
+  @objc override public func trigger(_ message: ChatSDKVendor.XMPPMessage, from: Swift.String)
+  @objc override public func matches(_ message: ChatSDKVendor.XMPPMessage) -> Swift.Bool
+  @objc deinit
+}
+@objc public class LeaveGroupMessage : ChatSDKXMPP.SilentMessage {
+  @objc public init(user: ChatSDKVendor.XMPPJID? = nil)
+  @objc override public func get(_ message: ChatSDKVendor.XMPPMessage) -> ChatSDKVendor.XMPPMessage
+  @objc override public func trigger(_ message: ChatSDKVendor.XMPPMessage, from: Swift.String)
+  @objc override public func matches(_ message: ChatSDKVendor.XMPPMessage) -> Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class MamManager : ChatSDKVendor.XMPPModule, ChatSDKVendor.XMPPMessageArchiveManagementDelegate {
+  @objc public var isLoaded: Swift.Bool
+  @objc public var isLoading: Swift.Bool
+  @objc override dynamic public func activate(_ aXmppStream: ChatSDKVendor.XMPPStream) -> Swift.Bool
+  @objc override dynamic public func deactivate()
+  @objc public func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: ChatSDKVendor.XMPPMessageArchiveManagement, didFinishReceivingMessagesWith resultSet: ChatSDKVendor.XMPPResultSet, queryId: Swift.String)
+  @objc public func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: ChatSDKVendor.XMPPMessageArchiveManagement, didReceiveMAMMessage message: ChatSDKVendor.XMPPMessage)
+  @objc public func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: ChatSDKVendor.XMPPMessageArchiveManagement, didReceiveFormFields iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: ChatSDKVendor.XMPPMessageArchiveManagement, didFailToReceiveMessages error: ChatSDKVendor.XMPPIQ?, queryId: Swift.String)
+  @objc public func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: ChatSDKVendor.XMPPMessageArchiveManagement, didFailToReceiveFormFields iq: ChatSDKVendor.XMPPIQ)
+  @objc public func requestMessageArchiveCompat(_ from: Foundation.Date?, to: Foundation.Date?, max: Foundation.NSNumber?) -> RXPromise.RXPromise?
+  @objc public func requestMessageArchiveCompat(_ last: Swift.String?, max: Foundation.NSNumber?) -> RXPromise.RXPromise?
+  public func requestMessageArchive(with: Swift.String? = nil, from: Foundation.Date? = nil, to: Foundation.Date? = nil, first: Swift.String? = nil, last: Swift.String? = nil, max: Swift.Int? = nil) -> RXPromise.RXPromise?
+  public func addData(queryId: Swift.String, message: ChatSDKVendor.XMPPMessage)
+  @objc public func goOffline()
+  @objc override dynamic public init()
+  @objc override dynamic public init(dispatchQueue queue: Dispatch.DispatchQueue?)
+  @objc deinit
+}
+extension ChatSDKVendor.XMPPMessage {
+  public func messageArchiveManagementMessage() -> ChatSDKVendor.XMPPMessage?
+  public func messageArchiveManagementQueryId() -> Swift.String?
+}
+@_inheritsConvenienceInitializers @objc public class OutgoingMessageQueue : ChatSDKVendor.XMPPModule, ChatSDKVendor.XMPPStreamDelegate, ChatSDKVendor.XMPPStreamManagementDelegate {
+  @objc override dynamic public func activate(_ aXmppStream: ChatSDKVendor.XMPPStream) -> Swift.Bool
+  @objc public func pause()
+  @objc public func pauseAndCache()
+  @objc public func updateDefaults(userId: Swift.String)
+  @objc public func start()
+  @objc public func startAndUncache(userId: Swift.String)
+  @objc override dynamic public func deactivate()
+  public func clear()
+  @objc public func add(message: ChatSDKVendor.XMPPMessage)
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, willSend message: ChatSDKVendor.XMPPMessage) -> ChatSDKVendor.XMPPMessage?
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didFailToSend message: ChatSDKVendor.XMPPMessage, error: Swift.Error)
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didSend message: ChatSDKVendor.XMPPMessage)
+  @objc public func xmppStreamManagement(_ sender: ChatSDKVendor.XMPPStreamManagement, didReceiveAckForStanzaIds stanzaIds: [Any])
+  @objc deinit
+  @objc override dynamic public init()
+  @objc override dynamic public init(dispatchQueue queue: Dispatch.DispatchQueue?)
+}
+@_hasMissingDesignatedInitializers @objc public class OutgoingStanza : ObjectiveC.NSObject {
+  @objc public static var Delay: Swift.String
+  public var stanza: ChatSDKVendor.XMPPMessage
+  public var date: Foundation.Date
+  public var sent: Swift.Bool
+  public var due: Swift.Double
+  public static func fromData(data: [Swift.String : Any]) -> ChatSDKXMPP.OutgoingStanza?
+  public func markSent()
+  public func elementID() -> Swift.String?
+  public func isSent() -> Swift.Bool
+  public func isDue() -> Swift.Bool
+  public func timeInQueue() -> Swift.Double
+  public func willTrySend()
+  public func serialize() -> [Swift.String : Any]
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class PingListener : ObjectiveC.NSObject, ChatSDKVendor.XMPPAutoPingDelegate {
+  @objc public var failure: (() -> Swift.Void)?
+  @objc public func xmppAutoPingDidSend(_ sender: ChatSDKVendor.XMPPAutoPing!)
+  @objc public func xmppAutoPingDidTimeout(_ sender: ChatSDKVendor.XMPPAutoPing!)
+  @objc public func xmppAutoPingDidReceivePong(_ sender: ChatSDKVendor.XMPPAutoPing!)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum PrivacyListName : Swift.String {
+  case invisible
+  case visible
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @objc public class PrivacyLists : ChatSDKVendor.XMPPModule, ChatSDKVendor.XMPPStreamDelegate, ChatSDKVendor.XMPPPrivacyDelegate {
+  final public let SetList: Swift.String
+  final public let SetDefault: Swift.String
+  final public let SetActive: Swift.String
+  public var targetList: Swift.String?
+  public var ready: Swift.Bool
+  public func items(name: Swift.String) -> [KissXML.DDXMLElement]
+  public func setList(name: Swift.String, items: [KissXML.DDXMLElement]) -> RXPromise.RXPromise
+  public func setDefaultList(name: Swift.String?) -> RXPromise.RXPromise
+  public func setActive(name: Swift.String?) -> RXPromise.RXPromise
+  @objc public func set(targetList: Swift.String?)
+  public func set(target: ChatSDKXMPP.PrivacyListName?)
+  public func activateTargetList()
+  @objc override dynamic public init()
+  @objc override dynamic public init(dispatchQueue queue: Dispatch.DispatchQueue?)
+  @objc deinit
+}
+extension ChatSDKXMPP.PrivacyLists {
+  public static var xmlns_jabber_iq_privacy: Swift.String
+}
+@objc extension ChatSDKXMPP.PrivacyLists {
+  @objc dynamic public func xmppPrivacy(_ sender: ChatSDKVendor.XMPPPrivacy!, didReceiveListNames listNames: [Any]!)
+  @objc dynamic public func xmppPrivacy(_ sender: ChatSDKVendor.XMPPPrivacy!, didNotReceiveListNamesDueToError error: Any!)
+  @objc dynamic public func xmppPrivacy(_ sender: ChatSDKVendor.XMPPPrivacy!, didSetListWithName name: Swift.String!)
+  @objc dynamic public func xmppPrivacy(_ sender: ChatSDKVendor.XMPPPrivacy!, didNotSetListWithName name: Swift.String!, error: Any!)
+  @objc dynamic public func xmppPrivacy(_ sender: ChatSDKVendor.XMPPPrivacy!, didSetDefaultListName name: Swift.String!)
+  @objc dynamic public func xmppPrivacy(_ sender: ChatSDKVendor.XMPPPrivacy!, didNotSetDefaultListName name: Swift.String!, error: Any!)
+  @objc dynamic public func xmppPrivacy(_ sender: ChatSDKVendor.XMPPPrivacy!, didSetActiveListName name: Swift.String!)
+  @objc dynamic public func xmppPrivacy(_ sender: ChatSDKVendor.XMPPPrivacy!, didNotSetActiveListName name: Swift.String!, error: Any!)
+}
+@_inheritsConvenienceInitializers @objc public class PublicKeyExtras : ObjectiveC.NSObject {
+  @objc public static func getPublicKeyExtras() -> KissXML.XMLElement?
+  @objc public static func handle(userId: Swift.String, extras: KissXML.XMLElement?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class PublicKeyService : ChatSDKXMPP.PubSubService {
+  public static var Node: Swift.String
+  public func setManager(manager: ChatSDKXMPP.PubSubManager)
+  public func subscriptions() -> [Swift.String]
+  public func subscribeToUser(with id: Swift.String)
+  public func identifier() -> Swift.String
+  public func currentValue() -> KissXML.DDXMLElement?
+  public func publish()
+  public func didReceiveItem(item: KissXML.DDXMLElement, node: Swift.String)
+  public func from(xml: KissXML.DDXMLElement?) -> [Swift.String]
+  public func from(list: [Swift.String]) -> KissXML.XMLElement
+  public func publicKey(forUser: Swift.String) -> [Swift.String]?
+  public func requestPublicKey(forUser: Swift.String) -> RXPromise.RXPromise
+  public func subscribe(forUser: Swift.String)
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive presence: ChatSDKVendor.XMPPPresence)
+  @objc deinit
+}
+@objc public class PubSubListener : ObjectiveC.NSObject, ChatSDKVendor.XMPPPubSubDelegate {
+  public init(manager: ChatSDKXMPP.PubSubManager)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didSubscribeToNode node: Swift.String, withResult iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didNotSubscribeToNode node: Swift.String, withError iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didUnsubscribeFromNode node: Swift.String, withResult iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didNotUnsubscribeFromNode node: Swift.String, withError iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didRetrieveSubscriptions iq: ChatSDKVendor.XMPPIQ, forNode node: Swift.String)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didNotRetrieveSubscriptions iq: ChatSDKVendor.XMPPIQ, forNode node: Swift.String)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didRetrieveSubscriptions iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didNotRetrieveSubscriptions iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didConfigureNode node: Swift.String, withResult iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didNotConfigureNode node: Swift.String, withError iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didPublishToNode node: Swift.String, withResult iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didNotPublishToNode node: Swift.String, withError iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didCreateNode node: Swift.String, withResult iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didNotCreateNode node: Swift.String, withError iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didDeleteNode node: Swift.String, withResult iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didNotDeleteNode node: Swift.String, withError iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didConfigureSubscriptionToNode node: Swift.String, withResult iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didNotConfigureSubscriptionToNode node: Swift.String, withError iq: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didReceive message: ChatSDKVendor.XMPPMessage)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didRetrieveItems iq: ChatSDKVendor.XMPPIQ, fromNode node: Swift.String)
+  @objc public func xmppPubSub(_ sender: ChatSDKVendor.XMPPPubSub, didNotRetrieveItems iq: ChatSDKVendor.XMPPIQ, fromNode node: Swift.String)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ItemListener {
+  @objc deinit
+}
+extension ChatSDKXMPP.PubSubListener {
+  public func parse(pubsub: KissXML.DDXMLElement) -> KissXML.DDXMLElement?
+  public func parse(event: KissXML.DDXMLElement) -> KissXML.DDXMLElement?
+  public func parse(theItems: KissXML.DDXMLElement)
+}
+@_inheritsConvenienceInitializers @objc public class PubSubManager : ChatSDKVendor.XMPPModule, ChatSDKVendor.XMPPStreamDelegate {
+  @objc override dynamic public func activate(_ aXmppStream: ChatSDKVendor.XMPPStream) -> Swift.Bool
+  @objc override dynamic public func deactivate()
+  @objc public func connectToService(jid: ChatSDKVendor.XMPPJID)
+  public func didSubscribe(node: Swift.String)
+  public func didUnsubscribe(node: Swift.String)
+  public func didNotSubscribe(node: Swift.String)
+  public func registerService(service: ChatSDKXMPP.PubSubService)
+  public func standardOptions(withName: Swift.String) -> [Swift.String : Any]
+  public func create(node: Swift.String)
+  public func subscribe(toNode node: Swift.String)
+  public func unsubscribe(fromNode node: Swift.String)
+  public func subscribeToNodes()
+  public func publish(value: KissXML.DDXMLElement, node: Swift.String)
+  public func publish(node: Swift.String)
+  public func didNotReceiveItem(for node: Swift.String)
+  public func didReceiveItem(item: KissXML.DDXMLElement, node: Swift.String)
+  @objc public func request(node: Swift.String) -> RXPromise.RXPromise
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive presence: ChatSDKVendor.XMPPPresence)
+  public func myNodes() -> [Swift.String]
+  public func allServices() -> [ChatSDKXMPP.PubSubService]
+  public func isMine(node: Swift.String) -> Swift.Bool
+  public func isSubscribed(node: Swift.String) -> Swift.Bool
+  public func isSubscriptionPending(node: Swift.String) -> Swift.Bool
+  public func service(for identifier: Swift.String) -> ChatSDKXMPP.PubSubService?
+  public func getListeners(for node: Swift.String) -> [ChatSDKXMPP.ItemListener]
+  public func addListener(_ listener: ChatSDKXMPP.ItemListener)
+  public func removeListeners(_ node: Swift.String)
+  public func getValue(node: Swift.String) -> KissXML.DDXMLElement?
+  @objc override dynamic public init()
+  @objc override dynamic public init(dispatchQueue queue: Dispatch.DispatchQueue?)
+  @objc deinit
+}
+public protocol PubSubService {
+  func setManager(manager: ChatSDKXMPP.PubSubManager)
+  func identifier() -> Swift.String
+  func name() -> Swift.String
+  func currentValue() -> KissXML.DDXMLElement?
+  func didReceiveItem(item: KissXML.DDXMLElement, node: Swift.String)
+  func node() -> Swift.String
+  func canHandle(theNode: Swift.String) -> Swift.Bool
+  func subscriptions() -> [Swift.String]
+  func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive presence: ChatSDKVendor.XMPPPresence)
+  func publish()
+}
+extension ChatSDKXMPP.PubSubService {
+  public func name() -> Swift.String
+  public func node() -> Swift.String
+  public func canHandle(theNode: Swift.String) -> Swift.Bool
+  public func node(name: Swift.String, userEntityID: Swift.String) -> Swift.String
+  public func userEntityID(fromNode: Swift.String) -> Swift.String
+}
+@_inheritsConvenienceInitializers @objc public class RegistrationPasswordChangeListener : ObjectiveC.NSObject {
+  @objc public var passwordChangedResult: ((_ error: Swift.Error?) -> Swift.Void)?
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension ChatSDKXMPP.RegistrationPasswordChangeListener : ChatSDKVendor.XMPPRegistrationDelegate {
+  @objc dynamic public func passwordChangeSuccessful(_ sender: ChatSDKVendor.XMPPRegistration)
+  @objc dynamic public func passwordChangeFailed(_ sender: ChatSDKVendor.XMPPRegistration, withError error: Swift.Error?)
+}
+@objc public class MUCUser : ObjectiveC.NSObject {
+  @objc final public let affiliation: Swift.String
+  @objc final public let jid: Swift.String
+  @objc final public let role: Swift.String
+  @objc final public let nick: Swift.String
+  public init(affiliation: Swift.String, jid: Swift.String, role: Swift.String, nick: Swift.String)
+  @objc deinit
+}
+@objc public class RoomListener : ChatSDKVendor.XMPPModule, ChatSDKVendor.XMPPRoomDelegate, ChatSDKVendor.XMPPStreamDelegate {
+  public var affiliations: [Swift.String : ChatSDK.Affiliation]
+  public var roles: [Swift.String : ChatSDK.Role]
+  public var userJIDMap: [ChatSDKVendor.XMPPJID : Swift.String]
+  public var fetchConfigurationFormPromise: RXPromise.RXPromise?
+  public var configureRoomPromise: RXPromise.RXPromise?
+  public var queue: Dispatch.DispatchQueue
+  public init(manager: ChatSDKXMPP.RoomManager, queue: Dispatch.DispatchQueue)
+  public func fetchList(affiliationString: Swift.String, room: ChatSDKVendor.XMPPRoom) -> RXPromise.RXPromise
+  public func fetchList(affiliation: ChatSDK.Affiliation) -> RXPromise.RXPromise
+  public func clear(affiliation: ChatSDK.Affiliation)
+  public func clear(role: ChatSDK.Role)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didFetchOwnersList items: [Any])
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didNotFetchOwnersList iqError: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didFetchAdminsList items: [Any])
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didNotFetchAdminsList iqError: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didFetchMembersList items: [Any])
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didNotFetchMembersList iqError: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didFetchBanList items: [Any])
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didNotFetchBanList iqError: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didFetchModeratorsList items: [Any])
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didNotFetchModeratorsList iqError: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didEditPrivileges iqResult: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didNotEditPrivileges iqError: ChatSDKVendor.XMPPIQ)
+  public func parse(items: [Any])
+  public func parse(item: KissXML.XMLElement)
+  public func update(affiliation: ChatSDK.Affiliation, role: ChatSDK.Role, forUser: Swift.String)
+  @objc public func xmppRoomDidJoin(_ sender: ChatSDKVendor.XMPPRoom)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, occupantDidJoin occupantJID: ChatSDKVendor.XMPPJID, with presence: ChatSDKVendor.XMPPPresence)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, occupantDidLeave occupantJID: ChatSDKVendor.XMPPJID, with presence: ChatSDKVendor.XMPPPresence)
+  public func userList(items: [Any]) -> [ChatSDKXMPP.MUCUser]
+  @objc public func xmppRoomDidDestroy(_ sender: ChatSDKVendor.XMPPRoom)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didFailToDestroy iqError: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive presence: ChatSDKVendor.XMPPPresence)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didReceive message: ChatSDKVendor.XMPPMessage, fromOccupant occupantJID: ChatSDKVendor.XMPPJID)
+  @objc public func xmppRoomDidLeave(_ sender: ChatSDKVendor.XMPPRoom)
+  public func roomDestroyed(roomEntityID: Swift.String)
+  @objc public func userJID(roomJID: ChatSDKVendor.XMPPJID) -> Swift.String?
+  public func setUserJID(_ jid: Swift.String, forRoomJID: ChatSDKVendor.XMPPJID)
+  @objc public func xmppRoomDidCreate(_ sender: ChatSDKVendor.XMPPRoom)
+  @objc public func fetchConfigurationForm() -> RXPromise.RXPromise
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didFetchConfigurationForm configForm: KissXML.DDXMLElement)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, willSendConfiguration roomConfigForm: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didConfigure iqResult: ChatSDKVendor.XMPPIQ)
+  @objc public func xmppRoom(_ sender: ChatSDKVendor.XMPPRoom, didNotConfigure iqResult: ChatSDKVendor.XMPPIQ)
+  @objc deinit
+}
+public class Callback {
+  public init(handler: @escaping ((Swift.Error?) -> Swift.Void))
+  public func execute(error: Swift.Error? = nil)
+  @objc deinit
+}
+extension ChatSDKXMPP.RoomListener {
+  public static var affiliation: Swift.String
+  public static var jid: Swift.String
+  public static var role: Swift.String
+  public static var nick: Swift.String
+  public static var items: Swift.String
+  public static var result: Swift.String
+  public static var destroy: Swift.String
+}
+extension ChatSDKXMPP.RoomListener {
+  public func elementID(room: ChatSDKVendor.XMPPRoom, affiliation: ChatSDK.Affiliation) -> Swift.String
+  public static func elementID(room: ChatSDKVendor.XMPPRoom, affiliation: ChatSDK.Affiliation) -> Swift.String
+  public func elementID(room: ChatSDKVendor.XMPPRoom, role: ChatSDK.Role) -> Swift.String
+  public static func elementID(room: ChatSDKVendor.XMPPRoom, role: ChatSDK.Role) -> Swift.String
+  public func elementID(room: ChatSDKVendor.XMPPRoom, function: Swift.String) -> Swift.String
+  public static func elementID(room: ChatSDKVendor.XMPPRoom, function: Swift.String) -> Swift.String
+}
+@objc public class RoomManager : ChatSDKVendor.XMPPModule {
+  @objc final public let room: ChatSDKVendor.XMPPRoom
+  @objc public static func create(_ name: Swift.String, queue: Dispatch.DispatchQueue, xmppStream: ChatSDKVendor.XMPPStream) -> ChatSDKXMPP.RoomManager?
+  @objc public static func withRoom(_ roomJID: Swift.String, queue: Dispatch.DispatchQueue, xmppStream: ChatSDKVendor.XMPPStream) -> ChatSDKXMPP.RoomManager?
+  @objc public init(room: ChatSDKVendor.XMPPRoom, queue: Dispatch.DispatchQueue)
+  @objc public init(room: ChatSDKVendor.XMPPRoom, name: Swift.String, queue: Dispatch.DispatchQueue)
+  @objc override dynamic public func activate(_ aXmppStream: ChatSDKVendor.XMPPStream) -> Swift.Bool
+  @objc override dynamic public func deactivate()
+  public func setAffiliation(forRoom: ChatSDKVendor.XMPPRoom, user: ChatSDKVendor.XMPPJID, affiliation: ChatSDK.Affiliation?, role: ChatSDK.Role?) -> RXPromise.RXPromise
+  @objc public func setAffiliation(forRoom: ChatSDKVendor.XMPPRoom, user: ChatSDKVendor.XMPPJID, affiliationString: Swift.String?, roleString: Swift.String?) -> RXPromise.RXPromise
+  @objc public func send(_ message: ChatSDKVendor.XMPPMessage) -> RXPromise.RXPromise
+  @objc public func destroy() -> RXPromise.RXPromise?
+  @objc public func bookmark()
+  @objc public func refreshRoles() -> RXPromise.RXPromise
+  @objc public func getThread() -> ChatSDK.PThread?
+  @objc public func getConnection(userEntityID: Swift.String) -> ChatSDK.PUserConnection?
+  @objc public func setAsOwner()
+  @objc public func user(user: Swift.String, hasAffiliation: Swift.String) -> Swift.Bool
+  @objc public func user(theUser: Swift.String, hasAffiliation: [Swift.String]) -> Swift.Bool
+  @objc public func user(user: Swift.String, hasRole: Swift.String) -> Swift.Bool
+  @objc public func user(theUser: Swift.String, hasRole: [Swift.String]) -> Swift.Bool
+  @objc public func set(owner: Swift.String?)
+  @objc public func updateName() -> RXPromise.RXPromise
+  @objc public func roomExists() -> RXPromise.RXPromise?
+  @objc public func join(bookmark: Swift.Bool, history: Foundation.Date?) -> RXPromise.RXPromise
+  @objc public func create(_ description: Swift.String?, inviteJIDs: [Swift.String], bookmark: Swift.Bool, history: Foundation.Date?) -> RXPromise.RXPromise
+  @objc public func invite(userEntityID: Swift.String, sendInvite: Swift.Bool) -> RXPromise.RXPromise
+  @objc public static func nickname(forUser: Swift.String) -> Swift.String?
+  @objc public static func nickname() -> Swift.String?
+  @objc deinit
+}
+extension ChatSDKXMPP.RoomManager {
+  @objc dynamic public func add(userEntityID: Swift.String)
+  @objc dynamic public func remove(userEntityID: Swift.String)
+  @objc dynamic public func hasLeft(userEntityID: Swift.String)
+  @objc dynamic public func userJID(roomJID: ChatSDKVendor.XMPPJID) -> Swift.String?
+}
+extension ChatSDKXMPP.RoomManager {
+  @objc dynamic public func setAffiliation(userJID: ChatSDKVendor.XMPPJID, affiliation: Swift.String) -> RXPromise.RXPromise
+  @objc dynamic public func setRole(userJID: ChatSDKVendor.XMPPJID, role: Swift.String) -> RXPromise.RXPromise
+  public func update(affiliation: ChatSDK.Affiliation, role: ChatSDK.Role, forUser: Swift.String)
+  @objc dynamic public func isDeactivated() -> Swift.Bool
+  @objc dynamic public func delete() -> RXPromise.RXPromise
+  @objc dynamic public func markRoomAsDestroyed()
+  public func clearRoles()
+  public func markAsLeft()
+  @objc dynamic public func unbookmark()
+  public func assertMain()
+  @objc public static func unbookmark(roomJID: ChatSDKVendor.XMPPJID)
+  @objc dynamic public func leave() -> RXPromise.RXPromise?
+}
+@_inheritsConvenienceInitializers @objc public class RoomOptions : ObjectiveC.NSObject {
+  @objc public func description(value: Swift.String) -> ChatSDKXMPP.RoomOptions
+  @objc public func occupantsCanChangeSubject(value: Swift.Bool) -> ChatSDKXMPP.RoomOptions
+  @objc public func contactJid(value: Swift.String) -> ChatSDKXMPP.RoomOptions
+  @objc public func subject(value: Swift.String) -> ChatSDKXMPP.RoomOptions
+  @objc public func canChangeSubject(value: Swift.Bool) -> ChatSDKXMPP.RoomOptions
+  @objc public func occupants(value: Swift.Int) -> ChatSDKXMPP.RoomOptions
+  @objc public func ldapGroup(value: Swift.String) -> ChatSDKXMPP.RoomOptions
+  @objc public func language(value: Swift.String) -> ChatSDKXMPP.RoomOptions
+  @objc public func logs(value: Swift.String) -> ChatSDKXMPP.RoomOptions
+  @objc public func maxHistoryFetch(value: Swift.Int) -> ChatSDKXMPP.RoomOptions
+  @objc public func pubsub(value: Swift.String) -> ChatSDKXMPP.RoomOptions
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc open class SilentMessage : ObjectiveC.NSObject {
+  public static var ignore: Swift.String
+  @objc open func get(_ message: ChatSDKVendor.XMPPMessage) -> ChatSDKVendor.XMPPMessage
+  @objc open func trigger(_ message: ChatSDKVendor.XMPPMessage, from: Swift.String)
+  @objc open func matches(_ message: ChatSDKVendor.XMPPMessage) -> Swift.Bool
+  @objc public static func ignore(messageId: Swift.String?)
+  @objc public static func shouldIgnore(messageId: Swift.String?) -> Swift.Bool
+  public func onlyProcessOnce() -> Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class UserMetaService : ChatSDKXMPP.PubSubService {
+  public static var Node: Swift.String
+  public var allowedKeys: [Swift.String]
+  public func setManager(manager: ChatSDKXMPP.PubSubManager)
+  public func identifier() -> Swift.String
+  public func currentValue() -> KissXML.DDXMLElement?
+  public func publish()
+  public func didReceiveItem(item: KissXML.DDXMLElement, node: Swift.String)
+  public func subscriptions() -> [Swift.String]
+  public func from(xml: KissXML.DDXMLElement?) -> [Swift.String : Swift.String]
+  public func from(dict: [Swift.String : Swift.String]) -> KissXML.XMLElement
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive presence: ChatSDKVendor.XMPPPresence)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class UserOptions : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class UserResourceTracker : ChatSDKVendor.XMPPModule, ChatSDKVendor.XMPPStreamDelegate {
+  open var resourceMap: [Swift.String : Swift.Set<Swift.String>]
+  @objc override dynamic public func activate(_ aXmppStream: ChatSDKVendor.XMPPStream) -> Swift.Bool
+  @objc override dynamic public func deactivate()
+  @objc public func jids(jid: ChatSDKVendor.XMPPJID) -> [ChatSDKVendor.XMPPJID]
+  public func add(jid: ChatSDKVendor.XMPPJID)
+  public func remove(jid: ChatSDKVendor.XMPPJID)
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive presence: ChatSDKVendor.XMPPPresence)
+  @objc override dynamic public init()
+  @objc override dynamic public init(dispatchQueue queue: Dispatch.DispatchQueue?)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class XMPPBookmarkManager : ChatSDKVendor.XMPPModule, ChatSDKVendor.XMPPStreamDelegate {
+  @objc override dynamic public func activate(_ aXmppStream: ChatSDKVendor.XMPPStream) -> Swift.Bool
+  @objc override dynamic public func deactivate()
+  @objc public func getBookmarks()
+  @objc public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive iq: ChatSDKVendor.XMPPIQ) -> Swift.Bool
+  @objc override dynamic public init()
+  @objc override dynamic public init(dispatchQueue queue: Dispatch.DispatchQueue?)
+  @objc deinit
+}
+public typealias Listener = ([Swift.String : Any]?, Swift.Error?) -> Swift.Void
+@objc public class XMPPCallbackListener : ObjectiveC.NSObject {
+  @objc public init(listener: @escaping ChatSDKXMPP.Listener)
+  @objc public func resolve(result: [Swift.String : Any]?)
+  @objc public func reject(error: Swift.Error?)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class XMPPCallbackManager : ObjectiveC.NSObject {
+  @objc public func addListener(elementID: Swift.String, listener: ChatSDKXMPP.XMPPCallbackListener)
+  @objc public func addListener(elementID: Swift.String) -> RXPromise.RXPromise
+  @objc public func removeListener(elementID: Swift.String, listener: ChatSDKXMPP.XMPPCallbackListener)
+  @objc public func resolveWithResult(elementID: Swift.String, result: [Swift.String : Any]?)
+  @objc public func rejectWithError(elementID: Swift.String, error: Swift.Error?)
+  @objc public func clear()
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class XMPPEncryptionHandler : EncryptionModule.EncryptionHandler {
+  @objc override dynamic public init()
+  override public func requestPublicKeys(userEntityID: Swift.String) -> [Swift.String]?
+  public func addPublicKeys(userEntityID: Swift.String, keys: [Swift.String])
+  @objc override open func addPublicKey(_ userId: Swift.String, identifier: Swift.String?, key: Swift.String)
+  @objc override public func publishKey() -> RXPromise.RXPromise
+  public func getPublicKeysService() -> ChatSDKXMPP.PublicKeyService?
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class XMPPEncryptionModule : EncryptionModule.EncryptionModule {
+  @objc override public func activate()
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class XMPPLogging : ObjectiveC.NSObject {
+  @objc public static var logIQ: Swift.Bool
+  @objc public static var logPresence: Swift.Bool
+  @objc public static var logMessages: Swift.Bool
+  @objc public static var logConnection: Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension ChatSDKVendor.XMPPMessage {
+  @objc dynamic public func getMeta() -> [Swift.String : Any]
+  @objc dynamic public func getExtras() -> KissXML.XMLElement?
+  @objc dynamic public func getType() -> Swift.Int32
+  @objc dynamic public func getAction() -> Swift.Int32
+}
+@objc extension ChatSDKVendor.XMPPMessage {
+  @objc dynamic public func received() -> KissXML.XMLElement?
+  @objc dynamic public func extras() -> KissXML.XMLElement?
+  @objc dynamic public func hasAddresses() -> Swift.Bool
+  @objc dynamic public func addresses() -> KissXML.XMLElement?
+  @objc dynamic public func addressJIDs() -> [Swift.String]
+  @objc dynamic public func extFrom() -> Swift.String?
+  @objc dynamic public func extIsOneToOneMessage() -> Swift.Bool
+}
+@objc public class XMPPPrivateXMLStorageListener : ObjectiveC.NSObject {
+  @objc public init(name: Swift.String, xmlns: Swift.String, callback: @escaping ([KissXML.XMLElement]) -> Swift.Void)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class XMPPPrivateXMLStorageManager : ChatSDKVendor.XMPPModule {
+  @objc public func addListener(listener: ChatSDKXMPP.XMPPPrivateXMLStorageListener)
+  @objc public func writeValues(name: Swift.String, xmlns: Swift.String, options: [Swift.String : Swift.String])
+  @objc public func get(xmlns: Swift.String)
+  @objc public func writeNicknames()
+  @objc override dynamic public init()
+  @objc override dynamic public init(dispatchQueue queue: Dispatch.DispatchQueue?)
+  @objc deinit
+}
+@objc extension ChatSDKXMPP.XMPPPrivateXMLStorageManager : ChatSDKVendor.XMPPStreamDelegate {
+  @objc dynamic public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive iq: ChatSDKVendor.XMPPIQ) -> Swift.Bool
+  @objc dynamic public func xmppStreamDidAuthenticate(_ sender: ChatSDKVendor.XMPPStream)
+}
+public struct XMLStorageKeys {
+  public static var xmlns: Swift.String
+  public static var queryElement: Swift.String
+  public static var name: Swift.String
+  public static var Nick: Swift.String
+  public static var NickXMLNS: Swift.String
+}
+@_inheritsConvenienceInitializers @objc public class XMPPReadReceiptHandler : ObjectiveC.NSObject, ChatSDK.PReadReceiptHandler {
+  @objc public func setAutoSendReadReceipt(_ autoSend: Swift.Bool)
+  @objc public func updateReadReceipts(for thread: ChatSDK.PThread!)
+  @objc public func markRead(_ thread: ChatSDK.PThread!)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class XMPPReadReceiptModule : ObjectiveC.NSObject, ChatSDK.PModule {
+  @objc public func activate()
+  @objc override dynamic public init()
+  @objc deinit
+}

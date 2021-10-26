@@ -6,7 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XMPPMessageDeliveryReceipts.h"
+#import <ChatSDKVendor/XMPPFramework.h>
+
+//#import "XMPPMessageDeliveryReceipts.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

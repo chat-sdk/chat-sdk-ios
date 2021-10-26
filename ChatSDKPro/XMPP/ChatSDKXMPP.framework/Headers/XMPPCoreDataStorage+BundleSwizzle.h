@@ -6,7 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XMPPCoreDataStorage.h"
+//#import "XMPPCoreDataStorage.h"
+#import <ChatSDKVendor/XMPPFramework.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

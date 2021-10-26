@@ -8,7 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PModule.h>
+//#import <ChatSDK/ChatSDK-Swift.h>
+#import <ChatSDK/PInterfaceAdapterProvider.h>
+#import <ChatSDK/PNetworkAdapterProvider.h>
 
-@interface BXMPPModule : NSObject<PModule>
+
+@class BXMPPNetworkAdapter;
+@class BXMPPInterfaceAdapter;
+
+@interface BXMPPModule : NSObject<PModule, PInterfaceAdapterProvider, PNetworkAdapterProvider> {
+    BXMPPNetworkAdapter * _networkAdapter;
+    BXMPPInterfaceAdapter * _interfaceAdapter;
+}
 
 @end

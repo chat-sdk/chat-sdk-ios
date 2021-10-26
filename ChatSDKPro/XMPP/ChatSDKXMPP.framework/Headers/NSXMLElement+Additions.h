@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "BXMPPKeys.h"
 
-#import "NSXMLElement+XMPP.h"
-
+#import <ChatSDKVendor/XMPPFramework.h>
+//#import "NSXMLElement+XMPP.h"
 
 @interface NSXMLElement(Additions)
 

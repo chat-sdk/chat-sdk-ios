@@ -23,6 +23,10 @@ target 'ChatSDKSwift' do
 
   pod "ChatK!t", :path => "../"
   pod "ChatK!t/ChatSDK", :path => "../"
+  
+  pod "ChatSDKPro/XMPP", :path => "../"
+  
+  
 #  pod "ChatK!tExtras", :path => "../"
 
 #   pod "ChatSDKPro/ChatK!t", :path => "../"

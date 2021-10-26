@@ -6,7 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XMPPPresence.h"
+//#import "XMPPPresence.h"
+#import <ChatSDKVendor/XMPPFramework.h>
+
+@class XMPPPresence;
 
 @interface XMPPPresence(ChatSDK)
 

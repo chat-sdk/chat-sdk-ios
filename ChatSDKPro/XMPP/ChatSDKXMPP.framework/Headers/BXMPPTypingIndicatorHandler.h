@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PTypingIndicatorHandler.h>
-#import "XMPPModule.h"
+//#import "XMPPModule.h"
+#import <ChatSDKVendor/XMPPFramework.h>
 
 @protocol PThread;
 @protocol PUser;

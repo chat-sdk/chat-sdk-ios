@@ -49,7 +49,7 @@ open class ChatViewController: UIViewController {
     open var afterLayoutQueue = [AfterLayoutAction]()
     
     open var initialLoad = true
-        
+            
     // Text input bar
     open lazy var sendBarView = {
         return ChatKit.provider().sendBarView()
@@ -75,7 +75,6 @@ open class ChatViewController: UIViewController {
         toolbar = ChatKit.provider().chatToolbar(model.messagesModel, actions: model)
         toolbar.setActionsDelegate(model)
         super.init(nibName: nil, bundle: nil)
-//        model.view = self
 
         // Hide the tab bar when the messages are shown
         hidesBottomBarWhenPushed = true
@@ -161,12 +160,17 @@ open class ChatViewController: UIViewController {
     }
     
     open func updateMessageViewBottomInset(keyboardHeight: CGFloat? = nil) {
+        let height = calculateMessageViewBottomInset(keyboardHeight: keyboardHeight)
+        messagesView.setBottomInset(height: height)
+    }
+
+    open func calculateMessageViewBottomInset(keyboardHeight: CGFloat? = nil) -> CGFloat {
         var height = keyboardHeight ?? -(sendBarViewBottomConstraint?.constant ?? 0)
         if (replyView.isVisible() || replyView.willShow) && !replyView.willHide {
             height += replyView.frame.size.height
         }
         height += sendBarView.frame.size.height
-        messagesView.setBottomInset(height: height)
+        return height
     }
     
     override open func viewWillAppear(_ animated: Bool) {
@@ -193,6 +197,7 @@ open class ChatViewController: UIViewController {
         removeObservers()
         hideKeyboardOverlay()
         delegate?.viewWillDisappear()
+        
     }
     
     override open func viewDidDisappear(_ animated: Bool) {

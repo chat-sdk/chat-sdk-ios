@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <ChatSDK/bChatState.h>
-#import "XMPPModule.h"
+#import <ChatSDKVendor/XMPPFramework.h>
+//#import "XMPPModule.h"
 
 @class XMPPMessage;
 

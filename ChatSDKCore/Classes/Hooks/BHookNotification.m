@@ -40,6 +40,11 @@
         [BChatSDK.hook executeHookWithName:bHookMessageDidUpload data:@{bHook_PMessage: message, bHook_NSData: data}];
 }
 
++(void) notificationMessageDidFailToSend: (NSString *) messageId error: (NSError *) error {
+    if (messageId && error)
+        [BChatSDK.hook executeHookWithName:bHookMessageDidFailToSend data:@{bHook_StringId: messageId, bHook_NSError: error}];
+}
+
 +(void) notificationMessageWillBeDeleted: (id<PMessage>) message {
     if (message)
         [BChatSDK.hook executeHookWithName:bHookMessageWillBeDeleted data:@{bHook_PMessage: message}];

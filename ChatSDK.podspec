@@ -99,7 +99,6 @@ Pod::Spec.new do |s|
 	  s.source_files = ['ChatSDKExtras/Base64ImageMessage/**/*.{swift,h,m}']
       s.dependency 'ChatSDK/UI'
   end
-
   
   # s.subspec 'Extras' do |s|
 

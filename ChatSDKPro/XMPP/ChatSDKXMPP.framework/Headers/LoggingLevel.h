@@ -9,7 +9,8 @@
 #ifndef LoggingLevel_h
 #define LoggingLevel_h
 
-#import "XMPPLogging.h"
+//#import "XMPPLogging.h"
+#import <ChatSDKVendor/XMPPFramework.h>
 
 // TODO: Move this
 static const int ddLogLevel = XMPP_LOG_LEVEL_OFF;

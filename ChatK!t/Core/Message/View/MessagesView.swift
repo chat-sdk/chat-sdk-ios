@@ -344,3 +344,4 @@ extension MessagesView: UIScrollViewDelegate {
     }
         
 }
+

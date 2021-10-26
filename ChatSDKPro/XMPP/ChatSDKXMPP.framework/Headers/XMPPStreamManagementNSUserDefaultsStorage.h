@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XMPPStreamManagement.h"
+//#import "XMPPStreamManagement.h"
+#import <ChatSDKVendor/XMPPFramework.h>
 
 @interface XMPPStreamManagementNSUserDefaultsStorage : NSObject <XMPPStreamManagementStorage>
 

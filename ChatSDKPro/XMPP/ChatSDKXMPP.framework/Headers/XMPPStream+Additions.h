@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XMPP.h"
+//#import "XMPP.h"
+#import <ChatSDKVendor/XMPPFramework.h>
 
 @class RXPromise;
 
