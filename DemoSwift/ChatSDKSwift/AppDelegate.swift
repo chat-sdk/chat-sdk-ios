@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             BContactBookModule.init(),
 //            AddContactWithQRCodeModule.init(),
             BReachabilityModule.init(),
-            EncryptionModule.init(),
+//            EncryptionModule.init(),
             ChatKitModule.shared(),
             ChatKitExtrasModule.init(),
 

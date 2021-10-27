@@ -28,6 +28,15 @@ public protocol ChatViewControllerDelegate: class {
     func viewDidDestroy()
 }
 
+public class NavBarButton {
+    let item: UIBarButtonItem
+    let action: ((UIBarButtonItem) -> Void)
+    public init(_ item: UIBarButtonItem, action: @escaping ((UIBarButtonItem) -> Void)) {
+        self.item = item
+        self.action = action
+    }
+}
+
 open class ChatViewController: UIViewController {
     
     // View that contains the message list
@@ -62,8 +71,12 @@ open class ChatViewController: UIViewController {
     // Gesture recognizers
     var tapRecognizer: UITapGestureRecognizer?
     
-    var rightBarButtonItem: UIBarButtonItem?
-    var rightBarButtonAction: ((UIBarButtonItem) -> Void)?
+    open var rightBarButtonItems = [NavBarButton]()
+    
+//    open var rightBarButtonItems = [UIBarButtonItem: ((UIBarButtonItem) -> Void)]()
+    
+//    var rightBarButtonItem: UIBarButtonItem?
+//    var rightBarButtonAction: ((UIBarButtonItem) -> Void)?
     
     // Data model
     public let model: ChatModel
@@ -103,22 +116,30 @@ open class ChatViewController: UIViewController {
         setupKeyboardListener()
         setupKeyboardOverlays()
 
-        if let item = rightBarButtonItem {
-            navigationItem.rightBarButtonItem = item
+        var items = [UIBarButtonItem]()
+        for button in rightBarButtonItems {
+            button.item.target = self
+            button.item.action = #selector(rightBarButtonAction(sender:))
+            items.append(button.item)
         }
-
+        navigationItem.rightBarButtonItems = items
+        
         delegate?.viewDidLoad()
     }
     
-    open func addRightBarButtonItem(item: UIBarButtonItem, action: @escaping ((UIBarButtonItem) -> Void)) {
-        item.target = self
-        item.action = #selector(rightBarButtonAction(sender:))
-        rightBarButtonItem = item
-        rightBarButtonAction = action
-    }
+//    open func addRightBarButtonItem(item: UIBarButtonItem, action: @escaping ((UIBarButtonItem) -> Void)) {
+//        item.target = self
+//        item.action = #selector(rightBarButtonAction(sender:))
+//        rightBarButtonItem = item
+//        rightBarButtonAction = action
+//    }
     
     @objc open func rightBarButtonAction(sender: UIBarButtonItem) {
-        rightBarButtonAction?(sender)
+        for button in rightBarButtonItems {
+            if button.item == sender {
+                button.action(sender)
+            }
+        }
     }
     
     override open func viewDidAppear(_ animated: Bool) {

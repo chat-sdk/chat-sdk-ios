@@ -1,0 +1,171 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
+// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ChatSDKVendor
+@_exported import ChatSDKVendor
+import CocoaLumberjack
+import Foundation
+import KissXML
+import Swift
+import _Concurrency
+extension Foundation.Date {
+  public static func from(xmppDateString: Swift.String) -> Foundation.Date?
+  public static func from(xmppTimeString: Swift.String) -> Foundation.Date?
+  public static func from(xmppDateTimeString: Swift.String) -> Foundation.Date?
+  public var xmppDateString: Swift.String {
+    get
+  }
+  public var xmppTimeString: Swift.String {
+    get
+  }
+  public var xmppDateTimeString: Swift.String {
+    get
+  }
+}
+extension ChatSDKVendor.GCDMulticastDelegate {
+  public func invoke<T>(ofType: T.Type, _ invocation: (_ multicast: T) -> ())
+}
+extension KissXML.DDXMLElement {
+  public func element(forName name: Swift.String) -> KissXML.XMLElement?
+  public func element(forName name: Swift.String, xmlns: Swift.String) -> KissXML.XMLElement?
+}
+@objc public enum XMPPBookmarksMode : Swift.Int {
+  case privateXmlStorage
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol XMPPBookmarksDelegate : ObjectiveC.NSObjectProtocol {
+  @objc optional func xmppBookmarks(_ sender: ChatSDKVendor.XMPPBookmarksModule, didRetrieve bookmarks: [ChatSDKVendor.XMPPBookmark], responseIq: ChatSDKVendor.XMPPIQ)
+  @objc optional func xmppBookmarks(_ sender: ChatSDKVendor.XMPPBookmarksModule, didNotRetrieveBookmarks errorIq: ChatSDKVendor.XMPPIQ?)
+  @objc optional func xmppBookmarks(_ sender: ChatSDKVendor.XMPPBookmarksModule, didPublish bookmarks: [ChatSDKVendor.XMPPBookmark], responseIq: ChatSDKVendor.XMPPIQ)
+  @objc optional func xmppBookmarks(_ sender: ChatSDKVendor.XMPPBookmarksModule, didNotPublishBookmarks errorIq: ChatSDKVendor.XMPPIQ?)
+}
+@objc public class XMPPBookmarksModule : ChatSDKVendor.XMPPModule {
+  @objc final public let mode: ChatSDKVendor.XMPPBookmarksMode
+  @objc public init(mode: ChatSDKVendor.XMPPBookmarksMode, dispatchQueue: Dispatch.DispatchQueue? = nil)
+  @discardableResult
+  @objc override dynamic public func activate(_ xmppStream: ChatSDKVendor.XMPPStream) -> Swift.Bool
+  @objc override dynamic public func deactivate()
+  @objc public func fetchBookmarks()
+  @objc public func publishBookmarks(_ bookmarks: [ChatSDKVendor.XMPPBookmark])
+  @objc public func fetchBookmarks(_ completion: @escaping (_ bookmarks: [ChatSDKVendor.XMPPBookmark]?, _ responseIq: ChatSDKVendor.XMPPIQ?) -> (), completionQueue: Dispatch.DispatchQueue? = nil)
+  @objc public func fetchAndPublish(bookmarksToAdd: [ChatSDKVendor.XMPPBookmark], bookmarksToRemove: [ChatSDKVendor.XMPPBookmark]? = nil, completion: @escaping (_ bookmarks: [ChatSDKVendor.XMPPBookmark]?, _ responseIq: ChatSDKVendor.XMPPIQ?) -> (), completionQueue: Dispatch.DispatchQueue? = nil)
+  @objc public func publishBookmarks(_ bookmarks: [ChatSDKVendor.XMPPBookmark], completion: @escaping (_ success: Swift.Bool, _ responseIq: ChatSDKVendor.XMPPIQ?) -> (), completionQueue: Dispatch.DispatchQueue? = nil)
+  @objc deinit
+}
+@objc extension ChatSDKVendor.XMPPBookmarksModule : ChatSDKVendor.XMPPStreamDelegate {
+  @objc dynamic public func xmppStream(_ sender: ChatSDKVendor.XMPPStream, didReceive iq: ChatSDKVendor.XMPPIQ) -> Swift.Bool
+}
+extension ChatSDKVendor.GCDMulticastDelegate : ChatSDKVendor.XMPPBookmarksDelegate {
+}
+extension ChatSDKVendor.XMPPIQ {
+  public enum IQType : Swift.String {
+    case get
+    case set
+    case result
+    case error
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public var iqType: ChatSDKVendor.XMPPIQ.IQType? {
+    get
+  }
+  public convenience init(iqType: ChatSDKVendor.XMPPIQ.IQType, to JID: ChatSDKVendor.XMPPJID? = nil, elementID eid: Swift.String? = nil, child childElement: KissXML.XMLElement? = nil)
+}
+extension ChatSDKVendor.XMPPMessage {
+  public enum MessageType : Swift.String {
+    case chat
+    case error
+    case groupchat
+    case headline
+    case normal
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public var messageType: ChatSDKVendor.XMPPMessage.MessageType? {
+    get
+  }
+  public convenience init(messageType: ChatSDKVendor.XMPPMessage.MessageType? = nil, to: ChatSDKVendor.XMPPJID? = nil, elementID: Swift.String? = nil, child: KissXML.XMLElement? = nil)
+}
+extension ChatSDKVendor.XMPPMessage {
+  public enum ChatState : Swift.String {
+    case active
+    case composing
+    case paused
+    case inactive
+    case gone
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public var chatState: ChatSDKVendor.XMPPMessage.ChatState? {
+    get
+  }
+  public func addChatState(_ chatState: ChatSDKVendor.XMPPMessage.ChatState)
+}
+extension ChatSDKVendor.XMPPModule {
+  public var multicast: ChatSDKVendor.GCDMulticastDelegate {
+    get
+  }
+  public var multicastDelegate: Swift.AnyObject {
+    get
+  }
+}
+extension ChatSDKVendor.XMPPModule {
+  public func performBlock(async: Swift.Bool = false, _ block: @escaping () -> ())
+}
+extension ChatSDKVendor.XMPPPresence {
+  public enum PresenceType : Swift.String {
+    case unavailable
+    case subscribe
+    case subscribed
+    case unsubscribe
+    case unsubscribed
+    case probe
+    case error
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum ShowType : Swift.String {
+    case dnd
+    case xa
+    case away
+    case chat
+    public var showValue: ChatSDKVendor.XMPPPresenceShow {
+      get
+    }
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public var showType: ChatSDKVendor.XMPPPresence.ShowType? {
+    get
+  }
+  public var presenceType: ChatSDKVendor.XMPPPresence.PresenceType? {
+    get
+  }
+  public convenience init(type: ChatSDKVendor.XMPPPresence.PresenceType? = nil, show: ChatSDKVendor.XMPPPresence.ShowType? = nil, status: Swift.String? = nil, to jid: ChatSDKVendor.XMPPJID? = nil)
+}
+extension ChatSDKVendor.XMPPPresence {
+  @objc public static var idleXmlns: Swift.String
+  @objc dynamic public var idleSince: Foundation.Date? {
+    @objc get
+  }
+  @objc dynamic public func addIdle(since: Foundation.Date)
+  public convenience init(type: ChatSDKVendor.XMPPPresence.PresenceType? = nil, show: ChatSDKVendor.XMPPPresence.ShowType? = nil, status: Swift.String? = nil, idle since: Foundation.Date? = nil, to jid: ChatSDKVendor.XMPPJID? = nil)
+}

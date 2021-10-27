@@ -91,6 +91,8 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
     open var newMessageProviders = [Int: MessageProvider]()
     open var optionProviders = [OptionProvider]()
     open var messageOnClick = [MessageOnClickListener]()
+    open var callHandler: ((UIViewController, PThread) -> Void)?
+
 
     open var observers = BNotificationObserverList()
 
@@ -269,7 +271,7 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
         vc.typingDelegate = self
         
         registerMessageCells()
-        addRightBarButtonItem()
+        addRightBarButtonItems()
 
         addSendBarActions()
         addToolbarActions()
@@ -295,19 +297,31 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
         }
     }
     
-    open func addRightBarButtonItem() {
-        weakVC?.addRightBarButtonItem(item: UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil), action: { [weak self] item in
-            if let thread = self?.thread {
-                let flvc = BChatSDK.ui().friendsViewControllerWithUsers(toExclude: Array(thread.users()), onComplete: { users, name in
-                    BChatSDK.thread().addUsers(users, to: thread)
-                })
-                flvc?.setRightBarButtonActionTitle(Bundle.t(bAdd))
-                flvc?.hideGroupNameView = true
-                flvc?.maximumSelectedUsers = 0
-                
-                self?.weakVC?.present(UINavigationController(rootViewController: flvc!), animated: true, completion: nil)
-            }
-        })
+    open func addRightBarButtonItems() {
+         var buttons = [
+            NavBarButton(UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil), action: { [weak self] item in
+                if let thread = self?.thread {
+                    let flvc = BChatSDK.ui().friendsViewControllerWithUsers(toExclude: Array(thread.users()), onComplete: { users, name in
+                        BChatSDK.thread().addUsers(users, to: thread)
+                    })
+                    flvc?.setRightBarButtonActionTitle(Bundle.t(bAdd))
+                    flvc?.hideGroupNameView = true
+                    flvc?.maximumSelectedUsers = 0
+                    
+                    self?.weakVC?.present(UINavigationController(rootViewController: flvc!), animated: true, completion: nil)
+                }
+            })
+        ]
+        if let thread = thread, thread.typeIs(bThreadType1to1), let callHandler = callHandler {
+            buttons.append(NavBarButton(UIBarButtonItem(image: ChatKit.asset(icon: "icn_30_call"), style: .plain, target: nil, action: nil), action: { [weak self] item in
+                if let vc = self?.weakVC {
+                    callHandler(vc, thread)
+                }
+            }))
+        }
+        
+        weakVC?.rightBarButtonItems = buttons
+
     }
     
     open func registerMessageCells() {

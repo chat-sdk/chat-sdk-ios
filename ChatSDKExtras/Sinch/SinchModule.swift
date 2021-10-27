@@ -12,6 +12,7 @@ import SwiftJWT
 import RXPromise
 import Cryptor
 
+
 struct SinchClaims: Claims {
     let iss: String
     let sub: String
@@ -53,6 +54,7 @@ public class SinchModule: NSObject, PModule {
                 client?.start(id)
             }
         }), withName: bHookDidAuthenticate)
+        
     }
     
 
@@ -208,9 +210,23 @@ public class SinchClient: NSObject, SINClientDelegate {
     @objc public func callUser(with id: String) {
         if let client = client {
             call?.hangup()
-            call = client.call().callUserVideo(withId: id)
-            call?.delegate = self
-            call?.pauseVideo()
+            
+            _ = requestRecordPermission().then({ [unowned self] result in
+                if let result = result as? NSNumber, result == true {
+                    return requestCameraPermission().then({ result in
+                        if let result = result as? NSNumber, result == true {
+
+                            call = client.call().callUserVideo(withId: id)
+                            call?.delegate = self
+                            call?.pauseVideo()
+
+                        }
+                        return result
+                    }, nil)
+                }
+                
+                return result
+            }, nil)
         }
     }
     
