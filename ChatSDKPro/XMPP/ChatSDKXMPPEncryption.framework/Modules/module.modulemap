@@ -1,0 +1,11 @@
+framework module ChatSDKXMPPEncryption {
+  umbrella header "ChatSDKXMPPEncryption-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module ChatSDKXMPPEncryption.Swift {
+    header "ChatSDKXMPPEncryption-Swift.h"
+    requires objc
+}

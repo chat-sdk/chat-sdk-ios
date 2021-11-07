@@ -1,0 +1,25 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
+// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ChatSDKXMPPEncryption
+import ChatSDK
+import ChatSDKXMPP
+@_exported import ChatSDKXMPPEncryption
+import EncryptionModule
+import Foundation
+import RXPromise
+import Swift
+import _Concurrency
+@_inheritsConvenienceInitializers public class XMPPEncryptionHandler : EncryptionModule.EncryptionHandler {
+  @objc override dynamic public init()
+  override public func requestPublicKeys(userEntityID: Swift.String) -> [Swift.String]?
+  public func addPublicKeys(userEntityID: Swift.String, keys: [Swift.String])
+  @objc override open func addPublicKey(_ userId: Swift.String, identifier: Swift.String?, key: Swift.String)
+  @objc override public func publishKey() -> RXPromise.RXPromise
+  public func getPublicKeysService() -> ChatSDKXMPP.PublicKeyService?
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class XMPPEncryptionModule : EncryptionModule.EncryptionModule {
+  @objc override public func activate()
+  @objc override dynamic public init()
+  @objc deinit
+}

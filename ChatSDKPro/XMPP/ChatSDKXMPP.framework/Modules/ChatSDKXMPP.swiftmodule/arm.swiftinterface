@@ -1,10 +1,9 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
+// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
 // swift-module-flags: -target armv7-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ChatSDKXMPP
 import ChatSDK
 @_exported import ChatSDKXMPP
 import CoreData
-import EncryptionModule
 import Foundation
 import RXPromise
 import RxSwift
@@ -530,20 +529,6 @@ public typealias Listener = ([Swift.String : Any]?, Swift.Error?) -> Swift.Void
   @objc public func resolveWithResult(elementID: Swift.String, result: [Swift.String : Any]?)
   @objc public func rejectWithError(elementID: Swift.String, error: Swift.Error?)
   @objc public func clear()
-  @objc override dynamic public init()
-  @objc deinit
-}
-@_inheritsConvenienceInitializers public class XMPPEncryptionHandler : EncryptionModule.EncryptionHandler {
-  @objc override dynamic public init()
-  override public func requestPublicKeys(userEntityID: Swift.String) -> [Swift.String]?
-  public func addPublicKeys(userEntityID: Swift.String, keys: [Swift.String])
-  @objc override open func addPublicKey(_ userId: Swift.String, identifier: Swift.String?, key: Swift.String)
-  @objc override public func publishKey() -> RXPromise.RXPromise
-  public func getPublicKeysService() -> ChatSDKXMPP.PublicKeyService?
-  @objc deinit
-}
-@_inheritsConvenienceInitializers public class XMPPEncryptionModule : EncryptionModule.EncryptionModule {
-  @objc override public func activate()
   @objc override dynamic public init()
   @objc deinit
 }

@@ -1,0 +1,99 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
+// swift-module-flags: -target armv7-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name EncryptionModule
+import AVFoundation
+import ChatSDK
+@_exported import EncryptionModule
+import Foundation
+import Licensing
+import QRCodeReader
+import SAMKeychain
+import Swift
+import UIKit
+import VirgilCryptoAPI
+import VirgilCryptoApiImpl
+import VirgilSDK
+import _Concurrency
+@_hasMissingDesignatedInitializers public class Encryption {
+  public static func bundle() -> Foundation.Bundle?
+  public static func t(text: Swift.String) -> Swift.String
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class EncryptionHandler : ObjectiveC.NSObject, ChatSDK.PEncryptionHandler {
+  public static var PublicKeysKey: Swift.String
+  public static var PublicKeyKeychainKey: Swift.String
+  public static var PrivateKeyKeychainKey: Swift.String
+  public var supportLegacyKeys: Swift.Bool
+  @objc override dynamic public init()
+  @objc open func publishKey() -> RXPromise.RXPromise
+  @objc public func publicKey() -> Swift.String?
+  @objc public func privateKeyId() -> Swift.String?
+  @objc open func addPublicKey(_ userId: Swift.String, identifier: Swift.String?, key: Swift.String)
+  @objc public func encryptMeta(_ thread: ChatSDK.PThread, meta: [Swift.String : Any]) -> [Swift.String : Any]?
+  @objc public func encryptMessage(_ message: ChatSDK.PMessage) -> [Swift.String : Any]?
+  @objc public func decryptMessage(_ message: Swift.String!) -> [Swift.String : Any]?
+  open func requestPublicKeys(userEntityID: Swift.String) -> [Swift.String]?
+  public func importPublicKey(base64Encoded: Swift.String) throws -> VirgilCryptoApiImpl.VirgilPublicKey?
+  public static func exportKeyPair() throws -> Swift.String
+  public static func importKeyPair(keyPairString: Swift.String) throws
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class EncryptionManager {
+  public static func shared() -> EncryptionModule.EncryptionManager
+  public func keyPairForUser(userId: Swift.String?) throws -> EncryptionModule.KeyPair
+  public func save(userId: Swift.String, key: EncryptionModule.KeyPair)
+  public func load(userId: Swift.String) throws -> EncryptionModule.KeyPair?
+  public func deletePrivateKey()
+  @objc deinit
+}
+extension EncryptionModule.Keys {
+  public static var PublicKeys: Swift.String
+  public static var PublicKeyService: Swift.String
+  public static var PrivateKeyService: Swift.String
+}
+@objc @_inheritsConvenienceInitializers open class EncryptionModule : ObjectiveC.NSObject, ChatSDK.PModule, QRCodeReader.QRCodeReaderViewControllerDelegate {
+  public func reader(_ reader: QRCodeReader.QRCodeReaderViewController, didScanResult result: QRCodeReader.QRCodeReaderResult)
+  public func readerDidCancel(_ reader: QRCodeReader.QRCodeReaderViewController)
+  @objc open func activate()
+  public func showError(vc: UIKit.UIViewController, _ message: Swift.String)
+  public func confirmationDialog(vc: UIKit.UIViewController)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public class KeyPair {
+  final public let keyPair: VirgilCryptoApiImpl.VirgilKeyPair
+  public init(with: VirgilCryptoApiImpl.VirgilKeyPair)
+  public init(privateKey: Foundation.Data, publicKey: Foundation.Data) throws
+  public convenience init(privateKeyString: Swift.String, publicKeyString: Swift.String) throws
+  public func publicKeyData() -> Foundation.Data
+  public func privateKeyData() -> Foundation.Data
+  public func publicKeyString() -> Swift.String
+  public func privateKeyString() -> Swift.String
+  public func privateKeyId() -> Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class Keys {
+  public static var EncryptedMessage: Swift.String
+  @objc deinit
+}
+public class PublicKey {
+  final public let key: Swift.String
+  public var identifier: Swift.String?
+  public init(identifier: Swift.String?, key: Swift.String)
+  public init(serialization: Swift.String)
+  public func serialize() -> Swift.String
+  public func virgilPublicKey() throws -> VirgilCryptoApiImpl.VirgilPublicKey?
+  public static func virgilPublicKey(from: Swift.String) throws -> VirgilCryptoApiImpl.VirgilPublicKey?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class PublicKeyStorage {
+  public static func shared() -> EncryptionModule.PublicKeyStorage
+  public func addKey(userId: Swift.String, publicKey: EncryptionModule.PublicKey)
+  public func getKey(userId: Swift.String) throws -> EncryptionModule.PublicKey?
+  public func deleteKey(userId: Swift.String)
+  public func deleteAllKeys()
+  @objc deinit
+}
+extension EncryptionModule.Keys {
+  public static var UserPublicKeysService: Swift.String
+}
