@@ -57,6 +57,7 @@
 
 #define bHookWillPushUser @"bHookWillPushUser"
 #define bHookUserUpdated @"bHookUserUpdated"
+#define bHookUserLastOnlineUpdated @"bHookUserLastOnlineUpdated"
 
 #define bHookServerPingFailed @"bHookServerPingFailed"
 
