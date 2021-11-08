@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-public protocol ChatModelDelegate: class {
+public protocol ChatModelDelegate: AnyObject {
     
     var model: ChatModel? {
         get set

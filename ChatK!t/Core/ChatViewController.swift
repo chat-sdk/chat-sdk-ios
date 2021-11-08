@@ -14,12 +14,12 @@ import AudioToolbox
 //    func add(message: Message)
 //}
 
-public protocol ChatViewControllerTypingDelegate: class {
+public protocol ChatViewControllerTypingDelegate: AnyObject {
     func didStartTyping()
     func didStopTyping()
 }
 
-public protocol ChatViewControllerDelegate: class {
+public protocol ChatViewControllerDelegate: AnyObject {
     func viewDidLoad()
     func viewWillAppear()
     func viewDidAppear()
@@ -368,8 +368,8 @@ open class ChatViewController: UIViewController {
         updateNavigationBar()
     }
     
-    open func updateConnectionStatus(_ status: ConnectionStatus? = .none) {
-        if status == .none {
+    open func updateConnectionStatus(_ status: ConnectionStatus? = Optional.none) {
+        if status == Optional.none {
             updateNavigationBar(reconnecting: false)
         }
         reconnectingView.update(status)

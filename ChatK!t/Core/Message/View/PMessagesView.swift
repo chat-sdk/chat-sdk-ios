@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-public protocol PMessagesView: class {
+public protocol PMessagesView: AnyObject {
     func scrollToBottom(animated: Bool, force: Bool)
     func apply(snapshot: NSDiffableDataSourceSnapshot<Section, AbstractMessage>, animated: Bool) -> Completable
     func reload(messages: [AbstractMessage], animated: Bool) -> Completable

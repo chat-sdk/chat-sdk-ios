@@ -19,7 +19,7 @@ open class Provider {
     
     open func makeBackground(blur: Bool = true, effect: UIBlurEffect? = nil) -> UIView {
         if blur {
-            var background: UIVisualEffectView = UIVisualEffectView(effect: effect ?? UIBlurEffect(style: .systemThinMaterial))
+            let background: UIVisualEffectView = UIVisualEffectView(effect: effect ?? UIBlurEffect(style: .systemThinMaterial))
             background.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             return background
         } else {

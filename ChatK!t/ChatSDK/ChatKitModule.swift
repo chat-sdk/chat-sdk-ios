@@ -418,7 +418,7 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
     open func viewWillAppear() {
         BChatSDK.ui().setLocalNotificationHandler({ [weak self] thread in
             if let thread = thread {
-                var enable = BLocalNotificationHandler().showLocalNotification(thread)
+                let enable = BLocalNotificationHandler().showLocalNotification(thread)
                 if enable, let current = self?.thread, thread.entityID() != current.entityID() {
                     return true
                 }
@@ -433,7 +433,8 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
     open func viewDidAppear() {
         if let thread = thread {
             if thread.typeIs(bThreadFilterPublic) {
-                BChatSDK.thread().addUsers([BChatSDK.currentUser()], to: thread)
+                guard let currentUser = BChatSDK.currentUser() else { return }
+                BChatSDK.thread().addUsers([currentUser], to: thread)
             }
         }
     }

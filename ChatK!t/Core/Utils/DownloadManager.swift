@@ -61,7 +61,7 @@ open class DownloadManager {
     }
     
     open func localURL(for id: String, pathExtension: String? = nil) -> URL? {
-        var path = path.appendingPathComponent(id)
+        var path = self.path.appendingPathComponent(id)
         if let ext = pathExtension {
             path.appendPathExtension(ext)
         }
@@ -268,7 +268,7 @@ open class DefaultDownloadManagerListener: DownloadManagerListener {
     }
     
     open func downloadProgressUpdated(_ id: String, pathExtension: String?, progress: Float) {
-        if var message = message(for: id) {
+        if let message = message(for: id) {
             message.setDownloadProgress(progress)
         }
     }

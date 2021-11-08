@@ -68,8 +68,8 @@ open class ReconnectingView : UIView {
         
     }
     
-    open func update(_ connStatus: ConnectionStatus? = .none) {
-        if connStatus != .none {
+    open func update(_ connStatus: ConnectionStatus? = Optional.none) {
+        if connStatus != Optional.none {
             isHidden = false
             if connStatus != status {
                                 
