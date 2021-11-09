@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,7 +28,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0yc-7H-UIX">
-                    <rect key="frame" x="70" y="36" width="180" height="180"/>
+                    <rect key="frame" x="70" y="16" width="180" height="180"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="0yc-7H-UIX" secondAttribute="height" multiplier="1:1" id="N1q-i8-tvT"/>
                         <constraint firstAttribute="height" constant="180" id="pZ1-pi-SSr">
@@ -38,23 +37,23 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i5D-R1-634">
-                    <rect key="frame" x="16" y="232" width="288" height="32.5"/>
+                    <rect key="frame" x="16" y="212" width="288" height="32.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="27"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONNECTING" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d3S-nF-dUo">
-                    <rect key="frame" x="16" y="272.5" width="288" height="20.5"/>
+                    <rect key="frame" x="16" y="252.5" width="288" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view hidden="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="OMx-Zc-t9O" userLabel="Remote Video View">
-                    <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="fKx-4Y-fBg" userLabel="Local Video View">
-                    <rect key="frame" x="259" y="36" width="45" height="70"/>
+                    <rect key="frame" x="259" y="16" width="45" height="70"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="120" id="4h6-e6-33g">
                             <variation key="widthClass=compact" constant="45"/>
@@ -138,7 +137,8 @@
                     </subviews>
                 </stackView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <color key="backgroundColor" name="background"/>
             <constraints>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="bxL-10-k3x" secondAttribute="bottom" constant="16" id="1ZC-ka-Vk4"/>
                 <constraint firstItem="d3S-nF-dUo" firstAttribute="top" secondItem="i5D-R1-634" secondAttribute="bottom" constant="8" id="IOU-kE-qfs"/>
@@ -159,7 +159,6 @@
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="leading" secondItem="OMx-Zc-t9O" secondAttribute="leading" id="iZ6-gR-NRb"/>
                 <constraint firstItem="i5D-R1-634" firstAttribute="top" secondItem="0yc-7H-UIX" secondAttribute="bottom" constant="16" id="tmM-Lj-MMo"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="iNE-Ev-0dj"/>
@@ -177,5 +176,8 @@
         <image name="call_end_white_36pt" width="36" height="36"/>
         <image name="videocam_off_white_36pt" width="36" height="36"/>
         <image name="volume_off_white_36pt" width="36" height="36"/>
+        <namedColor name="background">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </namedColor>
     </resources>
 </document>

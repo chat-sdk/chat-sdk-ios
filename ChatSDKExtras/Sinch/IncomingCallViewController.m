@@ -21,8 +21,20 @@
 
 - (instancetype)init
 {
-    self = [super init];
+    self = [self initWithNibName:@"IncomingCallViewController" bundle:self.bundle];
     if (self) {
+        _callAnswered = NO;
+    }
+    return self;
+}
+
+-(NSBundle *) bundle {
+    return [NSBundle bundleWithName:[@"Frameworks/ChatSDKSinch.framework/" stringByAppendingString:@"Sinch"]];
+}
+
+
+-(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         _callAnswered = NO;
     }
     return self;
@@ -38,6 +50,8 @@
         [_nameLabel setText:remoteUser.name];
         [_emailLabel setText:remoteUser.email];
     }
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

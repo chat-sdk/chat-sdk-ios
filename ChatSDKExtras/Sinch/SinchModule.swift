@@ -24,13 +24,17 @@ struct SinchClaims: Claims {
 enum SinchError: Error {
     case jwtNotAvailable(String)
     case userIdNotAvailable(String)
+    case error(String)
 }
 
-public class SinchModule: NSObject, PModule {
+public class SinchModule: NSObject, PModule, SINManagedPushDelegate {
+
+    
     
     static let instance = SinchModule()
     
     @objc public var client: SinchClient?
+    var push: SINManagedPush?
     
     @objc public static func shared() -> SinchModule {
         return instance
@@ -48,6 +52,11 @@ public class SinchModule: NSObject, PModule {
 
     public func activate() {
         
+//        push = Sinch.managedPush(with: .development)
+//        push?.delegate = self
+//        push?.setDesiredPushType(SINPushTypeVoIP)
+        
+        
         // Setup the client when we authenticate
         BChatSDK.hook().add(BHook({ [unowned self] data in
             if let id = BChatSDK.currentUserID() {
@@ -57,7 +66,9 @@ public class SinchModule: NSObject, PModule {
         
     }
     
-
+    public func managedPush(_ managedPush: SINManagedPush!, didReceiveIncomingPushWithPayload payload: [AnyHashable : Any]!, forType pushType: String!) {
+        print("Ok")
+    }
     
 }
 
@@ -100,11 +111,17 @@ public class SinchClient: NSObject, SINClientDelegate {
     public func start(_ id: String) {
         self.id = id
         do {
+            
             client = try Sinch.client(withApplicationKey: key,
                                   environmentHost: "ocra.api.sinch.com",
                                   userId: id)
+            
+            print("Start Sinch Client", id)
             client!.enableManagedPushNotifications()
             client!.delegate = self
+            
+//            client!.setSupportPushNotifications(false)
+                        
             client!.start()
         } catch {
             print(error.localizedDescription)
@@ -112,31 +129,24 @@ public class SinchClient: NSObject, SINClientDelegate {
     }
 
     public func client(_ client: SINClient!, requiresRegistrationCredentials registrationCallback: SINClientRegistration!) {
-//        self.id = "foo"
         if let id = self.id {
             if let secret = self.secret, let secretData = Data(base64Encoded: secret) {
 
                 let exp = Int(Date(timeIntervalSinceNow: 3600).timeIntervalSince1970)
                 let iatDate = Date()
                 let iat = Int(iatDate.timeIntervalSince1970)
-//                let iat = 1514862245
-//                let iatDate = Date(timeIntervalSince1970: Double(iat))
-//                let exp = 1514862845
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyyMMdd"
                 
                 let dateString = dateFormatter.string(from: iatDate)
                 
-                // vnVhH+HeHF2SSvlwd75BTlnFXH6Ws3OM2iEHk4xfH7M=
-
                 if let signed = HMAC(using: .sha256, key: secretData).update(data: Data(dateString.utf8))?.final() {
 
                     let signedKey = Data(signed)
                     let signedKeyString = signedKey.base64EncodedString()
 
                     let nonce = BCoreUtilities.getUUID().lowercased()
-//                    let nonce = "6b438bda-2d5c-4e8c-92b0-39f20a94b34e"
 
                     let claims = SinchClaims(iss: "//rtc.sinch.com/applications/" + key,
                                              sub: "//rtc.sinch.com/applications/" + key + "/users/" + id,
@@ -168,11 +178,14 @@ public class SinchClient: NSObject, SINClientDelegate {
     }
 
     @objc public func clientDidStart(_ client: SINClient!) {
-        print("DidStart")
+        print("Sinch Client Did Start", client.userId)
+        client.call().delegate = self
+//        DispatchQueue.main.async {
+//        }
     }
     
     @objc public func clientDidFail(_ client: SINClient!, error: Error!) {
-        print("DidFail", error.localizedDescription)
+        print("Sinch Client Did Fail", error.localizedDescription)
     }
 
         
@@ -192,33 +205,23 @@ public class SinchClient: NSObject, SINClientDelegate {
         return promise
     }
 
-    
-//    @objc public func startWithUserId(_ id: String) {
-//        _ = requestRecordPermission().then({ [unowned self] result in
-//            if let result = result as? NSNumber, result == true {
-//                return requestCameraPermission().then({ result in
-//                    if let result = result as? NSNumber, result == true, let client = client {
-//
-//                    }
-//                    return result
-//                }, nil)
-//            }
-//            return result
-//        }, nil)
-//    }
-    
-    @objc public func callUser(with id: String) {
+        
+    @objc public func callUser(with id: String) -> RXPromise? {
+        
         if let client = client {
             call?.hangup()
             
-            _ = requestRecordPermission().then({ [unowned self] result in
+            return requestRecordPermission().then({ [unowned self] result in
                 if let result = result as? NSNumber, result == true {
-                    return requestCameraPermission().then({ result in
+                    return requestCameraPermission().thenOnMain({ result in
                         if let result = result as? NSNumber, result == true {
+                            
+                            print("Sinch User id", id)
+                            call = client.call().callUser(withId: id)
 
-                            call = client.call().callUserVideo(withId: id)
+//                          call = client.call().callUserVideo(withId: id)
                             call?.delegate = self
-                            call?.pauseVideo()
+//                          call?.pauseVideo()
 
                         }
                         return result
@@ -227,6 +230,8 @@ public class SinchClient: NSObject, SINClientDelegate {
                 
                 return result
             }, nil)
+        } else {
+            return RXPromise.reject(withReason: SinchError.error("Client not available"))
         }
     }
     
@@ -263,44 +268,87 @@ public class SinchClient: NSObject, SINClientDelegate {
     }
     
     @objc public func answer() {
+        print("Sinch answer")
         call?.answer()
     }
     
     @objc public func hangup() {
+        print("Sinch hangup")
         call?.hangup()
     }
+}
+
+extension SinchClient: SINCallClientDelegate {
+    
+    public func client(_ client: SINCallClient!, didReceiveIncomingCall call: SINCall!) {
+        print("Sinch didReceiveIncomingCall")
+
+        if self.call != nil {
+            return
+        }
+        self.call = call
+        self.call?.delegate = self
+
+        var topController = UIApplication.shared.keyWindow?.rootViewController
+        while(topController?.presentedViewController != nil) {
+            topController = topController?.presentedViewController
+        }
+
+        let incomingCallVC = IncomingCallViewController()
+        topController?.present(incomingCallVC, animated: true, completion: nil)
+
+    }
+    
 }
 
 extension SinchClient: SINCallDelegate {
     
     public func callDidEnd(_ call: SINCall!) {
+        print("Sinch callDidEnd", call.details.endCause.rawValue)
         callStatus = .callDidEnd
-        delegate?.callDidEnd?(call)
+        DispatchQueue.main.async { [unowned self] in
+            delegate?.callDidEnd?(call)
+        }
     }
     
     public func callDidProgress(_ call: SINCall!) {
+        print("Sinch callDidProgress")
         callStatus = .callDidProgress
-        delegate?.callDidProgress?(call)
+        DispatchQueue.main.async { [unowned self] in
+            delegate?.callDidProgress?(call)
+        }
     }
     
     public func callDidEstablish(_ call: SINCall!) {
+        print("Sinch callDidEstablish")
         callStatus = .callDidEstablish
-        delegate?.callDidEstablish?(call)
+        DispatchQueue.main.async { [unowned self] in
+            delegate?.callDidEstablish?(call)
+        }
     }
     
     public func callDidAddVideoTrack(_ call: SINCall!) {
+        print("Sinch callDidAddVideoTrack")
         callStatus = .callDidAddVideoTrack
-        delegate?.callDidAddVideoTrack?(call)
+        DispatchQueue.main.async { [unowned self] in
+            delegate?.callDidAddVideoTrack?(call)
+        }
     }
     
     public func callDidResumeVideoTrack(_ call: SINCall!) {
+        print("Sinch callDidResumeVideoTrack")
         callStatus = .callDidResumeVideoTrack
-        delegate?.callDidResumeVideoTrack?(call)
+        DispatchQueue.main.async { [unowned self] in
+            delegate?.callDidResumeVideoTrack?(call)
+        }
     }
     
     public func callDidPauseVideoTrack(_ call: SINCall!) {
+        print("Sinch callDidPauseVideoTrack")
         callStatus = .callDidPauseVideoTrack
-        delegate?.callDidPauseVideoTrack?(call)
+        DispatchQueue.main.async { [unowned self] in
+            delegate?.callDidPauseVideoTrack?(call)
+        }
     }
 
 }

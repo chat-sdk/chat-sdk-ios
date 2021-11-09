@@ -26,12 +26,17 @@
 }
 
 - (instancetype)init {
-    self = [super init];
+    self = [self initWithNibName:@"CallViewController" bundle:self.bundle];
     if (self) {
         _initiator = YES;
     }
     return self;
 }
+
+-(NSBundle *) bundle {
+    return [NSBundle bundleWithName:[@"Frameworks/ChatSDKSinch.framework/" stringByAppendingString:@"Sinch"]];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -51,6 +56,9 @@
 
     _videoButton.hidden = YES;
     _speakerButton.hidden = YES;
+        
+//    [_hangupButton setImage:[UIImage imageNamed:@"call_end_white_36pt" inBundle:self.bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
