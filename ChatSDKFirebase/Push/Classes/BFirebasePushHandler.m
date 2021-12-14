@@ -15,13 +15,14 @@
 
 -(instancetype) init {
     if((self = [super init])) {
-        [FIRMessaging messaging].delegate = self;
+        FIRMessaging.messaging.delegate = self;
+        FIRMessaging.messaging.autoInitEnabled = YES;
     }
     return self;
 }
 
 -(void) messaging:(FIRMessaging *)messaging didReceiveRegistrationToken:(NSString *)fcmToken {
-
+    NSLog(@"FCM registration token: %@", fcmToken);
 }
 
 - (void)messaging:(nonnull FIRMessaging *)messaging didRefreshRegistrationToken:(nonnull NSString *)fcmToken {
@@ -33,16 +34,42 @@
 
 - (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [FIRMessaging messaging].APNSToken = deviceToken;
-    NSLog(@"Success");
+    [FIRMessaging.messaging tokenWithCompletion:^(NSString * token, NSError * error) {
+        if (!error) {
+            NSLog(@"FCM getToken %@", token);
+            _apnsSet = YES;
+            if (_channel) {
+                [self subscribeToPushChannel:_channel];
+            }
+        } else {
+            NSLog(@"FCM getToken %@", error.localizedDescription);
+        }
+    }];
+
+    NSLog(@"FCM didRegisterForRemoteNotificationsWithDeviceToken");
 }
 
 
 -(void) subscribeToPushChannel: (NSString *) channel {
-    [[FIRMessaging messaging] subscribeToTopic:channel];
+    if (_apnsSet) {
+        NSLog(@"FCM Subscribe to channel: %@", channel);
+        [[FIRMessaging messaging] subscribeToTopic:channel completion:^(NSError * error) {
+            if (error) {
+                NSLog(@"FCM Error %@", error.localizedDescription);
+            } else {
+                NSLog(@"FCM Success");
+            }
+        }];
+    } else {
+        _channel = channel;
+    }
 }
 
 -(void) unsubscribeFromPushChannel: (NSString *) channel {
-    [[FIRMessaging messaging] unsubscribeFromTopic:channel];
+    _channel = nil;
+    [[FIRMessaging messaging] unsubscribeFromTopic:channel completion:^(NSError * error) {
+        NSLog(@"FCM Unsubscribe to channel: %@", channel);
+    }];
 }
 
 -(void) sendPushNotification: (NSDictionary *) data {

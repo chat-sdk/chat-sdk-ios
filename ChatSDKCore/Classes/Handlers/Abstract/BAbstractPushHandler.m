@@ -131,7 +131,7 @@
     for(id<PUser> user in message.thread.users) {
         if(!user.isMe && user.entityID && user.entityID.length && user.name && user.name.length) {
             if (!user.online.boolValue || !BChatSDK.config.onlySendPushToOfflineUsers) {
-                users[user.pushChannel] = user.name;
+                users[user.entityID] = user.name;
             }
         }
     }

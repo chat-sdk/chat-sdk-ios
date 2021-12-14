@@ -16,6 +16,9 @@
 
 @class FIRFunctions;
 
-@interface BFirebasePushHandler : BAbstractPushHandler<FIRMessagingDelegate>
+@interface BFirebasePushHandler : BAbstractPushHandler<FIRMessagingDelegate> {
+    BOOL _apnsSet;
+    NSString * _channel;
+}
 
 @end

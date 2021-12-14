@@ -55,6 +55,7 @@
 @synthesize encryptGroupThreads;
 @synthesize allowUserToRejoinGroup;
 
+
 @synthesize showMessageAvatarAtPosition;
 @synthesize messageBubbleMaskFirst;
 @synthesize messageBubbleMaskMiddle;
@@ -109,6 +110,7 @@
 
 @synthesize xmppOutgoingMessageQueueRetryTime;
 @synthesize xmppOutgoingMessageAlwaysAdd;
+@synthesize xmppAutoAcceptIncomingPresenceRequests;
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -238,6 +240,8 @@
         
         xmppOutgoingMessageQueueRetryTime = 10;
         xmppOutgoingMessageAlwaysAdd = true;
+        
+        xmppAutoAcceptIncomingPresenceRequests = true;
         
         replyThumbnailSize = 60 * 3;
     }

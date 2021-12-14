@@ -71,7 +71,7 @@ open class MessageCell: AbstractMessageCell {
             avatarImageView?.image = image
         }
         else if let url = message.messageSender().userImageUrl() {
-            avatarImageView?.sd_setImage(with: url, completed: nil)
+            avatarImageView?.sd_setImage(with: url, placeholderImage: ChatKit.asset(icon: "icn_100_avatar"))
         } else {
             avatarImageView?.image = ChatKit.asset(icon: "icn_100_avatar")
         }

@@ -151,6 +151,8 @@
         return [userStatus[bStatus] intValue];
     }
     return bMessageReadStatusNone;
+    
+    
 }
 
 -(BOOL) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid {

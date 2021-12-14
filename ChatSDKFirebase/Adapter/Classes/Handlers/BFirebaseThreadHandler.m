@@ -161,7 +161,10 @@
         
         [BHookNotification notificationMessageDidSend:messageModel];
         return success;
-    }, Nil);
+    }, ^id(NSError * error) {
+        [BHookNotification notificationMessageDidFailToSend:messageModel.entityID error:error];
+        return error;
+    });
     
 }
 

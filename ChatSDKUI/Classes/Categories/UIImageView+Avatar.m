@@ -59,7 +59,7 @@
             }
         }
         
-        if (users.count > 0) {
+        if (users.count > 1 || (users.count == 1 && thread.members.count == 1)) {
             self.image = [self buildImageForUsers:users];
             return;
         }

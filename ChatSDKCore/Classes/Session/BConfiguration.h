@@ -307,6 +307,7 @@ typedef enum {
 // If it's set to false, we only add the message to the queue if it fails to send.
 @property (nonatomic, readwrite) BOOL xmppOutgoingMessageAlwaysAdd;
 
+@property (nonatomic, readwrite) BOOL xmppAutoAcceptIncomingPresenceRequests;
 
 
 +(BConfiguration *) configuration;

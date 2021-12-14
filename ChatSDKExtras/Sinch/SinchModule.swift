@@ -27,14 +27,13 @@ enum SinchError: Error {
     case error(String)
 }
 
-public class SinchModule: NSObject, PModule, SINManagedPushDelegate {
-
-    
+public class SinchModule: NSObject, PModule, SINManagedPushDelegate, CallKitMediatorDelegate {
     
     static let instance = SinchModule()
     
     @objc public var client: SinchClient?
     var push: SINManagedPush?
+    var callkitMediator: CallKitMediator?
     
     @objc public static func shared() -> SinchModule {
         return instance
@@ -52,10 +51,11 @@ public class SinchModule: NSObject, PModule, SINManagedPushDelegate {
 
     public func activate() {
         
-//        push = Sinch.managedPush(with: .development)
-//        push?.delegate = self
-//        push?.setDesiredPushType(SINPushTypeVoIP)
+        push = Sinch.managedPush(with: .development)
+        push?.delegate = self
+        push?.setDesiredPushType(SINPushTypeVoIP)
         
+        callkitMediator = CallKitMediator(delegate: self)
         
         // Setup the client when we authenticate
         BChatSDK.hook().add(BHook({ [unowned self] data in
@@ -68,6 +68,10 @@ public class SinchModule: NSObject, PModule, SINManagedPushDelegate {
     
     public func managedPush(_ managedPush: SINManagedPush!, didReceiveIncomingPushWithPayload payload: [AnyHashable : Any]!, forType pushType: String!) {
         print("Ok")
+    }
+    
+    func handleIncomingCall(_ call: SinchCall) {
+        
     }
     
 }
