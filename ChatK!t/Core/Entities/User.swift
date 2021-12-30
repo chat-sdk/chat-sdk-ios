@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol User : class {
+public protocol User : AnyObject {
     func userId() -> String
     func userName() -> String
     

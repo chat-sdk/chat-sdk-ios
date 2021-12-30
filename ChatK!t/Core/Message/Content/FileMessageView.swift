@@ -7,7 +7,6 @@
 
 import Foundation
 import FFCircularProgressView
-import ChatKit
 
 open class FileMessageView: UIView {
     

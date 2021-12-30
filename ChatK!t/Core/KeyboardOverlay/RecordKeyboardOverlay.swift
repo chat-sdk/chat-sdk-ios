@@ -49,7 +49,7 @@ open class RecordKeyboardOverlay: UIView, KeyboardOverlay {
     
 }
 
-public protocol RecordViewDelegate: class {
+public protocol RecordViewDelegate: AnyObject {
     func send(audio: Data, duration: Int)
 }
 

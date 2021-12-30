@@ -7,12 +7,12 @@
 
 import Foundation
 
-public protocol ChatToolbarDelegate: class {
+public protocol ChatToolbarDelegate: AnyObject {
     func selectedMessages() -> [AbstractMessage]
     func clearSelection(_ updateView: Bool?, animated: Bool)
 }
 
-public protocol ChatToolbarActionsDelegate: class {
+public protocol ChatToolbarActionsDelegate: AnyObject {
     var toolbarActions: [ToolbarAction] {
         get
     }

@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import ChatKit
-import ChatSDK
 
 open class FileMessageContent: DefaultDownloadableMessageContent, MessageProgressHelperDelegate {
     
@@ -64,7 +62,7 @@ open class FileMessageContent: DefaultDownloadableMessageContent, MessageProgres
                         
                     }
                 } else {
-                    let image = UIImage(named: imageName, in: Bundle(for: FileMessageContent.self), compatibleWith: nil)
+                    image = UIImage(named: imageName, in: Bundle(for: FileMessageContent.self), compatibleWith: nil)
                 }
              } 
             _view.imageView.image = image

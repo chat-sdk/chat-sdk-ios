@@ -253,7 +253,7 @@ extension MessagesView: UITableViewDelegate {
     open func heightForIndexPath(_ indexPath: IndexPath) -> CGFloat {
         var height: CGFloat?
         
-        var width = UIScreen.main.bounds.width
+        let width = UIScreen.main.bounds.width
 //        if frame.width > 0 {
 //            width = frame.width
 //        }
