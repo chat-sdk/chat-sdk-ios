@@ -46,7 +46,7 @@ open class CKMessageStore {
     }
 
     open func message(for message: PMessage) -> CKMessage {
-        let message = self.message(with: message.entityID()) ?? new(for: message)
+         let message = self.message(with: message.entityID()) ?? new(for: message)
         messageStore[message.messageId()] = message
         return message
     }

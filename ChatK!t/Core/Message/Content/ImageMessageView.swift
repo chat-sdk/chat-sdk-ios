@@ -15,6 +15,7 @@ open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
     @IBOutlet public weak var checkImageView: UIImageView!
     @IBOutlet public weak var videoImageView: UIImageView!
     @IBOutlet public weak var progressView: FFCircularProgressView!
+    @IBOutlet public weak var detailLabel: UILabel!
     
     open var blurView: UIView?
     open var message: Message?
@@ -28,19 +29,39 @@ open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
         blurView?.layer.cornerRadius = ChatKit.config().bubbleCornerRadius
         blurView?.clipsToBounds = true
 
+        detailLabel.isHidden = true
+
         progressView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(startStopDownload)))
         
         bringSubviewToFront(checkImageView)
     }
 
-    open func setDownloadProgress(_ progress: Float) {
+    open func setDownloadProgress(_ progress: Float, total: Float) {
         showProgressView()
         progressView.progress = CGFloat(progress)
+        updateTotal(total)
     }
 
-    open func setUploadProgress(_ progress: Float) {
+    open func setUploadProgress(_ progress: Float, total: Float) {
         showProgressView()
         progressView.progress = CGFloat(progress)
+        updateTotal(total)
+    }
+    
+    open func updateTotal(_ total: Float) {
+        if total > 0 {
+            detailLabel.isHidden = false
+
+            if total < 1000 {
+                detailLabel.text = String(format: "%.0fKB", total)
+            } else {
+                let total = total / 1000
+                detailLabel.text = String(format: "%.0fMB", total)
+            }
+        } else {
+            detailLabel.text = ""
+            detailLabel.isHidden = true
+        }
     }
 
     @objc open func startStopDownload() {
@@ -88,6 +109,7 @@ open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
         progressView.isHidden = true
         progressView.progress = 0
         blurView?.isHidden = true
+        detailLabel.isHidden = true
         updateVideoIcon()
     }
 

@@ -23,3 +23,9 @@
 "file" = "File";
 "sticker" = "Sticker";
 "video" = "Video";
+
+"messageSendFailed" = "Message send failed. Tap to retry";
+
+"resendMessage" = "Message failed to send";
+"resend" = "Resend";
+"dismiss" = "Dismiss";

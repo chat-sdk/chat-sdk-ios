@@ -10,6 +10,7 @@
 
 #import <ChatSDKFirebase/FirebaseAdapter.h>
 #import <ChatSDK/Core.h>
+#import <ChatSDKFirebase/ChatSDKFirebase-Swift.h>
 
 @implementation BFirebaseAuthenticationHandler
 
@@ -182,7 +183,7 @@
     
     return tokenPromise.thenOnMain(^id(NSString * token) {
 
-        CCUserWrapper * user = [CCUserWrapper userWithAuthUserData:firebaseUser];
+        CCUserWrapper * user = [FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithAuthData:firebaseUser];
         if (details.name && !user.model.name) {
             [user.model setName:details.name];
         }

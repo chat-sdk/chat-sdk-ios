@@ -12,6 +12,7 @@ import ChatSDK
 @objc public class FirebaseNetworkAdapterModule: NSObject, PModule, PNetworkAdapterProvider {
 
     var networkAdapter: BFirebaseNetworkAdapter?
+    @objc public var firebaseProvider: FirebaseProvider = FirebaseProvider()
     
     public func getNetworkAdapter() -> PNetworkAdapter! {
         if networkAdapter == nil {

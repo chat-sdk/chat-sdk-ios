@@ -16,7 +16,7 @@
 -(RXPromise *) sendMessageWithText:(NSString *)text withThreadEntityID:(NSString *)threadID withMetaData: (NSDictionary *)meta {
     
     // Set the URLs for the images and save it in CoreData
-    [BChatSDK.db beginUndoGroup];
+//    [BChatSDK.db beginUndoGroup];
     
     id<PMessage> message = [[[[BMessageBuilder textMessage:text] meta:meta] thread:threadID] build];
     return [self sendMessage:message];
@@ -311,7 +311,7 @@
 
 -(RXPromise *) replyToMessage: (id<PMessage>) message withThreadID: (NSString *) threadEntityID reply: (NSString *) reply {
     
-    [BChatSDK.db beginUndoGroup];
+//    [BChatSDK.db beginUndoGroup];
 
     BMessageBuilder * builder = [[BMessageBuilder textMessage: @""] thread:threadEntityID];
     
@@ -350,7 +350,7 @@
 }
 
 -(RXPromise *) forwardMessage: (id<PMessage>) message toThreadWithID: (NSString *) threadEntityID {
-    [BChatSDK.db beginUndoGroup];
+//    [BChatSDK.db beginUndoGroup];
     id<PMessage> newMessage = [[[[BMessageBuilder withType:message.type.intValue] meta:message.meta] thread:threadEntityID] build];
     return [self sendMessage:newMessage];
 }

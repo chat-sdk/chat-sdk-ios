@@ -89,10 +89,15 @@
 
 #define bReplyKey @"reply"
 
+#define bHiddenKey @"hidden_"
+#define bMessageSendStatusKey @"hidden-bMessageSendStatusKey"
+
 #define bUserPrivilegeKey @"privilege"
 #define bUserNameLowercase @"name-lowercase"
 #define bUID @"uid"
 
-#define bLocalNotification = @"local-notification"
+#define bLocalNotification @"local-notification"
+
+#define bCanDeleteMessagesFrom @"bCanDeleteMessagesFrom"
 
 #endif /* BKeys_h */

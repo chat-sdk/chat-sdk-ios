@@ -7,6 +7,7 @@
 
 #import "BFirebaseThreadHandler.h"
 #import <ChatSDKFirebase/FirebaseAdapter.h>
+#import <ChatSDKFirebase/ChatSDKFirebase-Swift.h>
 
 @implementation BFirebaseThreadHandler
 
@@ -33,7 +34,7 @@
     }
     else {
         threadModel = [self createThreadWithUsers:users name:name type: type];
-        CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
+        CCThreadWrapper * thread = [FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithModel: threadModel];
         
         if (entityID) {
             threadModel.entityID = entityID;
@@ -62,13 +63,13 @@
 
 -(RXPromise *) addUsers: (NSArray<id<PUser>> *) users toThread: (id<PThread>) threadModel {
     
-    CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
+    CCThreadWrapper * thread = [FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithModel: threadModel];
     
     NSMutableArray * promises = [NSMutableArray new];
     
     // Push each user to make sure they have an account
     for (id<PUser> userModel in users) {
-        [promises addObject:[thread addUser:[CCUserWrapper userWithModel:userModel]]];
+        [promises addObject:[thread addUser:[FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithModel:userModel]]];
     }
     
     return [RXPromise all: promises];
@@ -89,7 +90,7 @@
 
         id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadEntityID withType:bThreadEntity];
         if (thread) {
-            CCThreadWrapper * threadWrapper = [CCThreadWrapper threadWithModel:thread];
+            CCThreadWrapper * threadWrapper = [FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithModel: thread];
             
             NSMutableArray * promises = [NSMutableArray new];
             
@@ -97,7 +98,7 @@
             for (NSString * userEntityID in userEntityIDs) {
                 id<PUser> user = [BChatSDK.db fetchEntityWithID:userEntityID withType:bUserEntity];
                 if (user) {
-                    [promises addObject:[threadWrapper removeUser:[CCUserWrapper userWithModel:user]]];
+                    [promises addObject:[threadWrapper removeUser:[FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithModel:user]]];
                 }
             }
             [promise resolveWithResult:[RXPromise all: promises]];
@@ -127,7 +128,7 @@
         
         if (localMessageCount < messagesToLoad && fromServer) {
             NSDate * finalFromDate = localMessageCount > 0 ? ((id<PMessage>)messages.lastObject).date : date;
-            return [[CCThreadWrapper threadWithModel:threadModel] loadMoreMessagesFromDate:finalFromDate count:messagesToLoad - localMessageCount].then(^id(NSArray * remoteMessages) {
+            return [[FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithModel: threadModel] loadMoreMessagesFromDate:finalFromDate count:messagesToLoad - localMessageCount].then(^id(NSArray * remoteMessages) {
                 NSMutableArray * mergedMessages = [NSMutableArray arrayWithArray:messages];
                 [mergedMessages addObjectsFromArray:remoteMessages];
                 return mergedMessages;
@@ -144,7 +145,7 @@
 //}
 
 -(RXPromise *) deleteThread: (id<PThread>) thread {
-    return [[CCThreadWrapper threadWithModel:thread] deleteThread];
+    return [[FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithModel: thread] deleteThread];
 }
 
 -(RXPromise *) sendMessage: (id<PMessage>) messageModel {
@@ -153,15 +154,24 @@
 
     // Create the new CCMessage wrapper
     [BHookNotification notificationMessageSending:messageModel];
-    return [[CCMessageWrapper messageWithModel:messageModel] send].thenOnMain(^id(id success) {
-        
+    
+    [messageModel setMessageSendStatus:bMessageSendStatusSending];
+//    [BChatSDK.db save];
+    
+    return [[FirebaseNetworkAdapterModule.shared.firebaseProvider messageWrapperWithModel:messageModel] send].thenOnMain(^id(id success) {
+
+        [messageModel setMessageSendStatus:bMessageSendStatusSent];
+
         // Send a push notification for the message
         NSDictionary * pushData = [BChatSDK.push pushDataForMessage:messageModel];
         [BChatSDK.push sendPushNotification:pushData];
-        
+
         [BHookNotification notificationMessageDidSend:messageModel];
+        
         return success;
     }, ^id(NSError * error) {
+        [messageModel setMessageSendStatus:bMessageSendStatusFailed];
+//        [messageModel setMetaValue:@"Test" forKey:@"Ok"];
         [BHookNotification notificationMessageDidFailToSend:messageModel.entityID error:error];
         return error;
     });
@@ -169,11 +179,11 @@
 }
 
 -(RXPromise *) muteThread: (id<PThread>) thread {
-    return [[CCThreadWrapper threadWithModel:thread] setMuted:YES];
+    return [[FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithModel: thread] setMuted:YES];
 }
 
 -(RXPromise *) unmuteThread: (id<PThread>) thread {
-    return [[CCThreadWrapper threadWithModel:thread] setMuted:NO];
+    return [[FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithModel: thread] setMuted:NO];
 }
 
 -(BOOL) canMuteThreads {
@@ -195,7 +205,7 @@
 
 - (RXPromise *) deleteMessage: (NSString *)messageID {
     id<PMessage> message = [BChatSDK.db fetchOrCreateEntityWithID:messageID withType:bMessageEntity];
-    return [[CCMessageWrapper messageWithModel:message] delete].thenOnMain(^id(id success) {
+    return [[FirebaseNetworkAdapterModule.shared.firebaseProvider messageWrapperWithModel:message] delete].thenOnMain(^id(id success) {
         [message.thread removeMessage:message];
         return success;
     },^id(NSError * error) {
@@ -205,7 +215,11 @@
 }
 
 -(BOOL) canDeleteMessage: (id<PMessage>) message {
-    return message.senderIsMe;
+    NSDate * date = message.thread.canDeleteMessagesFromDate;
+    if (date && message.date.timeIntervalSince1970 >= date.timeIntervalSince1970) {
+        return message.senderIsMe;
+    }
+    return false;
 }
 
 @end

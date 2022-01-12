@@ -17,7 +17,7 @@
 
 -(RXPromise *) sendMessageWithLocation:(CLLocation *)location withThreadEntityID:(NSString *)threadID {
     
-    [BChatSDK.db beginUndoGroup];
+//    [BChatSDK.db beginUndoGroup];
     
     id<PMessage> message = [BChatSDK.db createMessageEntity];
     

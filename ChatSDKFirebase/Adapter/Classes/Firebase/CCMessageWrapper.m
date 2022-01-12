@@ -12,11 +12,11 @@
 
 @implementation CCMessageWrapper
 
-+(id) messageWithSnapshot: (FIRDataSnapshot *) snapshot {
++(instancetype) messageWithSnapshot: (FIRDataSnapshot *) snapshot {
     return [[self alloc] initWithSnapshot:snapshot];
 }
 
--(id) initWithSnapshot: (FIRDataSnapshot *) snapshot {
+-(instancetype) initWithSnapshot: (FIRDataSnapshot *) snapshot {
     if ((self = [self init])) {
         NSString * entityID = snapshot.key;
         _model = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bMessageEntity];
@@ -25,11 +25,11 @@
     return self;
 }
 
-+(id) messageWithModel: (id<PMessage>) model {
++(instancetype) messageWithModel: (id<PMessage>) model {
     return [[self alloc] initWithModel:model];
 }
 
--(id) initWithModel: (id<PMessage>) model {
+-(instancetype) initWithModel: (id<PMessage>) model {
     if((self = [super init])) {
         _model = model;
     }
@@ -65,7 +65,7 @@
             [promise resolveWithResult:self];
         }
         else {
-            _model.entityID = Nil;
+//            _model.entityID = Nil;
             [promise rejectWithReason:error];
         }
     }];
@@ -75,12 +75,20 @@
 
 -(NSMutableDictionary *) serialize {
     
-    NSDictionary * meta;
+    NSMutableDictionary * meta;
     if (BChatSDK.encryption) {
-        meta = [BChatSDK.encryption encryptMessage:_model];
+        meta = [NSMutableDictionary dictionaryWithDictionary:[BChatSDK.encryption encryptMessage:_model]];
     }
     if (!meta) {
-        meta = _model.meta;
+        meta = [NSMutableDictionary dictionaryWithDictionary:_model.meta];
+    }
+    
+    // Remove any hidden values
+    NSSet * keys = meta.allKeys;
+    for (NSString * key in keys) {
+        if ([key containsString:bHiddenKey]) {
+            [meta removeObjectForKey:key];
+        }
     }
     
     NSDictionary * dict = @{bType: _model.type,
@@ -148,6 +156,7 @@
                 }
             }
         }
+                
         [_model setMeta:meta];
     }
     

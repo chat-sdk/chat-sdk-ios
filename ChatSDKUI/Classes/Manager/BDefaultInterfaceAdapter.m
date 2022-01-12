@@ -41,6 +41,13 @@
         // Setup default providers
         [self setProvider:[BMessageSectionDateProvider new] forName:bMessageSectionDateProvider];
         
+        if (@available(iOS 15.0, *)) {
+            UINavigationBarAppearance * appearance = [UINavigationBarAppearance new];
+            [appearance configureWithDefaultBackground];
+            [UINavigationBar.appearance setStandardAppearance:appearance];
+            [UINavigationBar.appearance setScrollEdgeAppearance:appearance];
+            [UINavigationBar.appearance setCompactAppearance:appearance];
+        }
 
     }
     return self;

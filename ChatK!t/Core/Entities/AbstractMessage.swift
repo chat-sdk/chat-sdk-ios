@@ -7,6 +7,13 @@
 
 import Foundation
 
+public enum MessageSendStatus {
+    case willSend
+    case sending
+    case sent
+    case failed
+}
+
 open class AbstractMessage: Message, Hashable, Equatable {
     
     public init() {
@@ -35,6 +42,10 @@ open class AbstractMessage: Message, Hashable, Equatable {
 
     open func messageDate() -> Date {
         preconditionFailure("This method must be overridden")
+    }
+
+    open func messageSendStatus() -> MessageSendStatus? {
+        return nil
     }
 
     open func messageText() -> String? {

@@ -10,6 +10,7 @@
 
 #import <ChatSDKFirebase/FirebaseAdapter.h>
 #import <ChatSDK/Core.h>
+#import <ChatSDKFirebase/ChatSDKFirebase-Swift.h>
 
 @implementation CCThreadWrapper
 
@@ -133,6 +134,8 @@
             query = [query queryLimitedToLast:BChatSDK.config.messageHistoryDownloadLimit];
         }
         
+        [query keepSynced:NO];
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [query observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
 
@@ -149,34 +152,42 @@
                         [BHookNotification notificationThreadAdded:self.model];
                     }
                     
+                    // If the firebase rules are set up so there is a permission denied error, it can be that
+                    // this is called locally before the data has actually been written. If we are sending a message
+                    // this can cause an issue because added and then removed callbacks are called immediately afterards
+                    // and that messes up the resend functionality. If the message state is sending, we ignore...
+                    id<PMessage> message = [BChatSDK.db fetchEntityWithID:snapshot.key withType:bMessageEntity];
+                    if (message && message.messageSendStatus == bMessageSendStatusSending ) {
+                        return;
+                    }
+                    
                     // This gets the message if it exists and then updates it from the snapshot
-                    CCMessageWrapper * message = [CCMessageWrapper messageWithSnapshot:snapshot];
+                    CCMessageWrapper * wrapper = [FirebaseNetworkAdapterModule.shared.firebaseProvider messageWrapperWithSnapshot:snapshot];
                     
-                    
-                    BOOL newMessage = message.model.isDelivered == NO;
+                    BOOL newMessage = wrapper.model.isDelivered == NO;
                     
                     // Is this a new message?
                     // When a message arrives we add it to the database
                     //newMessage = [BChatSDK.db fetchEntityWithID:snapshot.key withType:bMessageEntity] == Nil;
                     
                     // Mark the message as delivered
-                    [message.model setDelivered: @YES];
+                    [wrapper.model setDelivered: @YES];
                     
                     // Add the message to this thread;
-                    [self.model addMessage:message.model];
+                    [self.model addMessage:wrapper.model];
                     
-                    NSLog(@"Message: %@", message.model.text);
+                    NSLog(@"Message: %@", wrapper.model.text);
                     
                     [BChatSDK.core save];
 
                     if (newMessage) {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [BHookNotification notificationMessageReceived: message.model];
+                            [BHookNotification notificationMessageReceived: wrapper.model];
                         });
                     }
                     
                     // Mark the message as received
-                    [message markAsReceived];
+                    [wrapper markAsReceived];
                     
                     if(BChatSDK.readReceipt) {
                         [BChatSDK.readReceipt updateReadReceiptsForThread:self.model];
@@ -195,26 +206,63 @@
         
         if (BChatSDK.config.messageDeletionEnabled) {
             query = [FIRDatabaseReference threadMessagesRef:self.model.entityID];
-    //        [query queryOrderedByChild:bDate];
+            query = [query queryOrderedByChild:bDate];
+                     
+            NSDate * date = nil;
+
+            // Get the messages
+            int limit = BChatSDK.config.messageDeletionListenerLimit;
+            if (limit > 0) {
+                NSArray<PMessage> * messages = self.model.messagesOrderedByDateNewestFirst;
+                id<PMessage> earliestMessage = nil;
+
+                if (messages.count > limit) {
+                    earliestMessage = messages[limit];
+                } else if (messages.count > 0) {
+                    earliestMessage = messages.lastObject;
+                }
+                
+                if (earliestMessage) {
+                    date = earliestMessage.date;
+                }
+            } else {
+                date = self.model.creationDate;
+            }
             
-            // Only add deletion handlers to the last 100 messages
-    //        query = [query queryLimitedToLast:BChatSDK.config.messageDeletionListenerLimit];
-            
+            if(date) {
+                query = [query queryStartingAtValue:@(date.timeIntervalSince1970 - 1000)];
+                [self.model setCanDeleteMessagesFromDate:date];
+            } else {
+                [self.model setCanDeleteMessagesFromDate:[NSDate date]];
+            }
+
+                        
             // This will potentially delete all the messages
             [query observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
-//                NSLog(@"Message deleted: %@", snapshot.value);
-                CCMessageWrapper * wrapper = [CCMessageWrapper messageWithSnapshot:snapshot];
-                id<PMessage> message = wrapper.model;
-                NSString * entityID = message.entityID;
-                [BHookNotification notificationMessageWillBeDeleted: message];
-                [self.model removeMessage: message];
-                [BHookNotification notificationMessageWasDeleted:entityID];
+
+                // If the firebase rules are set up so there is a permission denied error, it can be that
+                // this is called locally before the data has actually been written. If we are sending a message
+                // this can cause an issue because added and then removed callbacks are called immediately afterards
+                // and that messes up the resend functionality. If the message state is sending, we ignore...
+                id<PMessage> message = [BChatSDK.db fetchEntityWithID:snapshot.key withType:bMessageEntity];
+                if (message && message.messageSendStatus == bMessageSendStatusSending) {
+                    return;
+                }
+
+                [self removeMessage:message];
             }];
         }
 
         return promise;
         
     }, Nil);
+}
+
+-(void) removeMessage: (id<PMessage>) message {
+    NSString * entityID = message.entityID;
+    [BHookNotification notificationMessageWillBeDeleted: message];
+    [self.model removeMessage: message];
+    [BHookNotification notificationMessageWasDeleted:entityID];
 }
 
 -(void) messagesOff {
@@ -238,7 +286,7 @@
     [threadUsersRef observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
         if (![snapshot.value isEqual: [NSNull null]]) {
             // Update the thread
-            CCUserWrapper * user = [CCUserWrapper userWithSnapshot:snapshot];
+            CCUserWrapper * user = [FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithSnapshot:snapshot];
             [self.model addUser:user.model];
             [user metaOn];
             [BHookNotification notificationThreadUsersUpdated:self.model];
@@ -250,7 +298,7 @@
             for(NSString * userEntityID in [snapshot.value allKeys]) {
                 if(snapshot.value[userEntityID][bDeletedKey]) {
                     // Update the thread
-                    CCUserWrapper * user = [CCUserWrapper userWithEntityID:userEntityID];
+                    CCUserWrapper * user = [FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithEntityID:userEntityID];
                     if (self.model.type.intValue ^ bThreadType1to1) {
                         [self.model removeUser:user.model];
                         [BHookNotification notificationThreadUsersUpdated:self.model];
@@ -270,7 +318,7 @@
     [threadUsersRef observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
         if (![snapshot.value isEqual: [NSNull null]]) {
             // Update the thread
-            CCUserWrapper * user = [CCUserWrapper userWithSnapshot:snapshot];
+            CCUserWrapper * user = [FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithSnapshot:snapshot];
             [self.model removeUser:user.model];
             [BHookNotification notificationThreadUsersUpdated:self.model];
         }
@@ -280,7 +328,7 @@
 -(void) usersOff {
     [((NSManagedObject *)_model) setPath:bUsersPath on:NO];
     for(id<PUser> user in _model.users) {
-        [[CCUserWrapper userWithModel:user.model] off];
+        [[FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithModel:user] off];
     }
     [[FIRDatabaseReference threadUsersRef:self.entityID] removeAllObservers];
 }
@@ -366,7 +414,7 @@
         [BHookNotification notificationThreadRemoved:_model];
         
         // Otherwise we just remove the user
-        return [self removeUser:[CCUserWrapper userWithModel:currentUser]];
+        return [self removeUser:[FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithModel:currentUser]];
     }
 }
 
@@ -595,6 +643,10 @@
             return success;
         }
     }, Nil);
+}
+
+-(void) permissionsOn {
+    
 }
 
 #pragma EntityWrapper protocol

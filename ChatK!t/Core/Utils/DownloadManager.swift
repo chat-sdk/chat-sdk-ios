@@ -9,7 +9,7 @@ import Foundation
 import MZDownloadManager
 
 public protocol DownloadManagerListener: AnyObject {
-    func downloadProgressUpdated(_ id: String, pathExtension: String?, progress: Float)
+    func downloadProgressUpdated(_ id: String, pathExtension: String?, progress: Float, total: Float)
     func downloadFinished(_ id: String, pathExtension: String?, path: String)
     func downloadFailed(_ id: String, pathExtension: String?, error: NSError)
     func downloadResumed(_ id: String, pathExtension: String?)
@@ -144,9 +144,10 @@ extension DownloadManager: MZDownloadManagerDelegate {
         let progress = downloadModel.progress
         let name = bareName(fileName: downloadModel.fileName)
         let ext = pathExtension(fileName: downloadModel.fileName)
+        let size = (downloadModel.file?.size ?? -1) * 1000
         
         for listener in listeners {
-            listener.downloadProgressUpdated(name, pathExtension: ext, progress: progress)
+            listener.downloadProgressUpdated(name, pathExtension: ext, progress: progress, total: size)
         }
         print("Progress:", index, progress)
     }
@@ -260,16 +261,16 @@ extension DownloadManager: MZDownloadManagerDelegate {
 }
 
 open class DefaultDownloadManagerListener: DownloadManagerListener {
-    
+
     public unowned let model: MessagesModel
     
     public init(_ model: MessagesModel) {
         self.model = model
     }
     
-    open func downloadProgressUpdated(_ id: String, pathExtension: String?, progress: Float) {
+    open func downloadProgressUpdated(_ id: String, pathExtension: String?, progress: Float, total: Float) {
         if var message = message(for: id) {
-            message.setDownloadProgress(progress)
+            message.setDownloadProgress(progress, total: total)
         }
     }
     

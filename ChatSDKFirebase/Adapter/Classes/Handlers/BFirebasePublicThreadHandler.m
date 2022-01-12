@@ -9,6 +9,7 @@
 #import "BFirebasePublicThreadHandler.h"
 
 #import <ChatSDKFirebase/FirebaseAdapter.h>
+#import <ChatSDKFirebase/ChatSDKFirebase-Swift.h>
 
 @implementation BFirebasePublicThreadHandler
 
@@ -53,7 +54,7 @@
     [BChatSDK.db endUndoGroup];
     
     // Create the CC object
-    CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
+    CCThreadWrapper * thread = [FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithModel: threadModel];
 
     return [thread push].thenOnMain(^id(id success) {
         RXPromise * promise = [RXPromise new];

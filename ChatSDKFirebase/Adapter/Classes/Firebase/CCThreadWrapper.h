@@ -20,7 +20,6 @@
  * @brief Create a new thread with a thread data model
  */
 +(CCThreadWrapper *) threadWithModel: (id<PThread>) model;
-
 /**
  * @brief Retrieve or create a thread with an entity ID
  */
@@ -97,5 +96,7 @@
 -(void) markRead;
 
 -(RXPromise *) setMuted: (BOOL) muted;
+
+-(void) removeMessage: (id<PMessage>) message;
 
 @end

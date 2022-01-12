@@ -85,20 +85,31 @@ open class MessageCell: AbstractMessageCell {
             contentContainerView.setMaskPosition(direction: message.messageDirection())
             content?.view().setMaskPosition(direction: message.messageDirection())
         }
-                
-        if let imageView = readReceiptImageView {
-            switch message.messageReadStatus() {
-            case .sent:
-                imageView.image = ChatKit.asset(icon: "icn_message_sent")
-            case .delivered:
-                imageView.image = ChatKit.asset(icon: "icn_message_delivered")
-            case .read:
-                imageView.image = ChatKit.asset(icon: "icn_message_read")
-            default:
-                imageView.image = nil
-            }
-        }
         
+        if message.messageSender().userIsMe() {
+            // If the message failed to send, show a failure message
+            if let status = message.messageSendStatus() {
+                if status == .willSend {
+                    readReceiptImageView?.image = ChatKit.asset(icon: "icn_message_will_send")
+                } else if status == .failed {
+                    readReceiptImageView?.image = ChatKit.asset(icon: "icn_message_retry")
+                } else if let imageView = readReceiptImageView {
+                    switch message.messageReadStatus() {
+                    case .sent:
+                        imageView.image = ChatKit.asset(icon: "icn_message_sent")
+                    case .delivered:
+                        imageView.image = ChatKit.asset(icon: "icn_message_delivered")
+                    case .read:
+                        imageView.image = ChatKit.asset(icon: "icn_message_read")
+                    default:
+                        imageView.image = nil
+                    }
+                }
+            }
+        } else {
+            readReceiptImageView?.image = nil
+        }
+
         hideNameLabel()
     }
 

@@ -14,16 +14,16 @@
 
 -(RXPromise *) sendMessageWithImage:(UIImage *)image withThreadEntityID:(NSString *)threadID {
     
-    [BChatSDK.db beginUndoGroup];
+//    [BChatSDK.db beginUndoGroup];
     
     id<PMessage> message = [[[BMessageBuilder imageMessage:image] thread:threadID] build];
     
     // Resize image
-    UIImage * resizedImage = [self imageWithScaledImage:image];
+//    UIImage * resizedImage = [self imageWithScaledImage:image];
 
     [BHookNotification notificationMessageWillUpload: message];
     
-    return [BChatSDK.upload uploadFile:UIImagePNGRepresentation(resizedImage) withName:@"image.jpg" mimeType:@"image/jpeg" message: message].thenOnMain(^id(NSDictionary * info) {
+    return [BChatSDK.upload uploadFile:UIImageJPEGRepresentation(image, 0) withName:@"image.jpg" mimeType:@"image/jpeg" message: message].thenOnMain(^id(NSDictionary * info) {
         
         NSURL * url = info[bFilePath] ? info[bFilePath] : Nil;
         NSString * urlString = url ? url.absoluteString : @"";

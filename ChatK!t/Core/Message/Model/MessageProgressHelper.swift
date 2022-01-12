@@ -62,7 +62,7 @@ open class MessageProgressHelper: DownloadableContent, UploadableContent {
     }
     
     
-    open func setDownloadProgress(_ progress: Float) {
+    open func setDownloadProgress(_ progress: Float, total: Float) {
         progressView.progress = CGFloat(progress)
         if progress > 0 {
             progressView.stopSpinProgressBackgroundLayer()
@@ -94,7 +94,7 @@ open class MessageProgressHelper: DownloadableContent, UploadableContent {
         progressView.stopSpinProgressBackgroundLayer()
     }
     
-    open func setUploadProgress(_ progress: Float) {
+    open func setUploadProgress(_ progress: Float, total: Float) {
         progressView.progress = CGFloat(progress)
     }
 

@@ -21,17 +21,17 @@
 /**
  * @brief Create a new message from a server snapshot
  */
-+(id) messageWithSnapshot: (FIRDataSnapshot *) snapshot;
++(instancetype) messageWithSnapshot: (FIRDataSnapshot *) snapshot;
 
 /**
  * @brief Create a new message based on an existing data model
  */
-+(id) messageWithModel: (id<PMessage>) model;
++(instancetype) messageWithModel: (id<PMessage>) model;
 
 /**
  * @brief Create a new message with an existing message entity ID
  */
-+(id) messageWithID: (NSString *) entityID;
++(instancetype) messageWithID: (NSString *) entityID;
 
 /**
  * @brief Send the message to the thread associated with it's model

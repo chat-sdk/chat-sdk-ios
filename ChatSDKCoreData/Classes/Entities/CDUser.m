@@ -24,6 +24,9 @@
     if (!name || !name.length) {
         name = [self.meta metaStringForKey:bUserNameKey];
     }
+    if (!name || !name.length) {
+        name = [self.meta metaStringForKey:bUserPhoneKey];
+    }
     return name;
 }
 

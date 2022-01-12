@@ -276,6 +276,26 @@
     return [self.meta[bType] intValue];
 }
 
+-(BOOL) sendFailed {
+    NSNumber * status = self.meta[bMessageSendStatusKey];
+    if (status != nil && status.intValue == bMessageSendStatusFailed) {
+        return YES;
+    }
+    return NO;
+}
+
+-(void) setMessageSendStatus: (bMessageSendStatus) status {
+    [self setMetaValue:@(status) forKey:bMessageSendStatusKey];
+}
+
+-(bMessageSendStatus) messageSendStatus {
+    NSNumber * status = self.meta[bMessageSendStatusKey];
+    if (status != nil) {
+        return status.intValue;
+    }
+    return bMessageSendStatusNone;
+}
+
 -(void) setupInitialReadReceipts {
     // Setup the initial read receipts
     if (self.thread) {

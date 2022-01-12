@@ -9,6 +9,7 @@
 #import "BFirebaseUsersHandler.h"
 
 #import <ChatSDKFirebase/FirebaseAdapter.h>
+#import <ChatSDKFirebase/ChatSDKFirebase-Swift.h>
 
 @implementation BFirebaseUsersHandler
 
@@ -26,17 +27,17 @@
         _allUsersOn = YES;
         __weak __typeof(self) weakSelf = self;
         [[FIRDatabaseReference usersRef] observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot * snapshot) {
-            id<PUser> user = [CCUserWrapper userWithSnapshot:snapshot].model;
+            id<PUser> user = [FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithSnapshot:snapshot].model;
             if(user && ![allUsers containsObject:user]) {
                 [allUsers addObject:user];
                 [BHookNotification notificationUserUpdated:user];
             }
         }];
         [[FIRDatabaseReference usersRef] observeEventType:FIRDataEventTypeChildChanged withBlock:^(FIRDataSnapshot * snapshot) {
-            [CCUserWrapper userWithSnapshot:snapshot];
+            [FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithSnapshot:snapshot];
         }];
         [[FIRDatabaseReference usersRef] observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
-            id<PUser> user = [CCUserWrapper userWithSnapshot:snapshot].model;
+            id<PUser> user = [FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithSnapshot:snapshot].model;
             if(user && [allUsers containsObject:user]) {
                 [allUsers removeObject:user];
                 [BHookNotification notificationUserUpdated:user];

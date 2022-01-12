@@ -161,7 +161,7 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
                     let total = Float(progress.totalUnitCount)
                     let current = Float(progress.completedUnitCount)
                     
-                    content.setUploadProgress?(current / total)
+                    content.setUploadProgress?(current / total, total: total / 1000)
                 }
             }
         }), withName: bHookMessageUploadProgress))
@@ -176,6 +176,24 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
             }
         }), withName: bHookTypingStateUpdated))
 
+        observers.add(BChatSDK.hook().add(BHook({ [unowned self] data in
+//            weakVC?.showError(message: t(Strings.messageSendFailed), completion: nil)
+            
+            if let messageId = data?[bHook_StringId] as? String {
+                if let message = BChatSDK.db().fetchEntity(withID: messageId, withType: bMessageEntity) as? PMessage, let t = message.thread() {
+                    if (t.isEqual(thread)) {
+                        _ = model?.messagesModel.updateMessage(id: message.entityID(), animated: false).subscribe()
+                    }
+                    weakVC?.showResendDialog(callback: { result in
+                        if result {
+                            BChatSDK.thread().send(message)
+                        }
+                    })
+                }
+            }
+
+        }), withName: bHookMessageDidFailToSend))
+        
         observers.add(BChatSDK.hook().add(BHook({ [weak self] data in
             if let thread = self?.thread, let user = data?[bHook_PUser] as? PUser {
                 if thread.contains(user) {
@@ -223,7 +241,14 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
                 })
             }
         }), withName: bHookMessageWasDeleted))
-        
+
+//        observers.add(BChatSDK.hook().add(BHook(onMain: { [weak self] data in
+//            if let message = data?[bHook_PMessage] as? PMessage {
+////                _ = self?.model?.messagesModel.updateMessage(id: message.entityID())
+////                _ = self?.model?.messagesModel.view?.reload(messages: [message], animated: false)
+//            }
+//        }), withName: bHookMessageUpdated))
+
         observers.add(BChatSDK.hook().add(BHook(onMain: { [weak self] data in
             if let threads = data?[bHook_PThreads] as? [PThread] {
                 for t in threads {
@@ -500,6 +525,18 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
     }
     
     open func onClick(_ message: AbstractMessage) -> Bool {
+        
+        if message.messageSendStatus() == .failed {
+            if let ck = message as? CKMessage {
+                weakVC?.showResendDialog(callback: { result in
+                    if result {
+                        BChatSDK.thread().send(ck.message)
+                    }
+                })
+                return true
+            }
+        }
+        
         for listener in messageOnClick {
             listener.onClick(for: weakVC, message: message)
         }
@@ -685,11 +722,12 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
         }, onClick: { [weak self] messages in
             for message in messages {
                 _ = BChatSDK.thread().deleteMessage(message.messageId()).thenOnMain({ success in
-                    _ = self?.model?.messagesModel.removeMessages([message]).subscribe()
+                    // Seems to be superfluous
+//                    _ = self?.model?.messagesModel.removeMessages([message]).subscribe()
                     return success
                 }, nil)
             }
-            return false
+            return true
         }))
 
         model?.addToolbarAction(ToolbarAction.forwardAction(visibleFor: { messages in

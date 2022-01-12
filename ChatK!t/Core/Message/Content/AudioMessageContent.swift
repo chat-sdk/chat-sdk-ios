@@ -22,8 +22,8 @@ import AVFoundation
         _view.bind(message, model: model)
     }
     
-    open func setDownloadProgress(_ progress: Float) {
-        _view.setDownloadProgress(progress)
+    open func setDownloadProgress(_ progress: Float, total: Float) {
+        _view.setDownloadProgress(progress, total: total)
     }
     
     open func downloadFinished(_ url: URL?, error: Error?) {
@@ -38,8 +38,8 @@ import AVFoundation
         _view.downloadStarted()
     }
     
-    open func setUploadProgress(_ progress: Float) {
-        _view.setUploadProgress(progress)
+    open func setUploadProgress(_ progress: Float, total: Float) {
+        _view.setUploadProgress(progress, total: total)
     }
     
     open func uploadFinished(_ url: URL?, error: Error?) {
@@ -90,7 +90,7 @@ import AVFoundation
         audioMessage()?.pauseDownload()
     }
     
-    open func setDownloadProgress(_ progress: Float) {
+    open func setDownloadProgress(_ progress: Float, total: Float) {
         progressView.progress = CGFloat(progress)
         if progress > 0 {
             progressView.stopSpinProgressBackgroundLayer()
@@ -242,7 +242,7 @@ import AVFoundation
         return message as? AudioMessage
     }
     
-    open func setUploadProgress(_ progress: Float) {
+    open func setUploadProgress(_ progress: Float, total: Float) {
         progressView.progress = CGFloat(progress)
     }
 

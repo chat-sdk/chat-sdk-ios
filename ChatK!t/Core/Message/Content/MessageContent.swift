@@ -15,14 +15,14 @@ public protocol MessageContent : AnyObject {
 }
 
 @objc public protocol DownloadableContent : AnyObject {
-    @objc optional func setDownloadProgress(_ progress: Float)
+    @objc optional func setDownloadProgress(_ progress: Float, total: Float)
     @objc optional func downloadFinished(_ url: URL?, error: Error?)
     @objc optional func downloadPaused()
     @objc optional func downloadStarted()
 }
 
 @objc public protocol UploadableContent : AnyObject {
-    @objc optional func setUploadProgress(_ progress: Float)
+    @objc optional func setUploadProgress(_ progress: Float, total: Float)
     @objc optional func uploadFinished(_ url: URL?, error: Error?)
     @objc optional func uploadStarted()
 }

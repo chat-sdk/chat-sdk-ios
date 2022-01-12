@@ -9,6 +9,7 @@
 #import "BFirebaseCoreHandler.h"
 
 #import <ChatSDKFirebase/FirebaseAdapter.h>
+#import <ChatSDKFirebase/ChatSDKFirebase-Swift.h>
 
 @implementation BFirebaseCoreHandler
 
@@ -31,7 +32,7 @@
         }
         
         return promise.then(^id(id result) {
-            return [[CCUserWrapper userWithModel:self.currentUserModel] push];
+            return [self.userWrapper push];
         }, nil);
     }
     else return [RXPromise rejectWithReason:Nil];
@@ -44,7 +45,7 @@
         if(!user || !user.entityID) {
             return;
         }
-        [[CCUserWrapper userWithModel:user] goOnline];
+        [self.userWrapper goOnline];
     }
 }
 
@@ -57,7 +58,7 @@
         }
 
         [BHookNotification notificationUserWillDisconnect];
-        [[CCUserWrapper userWithModel:user] goOffline];
+        [self.userWrapper goOffline];
     }
 }
 -(void) goOnline {
@@ -73,19 +74,29 @@
 
 -(id<PUser>) userForEntityID:(NSString *)entityID {
     id<PUser> user = [super userForEntityID:entityID];
+    CCUserWrapper * wrapper = [self userWrapper:user];
     if (!BChatSDK.config.disablePresence) {
-        [[CCUserWrapper userWithModel:user] onlineOn];
+        [wrapper onlineOn];
     }
-    [[CCUserWrapper userWithModel:user] metaOn];
+    [wrapper metaOn];
     return user;
 }
 
 -(RXPromise *)observeUser: (NSString *)entityID {
-    id<PUser> userModel = [BChatSDK.db fetchOrCreateEntityWithID:entityID withType:bUserEntity];
+    id<PUser> userModel = [super userForEntityID:entityID];
+    CCUserWrapper * wrapper = [self userWrapper:userModel];
     if (!BChatSDK.config.disablePresence) {
-        [[CCUserWrapper userWithModel:userModel] onlineOn];
+        [wrapper onlineOn];
     }
-    return [[CCUserWrapper userWithModel:userModel] metaOn];
+    return [wrapper metaOn];
+}
+
+-(CCUserWrapper *) userWrapper {
+    return [self userWrapper:self.currentUserModel];
+}
+
+-(CCUserWrapper *) userWrapper: (id<PUser>) user {
+    return [FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithModel:user];
 }
 
 #pragma Static methods

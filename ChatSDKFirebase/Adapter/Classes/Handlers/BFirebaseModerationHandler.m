@@ -9,6 +9,7 @@
 #import "BFirebaseModerationHandler.h"
 
 #import <ChatSDKFirebase/FirebaseAdapter.h>
+#import <ChatSDKFirebase/ChatSDKFirebase-Swift.h>
 
 @implementation BFirebaseModerationHandler
 
@@ -26,12 +27,12 @@
 // TODO: Should we move these out of the message wrapper?
 - (RXPromise *) flagMessage: (NSString *)messageID {
     id<PMessage> message = [BChatSDK.db fetchOrCreateEntityWithID:messageID withType:bMessageEntity];
-    return [[CCMessageWrapper messageWithModel:message] flag];
+    return [[FirebaseNetworkAdapterModule.shared.firebaseProvider messageWrapperWithModel:message] flag];
 }
 
 - (RXPromise *) unflagMessage: (NSString *)messageID {
     id<PMessage> message = [BChatSDK.db fetchOrCreateEntityWithID:messageID withType:bMessageEntity];
-    return [[CCMessageWrapper messageWithModel:message] unflag];
+    return [[FirebaseNetworkAdapterModule.shared.firebaseProvider messageWrapperWithModel:message] unflag];
 }
 
 - (void) on {

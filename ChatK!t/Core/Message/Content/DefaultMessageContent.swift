@@ -43,8 +43,8 @@ open class DefaultDownloadableMessageContent: DefaultMessageContent, Downloadabl
         }
     }
         
-    open func setDownloadProgress(_ progress: Float) {
-        progressViewHelper()?.setDownloadProgress(progress)
+    open func setDownloadProgress(_ progress: Float, total: Float) {
+        progressViewHelper()?.setDownloadProgress(progress, total: total)
     }
 
     open func downloadFinished(_ url: URL?, error: Error?) {
@@ -59,8 +59,8 @@ open class DefaultDownloadableMessageContent: DefaultMessageContent, Downloadabl
         progressViewHelper()?.downloadStarted()
     }
     
-    open func setUploadProgress(_ progress: Float) {
-        progressViewHelper()?.setUploadProgress(progress)
+    open func setUploadProgress(_ progress: Float, total: Float) {
+        progressViewHelper()?.setUploadProgress(progress, total: total)
     }
 
     open func uploadFinished(_ url: URL?, error: Error?) {

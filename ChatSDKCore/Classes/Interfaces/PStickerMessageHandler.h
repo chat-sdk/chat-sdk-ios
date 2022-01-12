@@ -15,6 +15,7 @@
 
 -(RXPromise *) sendMessageWithSticker: (NSString *) stickerName withThreadEntityID: (NSString *) threadID;
 -(Class) cellClass;
+-(UIImage *) imageForName: (NSString *) name;
 
 @end
 

@@ -7,13 +7,13 @@
 
 import Foundation
 import ChatKit
-import MessageModules
+import ChatSDK
 
 public class CKStickerMessage: CKMessage, HasPlaceholder {
 
     public override func placeholder() -> UIImage? {
         if let text = messageText() {
-            return StickerMessageModule.shared().image(text)
+            return BChatSDK.stickerMessage()?.image(forName: text)
         }
         return nil
     }

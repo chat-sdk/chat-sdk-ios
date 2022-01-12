@@ -40,6 +40,14 @@ typedef enum {
     bMessageActionUserJoinedGroup = 3,
 } bMessageAction;
 
+typedef enum {
+    bMessageSendStatusNone = 0,
+    bMessageSendStatusWillSend = 10,
+    bMessageSendStatusSending = 20,
+    bMessageSendStatusSent = 30,
+    bMessageSendStatusFailed = 40,
+} bMessageSendStatus;
+
 
 #define bMessageText @"text"
 
@@ -153,6 +161,9 @@ typedef enum {
 
 @optional
 
+-(BOOL) sendFailed;
+-(bMessageSendStatus) messageSendStatus;
+-(void) setMessageSendStatus: (bMessageSendStatus) status;
 
 -(void) setReadStatus:(NSDictionary *)status;
 -(BOOL) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid date: (NSDate *) date;

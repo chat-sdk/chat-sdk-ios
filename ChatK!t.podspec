@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatK!t"
-  s.version          = "5.1.3"
+  s.version          = "5.1.4"
   s.summary          = "ChatK!t - Message View"
   s.homepage         = "https://chatk.it"
   s.license          = { :type => 'Apache 2.0' }
@@ -37,6 +37,16 @@ Pod::Spec.new do |s|
     s.source_files = ['ChatK!t/ChatSDK/**/*']
     s.dependency 'ChatSDK/UI'
     s.dependency 'ChatK!t/ChatK!t'
+  end
+
+  s.subspec 'Extras' do |s| 
+
+    s.source_files = ['ChatK!tExtras/*.{h,m,swift}']
+    s.resources = [ 'ChatK!tExtras/*.{xcassets,xib}']
+
+    s.dependency 'ChatK!t/ChatK!t'
+    s.dependency 'ChatK!t/ChatSDK'
+    
   end
       
 end

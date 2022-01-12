@@ -20,6 +20,7 @@ public protocol Message {
     func messageReadStatus() -> MessageReadStatus
     func messageReply() -> Reply?
     func messageContent() -> MessageContent?
+    func messageSendStatus() -> MessageSendStatus?
 
 }
 
@@ -29,7 +30,7 @@ public protocol DownloadableMessage: Message {
         get set
     }
     
-    func setDownloadProgress(_ progress: Float)
+    func setDownloadProgress(_ progress: Float, total: Float)
 
     func startDownload()
     func isDownloaded() -> Bool
@@ -66,9 +67,9 @@ public extension DownloadableMessage {
         }
     }
     
-    func setDownloadProgress(_ progress: Float) {
+    func setDownloadProgress(_ progress: Float, total: Float) {
         if let content = messageContent() as? DownloadableContent {
-            content.setDownloadProgress?(progress)
+            content.setDownloadProgress?(progress, total: total)
         }
     }
 

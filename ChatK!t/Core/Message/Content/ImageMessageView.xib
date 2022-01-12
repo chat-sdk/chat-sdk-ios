@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -38,6 +38,12 @@
                         <constraint firstAttribute="height" constant="60" id="oCG-Am-55B"/>
                     </constraints>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F7d-ac-In8">
+                    <rect key="frame" x="129" y="185" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_20_check" translatesAutoresizingMaskIntoConstraints="NO" id="Eec-LV-2Ow">
                     <rect key="frame" x="275" y="275" width="20" height="20"/>
                     <constraints>
@@ -52,6 +58,8 @@
                 <constraint firstItem="n1B-ao-NFO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GAV-r8-ych"/>
                 <constraint firstAttribute="bottom" secondItem="n1B-ao-NFO" secondAttribute="bottom" id="RPx-Iu-5Hb"/>
                 <constraint firstAttribute="trailing" secondItem="n1B-ao-NFO" secondAttribute="trailing" id="YfN-O7-Ljb"/>
+                <constraint firstItem="F7d-ac-In8" firstAttribute="top" secondItem="31P-OP-q94" secondAttribute="bottom" constant="5" id="d73-Cq-9uE"/>
+                <constraint firstItem="F7d-ac-In8" firstAttribute="centerX" secondItem="31P-OP-q94" secondAttribute="centerX" id="ejP-BB-wg8"/>
                 <constraint firstItem="31P-OP-q94" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="faF-za-DtQ"/>
                 <constraint firstAttribute="bottom" secondItem="Eec-LV-2Ow" secondAttribute="bottom" constant="5" id="hJb-hc-0gh"/>
                 <constraint firstAttribute="trailing" secondItem="Eec-LV-2Ow" secondAttribute="trailing" constant="5" id="kav-Er-Jzc"/>
@@ -59,6 +67,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="checkImageView" destination="Eec-LV-2Ow" id="Ep9-ei-n2E"/>
+                <outlet property="detailLabel" destination="F7d-ac-In8" id="k1D-WB-KPJ"/>
                 <outlet property="imageView" destination="n1B-ao-NFO" id="Dd4-g3-mYv"/>
                 <outlet property="progressView" destination="31P-OP-q94" id="ia6-w2-OzJ"/>
                 <outlet property="videoImageView" destination="8AK-Dt-xFT" id="a2e-N8-AbJ"/>

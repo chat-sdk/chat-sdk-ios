@@ -479,4 +479,12 @@
     }
 }
 
+-(void) setCanDeleteMessagesFromDate: (NSDate *) date {
+    [self setMetaValue:date forKey:bCanDeleteMessagesFrom];
+}
+
+-(NSDate *) canDeleteMessagesFromDate {
+    return self.meta[bCanDeleteMessagesFrom];
+}
+
 @end

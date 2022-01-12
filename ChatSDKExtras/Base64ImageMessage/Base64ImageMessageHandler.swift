@@ -28,7 +28,7 @@ enum Base64ImageMessageError: Error {
             let data = resized.jpegData(compressionQuality: jpegQuality)
             let base64 = data?.base64EncodedString(options: .lineLength64Characters)
             
-            BChatSDK.db().beginUndoGroup()
+//            BChatSDK.db().beginUndoGroup()
             
             let message = BMessageBuilder()
                 .textMessage(Bundle.t(bImageMessage))

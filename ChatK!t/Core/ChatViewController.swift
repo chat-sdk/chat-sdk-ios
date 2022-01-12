@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import KeepLayout
 import AudioToolbox
+import RxCocoa
 
 //public protocol PChatViewController {
 //    func add(message: Message)
@@ -173,6 +174,22 @@ open class ChatViewController: UIViewController {
         }
     }
     
+    open func showResendDialog(callback: @escaping (Bool) -> Void) {
+        
+        let alert = UIAlertController(title: nil, message: t(Strings.resendMessage), preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: t(Strings.resend), style: .default , handler:{ [weak self] (UIAlertAction)in
+            callback(true)
+        }))
+                       
+        alert.addAction(UIAlertAction(title: t(Strings.dismiss), style: .cancel, handler:{ (UIAlertAction) in
+            callback(false)
+        }))
+        alert.popoverPresentationController?.sourceView = self.view
+
+        self.present(alert, animated: true, completion: nil)
+        
+    }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)

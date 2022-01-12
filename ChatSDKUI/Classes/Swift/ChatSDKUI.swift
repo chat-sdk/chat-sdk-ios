@@ -17,13 +17,6 @@ import Foundation
     var userProfileSections = [ProfileSection]()
 
     public override init() {
-        if #available(iOS 15, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithDefaultBackground()
-            UINavigationBar.appearance().standardAppearance = appearance
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-            UINavigationBar.appearance().compactAppearance = appearance
-        }
     }
     
     @objc public func addUserProfileSection(section: ProfileSection) {

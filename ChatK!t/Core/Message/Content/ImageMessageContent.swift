@@ -59,7 +59,7 @@ open class ImageMessageContent: DefaultMessageContent, DownloadableContent, Uplo
         } else {
             _view.hideProgressView()
         }
-                
+        
         _view.setMaskPosition(direction: message.messageDirection())
         _view.imageView.setMaskPosition(direction: message.messageDirection())
         _view.blurView?.setMaskPosition(direction: message.messageDirection())
@@ -85,12 +85,12 @@ open class ImageMessageContent: DefaultMessageContent, DownloadableContent, Uplo
         _view.blurView?.isHidden = false
     }
 
-    open func setDownloadProgress(_ progress: Float) {
-        _view.setDownloadProgress(progress)
+    open func setDownloadProgress(_ progress: Float, total: Float) {
+        _view.setDownloadProgress(progress, total: total)
     }
 
-    open func setUploadProgress(_ progress: Float) {
-        _view.setUploadProgress(progress)
+    open func setUploadProgress(_ progress: Float, total: Float) {
+        _view.setUploadProgress(progress, total: total)
     }
 
     open func downloadFinished(_ url: URL?, error: Error?) {

@@ -54,6 +54,24 @@ open class CKMessage: AbstractMessage {
     open override func messageDirection() -> MessageDirection {
         return direction
     }
+    
+    open override func messageSendStatus() -> MessageSendStatus? {
+        if let status = message.messageSendStatus?() {
+            if status == bMessageSendStatusWillSend {
+                return .willSend
+            }
+            if status == bMessageSendStatusSending {
+                return .sending
+            }
+            if status == bMessageSendStatusSent {
+                return .sent
+            }
+            if status == bMessageSendStatusFailed {
+                return .failed
+            }
+        }
+        return nil
+    }
 
     open override func messageReadStatus() -> MessageReadStatus {
         if BChatSDK.readReceipt() != nil && messageDirection() == .outgoing {
@@ -71,6 +89,8 @@ open class CKMessage: AbstractMessage {
         }
         return .none
     }
+    
+    
     
     open override func messageReply() -> Reply? {
         if message.isReply() {

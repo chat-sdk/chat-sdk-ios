@@ -129,5 +129,8 @@ typedef enum {
 
 -(void) markDeleted: (BOOL) notify;
 
+-(void) setCanDeleteMessagesFromDate: (NSDate *) date;
+-(NSDate *) canDeleteMessagesFromDate;
+
 @end
 

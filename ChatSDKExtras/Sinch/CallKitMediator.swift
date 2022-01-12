@@ -11,7 +11,7 @@ import Sinch
 import UIKit
 
 protocol CallKitMediatorDelegate: AnyObject {
-  func handleIncomingCall(_ call: SinchCall)
+  func handleIncomingCall(_ call: SINCa)
 }
 
 protocol CallKitMediatorObserver: SinchCallDelegate {}

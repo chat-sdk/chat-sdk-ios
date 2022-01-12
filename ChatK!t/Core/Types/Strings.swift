@@ -30,6 +30,11 @@ public class Strings {
     public static let file = "file"
     public static let sticker = "sticker"
     public static let video = "video"
+    public static let messageSendFailed = "messageSendFailed"
+
+    public static let resendMessage = "resendMessage"
+    public static let resend = "resend"
+    public static let dismiss = "dismiss"
 
     public static func t(_ text: String) -> String {
         return NSLocalizedString(text, bundle: Bundle(for: Strings.self), comment: "")
