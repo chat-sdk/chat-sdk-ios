@@ -8,5 +8,6 @@
 import Foundation
 
 @objc public protocol CallHandler {
-    @objc func call(user entityID: String, viewController: UIViewController)
+    @objc func call(user entityID: String, viewController: UIViewController?) -> RXPromise?
+    @objc func callEnabled(thread entityID: String) -> Bool
 }

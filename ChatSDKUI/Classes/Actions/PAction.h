@@ -14,6 +14,9 @@
 
 -(RXPromise *) execute;
 
+@optional
+-(RXPromise *) execute: (UIViewController *) controller;
+
 @end
 
 

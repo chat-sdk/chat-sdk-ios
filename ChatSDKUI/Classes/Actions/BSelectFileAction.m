@@ -15,15 +15,30 @@
 @synthesize mimeType;
 @synthesize data;
 
+@synthesize controller = _controller;
+@synthesize picker = _picker;
+
 -(instancetype) initWithViewController:(UIViewController *)controller {
     if ((self = [self init])) {
-        _types = @[@"public.data"];
         _controller = controller;
     }
     return self;
 }
 
+
+-(instancetype) init {
+    if ((self = [super init])) {
+        _types = @[@"public.data"];
+    }
+    return self;
+}
+
 - (RXPromise *)execute {
+    return [self execute:self.controller];
+}
+
+- (RXPromise *)execute: (UIViewController *) controller {
+
     if (!_promise) {
         _promise = [RXPromise new];
     }
@@ -34,8 +49,10 @@
         _picker.delegate = self;
     }
 
+    __weak __typeof(self) weakSelf = self;
+    
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [_controller presentViewController:_picker animated:YES completion:nil];
+        [controller presentViewController:weakSelf.picker animated:YES completion:nil];
     }];
 
     return _promise;

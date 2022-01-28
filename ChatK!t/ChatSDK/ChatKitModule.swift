@@ -91,9 +91,7 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
     open var newMessageProviders = [Int: MessageProvider]()
     open var optionProviders = [OptionProvider]()
     open var messageOnClick = [MessageOnClickListener]()
-    open var callHandler: ((UIViewController, PThread) -> Void)?
-
-
+    
     open var observers = BNotificationObserverList()
 
     public override init() {
@@ -337,14 +335,13 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
                 }
             })
         ]
-        if let thread = thread, thread.typeIs(bThreadType1to1), let callHandler = callHandler {
+        
+        if let ch = BChatSDK.call(), let thread = thread, ch.callEnabled(thread: thread.entityID()) {
             buttons.append(NavBarButton(UIBarButtonItem(image: ChatKit.asset(icon: "icn_30_call"), style: .plain, target: nil, action: nil), action: { [weak self] item in
-                if let vc = self?.weakVC {
-                    callHandler(vc, thread)
-                }
+                ch.call(user: thread.otherUser().entityID(), viewController: self?.weakVC)
             }))
         }
-        
+                
         weakVC?.rightBarButtonItems = buttons
 
     }
@@ -806,24 +803,31 @@ public class FileMessageProvider: MessageProvider {
 public class FileOptionProvider: OptionProvider {
     
     var action: BSelectFileAction?
+    weak var vc: ChatViewController?
     
     public func provide(for vc: ChatViewController, thread: PThread) -> Option {
+        self.vc = vc
+        
         return Option(fileOnClick: { [weak self] in
-            self?.action = BSelectFileAction.init(viewController: vc)
-            _ = self?.action?.execute().thenOnMain({ success in
-                
-                if let fileMessage = BChatSDK.fileMessage(), let action = self?.action, let name = action.name, let url = action.url, let mimeType = action.mimeType, let data = action.data {
-                    let file: [AnyHashable: Any] = [
-                        bFileName: name,
-                        bFilePath: url,
-                        FileKeys.mimeType: mimeType,
-                        FileKeys.data: data
-                    ]
-                    return fileMessage.sendMessage(withFile: file, andThreadEntityID: thread.entityID())
-                }
-                
-                return success
-            }, nil)
+
+            self?.action = BSelectFileAction.init()
+            
+            if let vc = self?.vc {
+                _ = self?.action?.execute(vc).thenOnMain({ success in
+
+                    if let fileMessage = BChatSDK.fileMessage(), let action = self?.action, let name = action.name, let url = action.url, let mimeType = action.mimeType, let data = action.data {
+                        let file: [AnyHashable: Any] = [
+                            bFileName: name,
+                            bFilePath: url,
+                            FileKeys.mimeType: mimeType,
+                            FileKeys.data: data
+                        ]
+                        return fileMessage.sendMessage(withFile: file, andThreadEntityID: thread.entityID())
+                    }
+
+                    return success
+                }, nil)
+            }
         })
     }
 }

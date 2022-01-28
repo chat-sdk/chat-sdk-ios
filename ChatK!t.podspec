@@ -46,6 +46,7 @@ Pod::Spec.new do |s|
 
     s.dependency 'ChatK!t/ChatK!t'
     s.dependency 'ChatK!t/ChatSDK'
+    s.dependency 'MessageModules'
     
   end
       

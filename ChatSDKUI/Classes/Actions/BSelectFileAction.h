@@ -22,6 +22,10 @@
 @property (nonatomic, readwrite) NSData * data;
 @property (nonatomic, readwrite) NSURL * url;
 
+@property (nonatomic, readwrite, weak) UIViewController * controller;
+@property (nonatomic, readwrite) UIDocumentPickerViewController * picker;
+
 - (instancetype)initWithViewController:(UIViewController *)controller;
+- (instancetype)init;
 
 @end

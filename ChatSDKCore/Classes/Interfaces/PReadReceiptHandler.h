@@ -16,6 +16,7 @@
 -(void) updateReadReceiptsForThread: (id<PThread>) thread;
 -(void) markRead: (id<PThread>) thread;
 -(void) setAutoSendReadReceipt: (BOOL) autoSend;
+-(void) markMessageRead: (id<PMessage>) message;
 
 @end
 

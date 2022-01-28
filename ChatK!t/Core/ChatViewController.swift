@@ -354,7 +354,7 @@ open class ChatViewController: UIViewController {
         replyView.keepHeight.equal = ChatKit.config().chatReplyViewHeight + replyView.divider.frame.height
         replyView.hide(duration: 0, notify: false)
         replyView.didHideListener = { [weak self] in
-            UIView.animate(withDuration: ChatKit.config().animationDuration, animations: { [weak self] in
+            UIView.animate(withDuration: ChatKit.config().animationDuration, animations: {
                 self?.updateMessageViewBottomInset()
             })
         }
