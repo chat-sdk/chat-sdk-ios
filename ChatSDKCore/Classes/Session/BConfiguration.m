@@ -54,6 +54,7 @@
 @synthesize messageSelectionEnabled;
 @synthesize encryptGroupThreads;
 @synthesize allowUserToRejoinGroup;
+@synthesize legacyCropperEnabled;
 
 
 @synthesize showMessageAvatarAtPosition;
@@ -166,6 +167,7 @@
         prefersLargeTitles = YES;
         
         forgotPasswordEnabled = YES;
+        legacyCropperEnabled = NO;
         
         databaseVersion = @"1";
         clearDatabaseWhenDataVersionChanges = NO;

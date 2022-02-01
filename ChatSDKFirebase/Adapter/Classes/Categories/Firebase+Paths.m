@@ -105,5 +105,11 @@
     return [[self thread:threadID messageRef:messageID] child:bReadPath];
 }
 
+#pragma Permissions
+
++(FIRDatabaseReference *) threadPermissions: (NSString *) threadID {
+    return [[self threadRef:threadID] child:bPermissionsPath];
+}
+
 
 @end

@@ -13,6 +13,7 @@
 #define MESSAGES_ON_KEY @"messagesOn"
 #define META_ON_KEY @"metaOn"
 #define ONLINE_ON_KEY @"onlineOn"
+#define PERMISSIONS_ON_KEY @"permissionsOn"
 
 @implementation NSManagedObject (Status)
 
@@ -38,6 +39,14 @@
 
 -(BOOL) metaOn {
     return [self pathOn:META_ON_KEY];
+}
+
+-(void) setPermissionsOn:(BOOL)isOn {
+    [self setPath:PERMISSIONS_ON_KEY on:isOn];
+}
+
+-(BOOL) permissionsOn {
+    return [self pathOn:PERMISSIONS_ON_KEY];
 }
 
 -(void) setOnlineOn:(BOOL)isOn {

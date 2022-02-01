@@ -41,4 +41,7 @@
 +(FIRDatabaseReference *) flaggedMessagesRef;
 +(FIRDatabaseReference *) flaggedRefWithMessage: (NSString *) messageID;
 
+// Permission
++(FIRDatabaseReference *) threadPermissions: (NSString *) threadID;
+
 @end

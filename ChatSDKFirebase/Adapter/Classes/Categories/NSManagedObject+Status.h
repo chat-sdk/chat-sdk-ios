@@ -31,4 +31,7 @@
 -(void) setPath: (NSString *) path on: (BOOL) on;
 -(BOOL) pathOn: (NSString *) path;
 
+-(void) setPermissionsOn:(BOOL)isOn;
+-(BOOL) permissionsOn;
+
 @end

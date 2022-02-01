@@ -13,9 +13,16 @@
 @implementation BSelectMediaAction
 
 -(instancetype) initWithType: (bPictureType) type viewController: (UIViewController *) controller {
+    if((self = [self initWithType:type viewController:controller cropEnabled:false])) {
+    }
+    return self;
+}
+
+-(instancetype) initWithType: (bPictureType) type viewController: (UIViewController *) controller cropEnabled: (BOOL) enabled {
     if((self = [self init])) {
         _type = type;
         _controller = controller;
+        _cropperEnabled = enabled;
     }
     return self;
 }
@@ -50,7 +57,6 @@
     // Make sure our picker is set to album as elsewhere we are using it for the camera
     _picker.sourceType = (_type == bPictureTypeCameraImage || _type == bPictureTypeCameraVideo) ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary;
     
-    
     // This code fixes an issue where the picker isn't loaded in iOS 8 and above sometimes on devices
     // This seems to be due to UIActionSheet delegate being depreciated
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -70,10 +76,16 @@
 
         [_picker dismissViewControllerAnimated:NO completion:^{
             UIImage * image = [info objectForKey:UIImagePickerControllerOriginalImage];
-            if (image) {
-                [self processSelectedImage:image error:nil];
+            if (_cropperEnabled) {
+                if (image) {
+                    [self processSelectedImage:image error:nil];
+                } else {
+                    [self processSelectedImage:nil error:[NSBundle t:bImageUnavailable]];
+                }
             } else {
-                [self processSelectedImage:nil error:[NSBundle t:bImageUnavailable]];
+                _photo = image;
+                [_promise resolveWithResult: Nil];
+                _promise = Nil;
             }
         }];
         

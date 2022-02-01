@@ -19,13 +19,18 @@ Pod::Spec.new do |s|
   # s.static_framework = true
   s.pod_target_xcconfig = { 'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES' }
 
+ s.subspec 'Core' do |s|
+  s.source_files = ['ChatSDKFirebase/Core/**/*.{h,m,swift}']
+ end
+
  s.subspec 'Adapter' do |s|
 
 	s.source_files = ['ChatSDKFirebase/Adapter/Classes/**/*.{h,m,swift}']
 	
-    s.dependency 'Firebase/Auth'
-    s.dependency 'Firebase/Database'
- 
+  s.dependency 'Firebase/Auth'
+  s.dependency 'Firebase/Database'
+
+  s.dependency 'ChatSDKFirebase/Core' 
 	s.dependency 'ChatSDK'
   
   end
@@ -34,10 +39,11 @@ Pod::Spec.new do |s|
 
 	s.source_files = ['ChatSDKFirebase/Upload/Classes/**/*.{h,m,swift}']
 
-    s.dependency 'Firebase/Database'
+  s.dependency 'Firebase/Database'
   s.dependency 'Firebase/Storage'
 	s.dependency 'ChatSDK'
-  
+  # s.dependency 'ChatSDKFirebase/Adapter' 
+
   end
 
  s.subspec 'Push' do |s|
@@ -48,6 +54,7 @@ Pod::Spec.new do |s|
     s.dependency 'Firebase/Messaging'
     s.dependency 'Firebase/Functions'
     s.dependency 'ChatSDK'
+    s.dependency 'ChatSDKFirebase/Core' 
 
   end
 
@@ -60,7 +67,8 @@ Pod::Spec.new do |s|
 	s.dependency 'FirebaseUI/Email'
   	s.dependency 'FirebaseUI/Phone'
   	s.dependency 'FirebaseUI/OAuth'
-	
+	  s.dependency 'ChatSDKFirebase/Core' 
+
   end
       
 end

@@ -54,7 +54,7 @@ import UIKit
         if showHUD {
             showProgressHUD()
         }
-        BChatSDK.thread().refreshRoles?(thread.entityID()).thenOnMain({ [weak self] success in
+        BChatSDK.thread().refreshRoles(thread.entityID()).thenOnMain({ [weak self] success in
             self?.hideProgressHUD()
             self?.refresh()
             return success

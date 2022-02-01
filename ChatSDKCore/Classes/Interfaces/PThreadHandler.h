@@ -140,10 +140,10 @@
 
 -(BOOL) canMuteThreads;
 -(BOOL) canDestroyThread: (nonnull NSString *) threadEntityID;
+-(nonnull RXPromise *) refreshRoles: (nonnull NSString *) threadEntityID;
 
 @optional
 
--(nonnull RXPromise *) refreshRoles: (nonnull NSString *) threadEntityID;
 
 -(nonnull RXPromise *) muteThread: (nonnull id<PThread>) thread;
 -(nonnull RXPromise *) unmuteThread: (nonnull id<PThread>) thread;

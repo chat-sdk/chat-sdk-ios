@@ -427,4 +427,8 @@
     return NO;
 }
 
+-(RXPromise *) refreshRoles: (NSString *) threadEntityID {
+    return [RXPromise resolveWithResult:nil];
+}
+
 @end

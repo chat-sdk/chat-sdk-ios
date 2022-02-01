@@ -255,11 +255,11 @@
         [options addObject:[[BMediaChatOption alloc] initWithType:bPictureTypeCameraVideo]];
     }
     else if (imageEnabled)  {
-        [options addObject:[[BMediaChatOption alloc] initWithType:bPictureTypeCameraImage]];
+        [options addObject:[[BMediaChatOption alloc] initWithType:bPictureTypeCameraImage cropperEnabled:YES]];
     }
     
     if (imageEnabled) {
-        [options addObject:[[BMediaChatOption alloc] initWithType:bPictureTypeAlbumImage]];
+        [options addObject:[[BMediaChatOption alloc] initWithType:bPictureTypeAlbumImage cropperEnabled:YES]];
     }
     if (videoEnabled) {
         [options addObject:[[BMediaChatOption alloc] initWithType:bPictureTypeAlbumVideo]];

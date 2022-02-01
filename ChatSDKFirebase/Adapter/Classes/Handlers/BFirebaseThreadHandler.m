@@ -34,7 +34,7 @@
     }
     else {
         threadModel = [self createThreadWithUsers:users name:name type: type];
-        CCThreadWrapper * thread = [FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithModel: threadModel];
+        CCThreadWrapper * wrapper = [FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithModel: threadModel];
         
         if (entityID) {
             threadModel.entityID = entityID;
@@ -42,13 +42,17 @@
         
         __weak __typeof(self) weakSelf = self;
 
-        return [thread push].thenOnMain(^id(id<PThread> thread) {
-                        
+        return [wrapper push].thenOnMain(^id(id<PThread> thread) {
+                                    
             // Add the users to the thread
             if (threadCreated != Nil) {
                 threadCreated(Nil, thread);
             }
-            return [weakSelf addUsers:threadModel.users.allObjects toThread:threadModel];
+            return [weakSelf addUsers:threadModel.users.allObjects toThread:threadModel].thenOnMain(^id(id success) {
+                // Add the owner permission
+                return [wrapper setPermission:BChatSDK.currentUserID permission:Permissions.owner];
+
+            }, nil);
             
         },^id(NSError * error) {
             //[BChatSDK.db undo];
@@ -191,17 +195,17 @@
 }
 
 // TODO: Implement these
--(RXPromise *) setChatState: (bChatState) state forThread: (id<PThread>) thread {
-    return Nil;
-}
-
--(RXPromise *) acceptSubscriptionRequestForUser: (id<PUser>) user {
-    return Nil;
-}
-
--(RXPromise *) rejectSubscriptionRequestForUser: (id<PUser>) user {
-    return Nil;
-}
+//-(RXPromise *) setChatState: (bChatState) state forThread: (id<PThread>) thread {
+//    return Nil;
+//}
+//
+//-(RXPromise *) acceptSubscriptionRequestForUser: (id<PUser>) user {
+//    return Nil;
+//}
+//
+//-(RXPromise *) rejectSubscriptionRequestForUser: (id<PUser>) user {
+//    return Nil;
+//}
 
 - (RXPromise *) deleteMessage: (NSString *)messageID {
     id<PMessage> message = [BChatSDK.db fetchOrCreateEntityWithID:messageID withType:bMessageEntity];
@@ -220,6 +224,109 @@
         return message.senderIsMe;
     }
     return false;
+}
+
+#pragma Permissions
+
+-(BOOL) rolesEnabled: (NSString *) threadEntityID {
+    __block BOOL enabled = NO;
+    [BChatSDK.db performOnMainAndWait:^{
+        id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadEntityID withType:bThreadEntity];
+        if ([thread typeIs:bThreadFilterGroup]) {
+            enabled = YES;
+        }
+    }];
+    return enabled;
+}
+
+-(BOOL) canChangeRole: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    if (![self rolesEnabled:threadEntityID]) {
+        return NO;
+    }
+    NSString * myRole = [self role:threadEntityID forUser:BChatSDK.currentUserID];
+    NSString * role = [self role:threadEntityID forUser:userEntityID];
+
+    if ([Permissions levelWithRole:myRole] > [Permissions levelWithRole:role]) {
+        return [Permissions isOr:myRole roles:@[Permissions.owner, Permissions.admin]];
+    }
+    
+    return NO;
+}
+
+-(nonnull NSString *) role: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    __block NSString * role = nil;
+    [BChatSDK.db performOnMainAndWait:^{
+        id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadEntityID withType:bThreadEntity];
+        id<PUserConnection> connection = [thread connection:userEntityID];
+        if (connection) {
+            role = connection.role;
+        }
+        if (!role) {
+            // For backwards compatiblity, if permissions are not set, we assume they are a member
+            role = [thread.creator.entityID isEqual:userEntityID] ? Permissions.owner : Permissions.member;
+        }
+    }];
+    return role;
+}
+
+-(nonnull RXPromise *) setRole: (NSString *) role forThread: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    CCThreadWrapper * wrapper = [FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithEntityID:threadEntityID];
+    return [wrapper setPermission:userEntityID permission:role];
+}
+
+-(nonnull NSArray<NSString *> *) availableRoles: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    NSMutableArray * available = [NSMutableArray new];
+    NSString * myRole = [self role:threadEntityID forUser:BChatSDK.currentUserID];
+    
+    for (NSString * role in Permissions.all) {
+        if ([Permissions levelWithRole:myRole] > [Permissions levelWithRole:role]) {
+            [available addObject:role];
+        }
+    }
+    
+    return available;
+}
+
+-(BOOL) canChangeVoice: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    return false;
+}
+
+-(BOOL) hasVoice: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
+    __block BOOL hasVoice = false;
+    [BChatSDK.db performOnMainAndWait:^{
+        id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadEntityID withType:bThreadEntity];
+        id<PUser> user = [BChatSDK.db fetchEntityWithID:userEntityID withType:bUserEntity];
+        if ([thread containsUser:user] || [thread typeIs:bThreadFilterPublic]) {
+            NSString * role = [self role:threadEntityID forUser:userEntityID];
+            hasVoice = [Permissions isOr:role roles:@[Permissions.owner, Permissions.admin, Permissions.member]];
+        }
+    }];
+    return hasVoice;
+}
+
+-(BOOL) canLeaveThread: (id<PThread>) thread {
+    if ([thread typeIs:bThreadFilterGroup]) {
+        NSString * myRole = [self role:thread forUser:BChatSDK.currentUserID];
+        return [Permissions isOr:myRole roles:@[Permissions.owner, Permissions.admin, Permissions.member, Permissions.watcher]];
+    }
+    return NO;
+}
+
+-(BOOL) canJoinThread: (id<PThread>) thread {
+    return NO;
+}
+
+-(BOOL) canRemoveUser: (NSString *) userEntityID fromThread: (NSString *) threadEntityID {
+    __block BOOL canRemove = false;
+    [BChatSDK.db performOnMainAndWait:^{
+        id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadEntityID withType:bThreadEntity];
+        if ([thread typeIs:bThreadTypePrivateGroup]) {
+            NSString * myRole = [self role:threadEntityID forUser:BChatSDK.currentUserID];
+            NSString * role = [self role:threadEntityID forUser:userEntityID];
+            canRemove = [Permissions isOr:myRole roles:@[Permissions.owner, Permissions.admin]] && [Permissions isOr:role roles:@[Permissions.member, Permissions.watcher, Permissions.banned]];
+        }
+    }];
+    return canRemove;
 }
 
 @end

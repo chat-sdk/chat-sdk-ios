@@ -85,6 +85,8 @@ open class Config {
     open var minimumAudioRecordingLength = 1
 
     open var typingTimeout: Double = 3
+    
+    open var imageEditorEnabled = true
 
 //    open var loadImageMessageFromURL = false
     

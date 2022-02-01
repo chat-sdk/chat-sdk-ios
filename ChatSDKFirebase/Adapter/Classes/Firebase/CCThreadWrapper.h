@@ -99,4 +99,6 @@
 
 -(void) removeMessage: (id<PMessage>) message;
 
+-(RXPromise *) setPermission: (NSString *) userEntityID permission: (NSString *) permission;
+
 @end

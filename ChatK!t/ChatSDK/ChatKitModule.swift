@@ -9,6 +9,7 @@
 import Foundation
 import ChatSDK
 import AVKit
+import ZLImageEditor
 
 public class FileKeys {
     
@@ -599,10 +600,16 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
         var options = [
             Option(galleryOnClick: { [weak self] in
                 if let vc = self?.weakVC, let thread = self?.thread {
-                    let action = BSelectMediaAction(type: bPictureTypeAlbumImage, viewController: vc)
+                    let action = BSelectMediaAction(type: bPictureTypeAlbumImage, viewController: vc, cropEnabled: false)
                     _ = action?.execute()?.thenOnMain({ success in
                         if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
-                            imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+                            if ChatKit.config().imageEditorEnabled {
+                                ZLEditImageViewController.showEditImageVC(parentVC: vc, animate: false, image: photo, editModel: nil) { (resImage, editModel) in
+                                    imageMessage.sendMessage(with: resImage, withThreadEntityID: thread.entityID())
+                                }
+                            } else {
+                                imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+                            }
                         }
                         return success
                     }, nil)
@@ -675,7 +682,13 @@ open class ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelDe
                             if success {
                                 _ = action?.execute()?.thenOnMain({ success in
                                     if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
-                                        imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+                                        if ChatKit.config().imageEditorEnabled {
+                                            ZLEditImageViewController.showEditImageVC(parentVC: vc, animate: false, image: photo, editModel: nil) { (resImage, editModel) in
+                                                imageMessage.sendMessage(with: resImage, withThreadEntityID: thread.entityID())
+                                            }
+                                        } else {
+                                            imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+                                        }
                                     }
                                     if let videoMessage = BChatSDK.videoMessage(), let video = action?.videoData, let coverImage = action?.coverImage {
                                         videoMessage.sendMessage(withVideo: video, cover: coverImage, withThreadEntityID: thread.entityID())

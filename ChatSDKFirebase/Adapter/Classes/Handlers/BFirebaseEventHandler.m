@@ -65,8 +65,6 @@
                 return success;
             }, nil);
 
-            [thread messagesOn];
-            [thread usersOn];
         }
     }];
     
@@ -75,6 +73,7 @@
         if (snapshot.value != [NSNull null]) {
             // Make the new thread
             CCThreadWrapper * thread = [FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithEntityID:snapshot.key];
+
             [thread off];
             [thread messagesOff]; // We need to turn the messages off incase we rejoin the thread
             
@@ -112,8 +111,8 @@
             }, nil);
 
             // TODO: Maybe move this so we only listen to a thread when it's open
-            [thread messagesOn];
-            [thread usersOn];
+//            [thread messagesOn];
+//            [thread usersOn];
         }
     }];
 }

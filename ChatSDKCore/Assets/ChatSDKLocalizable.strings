@@ -131,6 +131,8 @@
 "owner" = "Owner";
 "member" = "Member";
 "outcast" = "Banned";
+"banned" = "Banned";
+"watcher" = "Watcher";
 
 "bRole" = "Role";
 "bViewProfile" = "View Profile";

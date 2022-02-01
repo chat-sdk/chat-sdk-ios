@@ -15,8 +15,16 @@
 @implementation BMediaChatOption
 
 -(instancetype) initWithType: (bPictureType) type {
+    if((self = [self initWithType:type cropperEnabled:false])) {
+        
+    }
+    return self;
+}
+
+-(instancetype) initWithType: (bPictureType) type cropperEnabled: (BOOL) cropperEnabled {
     if((self = [self init])) {
         _type = type;
+        _cropperEnabled = cropperEnabled;
     }
     return self;
 }
@@ -62,7 +70,7 @@
 }
 
 - (RXPromise * ) execute: (UIViewController *) viewController threadEntityID: (NSString *) threadEntityID handler:(id<PChatOptionsHandler>)handler {
-    BSelectMediaAction * action =  [[BSelectMediaAction alloc] initWithType:_type viewController:viewController];
+    BSelectMediaAction * action =  [[BSelectMediaAction alloc] initWithType:_type viewController:viewController cropEnabled:_cropperEnabled];
     return [action execute].thenOnMain(^id(id success) {
         if(action.videoData && action.coverImage && BChatSDK.videoMessage) {
             return [BChatSDK.videoMessage sendMessageWithVideo:action.videoData coverImage:action.coverImage withThreadEntityID:threadEntityID];

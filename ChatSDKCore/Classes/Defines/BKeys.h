@@ -38,6 +38,7 @@
 #define bReadPath @"read"
 #define bImageURL @"image-url"
 #define bNickname @"nick"
+#define bPermissionsPath @"permissions"
 
 #define bCreationDate @"creation-date"
 #define bMessage @"message"

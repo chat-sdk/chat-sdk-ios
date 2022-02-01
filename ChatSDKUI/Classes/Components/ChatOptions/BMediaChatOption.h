@@ -18,8 +18,10 @@
     UIImagePickerController * _picker;
     RXPromise * _promise;
     bPictureType _type;
+    BOOL _cropperEnabled;
 }
 
 -(instancetype) initWithType: (bPictureType) type;
+-(instancetype) initWithType: (bPictureType) type cropperEnabled: (BOOL) cropperEnabled;
 
 @end

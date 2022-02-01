@@ -30,6 +30,7 @@ Pod::Spec.new do |s|
     s.dependency 'RxSwift', '~>6.2.0'
     s.dependency 'DateTools'
     s.dependency 'SDWebImage'
+    s.dependency 'ZLImageEditor'
 
   end
   
@@ -49,5 +50,6 @@ Pod::Spec.new do |s|
     s.dependency 'MessageModules'
     
   end
-      
+
+
 end

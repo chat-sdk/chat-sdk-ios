@@ -12,7 +12,7 @@
 
 @class RXPromise;
 
-@interface BSelectMediaAction : NSObject<PAction, UIImagePickerControllerDelegate, TOCropViewControllerDelegate, UINavigationControllerDelegate> {
+@interface BSelectMediaAction: NSObject<PAction, UIImagePickerControllerDelegate, TOCropViewControllerDelegate, UINavigationControllerDelegate> {
     UIImagePickerController * _picker;
     RXPromise * _promise;
     bPictureType _type;
@@ -22,7 +22,9 @@
 @property (nonatomic, readwrite) UIImage * coverImage;
 @property (nonatomic, readwrite) UIImage * photo;
 @property (nonatomic, readwrite) NSData * videoData;
+@property (nonatomic, readwrite) BOOL cropperEnabled;
 
 -(instancetype) initWithType: (bPictureType) type viewController: (UIViewController *) controller;
+-(instancetype) initWithType: (bPictureType) type viewController: (UIViewController *) controller cropEnabled: (BOOL) enabled;
 
 @end

@@ -37,10 +37,10 @@
     return self;
 }
 
--(RXPromise *) on {
+-(RXPromise *) doOn {
     
     RXPromise * promise = [RXPromise new];
-
+    
     if (((NSManagedObject *)_model).on) {
         [promise resolveWithResult:self];
         return promise;
@@ -55,7 +55,10 @@
             // Update the thread
             [self deserialize:snapshot.value];
             [promise resolveWithResult:self];
-
+            
+            [self messagesOn];
+            [self usersOn];
+            [self permissionsOn];
         }
         else {
             [promise rejectWithReason:Nil];
@@ -69,6 +72,12 @@
     return promise;
 }
 
+-(RXPromise *) on {
+    return [self myPermission].thenOnMain(^id(id success) {
+        return [self doOn];
+    }, nil);
+}
+
 -(void) off {
     
     ((NSManagedObject *)_model).on = NO;
@@ -78,6 +87,7 @@
     
     [self messagesOff];
     [self usersOff];
+    [self permissionsOff];
     
     if(BChatSDK.typingIndicator) {
         [BChatSDK.typingIndicator typingOff: self.model];
@@ -647,6 +657,100 @@
 
 -(void) permissionsOn {
     
+    if (((NSManagedObject *)_model).permissionsOn) {
+        return;
+    }
+    ((NSManagedObject *)_model).permissionsOn = YES;
+    
+    void(^block)(FIRDataSnapshot *) = ^(FIRDataSnapshot * snapshot) {
+        [BChatSDK.db performOnMain:^{
+            id<PUserConnection> connection = [self.model connection:snapshot.key];
+            if (connection) {
+                if (snapshot.value != [NSNull null]) {
+                    connection.role = snapshot.value;
+                } else {
+                    if (_model.creator.isMe) {
+                        connection.role = Permissions.owner;
+                    } else {
+                        connection.role = Permissions.member;
+                    }
+                }
+                
+                if ([snapshot.key isEqual:BChatSDK.currentUserID]) {
+                    [self updateListenersForPermission: connection.role];
+                }
+                
+                id<PUser> user = [BChatSDK.db fetchEntityWithID:snapshot.key withType:bUserEntity];
+                [BHookNotification notificationThreadUserRoleUpdated:self.model user:user];
+            }
+        }];
+
+    };
+
+    FIRDatabaseReference * ref = [FIRDatabaseReference threadPermissions:self.entityID];
+    [ref observeEventType:FIRDataEventTypeChildAdded withBlock:block];
+    [ref observeEventType:FIRDataEventTypeChildChanged withBlock:block];
+//    [ref observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
+//        if (snapshot.value != [NSNull null]) {
+//
+//        } else {
+//
+//        }
+//    }];
+}
+
+-(void) updateListenersForPermission: (NSString *) role {
+    if ([role isEqual:Permissions.banned]) {
+        [self messagesOff];
+        if(BChatSDK.typingIndicator) {
+            [BChatSDK.typingIndicator typingOff: self.model];
+        }
+    } else {
+        [self messagesOn];
+        if(BChatSDK.typingIndicator) {
+            [BChatSDK.typingIndicator typingOn: self.model];
+        }
+    }
+}
+
+-(RXPromise *) myPermission {
+    RXPromise * promise = [RXPromise new];
+    
+    NSString * userEntityID = BChatSDK.currentUserID;
+    
+    FIRDatabaseReference * ref = [[FIRDatabaseReference threadPermissions:self.entityID] child: userEntityID];
+    [ref observeSingleEventOfType:FIRDataEventTypeValue withBlock: ^(FIRDataSnapshot * snapshot) {
+        [BChatSDK.db performOnMain:^{
+            id<PUserConnection> connection = [self.model connection:userEntityID];
+            if (snapshot.value == [NSNull null]) {
+                connection.role = Permissions.member;
+            } else {
+                connection.role = snapshot.value;
+            }
+            [promise resolveWithResult:snapshot.value];
+        }];
+    }];
+    
+    return promise;
+}
+
+-(RXPromise *) setPermission: (NSString *) userEntityID permission: (NSString *) permission {
+    RXPromise * promise = [RXPromise new];
+    FIRDatabaseReference * ref = [[FIRDatabaseReference threadPermissions:self.entityID] child: userEntityID];
+    [ref setValue:permission withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+        if (error) {
+            [promise rejectWithReason:error];
+        } else {
+            [promise resolveWithResult:nil];
+        }
+    }];
+    return promise;
+}
+
+-(void) permissionsOff {
+    ((NSManagedObject *)_model).permissionsOn = NO;
+    FIRDatabaseReference * ref = [FIRDatabaseReference threadPermissions:self.entityID];
+    [ref removeAllObservers];
 }
 
 #pragma EntityWrapper protocol

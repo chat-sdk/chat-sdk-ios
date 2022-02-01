@@ -201,6 +201,9 @@ typedef enum {
 
 @property (nonatomic, readwrite) BOOL prefersLargeTitles;
 
+// Use the old cropper view - only really needed with legacy BChatViewController
+@property (nonatomic, readwrite) BOOL legacyCropperEnabled;
+
 @property (nonatomic, readwrite) NSMutableDictionary * remote;
 @property (nonatomic, readwrite) BOOL remoteConfigEnabled;
 

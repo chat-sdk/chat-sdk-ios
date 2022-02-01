@@ -57,6 +57,7 @@ open class Section {
     open func removeMessage(_ message: AbstractMessage) {
         if let i = index(of: message) {
             _messages.remove(at: i)
+            _messagesIndex.removeValue(forKey: message.messageId())
         }
     }
     
