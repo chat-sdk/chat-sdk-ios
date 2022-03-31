@@ -75,7 +75,7 @@
 
 -(BOOL) canLeaveThread: (id<PThread>) thread;
 -(BOOL) canJoinThread: (id<PThread>) thread;
-
+-(BOOL) canEditThread: (NSString *) threadEntityID;
 
 /**
  * @brief Send different types of message to a particular thread
@@ -109,7 +109,7 @@
 -(void) sendLocalSystemMessageWithText:(NSString *)text type: (bSystemMessageType) type withThreadEntityID:(NSString *)threadID;
 
 - (NSArray *)threadsWithUsers:(NSArray *)users type:(bThreadType)type;
-
+-(RXPromise *) pushThreadMeta: (NSString *) threadEntityID;
 
 -(RXPromise *) replyToMessage: (id<PMessage>) message withThreadID: (NSString *) threadEntityID reply: (NSString *) reply;
 -(RXPromise *) forwardMessage: (id<PMessage>) message toThreadWithID: (NSString *) threadEntityID;

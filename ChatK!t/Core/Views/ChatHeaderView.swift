@@ -7,11 +7,13 @@
 
 import Foundation
 import KeepLayout
+import UIKit
 
 open class ChatHeaderView : UIView {
     
     open var titleLabel: UILabel?
     open var subtitleLabel: UILabel?
+    open var imageView: UIImageView?
     open var tapRecognizer: UITapGestureRecognizer?
     open var onTap: (()->Void)?
        
@@ -30,34 +32,66 @@ open class ChatHeaderView : UIView {
     
     open func setup() {
         
+        let viewHeight : CGFloat = 40.0
+        
         tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap))
         addGestureRecognizer(tapRecognizer!)
+        
+        let imageEnabled = ChatKit.config().imageViewInChatHeader
                 
+        if imageEnabled {
+            imageView = UIImageView()
+            addSubview(imageView!)
+            
+            imageView?.keepLeftInset.equal = 0
+            imageView?.keepTopInset.equal = 0
+            imageView?.keepBottomInset.equal = 0
+            imageView?.keepAspectRatio.equal = 1
+            imageView?.layer.cornerRadius = viewHeight / 2
+            imageView?.clipsToBounds = true
+//            imageView?.keepWidth.equal = viewHeight
+        }
+        
         titleLabel = UILabel()
         
-        titleLabel?.textAlignment = .center
+        titleLabel?.textAlignment = imageEnabled ? .left : .center
         titleLabel?.font = UIFont.boldSystemFont(ofSize: titleLabel!.font.pointSize)
         
         addSubview(titleLabel!)
         
-        titleLabel?.keepInsets.equal = 0
+        if imageEnabled {
+            titleLabel?.keepLeftOffsetTo(imageView)?.equal = 5
+        } else {
+            titleLabel?.keepLeftInset.equal = 0
+        }
+        titleLabel?.keepTopInset.equal = 0
+        titleLabel?.keepRightInset.equal = 0
         titleLabel?.keepBottomInset.equal = 15
         
         subtitleLabel = UILabel()
         
-        subtitleLabel?.textAlignment = .center
+        subtitleLabel?.textAlignment = imageEnabled ? .left : .center
         subtitleLabel?.font = UIFont.italicSystemFont(ofSize: 12.0)
         subtitleLabel?.textColor = .lightGray
         
         addSubview(subtitleLabel!)
         
-        subtitleLabel?.keepHeight.equal = 15;
-        subtitleLabel?.keepWidth.equal = 200;
-        subtitleLabel?.keepBottomInset.equal = 0;
-        subtitleLabel?.keepHorizontalCenter.equal = 0.5;
+        if imageEnabled {
+            subtitleLabel?.keepLeftOffsetTo(imageView)?.equal = 5
+        } else {
+            subtitleLabel?.keepLeftInset.equal = 0
 
-        keepWidth.equal = 180
-        keepHeight.equal = 40
+//            subtitleLabel?.keepWidth.equal = 200;
+//            subtitleLabel?.keepHorizontalCenter.equal = 0.5;
+        }
+        subtitleLabel?.keepHeight.equal = 15;
+        subtitleLabel?.keepBottomInset.equal = 0;
+        subtitleLabel?.keepRightInset.equal = 0
+
+//        keepWidth.equal = 180
+        keepWidth.equal = 250
+        keepHeight.equal = viewHeight
+        
     }
     
     @objc open func tap() {

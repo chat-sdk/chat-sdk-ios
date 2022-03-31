@@ -55,7 +55,7 @@
 @synthesize encryptGroupThreads;
 @synthesize allowUserToRejoinGroup;
 @synthesize legacyCropperEnabled;
-
+@synthesize timeAgoDateFormat;
 
 @synthesize showMessageAvatarAtPosition;
 @synthesize messageBubbleMaskFirst;
@@ -188,6 +188,7 @@
         
         userChatInfoEnabled = YES;
         threadDestructionEnabled = YES;
+        timeAgoDateFormat = @"dd/MM/yy";
         
         maxImageDimension = 600;
         
@@ -203,7 +204,7 @@
         xmppPingInterval = 15;
         xmppPingTimeout = 15;
         
-        messageDeletionListenerLimit = 30;
+        messageDeletionListenerLimit = -1;
         messageHistoryDownloadLimit = 30;
         readReceiptMaxAgeInSeconds = 7 * bDays;
         

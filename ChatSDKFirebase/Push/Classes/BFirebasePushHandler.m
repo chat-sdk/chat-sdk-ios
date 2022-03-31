@@ -13,8 +13,11 @@
 
 @implementation BFirebasePushHandler
 
+@synthesize delegates = _delegates;
+
 -(instancetype) init {
     if((self = [super init])) {
+        _delegates = [NSMutableArray new];
         FIRMessaging.messaging.delegate = self;
         FIRMessaging.messaging.autoInitEnabled = YES;
     }
@@ -23,13 +26,28 @@
 
 -(void) messaging:(FIRMessaging *)messaging didReceiveRegistrationToken:(NSString *)fcmToken {
     NSLog(@"FCM registration token: %@", fcmToken);
+    for (id<FIRMessagingDelegate> delegate in _delegates) {
+        if ([delegate respondsToSelector:@selector(messaging:didReceiveRegistrationToken:)]) {
+            [delegate messaging:messaging didReceiveRegistrationToken:fcmToken];
+        }
+    }
 }
 
 - (void)messaging:(nonnull FIRMessaging *)messaging didRefreshRegistrationToken:(nonnull NSString *)fcmToken {
     // Note that this callback will be fired everytime a new token is generated, including the first
     // time. So if you need to retrieve the token as soon as it is available this is where that
     // should be done.
-    NSLog(@"FCM registration token: %@", fcmToken);
+//    NSLog(@"FCM registration token: %@", fcmToken);
+//    for (id<FIRMessagingDelegate> delegate in _delegates) {
+//        if ([delegate respondsToSelector:@selector(messaging:didRefreshRegistrationToken:)]) {
+//            [delegate messaging:messaging didRefresh];
+//        }
+//    }
+    
+    
+
+    
+    
 }
 
 - (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -92,3 +110,4 @@
 
 
 @end
+

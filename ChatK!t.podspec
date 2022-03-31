@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
     s.resources = 'ChatK!t/Core/**/*.{xib,xcassets,strings}'
 
     s.dependency 'ChatSDKKeepLayout'
-    s.dependency 'NextGrowingTextView'
+    s.dependency 'NextGrowingTextView', '1.6.1'
     s.dependency 'CollectionKit'
     s.dependency 'FFCircularProgressView'
     s.dependency 'MZDownloadManager'

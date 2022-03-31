@@ -62,8 +62,6 @@ open class SendBarView: UIView, UITextViewDelegate {
         }
         textView?.delegates.willChangeHeight = { height in
         }
-
-        
         
         addSubview(divider)
         addSubview(startButtonsView)
@@ -89,7 +87,7 @@ open class SendBarView: UIView, UITextViewDelegate {
 
         textView?.keepTopInset.equal = ChatKit.config().sendBarViewTopPadding
         textView?.keepBottomInset.equal = ChatKit.config().sendBarViewBottomPadding
-
+        
         background = ChatKit.provider().makeBackground(blur: blurEnabled)
         insertSubview(background!, at: 0)
         background?.keepInsets.equal = 0

@@ -6,8 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UserNotifications/UserNotifications.h>
 #import <ChatSDK/PNetworkAdapter.h>
-
 
 @class BConfiguration;
 @class RXPromise;
@@ -36,6 +36,7 @@
     Settings * _settings;
     NSMutableArray<PModule> * _modules;
     NSArray * _identifier;
+    NSMutableArray<UNUserNotificationCenterDelegate> * _notificationHandlers;
 }
 
 @property (nonatomic, readonly) BConfiguration * configuration;
@@ -49,6 +50,7 @@
 @property (nonatomic, readwrite) Settings * settings;
 @property (nonatomic, readwrite) NSMutableArray<PModule> * modules;
 @property (nonatomic, readonly) NSArray * identifier;
+@property (nonatomic, readonly) NSMutableArray<UNUserNotificationCenterDelegate> * notificationHandlers;
 
 
 +(nonnull BChatSDK *) shared;
@@ -122,4 +124,7 @@
 +(void) activateLicenseWithPatreon: (NSString *) patreonId;
 +(void) activateLicenseWithGithub: (NSString *) githubId;
 
+-(void) addNotificationHandlers: (id<UNUserNotificationCenterDelegate>) delegate;
+
 @end
+

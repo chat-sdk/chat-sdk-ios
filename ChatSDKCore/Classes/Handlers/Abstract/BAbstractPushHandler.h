@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PPushHandler.h>
+#import <UserNotifications/UserNotifications.h>
 
 @class BLocalNotificationDelegate;
 
@@ -15,9 +16,10 @@
 #define bChatSDKReplyAction @"co.chatsdk.ReplyAction"
 #define bChatSDKOpenAppAction @"co.chatsdk.OpenAppAction"
 
-@interface BAbstractPushHandler : NSObject<PPushHandler> {
+@interface BAbstractPushHandler : NSObject<PPushHandler, UNUserNotificationCenterDelegate> {
     BLocalNotificationDelegate * notificationDelegate;
 }
 
 
 @end
+

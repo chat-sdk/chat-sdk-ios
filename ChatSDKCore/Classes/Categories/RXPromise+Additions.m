@@ -11,6 +11,9 @@
 @implementation RXPromise(Additions)
 
 +(RXPromise *) rejectWithReasonDomain: (NSString *) domain code: (int) code description: (NSString *) description {
+    if (!description) {
+        description = @"Unknown Error";
+    }
     NSError * error = [NSError errorWithDomain:domain code:code userInfo:@{NSLocalizedDescriptionKey: description}];
     return [self rejectWithReason:error];
 }

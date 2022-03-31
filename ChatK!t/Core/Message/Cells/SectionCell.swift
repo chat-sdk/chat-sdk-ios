@@ -11,8 +11,8 @@ open class SectionCell: UIView {
     
     public static let identifier = "section"
     
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet open weak var titleLabel: UILabel!
+    @IBOutlet open weak var backgroundView: UIView!
     
     override open func awakeFromNib() {
         super.awakeFromNib()

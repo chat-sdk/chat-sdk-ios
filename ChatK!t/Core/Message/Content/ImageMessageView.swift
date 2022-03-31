@@ -39,24 +39,29 @@ open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
     open func setDownloadProgress(_ progress: Float, total: Float) {
         showProgressView()
         progressView.progress = CGFloat(progress)
-        updateTotal(total)
+        updateTotal(total, progress: progress)
     }
 
     open func setUploadProgress(_ progress: Float, total: Float) {
         showProgressView()
         progressView.progress = CGFloat(progress)
-        updateTotal(total)
+        updateTotal(total, progress: progress)
     }
     
-    open func updateTotal(_ total: Float) {
+    open func updateTotal(_ total: Float, progress: Float) {
         if total > 0 {
             detailLabel.isHidden = false
+            
+            var percentage = ""
+            if ChatKit.config().showFileTransferPercentage {
+                percentage = String(format: "%.0f%%, ", progress * 100)
+            }
 
             if total < 1000 {
-                detailLabel.text = String(format: "%.0fKB", total)
+                detailLabel.text = String(format: "%@%.0fKB", percentage, total)
             } else {
                 let total = total / 1000
-                detailLabel.text = String(format: "%.0fMB", total)
+                detailLabel.text = String(format: "%@%.0fMB", percentage, total)
             }
         } else {
             detailLabel.text = ""

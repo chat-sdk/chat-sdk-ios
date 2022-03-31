@@ -27,6 +27,15 @@
     return self;
 }
 
+-(instancetype) initWithType: (bPictureType) type viewController: (UIViewController *) controller squareCrop: (BOOL) enabled {
+    if((self = [self init])) {
+        _type = type;
+        _controller = controller;
+        _squareCrop = enabled;
+    }
+    return self;
+}
+
 - (RXPromise * ) execute {
     
     if (!_promise) {
@@ -36,7 +45,8 @@
     if (!_picker) {
         _picker = [[UIImagePickerController alloc] init];
         _picker.delegate = self;
-        _picker.allowsEditing = NO;
+        _picker.allowsEditing = _squareCrop;
+//        _picker.allowsEditing = _cropperEnabled;
         //_picker.allowsEditing = YES; // We comment this out as we are now editing with TOCropViewController
     }
     
@@ -75,18 +85,26 @@
     if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:@"public.image"]) {
 
         [_picker dismissViewControllerAnimated:NO completion:^{
-            UIImage * image = [info objectForKey:UIImagePickerControllerOriginalImage];
-            if (_cropperEnabled) {
+            if (_squareCrop) {
+                UIImage * image = [info objectForKey:UIImagePickerControllerEditedImage];
                 if (image) {
                     [self processSelectedImage:image error:nil];
                 } else {
                     [self processSelectedImage:nil error:[NSBundle t:bImageUnavailable]];
                 }
             } else {
-                _photo = image;
-                [_promise resolveWithResult: Nil];
-                _promise = Nil;
-            }
+                UIImage * image = [info objectForKey:UIImagePickerControllerOriginalImage];
+                if (_cropperEnabled) {
+                    if (image) {
+                        [self processSelectedImage:image error:nil];
+                    } else {
+                        [self processSelectedImage:nil error:[NSBundle t:bImageUnavailable]];
+                    }
+                } else {
+                    _photo = image;
+                    [_promise resolveWithResult: Nil];
+                    _promise = Nil;
+                }            }
         }];
         
 //        UIImage * image = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -186,16 +204,17 @@
 
 -(void) processSelectedImage: (UIImage *) image error: (NSString *) error {
     if (image) {
-        TOCropViewController * cropViewController = [[TOCropViewController alloc] initWithImage:image];
-        cropViewController.delegate = self;
-        
-//        [_picker dismissViewControllerAnimated:NO completion:^{
+        if (_squareCrop) {
+            _photo = image;
+            [_promise resolveWithResult: Nil];
+            _promise = Nil;
+        } else {
+            TOCropViewController * cropViewController = [[TOCropViewController alloc] initWithImage:image];
+            cropViewController.delegate = self;
             [_controller presentViewController:cropViewController animated:NO completion:nil];
-//        }];
+        }
     } else {
-//        [_picker dismissViewControllerAnimated:NO completion:^{
-            [_controller.view makeToast:error];
-//        }];
+        [_controller.view makeToast:error];
     }
 }
 

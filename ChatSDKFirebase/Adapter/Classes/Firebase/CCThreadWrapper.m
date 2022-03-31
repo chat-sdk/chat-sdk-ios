@@ -216,13 +216,16 @@
         
         if (BChatSDK.config.messageDeletionEnabled) {
             query = [FIRDatabaseReference threadMessagesRef:self.model.entityID];
-            query = [query queryOrderedByChild:bDate];
                      
             NSDate * date = nil;
 
             // Get the messages
             int limit = BChatSDK.config.messageDeletionListenerLimit;
-            if (limit > 0) {
+            if (limit < 0) {
+                [self.model setCanDeleteMessagesFromDate:[NSDate dateWithTimeIntervalSince1970:0]];
+            } else {
+                query = [query queryOrderedByChild:bDate];
+
                 NSArray<PMessage> * messages = self.model.messagesOrderedByDateNewestFirst;
                 id<PMessage> earliestMessage = nil;
 
@@ -235,17 +238,15 @@
                 if (earliestMessage) {
                     date = earliestMessage.date;
                 }
-            } else {
-                date = self.model.creationDate;
-            }
-            
-            if(date) {
-                query = [query queryStartingAtValue:@(date.timeIntervalSince1970 - 1000)];
-                [self.model setCanDeleteMessagesFromDate:date];
-            } else {
-                [self.model setCanDeleteMessagesFromDate:[NSDate date]];
-            }
+                
+                if(date) {
+                    query = [query queryStartingAtValue:@(date.timeIntervalSince1970 - 1000)];
+                    [self.model setCanDeleteMessagesFromDate:date];
+                } else {
+                    [self.model setCanDeleteMessagesFromDate:[NSDate date]];
+                }
 
+            }
                         
             // This will potentially delete all the messages
             [query observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
@@ -303,6 +304,15 @@
         }
     }];
     
+    [threadUsersRef observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
+        if (![snapshot.value isEqual: [NSNull null]]) {
+            // Update the thread
+            CCUserWrapper * user = [FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithSnapshot:snapshot];
+            [self.model removeUser:user.model];
+            [BHookNotification notificationThreadUsersUpdated:self.model];
+        }
+    }];
+
     [threadUsersRef observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * snapshot) {
         if (![snapshot.value isEqual: [NSNull null]]) {
             for(NSString * userEntityID in [snapshot.value allKeys]) {
@@ -325,14 +335,6 @@
         }
     }];
     
-    [threadUsersRef observeEventType:FIRDataEventTypeChildRemoved withBlock:^(FIRDataSnapshot * snapshot) {
-        if (![snapshot.value isEqual: [NSNull null]]) {
-            // Update the thread
-            CCUserWrapper * user = [FirebaseNetworkAdapterModule.shared.firebaseProvider userWrapperWithSnapshot:snapshot];
-            [self.model removeUser:user.model];
-            [BHookNotification notificationThreadUsersUpdated:self.model];
-        }
-    }];
 }
 
 -(void) usersOff {
@@ -486,12 +488,19 @@
 -(NSDictionary *) serialize {
     NSMutableDictionary * dict = [NSMutableDictionary new];
     [dict addEntriesFromDictionary:@{bCreationDate: [FIRServerValue timestamp],
-                                     bNameKey: [NSString safe:_model.name],
                                      bType: _model.type,
-//                                     bImageURL: [NSString safe: [_model.meta valueForKey:bImageURL]],
                                      bCreator: [NSString safe: _model.creator.entityID]}];
+
+    [dict addEntriesFromDictionary:self.serializeMeta];
     
     return dict;
+}
+
+-(NSDictionary *) serializeMeta {
+    return @{
+      bNameKey: [NSString safe:_model.name],
+      bImageURL: [NSString safe: _model.imageURL]
+    };
 }
 
 -(void) deserialize: (NSDictionary *) value {
@@ -507,10 +516,10 @@
         _model.type = type;
     }
     
-//    NSString * imageURL = value[bImageURL];
-//    if (imageURL) {
-//        [_model setMetaValue:imageURL forKey:bImageURL];
-//    }
+    NSString * imageURL = value[bImageURL];
+    if (imageURL) {
+        [_model setMetaValue:imageURL forKey:bImageURL];
+    }
 
     NSString * creatorEntityID = value[bCreator];
     
@@ -543,7 +552,9 @@
     NSDictionary * details = [self serialize];
     
     for (NSString * key in details.allKeys) {
-        [meta removeObjectForKey:key];
+        if (![key isEqual:bImageURL]) {
+            [meta removeObjectForKey:key];
+        }
     }
     
     [_model setMeta:meta];
@@ -562,6 +573,25 @@
     // Also update the meta ref - we do this for forwards compatibility
     // in the future we will move everything to the meta area
     [metaRef updateChildValues:self.serialize withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
+           if (!error) {
+               [promise resolveWithResult:self.model];
+           }
+           else {
+               [promise rejectWithReason:error];
+           }
+       }];
+    
+    return promise;
+}
+
+-(RXPromise *) pushMeta {
+    RXPromise * promise = [RXPromise new];
+    
+    FIRDatabaseReference * metaRef = [FIRDatabaseReference threadMetaRef:_model.entityID];
+
+    // Also update the meta ref - we do this for forwards compatibility
+    // in the future we will move everything to the meta area
+    [metaRef updateChildValues:self.serializeMeta withCompletionBlock:^(NSError * error, FIRDatabaseReference * ref) {
            if (!error) {
                [promise resolveWithResult:self.model];
            }

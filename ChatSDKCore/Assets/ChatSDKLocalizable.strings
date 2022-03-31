@@ -59,6 +59,7 @@
 "bDestroy" = "Destroy";
 "bDestroyAndDelete" = "Destroy and delete chat for all users?";
 
+"bEdit" = "Edit";
 "bSearch" = "Search";
 "bSearching" = "Searching";
 "bAddUsers" = "Add Users";

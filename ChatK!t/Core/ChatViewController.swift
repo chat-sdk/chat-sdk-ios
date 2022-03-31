@@ -42,7 +42,7 @@ open class ChatViewController: UIViewController {
     
     // View that contains the message list
     open var messagesView = ChatKit.provider().messagesView()
-    open var keyboardOverlayView = UIView()
+    open var keyboardOverlayView = ChatKit.provider().keyboardOverlayView()
     open var headerView = ChatKit.provider().chatHeaderView()
     open var reconnectingView = ChatKit.provider().reconnectingView()
         
@@ -265,6 +265,10 @@ open class ChatViewController: UIViewController {
         }
     }
     
+    open func setHeaderImage(url: URL?) {
+        headerView.imageView?.sd_setImage(with: url, placeholderImage: ChatKit.asset(icon: "icn_100_avatar"), options: .highPriority, context: nil)
+    }
+    
     // Setup methods
     
     open func setup() {
@@ -344,6 +348,8 @@ open class ChatViewController: UIViewController {
         }
         setTitle(text: model.title())
         setSubtitle(text: model.subtitle())
+        setHeaderImage(url: model.imageURL())
+        
     }
     
     open func setupReplyView() {

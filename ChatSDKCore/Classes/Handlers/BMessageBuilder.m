@@ -48,7 +48,7 @@
 }
 
 -(BMessageBuilder *) withType: (bMessageType) type {
-    [self type:bMessageTypeText];
+    [self type:type];
     return self;
 }
 

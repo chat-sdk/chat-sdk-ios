@@ -83,12 +83,16 @@
 }
 
 -(RXPromise *)observeUser: (NSString *)entityID {
-    id<PUser> userModel = [super userForEntityID:entityID];
-    CCUserWrapper * wrapper = [self userWrapper:userModel];
-    if (!BChatSDK.config.disablePresence) {
-        [wrapper onlineOn];
-    }
-    return [wrapper metaOn];
+    __block RXPromise * promise = [RXPromise new];
+    [BChatSDK.db performOnMainAndWait:^{
+        id<PUser> userModel = [super userForEntityID:entityID];
+        CCUserWrapper * wrapper = [self userWrapper:userModel];
+        if (!BChatSDK.config.disablePresence) {
+            [wrapper onlineOn];
+        }
+        promise = wrapper.metaOn;
+    }];
+    return promise;
 }
 
 -(CCUserWrapper *) userWrapper {

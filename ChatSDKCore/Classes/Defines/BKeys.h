@@ -90,8 +90,8 @@
 
 #define bReplyKey @"reply"
 
-#define bHiddenKey @"hidden_"
-#define bMessageSendStatusKey @"hidden-bMessageSendStatusKey"
+#define bHiddenKey @"hidden-"
+#define bMessageSendStatusKey @"hidden-send-status"
 
 #define bUserPrivilegeKey @"privilege"
 #define bUserNameLowercase @"name-lowercase"

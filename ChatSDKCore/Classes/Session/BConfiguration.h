@@ -66,6 +66,9 @@ typedef enum {
 // User profile image
 @property (nonatomic, readwrite) UIImage * xmppDefaultAvatar;
 
+// Should the app always show a back button on modal views or rely on the swipe to dismiss
+@property (nonatomic, readwrite) BOOL alwaysShowBackButtonOnModalViews;
+
 @property (nonatomic, readwrite) NSString * timeFormat;
 
 // The maximum dimension for an image message
@@ -134,6 +137,8 @@ typedef enum {
 // The the image to be displayed on the login screen. Image should be
 // 120x120px
 @property (nonatomic, readwrite) UIImage * logoImage;
+
+@property (nonatomic, readwrite) NSString * timeAgoDateFormat;
 
 // The app name text displayed on the login screen
 @property (nonatomic, readwrite) NSString * loginScreenAppName;

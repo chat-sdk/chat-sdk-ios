@@ -47,7 +47,6 @@
     return BChatSDK.auth.currentUser;
 }
 
-
 // TODO: Consider removing / refactoring this
 /**
  * @brief Mark the user as online

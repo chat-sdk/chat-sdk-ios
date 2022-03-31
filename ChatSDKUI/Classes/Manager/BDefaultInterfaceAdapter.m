@@ -94,6 +94,15 @@
     return _publicThreadsViewController;
 }
 
+-(UIViewController *) editThreadsViewController: (id<PThread>) thread didSave: (void(^)()) callback {
+    if (!_editThreadViewController) {
+        EditThreadViewController * vc = [[EditThreadViewController alloc] initWithNibName:nil bundle:nil thread:thread];
+        [vc setDidSaveCallbackWithCallback:callback];
+        _editThreadViewController = vc;
+    }
+    return _editThreadViewController;
+}
+
 -(UIViewController *) flaggedMessagesViewController {
     if (!_flaggedMessagesViewController) {
         _flaggedMessagesViewController = [[BFlaggedMessagesViewController alloc] init];

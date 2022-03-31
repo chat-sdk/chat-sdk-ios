@@ -31,7 +31,7 @@
         time = [formatter stringFromDate:self];
     }
     else if (self.daysAgo >= 7) {   
-        [formatter setDateFormat:@"dd/MM/yy"];
+        [formatter setDateFormat:BChatSDK.config.timeAgoDateFormat];
         time = [formatter stringFromDate:self];
     }
     return time;

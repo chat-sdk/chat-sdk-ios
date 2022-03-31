@@ -10,12 +10,9 @@
 
 #import <ChatSDK/Core.h>
 
-#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-
 @implementation BLocalNotificationDelegate
 
-// The method will be called on the delegate only if the application is in the foreground. If the method is not implemented or the handler is not called in a timely manner then the notification will not be presented. The application can choose to have the notification presented as a sound, badge, alert and/or in the notification list. This decision should be based on whether the information in the notification is otherwise visible to the user.
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
     
     BOOL showLocalNotification = BChatSDK.config.showLocalNotifications;
     
@@ -37,15 +34,15 @@
             showLocalNotification = NO;
         }
         
+        if (showLocalNotification) {
+            completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert);
+        }
     }
-    
-    if (showLocalNotification) {
-        completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert);
-    }
+
 }
 
 // The method will be called on the delegate when the user responded to the notification by opening the application, dismissing the notification or choosing a UNNotificationAction. The delegate must be set before the application returns from application:didFinishLaunchingWithOptions:.
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler  {
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler  {
     NSDictionary * userInfo = [NSMutableDictionary dictionaryWithDictionary:response.notification.request.content.userInfo];
 
     if ([response.actionIdentifier isEqualToString:bChatSDKReplyAction]) {
@@ -69,14 +66,13 @@
                 });
             }
         }
+        completionHandler();
     }
     else {
         [BChatSDK application:[UIApplication sharedApplication] didReceiveRemoteNotification:userInfo];
     }
 
-    completionHandler();
 }
 
 @end
 
-#endif

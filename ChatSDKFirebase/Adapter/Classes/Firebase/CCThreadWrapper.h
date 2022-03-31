@@ -59,6 +59,7 @@
  * @brief Update/create the thread entity on the server with the thread's current meta data
  */
 -(RXPromise *) push;
+-(RXPromise *) pushMeta;
 
 /**
  * @brief Add a new user to this thread - if there's an error adding the user to the thread or the thread to the user, the whole data change is rolled back

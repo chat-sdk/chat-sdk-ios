@@ -118,7 +118,7 @@ open class ReplyView : UIView {
         if let message = message as? HasPlaceholder {
             placeholder = message.placeholder()
         }
-        show(title: message.messageSender().userName(), message: message.messageText(), imageURL: url, placeholder: placeholder, duration: duration)
+        show(title: message.messageSender().userName() ?? "", message: message.messageText(), imageURL: url, placeholder: placeholder, duration: duration)
     }
     
     open func message() -> Message? {

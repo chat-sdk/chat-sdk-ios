@@ -32,7 +32,8 @@ import UIKit
         
         title = Bundle.t(bSettings)
         
-        if #available(iOS 13.0, *) {} else {
+        let version = ProcessInfo.processInfo.operatingSystemVersion;
+        if (version.majorVersion < 13 || BChatSDK.config().alwaysShowBackButtonOnModalViews) {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: Bundle.t(bBack), style: .plain, target: self, action: #selector(backPressed))
         }
 

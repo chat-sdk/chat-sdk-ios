@@ -24,7 +24,7 @@ public extension Date {
         if self.nsDate().daysAgo() < 7 {
             formatter.dateFormat = "EEE"
         } else {
-            formatter.dateFormat = "dd/MM/yy"
+            formatter.dateFormat = ChatKit.config().timeAgoDateFormat
         }
         return formatter.string(from: self)
     }

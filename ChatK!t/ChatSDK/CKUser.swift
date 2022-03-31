@@ -20,7 +20,7 @@ open class CKUser: User {
         return user.entityID()
     }
     
-    open func userName() -> String {
+    open func userName() -> String? {
         return user.name()
     }
     

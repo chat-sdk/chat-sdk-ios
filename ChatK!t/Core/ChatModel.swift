@@ -33,6 +33,10 @@ open class ChatModel: ChatToolbarActionsDelegate {
         return conversation.conversationName()
     }
 
+    open func imageURL() -> URL? {
+        return conversation.conversationImageUrl()
+    }
+    
     /**
      Steady state subtitle
      */
@@ -50,8 +54,8 @@ open class ChatModel: ChatToolbarActionsDelegate {
         } else {
             var text = ""
             for user in conversation.conversationUsers() {
-                if !user.userIsMe() {
-                    text += user.userName() + ", "
+                if !user.userIsMe(), let name = user.userName() {
+                    text += name + ", "
                 }
             }
             if text.count > 1 {

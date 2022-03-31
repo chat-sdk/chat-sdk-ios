@@ -198,7 +198,7 @@
 
 -(RXPromise *) leaveThread: (id<PThread>) thread {
     id<PUser> user = BChatSDK.currentUser;
-    return [self removeUsers:@[user] fromThread:thread];
+    return [self removeUsers:@[user.entityID] fromThread:thread.entityID];
 }
 
 -(RXPromise *) joinThread: (id<PThread>) thread {
@@ -305,7 +305,15 @@
     return [RXPromise resolveWithResult:Nil];
 }
 
+-(RXPromise *) pushThreadMeta: (NSString *) threadEntityID {
+    return [RXPromise resolveWithResult:nil];
+}
+
 -(BOOL) canMuteThreads {
+    return false;
+}
+
+-(BOOL) canEditThread: (NSString *) threadEntityID {
     return false;
 }
 

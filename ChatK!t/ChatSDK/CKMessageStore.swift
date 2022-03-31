@@ -54,6 +54,10 @@ open class CKMessageStore {
     open func message(with id: String) -> CKMessage? {
         return messageStore[id]
     }
+    
+    open func remove(with id: String) {
+        messageStore.removeValue(forKey: id)
+    }
 
 
 }

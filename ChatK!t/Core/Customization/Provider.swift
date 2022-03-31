@@ -58,6 +58,10 @@ open class Provider {
         return MessagesView()
     }
 
+    open func keyboardOverlayView() -> UIView {
+        return UIView()
+    }
+
     open func chatHeaderView() -> ChatHeaderView {
         return ChatHeaderView()
     }
@@ -115,6 +119,10 @@ open class Provider {
     
     open func messageHeightCache() -> MessageHeightCache {
         return MessageHeightCache()
+    }
+    
+    open func didBind(_ cell: AbstractMessageCell, message: AbstractMessage, model: MessagesModel) {
+
     }
 
 }

@@ -46,10 +46,8 @@ public enum Tabs: Int {
         conversationsCollectionView = CollectionView()
         setup(collectionView: conversationsCollectionView!)
 
-        if #available(iOS 13.0, *) {
-//            contactsCollectionView?.automaticallyAdjustsScrollIndicatorInsets = true
-//            conversationsCollectionView?.automaticallyAdjustsScrollIndicatorInsets = true
-        } else {
+        let version = ProcessInfo.processInfo.operatingSystemVersion;
+        if (version.majorVersion < 13 || BChatSDK.config().alwaysShowBackButtonOnModalViews) {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: Bundle.t(bBack), style: .plain, target: self, action: #selector(back))
 //            automaticallyAdjustsScrollViewInsets = true
         }

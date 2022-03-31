@@ -19,6 +19,10 @@
 @interface BFirebasePushHandler : BAbstractPushHandler<FIRMessagingDelegate> {
     BOOL _apnsSet;
     NSString * _channel;
+    NSMutableArray<FIRMessagingDelegate> * _delegates;
 }
 
+@property (nonatomic, readwrite) NSMutableArray<FIRMessagingDelegate> * delegates;
+
 @end
+

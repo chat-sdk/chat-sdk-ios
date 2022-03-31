@@ -21,6 +21,8 @@ public protocol ChatModelDelegate: class {
     func initialMessages() -> [AbstractMessage]
     
     func onClick(_ message: AbstractMessage) -> Bool
+    func onAvatarClick(_ message: AbstractMessage) -> Bool
+
 }
 
 open class MessagesModel {
@@ -100,7 +102,11 @@ open class MessagesModel {
     open func onClick(_ message: AbstractMessage) -> Bool {
         return delegate?.onClick(message) ?? false
     }
-    
+
+    open func onAvatarClick(_ message: AbstractMessage) -> Bool {
+        return delegate?.onAvatarClick(message) ?? false
+    }
+
     open func showAvatar() -> Bool {
         return conversation.conversationType() != .private1to1
     }

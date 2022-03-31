@@ -189,7 +189,7 @@
 
 +(void) notificationThreadUsersUpdated: (id<PThread>) thread {
     if(thread) {
-        [BChatSDK.hook executeHookWithName:bHookThreadUpdated data:@{bHook_PThread:thread}];
+        [BChatSDK.hook executeHookWithName:bHookThreadUsersUpdated data:@{bHook_PThread:thread}];
     }
 }
 

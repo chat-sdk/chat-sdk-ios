@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditThreadViewController" customModule="ChatSDK">
+            <connections>
+                <outlet property="avatarImageView" destination="jdP-jp-c8T" id="cVm-fT-FoH"/>
+                <outlet property="textField" destination="rfL-Py-8Fd" id="04n-AQ-Vk9"/>
+                <outlet property="view" destination="Pt1-uo-dUI" id="maO-Vx-riv"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Pt1-uo-dUI">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xNB-Sv-EuJ">
+                    <rect key="frame" x="50" y="313" width="314" height="270"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jdP-jp-c8T">
+                            <rect key="frame" x="82" y="10" width="150" height="150"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="150" id="43d-YB-Htm"/>
+                                <constraint firstAttribute="width" constant="150" id="5AR-80-3qi"/>
+                            </constraints>
+                        </imageView>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rfL-Py-8Fd">
+                            <rect key="frame" x="0.0" y="210" width="314" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="rfL-Py-8Fd" firstAttribute="top" secondItem="jdP-jp-c8T" secondAttribute="bottom" constant="50" id="7dn-VW-tmS"/>
+                        <constraint firstAttribute="height" constant="270" id="CRo-sa-iB2"/>
+                        <constraint firstAttribute="trailing" secondItem="rfL-Py-8Fd" secondAttribute="trailing" id="Of4-A9-604"/>
+                        <constraint firstItem="rfL-Py-8Fd" firstAttribute="leading" secondItem="xNB-Sv-EuJ" secondAttribute="leading" id="hB6-Xp-RAf"/>
+                        <constraint firstItem="jdP-jp-c8T" firstAttribute="centerX" secondItem="xNB-Sv-EuJ" secondAttribute="centerX" id="iM5-QZ-oFx"/>
+                        <constraint firstItem="jdP-jp-c8T" firstAttribute="top" secondItem="xNB-Sv-EuJ" secondAttribute="top" constant="10" id="zNM-5t-NYU"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="DDV-L7-qOq"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="DDV-L7-qOq" firstAttribute="trailing" secondItem="xNB-Sv-EuJ" secondAttribute="trailing" constant="50" id="8Lc-EY-oQP"/>
+                <constraint firstItem="xNB-Sv-EuJ" firstAttribute="centerY" secondItem="Pt1-uo-dUI" secondAttribute="centerY" id="po1-Kr-Zht"/>
+                <constraint firstItem="xNB-Sv-EuJ" firstAttribute="leading" secondItem="DDV-L7-qOq" secondAttribute="leading" constant="50" id="slO-sA-Ahi"/>
+            </constraints>
+            <point key="canvasLocation" x="-578" y="-676"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

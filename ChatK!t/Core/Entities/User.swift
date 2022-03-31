@@ -9,7 +9,7 @@ import Foundation
 
 public protocol User : class {
     func userId() -> String
-    func userName() -> String
+    func userName() -> String?
     
     // You can either provide an image url or an actual image
     func userImageUrl() -> URL?

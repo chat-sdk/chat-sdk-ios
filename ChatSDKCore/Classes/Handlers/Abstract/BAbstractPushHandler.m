@@ -28,53 +28,86 @@
                 [self subscribeToPushChannel:user.pushChannel];
             }
         }] withName:bHookDidAuthenticate];
-        
+
+        // Add the default handler
+//        [BChatSDK.shared addNotificationHandlers: [BLocalNotificationHandler new]];
     }
     return self;
 }
 
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+   
+    [notificationDelegate userNotificationCenter:center willPresentNotification:notification withCompletionHandler:completionHandler];
+    
+    for (NSObject<UNUserNotificationCenterDelegate> * delegate in BChatSDK.shared.notificationHandlers) {
+        if ([delegate respondsToSelector:@selector(userNotificationCenter:willPresentNotification:withCompletionHandler:)]) {
+            [delegate userNotificationCenter: center willPresentNotification: notification withCompletionHandler: completionHandler];
+        }
+    }
+}
+
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler {
+    
+    [notificationDelegate userNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+    
+    for (id<UNUserNotificationCenterDelegate> delegate in BChatSDK.shared.notificationHandlers) {
+        if ([delegate respondsToSelector:@selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:)]) {
+            [delegate userNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+        }
+    }
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center openSettingsForNotification:(nullable UNNotification *)notification {
+    for (id<UNUserNotificationCenterDelegate> delegate in BChatSDK.shared.notificationHandlers) {
+        if ([delegate respondsToSelector:@selector(userNotificationCenter:openSettingsForNotification:)]) {
+            [delegate userNotificationCenter:center openSettingsForNotification:notification];
+        }
+    }
+}
+
 -(void) registerForPushNotificationsWithApplication: (UIApplication *) app launchOptions: (NSDictionary *) options {
     
-        UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
-        notificationDelegate = [[BLocalNotificationDelegate alloc] init];
-        center.delegate = notificationDelegate;
-        
-        void (^handler)(BOOL, NSError *) = ^(BOOL granted, NSError * error) {
-            if(granted) {
-                [BChatSDK.shared.logger log:@"Local notifications granted"];
-                
-                UNTextInputNotificationAction * replyAction = [UNTextInputNotificationAction actionWithIdentifier:bChatSDKReplyAction
-                                                                                                            title:[NSBundle t: bReply]
-                                                                                                          options:UNNotificationActionOptionNone
-                                                                                             textInputButtonTitle:[NSBundle t: bSend]
-                                                                                             textInputPlaceholder:[NSBundle t: bWriteSomething]];
-                
-                UNNotificationAction * openAction = [UNNotificationAction actionWithIdentifier:bChatSDKOpenAppAction
-                                                                                         title:[NSBundle t:bOpen]
-                                                                                       options:UNNotificationActionOptionForeground];
-                
-                UNNotificationCategory * category = [UNNotificationCategory categoryWithIdentifier:BChatSDK.config.pushNotificationAction ? BChatSDK.config.pushNotificationAction : bChatSDKNotificationCategory
-                                                                                           actions:@[replyAction, openAction]
-                                                                                 intentIdentifiers:@[]
-                                                                                           options:UNNotificationCategoryOptionCustomDismissAction];
-                
-                NSSet * categories = [NSSet setWithObjects:category, nil];
-                
-                [center setNotificationCategories:categories];
-                
-                [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * settings) {
-                    NSLog(@"Settings");
-                }];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[UIApplication sharedApplication] registerForRemoteNotifications];
-                });
-                
-            }
-        };
-        
-        [center requestAuthorizationWithOptions:UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert
-                              completionHandler:handler];
+    UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
+    notificationDelegate = [[BLocalNotificationDelegate alloc] init];
+    center.delegate = self;
+         
+    void (^handler)(BOOL, NSError *) = ^(BOOL granted, NSError * error) {
+        if(granted) {
+            [BChatSDK.shared.logger log:@"Local notifications granted"];
+            
+            UNTextInputNotificationAction * replyAction = [UNTextInputNotificationAction actionWithIdentifier:bChatSDKReplyAction
+                                                                                                        title:[NSBundle t: bReply]
+                                                                                                      options:UNNotificationActionOptionNone
+                                                                                         textInputButtonTitle:[NSBundle t: bSend]
+                                                                                         textInputPlaceholder:[NSBundle t: bWriteSomething]];
+            
+            UNNotificationAction * openAction = [UNNotificationAction actionWithIdentifier:bChatSDKOpenAppAction
+                                                                                     title:[NSBundle t:bOpen]
+                                                                                   options:UNNotificationActionOptionForeground];
+            
+            UNNotificationCategory * category = [UNNotificationCategory categoryWithIdentifier:BChatSDK.config.pushNotificationAction ? BChatSDK.config.pushNotificationAction : bChatSDKNotificationCategory
+                                                                                       actions:@[replyAction, openAction]
+                                                                             intentIdentifiers:@[]
+                                                                                       options:UNNotificationCategoryOptionCustomDismissAction];
+            
+            NSSet * categories = [NSSet setWithObjects:category, nil];
+            
+            [center setNotificationCategories:categories];
+            
+            [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * settings) {
+                NSLog(@"Settings");
+            }];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+            });
+            
+        }
+    };
+    
+    [center requestAuthorizationWithOptions:UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert
+                          completionHandler:handler];
         
 }
 
@@ -168,3 +201,4 @@
 
 
 @end
+

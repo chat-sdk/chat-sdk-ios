@@ -41,18 +41,34 @@ open class MessageCellRegistration {
 
     public init(messageType: String, incomingContentClass: DefaultMessageContent.Type, outgoingContentClass: DefaultMessageContent.Type) {
         self.messageType = messageType
-        self.incomingNib = MessageCellRegistration.nib(forName: ChatKit.config().incomingMessageNibName)
-        self.outgoingNib = MessageCellRegistration.nib(forName: ChatKit.config().outgoingMessageNibName)
+        self.incomingNib = MessageCellRegistration.incomingMessageNib()
+        self.outgoingNib = MessageCellRegistration.outgoingMessageNib()
         self.incomingContentClass = incomingContentClass
         self.outgoingContentClass = outgoingContentClass
     }
 
     public init(messageType: String, contentClass: DefaultMessageContent.Type) {
         self.messageType = messageType
-        self.incomingNib = MessageCellRegistration.nib(forName: ChatKit.config().incomingMessageNibName)
-        self.outgoingNib = MessageCellRegistration.nib(forName: ChatKit.config().outgoingMessageNibName)
+        self.incomingNib = MessageCellRegistration.incomingMessageNib()
+        self.outgoingNib = MessageCellRegistration.outgoingMessageNib()
         self.incomingContentClass = contentClass
         self.outgoingContentClass = contentClass
+    }
+    
+    public static func incomingMessageNib() -> UINib {
+        if let nib = ChatKit.config().incomingMessageNib {
+            return nib
+        } else {
+            return nib(forName: ChatKit.config().incomingMessageNibName)
+        }
+    }
+    
+    public static func outgoingMessageNib() -> UINib {
+        if let nib = ChatKit.config().outgoingMessageNib {
+            return nib
+        } else {
+            return nib(forName: ChatKit.config().outgoingMessageNibName)
+        }
     }
     
     public static func nib(forName: String) -> UINib {

@@ -86,6 +86,15 @@ open class MessageCell: AbstractMessageCell {
             content?.view().setMaskPosition(direction: message.messageDirection())
         }
         
+        if message.messageDirection() == .incoming {
+            contentContainerView.layer.borderWidth = CGFloat(ChatKit.config().incomingBubbleBorderWidth)
+            contentContainerView.layer.borderColor = ChatKit.asset(color: ChatKit.config().incomingBubbleBorderColor).cgColor
+        }
+        if message.messageDirection() == .outgoing {
+            contentContainerView.layer.borderWidth = CGFloat(ChatKit.config().outgoingBubbleBorderWidth)
+            contentContainerView.layer.borderColor = ChatKit.asset(color: ChatKit.config().outgoingBubbleBorderColor).cgColor
+        }
+
         if message.messageSender().userIsMe() {
             // If the message failed to send, show a failure message
             if let status = message.messageSendStatus() {

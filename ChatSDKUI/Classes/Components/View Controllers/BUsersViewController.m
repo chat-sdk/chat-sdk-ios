@@ -13,10 +13,8 @@
 #import <ChatSDK/ChatSDK-Swift.h>
 
 #define bUserCellIdentifier @"UserCellIdentifier"
+#define bImageCellIdentifier @"ImageCellIdentifier"
 #define bCell @"BTableCell"
-
-#define bMeSection 0
-#define bParticipantsSection 1
 
 typedef void(^Action)();
 
@@ -82,7 +80,7 @@ typedef void(^Action)();
     self.title = title;
     
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
-    if (version.majorVersion < 13) {
+    if (version.majorVersion < 13 || BChatSDK.config.alwaysShowBackButtonOnModalViews) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t:bBack]
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:self
@@ -118,6 +116,7 @@ typedef void(^Action)();
     }
     
     [tableView registerNib:[UINib nibWithNibName:@"BUserCell" bundle:[NSBundle uiBundle]] forCellReuseIdentifier:bUserCellIdentifier];
+    [tableView registerClass:[BImageCell class] forCellReuseIdentifier:bImageCellIdentifier];
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:bCell];
     
     __weak __typeof(self) weakSelf = self;
@@ -142,6 +141,12 @@ typedef void(^Action)();
     
     [_sections removeAllObjects];
     
+    if ([BChatSDK.thread canEditThread:_thread.entityID]) {
+        [_sections addObject: [[BSection alloc] init:bEdit action:^{
+            [weakSelf editThread];
+        } color:UIColor.systemBlueColor legacyColor:UIColor.blueColor]];
+    }
+
     if ([BChatSDK.thread canAddUsers:_thread.entityID]) {
         [_sections addObject: [[BSection alloc] init:bAddUsers action:^{
             [weakSelf addUser];
@@ -206,11 +211,37 @@ typedef void(^Action)();
 //    [BChatSDK.hook removeHook:_threadUsersHook];
 }
 
+-(void) editThread {
+    __weak __typeof(self) weakSelf = self;
+    UIViewController * vc = [BChatSDK.ui editThreadsViewController:_thread didSave:^{
+        weakSelf.title = weakSelf.thread.displayName;
+        [weakSelf.tableView reloadData];
+    }];
+    [self.navigationController presentViewController:[[UINavigationController alloc] initWithRootViewController: vc] animated:YES completion:nil];
+}
+
+-(int) imageSection {
+    return 0;
+}
+
+-(int) meSection {
+    return self.isGroup ? self.imageSection + 1 : -1;
+}
+
+-(int) participantsSection {
+    return self.isGroup ? self.meSection + 1 : self.imageSection + 1;;
+}
+
+-(int) fixedSectionCount {
+    return self.participantsSection + 1;
+}
+
+-(BOOL) isGroup {
+    return [_thread typeIs:bThreadFilterGroup];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == bMeSection) {
-        return 1;
-    }
-    else if (section == bParticipantsSection) {
+    if (section == self.participantsSection) {
         return MAX(_users.count, 1);
     } else {
         return 1;
@@ -218,7 +249,7 @@ typedef void(^Action)();
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2 + _sections.count;
+    return self.fixedSectionCount + _sections.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -229,8 +260,14 @@ typedef void(^Action)();
     cell.imageView.image = nil;
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    if (indexPath.section == bMeSection || indexPath.section == bParticipantsSection) {
+    
+    if (indexPath.section == self.imageSection) {
+        BImageCell * imageCell = [tableView dequeueReusableCellWithIdentifier:bImageCellIdentifier];
+        [imageCell.avatarImageView loadThreadImage:_thread];
+        return imageCell;
+    }
+    
+    if (indexPath.section == self.meSection || indexPath.section == self.participantsSection) {
         id<PUser> user = [self userForIndexPath:indexPath];
 
         if(user) {
@@ -278,7 +315,7 @@ typedef void(^Action)();
     } else {
         cell.textLabel.textColor = [UIColor redColor];
     }
-    BSection * section = _sections[indexPath.section - 2];
+    BSection * section = _sections[indexPath.section - self.fixedSectionCount];
 
     cell.textLabel.textColor = section.color;
     cell.textLabel.text = [NSBundle t:section.title];
@@ -287,9 +324,9 @@ typedef void(^Action)();
 }
 
 -(id<PUser>) userForIndexPath: (NSIndexPath *) indexPath {
-    if (indexPath.section == bMeSection) {
+    if (indexPath.section == self.meSection) {
         return BChatSDK.currentUser;
-    } else if (indexPath.section == bParticipantsSection && _users.count) {
+    } else if (indexPath.section == self.participantsSection && _users.count) {
         return _users[indexPath.row];
     }
     return nil;
@@ -330,8 +367,16 @@ typedef void(^Action)();
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (indexPath.section == self.imageSection) {
+        if ([BChatSDK.thread canEditThread:_thread.entityID]) {
+            [self editThread];
+        }
+        [tableView_ deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+    
     // The add user button
-    if (indexPath.section == bParticipantsSection || indexPath.section == bMeSection) {
+    if (indexPath.section == self.participantsSection || indexPath.section == self.meSection) {
         id<PUser> user = [self userForIndexPath:indexPath];
         
         if (user) {
@@ -375,7 +420,7 @@ typedef void(^Action)();
             
         }
     } else {
-        _sections[indexPath.section - 2].action();
+        _sections[indexPath.section - self.fixedSectionCount].action();
     }
     
     [tableView_ deselectRowAtIndexPath:indexPath animated:YES];
@@ -386,16 +431,19 @@ typedef void(^Action)();
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == bParticipantsSection) {
+    if (section == self.participantsSection) {
         return [NSBundle t:bParticipants];
     }
-    if (section == bMeSection) {
+    if (section == self.meSection) {
         return [NSBundle t:bMe];
     }
     return @"";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == self.imageSection) {
+        return 120;
+    }
     return 55;
 }
 

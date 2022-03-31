@@ -128,6 +128,7 @@ open class MessagesView: UIView {
             let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! AbstractMessageCell
             cell.setContent(content: registration.content(direction: message.messageDirection()))
             cell.bind(message, model: model)
+            ChatKit.shared().provider.didBind(cell, message: message, model: model)
             return cell
         }
         datasource?.defaultRowAnimation = .fade
@@ -187,8 +188,12 @@ open class MessagesView: UIView {
                 model?.toggleSelection(message)
                 _ = reload(messages: [message], animated: false).subscribe()
                 return
-            } else if contentTapped(sender) && (model?.onClick(message) ?? true) {
-                return
+            } else {
+                if avatarTapped(sender) && (model?.onAvatarClick(message) ?? false) {
+                    return
+                } else if contentTapped(sender) && (model?.onClick(message) ?? false) {
+                    return
+                }
             }
         }
         hideKeyboardListener?()
@@ -214,10 +219,20 @@ open class MessagesView: UIView {
         return nil
     }
     
+    open func avatarTapped(_ recognizer: UIGestureRecognizer) -> Bool {
+        if let cell = cellForTap(recognizer) as? MessageCell {
+            let point = recognizer.location(in: cell)
+            return cell.avatarImageView?.frame.contains(point) ?? false
+        }
+        return false
+    }
+    
     open func contentTapped(_ recognizer: UIGestureRecognizer) -> Bool {
         if let cell = cellForTap(recognizer) {
-            let point = recognizer.location(in: tableView)
-            return cell.frame.contains(point)
+            let point = recognizer.location(in: cell)
+            return cell.contentView.frame.contains(point)
+//            return cell.frame.contains(point)
+
 //            let cellPoint = CGPoint(x: point.x - cell.frame.minX, y: point.y - cell.frame.minY)
 //            return cell.content?.view().frame.contains(cellPoint) ?? false
         }

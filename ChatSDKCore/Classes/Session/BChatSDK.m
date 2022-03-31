@@ -23,6 +23,7 @@
 @synthesize settings = _settings;
 @synthesize modules = _modules;
 @synthesize identifier = _identifier;
+@synthesize notificationHandlers = _notificationHandlers;
 
 static BChatSDK * instance;
 
@@ -41,8 +42,6 @@ static BChatSDK * instance;
 
 -(instancetype) init {
     
-    
-    
     if((self = [super init])) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(appWillResignActive:)
@@ -60,6 +59,7 @@ static BChatSDK * instance;
                                                    object:Nil];
         _moduleHelper = [BModuleHelper new];
         _logger = [BLogger new];
+        _notificationHandlers = [NSMutableArray new];
     }
     return self;
 }
@@ -396,4 +396,9 @@ static BChatSDK * instance;
     return _iconsBundle;
 }
 
+-(void) addNotificationHandlers: (id<UNUserNotificationCenterDelegate>) delegate {
+    [_notificationHandlers addObject:delegate];
+}
+
 @end
+

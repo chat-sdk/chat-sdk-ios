@@ -14,7 +14,7 @@
 #import <ChatSDK/Core.h>
 
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <TOCropViewController/TOCropViewController.h>
+#import <CropViewController/TOCropViewController.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/UIButton+WebCache.h>
 #import <RXPromise/RXPromise.h>

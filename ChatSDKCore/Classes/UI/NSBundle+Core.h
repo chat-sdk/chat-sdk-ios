@@ -53,6 +53,7 @@
 #define bNearbyUsersModuleDisabled @"bNearbyUsersModuleDisabled"
 
 #define bAddUsers @"bAddUsers"
+#define bEdit @"bEdit"
 
 #define bOnline @"online"
 #define bOffline @"offline"

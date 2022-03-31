@@ -42,6 +42,9 @@ typedef UIViewController<PModerationViewController> * (^ModerationProvider) (id<
 -(void) setPublicThreadsViewController: (UIViewController *) controller;
 -(UIViewController *) publicThreadsViewController;
 
+-(void) setEditThreadsViewController: (UIViewController *) controller;
+-(UIViewController *) editThreadsViewController: (id<PThread>) thread didSave: (void(^)()) callback;
+
 -(void) setContactsViewController: (UIViewController *) controller;
 -(UIViewController *) contactsViewController;
 

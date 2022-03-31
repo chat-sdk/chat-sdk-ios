@@ -484,6 +484,9 @@
 }
 
 -(NSDate *) canDeleteMessagesFromDate {
+    if (BChatSDK.config.messageDeletionListenerLimit < 0) {
+        return [NSDate dateWithTimeIntervalSince1970:0];
+    }
     return self.meta[bCanDeleteMessagesFrom];
 }
 

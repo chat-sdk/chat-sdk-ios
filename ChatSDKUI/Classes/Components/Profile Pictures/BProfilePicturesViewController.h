@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <ChatSDK/PUser.h>
-#import <TOCropViewController/TOCropViewController.h>
+#import <CropViewController/TOCropViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

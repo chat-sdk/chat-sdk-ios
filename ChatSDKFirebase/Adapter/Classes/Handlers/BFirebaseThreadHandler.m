@@ -239,6 +239,20 @@
     return enabled;
 }
 
+-(BOOL) canEditThread: (NSString *) threadEntityID {
+    if ([self rolesEnabled:threadEntityID]) {
+        NSString * role = [self role:threadEntityID forUser:BChatSDK.currentUserID];
+        return [role isOwnerOrAdmin];
+    }
+    return false;
+}
+
+-(RXPromise *) pushThreadMeta: (NSString *) threadEntityID {
+    CCThreadWrapper * wrapper = [FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithEntityID:threadEntityID];
+    return [wrapper pushMeta];
+}
+
+
 -(BOOL) canChangeRole: (NSString *) threadEntityID forUser: (NSString *) userEntityID {
     if (![self rolesEnabled:threadEntityID]) {
         return NO;
@@ -257,6 +271,7 @@
     __block NSString * role = nil;
     [BChatSDK.db performOnMainAndWait:^{
         id<PThread> thread = [BChatSDK.db fetchEntityWithID:threadEntityID withType:bThreadEntity];
+        id<PUser> user = [BChatSDK.db fetchEntityWithID:userEntityID withType:bUserEntity];
         id<PUserConnection> connection = [thread connection:userEntityID];
         if (connection) {
             role = connection.role;
@@ -306,13 +321,21 @@
 
 -(BOOL) canLeaveThread: (id<PThread>) thread {
     if ([thread typeIs:bThreadFilterGroup]) {
-        NSString * myRole = [self role:thread forUser:BChatSDK.currentUserID];
-        return [Permissions isOr:myRole roles:@[Permissions.owner, Permissions.admin, Permissions.member, Permissions.watcher]];
+        if ([thread.members containsObject:BChatSDK.currentUser]) {
+            NSString * myRole = [self role:thread forUser:BChatSDK.currentUserID];
+            return [Permissions isOr:myRole roles:@[Permissions.owner, Permissions.admin, Permissions.member, Permissions.watcher]];
+        }
     }
     return NO;
 }
 
 -(BOOL) canJoinThread: (id<PThread>) thread {
+    if ([thread typeIs:bThreadFilterGroup]) {
+        if (![thread.members containsObject:BChatSDK.currentUser]) {
+            NSString * myRole = [self role:thread forUser:BChatSDK.currentUserID];
+            return [Permissions isOr:myRole roles:@[Permissions.owner, Permissions.admin, Permissions.member, Permissions.watcher]];
+        }
+    }
     return NO;
 }
 

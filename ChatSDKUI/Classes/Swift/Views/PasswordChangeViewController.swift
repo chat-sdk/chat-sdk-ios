@@ -34,9 +34,8 @@ import RXPromise
         super.viewDidLoad()
 
 
-        if #available(iOS 13.0, *) {
-            
-        } else {
+        let version = ProcessInfo.processInfo.operatingSystemVersion;
+        if (version.majorVersion < 13 || BChatSDK.config().alwaysShowBackButtonOnModalViews) {
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: Bundle.t(bBack), style: .done, target: self, action: #selector(close))
         }
     }

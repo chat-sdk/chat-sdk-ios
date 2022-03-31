@@ -26,7 +26,7 @@ import UIKit
         super.viewDidLoad()
         
         let version = ProcessInfo.processInfo.operatingSystemVersion;
-        if (version.majorVersion < 13) {
+        if (version.majorVersion < 13 || BChatSDK.config().alwaysShowBackButtonOnModalViews) {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: Bundle.t(bBack), style: .plain, target: self, action: #selector(back))
         }
         

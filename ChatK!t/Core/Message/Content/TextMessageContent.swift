@@ -46,9 +46,11 @@ open class TextMessageContent: DefaultMessageContent {
 
         if message.messageDirection() == .incoming {
             replyView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
+            label.textColor = ChatKit.asset(color: ChatKit.config().incomingMessageTextColor)
         }
         if message.messageDirection() == .outgoing {
             replyView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
+            label.textColor = ChatKit.asset(color: ChatKit.config().outgoingMessageTextColor)
         }
         if let reply = message.messageReply() {
             showReply(title: reply.replyTitle(), text: reply.replyText(), imageURL: reply.replyImageURL(), placeholder: reply.replyPlaceholder())
