@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="RecordView" customModule="ChatKit" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="391" height="360"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hto-YT-noC">
+                    <rect key="frame" x="343" y="325" width="36" height="30"/>
+                    <state key="normal" title="Send"/>
+                    <connections>
+                        <action selector="sendButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="Bbn-iB-lWY"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wuk-bn-lDy">
+                    <rect key="frame" x="170" y="325" width="51" height="30"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" title="Cancel">
+                        <color key="titleColor" systemColor="systemRedColor"/>
+                    </state>
+                    <connections>
+                        <action selector="deleteButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="acQ-qK-Y5R"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1:30" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Guz-7M-6Eu">
+                    <rect key="frame" x="44" y="331" width="32.5" height="18"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <color key="textColor" systemColor="systemRedColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_30_mic" translatesAutoresizingMaskIntoConstraints="NO" id="cJ3-fI-EqW">
+                    <rect key="frame" x="6" y="325" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="IdS-FV-TE2"/>
+                        <constraint firstAttribute="height" constant="30" id="XGo-06-78u"/>
+                    </constraints>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_60_mic_button" highlightedImage="icn_100_mic_button_red" translatesAutoresizingMaskIntoConstraints="NO" id="T2o-Vq-vtT">
+                    <rect key="frame" x="145.5" y="115" width="100" height="100"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="kXm-xv-uTZ"/>
+                        <constraint firstAttribute="width" constant="100" id="mKG-lN-hru"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WHn-Qh-9d0">
+                    <rect key="frame" x="12" y="215" width="367" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="du2-aq-7Ff"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" systemColor="systemGray2Color"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_slide_to_lock_lan" highlightedImage="icn_slide_to_lock_sel_lan" translatesAutoresizingMaskIntoConstraints="NO" id="ftl-0y-Jhg">
+                    <rect key="frame" x="265.5" y="147.5" width="60" height="65"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="65" id="bv4-o1-bcv"/>
+                        <constraint firstAttribute="width" constant="60" id="hHG-kd-bCm"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" name="clear"/>
+            <constraints>
+                <constraint firstItem="ftl-0y-Jhg" firstAttribute="leading" secondItem="T2o-Vq-vtT" secondAttribute="trailing" constant="20" id="2dQ-yQ-gHa"/>
+                <constraint firstItem="Guz-7M-6Eu" firstAttribute="centerY" secondItem="cJ3-fI-EqW" secondAttribute="centerY" id="2yC-9J-989"/>
+                <constraint firstItem="Wuk-bn-lDy" firstAttribute="centerY" secondItem="Guz-7M-6Eu" secondAttribute="centerY" id="3zJ-eT-PQw"/>
+                <constraint firstItem="ftl-0y-Jhg" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="56V-jg-0nF"/>
+                <constraint firstItem="WHn-Qh-9d0" firstAttribute="top" secondItem="T2o-Vq-vtT" secondAttribute="bottom" id="Atn-cv-Zj0"/>
+                <constraint firstItem="Guz-7M-6Eu" firstAttribute="leading" secondItem="cJ3-fI-EqW" secondAttribute="trailing" constant="8" symbolic="YES" id="Bfz-tf-jTM"/>
+                <constraint firstItem="T2o-Vq-vtT" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-15" id="IKt-zD-Z2R"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="WHn-Qh-9d0" secondAttribute="trailing" constant="12" id="IZI-yg-7f5"/>
+                <constraint firstItem="T2o-Vq-vtT" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="URt-xB-08G"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cJ3-fI-EqW" secondAttribute="bottom" constant="5" id="j2b-uq-0MD"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="hto-YT-noC" secondAttribute="trailing" constant="12" id="kud-yg-X6m"/>
+                <constraint firstItem="Wuk-bn-lDy" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="nMY-Zh-ad6"/>
+                <constraint firstItem="WHn-Qh-9d0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="12" id="qF2-lo-OZC"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="hto-YT-noC" secondAttribute="bottom" constant="5" id="uYG-Im-1JV"/>
+                <constraint firstItem="cJ3-fI-EqW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="6" id="uck-aT-ebM"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="deleteButton" destination="Wuk-bn-lDy" id="F5L-tQ-Ays"/>
+                <outlet property="infoLabel" destination="WHn-Qh-9d0" id="Rar-5f-0M6"/>
+                <outlet property="lockImageView" destination="ftl-0y-Jhg" id="dBq-eH-eaE"/>
+                <outlet property="micImageView" destination="cJ3-fI-EqW" id="YvR-jz-I2c"/>
+                <outlet property="recordImageView" destination="T2o-Vq-vtT" id="xd1-Xx-9gU"/>
+                <outlet property="sendButton" destination="hto-YT-noC" id="QIq-0V-FJo"/>
+                <outlet property="timeLabel" destination="Guz-7M-6Eu" id="Bim-0a-sSw"/>
+            </connections>
+            <point key="canvasLocation" x="113.768115942029" y="-47.544642857142854"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="icn_100_mic_button_red" width="100" height="100"/>
+        <image name="icn_30_mic" width="30" height="30"/>
+        <image name="icn_60_mic_button" width="60" height="60"/>
+        <image name="icn_slide_to_lock_lan" width="65" height="60"/>
+        <image name="icn_slide_to_lock_sel_lan" width="65" height="60"/>
+        <namedColor name="clear">
+            <color red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

@@ -62,6 +62,7 @@ typedef enum {
 #define bMessageVideoURL @"video-url"
 #define bMessageFileURL @"file-url"
 #define bMessageMimeType @"mime-type"
+#define bMessageImagePreview @"image-preview"
 
 #define bMessageLongitude @"longitude"
 #define bMessageLatitude @"latitude"

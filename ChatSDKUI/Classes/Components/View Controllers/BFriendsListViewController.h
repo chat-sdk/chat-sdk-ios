@@ -17,6 +17,7 @@
 @protocol  PThread;
 @protocol PUser;
 @class BHook;
+@class BSelectMediaAction;
 
 @protocol BFriendsListDataSource <NSObject>
 
@@ -31,10 +32,12 @@
     
     NSString * _filterByName;
     BHook * _internetConnectionHook;
+    BSelectMediaAction * _selectMediaAction;
+    UITapGestureRecognizer * _imageTapGestureRecognizer;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, readwrite, copy) void (^usersToInvite)(NSArray * users, NSString * groupName);
+@property (nonatomic, readwrite, copy) void (^usersToInvite)(NSArray * users, NSString * groupName, UIImage * image);
 @property (nonatomic, readwrite) NSString * rightBarButtonActionTitle;
 @property (nonatomic, readwrite) NSArray * (^overrideContacts)(void);
 
@@ -44,10 +47,13 @@
 @property (weak, nonatomic) IBOutlet UITextField * groupNameTextField;
 @property (weak, nonatomic) IBOutlet UIView * groupNameView;
 @property (nonatomic, readwrite) BOOL hideGroupNameView;
- 
+@property (weak, nonatomic) IBOutlet UIImageView *groupImageView;
+
+@property (nonatomic, readwrite) BSelectMediaAction * selectMediaAction;
+
 @property (nonatomic, readwrite) int maximumSelectedUsers;
 
--(instancetype) initWithUsersToExclude: (NSArray *) users onComplete: (void(^)(NSArray * users, NSString * name)) action;
+-(instancetype) initWithUsersToExclude: (NSArray *) users onComplete: (void(^)(NSArray * users, NSString * name, UIImage * image)) action;
 
 -(void) setUsersToExclude: (NSArray *) users;
 -(void) setSelectedUsers: (NSArray *) users;

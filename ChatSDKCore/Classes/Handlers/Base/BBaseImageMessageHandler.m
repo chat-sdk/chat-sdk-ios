@@ -9,6 +9,7 @@
 #import "BBaseImageMessageHandler.h"
 
 #import <ChatSDK/Core.h>
+#import <ChatSDK/ChatSDK-Swift.h>
 
 @implementation BBaseImageMessageHandler
 
@@ -33,6 +34,15 @@
                            bMessageImageHeight: @(image.size.height),
                            bMessageText: [NSBundle t:bImageMessage],
         }];
+        
+        if (BChatSDK.config.sendBase64ImagePreview) {
+
+            CGFloat size = BChatSDK.config.imagePreviewMaxSize;
+            CGFloat quality = BChatSDK.config.imagePreviewQuality;
+            
+            NSString * base64 = [image toBase64LegWithWidth: size quality: quality];
+            [message setMetaValue:base64 forKey:bMessageImagePreview];
+        }
         
         [BHookNotification notificationMessageDidUpload: message];
 

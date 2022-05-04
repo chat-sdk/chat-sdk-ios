@@ -165,6 +165,13 @@ open class CKImageMessage: CKMessage, ImageMessage {
     open func uploadFinished(_ data: Data?, error: Error?) {
 
     }
+    
+    public override func placeholder() -> UIImage? {
+        if let meta = message.meta(), let base64 = meta[bMessageImagePreview] as? String {
+            return UIImage.fromBase64(base64: base64)
+        }
+        return nil
+    }
 
 }
 

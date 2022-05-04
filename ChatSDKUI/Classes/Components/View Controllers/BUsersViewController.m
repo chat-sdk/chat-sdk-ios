@@ -337,7 +337,7 @@ typedef void(^Action)();
     // Show the friends view controller
     __weak __typeof(self) weakSelf = self;
 
-    BFriendsListViewController * friendsListVC = [BChatSDK.ui friendsViewControllerWithUsersToExclude:_users onComplete:^(NSArray * users, NSString * groupName){
+    BFriendsListViewController * friendsListVC = [BChatSDK.ui friendsViewControllerWithUsersToExclude:_users onComplete:^(NSArray * users, NSString * groupName, UIImage * image){
         [BChatSDK.thread addUsers:users toThread:_thread].thenOnMain(^id(id success){
             [weakSelf refreshRolesAndReload];
             return success;

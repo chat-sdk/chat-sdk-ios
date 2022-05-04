@@ -108,6 +108,8 @@ typedef enum {
 -(BOOL) hasMessages;
 
 -(NSString *) imageURL;
+-(void) setImageURL: (NSString *) url;
+
 
 -(NSDate *) orderDate;
 

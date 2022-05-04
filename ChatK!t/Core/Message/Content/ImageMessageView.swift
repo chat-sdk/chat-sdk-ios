@@ -30,6 +30,7 @@ open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
         blurView?.clipsToBounds = true
 
         detailLabel.isHidden = true
+        detailLabel.textColor = ChatKit.asset(color: "message_icon")
 
         progressView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(startStopDownload)))
         

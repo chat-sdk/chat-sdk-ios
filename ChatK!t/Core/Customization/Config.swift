@@ -19,6 +19,7 @@ open class Config {
     open var userChatInfoEnabled = true
 
     open var messageSelectionEnabled = true
+    open var hideAvatarForOutgoingMessages = true
 
     open var timeFormat = "HH:mm"
     open var messageHistoryTimeFormat = "dd/MM/yy hh:mm:ss"
@@ -101,6 +102,19 @@ open class Config {
     open var imageViewInChatHeader = true
     
     open var timeAgoDateFormat = "dd/MM/yy"
+    open var timeAgoDayFormat = "EEE"
+    open var cacheUserImage = false
+
+    open var sendBarTextViewBorderColor = "gray_6"
+    open var sendBarTextViewBackgroundColor = "gray_4"
+    open var sendBarTextViewDividerColor = "gray_6"
+    open var sendBarTextViewBorderWidth = 1
+    open var sendBarTextViewCornerRadius = 10
+    open var sendBarTextViewTopPadding = 0
+    open var sendBarTextViewBottomPadding = 0
+    open var sendBarTextViewStartPadding = 0
+    open var sendBarTextViewEndPadding = 0
+    open var sendBarTextViewFont = UIFont.systemFont(ofSize: 16)
 
 //    open var loadImageMessageFromURL = false
     

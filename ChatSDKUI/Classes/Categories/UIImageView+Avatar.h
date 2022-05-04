@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(UIImage *) userDefaultImage;
 -(void) setDefaultUserImage;
 -(void) loadThreadImage: (id<PThread>) thread;
++(NSString * _Nullable) threadImageURL: (id<PThread>) thread;
 
 @end
 

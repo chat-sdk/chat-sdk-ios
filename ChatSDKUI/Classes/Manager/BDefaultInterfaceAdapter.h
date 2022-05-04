@@ -48,7 +48,7 @@
 @property (nonatomic, readwrite) UIViewController * mainViewController;
 @property (nonatomic, readwrite) UIViewController * (^searchViewController)(NSArray * usersToExclude, void(^usersAdded)(NSArray * users));
 @property (nonatomic, readwrite) UIViewController * (^searchIndexViewController)(NSArray * indexes, void(^callback)(NSArray *));
-@property (nonatomic, readwrite) BFriendsListViewController * (^friendsListViewController)(NSArray * usersToExclude, void(^onComplete)(NSArray * users, NSString * groupName));
+@property (nonatomic, readwrite) BFriendsListViewController * (^friendsListViewController)(NSArray * usersToExclude, void(^onComplete)(NSArray * users, NSString * groupName, UIImage * image));
 @property (nonatomic, readwrite) UserProvider profileViewController;
 @property (nonatomic, readwrite) UserProvider profileOptionsViewController;
 @property (nonatomic, readwrite) BDetailedEditProfileTableViewController * editProfileViewController;

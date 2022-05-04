@@ -15,14 +15,14 @@ public extension Date {
         let calendar = Calendar.current
         
         if calendar.isDateInToday(self) {
-            return Strings.t(Strings.today)
+            return Strings.t(Strings.today).lowercased()
         }
         if calendar.isDateInYesterday(self) {
-            return Strings.t(Strings.yesterday)
+            return Strings.t(Strings.yesterday).lowercased()
         }
         let formatter = DateFormatter()
         if self.nsDate().daysAgo() < 7 {
-            formatter.dateFormat = "EEE"
+            formatter.dateFormat = ChatKit.config().timeAgoDayFormat
         } else {
             formatter.dateFormat = ChatKit.config().timeAgoDateFormat
         }

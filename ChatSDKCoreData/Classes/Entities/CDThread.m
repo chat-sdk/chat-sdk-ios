@@ -464,10 +464,14 @@
 
 -(NSString *) imageURL {
     NSString * url = [self.meta metaValueForKey:bImageURL];
-    if ((!url || !url.length) && ([self typeIs:bThreadType1to1] || self.users.count == 2)) {
-        return self.otherUser.imageURL;
-    }
+//    if ((!url || !url.length) && ([self typeIs:bThreadType1to1] || self.users.count == 2)) {
+//        return self.otherUser.imageURL;
+//    }
     return url;
+}
+
+-(void) setImageURL: (NSString *) url {
+    [self updateMeta:@{bImageURL: url}];
 }
 
 -(void) markDeleted: (BOOL) notify {

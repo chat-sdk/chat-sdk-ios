@@ -43,13 +43,24 @@
                          options: SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
 
     } else {
-        if ([thread typeIs:bThreadType1to1]) {
-            UIImage * otherImage = thread.otherUser.imageAsImage;
-            if (otherImage) {
-                self.image = otherImage;
-                return;
-            }
+        
+        if ([thread typeIs:bThreadType1to1] &&
+            thread.otherUser.imageURL &&
+            thread.otherUser.imageURL.length) {
+            
+            [self sd_setImageWithURL:[NSURL URLWithString:thread.otherUser.imageURL]
+                    placeholderImage:[self defaultImage:thread]
+                             options: SDWebImageLowPriority & SDWebImageScaleDownLargeImages];
+            return;
         }
+
+//        if ([thread typeIs:bThreadType1to1]) {
+//            UIImage * otherImage = thread.otherUser.imageAsImage;
+//            if (otherImage) {
+//                self.image = otherImage;
+//                return;
+//            }
+//        }
         
         // See if all the users have images
         NSMutableArray * users = [NSMutableArray new];
@@ -66,6 +77,15 @@
         
         [self setDefaultImage:thread];
     }
+}
+
++(NSString *) threadImageURL: (id<PThread>) thread {
+    if (thread.imageURL && thread.imageURL.length) {
+        return thread.imageURL;
+    } else if ([thread typeIs:bThreadType1to1]) {
+        return thread.otherUser.imageURL;
+    }
+    return nil;
 }
 
 -(UIImage *) defaultImage: (id<PThread>) forThread {
@@ -200,3 +220,4 @@
     }}
 
 @end
+

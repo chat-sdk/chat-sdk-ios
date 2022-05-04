@@ -13,6 +13,7 @@
 
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
                                 name: (NSString *) name
+                            imageURL: (NSString *) imageURL
                                 type: (bThreadType) type
                             entityID: (NSString *) entityID
                          forceCreate: (BOOL) force
@@ -34,6 +35,11 @@
     }
     else {
         threadModel = [self createThreadWithUsers:users name:name type: type];
+        
+        if (imageURL) {
+            [threadModel setMetaValue:imageURL forKey:bImageURL];
+        }
+
         CCThreadWrapper * wrapper = [FirebaseNetworkAdapterModule.shared.firebaseProvider threadWrapperWithModel: threadModel];
         
         if (entityID) {
@@ -350,6 +356,10 @@
         }
     }];
     return canRemove;
+}
+
+-(BOOL) threadImagesSupported {
+    return YES;
 }
 
 @end

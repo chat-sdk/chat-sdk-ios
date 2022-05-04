@@ -24,9 +24,15 @@
 
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
                                 name: (NSString *) name
+                            imageURL: (NSString *) imageURL
                                 type: (bThreadType) type
                             entityID: (NSString *) entityID
                          forceCreate: (BOOL) force
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated;
+
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                                name: (NSString *) name
+                            imageURL: (NSString *) imageURL
                        threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated;
 
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
@@ -142,12 +148,15 @@
 -(BOOL) canDestroyThread: (nonnull NSString *) threadEntityID;
 -(nonnull RXPromise *) refreshRoles: (nonnull NSString *) threadEntityID;
 
+
+
 @optional
 
 
 -(nonnull RXPromise *) muteThread: (nonnull id<PThread>) thread;
 -(nonnull RXPromise *) unmuteThread: (nonnull id<PThread>) thread;
 -(nonnull RXPromise *) destroyThread: (nonnull id<PThread>) thread;
+-(BOOL) threadImagesSupported;
 
 @end
 

@@ -36,8 +36,13 @@
     unreadView.layer.borderWidth = 1.0;
     unreadView.layer.cornerRadius = unreadView.fh / 2.0;
     
+    
     unreadMessagesLabel.layer.cornerRadius = 5;
     unreadMessagesLabel.clipsToBounds = YES;
+    
+    unreadMessagesLabel.backgroundColor = BChatSDK.config.threadUnreadViewBackgroundColor;
+    unreadMessagesLabel.textColor = BChatSDK.config.threadUnreadViewTextColor;
+    messageTextView.textColor = BChatSDK.config.threadCellLastMessageTextColor;
     
     self.preservesSuperviewLayoutMargins = NO;
     self.separatorInset = UIEdgeInsetsZero;
@@ -45,6 +50,7 @@
 }
 
 -(void) bind: (id<PThread>) thread {
+    
  
     NSDate * threadDate = thread.orderDate;
     
@@ -106,12 +112,12 @@
 
 -(void) startTypingWithMessage: (NSString *) message {
     messageTextView.text = message;
-    messageTextView.textColor = [UIColor darkGrayColor];
+    messageTextView.textColor = BChatSDK.config.threadCellTypingTextColor;
 }
 
 -(void) stopTypingWithMessage: (NSString *) message {
     messageTextView.text = message;
-    messageTextView.textColor = [UIColor lightGrayColor];
+    messageTextView.textColor = BChatSDK.config.threadCellLastMessageTextColor;
 }
 
 @end

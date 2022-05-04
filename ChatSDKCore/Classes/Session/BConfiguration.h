@@ -258,6 +258,11 @@ typedef enum {
 // If this is true, extra data will be added to support Chat SDK web
 @property (nonatomic, readwrite) BOOL enableWebCompatibility;
 
+@property (nonatomic, readwrite) UIColor * threadUnreadViewBackgroundColor;
+@property (nonatomic, readwrite) UIColor * threadUnreadViewTextColor;
+
+@property (nonatomic, readwrite) UIColor * threadCellTypingTextColor;
+@property (nonatomic, readwrite) UIColor * threadCellLastMessageTextColor;
 
 
 // Firebase options
@@ -317,6 +322,10 @@ typedef enum {
 
 @property (nonatomic, readwrite) BOOL xmppAutoAcceptIncomingPresenceRequests;
 
+
+@property (nonatomic, readwrite) BOOL sendBase64ImagePreview;
+@property (nonatomic, readwrite) CGFloat imagePreviewMaxSize;
+@property (nonatomic, readwrite) CGFloat imagePreviewQuality;
 
 +(BConfiguration *) configuration;
 

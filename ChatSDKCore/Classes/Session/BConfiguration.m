@@ -112,6 +112,16 @@
 @synthesize xmppOutgoingMessageQueueRetryTime;
 @synthesize xmppOutgoingMessageAlwaysAdd;
 @synthesize xmppAutoAcceptIncomingPresenceRequests;
+@synthesize threadUnreadViewBackgroundColor;
+@synthesize threadUnreadViewTextColor;
+
+@synthesize threadCellTypingTextColor;
+@synthesize threadCellLastMessageTextColor;
+
+@synthesize sendBase64ImagePreview;
+@synthesize imagePreviewMaxSize;
+@synthesize imagePreviewQuality;
+
 
 -(instancetype) init {
     if((self = [super init])) {
@@ -247,6 +257,17 @@
         xmppAutoAcceptIncomingPresenceRequests = true;
         
         replyThumbnailSize = 60 * 3;
+        
+        threadUnreadViewBackgroundColor = UIColor.lightGrayColor;
+        threadUnreadViewTextColor = UIColor.blackColor;
+        
+        threadCellTypingTextColor = UIColor.darkGrayColor;
+        threadCellLastMessageTextColor = UIColor.lightGrayColor;
+        
+        sendBase64ImagePreview = true;
+        imagePreviewMaxSize = 40;
+        imagePreviewQuality = 0.2;
+        
     }
     return self;
 }

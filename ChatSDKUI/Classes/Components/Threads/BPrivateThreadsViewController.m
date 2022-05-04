@@ -62,14 +62,13 @@
 
     __weak __typeof__(self) weakSelf = self;
 
-    UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:@[] onComplete:^(NSArray<PUser> * users, NSString * groupName){
+    UINavigationController * nav = [BChatSDK.ui friendsNavigationControllerWithUsersToExclude:@[] onComplete:^(NSArray<PUser> * users, NSString * groupName, UIImage * image){
         __typeof__(self) strongSelf = weakSelf;
-        
+
         MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:strongSelf.view animated:YES];
         hud.label.text = [NSBundle t:bCreatingThread];
-        
-        // Create group with group name
-        [BChatSDK.thread createThreadWithUsers:users name:groupName threadCreated:^(NSError *error, id<PThread> thread) {
+
+        void(^onCreate)(NSError *error, id<PThread> thread) = ^(NSError *error, id<PThread> thread) {
             if (!error) {
                 [strongSelf pushChatViewControllerWithThread:thread];
             }
@@ -77,7 +76,25 @@
                 [strongSelf alertWithTitle:[NSBundle t:bErrorTitle] withMessage:[NSBundle t:bThreadCreationError]];
             }
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
-        }];
+        };
+        
+        if (image) {
+            [BChatSDK.upload uploadImage:image].thenOnMain(^id(id success) {
+                // Create group with group name
+                NSString * url = success[bImagePath];
+                
+                [BChatSDK.thread createThreadWithUsers:users name:groupName imageURL:url threadCreated:onCreate];
+
+                return success;
+            }, ^id(NSError * error) {
+                [strongSelf alertWithTitle:[NSBundle t:bErrorTitle] withMessage:error.localizedDescription];
+                [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
+                return error;
+            });
+        } else {
+            // Create group with group name
+            [BChatSDK.thread createThreadWithUsers:users name:groupName threadCreated:onCreate];
+        }
         
     }];
     

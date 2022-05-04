@@ -148,14 +148,14 @@
     return _contactsViewController;
 }
 
--(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray<PUser> *) usersToExclude onComplete: (void(^)(NSArray<PUser> * users, NSString * groupName)) action{
+-(BFriendsListViewController *) friendsViewControllerWithUsersToExclude: (NSArray<PUser> *) usersToExclude onComplete: (void(^)(NSArray<PUser> * users, NSString * groupName, UIImage * image)) action{
     if (_friendsListViewController != Nil) {
         return _friendsListViewController(usersToExclude, action);
     }
     return [[BFriendsListViewController alloc] initWithUsersToExclude:usersToExclude onComplete:action];
 }
 
--(UINavigationController *) friendsNavigationControllerWithUsersToExclude: (NSArray<PUser> *) usersToExclude onComplete: (void(^)(NSArray<PUser> * users, NSString * name)) action {
+-(UINavigationController *) friendsNavigationControllerWithUsersToExclude: (NSArray<PUser> *) usersToExclude onComplete: (void(^)(NSArray<PUser> * users, NSString * name, UIImage * image)) action {
     return [self navigationControllerWithRootViewController:[self friendsViewControllerWithUsersToExclude:usersToExclude onComplete:action]];
 }
 

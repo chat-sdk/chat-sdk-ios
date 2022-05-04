@@ -185,6 +185,7 @@
 
 -(void) setImageURL: (NSString *) url {
     [self updateMeta:@{bUserImageURLKey: url}];
+    [self updateMeta:@{bImageURL: url}];
 }
 
 -(BOOL) isMe {

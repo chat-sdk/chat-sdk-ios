@@ -45,6 +45,7 @@ open class MessageCell: AbstractMessageCell {
         super.awakeFromNib()
         timeLabel?.numberOfLines = 0
         timeLabel?.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView?.contentMode = .scaleAspectFill
         backgroundColor = .clear
     }
     
@@ -67,7 +68,7 @@ open class MessageCell: AbstractMessageCell {
         if let content = self.content {
             content.bind(message, model: model)
         }
-        if let image = message.messageSender().userImage() {
+        if ChatKit.config().cacheUserImage, let image = message.messageSender().userImage() {
             avatarImageView?.image = image
         }
         else if let url = message.messageSender().userImageUrl() {
@@ -76,23 +77,35 @@ open class MessageCell: AbstractMessageCell {
             avatarImageView?.image = ChatKit.asset(icon: "icn_100_avatar")
         }
 
+        if ChatKit.config().hideAvatarForOutgoingMessages {
+            if message.messageDirection() == .outgoing {
+                setAvatarSize(size: 0)
+            } else {
+                setAvatarSize(size: model.avatarSize())
+            }
+        } else {
+            setAvatarSize(size: model.avatarSize())
+        }
+
         timeLabel?.text = model.messageTimeFormatter.string(from: message.messageDate())
-        
-        setAvatarSize(size: model.avatarSize())
-        
+                
         if content?.showBubble() ?? true {
             setBubbleColor(color: model.bubbleColor(message))
             contentContainerView.setMaskPosition(direction: message.messageDirection())
             content?.view().setMaskPosition(direction: message.messageDirection())
         }
         
-        if message.messageDirection() == .incoming {
-            contentContainerView.layer.borderWidth = CGFloat(ChatKit.config().incomingBubbleBorderWidth)
-            contentContainerView.layer.borderColor = ChatKit.asset(color: ChatKit.config().incomingBubbleBorderColor).cgColor
-        }
-        if message.messageDirection() == .outgoing {
-            contentContainerView.layer.borderWidth = CGFloat(ChatKit.config().outgoingBubbleBorderWidth)
-            contentContainerView.layer.borderColor = ChatKit.asset(color: ChatKit.config().outgoingBubbleBorderColor).cgColor
+        if content?.showBubble() ?? true {
+            if message.messageDirection() == .incoming {
+                contentContainerView.layer.borderWidth = CGFloat(ChatKit.config().incomingBubbleBorderWidth)
+                contentContainerView.layer.borderColor = ChatKit.asset(color: ChatKit.config().incomingBubbleBorderColor).cgColor
+            }
+            if message.messageDirection() == .outgoing {
+                contentContainerView.layer.borderWidth = CGFloat(ChatKit.config().outgoingBubbleBorderWidth)
+                contentContainerView.layer.borderColor = ChatKit.asset(color: ChatKit.config().outgoingBubbleBorderColor).cgColor
+            }
+        } else {
+            contentContainerView.layer.borderWidth = 0
         }
 
         if message.messageSender().userIsMe() {
@@ -123,7 +136,7 @@ open class MessageCell: AbstractMessageCell {
     }
 
     open func setAvatarSize(size: CGFloat) {
-        avatarImageView?.keepSize.equal = KeepHigh(size)
+        avatarImageView?.keepSize.equal = KeepRequired(size)
         avatarImageView?.layer.cornerRadius = size / 2.0
     }
 

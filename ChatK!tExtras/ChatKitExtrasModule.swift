@@ -116,9 +116,13 @@ public class StickerMessageProvider: MessageProvider {
 }
 
 public class StickerOptionProvider: OptionProvider {
+    
+    open weak var vc: ChatViewController?
+    
     public func provide(for vc: ChatViewController, thread: PThread) -> Option {
-        return Option(stickerOnClick: {
-            vc.showKeyboardOverlay(name: StickerKeyboardOverlay.key)
+        self.vc = vc
+        return Option(stickerOnClick: { [weak self] in
+            self?.vc?.showKeyboardOverlay(name: StickerKeyboardOverlay.key)
         })
     }
 }

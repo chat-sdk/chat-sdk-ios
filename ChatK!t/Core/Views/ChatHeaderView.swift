@@ -49,7 +49,8 @@ open class ChatHeaderView : UIView {
             imageView?.keepAspectRatio.equal = 1
             imageView?.layer.cornerRadius = viewHeight / 2
             imageView?.clipsToBounds = true
-//            imageView?.keepWidth.equal = viewHeight
+            imageView?.contentMode = .scaleAspectFill
+
         }
         
         titleLabel = UILabel()
@@ -85,7 +86,7 @@ open class ChatHeaderView : UIView {
 //            subtitleLabel?.keepHorizontalCenter.equal = 0.5;
         }
         subtitleLabel?.keepHeight.equal = 15;
-        subtitleLabel?.keepBottomInset.equal = 0;
+        subtitleLabel?.keepBottomInset.equal = 3;
         subtitleLabel?.keepRightInset.equal = 0
 
 //        keepWidth.equal = 180

@@ -23,6 +23,9 @@ static void * kMainQueueKey = (void *) "Key1";
         _entityCache = [NSMutableDictionary new];
         
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:Nil queue:0 usingBlock:^(NSNotification * notification) {
+            
+            [self save];
+            
         }];
 
         [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:Nil queue:0 usingBlock:^(NSNotification * notification) {

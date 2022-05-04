@@ -66,9 +66,9 @@ import AVFoundation
     
     open override func awakeFromNib() {
         super.awakeFromNib()
-
         progressView.tintColor = ChatKit.asset(color: "message_icon")
         progressView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(startStopDownload)))
+//        totalTimeLabel.textColor = ChatKit.asset(color: "message_icon")
     }
     
     @objc open func startStopDownload() {

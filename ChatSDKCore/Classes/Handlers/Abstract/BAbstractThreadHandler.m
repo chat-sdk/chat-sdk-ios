@@ -123,12 +123,12 @@
                        threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
     return [self createThreadWithUsers:users
                                   name:name
+                              imageURL: nil
                                   type:bThreadTypeNone
                               entityID:nil
                            forceCreate:force
                          threadCreated:threadCreated];
 }
-
 
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
                                 name: (NSString *) name
@@ -137,6 +137,23 @@
                                   name:name
                            forceCreate:NO
                          threadCreated:threadCreated];
+
+}
+
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                                name: (NSString *) name
+                               imageURL: (NSString *) imageURL
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+
+    return [self createThreadWithUsers:users
+                                  name:name
+                              imageURL:imageURL
+                                  type:bThreadTypeNone
+                              entityID:nil
+                           forceCreate:NO
+                         threadCreated:threadCreated];
+
+
 }
 
 -(RXPromise *) createThreadWithUsers: (NSArray *) users
@@ -437,6 +454,10 @@
 
 -(RXPromise *) refreshRoles: (NSString *) threadEntityID {
     return [RXPromise resolveWithResult:nil];
+}
+
+-(BOOL) threadImagesSupported {
+    return NO;
 }
 
 @end

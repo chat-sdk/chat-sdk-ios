@@ -19,6 +19,7 @@
 @synthesize imageView;
 @synthesize image;
 @synthesize imageURL;
+@synthesize activityIndicator;
 
 -(instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,53 +40,58 @@
     }
     
     if (!self.hideSaveButton) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t: bSave] style:UIBarButtonItemStylePlain target:self action:@selector(save)];
+        [self showSaveButton];
     }
 
     _swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDownDetected)];
     _swipeRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
     [self.view addGestureRecognizer:_swipeRecognizer];
-    
-    
 
 }
 
-//-(void) downloadImage {
-//    if (image) {
-//        [self downloadComplete:image];
-//    } else if (imageURL) {
-//        [NSURLSession.sharedSession dataTaskWithURL:imageURL completionHandler:^(NSData * data, NSURLResponse * response, NSError * error) {
-//            if (data && data.length && !error) {
-//                [self downloadComplete:[UIImage imageWithData:data]];
-//            }
-//        }];
-//    }
-//}
-
--(void) downloadComplete: (UIImage *) image {
-    if (!self.hideSaveButton) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t: bSave] style:UIBarButtonItemStylePlain target:self action:@selector(save)];
-    }
+-(void) setImageURL:(NSURL *)imageURL {
+    self->imageURL = imageURL;
+    image = nil;
 }
 
 -(void) swipeDownDetected {
     [self dismissViewControllerAnimated:YES completion:Nil];
 }
 
+-(void) showWaitingIndicator {
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self navigationItem].rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];;
+    [activityIndicator startAnimating];
+}
+
+-(void) showSaveButton {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle t: bSave] style:UIBarButtonItemStylePlain target:self action:@selector(save)];
+}
+
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    if (!_hideSaveButton) {
+        [self showSaveButton];
+    }
+    
     if (image) {
         [imageView setImage:image];
-        [self downloadComplete:image];
     }
     else if (imageURL) {
         __weak __typeof(self) weakSelf = self;
+        
+        [self showWaitingIndicator];
+        
         [imageView sd_setImageWithURL:imageURL completed:^(UIImage * image, NSError * error, SDImageCacheType cacheType, NSURL * imageURL) {
-            if (image && !error) {
+            
+            if (error) {
+                [self.view makeToast:error.localizedDescription];
+            } else {
                 weakSelf.image = image;
-                [weakSelf downloadComplete:image];
+                [weakSelf showSaveButton];
             }
+            
         }];
     }
     
@@ -136,9 +142,9 @@
 }
 
 -(void) save {
-//    [self downloadImage];
-    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), Nil);
-
+    if (image) {
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), Nil);
+    }
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo  {
@@ -151,3 +157,4 @@
 }
 
 @end
+
