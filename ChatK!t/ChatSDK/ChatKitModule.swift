@@ -10,6 +10,8 @@ import Foundation
 import ChatSDK
 import AVKit
 import ZLImageEditor
+import YPImagePicker
+
 
 open class FileKeys {
     
@@ -630,19 +632,33 @@ open class  ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelD
     open func galleryOption() -> Option {
         return Option(galleryOnClick: { [weak self] in
             if let vc = self?.weakVC, let thread = self?.thread {
-                let action = BSelectMediaAction(type: bPictureTypeAlbumImage, viewController: vc, cropEnabled: false)
-                _ = action?.execute()?.thenOnMain({ success in
-                    if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
-                        if ChatKit.config().imageEditorEnabled {
-                            ZLEditImageViewController.showEditImageVC(parentVC: vc, animate: false, image: photo, editModel: nil) { (resImage, editModel) in
-                                imageMessage.sendMessage(with: resImage, withThreadEntityID: thread.entityID())
-                            }
-                        } else {
-                            imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
-                        }
+                
+                let pvc = PreviewViewController()
+                pvc.setDidFinishPicking({ [weak self] image in
+                    if let image = image, let imageMessage = BChatSDK.imageMessage() {
+                        imageMessage.sendMessage(with: image, withThreadEntityID: thread.entityID())
                     }
-                    return success
-                }, nil)
+                })
+                
+                vc.present(pvc, animated: true, completion: nil)
+
+                
+//                let action = BSelectMediaAction(type: bPictureTypeAlbumImage, viewController: vc, cropEnabled: false)
+//                _ = action?.execute()?.thenOnMain({ success in
+//                    if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
+//
+//                        vc.present(PreviewViewController(image: photo), animated: true, completion: nil)
+//
+//                        if ChatKit.config().imageEditorEnabled {
+//                            ZLEditImageViewController.showEditImageVC(parentVC: vc, animate: false, image: photo, editModel: nil) { (resImage, editModel) in
+//                                imageMessage.sendMessage(with: resImage, withThreadEntityID: thread.entityID())
+//                            }
+//                        } else {
+//                            imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+//                        }
+//                    }
+//                    return success
+//                }, nil)
             }
         })
     }

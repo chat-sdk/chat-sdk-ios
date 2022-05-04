@@ -24,6 +24,8 @@
 
     [BHookNotification notificationMessageWillUpload: message];
     
+    [message setPlaceholder:UIImagePNGRepresentation(image)];
+    
     return [BChatSDK.upload uploadFile:UIImageJPEGRepresentation(image, 0) withName:@"image.jpg" mimeType:@"image/jpeg" message: message].thenOnMain(^id(NSDictionary * info) {
         
         NSURL * url = info[bFilePath] ? info[bFilePath] : Nil;

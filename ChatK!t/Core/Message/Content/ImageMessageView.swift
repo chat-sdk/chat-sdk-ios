@@ -44,7 +44,9 @@ open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
     }
 
     open func setUploadProgress(_ progress: Float, total: Float) {
-        showProgressView()
+        if progress > 0 {
+            showProgressView()
+        }
         progressView.progress = CGFloat(progress)
         updateTotal(total, progress: progress)
     }
@@ -108,7 +110,7 @@ open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
     }
     
     open func uploadStarted() {
-        showProgressView()
+//        showProgressView()
     }
 
     open func hideProgressView() {

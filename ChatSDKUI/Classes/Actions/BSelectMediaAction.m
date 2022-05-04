@@ -84,7 +84,7 @@
     // This checks whether we are adding image or video (public.movie for video)
     if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:@"public.image"]) {
 
-        [_picker dismissViewControllerAnimated:NO completion:^{
+//        [_picker dismissViewControllerAnimated:NO completion:^{
             if (_squareCrop) {
                 UIImage * image = [info objectForKey:UIImagePickerControllerEditedImage];
                 if (image) {
@@ -104,8 +104,10 @@
                     _photo = image;
                     [_promise resolveWithResult: Nil];
                     _promise = Nil;
-                }            }
-        }];
+                }
+                
+            }
+//        }];
         
 //        UIImage * image = [info objectForKey:UIImagePickerControllerOriginalImage];
 //
