@@ -51,5 +51,16 @@ Pod::Spec.new do |s|
     
   end
 
+  s.subspec 'ExtrasPro' do |s| 
+
+    s.source_files = ['ChatK!tExtras/*.{h,m,swift}']
+    s.resources = [ 'ChatK!tExtras/*.{xcassets,xib}']
+
+    s.dependency 'ChatK!t/ChatK!t'
+    s.dependency 'ChatK!t/ChatSDK'
+    s.dependency 'ChatSDKPro/Message'
+    
+  end
+
 
 end

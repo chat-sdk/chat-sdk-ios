@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
+// swift-compiler-version: Apple Swift version 5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)
 // swift-module-flags: -target armv7-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ChatSDKVendor
 @_exported import ChatSDKVendor
 import CocoaLumberjack
@@ -75,7 +75,7 @@ extension ChatSDKVendor.XMPPIQ {
   public var iqType: ChatSDKVendor.XMPPIQ.IQType? {
     get
   }
-  public convenience init(iqType: ChatSDKVendor.XMPPIQ.IQType, to JID: ChatSDKVendor.XMPPJID? = nil, elementID eid: Swift.String? = nil, child childElement: KissXML.XMLElement? = nil)
+  convenience public init(iqType: ChatSDKVendor.XMPPIQ.IQType, to JID: ChatSDKVendor.XMPPJID? = nil, elementID eid: Swift.String? = nil, child childElement: KissXML.XMLElement? = nil)
 }
 extension ChatSDKVendor.XMPPMessage {
   public enum MessageType : Swift.String {
@@ -93,7 +93,7 @@ extension ChatSDKVendor.XMPPMessage {
   public var messageType: ChatSDKVendor.XMPPMessage.MessageType? {
     get
   }
-  public convenience init(messageType: ChatSDKVendor.XMPPMessage.MessageType? = nil, to: ChatSDKVendor.XMPPJID? = nil, elementID: Swift.String? = nil, child: KissXML.XMLElement? = nil)
+  convenience public init(messageType: ChatSDKVendor.XMPPMessage.MessageType? = nil, to: ChatSDKVendor.XMPPJID? = nil, elementID: Swift.String? = nil, child: KissXML.XMLElement? = nil)
 }
 extension ChatSDKVendor.XMPPMessage {
   public enum ChatState : Swift.String {
@@ -159,13 +159,31 @@ extension ChatSDKVendor.XMPPPresence {
   public var presenceType: ChatSDKVendor.XMPPPresence.PresenceType? {
     get
   }
-  public convenience init(type: ChatSDKVendor.XMPPPresence.PresenceType? = nil, show: ChatSDKVendor.XMPPPresence.ShowType? = nil, status: Swift.String? = nil, to jid: ChatSDKVendor.XMPPJID? = nil)
+  convenience public init(type: ChatSDKVendor.XMPPPresence.PresenceType? = nil, show: ChatSDKVendor.XMPPPresence.ShowType? = nil, status: Swift.String? = nil, to jid: ChatSDKVendor.XMPPJID? = nil)
 }
 extension ChatSDKVendor.XMPPPresence {
-  @objc public static var idleXmlns: Swift.String
+  @objc public static let idleXmlns: Swift.String
   @objc dynamic public var idleSince: Foundation.Date? {
     @objc get
   }
   @objc dynamic public func addIdle(since: Foundation.Date)
-  public convenience init(type: ChatSDKVendor.XMPPPresence.PresenceType? = nil, show: ChatSDKVendor.XMPPPresence.ShowType? = nil, status: Swift.String? = nil, idle since: Foundation.Date? = nil, to jid: ChatSDKVendor.XMPPJID? = nil)
+  convenience public init(type: ChatSDKVendor.XMPPPresence.PresenceType? = nil, show: ChatSDKVendor.XMPPPresence.ShowType? = nil, status: Swift.String? = nil, idle since: Foundation.Date? = nil, to jid: ChatSDKVendor.XMPPJID? = nil)
 }
+extension ChatSDKVendor.XMPPBookmarksMode : Swift.Equatable {}
+extension ChatSDKVendor.XMPPBookmarksMode : Swift.Hashable {}
+extension ChatSDKVendor.XMPPBookmarksMode : Swift.RawRepresentable {}
+extension ChatSDKVendor.XMPPIQ.IQType : Swift.Equatable {}
+extension ChatSDKVendor.XMPPIQ.IQType : Swift.Hashable {}
+extension ChatSDKVendor.XMPPIQ.IQType : Swift.RawRepresentable {}
+extension ChatSDKVendor.XMPPMessage.MessageType : Swift.Equatable {}
+extension ChatSDKVendor.XMPPMessage.MessageType : Swift.Hashable {}
+extension ChatSDKVendor.XMPPMessage.MessageType : Swift.RawRepresentable {}
+extension ChatSDKVendor.XMPPMessage.ChatState : Swift.Equatable {}
+extension ChatSDKVendor.XMPPMessage.ChatState : Swift.Hashable {}
+extension ChatSDKVendor.XMPPMessage.ChatState : Swift.RawRepresentable {}
+extension ChatSDKVendor.XMPPPresence.PresenceType : Swift.Equatable {}
+extension ChatSDKVendor.XMPPPresence.PresenceType : Swift.Hashable {}
+extension ChatSDKVendor.XMPPPresence.PresenceType : Swift.RawRepresentable {}
+extension ChatSDKVendor.XMPPPresence.ShowType : Swift.Equatable {}
+extension ChatSDKVendor.XMPPPresence.ShowType : Swift.Hashable {}
+extension ChatSDKVendor.XMPPPresence.ShowType : Swift.RawRepresentable {}

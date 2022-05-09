@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
+// swift-compiler-version: Apple Swift version 5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)
 // swift-module-flags: -target armv7-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name ChatSDKXMPP
 import ChatSDK
 @_exported import ChatSDKXMPP
@@ -143,7 +143,7 @@ extension ChatSDKVendor.XMPPMessage {
   @objc override dynamic public init(dispatchQueue queue: Dispatch.DispatchQueue?)
 }
 @_hasMissingDesignatedInitializers @objc public class OutgoingStanza : ObjectiveC.NSObject {
-  @objc public static var Delay: Swift.String
+  @objc public static let Delay: Swift.String
   public var stanza: ChatSDKVendor.XMPPMessage
   public var date: Foundation.Date
   public var sent: Swift.Bool
@@ -193,7 +193,7 @@ public enum PrivacyListName : Swift.String {
   @objc deinit
 }
 extension ChatSDKXMPP.PrivacyLists {
-  public static var xmlns_jabber_iq_privacy: Swift.String
+  public static let xmlns_jabber_iq_privacy: Swift.String
 }
 @objc extension ChatSDKXMPP.PrivacyLists {
   @objc dynamic public func xmppPrivacy(_ sender: ChatSDKVendor.XMPPPrivacy!, didReceiveListNames listNames: [Any]!)
@@ -212,7 +212,7 @@ extension ChatSDKXMPP.PrivacyLists {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class PublicKeyService : ChatSDKXMPP.PubSubService {
-  public static var Node: Swift.String
+  public static let Node: Swift.String
   public func setManager(manager: ChatSDKXMPP.PubSubManager)
   public func subscriptions() -> [Swift.String]
   public func subscribeToUser(with id: Swift.String)
@@ -383,13 +383,13 @@ public class Callback {
   @objc deinit
 }
 extension ChatSDKXMPP.RoomListener {
-  public static var affiliation: Swift.String
-  public static var jid: Swift.String
-  public static var role: Swift.String
-  public static var nick: Swift.String
-  public static var items: Swift.String
-  public static var result: Swift.String
-  public static var destroy: Swift.String
+  public static let affiliation: Swift.String
+  public static let jid: Swift.String
+  public static let role: Swift.String
+  public static let nick: Swift.String
+  public static let items: Swift.String
+  public static let result: Swift.String
+  public static let destroy: Swift.String
 }
 extension ChatSDKXMPP.RoomListener {
   public func elementID(room: ChatSDKVendor.XMPPRoom, affiliation: ChatSDK.Affiliation) -> Swift.String
@@ -434,6 +434,7 @@ extension ChatSDKXMPP.RoomManager {
   @objc dynamic public func add(userEntityID: Swift.String)
   @objc dynamic public func remove(userEntityID: Swift.String)
   @objc dynamic public func hasLeft(userEntityID: Swift.String)
+  @objc dynamic public func hasLeft(_ value: Swift.Bool, userEntityID: Swift.String)
   @objc dynamic public func userJID(roomJID: ChatSDKVendor.XMPPJID) -> Swift.String?
 }
 extension ChatSDKXMPP.RoomManager {
@@ -465,8 +466,11 @@ extension ChatSDKXMPP.RoomManager {
   @objc override dynamic public init()
   @objc deinit
 }
+@objc extension RXPromise.RXPromise {
+  @objc public static func streamNotLive() -> RXPromise.RXPromise
+}
 @_inheritsConvenienceInitializers @objc open class SilentMessage : ObjectiveC.NSObject {
-  public static var ignore: Swift.String
+  public static let ignore: Swift.String
   @objc open func get(_ message: ChatSDKVendor.XMPPMessage) -> ChatSDKVendor.XMPPMessage
   @objc open func trigger(_ message: ChatSDKVendor.XMPPMessage, from: Swift.String)
   @objc open func matches(_ message: ChatSDKVendor.XMPPMessage) -> Swift.Bool
@@ -477,7 +481,7 @@ extension ChatSDKXMPP.RoomManager {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class UserMetaService : ChatSDKXMPP.PubSubService {
-  public static var Node: Swift.String
+  public static let Node: Swift.String
   public var allowedKeys: [Swift.String]
   public func setManager(manager: ChatSDKXMPP.PubSubManager)
   public func identifier() -> Swift.String
@@ -533,10 +537,10 @@ public typealias Listener = ([Swift.String : Any]?, Swift.Error?) -> Swift.Void
   @objc deinit
 }
 @_inheritsConvenienceInitializers @objc public class XMPPLogging : ObjectiveC.NSObject {
-  @objc public static var logIQ: Swift.Bool
-  @objc public static var logPresence: Swift.Bool
-  @objc public static var logMessages: Swift.Bool
-  @objc public static var logConnection: Swift.Bool
+  @objc public static let logIQ: Swift.Bool
+  @objc public static let logPresence: Swift.Bool
+  @objc public static let logMessages: Swift.Bool
+  @objc public static let logConnection: Swift.Bool
   @objc override dynamic public init()
   @objc deinit
 }
@@ -573,16 +577,17 @@ extension ChatSDKVendor.XMPPMessage {
   @objc dynamic public func xmppStreamDidAuthenticate(_ sender: ChatSDKVendor.XMPPStream)
 }
 public struct XMLStorageKeys {
-  public static var xmlns: Swift.String
-  public static var queryElement: Swift.String
-  public static var name: Swift.String
-  public static var Nick: Swift.String
-  public static var NickXMLNS: Swift.String
+  public static let xmlns: Swift.String
+  public static let queryElement: Swift.String
+  public static let name: Swift.String
+  public static let Nick: Swift.String
+  public static let NickXMLNS: Swift.String
 }
 @_inheritsConvenienceInitializers @objc public class XMPPReadReceiptHandler : ObjectiveC.NSObject, ChatSDK.PReadReceiptHandler {
   @objc public func setAutoSendReadReceipt(_ autoSend: Swift.Bool)
   @objc public func updateReadReceipts(for thread: ChatSDK.PThread!)
   @objc public func markRead(_ thread: ChatSDK.PThread!)
+  @objc public func markMessageRead(_ message: ChatSDK.PMessage!)
   @objc override dynamic public init()
   @objc deinit
 }
@@ -591,3 +596,6 @@ public struct XMLStorageKeys {
   @objc override dynamic public init()
   @objc deinit
 }
+extension ChatSDKXMPP.PrivacyListName : Swift.Equatable {}
+extension ChatSDKXMPP.PrivacyListName : Swift.Hashable {}
+extension ChatSDKXMPP.PrivacyListName : Swift.RawRepresentable {}

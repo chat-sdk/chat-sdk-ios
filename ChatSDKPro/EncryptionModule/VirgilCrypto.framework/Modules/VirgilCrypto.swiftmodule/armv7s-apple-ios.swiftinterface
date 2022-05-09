@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
+// swift-compiler-version: Apple Swift version 5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)
 // swift-module-flags: -target armv7s-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name VirgilCrypto
 import Foundation
 import Swift
@@ -28,3 +28,6 @@ import _Concurrency
   @objc override dynamic public init()
   @objc deinit
 }
+extension VirgilCrypto.VirgilPythiaError : Swift.Equatable {}
+extension VirgilCrypto.VirgilPythiaError : Swift.Hashable {}
+extension VirgilCrypto.VirgilPythiaError : Swift.RawRepresentable {}

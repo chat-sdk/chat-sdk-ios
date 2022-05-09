@@ -23,26 +23,26 @@ Pod::Spec.new do |s|
     s.dependency 'ChatSDKPro/Core'
   end
 
-  s.subspec 'Encryption' do |s|
+  # s.subspec 'Encryption' do |s|
 
-    s.vendored_frameworks = ['ChatSDKPro/EncryptionModule/EncryptionModule.framework', 
-      'ChatSDKPro/EncryptionModule/VirgilCrypto.framework',
-      'ChatSDKPro/EncryptionModule/VirgilCryptoAPI.framework',
-      'ChatSDKPro/EncryptionModule/VirgilCryptoApiImpl.framework',
-      'ChatSDKPro/EncryptionModule/VSCCrypto.framework',
-      'ChatSDKPro/EncryptionModule/VirgilSDK.framework',
-      # 'ChatSDKPro/EncryptionModule/QRCodeReader.framework'
-    ]
+  #   s.vendored_frameworks = ['ChatSDKPro/EncryptionModule/EncryptionModule.framework', 
+  #     'ChatSDKPro/EncryptionModule/VirgilCrypto.framework',
+  #     'ChatSDKPro/EncryptionModule/VirgilCryptoAPI.framework',
+  #     'ChatSDKPro/EncryptionModule/VirgilCryptoApiImpl.framework',
+  #     'ChatSDKPro/EncryptionModule/VSCCrypto.framework',
+  #     'ChatSDKPro/EncryptionModule/VirgilSDK.framework',
+  #     # 'ChatSDKPro/EncryptionModule/QRCodeReader.framework'
+  #   ]
 
-    s.dependency 'ChatSDKPro/Core'
+  #   s.dependency 'ChatSDKPro/Core'
 
-    # s.dependency 'VirgilCryptoApiImpl', '~> 3.2.2'
-    # s.dependency 'VirgilSDK', '~> 5.7'
+  #   # s.dependency 'VirgilCryptoApiImpl', '~> 3.2.2'
+  #   # s.dependency 'VirgilSDK', '~> 5.7'
 
-    s.dependency 'SAMKeychain'
-    s.dependency 'QRCodeReader.swift', '~> 10.1.0'
+  #   s.dependency 'SAMKeychain'
+  #   s.dependency 'QRCodeReader.swift', '~> 10.1.0'
 
-  end
+  # end
 
   s.subspec 'Firebase' do |s|
 
@@ -68,17 +68,17 @@ Pod::Spec.new do |s|
 
   end
 
-  s.subspec 'ChatK!t' do |s|
-    s.ios.deployment_target = '13.0'
+  # s.subspec 'ChatK!t' do |s|
+  #   s.ios.deployment_target = '13.0'
 
-    s.source_files = ['ChatK!tExtras/*.{h,m,swift}']
-    s.resources = [ 'ChatK!tExtras/*.{xcassets,xib}']
+  #   s.source_files = ['ChatK!tExtras/*.{h,m,swift}']
+  #   s.resources = [ 'ChatK!tExtras/*.{xcassets,xib}']
 
-    s.dependency 'ChatK!t'
-    s.dependency 'ChatK!t/ChatSDK'
-    s.dependency 'ChatSDKPro/Message'
+  #   s.dependency 'ChatK!t'
+  #   s.dependency 'ChatK!t/ChatSDK'
+  #   s.dependency 'ChatSDKPro/Message'
 
-  end
+  # end
 
 #   s.subspec 'XMPPFramework' do |s|
 

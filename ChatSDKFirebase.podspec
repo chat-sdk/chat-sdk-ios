@@ -27,8 +27,8 @@ Pod::Spec.new do |s|
 
 	s.source_files = ['ChatSDKFirebase/Adapter/Classes/**/*.{h,m,swift}']
 	
-  s.dependency 'Firebase/Auth'
-  s.dependency 'Firebase/Database'
+  s.dependency 'Firebase/Auth', '~>8.12.0'
+  s.dependency 'Firebase/Database', '~>8.12.0'
 
   s.dependency 'ChatSDKFirebase/Core' 
 	s.dependency 'ChatSDK'
@@ -39,8 +39,8 @@ Pod::Spec.new do |s|
 
 	s.source_files = ['ChatSDKFirebase/Upload/Classes/**/*.{h,m,swift}']
 
-  s.dependency 'Firebase/Database'
-  s.dependency 'Firebase/Storage'
+  s.dependency 'Firebase/Database', '~>8.12.0'
+  s.dependency 'Firebase/Storage', '~>8.12.0'
 	s.dependency 'ChatSDK'
   # s.dependency 'ChatSDKFirebase/Adapter' 
 
@@ -50,9 +50,9 @@ Pod::Spec.new do |s|
 
 	s.source_files = ['ChatSDKFirebase/Push/Classes/**/*.{h,m,swift}']
 
-    s.dependency 'Firebase/Database'
-    s.dependency 'Firebase/Messaging'
-    s.dependency 'Firebase/Functions'
+    s.dependency 'Firebase/Database', '~>8.12.0'
+    s.dependency 'Firebase/Messaging', '~>8.12.0'
+    s.dependency 'Firebase/Functions', '~>8.12.0'
     s.dependency 'ChatSDK'
     s.dependency 'ChatSDKFirebase/Core' 
 

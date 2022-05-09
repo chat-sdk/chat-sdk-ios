@@ -19,8 +19,6 @@ import FirebaseModules
 import ContactBookModule
 import MessageModules
 import FirebaseNearbyUsersModule
-import EncryptionModule
-import ChatSDKPro
 
 @UIApplicationMain 
 /* Two Factor Auth */
@@ -32,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let config = BConfiguration.init();
-        config.rootPath = "pre_1"
+        config.rootPath = "pre_78"
         config.allowUsersToCreatePublicChats = false
         config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
         config.clearDatabaseWhenDataVersionChanges = true

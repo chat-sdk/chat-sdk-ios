@@ -59,6 +59,9 @@
 #define bHookXMPPTeardownStream @"bHookXMPPTeardownStream"
 #define bXMPPErrorStanza @"xmpp-error-stanza"
 
+#define bHookXMPPRosterItemReceived @"bHookXMPPRosterItemReceived"
+#define bHook_NSXMLElement @"bHook_NSXMLElement"
+
 typedef void(^Completion)(void);
 
 @interface BXMPPManager : NSObject<XMPPStreamDelegate, XMPPCapabilitiesDelegate, XMPPMessageCarbonsDelegate> {
@@ -107,7 +110,7 @@ typedef void(^Completion)(void);
     PubSubManager * _pubSubManager;
     UserResourceTracker * _userResourceTracker;
 //    JingleListener * _jingleListener;
-        
+    
 }
 
 @property (nonatomic, readonly) XMPPStream * stream;
@@ -167,6 +170,9 @@ typedef void(^Completion)(void);
 
 -(void) reconnect;
 -(void) softReconnect;
+//-(void) logout;
+
+-(BOOL) isLive;
 
 -(void) setDeliveryReceiptsEnabled: (BOOL) enabled;
 -(void) setReadReceiptsEnabled: (BOOL) enabled;

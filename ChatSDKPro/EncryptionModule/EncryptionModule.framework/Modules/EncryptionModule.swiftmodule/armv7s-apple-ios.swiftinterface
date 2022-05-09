@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
+// swift-compiler-version: Apple Swift version 5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)
 // swift-module-flags: -target armv7s-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name EncryptionModule
 import AVFoundation
 import ChatSDK
@@ -7,6 +7,7 @@ import ChatSDK
 import Foundation
 import Licensing
 import QRCodeReader
+import RXPromise
 import SAMKeychain
 import Swift
 import UIKit
@@ -20,9 +21,9 @@ import _Concurrency
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers open class EncryptionHandler : ObjectiveC.NSObject, ChatSDK.PEncryptionHandler {
-  public static var PublicKeysKey: Swift.String
-  public static var PublicKeyKeychainKey: Swift.String
-  public static var PrivateKeyKeychainKey: Swift.String
+  public static let PublicKeysKey: Swift.String
+  public static let PublicKeyKeychainKey: Swift.String
+  public static let PrivateKeyKeychainKey: Swift.String
   public var supportLegacyKeys: Swift.Bool
   @objc override dynamic public init()
   @objc open func publishKey() -> RXPromise.RXPromise
@@ -47,9 +48,9 @@ import _Concurrency
   @objc deinit
 }
 extension EncryptionModule.Keys {
-  public static var PublicKeys: Swift.String
-  public static var PublicKeyService: Swift.String
-  public static var PrivateKeyService: Swift.String
+  public static let PublicKeys: Swift.String
+  public static let PublicKeyService: Swift.String
+  public static let PrivateKeyService: Swift.String
 }
 @objc @_inheritsConvenienceInitializers open class EncryptionModule : ObjectiveC.NSObject, ChatSDK.PModule, QRCodeReader.QRCodeReaderViewControllerDelegate {
   public func reader(_ reader: QRCodeReader.QRCodeReaderViewController, didScanResult result: QRCodeReader.QRCodeReaderResult)
@@ -64,7 +65,7 @@ public class KeyPair {
   final public let keyPair: VirgilCryptoApiImpl.VirgilKeyPair
   public init(with: VirgilCryptoApiImpl.VirgilKeyPair)
   public init(privateKey: Foundation.Data, publicKey: Foundation.Data) throws
-  public convenience init(privateKeyString: Swift.String, publicKeyString: Swift.String) throws
+  convenience public init(privateKeyString: Swift.String, publicKeyString: Swift.String) throws
   public func publicKeyData() -> Foundation.Data
   public func privateKeyData() -> Foundation.Data
   public func publicKeyString() -> Swift.String
@@ -73,7 +74,7 @@ public class KeyPair {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class Keys {
-  public static var EncryptedMessage: Swift.String
+  public static let EncryptedMessage: Swift.String
   @objc deinit
 }
 public class PublicKey {
@@ -95,5 +96,5 @@ public class PublicKey {
   @objc deinit
 }
 extension EncryptionModule.Keys {
-  public static var UserPublicKeysService: Swift.String
+  public static let UserPublicKeysService: Swift.String
 }

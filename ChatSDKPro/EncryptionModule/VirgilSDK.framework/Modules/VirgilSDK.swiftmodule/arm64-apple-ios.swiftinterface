@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
+// swift-compiler-version: Apple Swift version 5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)
 // swift-module-flags: -target arm64-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name VirgilSDK
 import Foundation
 import Security
@@ -72,7 +72,7 @@ import _Concurrency
   @objc public init(initialJwt: VirgilSDK.Jwt? = nil, renewJwtCallback: @escaping (VirgilSDK.TokenContext, @escaping (VirgilSDK.Jwt?, Swift.Error?) -> Swift.Void) -> Swift.Void)
   public typealias JwtStringCallback = (Swift.String?, Swift.Error?) -> Swift.Void
   public typealias RenewJwtCallback = (VirgilSDK.TokenContext, @escaping VirgilSDK.CachingJwtProvider.JwtStringCallback) -> Swift.Void
-  @objc public convenience init(initialJwt: VirgilSDK.Jwt? = nil, renewTokenCallback: @escaping VirgilSDK.CachingJwtProvider.RenewJwtCallback)
+  @objc convenience public init(initialJwt: VirgilSDK.Jwt? = nil, renewTokenCallback: @escaping VirgilSDK.CachingJwtProvider.RenewJwtCallback)
   public typealias AccessTokenCallback = (VirgilSDK.AccessToken?, Swift.Error?) -> Swift.Void
   @objc public func getToken(with tokenContext: VirgilSDK.TokenContext, completion: @escaping VirgilSDK.CachingJwtProvider.AccessTokenCallback)
   @objc deinit
@@ -82,7 +82,7 @@ import _Concurrency
   @objc public init(getJwtCallback: @escaping (VirgilSDK.TokenContext, @escaping (VirgilSDK.Jwt?, Swift.Error?) -> Swift.Void) -> Swift.Void)
   public typealias JwtStringCallback = (Swift.String?, Swift.Error?) -> Swift.Void
   public typealias RenewJwtCallback = (VirgilSDK.TokenContext, @escaping VirgilSDK.CallbackJwtProvider.JwtStringCallback) -> Swift.Void
-  @objc public convenience init(getTokenCallback: @escaping VirgilSDK.CallbackJwtProvider.RenewJwtCallback)
+  @objc convenience public init(getTokenCallback: @escaping VirgilSDK.CallbackJwtProvider.RenewJwtCallback)
   public typealias AccessTokenCallback = (VirgilSDK.AccessToken?, Swift.Error?) -> Swift.Void
   @objc public func getToken(with tokenContext: VirgilSDK.TokenContext, completion: @escaping VirgilSDK.CallbackJwtProvider.AccessTokenCallback)
   @objc deinit
@@ -119,16 +119,6 @@ open class CallbackOperation<T> : VirgilSDK.GenericOperation<T> {
   @objc public func getRawCard() throws -> VirgilSDK.RawSignedModel
   @objc deinit
 }
-extension VirgilSDK.CardClient : VirgilSDK.CardClientProtocol {
-  @objc public static var xVirgilIsSuperseededKey: Swift.String
-  @objc public static var xVirgilIsSuperseededTrue: Swift.String
-  @objc dynamic open func getCard(withId cardId: Swift.String, token: Swift.String) throws -> VirgilSDK.GetCardResponse
-  @objc dynamic open func publishCard(model: VirgilSDK.RawSignedModel, token: Swift.String) throws -> VirgilSDK.RawSignedModel
-  @available(*, deprecated, message: "Deprecated in favor of searchCards with array of identities")
-  @objc dynamic open func searchCards(identity: Swift.String, token: Swift.String) throws -> [VirgilSDK.RawSignedModel]
-  @objc dynamic public func searchCards(identities: [Swift.String], token: Swift.String) throws -> [VirgilSDK.RawSignedModel]
-  @objc dynamic public func revokeCard(withId cardId: Swift.String, token: Swift.String) throws
-}
 @objc(VSSCardClientError) public enum CardClientError : Swift.Int, Swift.Error {
   case constructingUrl = 1
   public init?(rawValue: Swift.Int)
@@ -141,12 +131,22 @@ extension VirgilSDK.CardClient : VirgilSDK.CardClientProtocol {
   }
 }
 @_inheritsConvenienceInitializers @objc(VSSCardClient) open class CardClient : VirgilSDK.BaseClient {
-  @objc public static var defaultURL: Foundation.URL
+  @objc public static let defaultURL: Foundation.URL
   override public init(serviceUrl: Foundation.URL = CardClient.defaultURL, connection: VirgilSDK.HttpConnectionProtocol)
-  @objc public convenience init()
-  @objc public convenience init(serviceUrl: Foundation.URL)
+  @objc convenience public init()
+  @objc convenience public init(serviceUrl: Foundation.URL)
   override open func handleError(statusCode: Swift.Int, body: Foundation.Data?) -> Swift.Error
   @objc deinit
+}
+extension VirgilSDK.CardClient : VirgilSDK.CardClientProtocol {
+  @objc public static let xVirgilIsSuperseededKey: Swift.String
+  @objc public static let xVirgilIsSuperseededTrue: Swift.String
+  @objc dynamic open func getCard(withId cardId: Swift.String, token: Swift.String) throws -> VirgilSDK.GetCardResponse
+  @objc dynamic open func publishCard(model: VirgilSDK.RawSignedModel, token: Swift.String) throws -> VirgilSDK.RawSignedModel
+  @available(*, deprecated, message: "Deprecated in favor of searchCards with array of identities")
+  @objc dynamic open func searchCards(identity: Swift.String, token: Swift.String) throws -> [VirgilSDK.RawSignedModel]
+  @objc dynamic public func searchCards(identities: [Swift.String], token: Swift.String) throws -> [VirgilSDK.RawSignedModel]
+  @objc dynamic public func revokeCard(withId cardId: Swift.String, token: Swift.String) throws
 }
 @objc(VSSCardClientProtocol) public protocol CardClientProtocol {
   @objc func getCard(withId cardId: Swift.String, token: Swift.String) throws -> VirgilSDK.GetCardResponse
@@ -155,6 +155,29 @@ extension VirgilSDK.CardClient : VirgilSDK.CardClientProtocol {
   @objc func searchCards(identity: Swift.String, token: Swift.String) throws -> [VirgilSDK.RawSignedModel]
   @objc func searchCards(identities: [Swift.String], token: Swift.String) throws -> [VirgilSDK.RawSignedModel]
   @objc func revokeCard(withId cardId: Swift.String, token: Swift.String) throws
+}
+@objc(VSSCardManagerError) public enum CardManagerError : Swift.Int, Swift.Error {
+  case cardIsNotVerified = 1
+  case gotWrongCard = 2
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public static var _nsErrorDomain: Swift.String {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc(VSSCardManager) open class CardManager : ObjectiveC.NSObject {
+  @objc final public let modelSigner: VirgilSDK.ModelSigner
+  @objc final public let cardCrypto: VirgilCryptoAPI.CardCrypto
+  @objc final public let accessTokenProvider: VirgilSDK.AccessTokenProvider
+  @objc final public let cardClient: VirgilSDK.CardClientProtocol
+  @objc final public let cardVerifier: VirgilSDK.CardVerifier
+  @objc final public let retryOnUnauthorized: Swift.Bool
+  @objc final public let signCallback: ((VirgilSDK.RawSignedModel, @escaping (VirgilSDK.RawSignedModel?, Swift.Error?) -> Swift.Void) -> Swift.Void)?
+  @objc public init(params: VirgilSDK.CardManagerParams)
+  @objc deinit
 }
 extension VirgilSDK.CardManager {
   @objc dynamic open func importCard(fromBase64Encoded base64EncodedString: Swift.String) throws -> VirgilSDK.Card
@@ -193,29 +216,6 @@ extension VirgilSDK.CardManager {
   @objc dynamic open class func exportCardAsBase64EncodedString(_ card: VirgilSDK.Card) throws -> Swift.String
   @objc dynamic open class func exportCardAsJson(_ card: VirgilSDK.Card) throws -> Any
   @objc dynamic open class func exportCardAsRawCard(_ card: VirgilSDK.Card) throws -> VirgilSDK.RawSignedModel
-}
-@objc(VSSCardManagerError) public enum CardManagerError : Swift.Int, Swift.Error {
-  case cardIsNotVerified = 1
-  case gotWrongCard = 2
-  public init?(rawValue: Swift.Int)
-  public typealias RawValue = Swift.Int
-  public static var _nsErrorDomain: Swift.String {
-    get
-  }
-  public var rawValue: Swift.Int {
-    get
-  }
-}
-@objc(VSSCardManager) open class CardManager : ObjectiveC.NSObject {
-  @objc final public let modelSigner: VirgilSDK.ModelSigner
-  @objc final public let cardCrypto: VirgilCryptoAPI.CardCrypto
-  @objc final public let accessTokenProvider: VirgilSDK.AccessTokenProvider
-  @objc final public let cardClient: VirgilSDK.CardClientProtocol
-  @objc final public let cardVerifier: VirgilSDK.CardVerifier
-  @objc final public let retryOnUnauthorized: Swift.Bool
-  @objc final public let signCallback: ((VirgilSDK.RawSignedModel, @escaping (VirgilSDK.RawSignedModel?, Swift.Error?) -> Swift.Void) -> Swift.Void)?
-  @objc public init(params: VirgilSDK.CardManagerParams)
-  @objc deinit
 }
 @objc(VSSCardManagerParams) final public class CardManagerParams : ObjectiveC.NSObject {
   @objc final public let cardCrypto: VirgilCryptoAPI.CardCrypto
@@ -271,10 +271,6 @@ public enum DateUtils {
   @objc public func getToken(with tokenContext: VirgilSDK.TokenContext, completion: @escaping (VirgilSDK.AccessToken?, Swift.Error?) -> Swift.Void)
   @objc deinit
 }
-extension VirgilSDK.GenericOperation {
-  public func findDependencyResult<T>() throws -> T
-  public func findDependencyError() -> Swift.Error?
-}
 @objc(VSSGenericOperationError) public enum GenericOperationError : Swift.Int, Swift.Error {
   case timeout = 1
   case resultIsMissing = 2
@@ -292,13 +288,17 @@ extension VirgilSDK.GenericOperation {
 @_inheritsConvenienceInitializers open class GenericOperation<T> : VirgilSDK.AsyncOperation {
   public var result: VirgilSDK.Result<T>? {
     get
-    set(value)
+    set
   }
   open func start(completion: @escaping (VirgilSDK.Result<T>) -> Swift.Void)
   open func start(completion: @escaping (T?, Swift.Error?) -> Swift.Void)
   open func startSync(timeout: Foundation.TimeInterval? = nil) -> VirgilSDK.Result<T>
   @objc override dynamic public init()
   @objc deinit
+}
+extension VirgilSDK.GenericOperation {
+  public func findDependencyResult<T>() throws -> T
+  public func findDependencyError() -> Swift.Error?
 }
 @objc(VSSGetCardResponse) final public class GetCardResponse : ObjectiveC.NSObject {
   @objc final public let rawCard: VirgilSDK.RawSignedModel
@@ -319,7 +319,7 @@ extension VirgilSDK.GenericOperation {
   }
 }
 open class HttpConnection : VirgilSDK.HttpConnectionProtocol {
-  public static var defaulMaxConcurrentOperationCount: Swift.Int
+  public static let defaulMaxConcurrentOperationCount: Swift.Int
   public init(maxConcurrentOperationCount: Swift.Int = HttpConnection.defaulMaxConcurrentOperationCount, adapters: [VirgilSDK.HttpRequestAdapter] = [])
   public func send(_ request: VirgilSDK.Request) throws -> VirgilSDK.Response
   @objc deinit
@@ -492,7 +492,7 @@ extension VirgilSDK.KeychainEntry {
   @objc deinit
 }
 @objc(VSSKeychainStorage) open class KeychainStorage : ObjectiveC.NSObject {
-  @objc public static var privateKeyIdentifierFormat: Swift.String
+  @objc public static let privateKeyIdentifierFormat: Swift.String
   @objc final public let storageParams: VirgilSDK.KeychainStorageParams
   @objc public init(storageParams: VirgilSDK.KeychainStorageParams)
   @objc open func store(data: Foundation.Data, withName name: Swift.String, meta: [Swift.String : Swift.String]?) throws -> VirgilSDK.KeychainEntry
@@ -526,7 +526,7 @@ public enum Log {
   public static func error(_ closure: @autoclosure () -> Swift.String, functionName: Swift.String = #function, file: Swift.String = #file, line: Swift.UInt = #line)
 }
 @objc(VSSModelSigner) final public class ModelSigner : ObjectiveC.NSObject {
-  @objc public static var selfSignerIdentifier: Swift.String
+  @objc public static let selfSignerIdentifier: Swift.String
   @objc final public let cardCrypto: VirgilCryptoAPI.CardCrypto
   @objc public init(cardCrypto: VirgilCryptoAPI.CardCrypto)
   @objc final public func sign(model: VirgilSDK.RawSignedModel, signer: Swift.String, privateKey: VirgilCryptoAPI.PrivateKey, additionalData: Foundation.Data?) throws
@@ -575,9 +575,9 @@ public enum OperationUtils {
   @objc final public let previousCardId: Swift.String?
   @objc final public let version: Swift.String
   @objc final public let createdAt: Swift.Int64
-  @objc public convenience init(identity: Swift.String, publicKey: Foundation.Data, previousCardId: Swift.String? = nil, version: Swift.String = "5.0", createdAt: Foundation.Date)
+  @objc convenience public init(identity: Swift.String, publicKey: Foundation.Data, previousCardId: Swift.String? = nil, version: Swift.String = "5.0", createdAt: Foundation.Date)
   @objc public init(identity: Swift.String, publicKey: Foundation.Data, previousCardId: Swift.String? = nil, version: Swift.String = "5.0", createdAtTimestamp: Swift.Int64)
-  @objc public convenience init(snapshot: Foundation.Data) throws
+  @objc convenience public init(snapshot: Foundation.Data) throws
   @objc final public func snapshot() throws -> Foundation.Data
   @objc deinit
   final public func encode(to encoder: Swift.Encoder) throws
@@ -641,7 +641,7 @@ open class Request {
   public var method: VirgilSDK.Request.Method
   public var headers: [Swift.String : Swift.String]?
   public var body: Foundation.Data?
-  public static var defaultTimeout: Swift.Double
+  public static let defaultTimeout: Swift.Double
   public enum Method : Swift.String {
     case get
     case post
@@ -728,8 +728,8 @@ extension VirgilSDK.SandboxedKeychainStorage : VirgilSDK.KeychainStorageProtocol
   }
 }
 open class ServiceRequest : VirgilSDK.Request {
-  public static var accessTokenHeader: Swift.String
-  public static var accessTokenPrefix: Swift.String
+  public static let accessTokenHeader: Swift.String
+  public static let accessTokenPrefix: Swift.String
   public init<T>(url: Foundation.URL, method: VirgilSDK.Request.Method, accessToken: Swift.String, params: T? = nil, headers: [Swift.String : Swift.String] = [:]) throws where T : Swift.Encodable
   public init(url: Foundation.URL, method: VirgilSDK.Request.Method, accessToken: Swift.String, params: Any? = nil, headers: [Swift.String : Swift.String] = [:]) throws
   @objc deinit
@@ -758,9 +758,9 @@ final public class VirgilAgentAdapter : VirgilSDK.HttpRequestAdapter {
   @objc deinit
 }
 @objc(VSSVirgilCardVerifier) final public class VirgilCardVerifier : ObjectiveC.NSObject, VirgilSDK.CardVerifier {
-  @objc public static var selfSignerIdentifier: Swift.String
-  @objc public static var virgilSignerIdentifier: Swift.String
-  @objc public static var virgilPublicKeyBase64: Swift.String
+  @objc public static let selfSignerIdentifier: Swift.String
+  @objc public static let virgilSignerIdentifier: Swift.String
+  @objc public static let virgilPublicKeyBase64: Swift.String
   @objc final public let cardCrypto: VirgilCryptoAPI.CardCrypto
   @objc final public let virgilPublicKey: VirgilCryptoAPI.PublicKey
   @objc final public var verifySelfSignature: Swift.Bool
@@ -786,3 +786,57 @@ final public class VirgilAgentAdapter : VirgilSDK.HttpRequestAdapter {
   @objc public init(verifiersCredentials: [VirgilSDK.VerifierCredentials]) throws
   @objc deinit
 }
+extension VirgilSDK.AsyncOperation.State : Swift.Equatable {}
+extension VirgilSDK.AsyncOperation.State : Swift.Hashable {}
+extension VirgilSDK.AsyncOperation.State : Swift.RawRepresentable {}
+extension VirgilSDK.BaseClientError : Swift.Equatable {}
+extension VirgilSDK.BaseClientError : Swift.Hashable {}
+extension VirgilSDK.BaseClientError : Swift.RawRepresentable {}
+extension VirgilSDK.CallbackOperationError : Swift.Equatable {}
+extension VirgilSDK.CallbackOperationError : Swift.Hashable {}
+extension VirgilSDK.CallbackOperationError : Swift.RawRepresentable {}
+extension VirgilSDK.CardClientError : Swift.Equatable {}
+extension VirgilSDK.CardClientError : Swift.Hashable {}
+extension VirgilSDK.CardClientError : Swift.RawRepresentable {}
+extension VirgilSDK.CardManagerError : Swift.Equatable {}
+extension VirgilSDK.CardManagerError : Swift.Hashable {}
+extension VirgilSDK.CardManagerError : Swift.RawRepresentable {}
+extension VirgilSDK.GenericOperationError : Swift.Equatable {}
+extension VirgilSDK.GenericOperationError : Swift.Hashable {}
+extension VirgilSDK.GenericOperationError : Swift.RawRepresentable {}
+extension VirgilSDK.ServiceConnectionError : Swift.Equatable {}
+extension VirgilSDK.ServiceConnectionError : Swift.Hashable {}
+extension VirgilSDK.ServiceConnectionError : Swift.RawRepresentable {}
+extension VirgilSDK.JwtError : Swift.Equatable {}
+extension VirgilSDK.JwtError : Swift.Hashable {}
+extension VirgilSDK.JwtError : Swift.RawRepresentable {}
+extension VirgilSDK.JwtBodyContentError : Swift.Equatable {}
+extension VirgilSDK.JwtBodyContentError : Swift.Hashable {}
+extension VirgilSDK.JwtBodyContentError : Swift.RawRepresentable {}
+extension VirgilSDK.JwtHeaderContentError : Swift.Equatable {}
+extension VirgilSDK.JwtHeaderContentError : Swift.Hashable {}
+extension VirgilSDK.JwtHeaderContentError : Swift.RawRepresentable {}
+extension VirgilSDK.JwtSignatureContentError : Swift.Equatable {}
+extension VirgilSDK.JwtSignatureContentError : Swift.Hashable {}
+extension VirgilSDK.JwtSignatureContentError : Swift.RawRepresentable {}
+extension VirgilSDK.KeychainStorageErrorCodes : Swift.Equatable {}
+extension VirgilSDK.KeychainStorageErrorCodes : Swift.Hashable {}
+extension VirgilSDK.KeychainStorageErrorCodes : Swift.RawRepresentable {}
+extension VirgilSDK.RawSignedModelError : Swift.Equatable {}
+extension VirgilSDK.RawSignedModelError : Swift.Hashable {}
+extension VirgilSDK.RawSignedModelError : Swift.RawRepresentable {}
+extension VirgilSDK.RequestError : Swift.Equatable {}
+extension VirgilSDK.RequestError : Swift.Hashable {}
+extension VirgilSDK.RequestError : Swift.RawRepresentable {}
+extension VirgilSDK.Request.Method : Swift.Equatable {}
+extension VirgilSDK.Request.Method : Swift.Hashable {}
+extension VirgilSDK.Request.Method : Swift.RawRepresentable {}
+extension VirgilSDK.SandboxedKeychainStorageError : Swift.Equatable {}
+extension VirgilSDK.SandboxedKeychainStorageError : Swift.Hashable {}
+extension VirgilSDK.SandboxedKeychainStorageError : Swift.RawRepresentable {}
+extension VirgilSDK.ServiceRequestError : Swift.Equatable {}
+extension VirgilSDK.ServiceRequestError : Swift.Hashable {}
+extension VirgilSDK.ServiceRequestError : Swift.RawRepresentable {}
+extension VirgilSDK.WhitelistError : Swift.Equatable {}
+extension VirgilSDK.WhitelistError : Swift.Hashable {}
+extension VirgilSDK.WhitelistError : Swift.RawRepresentable {}

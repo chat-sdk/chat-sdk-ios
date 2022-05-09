@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
+// swift-compiler-version: Apple Swift version 5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)
 // swift-module-flags: -target armv7s-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name VirgilCryptoApiImpl
 import Foundation
 import Swift
@@ -29,24 +29,9 @@ extension VirgilCryptoApiImpl.VirgilCardCrypto : VirgilCryptoAPI.CardCrypto {
   @objc dynamic public func importPublicKey(from data: Foundation.Data) throws -> VirgilCryptoAPI.PublicKey
   @objc dynamic public func exportPublicKey(_ publicKey: VirgilCryptoAPI.PublicKey) throws -> Foundation.Data
 }
-extension VirgilCryptoApiImpl.VirgilCrypto {
-  @objc dynamic open func generateMultipleKeyPairs(numberOfKeyPairs: Swift.UInt) throws -> [VirgilCryptoApiImpl.VirgilKeyPair]
-  @objc dynamic open func generateKeyPair() throws -> VirgilCryptoApiImpl.VirgilKeyPair
-  @objc dynamic open func generateKeyPair(ofType type: VirgilCrypto.VSCKeyType) throws -> VirgilCryptoApiImpl.VirgilKeyPair
-  @objc dynamic open func wrapKeyPair(privateKey: Foundation.Data, publicKey: Foundation.Data) throws -> VirgilCryptoApiImpl.VirgilKeyPair
-}
-extension VirgilCryptoApiImpl.VirgilCrypto {
-  @objc dynamic open func computeKeyIdentifier(publicKeyData: Foundation.Data) -> Foundation.Data
-  @objc dynamic open func importPrivateKey(from data: Foundation.Data, password: Swift.String? = nil) throws -> VirgilCryptoApiImpl.VirgilPrivateKey
-  @objc dynamic open func exportPrivateKey(_ privateKey: VirgilCryptoApiImpl.VirgilPrivateKey) -> Foundation.Data
-  @objc dynamic open func exportPrivateKey(_ privateKey: VirgilCryptoApiImpl.VirgilPrivateKey, password: Swift.String) throws -> Foundation.Data
-  @objc dynamic open func extractPublicKey(from privateKey: VirgilCryptoApiImpl.VirgilPrivateKey) throws -> VirgilCryptoApiImpl.VirgilPublicKey
-  @objc dynamic open func exportPublicKey(_ publicKey: VirgilCryptoApiImpl.VirgilPublicKey) -> Foundation.Data
-  @objc dynamic open func importPublicKey(from data: Foundation.Data) throws -> VirgilCryptoApiImpl.VirgilPublicKey
-}
 @objc(VSMVirgilCrypto) open class VirgilCrypto : ObjectiveC.NSObject {
-  @objc public static var CustomParamKeySignature: Swift.String
-  @objc public static var CustomParamKeySignerId: Swift.String
+  @objc public static let CustomParamKeySignature: Swift.String
+  @objc public static let CustomParamKeySignerId: Swift.String
   @objc final public let defaultKeyType: VirgilCrypto.VSCKeyType
   @objc final public let useSHA256Fingerprints: Swift.Bool
   @objc public init(defaultKeyType: VirgilCrypto.VSCKeyType = .FAST_EC_ED25519, useSHA256Fingerprints: Swift.Bool = false)
@@ -63,6 +48,21 @@ extension VirgilCryptoApiImpl.VirgilCrypto {
   @objc open func generateStreamSignature(of stream: Foundation.InputStream, using privateKey: VirgilCryptoApiImpl.VirgilPrivateKey) throws -> Foundation.Data
   @objc open func computeHash(for data: Foundation.Data, using algorithm: VirgilCrypto.VSCHashAlgorithm) -> Foundation.Data
   @objc deinit
+}
+extension VirgilCryptoApiImpl.VirgilCrypto {
+  @objc dynamic open func generateMultipleKeyPairs(numberOfKeyPairs: Swift.UInt) throws -> [VirgilCryptoApiImpl.VirgilKeyPair]
+  @objc dynamic open func generateKeyPair() throws -> VirgilCryptoApiImpl.VirgilKeyPair
+  @objc dynamic open func generateKeyPair(ofType type: VirgilCrypto.VSCKeyType) throws -> VirgilCryptoApiImpl.VirgilKeyPair
+  @objc dynamic open func wrapKeyPair(privateKey: Foundation.Data, publicKey: Foundation.Data) throws -> VirgilCryptoApiImpl.VirgilKeyPair
+}
+extension VirgilCryptoApiImpl.VirgilCrypto {
+  @objc dynamic open func computeKeyIdentifier(publicKeyData: Foundation.Data) -> Foundation.Data
+  @objc dynamic open func importPrivateKey(from data: Foundation.Data, password: Swift.String? = nil) throws -> VirgilCryptoApiImpl.VirgilPrivateKey
+  @objc dynamic open func exportPrivateKey(_ privateKey: VirgilCryptoApiImpl.VirgilPrivateKey) -> Foundation.Data
+  @objc dynamic open func exportPrivateKey(_ privateKey: VirgilCryptoApiImpl.VirgilPrivateKey, password: Swift.String) throws -> Foundation.Data
+  @objc dynamic open func extractPublicKey(from privateKey: VirgilCryptoApiImpl.VirgilPrivateKey) throws -> VirgilCryptoApiImpl.VirgilPublicKey
+  @objc dynamic open func exportPublicKey(_ publicKey: VirgilCryptoApiImpl.VirgilPublicKey) -> Foundation.Data
+  @objc dynamic open func importPublicKey(from data: Foundation.Data) throws -> VirgilCryptoApiImpl.VirgilPublicKey
 }
 @objc(VSMVirgilCryptoError) public enum VirgilCryptoError : Swift.Int, Swift.Error {
   case passedKeyIsNotVirgil = 1
@@ -109,3 +109,6 @@ extension VirgilCryptoApiImpl.VirgilPrivateKeyExporter : VirgilCryptoAPI.Private
 }
 extension VirgilCryptoApiImpl.VirgilPublicKey : VirgilCryptoAPI.PublicKey {
 }
+extension VirgilCryptoApiImpl.VirgilCryptoError : Swift.Equatable {}
+extension VirgilCryptoApiImpl.VirgilCryptoError : Swift.Hashable {}
+extension VirgilCryptoApiImpl.VirgilCryptoError : Swift.RawRepresentable {}

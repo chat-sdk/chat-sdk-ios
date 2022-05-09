@@ -34,6 +34,9 @@
 
 @property (nonatomic, readonly) BOOL blockingServiceAvailable;
 
+@property (nonatomic, readwrite) BXMPPRoster * xmppRoster;
+@property (nonatomic, readwrite) XMPPRosterMemoryStorage * xmppRosterStorage;
+
 -(RXPromise *) myvCardTemp;
 //-(RXPromise *) vcardForUserWithJID: (NSString *) jid;
 
