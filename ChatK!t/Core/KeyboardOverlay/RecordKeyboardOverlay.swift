@@ -13,7 +13,7 @@ open class RecordKeyboardOverlay: UIView, KeyboardOverlay {
     
     public static let key = "record"
     
-    open var recordView: RecordView = .fromNib()
+    open var recordView: RecordView?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,9 +34,13 @@ open class RecordKeyboardOverlay: UIView, KeyboardOverlay {
     }
 
     open func setup(_ delegate: RecordViewDelegate) {
-        addSubview(recordView)
-        recordView.setDelegate(delegate)
-        recordView.keepInsets.equal = 0
+        
+        recordView = .fromNib(nibName: isPortrait() ? "RecordView" : "RecordView-land")
+
+        addSubview(recordView!)
+        recordView?.setDelegate(delegate)
+        recordView?.keepInsets.equal = 0
+        
     }
 
     open func viewWillLayoutSubviews(view: UIView) {
@@ -94,7 +98,8 @@ open class RecordView: UIView {
     open func updateMicButtonForPermission(error: Error? = nil) {
         if ChatKit.audioRecorder().isAuth() {
             recordImageView.image = ChatKit.asset(icon: "icn_60_mic_button")
-            recordImageView.highlightedImage = ChatKit.asset(icon: "icn_100_mic_button_red")
+            recordImageView.highlightedImage = isPortrait() ? ChatKit.asset(icon: "icn_100_mic_button_red") : ChatKit.asset(icon: "icn_90_mic_button_red_land")
+
             infoLabel.text = ""
         } else {
             recordImageView.image = ChatKit.asset(icon: "icn_60_mic_unlock_button")

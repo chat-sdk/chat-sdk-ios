@@ -46,15 +46,15 @@
                         <constraint firstAttribute="height" constant="30" id="XGo-06-78u"/>
                     </constraints>
                 </imageView>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_60_mic_button" highlightedImage="icn_100_mic_button_red" translatesAutoresizingMaskIntoConstraints="NO" id="T2o-Vq-vtT">
-                    <rect key="frame" x="145.5" y="115" width="100" height="100"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_60_mic_button" highlightedImage="icn_90_mic_button_red_land" translatesAutoresizingMaskIntoConstraints="NO" id="T2o-Vq-vtT">
+                    <rect key="frame" x="150.5" y="115" width="90" height="90"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="100" id="kXm-xv-uTZ"/>
-                        <constraint firstAttribute="width" constant="100" id="mKG-lN-hru"/>
+                        <constraint firstAttribute="height" constant="90" id="kXm-xv-uTZ"/>
+                        <constraint firstAttribute="width" constant="90" id="mKG-lN-hru"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WHn-Qh-9d0">
-                    <rect key="frame" x="12" y="215" width="367" height="60"/>
+                    <rect key="frame" x="12" y="205" width="367" height="60"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="du2-aq-7Ff"/>
                     </constraints>
@@ -63,7 +63,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_slide_to_lock_lan" highlightedImage="icn_slide_to_lock_sel_lan" translatesAutoresizingMaskIntoConstraints="NO" id="ftl-0y-Jhg">
-                    <rect key="frame" x="265.5" y="147.5" width="60" height="65"/>
+                    <rect key="frame" x="260.5" y="127.5" width="60" height="65"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="65" id="bv4-o1-bcv"/>
                         <constraint firstAttribute="width" constant="60" id="hHG-kd-bCm"/>
@@ -76,10 +76,10 @@
                 <constraint firstItem="ftl-0y-Jhg" firstAttribute="leading" secondItem="T2o-Vq-vtT" secondAttribute="trailing" constant="20" id="2dQ-yQ-gHa"/>
                 <constraint firstItem="Guz-7M-6Eu" firstAttribute="centerY" secondItem="cJ3-fI-EqW" secondAttribute="centerY" id="2yC-9J-989"/>
                 <constraint firstItem="Wuk-bn-lDy" firstAttribute="centerY" secondItem="Guz-7M-6Eu" secondAttribute="centerY" id="3zJ-eT-PQw"/>
-                <constraint firstItem="ftl-0y-Jhg" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="56V-jg-0nF"/>
                 <constraint firstItem="WHn-Qh-9d0" firstAttribute="top" secondItem="T2o-Vq-vtT" secondAttribute="bottom" id="Atn-cv-Zj0"/>
                 <constraint firstItem="Guz-7M-6Eu" firstAttribute="leading" secondItem="cJ3-fI-EqW" secondAttribute="trailing" constant="8" symbolic="YES" id="Bfz-tf-jTM"/>
-                <constraint firstItem="T2o-Vq-vtT" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-15" id="IKt-zD-Z2R"/>
+                <constraint firstItem="ftl-0y-Jhg" firstAttribute="centerY" secondItem="T2o-Vq-vtT" secondAttribute="centerY" id="DaO-fd-l26"/>
+                <constraint firstItem="T2o-Vq-vtT" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-20" id="IKt-zD-Z2R"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="WHn-Qh-9d0" secondAttribute="trailing" constant="12" id="IZI-yg-7f5"/>
                 <constraint firstItem="T2o-Vq-vtT" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="URt-xB-08G"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cJ3-fI-EqW" secondAttribute="bottom" constant="5" id="j2b-uq-0MD"/>
@@ -103,9 +103,9 @@
         </view>
     </objects>
     <resources>
-        <image name="icn_100_mic_button_red" width="100" height="100"/>
         <image name="icn_30_mic" width="30" height="30"/>
         <image name="icn_60_mic_button" width="60" height="60"/>
+        <image name="icn_90_mic_button_red_land" width="90" height="90"/>
         <image name="icn_slide_to_lock_lan" width="65" height="60"/>
         <image name="icn_slide_to_lock_sel_lan" width="65" height="60"/>
         <namedColor name="clear">

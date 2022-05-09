@@ -149,8 +149,20 @@ public class PreviewViewController: UIViewController, UIScrollViewDelegate, UIIm
     }
     
     @IBAction func sendButtonPressed(_ sender: Any) {
-        didFinishPicking?(image)
+        if let image = image {
+            didFinishPicking?(fixImageOrientation(image))
+        } else {
+            didFinishPicking?(nil)
+        }
         dismiss(animated: true)
+    }
+    
+    func fixImageOrientation(_ image: UIImage)->UIImage {
+        UIGraphicsBeginImageContext(image.size)
+        image.draw(at: .zero)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage ?? image
     }
     
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

@@ -51,7 +51,7 @@ import AVFoundation
     }
 }
 
- open class AudioMessageView: UIView, DownloadableContent, UploadableContent {
+ open class  AudioMessageView: UIView, DownloadableContent, UploadableContent {
     
     open var message: Message?
     
@@ -243,6 +243,12 @@ import AVFoundation
     }
     
     open func setUploadProgress(_ progress: Float, total: Float) {
+        if progress > 0 {
+            showProgressView()
+        }
+        if progress == 1 {
+            hideProgressView()
+        }
         progressView.progress = CGFloat(progress)
     }
 
@@ -257,10 +263,12 @@ import AVFoundation
     open func hideProgressView() {
         progressView.isHidden = true
         progressView.progress = 0
+        playPauseButton.isHidden = false
     }
 
     open func showProgressView() {
         progressView.isHidden = false
+        playPauseButton.isHidden = true
     }
 
 }

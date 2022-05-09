@@ -47,6 +47,9 @@ open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
         if progress > 0 {
             showProgressView()
         }
+        if progress == 1 {
+            hideProgressView()
+        }
         progressView.progress = CGFloat(progress)
         updateTotal(total, progress: progress)
     }

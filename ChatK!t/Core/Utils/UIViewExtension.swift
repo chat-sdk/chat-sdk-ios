@@ -18,6 +18,17 @@ public extension UIView {
     class func fromNib<T: UIView>(nib: UINib) -> T {
         return nib.instantiate(withOwner: nil, options: nil).first as! T
     }
+    
+    public func isPortrait() -> Bool {
+        let orientation = UIApplication.shared.statusBarOrientation
+
+        if orientation == .portrait || orientation == .portraitUpsideDown {
+            return true
+        }
+        else {
+            return false
+        }
+    }
 }
 
 

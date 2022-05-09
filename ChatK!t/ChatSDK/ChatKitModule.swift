@@ -10,8 +10,6 @@ import Foundation
 import ChatSDK
 import AVKit
 import ZLImageEditor
-import YPImagePicker
-
 
 open class FileKeys {
     
