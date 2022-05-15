@@ -1,0 +1,11 @@
+framework module Licensing {
+  umbrella header "Licensing-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module Licensing.Swift {
+    header "Licensing-Swift.h"
+    requires objc
+}

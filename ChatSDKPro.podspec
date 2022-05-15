@@ -15,38 +15,37 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |s|
     s.source_files = ['ChatSDKPro/Core/*']
     s.dependency 'ChatSDK'
-    s.vendored_frameworks = 'ChatSDKPro/Licensing/Licensing.framework'
+    s.vendored_frameworks = 'ChatSDKPro/Licensing/Licensing.xcframework'
   end
 
   s.subspec 'ContactBook' do |s|
-    s.vendored_frameworks = 'ChatSDKPro/ContactBookModule/ContactBookModule.framework'
+    s.vendored_frameworks = 'ChatSDKPro/ContactBookModule/ContactBookModule.xcframework'
     s.dependency 'ChatSDKPro/Core'
   end
 
-  # s.subspec 'Encryption' do |s|
+  s.subspec 'Encryption' do |s|
 
-  #   s.vendored_frameworks = ['ChatSDKPro/EncryptionModule/EncryptionModule.framework', 
-  #     'ChatSDKPro/EncryptionModule/VirgilCrypto.framework',
-  #     'ChatSDKPro/EncryptionModule/VirgilCryptoAPI.framework',
-  #     'ChatSDKPro/EncryptionModule/VirgilCryptoApiImpl.framework',
-  #     'ChatSDKPro/EncryptionModule/VSCCrypto.framework',
-  #     'ChatSDKPro/EncryptionModule/VirgilSDK.framework',
-  #     # 'ChatSDKPro/EncryptionModule/QRCodeReader.framework'
-  #   ]
+    s.vendored_frameworks = ['ChatSDKPro/EncryptionModule/EncryptionModule.xcframework', 
+      # 'ChatSDKPro/EncryptionModule/VirgilCrypto.framework',
+      # 'ChatSDKPro/EncryptionModule/VirgilCryptoAPI.framework',
+      # 'ChatSDKPro/EncryptionModule/VirgilCryptoApiImpl.framework',
+      # 'ChatSDKPro/EncryptionModule/VSCCrypto.framework',
+      # 'ChatSDKPro/EncryptionModule/VirgilSDK.framework',
+    ]
 
-  #   s.dependency 'ChatSDKPro/Core'
+    s.dependency 'ChatSDKPro/Core'
 
-  #   # s.dependency 'VirgilCryptoApiImpl', '~> 3.2.2'
-  #   # s.dependency 'VirgilSDK', '~> 5.7'
+    s.dependency 'VirgilCryptoApiImpl', '~> 3.2.2'
+    s.dependency 'VirgilSDK', '~> 5.7'
 
-  #   s.dependency 'SAMKeychain'
-  #   s.dependency 'QRCodeReader.swift', '~> 10.1.0'
+    s.dependency 'SAMKeychain'
+    s.dependency 'QRCodeReader.swift', '~> 10.1.0'
 
-  # end
+  end
 
   s.subspec 'Firebase' do |s|
 
-    s.vendored_frameworks = 'ChatSDKPro/FirebaseModules/FirebaseModules.framework'
+    s.vendored_frameworks = 'ChatSDKPro/FirebaseModules/FirebaseModules.xcframework'
     s.dependency 'ChatSDKPro/Core'
     s.dependency 'ChatSDKFirebase/Adapter'
 
@@ -54,7 +53,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Message' do |s|
 
-    s.vendored_frameworks = 'ChatSDKPro/MessageModules/MessageModules.framework'
+    s.vendored_frameworks = 'ChatSDKPro/MessageModules/MessageModules.xcframework'
     s.dependency 'ChatSDKPro/Core'
     s.dependency 'FLAnimatedImage'
 
@@ -62,7 +61,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'FirebaseNearbyUsers' do |s|
 
-    s.vendored_frameworks = 'ChatSDKPro/FirebaseNearbyUsersModule/FirebaseNearbyUsersModule.framework'
+    s.vendored_frameworks = 'ChatSDKPro/FirebaseNearbyUsersModule/FirebaseNearbyUsersModule.xcframework'
     s.dependency 'ChatSDKPro/Core'
     s.dependency 'ChatSDKFirebase/Adapter'
 

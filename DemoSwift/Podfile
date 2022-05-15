@@ -15,7 +15,7 @@ target 'ChatSDKSwift' do
   pod "ChatSDKFirebase/FirebaseUI", :path => "../"
 
   pod "ChatSDKPro/ContactBook", :path => "../"
-#  pod "ChatSDKPro/Encryption", :path => "../"
+  pod "ChatSDKPro/Encryption", :path => "../"
   pod "ChatSDKPro/Firebase", :path => "../"
   pod "ChatSDKPro/FirebaseNearbyUsers", :path => "../"
   pod "ChatSDKPro/Message", :path => "../"
@@ -34,10 +34,10 @@ target 'ChatSDKSwift' do
   
 end
 
-post_install do |installer_representation|
-    installer_representation.pods_project.targets.each do |target|
-        target.build_configurations.each do |config|
-            config.build_settings['OTHER_LDFLAGS'] = '$(inherited)'
-        end
-    end
-end
+#post_install do |installer_representation|
+#    installer_representation.pods_project.targets.each do |target|
+#        target.build_configurations.each do |config|
+#            config.build_settings['OTHER_LDFLAGS'] = '$(inherited)'
+#        end
+#    end
+#end

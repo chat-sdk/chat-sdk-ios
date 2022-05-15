@@ -1,0 +1,6 @@
+framework module FirebaseNearbyUsersModule {
+  umbrella header "FirebaseNearbyUsersModule-umbrella.h"
+
+  export *
+  module * { export * }
+}

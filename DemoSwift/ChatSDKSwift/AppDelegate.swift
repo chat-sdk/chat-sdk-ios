@@ -19,6 +19,7 @@ import FirebaseModules
 import ContactBookModule
 import MessageModules
 import FirebaseNearbyUsersModule
+import EncryptionModule
 
 @UIApplicationMain 
 /* Two Factor Auth */
@@ -65,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             BContactBookModule.init(),
 //            AddContactWithQRCodeModule.init(),
             BReachabilityModule.init(),
-//            EncryptionModule.init(),
+            EncryptionModule.init(),
             ChatKitModule.shared(),
             ChatKitExtrasModule.init(),
 

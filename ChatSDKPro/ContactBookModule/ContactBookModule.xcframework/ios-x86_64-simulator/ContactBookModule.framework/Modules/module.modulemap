@@ -1,0 +1,11 @@
+framework module ContactBookModule {
+  umbrella header "ContactBookModule-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module ContactBookModule.Swift {
+    header "ContactBookModule-Swift.h"
+    requires objc
+}
