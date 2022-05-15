@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ChatSDKPro"
-  s.version          = "5.1.2"
+  s.version          = "5.1.5"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
   s.license          = 'Commercial'

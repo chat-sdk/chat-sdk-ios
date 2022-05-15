@@ -57,6 +57,7 @@ XcodeXMPPModules/
 versions/
 Xcode/
 XcodeModulesExp/
+DemoSwift2/
 
 # Ignore these in subfolders, but track in root of repo
 ChatSDKFirebase/
