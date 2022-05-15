@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.name             = "ChatSDK"
   s.version          = "5.1.5"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
-  s.homepage         = "https://sdk.chat"
+  s.homepage         = "https://chatsdk.co"
   s.license          = { :type => 'Chat SDK License' }
   s.author           = { "Ben Smiley" => "ben@chatsdk.co" }
   s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => s.version.to_s }
