@@ -20,6 +20,7 @@
  * @brief Send a video message
  */
 -(RXPromise *) sendMessageWithVideo: (NSData *) data coverImage:(UIImage *)image withThreadEntityID:(NSString *)threadID;
+-(RXPromise *) sendMessageWithVideo: (AVAsset *) asset withThreadEntityID:(NSString *)threadID;
 
 @end
 

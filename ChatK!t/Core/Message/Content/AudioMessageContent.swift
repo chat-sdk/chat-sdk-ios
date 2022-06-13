@@ -229,13 +229,17 @@ import AVFoundation
         progressSlider?.maximumValue = Float(duration)
     }
         
+     public class func format(time: TimeInterval) -> String {
+         let totalSeconds = Int(time)
+
+         let minutes = time / 60
+         let seconds = Float(totalSeconds % 60)
+
+         return String(format: "%.0f:%02.0f", minutes, seconds)
+     }
+     
     open func format(time: TimeInterval) -> String {
-        let totalSeconds = Int(time)
-
-        let minutes = time / 60
-        let seconds = Float(totalSeconds % 60)
-
-        return String(format: "%.0f:%02.0f", minutes, seconds)
+        return AudioMessageView.format(time: time)
     }
     
     open func audioMessage() -> AudioMessage? {

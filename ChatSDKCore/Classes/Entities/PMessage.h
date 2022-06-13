@@ -60,6 +60,7 @@ typedef enum {
 #define bMessageImageData @"image-data"
 #define bMessageImageHeight @"image-height"
 #define bMessageVideoURL @"video-url"
+#define bMessageSize @"size"
 #define bMessageFileURL @"file-url"
 #define bMessageMimeType @"mime-type"
 #define bMessageImagePreview @"image-preview"

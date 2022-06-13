@@ -100,5 +100,6 @@
 #define bLocalNotification @"local-notification"
 
 #define bCanDeleteMessagesFrom @"bCanDeleteMessagesFrom"
+#define bCallHistory @"bCallHistory"
 
 #endif /* BKeys_h */

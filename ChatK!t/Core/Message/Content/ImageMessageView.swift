@@ -61,13 +61,14 @@ open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
             var percentage = ""
             if ChatKit.config().showFileTransferPercentage {
                 percentage = String(format: "%.0f%%, ", progress * 100)
-            }
-
-            if total < 1000 {
-                detailLabel.text = String(format: "%@%.0fKB", percentage, total)
+                if total < 1000 {
+                    detailLabel.text = String(format: "%@%.0fKB", percentage, total)
+                } else {
+                    let total = total / 1000
+                    detailLabel.text = String(format: "%@%.0fMB", percentage, total)
+                }
             } else {
-                let total = total / 1000
-                detailLabel.text = String(format: "%@%.0fMB", percentage, total)
+                detailLabel.text = ""
             }
         } else {
             detailLabel.text = ""

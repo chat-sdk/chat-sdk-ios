@@ -219,6 +219,16 @@ open class CKVideoMessage: CKDownloadableMessage, ImageMessage, VideoMessage {
     open func imageURL() -> URL? {
         return message.imageURL()
     }
+    
+//    public override func placeholder() -> UIImage? {
+//        if let placeholder = message.placeholder() {
+//            return UIImage(data: placeholder)
+//        }
+//        if let meta = message.meta(), let base64 = meta[bMessageImagePreview] as? String {
+//            return UIImage.fromBase64(base64: base64)
+//        }
+//        return nil
+//    }
 
     open override func startDownload() {
         if let path = messageMeta()?[bMessageVideoURL] as? String {

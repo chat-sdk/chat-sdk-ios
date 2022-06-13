@@ -10,7 +10,7 @@ import Foundation
 @objc public class Device: NSObject {
     
     @objc public static func iPhoneX() -> Bool {
-        return UIDevice.current.name == "BanBan’s iPhone X "
+        return UIDevice.current.name == "iPhone X"
     }
 
     @objc public static func notIPhoneX() -> Bool {

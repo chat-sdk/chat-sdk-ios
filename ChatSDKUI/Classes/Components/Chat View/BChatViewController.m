@@ -68,7 +68,9 @@
         } else if(BChatSDK.lastOnline) {
             __weak __typeof__(self) weakSelf = self;
             [BChatSDK.lastOnline getLastOnlineForUser:_thread.otherUser].thenOnMain(^id(NSDate * date) {
-                [weakSelf setSubtitle:date.lastSeenTimeAgo];
+                if(date) {
+                    [weakSelf setSubtitle:date.lastSeenTimeAgo];
+                }
                 return Nil;
             }, Nil);
         }

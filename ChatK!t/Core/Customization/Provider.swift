@@ -124,5 +124,17 @@ open class Provider {
     open func didBind(_ cell: AbstractMessageCell, message: AbstractMessage, model: MessagesModel) {
 
     }
+    
+    open func recordKeyboardOverlay(_ delegate: RecordViewDelegate) -> RecordKeyboardOverlay {
+        return RecordKeyboardOverlay.new(delegate)
+    }
+
+    open func optionsKeyboardOverlay() -> OptionsKeyboardOverlay {
+        return OptionsKeyboardOverlay()
+    }
+
+    open func keyboardOverlay(for key: String) -> KeyboardOverlay? {
+        return nil
+    }
 
 }

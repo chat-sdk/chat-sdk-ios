@@ -16,3 +16,7 @@ public extension KeyboardOverlay {
         keepBottomInset.equal = 0
     }
 }
+
+public protocol IsStickerKeyboardOverlay {
+    
+}

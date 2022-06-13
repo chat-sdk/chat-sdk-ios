@@ -235,3 +235,5 @@
 "bExportKeys" = "Export Keys";
 "bEncryption" = "Encryption";
 "bCopiedToClipboard" = "Copied to clipboard!";
+
+"bCallHistory" = "Call History";

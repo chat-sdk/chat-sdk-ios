@@ -31,6 +31,8 @@ Pod::Spec.new do |s|
     s.dependency 'DateTools'
     s.dependency 'SDWebImage'
     s.dependency 'ZLImageEditor'
+    s.dependency 'WPMediaPicker'
+
 
   end
   

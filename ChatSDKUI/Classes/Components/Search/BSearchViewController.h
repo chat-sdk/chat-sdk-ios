@@ -33,6 +33,8 @@
     
     NSArray * _searchIndexes;
     BHook * _internetConnectionHook;
+    
+    NSString * _searchText; 
 
 }
 
@@ -52,6 +54,7 @@
 -(void) addButtonPressed;
 -(void) clearAndReload;
 -(void) searchWithText: (NSString *) text;
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
+-(void) searchOnLoad: (NSString *) text;
 
 @end

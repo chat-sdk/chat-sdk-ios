@@ -278,12 +278,11 @@ open class SendBarView: UIView, UITextViewDelegate {
     }
     
     open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let old = textView.text as NSString?
-        if let newText = old?.replacingCharacters(in: range, with: text) {
-            if newText.isEmptyOrBlank() != textView.text.isEmptyOrBlank() {
-                layout(hasText: !newText.isEmpty)
-            }
-        }
+        let old = textView.text as NSString? ?? ""
+        let newText = old.replacingCharacters(in: range, with: text)
+
+        layout(hasText: !newText.isEmptyOrBlank())
+        
         startTyping()
         return true
     }

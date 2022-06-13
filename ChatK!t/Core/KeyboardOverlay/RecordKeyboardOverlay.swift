@@ -59,17 +59,17 @@ public protocol RecordViewDelegate: class {
 
 open class RecordView: UIView {
     
-    @IBOutlet weak var sendButton: UIButton!
-    @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet open weak var sendButton: UIButton?
+    @IBOutlet open weak var deleteButton: UIButton?
     
-    @IBOutlet weak var recordImageView: UIImageView!
-    @IBOutlet weak var lockImageView: UIImageView!
+    @IBOutlet open weak var recordImageView: UIImageView?
+    @IBOutlet open weak var lockImageView: UIImageView?
     
     
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var micImageView: UIImageView!
+    @IBOutlet open weak var timeLabel: UILabel?
+    @IBOutlet open weak var micImageView: UIImageView?
     
-    @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet open weak var infoLabel: UILabel?
     open weak var delegate: RecordViewDelegate?
         
     open var timer: Timer?
@@ -81,8 +81,8 @@ open class RecordView: UIView {
     
     override open func awakeFromNib() {
         super.awakeFromNib()
-        micImageView.image = ChatKit.asset(icon: "icn_30_mic").withRenderingMode(.alwaysTemplate)
-        micImageView.tintColor = ChatKit.asset(color: "red")
+        micImageView?.image = ChatKit.asset(icon: "icn_30_mic").withRenderingMode(.alwaysTemplate)
+        micImageView?.tintColor = ChatKit.asset(color: "red")
         
         ChatKit.audioRecorder().prepare()
                 
@@ -90,21 +90,21 @@ open class RecordView: UIView {
                 
         updateMicButtonForPermission()
         
-        lockImageView.isUserInteractionEnabled = false
-        recordImageView.isUserInteractionEnabled = false
+        lockImageView?.isUserInteractionEnabled = false
+        recordImageView?.isUserInteractionEnabled = false
 
     }
-    
+        
     open func updateMicButtonForPermission(error: Error? = nil) {
         if ChatKit.audioRecorder().isAuth() {
-            recordImageView.image = ChatKit.asset(icon: "icn_60_mic_button")
-            recordImageView.highlightedImage = isPortrait() ? ChatKit.asset(icon: "icn_100_mic_button_red") : ChatKit.asset(icon: "icn_90_mic_button_red_land")
+            recordImageView?.image = ChatKit.asset(icon: "icn_60_mic_button")
+            recordImageView?.highlightedImage = isPortrait() ? ChatKit.asset(icon: "icn_100_mic_button_red") : ChatKit.asset(icon: "icn_90_mic_button_red_land")
 
-            infoLabel.text = ""
+            infoLabel?.text = ""
         } else {
-            recordImageView.image = ChatKit.asset(icon: "icn_60_mic_unlock_button")
-            recordImageView.highlightedImage = ChatKit.asset(icon: "icn_60_mic_unlock_button")
-            infoLabel.text = t(Strings.audioPermissionDenied)
+            recordImageView?.image = ChatKit.asset(icon: "icn_60_mic_unlock_button")
+            recordImageView?.highlightedImage = ChatKit.asset(icon: "icn_60_mic_unlock_button")
+            infoLabel?.text = t(Strings.audioPermissionDenied)
         }
     }
     
@@ -113,7 +113,7 @@ open class RecordView: UIView {
 
             let point = touch.location(in: self)
 
-            let recordOver = recordImageView.frame.contains(point)
+            let recordOver = recordImageView?.frame.contains(point) ?? false
             
             if recordOver && !isRecording() {
                 if !ChatKit.audioRecorder().isAuth() {
@@ -130,10 +130,10 @@ open class RecordView: UIView {
 
             let point = touch.location(in: self)
 
-            let lockOver = lockImageView.frame.contains(point)
+            let lockOver = lockImageView?.frame.contains(point) ?? false
             
             // If we pan over the lock button lock the record button
-            if !lockImageView.isHighlighted, isRecording(), lockOver {
+            if !(lockImageView?.isHighlighted ?? true), isRecording(), lockOver {
                 lock()
             }
         }
@@ -145,9 +145,9 @@ open class RecordView: UIView {
             let point = touch.location(in: self)
 
 //            let lockOver = lockImageView.frame.contains(point)
-            let recordOver = recordImageView.frame.contains(point)
+            let recordOver = recordImageView?.frame.contains(point) ?? false
                         
-            if !lockImageView.isHighlighted {
+            if !(lockImageView?.isHighlighted ?? false) {
                 if ChatKit.audioRecorder().isAuth() {
                     if recordOver {
                         send()
@@ -185,15 +185,15 @@ open class RecordView: UIView {
     }
     
     open func lock() {
-        lockImageView.isHighlighted = true
-        sendButton.isHidden = false
-        deleteButton.isHidden = false
+        lockImageView?.isHighlighted = true
+        sendButton?.isHidden = false
+        deleteButton?.isHidden = false
     }
         
     open func send() {
         
-        lockImageView.isHighlighted = false
-        recordImageView.isHighlighted = false
+        lockImageView?.isHighlighted = false
+        recordImageView?.isHighlighted = false
     
         do {
             let result = try ChatKit.audioRecorder().stop()
@@ -211,16 +211,16 @@ open class RecordView: UIView {
     
     open func cancel() {
 
-        infoLabel.text = ""
-        lockImageView.isHighlighted = false
-        recordImageView.isHighlighted = false
+        infoLabel?.text = ""
+        lockImageView?.isHighlighted = false
+        recordImageView?.isHighlighted = false
 
-        sendButton.isHidden = true
-        deleteButton.isHidden = true
-        micImageView.isHidden = true
+        sendButton?.isHidden = true
+        deleteButton?.isHidden = true
+        micImageView?.isHidden = true
 
-        timeLabel.isHidden = true
-        timeLabel.text = ""
+        timeLabel?.isHidden = true
+        timeLabel?.text = ""
         timer?.invalidate()
                 
         do {
@@ -239,12 +239,12 @@ open class RecordView: UIView {
                 
         ChatKit.audioRecorder().record()
 
-        recordImageView.isHighlighted = true
+        recordImageView?.isHighlighted = true
 
         startTime = NSDate()
         
-        micImageView.isHidden = false
-        timeLabel.isHidden = false
+        micImageView?.isHidden = false
+        timeLabel?.isHidden = false
         
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { [weak self] timer in
@@ -252,9 +252,9 @@ open class RecordView: UIView {
                 if let start = self?.startTime {
                     let min = floor(start.minutesAgo())
                     let sec = floor(start.secondsAgo()) - min * 60
-                    self?.timeLabel.text = String(format: "%.0f:%02.0f", min, sec)
+                    self?.timeLabel?.text = String(format: "%.0f:%02.0f", min, sec)
                 } else {
-                    self?.timeLabel.text = ""
+                    self?.timeLabel?.text = ""
                 }
             }
         })

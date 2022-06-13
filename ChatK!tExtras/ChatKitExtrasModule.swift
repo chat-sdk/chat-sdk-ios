@@ -99,13 +99,14 @@ import ChatKit
 public class StickerMessageOnCreateListener: OnCreateListener {
     public func onCreate(for vc: ChatViewController, model: ChatModel, thread: PThread) {
         
-        let stickerOverlay = StickerKeyboardOverlay()
-        model.addKeyboardOverlay(name: StickerKeyboardOverlay.key, overlay: stickerOverlay)
-        stickerOverlay.stickerView?.sendSticker = { name in
-            BChatSDK.stickerMessage()?.sendMessage(withSticker: name, withThreadEntityID: thread.entityID())
+        let overlay = ChatKit.provider().keyboardOverlay(for: StickerKeyboardOverlay.key) ?? StickerKeyboardOverlay()
+        if let stickerOverlay = overlay as? StickerKeyboardOverlay {
+            model.addKeyboardOverlay(name: StickerKeyboardOverlay.key, overlay: stickerOverlay)
+            stickerOverlay.stickerView?.sendSticker = { name in
+                BChatSDK.stickerMessage()?.sendMessage(withSticker: name, withThreadEntityID: thread.entityID())
+            }
+            model.addKeyboardOverlay(name: StickerKeyboardOverlay.key, overlay: stickerOverlay)
         }
-        model.addKeyboardOverlay(name: StickerKeyboardOverlay.key, overlay: stickerOverlay)
-        
     }
 }
 

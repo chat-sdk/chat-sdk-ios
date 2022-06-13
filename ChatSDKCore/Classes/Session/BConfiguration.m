@@ -192,8 +192,9 @@
         showProfileViewOnTap = YES;
         
         rootPath = @"pre_1";
-        identiconBaseURL = @"https://identicon.sdk.chat?value=%@&size=400.png";
-        
+//        identiconBaseURL = @"https://identicon.sdk.chat?value=%@&size=400.png";
+        identiconBaseURL = nil;
+
         anonymousLoginEnabled = NO;
         
         userChatInfoEnabled = YES;

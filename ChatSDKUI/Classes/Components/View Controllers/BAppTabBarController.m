@@ -44,7 +44,10 @@
     NSArray * vcs = [BChatSDK.ui tabBarNavigationViewControllers];
     self.viewControllers = vcs;
     [self.tabBar setTranslucent:NO];
-    
+//    self.tabBar.tintColor = UIColor.systemBackgroundColor;
+//    self.tabBar.barTintColor = UIColor.redColor;
+    self.tabBar.backgroundColor = UIColor.systemBackgroundColor;
+
     [self.navigationController setNavigationBarHidden:YES];
     self.navigationController.toolbarHidden = YES;
 

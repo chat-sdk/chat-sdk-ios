@@ -399,7 +399,7 @@ open class  ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelD
     }
     
     open func addKeyboardOverlays() {
-        let optionsOverlay = OptionsKeyboardOverlay()
+        let optionsOverlay = ChatKit.provider().optionsKeyboardOverlay()
 
         var options = getOptions()
         if let vc = weakVC, let thread = thread {
@@ -411,7 +411,8 @@ open class  ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelD
         model?.addKeyboardOverlay(name: OptionsKeyboardOverlay.key, overlay: optionsOverlay)
 
         if BChatSDK.audioMessage() != nil {
-            let recordOverlay = RecordKeyboardOverlay.new(self)
+            let recordOverlay = ChatKit.provider().recordKeyboardOverlay(self)
+//            let recordOverlay = RecordKeyboardOverlay.new(self)
             model?.addKeyboardOverlay(name: RecordKeyboardOverlay.key, overlay: recordOverlay)
         }
     }
@@ -631,10 +632,16 @@ open class  ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelD
         return Option(galleryOnClick: { [weak self] in
             if let vc = self?.weakVC, let thread = self?.thread {
                 
-                let pvc = PreviewViewController()
-                pvc.setDidFinishPicking({ [weak self] image in
-                    if let image = image, let imageMessage = BChatSDK.imageMessage() {
-                        imageMessage.sendMessage(with: image, withThreadEntityID: thread.entityID())
+                let pvc = PreviewViewController(mode: .image)
+                
+                pvc.setDidFinishPicking(images: { [weak self] images in
+//                    if let image = image, let imageMessage = BChatSDK.imageMessage() {
+//                        imageMessage.sendMessage(with: image, withThreadEntityID: thread.entityID())
+//                    }
+                    for image in images {
+                        if let imageMessage = BChatSDK.imageMessage(), let model = self?.model {
+                            imageMessage.sendMessage(with: image, withThreadEntityID: model.conversation.conversationId())
+                        }
                     }
                 })
                 

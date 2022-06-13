@@ -29,7 +29,7 @@
       "scale" : "2x"
     },
     {
-      "filename" : "icn_60_play.png",
+      "filename" : "icn_50_trash-1.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -40,7 +40,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "icn_60_play-1.png",
+      "filename" : "icn_50_trash.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

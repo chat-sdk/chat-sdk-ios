@@ -182,6 +182,11 @@
         }
     }];
     [BChatSDK.hook addHook:_internetConnectionHook withName:bHookInternetConnectivityDidChange];
+    
+    if (_searchText) {
+        _searchController.searchBar.text = _searchText;
+        [self searchWithText:_searchText];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -280,6 +285,10 @@
     }
     [tableView_ reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self updateRightBarButtonItem];
+}
+
+-(void) searchOnLoad: (NSString *) text {
+    _searchText = text;
 }
 
 -(void) searchWithText: (NSString *) text {

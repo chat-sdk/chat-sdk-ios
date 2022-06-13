@@ -53,6 +53,8 @@
         [self.collectionView addGestureRecognizer:lpgr];
     }
 
+    self.navigationController.navigationBarHidden = NO;
+    
     _itemsPerRow = 2;
     _sectionInsets = UIEdgeInsetsMake(8, 8, 8, 8);
 }
@@ -223,6 +225,7 @@
         } else {
             [self removePictureURL:pictureURL];
         }
+        [self reloadPictures];
     }]];
 
     [self presentViewController:alert animated:YES completion:nil];
@@ -244,7 +247,9 @@
     NSURL * imageURL = [NSURL URLWithString:[_pictures objectAtIndex:indexPath.row]];
     if (imageURL) {
         UIImageView * imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
-        [imageView sd_setImageWithURL:imageURL];
+        imageView.backgroundColor = UIColor.systemBackgroundColor;
+
+        [imageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"defaultProfile"]];
         [cell addSubview:imageView];
         imageView.keepInsets.equal = 0;
     }

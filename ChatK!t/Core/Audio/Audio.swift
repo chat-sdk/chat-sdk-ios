@@ -43,7 +43,7 @@ open class AudioRecorder: NSObject {
         }
     }
     
-    func record() {
+    open func record() {
         
         if url == nil {
             prepare()
@@ -67,7 +67,7 @@ open class AudioRecorder: NSObject {
         }
     }
     
-    @objc private func updateTimer() {
+    @objc open func updateTimer() {
         if isRecording {
             time += 1
         } else {
@@ -75,7 +75,7 @@ open class AudioRecorder: NSObject {
         }
     }
     
-    func stop() throws -> (Data?, Int) {
+    open func stop() throws -> (Data?, Int) {
  
         if audioRecorder?.isRecording ?? false {
             audioRecorder?.stop()
@@ -91,7 +91,7 @@ open class AudioRecorder: NSObject {
         return (data, time)
     }
     
-    func delete(name:String) {
+    open func delete(name:String) {
         
         let bundle = getDir().appendingPathComponent(name.appending(".m4a"))
         let manager = FileManager.default
@@ -109,12 +109,12 @@ open class AudioRecorder: NSObject {
         }
     }
     
-    private func getDir() -> URL {
+    open func getDir() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths.first!
     }
     
-    func requestAuth() -> Completable {
+    open func requestAuth() -> Completable {
         return Completable.create { emitter in
             AVAudioSession.sharedInstance().requestRecordPermission { (res) in
                 if res == true {
@@ -127,11 +127,11 @@ open class AudioRecorder: NSObject {
         }
     }
     
-    func isAuth() -> Bool {
+    open func isAuth() -> Bool {
         return AVAudioSession.sharedInstance().recordPermission == .granted
     }
 
-    func getTime() -> String {
+    open func getTime() -> String {
         var result = ""
         if time < 60 {
             result = "\(time)"

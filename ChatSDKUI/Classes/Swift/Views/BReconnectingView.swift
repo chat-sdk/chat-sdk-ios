@@ -8,13 +8,13 @@
 import Foundation
 import KeepLayout
 
-@objc public class BReconnectingView : UIView {
+@objc open class BReconnectingView : UIView {
     
 //    var activityIndicator: UIActivityIndicatorView?
-    var imageView: UIImageView?
-    var label: UILabel?
-    var tapGestureRecognizer: UITapGestureRecognizer?
-    var status: bConnectionStatus?
+    open var imageView: UIImageView?
+    open var label: UILabel?
+    open var tapGestureRecognizer: UITapGestureRecognizer?
+    open var status: bConnectionStatus?
    
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,7 +29,7 @@ import KeepLayout
         self.init()
     }
     
-    @objc public func setup() {
+    @objc open func setup() {
 
 //        activityIndicator = UIActivityIndicatorView(style: .white)
 //        activityIndicator?.startAnimating()
@@ -81,7 +81,7 @@ import KeepLayout
         
     }
     
-    @objc public func update() {
+    @objc open func update() {
         if let connStatus = BChatSDK.core().connectionStatus?() {
             if connStatus != status {
                 
@@ -113,17 +113,17 @@ import KeepLayout
         }
     }
     
-    @objc public func tap() {
+    @objc open func tap() {
         BChatSDK.core().reconnect?()
     }
     
-    public func startBlink() {
+    open func startBlink() {
         UIView.animateKeyframes(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse], animations: { [weak self] in
             self?.imageView?.alpha = 0
         })
     }
     
-    public func stopBlink() {
+    open func stopBlink() {
         imageView?.layer.removeAllAnimations()
         imageView?.alpha = 1
     }

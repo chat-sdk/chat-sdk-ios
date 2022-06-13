@@ -9,11 +9,11 @@ import Foundation
 import MessageModules
 import ChatKit
 
-public class StickerKeyboardOverlay: UIView, KeyboardOverlay {
+open class StickerKeyboardOverlay: UIView, KeyboardOverlay {
     
     public static let key = "sticker"
     
-    public var stickerView: BStickerView?
+    open var stickerView: BStickerView?
     
     public convenience init() {
         self.init(frame: .zero)
@@ -29,15 +29,19 @@ public class StickerKeyboardOverlay: UIView, KeyboardOverlay {
         setup()
     }
 
-    public func setup() {
-        stickerView = BStickerView()
+    open func getStickerView() -> BStickerView {
+        return BStickerView()
+    }
+    
+    open func setup() {
+        stickerView = getStickerView()
         stickerView?.topLineView.isHidden = true
         stickerView?.enableBackButton = false
         addSubview(stickerView!)
         stickerView?.keepInsets.equal = 0
     }
 
-    public func viewWillLayoutSubviews(view: UIView) {
+    open func viewWillLayoutSubviews(view: UIView) {
         keepBottomInset.equal = 0
     }
     
