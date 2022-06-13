@@ -12,27 +12,27 @@ open class Base64ImageMessageContent: ImageMessageContent {
     
     open override func bind(_ message: AbstractMessage, model: MessagesModel) {
         
-        _view.message = message
+        imageMessageView.message = message
 
-        _view.imageView.keepWidth.equal = KeepHigh(size().width)
-        _view.imageView.keepHeight.equal = KeepHigh(size().height)
+        imageMessageView.imageView?.keepWidth.equal = KeepHigh(size().width)
+        imageMessageView.imageView?.keepHeight.equal = KeepHigh(size().height)
 
         // Get the base 64 data
         if let base64 = message.messageMeta()?["image-data"] as? String, let data = NSData(base64Encoded: base64, options: .ignoreUnknownCharacters) {
             let image = UIImage(data: data as Data)
-            _view.imageView.image = image
+            imageMessageView.imageView?.image = image
         } else {
-            _view.imageView.image = ChatKit.asset(icon: "icn_200_image_placeholder_error")
+            imageMessageView.imageView?.image = ChatKit.asset(icon: "icn_200_image_placeholder_error")
         }
 
-        _view.checkImageView.isHidden = !message.isSelected()
+        imageMessageView.checkView?.isHidden = !message.isSelected()
 
         hideBlur()
-        _view.hideProgressView()
+        imageMessageView.hideProgressView()
                 
-        _view.setMaskPosition(direction: message.messageDirection())
-        _view.imageView.setMaskPosition(direction: message.messageDirection())
-        _view.blurView?.setMaskPosition(direction: message.messageDirection())
+        imageMessageView.setMaskPosition(direction: message.messageDirection())
+        imageMessageView.imageView?.setMaskPosition(direction: message.messageDirection())
+        imageMessageView.blurView?.setMaskPosition(direction: message.messageDirection())
     }
     
 }

@@ -10,7 +10,7 @@ import Foundation
 open class VideoMessageContent: ImageMessageContent {
     
     open override func bind(_ message: AbstractMessage, model: MessagesModel) {
-        _view.videoIconVisible = true
+        imageMessageView.videoIconVisible = true
         super.bind(message, model: model)
     }
     

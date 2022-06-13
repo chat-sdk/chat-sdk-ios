@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
     s.dependency 'SDWebImage'
     s.dependency 'ZLImageEditor'
     s.dependency 'WPMediaPicker'
-
+    s.dependency 'YPImagePicker'
 
   end
   

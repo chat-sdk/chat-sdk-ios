@@ -12,32 +12,34 @@ import FFCircularProgressView
 
 open class ImageMessageContent: DefaultMessageContent, DownloadableContent, UploadableContent {
     
-    open lazy var _view: ImageMessageView = {
-
+    open lazy var _imageMessageView: ImageMessageView = {
         let view: ImageMessageView = .fromNib()
-        view.imageView.layer.cornerRadius = ChatKit.config().bubbleCornerRadius
-        view.imageView.clipsToBounds = true
+        view.imageView?.layer.cornerRadius = ChatKit.config().bubbleCornerRadius
+        view.imageView?.clipsToBounds = true
         view.clipsToBounds = true
-                        
         return view
     }()
 
-    open override func view() -> UIView {
-        return _view
+    open var imageMessageView: ImageMessageView {
+        return _imageMessageView
     }
-    
+
+    open override func view() -> UIView {
+        return imageMessageView
+    }
+
     open override func bind(_ message: AbstractMessage, model: MessagesModel) {
         super.bind(message, model: model)
         
-        _view.message = message
+        imageMessageView.message = message
         
-        _view.updateVideoIcon()
+        imageMessageView.updateVideoIcon()
         
-        _view.imageView.keepWidth.equal = KeepHigh(size().width)
-        _view.imageView.keepHeight.equal = KeepHigh(size().height)
+        imageMessageView.imageView?.keepWidth.equal = KeepHigh(size().width)
+        imageMessageView.imageView?.keepHeight.equal = KeepHigh(size().height)
         
-        _view.checkImageView.isHidden = !message.isSelected()
-        _view.progressView.hideProgressIcons = false
+        imageMessageView.checkView?.isHidden = !message.isSelected()
+        imageMessageView.progressView?.hideProgressIcons = false
         
         var placeholder: UIImage?
         if let message = message as? HasPlaceholder {
@@ -48,21 +50,21 @@ open class ImageMessageContent: DefaultMessageContent, DownloadableContent, Uplo
         }
         
         if let message = message as? ImageMessage, let url = message.imageURL() {
-            _view.imageView.sd_cancelCurrentImageLoad()
-            _view.imageView.sd_setImage(with: url, placeholderImage: placeholder, completed: nil)
+            imageMessageView.imageView?.sd_cancelCurrentImageLoad()
+            imageMessageView.imageView?.sd_setImage(with: url, placeholderImage: placeholder, completed: nil)
         } else {
-            _view.imageView.image = placeholder
+            imageMessageView.imageView?.image = placeholder
         }
 
         if let message = message as? DownloadableMessage, !message.isDownloaded() {
-            _view.showProgressView()
+            imageMessageView.showProgressView()
         } else {
-            _view.hideProgressView()
+            imageMessageView.hideProgressView()
         }
         
-        _view.setMaskPosition(direction: message.messageDirection())
-        _view.imageView.setMaskPosition(direction: message.messageDirection())
-        _view.blurView?.setMaskPosition(direction: message.messageDirection())
+        imageMessageView.setMaskPosition(direction: message.messageDirection())
+        imageMessageView.imageView?.setMaskPosition(direction: message.messageDirection())
+        imageMessageView.blurView?.setMaskPosition(direction: message.messageDirection())
     }
     
     open override func showBubble() -> Bool {
@@ -70,40 +72,40 @@ open class ImageMessageContent: DefaultMessageContent, DownloadableContent, Uplo
     }
     
     open func showVideoIcon() {
-        _view.videoImageView.isHidden = false
+        imageMessageView.videoView?.isHidden = false
     }
     
     open func hideVideoIcon() {
-        _view.videoImageView.isHidden = true
+        imageMessageView.videoView?.isHidden = true
     }
 
     open func hideBlur() {
-        _view.blurView?.isHidden = true
+        imageMessageView.blurView?.isHidden = true
     }
 
     open func showBlur() {
-        _view.blurView?.isHidden = false
+        imageMessageView.blurView?.isHidden = false
     }
 
     open func setDownloadProgress(_ progress: Float, total: Float) {
-        _view.setDownloadProgress(progress, total: total)
+        imageMessageView.setDownloadProgress(progress, total: total)
     }
 
     open func setUploadProgress(_ progress: Float, total: Float) {
-        _view.setUploadProgress(progress, total: total)
+        imageMessageView.setUploadProgress(progress, total: total)
     }
 
     open func downloadFinished(_ url: URL?, error: Error?) {
         if error == nil {
-//            _view.imageView.sd_setImage(with: url, placeholderImage: ChatKit.asset(icon: "icn_200_image_placeholder"), completed: nil)
+            //            imageMessageView.imageView.sd_setImage(with: url, placeholderImage: ChatKit.asset(icon: "icn_200_image_placeholder"), completed: nil)
         } else {
-            _view.downloadFinished(url, error: nil)
+            imageMessageView.downloadFinished(url, error: nil)
         }
-        _view.hideProgressView()
+        imageMessageView.hideProgressView()
     }
     
     open func downloadPaused() {
-        _view.downloadPaused()
+        imageMessageView.downloadPaused()
     }
     
     open func minSize() -> CGSize {
@@ -116,17 +118,15 @@ open class ImageMessageContent: DefaultMessageContent, DownloadableContent, Uplo
     }
 
     open func downloadStarted() {
-        _view.downloadStarted()
+        imageMessageView.downloadStarted()
     }
     
     open func uploadFinished(_ url: URL?, error: Error?) {
-        _view.uploadFinished(url, error: error)
+        imageMessageView.uploadFinished(url, error: error)
     }
     
     open func uploadStarted() {
-        _view.uploadStarted()
+        imageMessageView.uploadStarted()
     }
 
 }
-
-

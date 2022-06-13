@@ -66,11 +66,11 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="checkImageView" destination="Eec-LV-2Ow" id="Ep9-ei-n2E"/>
-                <outlet property="detailLabel" destination="F7d-ac-In8" id="k1D-WB-KPJ"/>
-                <outlet property="imageView" destination="n1B-ao-NFO" id="Dd4-g3-mYv"/>
-                <outlet property="progressView" destination="31P-OP-q94" id="ia6-w2-OzJ"/>
-                <outlet property="videoImageView" destination="8AK-Dt-xFT" id="a2e-N8-AbJ"/>
+                <outlet property="ibCheckImageView" destination="Eec-LV-2Ow" id="bl1-vi-D50"/>
+                <outlet property="ibDetailLabel" destination="F7d-ac-In8" id="lhP-FX-be1"/>
+                <outlet property="ibImageView" destination="n1B-ao-NFO" id="Xr2-nI-Uh7"/>
+                <outlet property="ibProgressView" destination="31P-OP-q94" id="z00-QK-vOd"/>
+                <outlet property="ibVideoImageView" destination="8AK-Dt-xFT" id="PCt-8n-HTG"/>
             </connections>
             <point key="canvasLocation" x="85.507246376811594" y="-81.696428571428569"/>
         </view>
