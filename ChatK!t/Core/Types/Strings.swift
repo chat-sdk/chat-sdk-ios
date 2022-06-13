@@ -17,6 +17,9 @@ public class Strings {
     public static let connecting = "connecting"
     public static let copiedToClipboard = "copiedToClipboard"
     public static let grantCameraPermission = "grantCameraPermission"
+    public static let processing = "Processing"
+    public static let processed_of_ = "processed_of_"
+    public static let exported_of_ = "exported_of_"
 
     public static let lastSeen_at_ = "lastSeen_at_"
     public static let today = "today"

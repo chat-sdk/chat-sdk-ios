@@ -23,6 +23,9 @@
 "file" = "File";
 "sticker" = "Sticker";
 "video" = "Video";
+"processing" = "Processing";
+"processed_of_" = "Processed %d/%d";
+"exported_of_" = "Exported %d/%d";
 
 "messageSendFailed" = "Message send failed. Tap to retry";
 

@@ -43,7 +43,8 @@ open class PreviewView: UIView {
             imageView.image = image
             timeLabel.isHidden = true
             playButton.isHidden = true
-        } else {
+        }
+        if item.type == .video && item.asset == nil {
             activityView.isHidden = false
         }
     }

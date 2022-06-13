@@ -15,6 +15,7 @@
                 <outlet property="deleteButton" destination="yYg-L0-6eZ" id="Wdc-Sq-kJm"/>
                 <outlet property="pageIndicator" destination="Osn-Az-dQd" id="J48-oo-KOH"/>
                 <outlet property="scrollView" destination="zBP-CP-jEE" id="bsa-Xf-JaC"/>
+                <outlet property="sendButton" destination="GKs-qo-ycc" id="mwK-VB-HUW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
