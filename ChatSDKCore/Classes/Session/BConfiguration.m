@@ -216,7 +216,7 @@
         xmppPingTimeout = 15;
         
         messageDeletionListenerLimit = -1;
-        messageHistoryDownloadLimit = 30;
+        messageHistoryDownloadLimit = 200;
         readReceiptMaxAgeInSeconds = 7 * bDays;
         
         textInputViewMaxCharacters = 0;

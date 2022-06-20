@@ -53,7 +53,8 @@ open class ImageMessageContent: DefaultMessageContent, DownloadableContent, Uplo
             imageMessageView.imageView?.sd_cancelCurrentImageLoad()
             imageMessageView.imageView?.sd_setImage(with: url, placeholderImage: placeholder, completed: nil)
         } else {
-            imageMessageView.imageView?.image = placeholder
+            imageMessageView.imageView?.sd_setImage(with: nil, placeholderImage: placeholder, completed: nil)
+//            imageMessageView.imageView?.image = placeholder
         }
 
         if let message = message as? DownloadableMessage, !message.isDownloaded() {

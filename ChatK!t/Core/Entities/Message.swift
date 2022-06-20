@@ -94,6 +94,10 @@ public protocol AudioMessage: DownloadableMessage, UploadableMessage { //}, HasP
 public protocol ImageMessage: UploadableMessage, HasImage, HasPlaceholder {
 }
 
+public protocol StickerMessage: HasImage, HasPlaceholder {
+}
+
+
 public protocol VideoMessage: DownloadableMessage, ImageMessage {
     
     var localVideoURL: URL? {

@@ -536,7 +536,7 @@ open class  ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelD
     public static func convert(_ messages: [PMessage]) -> [AbstractMessage] {
         var output = [AbstractMessage]()
         for message in messages {
-            output.append(CKMessage(message: message))
+            output.append(CKMessageStore.shared().new(for: message))
         }
         return output
     }

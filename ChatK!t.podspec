@@ -31,8 +31,9 @@ Pod::Spec.new do |s|
     s.dependency 'DateTools'
     s.dependency 'SDWebImage'
     s.dependency 'ZLImageEditor'
-    s.dependency 'WPMediaPicker'
-    s.dependency 'YPImagePicker'
+    # s.dependency 'WPMediaPicker'
+    # s.dependency 'YPImagePicker'
+    s.dependency 'TLPhotoPicker'
 
   end
   
@@ -40,28 +41,6 @@ Pod::Spec.new do |s|
     s.source_files = ['ChatK!t/ChatSDK/**/*']
     s.dependency 'ChatSDK/UI'
     s.dependency 'ChatK!t/ChatK!t'
-  end
-
-  s.subspec 'Extras' do |s| 
-
-    s.source_files = ['ChatK!tExtras/*.{h,m,swift}']
-    s.resources = [ 'ChatK!tExtras/*.{xcassets,xib}']
-
-    s.dependency 'ChatK!t/ChatK!t'
-    s.dependency 'ChatK!t/ChatSDK'
-    s.dependency 'MessageModules'
-    
-  end
-
-  s.subspec 'ExtrasPro' do |s| 
-
-    s.source_files = ['ChatK!tExtras/*.{h,m,swift}']
-    s.resources = [ 'ChatK!tExtras/*.{xcassets,xib}']
-
-    s.dependency 'ChatK!t/ChatK!t'
-    s.dependency 'ChatK!t/ChatSDK'
-    s.dependency 'ChatSDKPro/Message'
-    
   end
 
 

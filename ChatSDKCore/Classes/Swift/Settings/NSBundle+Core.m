@@ -69,6 +69,9 @@
     else if(message.type.intValue == bMessageTypeSticker) {
         text = [self t:bStickerMessage];
     }
+    else if(message.type.intValue == bMessageTypeGif) {
+        text = [self t:bStickerMessage];
+    }
     else if(message.type.intValue == bMessageTypeFile) {
         text = [self t:bFileMessage];
     }

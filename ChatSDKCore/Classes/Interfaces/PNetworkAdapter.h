@@ -34,6 +34,7 @@
 @protocol PEventHandler;
 @protocol PThreadHandler;
 @protocol CallHandler;
+@protocol GifMessageHandler;
 
 #define bNotificationFlaggedMessageAdded @"bNFlaggedMessageAdded"
 #define bNotificationFlaggedMessageAdded_PMessage @"bNFlaggedMessageAdded_PMessage"
@@ -73,6 +74,7 @@
 -(id<PEventHandler>) event;
 -(id<PThreadHandler>) thread;
 -(id<CallHandler>) call;
+-(id<GifMessageHandler>) gifMessage;
 -(id) handlerWithName: (NSString *) name;
 
 -(void) setCore: (id<PCoreHandler>) core;
@@ -102,6 +104,7 @@
 -(void) setThread: (id<PThreadHandler>) thread;
 -(void) setConnectivity: (id<PInternetConnectivityHandler>) connectivity;
 -(void) setCall: (id<CallHandler>) call;
+-(void) setGifMessage: (id<GifMessageHandler>) gifMessage;
 
 @optional
 

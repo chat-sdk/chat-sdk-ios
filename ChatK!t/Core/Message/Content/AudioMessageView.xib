@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,7 +22,7 @@
                     <state key="normal" image="icn_46_play"/>
                     <state key="selected" image="icn_46_pause"/>
                     <connections>
-                        <action selector="playPauseButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="ePM-yt-H91"/>
+                        <action selector="ibPlayPauseButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="tOP-Qt-rtn"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zm3-kr-yEC">
@@ -44,7 +44,7 @@
                         <constraint firstAttribute="width" priority="750" constant="458" id="uo6-0e-EK8"/>
                     </constraints>
                     <connections>
-                        <action selector="progressSliderValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="mQW-cY-nnr"/>
+                        <action selector="ibProgressSliderValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="mqB-3g-OFP"/>
                     </connections>
                 </slider>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ys-T8-xke" customClass="FFCircularProgressView">
@@ -69,17 +69,17 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="currentTimeLabel" destination="Zm3-kr-yEC" id="AgR-Ae-MFt"/>
-                <outlet property="playPauseButton" destination="BkT-HX-Ytt" id="p36-e3-6Va"/>
-                <outlet property="progressSlider" destination="Vyw-Fi-eSy" id="s3p-LM-BUJ"/>
-                <outlet property="progressView" destination="8ys-T8-xke" id="VT7-Pf-SiY"/>
-                <outlet property="totalTimeLabel" destination="m6f-fe-hfv" id="RLn-r8-K5P"/>
+                <outlet property="ibCurrentTimeLabel" destination="Zm3-kr-yEC" id="fNd-qo-hMz"/>
+                <outlet property="ibPlayPauseButton" destination="BkT-HX-Ytt" id="KaS-zZ-fmD"/>
+                <outlet property="ibProgressSlider" destination="Vyw-Fi-eSy" id="ckH-mW-785"/>
+                <outlet property="ibProgressView" destination="8ys-T8-xke" id="O49-Ra-FGO"/>
+                <outlet property="ibTotalTimeLabel" destination="m6f-fe-hfv" id="pS3-VZ-yfd"/>
             </connections>
             <point key="canvasLocation" x="-39.130434782608695" y="-88.392857142857139"/>
         </view>
     </objects>
     <resources>
         <image name="icn_46_pause" width="46" height="46"/>
-        <image name="icn_46_play" width="46" height="46"/>
+        <image name="icn_46_play" width="80" height="80"/>
     </resources>
 </document>

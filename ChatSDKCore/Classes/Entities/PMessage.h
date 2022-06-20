@@ -22,6 +22,9 @@ typedef enum {
     bMessageTypeSticker = 6,
     bMessageTypeFile = 7,
     bMessageTypeBase64Image = 8,
+    bMessageTypeSnap = 9,
+    bMessageTypeContact = 10,
+    bMessageTypeGif = 11,
     bMessageTypeSilent = 98,
     bMessageTypeCustom = 99,
 } bMessageType;

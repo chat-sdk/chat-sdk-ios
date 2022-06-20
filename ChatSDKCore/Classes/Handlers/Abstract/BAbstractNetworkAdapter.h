@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <ChatSDK/PNetworkAdapter.h>
 
+@protocol GifMessageHandler;
 
 
 @interface BAbstractNetworkAdapter : NSObject<PNetworkAdapter>

@@ -35,17 +35,28 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="11f-55-F7f">
-                    <rect key="frame" x="197" y="438" width="20" height="20"/>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="11f-55-F7f">
+                    <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
+                    <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </activityIndicatorView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9iu-IT-6LZ" customClass="FFCircularProgressView">
+                    <rect key="frame" x="177" y="418" width="60" height="60"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="FDv-cO-NGA"/>
+                        <constraint firstAttribute="width" constant="60" id="PkU-Ww-I9F"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="11f-55-F7f" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="0SH-DJ-C9x"/>
                 <constraint firstAttribute="trailing" secondItem="JNQ-Gi-mFW" secondAttribute="trailing" constant="16" id="91I-H1-vVl"/>
                 <constraint firstItem="wMe-tA-WMm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="CGb-ek-Ujm"/>
+                <constraint firstItem="9iu-IT-6LZ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="CdM-F6-6Sp"/>
                 <constraint firstAttribute="trailing" secondItem="wMe-tA-WMm" secondAttribute="trailing" id="bPD-Xd-dAR"/>
                 <constraint firstAttribute="bottom" secondItem="JNQ-Gi-mFW" secondAttribute="bottom" constant="16" id="biT-Zy-Pcc"/>
+                <constraint firstItem="9iu-IT-6LZ" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="fjT-3c-JZH"/>
                 <constraint firstItem="H9b-Vg-kvj" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="m4Q-tD-prA"/>
                 <constraint firstItem="wMe-tA-WMm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="nbj-lS-g42"/>
                 <constraint firstItem="H9b-Vg-kvj" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="qFw-Cs-jcr"/>
@@ -57,6 +68,7 @@
                 <outlet property="activityView" destination="11f-55-F7f" id="UNS-vl-4hP"/>
                 <outlet property="imageView" destination="wMe-tA-WMm" id="neo-2e-9ui"/>
                 <outlet property="playButton" destination="H9b-Vg-kvj" id="Y7g-WJ-RZi"/>
+                <outlet property="progressView" destination="9iu-IT-6LZ" id="eOr-jx-ERE"/>
                 <outlet property="timeLabel" destination="JNQ-Gi-mFW" id="Hk1-UV-FK6"/>
             </connections>
             <point key="canvasLocation" x="139" y="147"/>

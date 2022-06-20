@@ -314,6 +314,10 @@ static BChatSDK * instance;
     return self.a.stickerMessage;
 }
 
++(id<GifMessageHandler>) gifMessage {
+    return self.a.gifMessage;
+}
+
 +(id<PUsersHandler>) users {
     return self.a.users;
 }

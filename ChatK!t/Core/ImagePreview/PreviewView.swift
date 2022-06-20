@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import FFCircularProgressView
 
 open class PreviewView: UIView {
     
+    @IBOutlet weak var progressView: FFCircularProgressView!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBOutlet open weak var imageView: UIImageView!
     @IBOutlet open weak var playButton: UIButton!
@@ -24,6 +26,9 @@ open class PreviewView: UIView {
         
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
+
+        activityView.isHidden = true
+        
     }
     
     @IBAction func playButtonClicked(_ sender: Any) {
@@ -31,7 +36,6 @@ open class PreviewView: UIView {
     }
     
     open func bind(item: PreviewItem) {
-        activityView.isHidden = true
         if let asset = item.asset {
             // Get the thumbnail
             imageView.image = item.image
@@ -44,8 +48,29 @@ open class PreviewView: UIView {
             timeLabel.isHidden = true
             playButton.isHidden = true
         }
-        if item.type == .video && item.asset == nil {
-            activityView.isHidden = false
+
+//        if item.type == .video && item.asset == nil {
+//            activityView.isHidden = false
+//        }
+    }
+    
+    public func setProgress(progress: Double, importing: Bool = false) {
+        if progress >= 0 && progress < 1 {
+            progressView.progress = CGFloat(progress)
+            playButton.isHidden = true
+            activityView.isHidden = true
+            progressView.isHidden = false
+        } else {
+            if importing {
+                progressView.isHidden = true
+//                playButton.isHidden = true
+                activityView.isHidden = false
+                activityView.startAnimating()
+            } else {
+                progressView.isHidden = true
+                activityView.isHidden = true
+//                playButton.isHidden = false
+            }
         }
     }
 

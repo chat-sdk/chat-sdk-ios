@@ -117,6 +117,7 @@
 +(nonnull id<PThreadHandler>) thread;
 +(nullable id<PInternetConnectivityHandler>) connectivity;
 +(nullable id<CallHandler>) call;
++(nullable id<GifMessageHandler>) gifMessage;
 
 +(nonnull BConfiguration *) config;
 
