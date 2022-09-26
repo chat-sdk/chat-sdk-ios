@@ -15,7 +15,7 @@ public class CKFileMessage: CKDownloadableMessage {
 
     public override init(message: PMessage) {
         super.init(message: message)
-        localFileURL = ChatKit.downloadManager().localURL(for: messageId())
+        localFileURL = ChatKit.downloadManager().localURL(for: messageId(), pathExtension: pathExtension())
     }
 
     open func fileURL() -> URL? {
@@ -45,13 +45,17 @@ public class CKFileMessage: CKDownloadableMessage {
 
     open override func startDownload() {
          if let url = messageMeta()?[bMessageFileURL] as? String {
-            ChatKit.downloadManager().startTask(messageId(), pathExtension: pathExtension(), url: url)
+             // See if the url has a path extension...
+             var ext = pathExtension()
+             ChatKit.downloadManager().startTask(messageId(), pathExtension: ext, url: url)
         }
     }
     
     open func pathExtension() -> String? {
-        let name = messageText() as NSString?
-        return name?.pathExtension.lowercased()
+        if let url = messageMeta()?[bMessageFileURL] as? String {
+            return URL(string: url)?.pathExtension
+        }
+        return nil
     }
     
     open override func uploadFinished(_ data: Data?, error: Error?) {
@@ -77,4 +81,5 @@ public class CKFileMessage: CKDownloadableMessage {
             
 
 }
+
 

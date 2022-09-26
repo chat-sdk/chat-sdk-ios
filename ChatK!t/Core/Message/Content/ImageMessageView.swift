@@ -90,8 +90,10 @@ open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
         if let message = message as? DownloadableMessage {
             if !message.isDownloading {
                 message.startDownload()
+                progressView?.startSpinProgressBackgroundLayer()
             } else {
                 message.pauseDownload()
+//                progressView?.stopSpinProgressBackgroundLayer()
             }
         }
     }
@@ -136,6 +138,7 @@ open class ImageMessageView: UIView, DownloadableContent, UploadableContent {
     }
 
     open func showProgressView() {
+        progressView?.stopSpinProgressBackgroundLayer()
         progressView?.isHidden = false
         blurView?.isHidden = false
         videoView?.isHidden = true

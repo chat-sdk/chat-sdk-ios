@@ -136,6 +136,7 @@ open class PreviewViewController: UIViewController, UIScrollViewDelegate, TLPhot
         }
         var configure = TLPhotosPickerConfigure()
         configure.numberOfColumn = 4
+        configure.supportedInterfaceOrientations = .all
 
         if mode == .image {
             configure.allowedPhotograph = true

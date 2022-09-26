@@ -266,8 +266,8 @@
         threadCellLastMessageTextColor = UIColor.lightGrayColor;
         
         sendBase64ImagePreview = true;
-        imagePreviewMaxSize = 80;
-        imagePreviewQuality = 1;
+        imagePreviewMaxSize = 30;
+        imagePreviewQuality = 0;
         
     }
     return self;

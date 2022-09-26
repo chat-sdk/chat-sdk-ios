@@ -31,6 +31,8 @@ open class ImageMessageContent: DefaultMessageContent, DownloadableContent, Uplo
     open override func bind(_ message: AbstractMessage, model: MessagesModel) {
         super.bind(message, model: model)
         
+        
+        
         imageMessageView.message = message
         
         imageMessageView.updateVideoIcon()

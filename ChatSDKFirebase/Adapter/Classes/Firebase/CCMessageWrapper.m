@@ -79,7 +79,7 @@
     if (BChatSDK.encryption) {
         meta = [NSMutableDictionary dictionaryWithDictionary:[BChatSDK.encryption encryptMessage:_model]];
     }
-    if (!meta) {
+    if (!meta || !meta.allKeys.count) {
         meta = [NSMutableDictionary dictionaryWithDictionary:_model.meta];
     }
     

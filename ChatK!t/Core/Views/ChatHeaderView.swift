@@ -90,7 +90,10 @@ open class ChatHeaderView : UIView {
         subtitleLabel?.keepRightInset.equal = 0
 
 //        keepWidth.equal = 180
-        keepWidth.equal = 250
+        
+        keepWidth.equal = UIScreen.main.bounds.width - 100
+//        keepWidth.equal = 250
+
         keepHeight.equal = viewHeight
         
     }

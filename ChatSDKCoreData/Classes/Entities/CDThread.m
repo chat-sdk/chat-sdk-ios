@@ -364,7 +364,7 @@
     [self checkOnMain];
     if ([user isKindOfClass:[CDUser class]]) {
         if ([self containsUser: user]) {
-            [self removeUsersObject:(CDUser *) user];
+            [self removeTheUsersObject:(CDUser *) user];
             [self removeConnection:user];
             return YES;
         }

@@ -22,6 +22,7 @@ public extension UIImage {
                 image = resized
             }
         }
+        
         let data = image.jpegData(compressionQuality: quality)
         return data?.base64EncodedString(options: .lineLength64Characters)
     }
