@@ -123,7 +123,7 @@ open class CKDownloadableMessage: CKMessage, DownloadableMessage, UploadableMess
     
     open var isDownloading: Bool = false
     
-    public override init(message: PMessage) {
+    override public init(message: PMessage) {
         super.init(message: message)
     }
         
