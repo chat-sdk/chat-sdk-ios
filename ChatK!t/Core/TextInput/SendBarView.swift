@@ -54,6 +54,8 @@ open class SendBarView: UIView, UITextViewDelegate {
         textView?.textView.delegate = self
         textView?.textView.font = ChatKit.config().sendBarTextViewFont
         
+//        textView?.textView.autocorrectionType = .no
+        
 //        textView?.layer.cornerRadius = 10
 //        textView?.layer.borderWidth = 1
         textView?.isScrollEnabled = true

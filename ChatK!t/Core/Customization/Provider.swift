@@ -58,8 +58,12 @@ open class Provider {
         return MessagesView()
     }
 
-    open func keyboardOverlayView() -> UIView {
-        return UIView()
+    open func keyboardOverlayView() -> KeyboardOverlayView {
+        return KeyboardOverlayView()
+    }
+
+    open func keyboardOverlayTextView(overlay: KeyboardOverlayView) -> KeyboardOverlayTextView {
+        return KeyboardOverlayTextView(overlayView: overlay)
     }
 
     open func chatHeaderView() -> ChatHeaderView {

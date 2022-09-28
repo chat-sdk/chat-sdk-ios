@@ -20,6 +20,10 @@ public extension UIView {
     }
     
     public func isPortrait() -> Bool {
+        return UIView.isPortrait()
+    }
+    
+    public static func isPortrait() -> Bool {
         let orientation = UIApplication.shared.statusBarOrientation
 
         if orientation == .portrait || orientation == .portraitUpsideDown {

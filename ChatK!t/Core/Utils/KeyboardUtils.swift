@@ -10,28 +10,37 @@ import UIKit
 
 open class KeyboardInfo {
     
-    public let frame: CGRect
+    public let endFrame: CGRect
+    public let startFrame: CGRect
     public let duration: Double
     public let curve: UIView.AnimationOptions
     
-    init(frame: CGRect, duration: Double, curve: UIView.AnimationOptions) {
-        self.frame = frame
+    init(start: CGRect, end: CGRect, duration: Double, curve: UIView.AnimationOptions) {
+        self.endFrame = end
+        self.startFrame = start
         self.duration = duration
         self.curve = curve
     }
     
     public static func from(_ info: [AnyHashable: Any]?) -> KeyboardInfo? {
         if let info = info,
-           let frame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+           let endFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+           let startFrame = info[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue,
            let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber,
            let curve = info[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber {
-            return KeyboardInfo(frame: frame.cgRectValue, duration: duration.doubleValue, curve: UIView.AnimationOptions(rawValue: curve.uintValue))
+            return KeyboardInfo(start: startFrame.cgRectValue, end: endFrame.cgRectValue, duration: duration.doubleValue, curve: UIView.AnimationOptions(rawValue: curve.uintValue))
         }
         return nil
     }
     
     open func height(view: UIView? = nil) -> CGFloat {
-        var keyboardHeight = UIScreen.main.bounds.height - frame.origin.y
+        var keyboardHeight = UIScreen.main.bounds.height - endFrame.origin.y
+
+        print("Start: ", startFrame)
+        print("End: ", endFrame)
+        print("Height: ", keyboardHeight)
+        print("Height: ", modHeight())
+
         if #available(iOS 11, *) {
             if keyboardHeight > 0, let view = view {
                 keyboardHeight = keyboardHeight - view.safeAreaInsets.bottom
@@ -39,6 +48,15 @@ open class KeyboardInfo {
         }
         return keyboardHeight
     }
+    
+    open func modHeight() -> CGFloat {
+        return max(endFrame.size.height, startFrame.size.height)
+    }
+
+    open func isAppearing() -> Bool {
+        return endFrame.size.height > startFrame.size.height
+    }
+
 }
 
 open class KeyboardListener {

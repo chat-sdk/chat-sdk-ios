@@ -736,33 +736,49 @@ open class  ChatKitIntegration: NSObject, ChatViewControllerDelegate, ChatModelD
     open func cameraAction() -> SendBarAction {
         return SendBarActions.camera { [weak self] in
             if let vc = self?.weakVC, let thread = self?.thread {
-                let type = BChatSDK.videoMessage() == nil ? bPictureTypeCameraImage : bPictureTypeCameraVideo
-
-                let action = BSelectMediaAction(type: type, viewController: vc)
                 
-                AVCaptureDevice.requestAccess(for: .video, completionHandler: { success in
-                    DispatchQueue.main.async {
-                        if success {
-                            _ = action?.execute()?.thenOnMain({ success in
-                                if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
-                                    if ChatKit.config().imageEditorEnabled {
-                                        ZLEditImageViewController.showEditImageVC(parentVC: vc, animate: false, image: photo, editModel: nil) { (resImage, editModel) in
-                                            imageMessage.sendMessage(with: resImage, withThreadEntityID: thread.entityID())
-                                        }
-                                    } else {
-                                        imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
-                                    }
-                                }
-                                if let videoMessage = BChatSDK.videoMessage(), let video = action?.videoData, let coverImage = action?.coverImage {
-                                    videoMessage.sendMessage(withVideo: video, cover: coverImage, withThreadEntityID: thread.entityID())
-                                }
-                                return success
-                            }, nil)
-                        } else {
-                            self?.weakVC?.view.makeToast(Strings.t(Strings.grantCameraPermission))
+                DispatchQueue.main.async {
+
+                    let pvc = PreviewViewController(mode: .image, nibName: nil, bundle: nil)
+                    pvc.setDidFinishPicking(images: { [weak self] images in
+                        for image in images {
+                            if let imageMessage = BChatSDK.imageMessage() {
+                                imageMessage.sendMessage(with: image, withThreadEntityID: thread.entityID())
+                            }
                         }
-                    }
-                })
+                    })
+
+                    vc.present(pvc, animated: true, completion: nil)
+                }
+                
+                
+//                let type = BChatSDK.videoMessage() == nil ? bPictureTypeCameraImage : bPictureTypeCameraVideo
+//
+//                let action = BSelectMediaAction(type: type, viewController: vc)
+//
+//                AVCaptureDevice.requestAccess(for: .video, completionHandler: { success in
+//                    DispatchQueue.main.async {
+//                        if success {
+//                            _ = action?.execute()?.thenOnMain({ success in
+//                                if let imageMessage = BChatSDK.imageMessage(), let photo = action?.photo {
+//                                    if ChatKit.config().imageEditorEnabled {
+//                                        ZLEditImageViewController.showEditImageVC(parentVC: vc, animate: false, image: photo, editModel: nil) { (resImage, editModel) in
+//                                            imageMessage.sendMessage(with: resImage, withThreadEntityID: thread.entityID())
+//                                        }
+//                                    } else {
+//                                        imageMessage.sendMessage(with: photo, withThreadEntityID: thread.entityID())
+//                                    }
+//                                }
+//                                if let videoMessage = BChatSDK.videoMessage(), let video = action?.videoData, let coverImage = action?.coverImage {
+//                                    videoMessage.sendMessage(withVideo: video, cover: coverImage, withThreadEntityID: thread.entityID())
+//                                }
+//                                return success
+//                            }, nil)
+//                        } else {
+//                            self?.weakVC?.view.makeToast(Strings.t(Strings.grantCameraPermission))
+//                        }
+//                    }
+//                })
             }
         }
     }

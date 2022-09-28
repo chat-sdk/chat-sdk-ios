@@ -42,12 +42,14 @@ open class ChatViewController: UIViewController {
     
     // View that contains the message list
     open var messagesView = ChatKit.provider().messagesView()
-    open var keyboardOverlayView = ChatKit.provider().keyboardOverlayView()
     open var headerView = ChatKit.provider().chatHeaderView()
     open var reconnectingView = ChatKit.provider().reconnectingView()
         
-    open var hiddenTextField = UITextField()
-    
+    open var hiddenTextField: KeyboardOverlayTextView?
+    open var hidden2TextField: UITextView?
+
+    open var keyboardOverlayView = ChatKit.provider().keyboardOverlayView()
+
     open var replyView = ChatKit.provider().replyView()
     open var toolbar: ChatToolbar
     open var subtitleTimer: Timer?
@@ -59,7 +61,11 @@ open class ChatViewController: UIViewController {
     open var afterLayoutQueue = [AfterLayoutAction]()
     
     open var initialLoad = true
-            
+    open var isMeasuringKeyboardHeight = false
+    
+    open var keyboardInfoCache = KeyboardInfoCache()
+    
+
     // Text input bar
     open lazy var sendBarView = {
         return ChatKit.provider().sendBarView()
@@ -103,7 +109,6 @@ open class ChatViewController: UIViewController {
         super.viewDidLoad()
 
         setup()
-        setupHiddenTextView()
         setupMessageModel()
         setupMessagesView()
         setupSendBarView()
@@ -126,6 +131,7 @@ open class ChatViewController: UIViewController {
         navigationItem.rightBarButtonItems = items
         
         delegate?.viewDidLoad()
+        
     }
     
 //    open func addRightBarButtonItem(item: UIBarButtonItem, action: @escaping ((UIBarButtonItem) -> Void)) {
@@ -147,6 +153,9 @@ open class ChatViewController: UIViewController {
         super.viewDidAppear(animated)
         initialLoad = false
         delegate?.viewDidAppear()
+        
+        measureKeyboardHeight()
+                
     }
     
     override open func viewWillLayoutSubviews() {
@@ -164,8 +173,15 @@ open class ChatViewController: UIViewController {
         updateMessageViewBottomInset()
         popAllAfterLayoutActions()
         
+        let frame = keyboardOverlayView.frame
+        
+        keyboardOverlayView.frame = CGRectMake(0, 0, view.frame.width, frame.height)
+
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(didFinishAutoLayout), object: nil)
         self.perform(#selector(didFinishAutoLayout))
+        
+        print("Chat View - overlay dimensions: ", frame)
+
     }
     
     @objc open func didFinishAutoLayout() {
@@ -247,10 +263,37 @@ open class ChatViewController: UIViewController {
     
     open func addObservers() {
         keyboardListener.addObservers()
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
 
     open func removeObservers() {
         keyboardListener.removeObservers()
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    @objc func rotated() {
+        UIView.setAnimationsEnabled(false)
+        keyboardInfoCache.isEnabled = false
+        sendBarView.hideKeyboard()
+        hideKeyboardOverlay()
+        keyboardInfoCache.isEnabled = true
+        UIView.setAnimationsEnabled(true)
+        
+        // There is an annoying issue where if we switch back to portrait,
+        // this registers as a very small keyboard
+        measureKeyboardHeight()
+        keyboardInfoCache.relayout()
+
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: { [weak self] in
+//
+//
+//        })
+
+//        if UIDevice.current.orientation.isLandscape {
+//            print("Landscape")
+//        } else {
+//            print("Portrait")
+//        }
     }
     
     open func setTitle(text: String) {
@@ -276,11 +319,6 @@ open class ChatViewController: UIViewController {
         title = model.title()
     }
 
-    open func setupHiddenTextView() {
-        view.addSubview(hiddenTextField)
-        hiddenTextField.keepTopInset.equal = -1000
-        hiddenTextField.alpha = 0
-    }
 
     open func setupMessageModel() {
         messagesModel = model.messagesModel
@@ -297,7 +335,7 @@ open class ChatViewController: UIViewController {
         messagesView.setModel(model: messagesModel!)
         messagesView.hideKeyboardListener = { [weak self] in
             self?.sendBarView.hideKeyboard()
-            self?.hiddenTextField.resignFirstResponder()
+            self?.hiddenTextField?.resignFirstResponder()
         }
         view.addSubview(messagesView)
         messagesView.keepInsets.equal = 0
@@ -418,65 +456,145 @@ open class ChatViewController: UIViewController {
     
     open func setupKeyboardOverlay() {
         keyboardOverlayView.backgroundColor = ChatKit.asset(color: "background")
-        keyboardOverlayView.alpha = 0
-        keyboardOverlayView.isUserInteractionEnabled = false
-        resetKeyboardOverlayFrame()
+//        keyboardOverlayView.keepWidth.equal = view.wid
+        
+        keyboardInfoCache.keyboardHeightUpdatedListener = { [weak self] info, height in
+//            self?.keyboardOverlayView.setHeight(value: height)
+            self?.keyboardOverlayView.setSize(frame: info?.endFrame, height: height)
+        }
+        
+        hiddenTextField = ChatKit.shared().provider.keyboardOverlayTextView(overlay: keyboardOverlayView)
+        
+        view.addSubview(hiddenTextField!)
+        hiddenTextField!.keepTopInset.equal = -1000
+        hiddenTextField!.alpha = 0
     }
     
     open func setupKeyboardListener() {
+        
         keyboardListener.willShow = { [weak self] info in
             
-            self?.keyboardOverlayView.frame = info.frame
-
-            UIView.animate(withDuration: info.duration, delay: 0, options: info.curve, animations: {
-                let height = info.height(view: self?.view)
-                                
-                self?.sendBarViewBottomConstraint?.constant = -height
-                self?.sendBarViewFooterBottomConstraint?.constant = -height
-                self?.view.layoutIfNeeded()
-                
-            })
+//            self?.keyboardOverlayView.frame = info.frame
+            
+            if !(self?.isMeasuringKeyboardHeight ?? false) {
+                UIView.animate(withDuration: info.duration, delay: 0, options: info.curve, animations: { [weak self] in
+                    var height = info.height(view: self?.view)
+                                    
+                    self?.sendBarViewBottomConstraint?.constant = -height
+                    self?.sendBarViewFooterBottomConstraint?.constant = -height
+                    self?.view.layoutIfNeeded()
+                    
+                })
+            } else {
+                // We are measuring the keyboard height
+//                let bottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
+//                let height = info.height()
+//                let total = bottomInset + height
+//                let other = info.height(view: self?.view)
+//
+//                print("")
+            }
+        
+        }
+        
+        keyboardListener.didShow = { [weak self] info in
+            if let htf = self?.hiddenTextField, !htf.isFirstResponder {
+//                self?.keyboardInfo.setInfo(info: info)
+            }
         }
         
         keyboardListener.willChangeFrame = { [weak self] info in
-            self?.keyboardOverlayView.frame = info.frame
+
+            if let htf = self?.hiddenTextField, !htf.isFirstResponder, let cache = self?.keyboardInfoCache {
+                
+                // Only do this if it is appearing
+                
+                cache.setInfo(info: info, isTest: self?.isMeasuringKeyboardHeight ?? false)
+                
+                let height = cache.keyboardHeight()
+                
+                print("Height: ", height, UIView.isPortrait())
+                
+                if let frame = self?.keyboardOverlayView.frame, let view = self?.view {
+                    
+//                    let newFrame = CGRect(x: 0, y: 0, width: view.frame.width, height: frame.height)
+                    
+//                    print("SetFrame: ", newFrame)
+
+//                    self?.keyboardOverlayView.frame = newFrame
+                }
+                
+            }
         }
         
         keyboardListener.willHide = { [weak self] info in
-            
-            self?.keyboardOverlayView.frame = info.frame
-            
-            UIView.animate(withDuration: info.duration, delay: 0, options: info.curve, animations: {
-                self?.sendBarViewBottomConstraint?.constant = 0
-                self?.sendBarViewFooterBottomConstraint?.constant = 20
-                self?.view.layoutIfNeeded()
-            })
+                        
+            if !(self?.isMeasuringKeyboardHeight ?? false) {
+                UIView.animate(withDuration: info.duration, delay: 0, options: info.curve, animations: {
+                    self?.sendBarViewBottomConstraint?.constant = 0
+                    self?.sendBarViewFooterBottomConstraint?.constant = 20
+                    self?.view.layoutIfNeeded()
+                })
+            }
         }
         
         keyboardListener.didHide = { [weak self] info in
-            self?.hideKeyboardOverlay()
+//            self?.hideKeyboardOverlay()
         }
                 
     }
     
+    open func measureKeyboardHeight() {
+        
+//        let height = KeyboardSize.height()
+//        print("height")
+        
+        // See if we need to do this
+//        if ChatKit.shared().keyboardInfoCache.measurementRequired() {
+            isMeasuringKeyboardHeight = true
+
+            UIView.setAnimationsEnabled(false)
+
+            sendBarView.showKeyboard()
+            sendBarView.hideKeyboard()
+            
+            UIView.setAnimationsEnabled(true)
+            isMeasuringKeyboardHeight = false
+        }
+//    }
+    
     // Keyboard Overlay
     
-    open func resetKeyboardOverlayFrame() {
-        keyboardOverlayView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 300)
-    }
+//    open func resetKeyboardOverlayFrame() {
+//        keyboardOverlayView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 300)
+//    }
     
     open func showKeyboardOverlay() {
-        hiddenTextField.becomeFirstResponder()
-        UIApplication.shared.windows.last?.addSubview(keyboardOverlayView)
-        keyboardOverlayView.alpha = 1
-        keyboardOverlayView.isUserInteractionEnabled = true
+        
+//        UIView.setAnimationsEnabled(sendBarView.isFirstResponder)
+//        sendBarView.resignFirstResponder()
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.hiddenTextField?.becomeFirstResponder()
+            // HERE
+            self?.keyboardInfoCache.relayout()
+        }
+        
+//        UIView.setAnimationsEnabled(true)
+
+        
+        // Is the keyboard showing
+        
+//        keyboardOverlayView.alpha = 1
+//        keyboardOverlayView.isUserInteractionEnabled = true
     }
 
     open func hideKeyboardOverlay() {
-        hiddenTextField.resignFirstResponder()
-        keyboardOverlayView.removeFromSuperview()
-        keyboardOverlayView.alpha = 0
-        keyboardOverlayView.isUserInteractionEnabled = false
+        
+        hiddenTextField?.resignFirstResponder()
+//        keyboardOverlayView.removeFromSuperview()
+//        keyboardOverlayView.alpha = 0
+//        keyboardOverlayView.isUserInteractionEnabled = false
     }
     
     open func addKeyboardOverlay(view: KeyboardOverlay) {
@@ -500,7 +618,7 @@ open class ChatViewController: UIViewController {
     }
 
     open func hideKeyboardOverlay(name: String) {
-        hiddenTextField.resignFirstResponder()
+        hiddenTextField?.resignFirstResponder()
         hideKeyboardOverlay()
         if let overlay = model.keyboardOverlay(for: name) {
             overlay.alpha = 0
