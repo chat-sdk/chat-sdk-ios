@@ -23,7 +23,7 @@ public class KeyboardInfoCache {
     open var keyboardHeightUpdatedListener: ((KeyboardInfo?, CGFloat) -> Void)?
         
     init() {
-        
+        load()
     }
     
     public func setInfo(info: KeyboardInfo, isTest: Bool = false) {

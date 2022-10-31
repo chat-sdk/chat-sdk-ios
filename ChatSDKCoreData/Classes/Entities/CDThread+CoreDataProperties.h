@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeMessages:(NSSet<CDMessage *> *)values;
 
 - (void)addUsersObject:(CDUser *)value;
-- (void)removeTheUsersObject:(CDUser *)value;
+- (void)removeUsersObject:(CDUser *)value;
 - (void)addUsers:(NSSet<CDUser *> *)values;
 - (void)removeUsers:(NSSet<CDUser *> *)values;
 

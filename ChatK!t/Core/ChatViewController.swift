@@ -46,7 +46,6 @@ open class ChatViewController: UIViewController {
     open var reconnectingView = ChatKit.provider().reconnectingView()
         
     open var hiddenTextField: KeyboardOverlayTextView?
-    open var hidden2TextField: UITextView?
 
     open var keyboardOverlayView = ChatKit.provider().keyboardOverlayView()
 
