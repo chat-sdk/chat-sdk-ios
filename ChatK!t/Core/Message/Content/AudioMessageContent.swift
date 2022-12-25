@@ -18,7 +18,7 @@ open class AudioMessageContent: DefaultMessageContent, DownloadableContent, Uplo
     open var audioMessageView: AudioMessageView {
         return _audioMessageView
     }
-    
+        
     open override func view() -> UIView {
         return audioMessageView
     }
@@ -64,7 +64,6 @@ open class  AudioMessageView: UIView, DownloadableContent, UploadableContent {
     @IBOutlet weak var ibProgressView: FFCircularProgressView!
     @IBOutlet weak var ibPlayPauseButton: UIButton!
     @IBOutlet weak var ibCurrentTimeLabel: UILabel!
-    @IBOutlet weak var ibTotalTimeLabel: UILabel!
     @IBOutlet weak var ibProgressSlider: UISlider!
 
     @IBAction func ibPlayPauseButtonPressed(_ sender: Any) {
@@ -78,7 +77,6 @@ open class  AudioMessageView: UIView, DownloadableContent, UploadableContent {
     open var progressView: FFCircularProgressView? { ibProgressView }
     open var playPauseButton: UIButton? { ibPlayPauseButton }
     open var currentTimeLabel: UILabel? { ibCurrentTimeLabel }
-    open var totalTimeLabel: UILabel? { ibTotalTimeLabel }
     open var progressSlider: UISlider? { ibProgressSlider }
     
     public var timer: Timer?
@@ -87,7 +85,7 @@ open class  AudioMessageView: UIView, DownloadableContent, UploadableContent {
         super.awakeFromNib()
         progressView?.tintColor = ChatKit.asset(color: "message_icon")
         progressView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(startStopDownload)))
-//        totalTimeLabel?.textColor = ChatKit.asset(color: "message_icon")
+        
     }
     
     @objc open func startStopDownload() {
@@ -207,7 +205,10 @@ open class  AudioMessageView: UIView, DownloadableContent, UploadableContent {
         if let player = audioMessage()?.audioPlayer() {
             let pos = Double(progressSlider?.value ?? 0)
             player.currentTime = pos
-            currentTimeLabel?.text = format(time: pos)
+            
+            updateCurrentTime(current: pos)
+            
+//            currentTimeLabel?.text = format(time: pos)
         }
     }
     
@@ -236,16 +237,34 @@ open class  AudioMessageView: UIView, DownloadableContent, UploadableContent {
 
             update()
         }
+        
+//        ibTimeLabel.text = model.messageTimeFormatter.string(from: message.messageDate())
+        
     }
     
     open func update() {
-        let duration = audioMessage()?.audioPlayer()?.duration ?? audioMessage()?.duration() ?? 0
-        totalTimeLabel?.text = format(time: duration)
-        let current = audioMessage()?.audioPlayer()?.currentTime ?? 0
-        currentTimeLabel?.text = format(time: current)
+                
+        let current = current()
+        updateCurrentTime(current: current)
         
         progressSlider?.value = Float(current)
-        progressSlider?.maximumValue = Float(duration)
+        progressSlider?.maximumValue = Float(duration())
+    }
+    
+    open func updateCurrentTime(current: Double) {
+        if let player = audioMessage()?.audioPlayer(), player.isPlaying || current > 0.1 {
+            currentTimeLabel?.text = format(time: current)
+        } else {
+            currentTimeLabel?.text = format(time: duration())
+        }
+    }
+    
+    open func duration() -> Double {
+        return audioMessage()?.audioPlayer()?.duration ?? audioMessage()?.duration() ?? 0
+    }
+    
+    open func current() -> Double {
+        return audioMessage()?.audioPlayer()?.currentTime ?? 0
     }
 
     public class func format(time: TimeInterval) -> String {

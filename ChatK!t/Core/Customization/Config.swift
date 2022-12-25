@@ -71,8 +71,8 @@ open class Config {
     open var outgoingBubbleColor = "outgoing_bubble"
     open var outgoingBubbleSelectedColor = "outgoing_bubble_selected"
 
-    open var outgoingMessageTextColor = "gray_6"
-    open var incomingMessageTextColor = "gray_6"
+    open var outgoingMessageTextColor = "outgoing_text"
+    open var incomingMessageTextColor = "incoming_text"
 
     open var outgoingBubbleBorderColor = "clear"
     open var outgoingBubbleBorderWidth: Float = 0.0
@@ -91,7 +91,10 @@ open class Config {
 
     open var estimatedMessageCellHeight:CGFloat = 100
     open var estimatedMessageSectionHeight:CGFloat = 100
-    
+
+    open var readReceiptImageWidth:CGFloat = 18
+    open var readReceiptImageHeight:CGFloat = 18
+
     open var downloadFolderName = "ChatKit"
     
     open var minimumAudioRecordingLength = 1

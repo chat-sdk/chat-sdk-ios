@@ -8,6 +8,7 @@
 import Foundation
 import KeepLayout
 import SDWebImage
+import ChatSDK
 
 open class TextMessageContent: DefaultMessageContent {
     
@@ -18,7 +19,7 @@ open class TextMessageContent: DefaultMessageContent {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+        
     open lazy var replyView: MessageReplyView = {
         return ChatKit.provider().messageReplyView()
     }()
@@ -33,7 +34,7 @@ open class TextMessageContent: DefaultMessageContent {
         label.keepBottomInset.equal = ChatKit.config().bubbleInsets.bottom
         label.keepRightInset.equal = ChatKit.config().bubbleInsets.right
         label.keepTopInset.equal = KeepHigh(ChatKit.config().bubbleInsets.top)
-        
+                
         return view
     }()
     
@@ -57,12 +58,17 @@ open class TextMessageContent: DefaultMessageContent {
         } else {
             hideReply()
         }
-        label.text = message.messageText()
-
-//        label.sizeToFit()
-//        label.updateConstraints()
-//        label.setNeedsLayout()
-//        containerView.setNeedsLayout()
+        
+        // We do this to make space for the time label
+        if let text = message.messageText() {
+            if message.messageDirection() == .outgoing && message.messageReadStatus() != .none {
+                label.text = text + "             "
+            } else {
+                label.text = text + "        "
+            }
+        } else {
+            label.text = nil
+        }
 
     }
     

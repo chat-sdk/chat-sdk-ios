@@ -46,6 +46,8 @@ open class MessageCell: AbstractMessageCell {
         timeLabel?.numberOfLines = 0
         timeLabel?.translatesAutoresizingMaskIntoConstraints = false
         avatarImageView?.contentMode = .scaleAspectFill
+        readReceiptImageView?.keepWidth.equal = ChatKit.config().readReceiptImageWidth
+        readReceiptImageView?.keepHeight.equal = ChatKit.config().readReceiptImageHeight
         backgroundColor = .clear
     }
     
@@ -88,7 +90,13 @@ open class MessageCell: AbstractMessageCell {
         }
 
         timeLabel?.text = model.messageTimeFormatter.string(from: message.messageDate())
-                
+        if message.messageDirection() == .incoming {
+            timeLabel?.textColor = ChatKit.asset(color: ChatKit.config().incomingMessageTextColor)
+        }
+        if message.messageDirection() == .outgoing {
+            timeLabel?.textColor = ChatKit.asset(color: ChatKit.config().outgoingMessageTextColor)
+        }
+                     
         if content?.showBubble() ?? true {
             setBubbleColor(color: model.bubbleColor(message))
             contentContainerView.setMaskPosition(direction: message.messageDirection())
@@ -130,6 +138,15 @@ open class MessageCell: AbstractMessageCell {
             }
         } else {
             readReceiptImageView?.image = nil
+        }
+
+        if message.messageDirection() == .outgoing {
+            if readReceiptImageView?.image == nil {
+                timeLabel?.keepTrailingAlignTo(contentContainerView)?.equal = 2
+            } else {
+                timeLabel?.keepTrailingAlignTo(contentContainerView)?.deactivate()
+//                timeLabel?.keepRightInset.deactivate()
+            }
         }
 
         hideNameLabel()

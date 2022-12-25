@@ -327,6 +327,8 @@ typedef enum {
 @property (nonatomic, readwrite) CGFloat imagePreviewMaxSize;
 @property (nonatomic, readwrite) CGFloat imagePreviewQuality;
 
+@property (nonatomic, readwrite) BOOL groupImagesEnabled;
+
 +(BConfiguration *) configuration;
 
 -(void) xmppWithHostAddress: (NSString *) hostAddress;

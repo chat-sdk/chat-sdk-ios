@@ -121,6 +121,7 @@
 @synthesize sendBase64ImagePreview;
 @synthesize imagePreviewMaxSize;
 @synthesize imagePreviewQuality;
+@synthesize groupImagesEnabled;
 
 
 -(instancetype) init {
@@ -268,6 +269,8 @@
         sendBase64ImagePreview = true;
         imagePreviewMaxSize = 80;
         imagePreviewQuality = 1;
+        
+        groupImagesEnabled = true;
         
     }
     return self;

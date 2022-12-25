@@ -16,7 +16,7 @@ open class DefaultMessageContent: MessageContent {
     open func view() -> UIView {
         preconditionFailure("This method must be overridden")
     }
-    
+        
     open func bind(_ message: AbstractMessage, model: MessagesModel) {
         message.setContent(self)
     }

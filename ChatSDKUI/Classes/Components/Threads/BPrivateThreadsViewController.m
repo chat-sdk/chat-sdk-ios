@@ -77,7 +77,7 @@
             [MBProgressHUD hideHUDForView:strongSelf.view animated:YES];
         };
         
-        if (image) {
+        if (image && BChatSDK.config.groupImagesEnabled) {
             [BChatSDK.upload uploadImage:image].thenOnMain(^id(id success) {
                 // Create group with group name
                 NSString * url = success[bImagePath];
