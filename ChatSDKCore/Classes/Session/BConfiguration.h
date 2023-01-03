@@ -328,6 +328,7 @@ typedef enum {
 @property (nonatomic, readwrite) CGFloat imagePreviewQuality;
 
 @property (nonatomic, readwrite) BOOL groupImagesEnabled;
+@property (nonatomic, readwrite) BOOL allowEmptyBody;
 
 +(BConfiguration *) configuration;
 

@@ -56,6 +56,7 @@
 @synthesize allowUserToRejoinGroup;
 @synthesize legacyCropperEnabled;
 @synthesize timeAgoDateFormat;
+@synthesize allowEmptyBody;
 
 @synthesize showMessageAvatarAtPosition;
 @synthesize messageBubbleMaskFirst;
