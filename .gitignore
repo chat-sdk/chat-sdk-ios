@@ -58,6 +58,7 @@ versions/
 Xcode/
 XcodeModulesExp/
 DemoSwift2/
+XcodeModulesAsFramework/
 
 # Ignore these in subfolders, but track in root of repo
 ChatSDKFirebase/
