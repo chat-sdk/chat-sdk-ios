@@ -94,12 +94,12 @@
     if(data) {
         [[FirebasePushModule.shared.functions HTTPSCallableWithName:@"pushToChannels"] callWithObject:data completion:^(FIRHTTPSCallableResult * result, NSError * error) {
             if (error) {
-                if (error.domain == FIRFunctionsErrorDomain) {
-                    FIRFunctionsErrorCode code = error.code;
-                    NSString *message = error.localizedDescription;
-                    NSObject *details = error.userInfo[FIRFunctionsErrorDetailsKey];
-                }
-                // ...
+//                if (error.domain == FIRFunctionsErrorDomain) {
+//                    FIRFunctionsErrorCode code = error.code;
+//                    NSString *message = error.localizedDescription;
+//                    NSObject *details = error.userInfo[FIRFunctionsErrorDetailsKey];
+//                }
+//                // ...
             }
             else {
                 NSLog(@"Success");

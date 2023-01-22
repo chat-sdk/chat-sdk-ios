@@ -16,7 +16,6 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |s|
     # s.source_files = ['Core/*']
     s.dependency 'ChatSDK'
-    s.dependency 'Licensing'
   end
 
   s.subspec 'FirebaseNearbyUsers' do |s|

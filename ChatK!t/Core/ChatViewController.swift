@@ -128,6 +128,7 @@ open class ChatViewController: UIViewController {
             items.append(button.item)
         }
         navigationItem.rightBarButtonItems = items
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         delegate?.viewDidLoad()
         

@@ -16,7 +16,7 @@
 #import <RXPromise/RXPromise.h>
 #import <RXPromise/RXPromise+RXExtension.h>
 #import <DateTools/NSDate+DateTools.h>
-#import <AFNetworking/AFHTTPSessionManager.h>
+//#import <AFNetworking/AFHTTPSessionManager.h>
 
 #import <ChatSDK/PProvider.h>
 #import <ChatSDK/NSArray+KeyPair.h>

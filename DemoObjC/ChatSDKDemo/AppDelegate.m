@@ -15,11 +15,11 @@
 #import <ChatSDKFirebase/FirebaseUIModule.h>
 #import <FirebaseEmailAuthUI/FirebaseEmailAuthUI.h>
 
-#import <FirebaseModules/FirebaseModules-umbrella.h>
-#import <EncryptionModule/EncryptionModule-umbrella.h>
-#import <MessageModules/MessageModules-umbrella.h>
-#import <ContactBookModule/ContactBookModule-umbrella.h>
-#import <FirebaseNearbyUsersModule/FirebaseNearbyUsersModule-umbrella.h>
+//#import <FirebaseModules/FirebaseModules-umbrella.h>
+//#import <EncryptionModule/EncryptionModule-umbrella.h>
+//#import <MessageModules/MessageModules-umbrella.h>
+//#import <ContactBookModule/ContactBookModule-umbrella.h>
+//#import <FirebaseNearbyUsersModule/Firebase>
 
 @interface AppDelegate ()
 
@@ -49,19 +49,19 @@
         [ChatKitModule shared],
         [FirebaseUIModule new],
         
-        [BBlockingModule new],
-        [BReadReceiptsModule new],
-        [BTypingIndicatorModule new],
-        [BLastOnlineModule new],
+//        [BBlockingModule new],
+//        [BReadReceiptsModule new],
+//        [BTypingIndicatorModule new],
+//        [BLastOnlineModule new],
+//
+//        [StickerMessageModule shared],
+//        [BVideoMessageModule new],
+//        [FileMessageModule new],
+//        [BAudioMessageModule new],
+//        [BContactBookModule new],
+//        [BNearbyUsersModule shared],
         
-        [StickerMessageModule shared],
-        [BVideoMessageModule new],
-        [FileMessageModule new],
-        [BAudioMessageModule new],
-        [BContactBookModule new],
-        [BNearbyUsersModule shared],
-        
-        [EncryptionModule new]
+//        [EncryptionModule new]
     ]];
     
     

@@ -155,48 +155,35 @@
 
 +(RXPromise *) getWithPath: (NSString *) path parameters: (NSDictionary *) params {
     
-    AFHTTPSessionManager * manager = [self manager];
-    //manager.responseSerializer = [[AFHTTPResponseSerializer alloc] init];
-    //manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
-    
-    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
-    manager.responseSerializer = responseSerializer;
-    
-    //manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
     RXPromise * promise = [RXPromise new];
-    
-    [manager GET:path parameters:params success:^(NSURLSessionTask * task, id responseObject) {
+
+    // making a GET request to /init
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setHTTPMethod:@"GET"];
+    [request setURL:[NSURL URLWithString:path]];
+
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+      ^(NSData * _Nullable data,
+        NSURLResponse * _Nullable response,
+        NSError * _Nullable error) {
         
-        if (![responseObject isEqual: [NSNull null]]) {
+        if (error) {
+            [promise rejectWithReason: error];
+        } else {
+            NSError * jsonError;
+            NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
             
-            if(responseObject[@"error"]) {
-                NSError * error = [NSError errorWithDomain:@"" code:0 userInfo:@{NSLocalizedDescriptionKey: responseObject[@"error"]}];
-                [promise rejectWithReason:error];
+            if(jsonError) {
+                [promise rejectWithReason: jsonError];
             }
             else {
-                [promise resolveWithResult:responseObject];
+                [promise resolveWithResult: dict];
             }
         }
-        else {
-            [promise resolveWithResult:nil];
-        }
-    } failure:^(NSURLSessionTask *task, NSError *error) {
-        [promise rejectWithReason:error];
-    }];
-    
-    return promise;
-}
 
-+ (AFHTTPSessionManager*) manager
-{
-    static dispatch_once_t onceToken;
-    static AFHTTPSessionManager *manager = nil;
-    dispatch_once(&onceToken, ^{
-        manager = [AFHTTPSessionManager manager];
-    });
-    
-    return manager;
+    }] resume];
+
+    return promise;
 }
 
 +(void) checkOnMain {

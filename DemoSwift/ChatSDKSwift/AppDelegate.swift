@@ -15,11 +15,11 @@ import FirebasePhoneAuthUI
 import FirebaseOAuthUI
 import ChatKit
 
-import FirebaseModules
-import ContactBookModule
-import MessageModules
-import FirebaseNearbyUsersModule
-import EncryptionModule
+//import FirebaseModules
+//import ContactBookModule
+//import MessageModules
+//import FirebaseNearbyUsersModule
+//import EncryptionModule
 
 @UIApplicationMain 
 /* Two Factor Auth */
@@ -55,20 +55,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             FirebasePushModule.shared(),
             FirebaseUploadModule.shared(),
 
-            BBlockingModule.init(),
-            BReadReceiptsModule.init(),
-            BTypingIndicatorModule.init(),
-            BLastOnlineModule.init(),
-            StickerMessageModule.shared(),
-            BVideoMessageModule.init(),
-            FileMessageModule.init(),
-            BAudioMessageModule.init(),
-            BContactBookModule.init(),
+//            BBlockingModule.init(),
+//            BReadReceiptsModule.init(),
+//            BTypingIndicatorModule.init(),
+//            BLastOnlineModule.init(),
+//            StickerMessageModule.shared(),
+//            BVideoMessageModule.init(),
+//            FileMessageModule.init(),
+//            BAudioMessageModule.init(),
+//            BContactBookModule.init(),
 //            AddContactWithQRCodeModule.init(),
             BReachabilityModule.init(),
-            EncryptionModule.init(),
+//            EncryptionModule.init(),
             ChatKitModule.shared(),
-            ChatKitExtrasModule.init(),
+//            ChatKitExtrasModule.init(),
 
         ]
 

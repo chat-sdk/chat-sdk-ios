@@ -10,6 +10,8 @@
 
 #import <ChatSDK/Core.h>
 #import <ChatSDKFirebase/BFirebaseUploadHandler.h>
-#import <FirebaseStorage/FirebaseStorage.h>
+//#import <FirebaseStorage/FirebaseStorage.h>
+
+@import FirebaseStorage;
 
 #endif /* FirebaseUpload_h */

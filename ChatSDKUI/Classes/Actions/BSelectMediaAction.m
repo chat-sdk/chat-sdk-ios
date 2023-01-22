@@ -9,6 +9,7 @@
 #import <ChatSDK/Core.h>
 #import <ChatSDK/UI.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 @implementation BSelectMediaAction
 
