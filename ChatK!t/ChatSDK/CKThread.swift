@@ -40,7 +40,7 @@ open class CKThread: Conversation {
     }
     
     open func conversationImageUrl() -> URL? {
-        if let url = UIImageView.threadImageURL(thread) {
+        if let url = thread.imageURL() {
             return URL(string: url)
         }
         return nil

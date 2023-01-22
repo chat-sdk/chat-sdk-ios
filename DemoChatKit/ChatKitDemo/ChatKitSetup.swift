@@ -12,6 +12,7 @@ import LoremIpsum
 import AVFoundation
 
 public class ChatKitSetup: ChatModelDelegate {
+    
 
     public var model: ChatModel?
     public var thread: DummyThread?
@@ -20,7 +21,7 @@ public class ChatKitSetup: ChatModelDelegate {
     public var vc: ChatViewController?
     
     public func loadMessages(with oldestMessage: AbstractMessage?) -> Single<[AbstractMessage]> {
-        Single<[AbstractMessage]>.create { [weak self] single in
+        Single<[AbstractMessage]>.create { single in
             single(.success([]))
             return Disposables.create {}
         }
@@ -288,6 +289,7 @@ open class DummyLocationMessage: DummyImageMessage {
 }
 
 public class DummyUser: User {
+    
 
     let id = String(Int.random(in: 0..<999999999))
     let isMe: Bool
@@ -322,6 +324,10 @@ public class DummyUser: User {
         return true
     }
     
+    public func userName() -> String? {
+        "Dummy"
+    }
+    
 }
 
 public class DummyThread: Conversation {
@@ -348,4 +354,8 @@ public class DummyThread: Conversation {
         return .private1to1
     }
     
+    public func onAvatarClick(_ message: AbstractMessage) -> Bool {
+        return false
+    }
+
 }
