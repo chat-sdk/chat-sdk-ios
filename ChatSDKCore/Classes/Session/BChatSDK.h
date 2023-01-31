@@ -1,6 +1,6 @@
 //
 //  BChatSDK.h
-//  AFNetworking
+
 //
 //  Created by Ben on 11/7/17.
 //

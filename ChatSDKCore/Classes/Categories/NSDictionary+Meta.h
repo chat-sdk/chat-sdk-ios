@@ -1,6 +1,6 @@
 //
 //  NSDictionary+Meta.h
-//  AFNetworking
+
 //
 //  Created by Ben on 9/6/18.
 //

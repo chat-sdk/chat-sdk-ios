@@ -1,6 +1,6 @@
 //
 //  SendBarView.swift
-//  AFNetworking
+
 //
 //  Created by ben3 on 14/09/2020.
 //

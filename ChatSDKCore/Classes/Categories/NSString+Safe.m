@@ -1,6 +1,6 @@
 //
 //  NSString+Safe.m
-//  AFNetworking
+
 //
 //  Created by ben3 on 29/04/2019.
 //

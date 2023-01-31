@@ -1,6 +1,6 @@
 //
 //  BInternetConnectivity.h
-//  AFNetworking
+
 //
 //  Created by Ben on 10/10/18.
 //

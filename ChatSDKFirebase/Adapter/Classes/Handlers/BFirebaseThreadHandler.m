@@ -1,6 +1,6 @@
 //
 //  BFirebaseThreadHandler.m
-//  AFNetworking
+
 //
 //  Created by ben3 on 06/07/2020.
 //

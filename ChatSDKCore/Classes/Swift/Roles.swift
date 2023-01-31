@@ -1,6 +1,6 @@
 //
 //  Affiliation.swift
-//  AFNetworking
+
 //
 //  Created by ben3 on 17/11/2020.
 //

@@ -12,11 +12,11 @@ target 'ChatSDKSwift' do
   pod "ChatSDKFirebase/Push", :path => "../"
   pod "ChatSDKFirebase/FirebaseUI", :path => "../"
 
-#  pod "ChatSDKPro/ContactBook", :path => "../"
-#  pod "ChatSDKPro/Encryption", :path => "../"
-#  pod "ChatSDKPro/Firebase", :path => "../"
-#  pod "ChatSDKPro/FirebaseNearbyUsers", :path => "../"
-#  pod "ChatSDKPro/Message", :path => "../"
+  pod "ChatSDKPro/ContactBook", :path => "../"
+  pod "ChatSDKPro/Encryption", :path => "../"
+  pod "ChatSDKPro/Firebase", :path => "../"
+  pod "ChatSDKPro/FirebaseNearbyUsers", :path => "../"
+  pod "ChatSDKPro/Message", :path => "../"
 #  pod "ChatSDKPro/ChatK!t", :path => "../"
 
   pod "ChatK!t", :path => "../"

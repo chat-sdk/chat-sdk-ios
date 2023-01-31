@@ -1,6 +1,6 @@
 //
 //  ConversationType.swift
-//  AFNetworking
+
 //
 //  Created by ben3 on 21/07/2020.
 //

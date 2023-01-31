@@ -1,6 +1,6 @@
 //
 //  SettingsItem.swift
-//  AFNetworking
+
 //
 //  Created by ben3 on 13/11/2020.
 //

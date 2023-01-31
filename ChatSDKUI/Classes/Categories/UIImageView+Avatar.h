@@ -1,6 +1,6 @@
 //
 //  UIImageView+Avatar.h
-//  AFNetworking
+
 //
 //  Created by ben3 on 28/06/2019.
 //

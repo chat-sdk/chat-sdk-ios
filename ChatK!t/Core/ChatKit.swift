@@ -1,6 +1,6 @@
 //
 //  ChatKit.swift
-//  AFNetworking
+
 //
 //  Created by ben3 on 16/09/2020.
 //

@@ -1,6 +1,6 @@
 //
 //  BMessageSectionDateProvider.h
-//  AFNetworking
+
 //
 //  Created by ben3 on 14/08/2019.
 //

@@ -1,6 +1,6 @@
 //
 //  Message.swift
-//  AFNetworking
+
 //
 //  Created by ben3 on 18/07/2020.
 //

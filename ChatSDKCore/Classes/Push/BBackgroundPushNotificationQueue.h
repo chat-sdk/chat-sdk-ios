@@ -1,6 +1,6 @@
 //
 //  BBackgroundPushNotificationQueue.h
-//  AFNetworking
+
 //
 //  Created by Ben on 8/24/18.
 //

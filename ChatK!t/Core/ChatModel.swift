@@ -1,6 +1,6 @@
 //
 //  ChatViewControllerModel.swift
-//  AFNetworking
+
 //
 //  Created by ben3 on 19/07/2020.
 //

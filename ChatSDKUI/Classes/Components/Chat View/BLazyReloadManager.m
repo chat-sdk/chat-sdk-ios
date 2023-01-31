@@ -1,6 +1,6 @@
 //
 //  BLazyReloadManager.m
-//  AFNetworking
+
 //
 //  Created by ben3 on 13/05/2019.
 //

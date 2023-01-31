@@ -1,6 +1,6 @@
 //
 //  BSplashScreenViewController.m
-//  AFNetworking
+
 //
 //  Created by Benjamin Smiley-Andrews on 08/03/2019.
 //

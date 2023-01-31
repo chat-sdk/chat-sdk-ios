@@ -1,6 +1,6 @@
 //
 //  Images.swift
-//  AFNetworking
+
 //
 //  Created by ben3 on 17/06/2020.
 //

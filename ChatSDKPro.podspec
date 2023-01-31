@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
     s.source_files = ['ChatSDKPro/Core/*']
     s.dependency 'ChatSDK'
     s.vendored_frameworks = 'ChatSDKPro/Licensing/Licensing.xcframework'
+    s.dependency 'AFNetworking/NSURLSession', '~>4.0.1'
   end
 
   s.subspec 'ContactBook' do |s|

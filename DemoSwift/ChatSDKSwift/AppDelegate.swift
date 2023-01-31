@@ -15,7 +15,7 @@ import FirebasePhoneAuthUI
 import FirebaseOAuthUI
 import ChatKit
 
-//import FirebaseModules
+import FirebaseModules
 //import ContactBookModule
 //import MessageModules
 //import FirebaseNearbyUsersModule
@@ -55,10 +55,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             FirebasePushModule.shared(),
             FirebaseUploadModule.shared(),
 
-//            BBlockingModule.init(),
-//            BReadReceiptsModule.init(),
-//            BTypingIndicatorModule.init(),
-//            BLastOnlineModule.init(),
+            BBlockingModule.init(),
+            BReadReceiptsModule.init(),
+            BTypingIndicatorModule.init(),
+            BLastOnlineModule.init(),
 //            StickerMessageModule.shared(),
 //            BVideoMessageModule.init(),
 //            FileMessageModule.init(),

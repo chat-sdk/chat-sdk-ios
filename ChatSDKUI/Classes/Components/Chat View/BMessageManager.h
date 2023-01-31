@@ -1,6 +1,6 @@
 //
 //  BMessageManager.h
-//  AFNetworking
+
 //
 //  Created by ben3 on 09/05/2019.
 //

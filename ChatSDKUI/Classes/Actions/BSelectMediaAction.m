@@ -1,6 +1,6 @@
 //
 //  BSelectMediaAction.m
-//  AFNetworking
+
 //
 //  Created by Ben on 12/11/17.
 //

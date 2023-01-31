@@ -1,6 +1,6 @@
 //
 //  BAccountDetails.h
-//  AFNetworking
+
 //
 //  Created by Ben on 9/28/17.
 //

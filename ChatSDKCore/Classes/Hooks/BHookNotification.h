@@ -1,6 +1,6 @@
 //
 //  BHookNotification.h
-//  AFNetworking
+
 //
 //  Created by Ben on 12/13/18.
 //

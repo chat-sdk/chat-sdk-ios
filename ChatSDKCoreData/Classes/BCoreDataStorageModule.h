@@ -1,6 +1,6 @@
 //
 //  BCoreDataStorageModule.h
-//  AFNetworking
+
 //
 //  Created by Ben on 2/1/18.
 //
