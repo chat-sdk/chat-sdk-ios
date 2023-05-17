@@ -1,48 +1,52 @@
-# Chat SDK
+# Chat SDK for iOS v5
 ### Open Source Messaging framework for iOS
 
-<img target="_blank" src="https://raw.githubusercontent.com/chat-sdk/dev/master/img/hand.png" />
+<p float="left" >
 
-Chat SDK is a fully featured open source instant messaging framework for iOS. Chat SDK is fully featured, scalable and flexible and follows the following key principles:
+<img src="https://github.com/chat-sdk/files/blob/main/ios/part-1.png?raw=true" width="300" />
 
-- **Open Source.** The Chat SDK is open source and free for commerical apps ([see license](https://github.com/chat-sdk/chat-sdk-ios#the-license))
-- **Full data control.** You have full and exclusive access to the user's chat data
+<img src="https://github.com/chat-sdk/files/blob/main/ios/part-2.png?raw=true" width="300" />
+
+</p>
+
+Chat SDK is a fully featured open source instant messaging framework for iOS. Chat SDK is backend agnostic and supports **Firebase** and **XMPP**. Chat SDK is fully featured, scalable and flexible and follows the following key principles:
+
+- **Free.** 
+- **Open Source.** 
+- **Full control of the data.** You have full and exclusive access to the user's chat data
 - **Quick integration.** Chat SDK is fully featured out of the box
-- **Firebase** Powered by [Google Firebase](https://firebase.google.com/)
+- **Scalable.** Supports millons of daily users [[1](https://firebase.google.com/docs/database/usage/limits), [2](https://blog.process-one.net/ejabberd-massive-scalability-1node-2-million-concurrent-users/)]
+- **Backend agnostic.** Supports Firebase and XMPP (ejabberd, Prosody, MongooseIM, Tigase, OpenFire)
 
 <!--A demo of the project is available on the App Store.  
 
 <a target="_blank" href="https://itunes.apple.com/us/app/chatcat/id962537653?mt=8"><img src="https://raw.githubusercontent.com/chat-sdk/dev/master/img/app-store.jpg" width="290" height="100" alt="App Store" /></a>
 -->
+
 ## Features
 
+- Powered by Firebase or XMPP
 - Private and group messages
 - Public chat rooms
-- Username / password, Facebook, Twitter, Anonymous and custom login
+- Username / password, Social, Anonymous and custom login
 - [Phone number authentication](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)
 - Free Push notifications (using [FCM](https://firebase.google.com/docs/cloud-messaging/))
 - Text, Image and Location messages
-- User profiles
+- Reply / forward / copy / delete message
+- Add contact with QR Code
+- Multiple image send 
+- User profile, status
 - User search
 - [Scalable](https://firebase.google.com/docs/database/usage/limits) - Supports over 400k monthly users
 - Powered by [Google Firebase](https://firebase.google.com/) or [XMPP](https://chatsdk.co/xmpp-2/)
 - [Firebase UI](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui) support
 - [Native Android Version](https://github.com/chat-sdk/chat-sdk-android)
-- [Native Web Version](https://github.com/chat-sdk/chat-sdk-web)
 - [Powerful flexible API](https://github.com/chat-sdk/docs)
 
-<img src="https://raw.githubusercontent.com/chat-sdk/dev/master/img/features.png" />
+## Pro Features
 
-Full breakdown is available on the [features page](http://chatsdk.co/features/).
+Sponsor us on either [Github sponsors](https://github.com/sponsors/chat-sdk) or [Paetron](https://www.patreon.com/chatsdk) and get these features. For full details visit our [Modules](https://chat-sdk.gitbook.io/chat-sdk/commercial/module-licensing) page.
 
-## Quick Start
-
-- [Standard Documentation](https://github.com/chat-sdk/chat-sdk-ios#adding-the-chat-sdk-to-your-project) (For experienced developers) 
-- [API Documentation](https://github.com/chat-sdk/docs)
-- [Code Examples](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Xcode/ChatSDK%20Demo/ApiExamples.m)
-- [Wiki](https://github.com/chat-sdk/chat-sdk-ios/wiki)
-
-## Modules
 - [End-To-End Encryption](https://chatsdk.co/end-to-end-encryption/)
 - [File Messages](http://chatsdk.co/file-messages/)
 - [Typing indicator](http://chatsdk.co/typing-indicator/)
@@ -55,9 +59,64 @@ Full breakdown is available on the [features page](http://chatsdk.co/features/).
 - [Contact book integration](https://chatsdk.co/contact-book-integration/)
 - [User Blocking](http://chatsdk.co/user-blocking/)
 - [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
+- [Giphy messages](https://github.com/chat-sdk/files/blob/main/ios/giphy-ios.png?raw=true)
 - [Push Notifications (free)](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
 - [File Storage (free)](https://github.com/chat-sdk/chat-sdk-ios#file-storage)
 - [Firebase UI (free)](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)
+
+Full breakdown is available on the [features page](http://chatsdk.co/features/).
+
+## Licensing
+
+This project is covered by multiple different licenses. Use the flowchart to determine which license you can use. 
+
+<img src="https://github.com/chat-sdk/files/blob/main/ios/license-flowchart.png?raw=true" width="400" />
+
+### Standard modules 
+
+- ChatK!t
+- ChatSDKCore
+- ChatSDKCoreData
+- ChatSDKExtras
+- ChatSDKFirebase
+- ChatSDKUI
+- DemoChatKit
+- DemoObjC
+- DemoSwift
+
+#### License:  
+
+| Monthly Active Users  |  |
+|---|---|
+| Less than 1 million  | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)  |
+| More than 1 million  | [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) or [Commercial License](https://github.com/chat-sdk/chat-sdk-ios#commercial-license) |
+
+### Pro modules 
+
+- DemoXMPP
+- ChatSDKProXMPP
+- ChatSDKProModules
+
+#### License:  
+
+| Monthly Active Users  |  |
+|---|---|
+| Any  | [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) or [Commercial License](https://github.com/chat-sdk/chat-sdk-ios#commercial-license) |
+
+## Commercial Licensing
+
+For commercial licensing, you have several options: 
+
+1. Pay monthly: [Patreon](https://www.patreon.com/chatsdk) or [Github Sponsors](https://github.com/sponsors/chat-sdk)
+2. [Buy a one-off license](https://chatsdk.co/features)
+2. If your project has over 1m MAU or XMPP contact [team@chatsdk.co](mailto: team@chatsdk.co)
+
+## Quick Start
+
+- [Standard Documentation](https://github.com/chat-sdk/chat-sdk-ios#adding-the-chat-sdk-to-your-project) (For experienced developers) 
+- [API Documentation](https://github.com/chat-sdk/docs)
+- [Code Examples](https://github.com/chat-sdk/chat-sdk-ios/blob/master/Xcode/ChatSDK%20Demo/ApiExamples.m)
+- [Wiki](https://github.com/chat-sdk/chat-sdk-ios/wiki)
 
 ## About Us
 
@@ -66,12 +125,6 @@ Learn about the history of Chat SDK and our future plans in [this post](https://
 ## Scalability and Cost
 
 People always ask about how much Chat SDK costs to run. And will it scale to millions of users? So I wrote an article talking about [just that](https://hackmd.io/@dyR2Vn0UTFaO8tZjyiJyHw/r1LJ26d0L). 
-
-## Looking for Freelance Developers
-
-If you're a freelance developer looking for work, join our Discord server. We often have customers 
-
-
 
 ## Community
 

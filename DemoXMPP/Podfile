@@ -1,0 +1,46 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+use_frameworks!
+install! 'cocoapods', :disable_input_output_paths => true
+platform :ios, 13.0
+
+target 'ChatSDKSwift' do
+
+  pod "ChatSDK", :path => "../"
+  pod "ChatSDKFirebase/Adapter", :path => "../"
+  pod "ChatSDKFirebase/Upload", :path => "../"
+  pod "ChatSDKFirebase/Push", :path => "../"
+
+  pod "ChatSDK/ModAddContactWithQRCode", :path => "../"
+  pod "ChatSDK/Base64ImageMessage", :path => "../"
+
+  pod "ChatK!t", :path => "../"
+  pod "ChatK!t/ChatSDK", :path => "../"
+
+  pod "MessageModules/StickerMessage", :path => "../ChatSDKProModules"
+  pod "MessageModules/VideoMessage", :path => "../ChatSDKProModules"
+  pod "MessageModules/AudioMessage", :path => "../ChatSDKProModules"
+  pod "MessageModules/KeyboardOverlayOptions", :path => "../ChatSDKProModules"
+  pod "MessageModules/FileMessage", :path => "../ChatSDKProModules"
+  pod "MessageModules/GiphyMessage", :path => "../ChatSDKProModules"
+  
+  pod "ChatSDKXMPP/XMPPAdapter", :path => "../ChatSDKProXMPP"
+  pod "ChatSDKXMPP/XMPPReadReceipts", :path => "../ChatSDKProXMPP"
+
+  pod "ContactBook/ContactBook", :path => "../ChatSDKProModules"
+
+  pod "Licensing", :path => "../ChatSDKProModules"
+
+  # pod 'FirebaseUI', '~> 13.0' 
+end
+
+post_install do |installer_representation|
+    installer_representation.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['OTHER_LDFLAGS'] = '$(inherited)'
+            config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+            config.build_settings['ENABLE_BITCODE'] = "YES"
+            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+        end
+    end
+end

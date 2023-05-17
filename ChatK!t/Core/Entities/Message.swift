@@ -97,6 +97,8 @@ public protocol ImageMessage: UploadableMessage, HasImage, HasPlaceholder {
 public protocol StickerMessage: HasImage, HasPlaceholder {
 }
 
+public protocol GifMessage: HasImage {
+}
 
 public protocol VideoMessage: DownloadableMessage, ImageMessage {
     

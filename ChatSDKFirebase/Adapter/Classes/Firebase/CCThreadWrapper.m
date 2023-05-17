@@ -174,7 +174,8 @@
                     // This gets the message if it exists and then updates it from the snapshot
                     CCMessageWrapper * wrapper = [FirebaseNetworkAdapterModule.shared.firebaseProvider messageWrapperWithSnapshot:snapshot];
                     
-                    BOOL newMessage = wrapper.model.isDelivered == NO;
+                    // Use the raw value here to see if it's new to the database
+                    BOOL newMessage = !wrapper.model.delivered;
                     
                     // Is this a new message?
                     // When a message arrives we add it to the database
@@ -256,7 +257,7 @@
                 // this can cause an issue because added and then removed callbacks are called immediately afterards
                 // and that messes up the resend functionality. If the message state is sending, we ignore...
                 id<PMessage> message = [BChatSDK.db fetchEntityWithID:snapshot.key withType:bMessageEntity];
-                if (message && message.messageSendStatus == bMessageSendStatusSending) {
+                if (message && message.senderIsMe && message.messageSendStatus == bMessageSendStatusSending) {
                     return;
                 }
 

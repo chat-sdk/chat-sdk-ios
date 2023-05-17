@@ -74,15 +74,15 @@ static BChatSDK * instance;
     [self application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
-+(void) activateLicenseWithEmail: (NSString *) email {
++(void) acceptLicenseWithEmail: (NSString *) email {
     [self.shared activateLicense:@"email" identifier:email];
 }
 
-+(void) activateLicenseWithPatreon: (NSString *) patreonId {
++(void) acceptLicenseWithPatreon: (NSString *) patreonId {
     [self.shared activateLicense:@"patreon" identifier:patreonId];
 }
 
-+(void) activateLicenseWithGithub: (NSString *) githubId {
++(void) acceptLicenseWithGithub: (NSString *) githubId {
     [self.shared activateLicense:@"github" identifier:githubId];
 }
 

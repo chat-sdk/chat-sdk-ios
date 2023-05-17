@@ -32,6 +32,7 @@ public class Strings {
     public static let location = "location"
     public static let file = "file"
     public static let sticker = "sticker"
+    public static let giphy = "giphy"
     public static let video = "video"
     public static let messageSendFailed = "messageSendFailed"
 

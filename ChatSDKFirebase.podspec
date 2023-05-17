@@ -39,6 +39,7 @@ Pod::Spec.new do |s|
 
 	s.source_files = ['ChatSDKFirebase/Upload/Classes/**/*.{h,m,swift}']
 
+  s.dependency 'FirebaseAuth'
   s.dependency 'FirebaseDatabase'
   s.dependency 'FirebaseStorage'
 	s.dependency 'ChatSDK'
@@ -50,6 +51,7 @@ Pod::Spec.new do |s|
 
 	s.source_files = ['ChatSDKFirebase/Push/Classes/**/*.{h,m,swift}']
 
+    s.dependency 'FirebaseAuth'
     s.dependency 'FirebaseDatabase'
     s.dependency 'FirebaseMessaging'
     s.dependency 'FirebaseFunctions'
@@ -63,10 +65,10 @@ Pod::Spec.new do |s|
 	s.source_files = ['ChatSDKFirebase/FirebaseUI/Classes/**/*.{h,m,swift}']
 
 	s.dependency 'ChatSDKFirebase/Adapter'
-	s.dependency 'FirebaseUI/Auth'
-	s.dependency 'FirebaseUI/Email'
-  	s.dependency 'FirebaseUI/Phone'
-  	s.dependency 'FirebaseUI/OAuth'
+	# s.dependency 'FirebaseUI'
+	s.dependency 'FirebaseEmailAuthUI'
+  	s.dependency 'FirebasePhoneAuthUI'
+  	s.dependency 'FirebaseOAuthUI'
 	  s.dependency 'ChatSDKFirebase/Core' 
 
   end

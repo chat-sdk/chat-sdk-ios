@@ -22,6 +22,7 @@
 "location" = "Location";
 "file" = "File";
 "sticker" = "Sticker";
+"giphy" = "Giphy";
 "video" = "Video";
 "processing" = "Processing";
 "processed_of_" = "Processed %d/%d";

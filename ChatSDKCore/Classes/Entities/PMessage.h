@@ -121,6 +121,8 @@ typedef enum {
 -(BOOL) isRead;
 -(BOOL) isDelivered;
 
+-(NSNumber *) delivered;
+
 /**
  * @brief Message creation date
  */

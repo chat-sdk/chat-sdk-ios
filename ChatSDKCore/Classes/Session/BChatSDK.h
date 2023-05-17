@@ -121,9 +121,9 @@
 
 +(nonnull BConfiguration *) config;
 
-+(void) activateLicenseWithEmail: (NSString *) email;
-+(void) activateLicenseWithPatreon: (NSString *) patreonId;
-+(void) activateLicenseWithGithub: (NSString *) githubId;
++(void) acceptLicenseWithEmail: (NSString *) email;
++(void) acceptLicenseWithPatreon: (NSString *) patreonId;
++(void) acceptLicenseWithGithub: (NSString *) githubId;
 
 -(void) addNotificationHandlers: (id<UNUserNotificationCenterDelegate>) delegate;
 

@@ -65,6 +65,12 @@ open class Option {
         self.onClick = stickerOnClick
     }
 
+    public init(giphyOnClick: (() -> Void)? = nil) {
+        self.text = Strings.t(Strings.giphy)
+        self.image = ChatKit.asset(icon: "icn_100_giphy")
+        self.onClick = giphyOnClick
+    }
+
     public init(videoOnClick: (() -> Void)? = nil) {
         self.text = Strings.t(Strings.video)
         self.image = ChatKit.asset(icon: "icn_100_video")

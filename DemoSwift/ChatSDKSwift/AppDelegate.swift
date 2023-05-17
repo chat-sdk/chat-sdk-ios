@@ -9,15 +9,14 @@
 import UIKit
 import ChatSDK
 import ChatSDKFirebase
-import FirebaseAuthUI
 import FirebaseEmailAuthUI
 import FirebasePhoneAuthUI
 import FirebaseOAuthUI
 import ChatKit
 
 import FirebaseModules
-//import ContactBookModule
-//import MessageModules
+import ContactBook
+import MessageModules
 //import FirebaseNearbyUsersModule
 //import EncryptionModule
 
@@ -31,15 +30,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let config = BConfiguration.init();
-        config.rootPath = "pre_78"
-        config.allowUsersToCreatePublicChats = false
-        config.googleMapsApiKey = "AIzaSyCwwtZrlY9Rl8paM0R6iDNBEit_iexQ1aE"
+        config.rootPath = "pre_988"
+        config.allowUsersToCreatePublicChats = true
+        config.googleMapsApiKey = "YourGoogleStaticMapsAPIKey"
         config.clearDatabaseWhenDataVersionChanges = true
         config.clearDataWhenRootPathChanges = true;
         config.databaseVersion = "2"
         config.loginUsernamePlaceholder = "Email"
         config.messageSelectionEnabled = false
         config.logoImage = UIImage(named: "logo")
+        
 //        config.enableMessageModerationTab = true;
 
         // Uncomment this if you want the user avatar and name before the messages
@@ -59,20 +59,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             BReadReceiptsModule.init(),
             BTypingIndicatorModule.init(),
             BLastOnlineModule.init(),
-//            StickerMessageModule.shared(),
-//            BVideoMessageModule.init(),
-//            FileMessageModule.init(),
-//            BAudioMessageModule.init(),
-//            BContactBookModule.init(),
-//            AddContactWithQRCodeModule.init(),
+            StickerMessageModule.shared(),
+            BVideoMessageModule.init(),
+            FileMessageModule.init(),
+            BAudioMessageModule.init(),
+            BContactBookModule.init(),
+            AddContactWithQRCodeModule.init(),
             BReachabilityModule.init(),
 //            EncryptionModule.init(),
             ChatKitModule.shared(),
-//            ChatKitExtrasModule.init(),
-
+            GiphyMessageModule(apiKey:"UbNvvVZ72miUV5MiFEbV38ZrsC048xUg"),//"VEd7qFZobZNWYX8QEBoqTjjBMJoa3JY7"
         ]
 
-        // If you want to use Firebase UI
+//         If you want to use Firebase UI
         let useFirebaseUI = true
         if useFirebaseUI {
             let module = FirebaseUIModule.init()
@@ -82,7 +81,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
                 
         BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules, networkAdapter: nil, interfaceAdapter: nil)
-        BChatSDK.activateLicense(withEmail: "ben@sdk.chat")
+        
+        BChatSDK.acceptLicense(withEmail: "ben@sdk.chat")
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();
