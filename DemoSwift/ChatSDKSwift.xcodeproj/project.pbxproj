@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		14C8896268240FD944845D33 /* Pods_ChatSDKSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B159853011B3389831D9CD96 /* Pods_ChatSDKSwift.framework */; };
 		3B2F5FB625FE6849009F9189 /* AContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F5FB525FE6849009F9189 /* AContactViewController.swift */; };
 		3B2F5FE925FE6989009F9189 /* BContactsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B2F5FE825FE6989009F9189 /* BContactsViewController.xib */; };
 		3BDB8AB025AB712E00A7A2DA /* APICheatSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AAA25AB712E00A7A2DA /* APICheatSheet.m */; };
@@ -17,6 +16,7 @@
 		3BDB8AB725AB716300A7A2DA /* APIExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AB625AB716300A7A2DA /* APIExamples.swift */; };
 		3BDB8ABA25AB719400A7A2DA /* ALoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8AB925AB719400A7A2DA /* ALoginViewController.swift */; };
 		3BDB8ABD25AB75DA00A7A2DA /* APushHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB8ABC25AB75D900A7A2DA /* APushHandler.swift */; };
+		55872B2F3530B068D791D205 /* Pods_ChatSDKSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 226CED783F9DB63DED435D70 /* Pods_ChatSDKSwift.framework */; };
 		AC11A8831D5B128400EBFDFD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC11A8811D5B128400EBFDFD /* GoogleService-Info.plist */; };
 		ACF7BE7A1C8D8AD7003E8983 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF7BE791C8D8AD7003E8983 /* AppDelegate.swift */; };
 		ACF7BE811C8D8AD7003E8983 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF7BE801C8D8AD7003E8983 /* Assets.xcassets */; };
@@ -25,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		226CED783F9DB63DED435D70 /* Pods_ChatSDKSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSDKSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A8FDC99E61A4E5CCF343959 /* Pods-ChatSDKSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKSwift.release.xcconfig"; path = "Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift.release.xcconfig"; sourceTree = "<group>"; };
 		3B2F5FB525FE6849009F9189 /* AContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AContactViewController.swift; sourceTree = "<group>"; };
 		3B2F5FE825FE6989009F9189 /* BContactsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BContactsViewController.xib; sourceTree = "<group>"; };
 		3BDB8AAA25AB712E00A7A2DA /* APICheatSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APICheatSheet.m; sourceTree = "<group>"; };
@@ -42,11 +44,9 @@
 		ACF7BE831C8D8AD7003E8983 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ACF7BE851C8D8AD7003E8983 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACF7BEAC1C8EEA4F003E8983 /* ChatSDK-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChatSDK-Bridging-Header.h"; sourceTree = "<group>"; };
-		B159853011B3389831D9CD96 /* Pods_ChatSDKSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSDKSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52556CB1FB1ED4E0035F796 /* ChatSDKSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatSDKSwift.entitlements; sourceTree = "<group>"; };
 		B546E4D1215E43BF006199C5 /* TestInterfaceAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInterfaceAdapter.swift; sourceTree = "<group>"; };
-		D1F5ACD448BF66B78DECAF6B /* Pods-ChatSDKSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKSwift.debug.xcconfig"; path = "Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift.debug.xcconfig"; sourceTree = "<group>"; };
-		D7EEB3B42794EF4E305EFF46 /* Pods-ChatSDKSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKSwift.release.xcconfig"; path = "Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift.release.xcconfig"; sourceTree = "<group>"; };
+		BB7D87010517FEEA96456EFC /* Pods-ChatSDKSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSDKSwift.debug.xcconfig"; path = "Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14C8896268240FD944845D33 /* Pods_ChatSDKSwift.framework in Frameworks */,
+				55872B2F3530B068D791D205 /* Pods_ChatSDKSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,8 +64,8 @@
 		1E74AC7D0C4A51C5375BEC0A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D1F5ACD448BF66B78DECAF6B /* Pods-ChatSDKSwift.debug.xcconfig */,
-				D7EEB3B42794EF4E305EFF46 /* Pods-ChatSDKSwift.release.xcconfig */,
+				BB7D87010517FEEA96456EFC /* Pods-ChatSDKSwift.debug.xcconfig */,
+				3A8FDC99E61A4E5CCF343959 /* Pods-ChatSDKSwift.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -102,13 +102,21 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		50E8D69169153BC4E5C5A530 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				226CED783F9DB63DED435D70 /* Pods_ChatSDKSwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		ACF7BE6D1C8D8AD7003E8983 = {
 			isa = PBXGroup;
 			children = (
 				ACF7BE781C8D8AD7003E8983 /* ChatSDKSwift */,
 				ACF7BE771C8D8AD7003E8983 /* Products */,
 				1E74AC7D0C4A51C5375BEC0A /* Pods */,
-				F8B3888D59B285BF6353B372 /* Frameworks */,
+				50E8D69169153BC4E5C5A530 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,14 +145,6 @@
 			path = ChatSDKSwift;
 			sourceTree = "<group>";
 		};
-		F8B3888D59B285BF6353B372 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B159853011B3389831D9CD96 /* Pods_ChatSDKSwift.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -152,11 +152,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACF7BE881C8D8AD7003E8983 /* Build configuration list for PBXNativeTarget "ChatSDKSwift" */;
 			buildPhases = (
-				AB18692E9C0D46EB481D75DF /* [CP] Check Pods Manifest.lock */,
+				C12F0F72FE4766EB1D41A494 /* [CP] Check Pods Manifest.lock */,
 				ACF7BE721C8D8AD7003E8983 /* Sources */,
 				ACF7BE731C8D8AD7003E8983 /* Frameworks */,
 				ACF7BE741C8D8AD7003E8983 /* Resources */,
-				E8AEB8FF6744C36E49A00A70 /* [CP] Embed Pods Frameworks */,
+				75D12A99375C2456E148775A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -223,7 +223,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		AB18692E9C0D46EB481D75DF /* [CP] Check Pods Manifest.lock */ = {
+		75D12A99375C2456E148775A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C12F0F72FE4766EB1D41A494 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -243,21 +258,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E8AEB8FF6744C36E49A00A70 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatSDKSwift/Pods-ChatSDKSwift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -404,7 +404,7 @@
 		};
 		ACF7BE891C8D8AD7003E8983 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D1F5ACD448BF66B78DECAF6B /* Pods-ChatSDKSwift.debug.xcconfig */;
+			baseConfigurationReference = BB7D87010517FEEA96456EFC /* Pods-ChatSDKSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -421,7 +421,7 @@
 		};
 		ACF7BE8A1C8D8AD7003E8983 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7EEB3B42794EF4E305EFF46 /* Pods-ChatSDKSwift.release.xcconfig */;
+			baseConfigurationReference = 3A8FDC99E61A4E5CCF343959 /* Pods-ChatSDKSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
