@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         BChatSDK.initialize(config, app: application, options: launchOptions, modules: modules, networkAdapter: nil, interfaceAdapter: nil)
         
-        BChatSDK.acceptLicense(withEmail: "ben@sdk.chat")
+        BChatSDK.acceptLicense(withPatreon: "")
 
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();
