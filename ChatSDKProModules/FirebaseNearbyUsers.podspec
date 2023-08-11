@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name             = "FirebaseNearbyUsersModule"
+  s.name             = "FirebaseNearbyUsers"
   s.version          = "5.0.1"
   s.summary          = "Chat SDK - Mobile messaging framework for iOS"
   s.homepage         = "http://chatsdk.co"
@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
     # because they are already imported using vendored_frameworks
     #nu.dependency 'GeoFire'
 
-    s.dependency 'FirebaseNearbyUsersModule/Core'
+    s.dependency 'FirebaseNearbyUsers/Core'
     s.dependency 'ChatSDKFirebase/Adapter'
 
   end

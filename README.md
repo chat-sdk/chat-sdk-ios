@@ -59,7 +59,7 @@ Sponsor us on either [Github sponsors](https://github.com/sponsors/chat-sdk) or 
 - [Contact book integration](https://chatsdk.co/contact-book-integration/)
 - [User Blocking](http://chatsdk.co/user-blocking/)
 - [Keyboard overlay](http://chatsdk.co/downloads/keyboard-overlay/)
-- [Giphy messages](https://github.com/chat-sdk/files/blob/main/ios/giphy-ios.png?raw=true)
+- [Giphy messages](https://github.com/chat-sdk/files/blob/main/ios/giphy-ios.png)
 - [Push Notifications (free)](https://github.com/chat-sdk/chat-sdk-ios#push-notifications)
 - [File Storage (free)](https://github.com/chat-sdk/chat-sdk-ios#file-storage)
 - [Firebase UI (free)](https://github.com/chat-sdk/chat-sdk-ios#firebase-ui)

@@ -14,17 +14,30 @@ target 'ChatSDKDemo' do
   pod "ChatSDKFirebase/Push", :path => "../"
   pod "ChatSDKFirebase/FirebaseUI", :path => "../"
 
+  pod "ChatSDK/ModAddContactWithQRCode", :path => "../"
+  pod "ChatSDK/Base64ImageMessage", :path => "../"
+
   pod "ChatK!t", :path => "../"
   pod "ChatK!t/ChatSDK", :path => "../"
 
-#  pod "ChatSDKPro/ContactBook", :path => "../"
-#  pod "ChatSDKPro/Encryption", :path => "../"
-#  pod "ChatSDKPro/Firebase", :path => "../"
-#  pod "ChatSDKPro/FirebaseNearbyUsers", :path => "../"
-#  pod "ChatSDKPro/Message", :path => "../"
-  pod "FirebaseNearbyUsersModule/FirebaseNearbyUsers", :path => "../ChatSDKModules"
-#  pod "ChatSDKPro/ChatK!t", :path => "../"
+  pod "MessageModules/StickerMessage", :path => "../ChatSDKProModules"
+  pod "MessageModules/VideoMessage", :path => "../ChatSDKProModules"
+  pod "MessageModules/AudioMessage", :path => "../ChatSDKProModules"
+  pod "MessageModules/KeyboardOverlayOptions", :path => "../ChatSDKProModules"
+  pod "MessageModules/FileMessage", :path => "../ChatSDKProModules"
+  pod "MessageModules/GiphyMessage", :path => "../ChatSDKProModules"
 
+  pod "FirebaseModules/FirebaseBlocking", :path => "../ChatSDKProModules"
+  pod "FirebaseModules/FirebaseLastOnline", :path => "../ChatSDKProModules"
+  pod "FirebaseModules/FirebaseTypingIndicator", :path => "../ChatSDKProModules"
+  pod "FirebaseModules/FirebaseReadReceipts", :path => "../ChatSDKProModules"
+
+  pod "ContactBook/ContactBook", :path => "../ChatSDKProModules"
+
+  pod "Encryption/Encryption", :path => "../ChatSDKProModules"
+  pod "Licensing", :path => "../ChatSDKProModules"
+
+  # pod 'FirebaseUI', '~> 13.0' 
 end
 
 post_install do |installer_representation|
