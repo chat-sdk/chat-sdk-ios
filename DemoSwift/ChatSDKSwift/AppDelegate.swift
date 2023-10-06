@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let config = BConfiguration.init();
-        config.rootPath = "pre_988"
+        config.rootPath = "pre_998"
         config.allowUsersToCreatePublicChats = true
         config.googleMapsApiKey = "YourGoogleStaticMapsAPIKey"
         config.clearDatabaseWhenDataVersionChanges = true
@@ -39,6 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.loginUsernamePlaceholder = "Email"
         config.messageSelectionEnabled = false
         config.logoImage = UIImage(named: "logo")
+        
+        config.messageHistoryDownloadLimit = 10
         
 //        config.enableMessageModerationTab = true;
 
@@ -88,6 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = BChatSDK.ui().splashScreenNavigationController();
         self.window?.makeKeyAndVisible();
 
+        
         return true
     }
 

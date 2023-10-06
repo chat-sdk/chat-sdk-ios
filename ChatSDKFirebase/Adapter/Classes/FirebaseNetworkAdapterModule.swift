@@ -43,6 +43,7 @@ import ChatSDK
     @objc public func configure() {
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
+            print("")
         }
     }
     
