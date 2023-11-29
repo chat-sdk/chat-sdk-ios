@@ -2,39 +2,35 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
-	<string>ca-app-pub-3940256099942544/2934735716</string>
-	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
-	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>1088435112418-11bedtu385j8r22bm2t92crdk7c2pc1j.apps.googleusercontent.com</string>
+	<string>295300417426-tkkq2dpgqh6h4bp4f7ctlv2gd0s91s55.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1088435112418-11bedtu385j8r22bm2t92crdk7c2pc1j</string>
+	<string>com.googleusercontent.apps.295300417426-tkkq2dpgqh6h4bp4f7ctlv2gd0s91s55</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDtFbGF6AQtTQD1gJmqfYE6XuxQzlkWEZA</string>
+	<string>AIzaSyC27SppnmErR5-4AnzIQJ-ymF1gkShqGW8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1088435112418</string>
+	<string>295300417426</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>co.deluge.Chat-SDK</string>
 	<key>PROJECT_ID</key>
-	<string>chat-sdk-v4</string>
+	<string>chatsdk-test-eb898</string>
 	<key>STORAGE_BUCKET</key>
-	<string>chat-sdk-v4.appspot.com</string>
+	<string>chatsdk-test-eb898.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true></true>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
 	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false></false>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
 	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1088435112418:ios:cd3589784852045b</string>
+	<string>1:295300417426:ios:70baabd7d06db652c2a34b</string>
 	<key>DATABASE_URL</key>
-	<string>https://chat-sdk-v4.firebaseio.com</string>
+	<string>https://chatsdk-test-eb898-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>
