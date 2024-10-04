@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) CDMessage * previousMessage;
 @property (nullable, nonatomic, retain) CDMessage * nextMessage;
 @property (nullable, nonatomic, retain) NSString *userAccountID;
+@property (nullable, nonatomic, retain) NSString *encryptedText;
 
 @end
 

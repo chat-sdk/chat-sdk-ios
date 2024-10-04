@@ -177,7 +177,7 @@ open class RecordView: UIView {
         
     open func requestAuth() {
         _ = ChatKit.audioRecorder().requestAuth().observe(on: MainScheduler.instance).subscribe(onCompleted: { [weak self] in
-            ChatKit.audioRecorder().prepare()
+//            ChatKit.audioRecorder().prepare()
             self?.updateMicButtonForPermission()
         }, onError: { [weak self] error in
             self?.updateMicButtonForPermission(error: error)

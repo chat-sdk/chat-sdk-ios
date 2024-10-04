@@ -25,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		31BF73222BF35E3C007F9815 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = /Users/benj/Documents/Projects/ChatSDK/ChatSDK_iOS/Master/ChatSDKPublic/DemoSwift/ChatSDKSwift/Examples/PrivacyInfo.xcprivacy; sourceTree = "<absolute>"; };
+		31BF73232BF35E41007F9815 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = /Users/benj/Documents/Projects/ChatSDK/ChatSDK_iOS/Master/ChatSDKPublic/DemoSwift/ChatSDKSwift/PrivacyInfo.xcprivacy; sourceTree = "<absolute>"; };
 		3B2F5FB525FE6849009F9189 /* AContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AContactViewController.swift; sourceTree = "<group>"; };
 		3B2F5FE825FE6989009F9189 /* BContactsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BContactsViewController.xib; sourceTree = "<group>"; };
 		3BDB8AAA25AB712E00A7A2DA /* APICheatSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APICheatSheet.m; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 		3BDB8AAD25AB712E00A7A2DA /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				31BF73222BF35E3C007F9815 /* PrivacyInfo.xcprivacy */,
 				3B2F5FE825FE6989009F9189 /* BContactsViewController.xib */,
 				3BDB8AB525AB715700A7A2DA /* API */,
 				3BDB8AAE25AB712E00A7A2DA /* AChatViewController.swift */,
@@ -131,6 +134,7 @@
 		ACF7BE781C8D8AD7003E8983 /* ChatSDKSwift */ = {
 			isa = PBXGroup;
 			children = (
+				31BF73232BF35E41007F9815 /* PrivacyInfo.xcprivacy */,
 				3BDB8AA925AB712E00A7A2DA /* Docs */,
 				3BDB8AAD25AB712E00A7A2DA /* Examples */,
 				B52556CB1FB1ED4E0035F796 /* ChatSDKSwift.entitlements */,

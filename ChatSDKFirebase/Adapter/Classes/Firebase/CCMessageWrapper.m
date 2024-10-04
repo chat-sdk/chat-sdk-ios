@@ -153,7 +153,9 @@
                 NSDictionary * decrypted = [BChatSDK.encryption decryptMessage:data];
                 if (decrypted) {
                     meta = decrypted;
-                } 
+                } else {
+                    [self.model setEncryptedText:data];
+                }
             }
         }
                 

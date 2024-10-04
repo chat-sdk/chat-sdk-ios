@@ -11,7 +11,9 @@ open class AudioRecorder: NSObject {
     
     open var audioSession = AVAudioSession.sharedInstance()
     open var audioRecorder:AVAudioRecorder?
+
     public let settings = [AVFormatIDKey: Int(kAudioFormatMPEG4AAC), AVSampleRateKey: 12000, AVNumberOfChannelsKey: 1, AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue]
+
     open var timer:Timer!
     
     open var isRecording:Bool = false
@@ -30,13 +32,15 @@ open class AudioRecorder: NSObject {
         }
         
         url = getDir().appendingPathComponent((name ?? fileName).appending(".m4a"))
+//        url = getDir().appendingPathComponent((name ?? fileName).appending(".aac"))
         do {
             try audioSession.setCategory(AVAudioSession.Category.playAndRecord, options: .defaultToSpeaker)
+            try audioSession.setActive(true)
             
                 audioRecorder = try AVAudioRecorder(url: url!, settings: settings)
-                audioRecorder?.delegate = self as AVAudioRecorderDelegate
+                audioRecorder?.delegate = self
                 audioRecorder?.isMeteringEnabled = true
-                audioRecorder?.prepareToRecord()
+//                audioRecorder?.prepareToRecord()
             
         } catch {
             print("Recording update error:",error.localizedDescription)

@@ -161,7 +161,12 @@
 
 -(BOOL) setReadStatus: (bMessageReadStatus) status_ forUserID: (NSString *) uid date: (NSDate *) date {
 //    if (status_ != [self readStatusForUserID:uid]) {
-    if (status_ > [self readStatusForUserID:uid]) {
+
+    if (uid == nil) {
+        NSLog(@"Suggested by Beena guys, check");
+    }
+    // TODO: Check this...
+    if (status_ > [self readStatusForUserID:uid] && uid != nil) {
         NSMutableDictionary * mutableStatus = [NSMutableDictionary dictionaryWithDictionary:self.readStatus];
         mutableStatus[uid] = @{bStatus: @(status_), bDate: date};
         [self setReadStatus:mutableStatus];

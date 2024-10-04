@@ -166,6 +166,10 @@ typedef enum {
 -(void) setFlagged: (NSNumber *) flagged;
 //-(id<PMessage>) copy;
 
+-(void) setEncryptedText: (NSString *) text;
+-(NSString *) encryptedText;
+
+
 @optional
 
 -(BOOL) sendFailed;

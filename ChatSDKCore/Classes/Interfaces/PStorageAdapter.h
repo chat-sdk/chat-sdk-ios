@@ -87,6 +87,7 @@ typedef void(^CompletionInt)(int);
 -(void) save;
 -(void) saveBackground;
 
+-(NSArray<PMessage>*) fetchMessagesWithFailedDecryption;
 
 @end
 

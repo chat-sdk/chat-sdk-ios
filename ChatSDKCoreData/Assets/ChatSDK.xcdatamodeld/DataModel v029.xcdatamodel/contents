@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22225" systemVersion="23B81" minimumToolsVersion="Xcode 11.0" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="CDMessage" representedClassName="CDMessage" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="delivered" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
+        <attribute name="encryptedText" optional="YES" attributeType="String"/>
+        <attribute name="entityID" optional="YES" attributeType="String"/>
+        <attribute name="flagged" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
+        <attribute name="meta" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
+        <attribute name="placeholder" optional="YES" attributeType="Binary"/>
+        <attribute name="read" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
+        <attribute name="readStatus" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
+        <attribute name="status" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="userAccountID" optional="YES" attributeType="String"/>
+        <relationship name="nextMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="previousMessage" inverseEntity="CDMessage"/>
+        <relationship name="previousMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="nextMessage" inverseEntity="CDMessage"/>
+        <relationship name="thread" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDThread" inverseName="messages" inverseEntity="CDThread"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="messages" inverseEntity="CDUser"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="entityID"/>
+                <constraint value="userAccountID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CDThread" representedClassName="CDThread" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="deletedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="draft" optional="YES" attributeType="String"/>
+        <attribute name="entityID" optional="YES" attributeType="String"/>
+        <attribute name="meta" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="userAccountID" optional="YES" attributeType="String"/>
+        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="threadsCreated" inverseEntity="CDUser"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDMessage" inverseName="thread" inverseEntity="CDMessage"/>
+        <relationship name="newestMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+        <relationship name="userConnections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDUserConnection" inverseName="thread" inverseEntity="CDUserConnection"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDUser" inverseName="threads" inverseEntity="CDUser"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="entityID"/>
+                <constraint value="userAccountID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CDUser" representedClassName="CDUser" syncable="YES">
+        <attribute name="entityID" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="lastOnline" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="meta" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
+        <attribute name="online" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
+        <attribute name="userAccountID" optional="YES" attributeType="String"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="user" inverseEntity="CDMessage"/>
+        <relationship name="threads" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDThread" inverseName="users" inverseEntity="CDThread"/>
+        <relationship name="threadsCreated" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDThread" inverseName="creator" inverseEntity="CDThread"/>
+        <relationship name="userConnections" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDUserConnection" inverseName="owner" inverseEntity="CDUserConnection"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="entityID"/>
+                <constraint value="userAccountID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CDUserConnection" representedClassName="CDUserConnection" syncable="YES">
+        <attribute name="entityID" optional="YES" attributeType="String"/>
+        <attribute name="meta" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="userAccountID" optional="YES" attributeType="String"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="userConnections" inverseEntity="CDUser"/>
+        <relationship name="thread" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDThread" inverseName="userConnections" inverseEntity="CDThread"/>
+    </entity>
+</model>

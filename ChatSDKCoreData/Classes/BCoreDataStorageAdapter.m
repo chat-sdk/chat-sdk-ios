@@ -415,6 +415,7 @@ static void * kMainQueueKey = (void *) "Key1";
     return _store;
 }
 
+
 - (NSString *)applicationDocumentsDirectory {
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
@@ -595,6 +596,22 @@ static void * kMainQueueKey = (void *) "Key1";
     NSString * currentUserEntityID = BChatSDK.currentUserID;
     NSPredicate * predicate = [NSPredicate predicateWithFormat:@"thread.entityID = %@ AND thread.userAccountID = %@ AND user.entityID != %@ AND (read == NO || read = nil)", threadEntityID, currentUserEntityID, currentUserEntityID];
     return [self unreadMessagesCountWithPredicate:predicate];
+}
+
+-(NSArray<PMessage>*) fetchMessagesWithFailedDecryption {
+    
+    NSString * currentUserEntityID = BChatSDK.currentUserID;
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"message.userAccountID = %@ AND message.encryptedText = nil", currentUserEntityID];
+    
+    NSFetchRequest * request = [[NSFetchRequest alloc] init];
+    request.includesPendingChanges = YES;
+            
+    NSArray * messages = [self executeFetchRequest:request
+                                               entityName:bMessageEntity
+                                                predicate:predicate
+                                                  context: _mainMoc];
+
+    return messages;
 }
 
 -(int) unreadMessagesCountNow: (NSString *) threadEntityID {

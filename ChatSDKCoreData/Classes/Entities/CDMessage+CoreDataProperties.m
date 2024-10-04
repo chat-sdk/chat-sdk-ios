@@ -27,5 +27,6 @@
 @dynamic previousMessage;
 @dynamic nextMessage;
 @dynamic userAccountID;
+@dynamic encryptedText;
 
 @end
