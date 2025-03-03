@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => s.version.to_s }
 #   s.module_name      = 'ChatSDKFirebase'
 
-  s.platform     = :ios, '11.0'
+  s.platform     = :ios, '17.0'
   s.requires_arc = true
   s.swift_version = "5.0"
   # s.static_framework = true

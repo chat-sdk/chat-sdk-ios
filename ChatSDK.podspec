@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/chat-sdk/chat-sdk-ios.git", :tag => s.version.to_s }
   s.module_name      = 'ChatSDK'
 
-  s.platform     = :ios, '11.0'
+  s.platform     = :ios, '17.0'
   s.requires_arc = true
   s.swift_version = "5.0"
   # s.static_framework = true
@@ -38,8 +38,8 @@ Pod::Spec.new do |s|
 	  s.dependency 'DateTools', '~> 2.0'
       s.dependency 'SAMKeychain'
 
-      s.dependency 'RxSwift', '~>6.2.0'
-      s.dependency 'RxCocoa', '~>6.2.0'
+      s.dependency 'RxSwift', '~>6.9.0'
+      s.dependency 'RxCocoa', '~>6.9.0'
 
       s.frameworks = 'SafariServices'
   
@@ -70,14 +70,14 @@ Pod::Spec.new do |s|
 		'ChatUI' => ['ChatSDKUI/Assets/**/*', 'ChatSDKUI/Interface/**/*']
 	  }
 			
-	  s.dependency 'MBProgressHUD', '~> 1.2.0'
+	  s.dependency 'MBProgressHUD'
 	  s.dependency 'VENTokenField', '~> 2.0'
 	  s.dependency 'SDWebImage', '~> 5.0'
 	  s.dependency 'StaticDataTableViewController', '~> 2.0'
 	  s.dependency 'CropViewController', '~> 2.0'
 	  s.dependency 'Hakawai', '~> 5.1.5'
 	  s.dependency 'ChatSDKKeepLayout'
-	  s.dependency 'Toast', '~>4.0.0'
+	  s.dependency 'Toast', '~>4.1.1'
 	  s.dependency 'EFQRCode'
 	  s.dependency 'CollectionKit'
     s.dependency 'QuickTableViewController'	  
