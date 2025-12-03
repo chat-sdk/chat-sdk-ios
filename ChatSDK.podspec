@@ -73,7 +73,7 @@ Pod::Spec.new do |s|
 	  s.dependency 'MBProgressHUD'
 	  s.dependency 'VENTokenField', '~> 2.0'
 	  s.dependency 'SDWebImage', '~> 5.0'
-	  s.dependency 'StaticDataTableViewController', '~> 2.0'
+	  s.dependency 'StaticDataTableViewController', '~> 2.5.0'
 	  s.dependency 'CropViewController', '~> 2.0'
 	  s.dependency 'Hakawai', '~> 5.1.5'
 	  s.dependency 'ChatSDKKeepLayout'

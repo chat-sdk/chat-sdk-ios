@@ -121,6 +121,8 @@ typedef enum {
 @property (nonatomic, readwrite) NSTimeInterval xmppPingInterval;
 @property (nonatomic, readwrite) NSTimeInterval xmppPingTimeout;
 
+@property (nonatomic, readwrite) NSTimeInterval xmppHardReconnectionTimeout;
+
 @property (nonatomic, readwrite) BOOL xmppAdvancedConfigurationEnabled;
 
 @property (nonatomic, readwrite) BOOL messageDeletionEnabled;

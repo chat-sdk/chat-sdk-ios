@@ -97,7 +97,6 @@ static void * kMainQueueKey = (void *) "Key1";
     }
     
     _mainMoc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-//    _mainMoc.parentContext = _parentMoc;
     _mainMoc.persistentStoreCoordinator = self.persistentStoreCoordinator;
     _mainMoc.automaticallyMergesChangesFromParent = YES;
     _mainMoc.mergePolicy = NSErrorMergePolicy;

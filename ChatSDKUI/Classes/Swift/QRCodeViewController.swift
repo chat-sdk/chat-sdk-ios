@@ -35,17 +35,39 @@ public class QRCodeViewController: UIViewController {
     @objc public func setCode(code: String) {
         self.code = code
         
-        let generator = if let image = style?.cgImage {
-            try? EFQRCode.Generator(code, style: .image(
-                params: .init(image: .init(image: .static(image: image), allowTransparent: true)))
+//        let generator = if let image = style?.cgImage {
+//            try? EFQRCode.notGenerator(code, style: .image(
+//                params: .init(image: .init(image: .static(image: image), allowTransparent: true)))
+//            )
+//        } else {
+//            try? EFQRCode.Generator(code, style: .basic(params: .init()))
+//        }
+//
+//        if let image = try? generator?.toImage(width: 360).cgImage {
+//            qrImage = UIImage(cgImage: image)
+//            print("Create QRCode image success \(image)")
+//        } else {
+//            print("Create QRCode image failed!")
+//        }
+        
+        var generator: EFQRCode.Generator?
+
+        if let image = style?.cgImage {
+            generator = try? EFQRCode.Generator(
+                code,
+                style: .image(params: .init(image: .init(image: .static(image: image),
+                                                         allowTransparent: true)))
             )
         } else {
-            try? EFQRCode.Generator(code, style: .basic(params: .init()))
+            generator = try? EFQRCode.Generator(
+                code,
+                style: .basic(params: .init())
+            )
         }
 
-        if let image = try? generator?.toImage(width: 360).cgImage {
-            qrImage = UIImage(cgImage: image)
-            print("Create QRCode image success \(image)")
+        if let cgImage = try? generator?.toImage(width: 360).cgImage {
+            qrImage = UIImage(cgImage: cgImage)
+            print("Create QRCode image success \(cgImage)")
         } else {
             print("Create QRCode image failed!")
         }

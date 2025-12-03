@@ -66,6 +66,7 @@
         [self pushLoginViewController];
     }
     
+    
     [BChatSDK.hook addHook:[BHook hookOnMain:^(NSDictionary * data) {
         if (self.impl_shouldPushViewControllerOnAuth) {
             NSString * type = data[bHook_AuthenticationType];

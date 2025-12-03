@@ -104,6 +104,7 @@
 @synthesize autoSaveOnTerminate;
 @synthesize xmppPingTimeout;
 @synthesize xmppPingInterval;
+@synthesize xmppHardReconnectionTimeout;
 @synthesize xmppOutgoingMessageQueueEnabled;
 @synthesize xmppPubsubNode;
 @synthesize identiconBaseURL;
@@ -216,7 +217,8 @@
         
         xmppPingInterval = 15;
         xmppPingTimeout = 15;
-        
+        xmppHardReconnectionTimeout = 30;
+
         messageDeletionListenerLimit = -1;
         messageHistoryDownloadLimit = 200;
         readReceiptMaxAgeInSeconds = 7 * bDays;
